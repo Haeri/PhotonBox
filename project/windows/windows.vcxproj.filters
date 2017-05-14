@@ -1,0 +1,615 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bRenderer">
+      <UniqueIdentifier>{76d25104-996d-4473-a31d-ed73139bffa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\headers">
+      <UniqueIdentifier>{5505337c-7f07-4433-a0b6-8ec99611e4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\implementation">
+      <UniqueIdentifier>{a522dbba-bfb8-45b1-bdf2-4451a6f2dd43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\os_specific">
+      <UniqueIdentifier>{69d2663a-e959-4a05-8ca0-031915cdfc75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\os_specific\desktop">
+      <UniqueIdentifier>{9517212a-8505-48ac-8fed-280e15317f19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\os_specific\ios">
+      <UniqueIdentifier>{2252bc99-a8e5-4443-8f62-c6f65d1fe6b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="project">
+      <UniqueIdentifier>{a125e7c8-332b-4a2e-a6fd-176a8a9611bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="project\headers">
+      <UniqueIdentifier>{bd45fb12-af0b-40d3-81be-900a11d9e871}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="project\implementation">
+      <UniqueIdentifier>{e1590151-8d67-4f96-829e-8c1e406388b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="externalLibraries">
+      <UniqueIdentifier>{ec6bd4bd-565e-4d19-8a01-051d3212e5db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="externalLibraries\freetype">
+      <UniqueIdentifier>{ca4f7416-56a9-4e5b-abde-58f5b5db3032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="externalLibraries\freetype\FT_MODULES">
+      <UniqueIdentifier>{864ed9aa-5b83-4467-a3ff-c48da239b8e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\external">
+      <UniqueIdentifier>{b693a18e-892f-4440-9e74-4e08e12974e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\external\obj_parser">
+      <UniqueIdentifier>{44b328a2-cc50-40b3-8460-86b839648357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\external\freetype-gl">
+      <UniqueIdentifier>{41e1b290-41b7-4b0f-8a55-c36083d30800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bRenderer\external\jsoncpp">
+      <UniqueIdentifier>{7abc886c-c79c-4b35-960e-57a5231ec8f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="project\resources">
+      <UniqueIdentifier>{0d899581-9a2d-470c-b862-f7d6c94da4b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="project\Scripts">
+      <UniqueIdentifier>{98cea3d7-d049-44f8-8cfd-70b7d2341412}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\bRenderer\implementation\Camera.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Logger.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\os_specific\desktop\View_desktop.cpp">
+      <Filter>bRenderer\os_specific\desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\os_specific\desktop\TextureData_desktop.cpp">
+      <Filter>bRenderer\os_specific\desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Renderer.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\MatrixStack.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\os_specific\desktop\FileHandler_desktop.cpp">
+      <Filter>bRenderer\os_specific\desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\os_specific\desktop\Renderer_desktop.cpp">
+      <Filter>bRenderer\os_specific\desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\OBJLoader.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Framebuffer.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\TextureData.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\os_specific\desktop\Input_desktop.cpp">
+      <Filter>bRenderer\os_specific\desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Configuration.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\ShaderSource.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\RenderQueue.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Sprite.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\autofit\autofit.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\bdf\bdf.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\cff\cff.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftbase.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftbitmap.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\cache\ftcache.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftdebug.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftfstype.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftgasp.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftglyph.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\gzip\ftgzip.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftinit.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\lzw\ftlzw.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftstroke.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftsystem.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\smooth\smooth.c">
+      <Filter>externalLibraries\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftbbox.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftfntfmt.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftgxval.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftlcdfil.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftmm.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftotval.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftpatent.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftpfr.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftsynth.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\fttype1.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\base\ftwinfnt.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\pcf\pcf.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\pfr\pfr.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\psaux\psaux.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\pshinter\pshinter.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\psnames\psmodule.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\raster\raster.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\sfnt\sfnt.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\truetype\truetype.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\type1\type1.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\cid\type1cid.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\type42\type42.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externalLibraries\freetype-2.6\src\winfonts\winfnt.c">
+      <Filter>externalLibraries\freetype\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\TextSprite.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Font.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\ShaderDataGenerator.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\CubeMap.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\DepthMap.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\ObjectManager.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\external\obj_parser\obj.cpp">
+      <Filter>bRenderer\external\obj_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\external\obj_parser\obj_parser.cpp">
+      <Filter>bRenderer\external\obj_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\external\freetype-gl\vector.c">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\external\freetype-gl\platform.c">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\external\freetype-gl\texture-atlas.c">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\external\freetype-gl\texture-font.c">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\external\jsoncpp\jsoncpp.cpp">
+      <Filter>bRenderer\external\jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Geometry.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Material.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Model.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\ModelData.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Shader.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\ShaderDataFile.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\Texture.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bRenderer\implementation\ModelRenderer.cpp">
+      <Filter>bRenderer\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\main.cpp">
+      <Filter>project</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Component.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\GameObject.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Transform.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Logic.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Behaviour.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\ParticleSystem.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Scene.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Core.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Space.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\ObjectRenderer.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\AsteroidRenderer.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\TheRenderer.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\TheTime.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Physics.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\Collider.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\SphereCollider.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\ShipRenderer.cpp">
+      <Filter>project\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\FreeCameraScript.cpp">
+      <Filter>project\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\MoveScript.cpp">
+      <Filter>project\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\RotationScript.cpp">
+      <Filter>project\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\implementation\ShipScript.cpp">
+      <Filter>project\Scripts</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\bRenderer\bRenderer.h">
+      <Filter>bRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Camera.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\MatrixStack.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\View.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\OSdetect.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\FileHandler.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Logger.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Renderer.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Renderer_GL.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Light.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Configuration.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\os_specific\ios\BView.h">
+      <Filter>bRenderer\os_specific\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\OBJLoader.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\IRenderProject.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\IShaderData.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\ShaderSource.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Properties.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Framebuffer.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Input.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Touch.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\RenderQueue.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Sprite.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\TextSprite.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Font.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\ShaderDataGenerator.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\CubeMap.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\DepthMap.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\ObjectManager.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\obj_parser\obj.hpp">
+      <Filter>bRenderer\external\obj_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\obj_parser\obj_parser.hpp">
+      <Filter>bRenderer\external\obj_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\freetype-gl\texture-font.h">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\freetype-gl\vec234.h">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\freetype-gl\vector.h">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\freetype-gl\freetype-gl.h">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\freetype-gl\opengl.h">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\freetype-gl\platform.h">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\freetype-gl\texture-atlas.h">
+      <Filter>bRenderer\external\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\jsoncpp\json-forwards.h">
+      <Filter>bRenderer\external\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\external\jsoncpp\json.h">
+      <Filter>bRenderer\external\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Geometry.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\GeometryData.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\IDrawable.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Material.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\MaterialData.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Model.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\ModelData.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Shader.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\ShaderDataFile.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\Texture.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\TextureData.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bRenderer\headers\ModelRenderer.h">
+      <Filter>bRenderer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\Transform.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\Component.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\GameObject.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\Physics.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\Behaviour.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\Logic.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\Scene.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\Core.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\ObjectRenderer.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\TheRenderer.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\TheTime.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\Collider.h">
+      <Filter>project\headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\bRenderer\os_specific\ios\FileHandler_ios.mm">
+      <Filter>bRenderer\os_specific\ios</Filter>
+    </None>
+    <None Include="..\..\bRenderer\os_specific\ios\TextureData_ios.mm">
+      <Filter>bRenderer\os_specific\ios</Filter>
+    </None>
+    <None Include="..\..\bRenderer\os_specific\ios\View_ios.mm">
+      <Filter>bRenderer\os_specific\ios</Filter>
+    </None>
+    <None Include="..\..\bRenderer\os_specific\ios\BView.mm">
+      <Filter>bRenderer\os_specific\ios</Filter>
+    </None>
+    <None Include="..\..\bRenderer\os_specific\ios\Input_ios.mm">
+      <Filter>bRenderer\os_specific\ios</Filter>
+    </None>
+    <None Include="..\..\bRenderer\os_specific\ios\Renderer_ios.mm">
+      <Filter>bRenderer\os_specific\ios</Filter>
+    </None>
+    <None Include="..\resources\config.json">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\guy.frag">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\guy.mtl">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\guy.vert">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\blurShader.frag">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\blurShader.vert">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\cutOffShader.frag">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\cutOffShader.vert">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\additivShader.vert">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\additivShader.frag">
+      <Filter>project\resources</Filter>
+    </None>
+    <None Include="..\resources\asteroid.mtl">
+      <Filter>project\resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\resources\diffuse.png">
+      <Filter>project\resources</Filter>
+    </Image>
+    <Image Include="..\resources\normal3.png">
+      <Filter>project\resources</Filter>
+    </Image>
+    <Image Include="..\resources\specular.png">
+      <Filter>project\resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\resources\arial.ttf">
+      <Filter>project\resources</Filter>
+    </Font>
+  </ItemGroup>
+</Project>
