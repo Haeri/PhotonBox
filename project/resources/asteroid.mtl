@@ -1,0 +1,13 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl asteroid
+Ka 0.500000 0.500000 0.500000   # ambient material coefficient
+Kd 1.000000 1.000000 1.000000   # diffuse material coefficient
+Ks 0.000000 0.000000 0.000000   # specular material coefficient
+
+Ns 0.100000   # specular material exponent (shininess)
+
+Ia 0.000000 0.000000 0.000000   # ambient light intensity
+Id 1.000000 1.000000 1.000000   # diffuse light intensity
+Is 1.000000 1.000000 1.000000   # specular light intensity
