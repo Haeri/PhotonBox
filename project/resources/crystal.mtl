@@ -1,8 +1,0 @@
-newmtl crystal
-Ka 1.000000 1.000000 1.000000
-Kd 1.000000 1.000000 1.000000
-Ks 1.000000 1.000000 1.000000
-Ns 5.000000
-map_Kd crystal_d.png
-map_Bump crystal_n.png
-map_Ks crystal_s.png
