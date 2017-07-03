@@ -1,3 +1,5 @@
-﻿  SphereCollider.cpp
+﻿  Matrix4f.cpp
+c:\users\haeri\documents\github\space-engine\starengine\starengine\src\matrix4f.cpp(80): warning C4244: 'return': conversion from 'unsigned int' to 'const float', possible loss of data
+c:\users\haeri\documents\github\space-engine\starengine\starengine\src\matrix4f.cpp(84): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
   StarEngine.vcxproj -> C:\Users\haeri\Documents\github\Space-Engine\StarEngine\Debug\StarEngine.exe
   StarEngine.vcxproj -> C:\Users\haeri\Documents\github\Space-Engine\StarEngine\Debug\StarEngine.pdb (Partial PDB)
