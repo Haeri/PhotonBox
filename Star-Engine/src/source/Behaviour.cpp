@@ -1,4 +1,5 @@
 #include "../header/Behaviour.h"
+#include "../header/Logic.h"
 
 Behaviour::Behaviour(){
 	Logic::addToUpdateList(this);

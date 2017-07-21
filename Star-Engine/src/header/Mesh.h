@@ -1,20 +1,18 @@
 #ifndef MESCH_H
 #define MESCH_H
 
+#include <vector>
 #include "Vertex.h"
 
 class Mesh {
 public:
-	void init(Vertex* vertices, unsigned int length) {
-		_vertices = vertices;
-		_length = length;
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices) {
+		this->vertices = vertices;
+		this->indices = indices;
 	}
 
-	Vertex* getVertices() { return _vertices; }
-	unsigned int getVertexLength() { return _length; }
-private:
-	unsigned int _length;
-	Vertex* _vertices;
+	std::vector< Vertex > vertices;
+	std::vector< unsigned int> indices;
 };
 
 #endif /* defined(MESCH_H) */

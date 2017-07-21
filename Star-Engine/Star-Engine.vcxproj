@@ -26,6 +26,7 @@
     <ClInclude Include="src\header\Display.h" />
     <ClInclude Include="src\header\GameObject.h" />
     <ClInclude Include="src\header\Logic.h" />
+    <ClInclude Include="src\header\Material.h" />
     <ClInclude Include="src\header\Matrix4f.h" />
     <ClInclude Include="src\header\Mesh.h" />
     <ClInclude Include="src\header\MeshRenderer.h" />

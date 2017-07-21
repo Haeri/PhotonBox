@@ -21,9 +21,7 @@ void Renderer::init() {
 
 void Renderer::render() {
 	
-	Core::getInstance()->display.clearDisplay(0, 0.2, 0.5, 1);
-
-	Core::getInstance()->shader.bind();
+	Core::getInstance()->display.clearDisplay(0, 0, 0, 1);
 
 	for (std::vector<ObjectRenderer*>::iterator it = renderQueue.begin(); it != renderQueue.end(); ++it) {
 		if ((*it)->getEnable())

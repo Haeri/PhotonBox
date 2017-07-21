@@ -14,11 +14,8 @@ void Core::init()
 {
 	display.init("Star Engine", 800, 600);
 
-	shader.init("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/shader");
-
-	testScene = new TestScene();
-	sceneManager.addScene("TestScene", testScene);
-	sceneManager.loadScene(testScene);
+	sceneManager.addScene("TestScene", new TestScene());
+	sceneManager.loadScene("TestScene");
 
 	renderer.init();
 	postPocessing.init();
@@ -54,7 +51,6 @@ void Core::update()
 
 void Core::destroy()
 {
-	shader.destroy();
 	Logic::destroy();
 	renderer.destroy();
 	Physics::destroy();
