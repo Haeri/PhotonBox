@@ -6,8 +6,9 @@
 class Collider : public Component {
 public:
 	Collider();
-	virtual bool collide(Collider* other) =0;
 	void destroy();
+
+	virtual bool collide(Collider* other) =0;
 };
 
 #endif /* defined(COLLIDER_H) */

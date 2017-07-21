@@ -3,6 +3,8 @@
 
 #include "../header/Collider.h"
 #include "../header/Behaviour.h"
+#include "../header/Vector3f.h"
+#include "../header/GameObject.h"
 
 class SphereCollider : public Collider {
 public:

@@ -10,7 +10,6 @@
 #include "Logic.h"
 #include "Physics.h"
 #include "PostProcessing.h"
-#include "Shader.h"
 #include "TestScene.cpp"
 
 class Core{
@@ -23,7 +22,6 @@ public:
 	PostProcessing postPocessing;
 	Display display;
 
-	Shader shader;
 	TestScene* testScene;
 
 	Core();

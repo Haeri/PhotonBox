@@ -3,13 +3,18 @@
 #include <fstream>
 
 
-void Shader::init(const std::string& fileName) {
+Shader::Shader(const std::string& fileName) {
 	_program = glCreateProgram();
 	_shaders[0] = createShader(readShader(fileName + ".vs"), GL_VERTEX_SHADER);
-	_shaders[0] = createShader(readShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
+	_shaders[1] = createShader(readShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
 
 	glAttachShader(_program, _shaders[0]);
 	glAttachShader(_program, _shaders[1]);
+
+	glBindAttribLocation(_program, 0, "position");
+	glBindAttribLocation(_program, 1, "normal");
+	glBindAttribLocation(_program, 2, "color");
+	glBindAttribLocation(_program, 3, "uv");
 
 	glLinkProgram(_program);
 	checkShaderError(_program, GL_LINK_STATUS, true, "ERROR: Faild linking program!");
@@ -18,7 +23,7 @@ void Shader::init(const std::string& fileName) {
 	checkShaderError(_program, GL_VALIDATE_STATUS, true, "ERROR: Shader Program invalid!");
 }
 
-void Shader::destroy() {
+Shader::~Shader() {
 	glDetachShader(_program, _shaders[0]);
 	glDetachShader(_program, _shaders[1]);
 	glDeleteProgram(_program);
@@ -27,6 +32,11 @@ void Shader::destroy() {
 void Shader::bind() {
 	glUseProgram(_program);
 }
+
+void Shader::unbind() {
+	glUseProgram(0);
+}
+
 
 std::string Shader::readShader(const std::string& fileName) {
 		std::string line, text;
@@ -60,12 +70,19 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 	glShaderSource(shader, 1, shaderSourceArray, lengths);
 	glCompileShader(shader);
 
-	checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!");
+
+	
+	if (checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!") == 0)
+		std::cout << (shaderType == GL_FRAGMENT_SHADER ? "Fragment" : "Vertex") << " Shader created: " << std::endl
+		<< "---------------------------------------------" << std::endl
+		<< shaderSource << std::endl
+		<< "---------------------------------------------" << std::endl << std::endl;
+
 
 	return shader;
 }
 
-void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage)
+int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage)
 {
 	GLint success = 0;
 	GLchar error[1024] = { 0 };
@@ -83,5 +100,10 @@ void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const 
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
 		std::cerr << errorMessage << ": '" << error << "'" << std::endl;
+		
+		return 1;
+	}else {
+		return 0;
 	}
+
 }

@@ -2,17 +2,21 @@
 #define VERTEX_H
 
 #include "Vector3f.h"
+#include "Vector2f.h"
 
 class Vertex {
 public:
-	Vertex(Vector3f pos): 
-		_pos(pos)
+	Vector3f position;
+	Vector3f normal;
+	Vector3f color;
+	Vector2f uv;
+
+	Vertex(Vector3f pos, Vector3f normal, Vector3f col, Vector2f uv) :
+		position(pos), 
+		normal(normal), 
+		color(col),
+		uv(uv)
 	{}
-
-	Vector3f getPosition() { return _pos; }
-
-private:
-	Vector3f _pos;
 };
 
 #endif /* defined(VERTEX_H) */
