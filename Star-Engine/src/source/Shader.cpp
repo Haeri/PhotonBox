@@ -11,16 +11,16 @@ Shader::Shader(const std::string& fileName) {
 	glAttachShader(_program, _shaders[0]);
 	glAttachShader(_program, _shaders[1]);
 
-	glBindAttribLocation(_program, 0, "position");
-	glBindAttribLocation(_program, 1, "normal");
-	glBindAttribLocation(_program, 2, "color");
-	glBindAttribLocation(_program, 3, "uv");
-
 	glLinkProgram(_program);
 	checkShaderError(_program, GL_LINK_STATUS, true, "ERROR: Faild linking program!");
 
 	glValidateProgram(_program);
 	checkShaderError(_program, GL_VALIDATE_STATUS, true, "ERROR: Shader Program invalid!");
+
+	positionAttrib = glGetAttribLocation(_program, "position");
+	normalAttrib = glGetAttribLocation(_program, "normal");
+	colorAttrib = glGetAttribLocation(_program, "color");
+	uvAttrib = glGetAttribLocation(_program, "uv");
 }
 
 Shader::~Shader() {
