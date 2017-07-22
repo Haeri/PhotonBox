@@ -18,18 +18,28 @@ void MeshRenderer::init()
 
 
 	// vertex positions
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	// vertex normals
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	// vertex colors
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-	// vertex texture coords
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	if (_material->shader->positionAttrib != -1) {
+		glEnableVertexAttribArray(_material->shader->positionAttrib);
+		glVertexAttribPointer(_material->shader->positionAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	}
 
+	// vertex normals
+	if (_material->shader->normalAttrib != -1) {
+		glEnableVertexAttribArray(_material->shader->normalAttrib);
+		glVertexAttribPointer(_material->shader->normalAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	}
+
+	// vertex colors
+	if (_material->shader->colorAttrib != -1) {
+		glEnableVertexAttribArray(_material->shader->colorAttrib);
+		glVertexAttribPointer(_material->shader->colorAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	}
+
+	// vertex texture coords
+	if (_material->shader->uvAttrib != -1) {
+		glEnableVertexAttribArray(_material->shader->uvAttrib);
+		glVertexAttribPointer(_material->shader->uvAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	}
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -40,13 +50,13 @@ void MeshRenderer::init()
 
 void MeshRenderer::render()
 {
-	_material->shader.bind();
+	_material->shader->bind();
 
 	glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	//_material->shader.unbind();
+	//_material->shader->unbind();
 }
 
 void MeshRenderer::onDestroy()

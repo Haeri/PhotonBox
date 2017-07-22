@@ -7,6 +7,8 @@
 
 class Shader {
 public:
+	GLint positionAttrib, normalAttrib, colorAttrib, uvAttrib;
+
 	Shader(const std::string& fileName);
 	~Shader();
 

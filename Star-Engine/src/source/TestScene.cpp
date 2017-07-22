@@ -6,8 +6,9 @@
 
 class TestScene : public Scene{
 public:
-	Mesh* mesh;
-	Material* material;
+	Shader *shader;
+	Mesh *mesh, *mesh2;
+	Material *material;
 
 	void Load() override {
 
@@ -17,19 +18,38 @@ public:
 			Vertex(Vector3f(0.0f, 0.5f, 0.0f), Vector3f(0, 0, 0), Vector3f(0, 0, 1), Vector2f(0, 0)),
 		};
 		std::vector<unsigned int>indices = {
-			0, 1, 2
+			0, 1, 2,
+		};
+
+		std::vector <Vertex> vertices2 = {
+			Vertex(Vector3f(-1.0f, -1.0f, 0.0f), Vector3f(0, 0, 0), Vector3f(0, 1, 0), Vector2f(0, 0)),
+			Vertex(Vector3f(0.0f, -1.0f, 0.0f), Vector3f(0, 0, 0), Vector3f(0, 1, 0), Vector2f(0, 0)),
+			Vertex(Vector3f(-1.0f, 0.0f, 0.0f), Vector3f(0, 0, 0), Vector3f(0, 1, 0), Vector2f(0, 0)),
+			Vertex(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0, 0, 0), Vector3f(0, 1, 0), Vector2f(0, 0)),
+		};
+		std::vector<unsigned int>indices2 = {
+			0, 1, 2, 1, 3, 2
 		};
 
 		mesh = new Mesh(vertices, indices);
-		material = new Material(Shader("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/shader"));
+		shader = new Shader("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/shader");
+		material = new Material(shader);
+		
+		mesh2 = new Mesh(vertices2, indices2);
 	
 		GameObject* triangle = instanciate("Triangle");
 		triangle->addComponent<MeshRenderer>();
 		triangle->getComponent<MeshRenderer>()->setMesh(mesh);
 		triangle->getComponent<MeshRenderer>()->setMaterial(material);
+
+		GameObject* quad = instanciate("Quad");
+		quad->addComponent<MeshRenderer>();
+		quad->getComponent<MeshRenderer>()->setMesh(mesh2);
+		quad->getComponent<MeshRenderer>()->setMaterial(material);
 	}
 
 	void OnUnload() override {
+		delete shader;
 		delete mesh;
 		delete material;
 	}

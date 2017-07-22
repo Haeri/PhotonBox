@@ -6,9 +6,9 @@
 
 class Material {
 public:
-	Material(Shader shader): shader(shader) {}
+	Material(Shader* shader): shader(shader) {}
 
-	Shader shader;
+	Shader* shader;
 };
 
 #endif /* defined(MATERIAL_H) */
