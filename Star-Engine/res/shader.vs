@@ -5,9 +5,11 @@ attribute vec3 normal;
 attribute vec3 color;
 attribute vec2 uv;
 
-varying vec3 color_varying;
+uniform mat4 transform;
+
+varying vec2 texCoord0;
 
 void main(){
 	gl_Position = vec4(position, 1.0);
-	color_varying = color;
+	texCoord0 = uv;
 }

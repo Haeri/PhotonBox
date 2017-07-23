@@ -1,13 +1,13 @@
 #include "../header/Behaviour.h"
-#include "../header/Logic.h"
+#include "../header/Core.h"
 
 Behaviour::Behaviour(){
-	Logic::addToUpdateList(this);
+	Core::getInstance()->logic.addToUpdateList(this);
 }
 
 void Behaviour::destroy(){
 	OnDestroy();
-	Logic::removeFromList(this);
+	Core::getInstance()->logic.removeFromList(this);
 }
 
 void Behaviour::Start() {}

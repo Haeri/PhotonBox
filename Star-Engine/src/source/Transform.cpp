@@ -16,14 +16,24 @@ void Transform::removeChild(Transform * child){
 	children.erase(std::remove(children.begin(), children.end(), child), children.end());
 }
 
-Matrix4f Transform::getRotationMatrix(){
-	return _rotMat;
+void Transform::print()
+{
+	std::cout << gameObject->name << std::endl;
+	std::cout << "Position: " << getPosition() << std::endl;
+	std::cout << "Rotation: " << getRotation() << std::endl;
+	std::cout << "Scale: " << getScale() << std::endl;
+	std::cout << "Transform: " << std::endl << getTransformationMatrix() << std::endl << std::endl;
 }
 
-Matrix4f Transform::getRotation()
-{
-	return _rotMat;
+Matrix4f Transform::getRotationMatrix(){
+	return Matrix4f::createRotation(_rotation.z(), Vector3f::UNIT_Z) *  Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y) * Matrix4f::createRotation(_rotation.x(), Vector3f::UNIT_X);
 }
+
+Vector3f Transform::getRotation()
+{
+	return _rotation;
+}
+
 
 Vector3f Transform::getPosition(){
 	return _position;
@@ -39,13 +49,16 @@ void Transform::setPosition(Vector3f position){
 		_hasChanged = true;
 	}
 }
+
+/*
 void Transform::setRotation(Matrix4f rot) {
 	_rotMat = rot;
 	_hasChanged = true;
 }
+*/
 
 void Transform::setRotation(Vector3f rotation){
-	_rotMat = Matrix4f::createRotation(rotation.z(), Vector3f::UNIT_Z) * Matrix4f::createRotation(rotation.x(), Vector3f::UNIT_X) * Matrix4f::createRotation(rotation.y(), Vector3f::UNIT_Y);
+	_rotation = rotation;
 	_hasChanged = true;
 }
 

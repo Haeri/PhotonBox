@@ -1,5 +1,6 @@
 #include "../header/MeshRenderer.h"
 #include "../header/Display.h"
+#include "../header/Transform.h"
 
 void MeshRenderer::init()
 {
@@ -51,6 +52,12 @@ void MeshRenderer::init()
 void MeshRenderer::render()
 {
 	_material->shader->bind();
+	if(_material->texture != nullptr)
+		_material->texture->bind();
+
+//	_material->shader->update(transform->getTransformationMatrix());
+
+	//transform->print();
 
 	glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);

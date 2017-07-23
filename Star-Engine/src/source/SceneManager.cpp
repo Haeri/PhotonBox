@@ -4,10 +4,6 @@
 #include "../header/Core.h"
 #include "../header/Logic.h"
 
-Scene* SceneManager::currentScene;
-std::string SceneManager::currentSceneName;
-std::map<std::string, Scene*> SceneManager::sceneMap;
-
 void SceneManager::addScene(const std::string name, Scene* scene){
 	sceneMap[name] = scene;
 }
@@ -16,8 +12,6 @@ void SceneManager::loadScene(Scene * scene){
 	unloadScene(currentScene);
     scene->Load();
 	currentScene = scene;
-
-	Logic::start();
 }
 
 

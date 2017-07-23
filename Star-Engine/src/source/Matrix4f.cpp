@@ -77,7 +77,8 @@ Matrix4f Matrix4f::createIdentity() {
 }
 
 const float Matrix4f::at(unsigned int  x, unsigned int  y) const {
-	return (x, y);
+	float ret = (x, y);
+	return ret;
 }
 
 void Matrix4f::set(unsigned int x, unsigned int  y, float val) {

@@ -21,6 +21,8 @@ Shader::Shader(const std::string& fileName) {
 	normalAttrib = glGetAttribLocation(_program, "normal");
 	colorAttrib = glGetAttribLocation(_program, "color");
 	uvAttrib = glGetAttribLocation(_program, "uv");
+	
+	transformUniform = glGetUniformLocation(_program, "transform");
 }
 
 Shader::~Shader() {
@@ -33,8 +35,16 @@ void Shader::bind() {
 	glUseProgram(_program);
 }
 
-void Shader::unbind() {
-	glUseProgram(0);
+void Shader::update(const Matrix4f& mat) {
+
+	GLfloat matrix[4][4];
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			matrix[i][j] = mat.at(j, i);
+		}
+	}
+
+	glUniformMatrix4fv(transformUniform, 16, GL_FALSE, &matrix[0][0]);
 }
 
 

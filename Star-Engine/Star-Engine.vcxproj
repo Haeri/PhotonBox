@@ -37,6 +37,7 @@
     <ClInclude Include="src\header\Scene.h" />
     <ClInclude Include="src\header\SceneManager.h" />
     <ClInclude Include="src\header\Shader.h" />
+    <ClInclude Include="src\header\Texture.h" />
     <ClInclude Include="src\header\Time.h" />
     <ClInclude Include="src\header\Transform.h" />
     <ClInclude Include="src\header\Vector2f.h" />
@@ -64,6 +65,7 @@
     <ClCompile Include="src\source\Shader.cpp" />
     <ClCompile Include="src\source\SphereCollider.cpp" />
     <ClCompile Include="src\source\TestScene.cpp" />
+    <ClCompile Include="src\source\Texture.cpp" />
     <ClCompile Include="src\source\Time.cpp" />
     <ClCompile Include="src\source\Transform.cpp" />
     <ClCompile Include="src\source\Vector2f.cpp" />
