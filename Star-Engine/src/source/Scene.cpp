@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "../header/Scene.h"
 #include "../header/SceneManager.h"
+#include "../header/Core.h"
 
 void Scene::unload() {
 	OnUnload();
@@ -23,7 +24,7 @@ GameObject* Scene::instanciate(std::string name) {
 
 GameObject* Scene::getObjectByName(std::string name) {
     
-    std::vector<GameObject*> gameObjects = SceneManager::getCurrentScene()->gameObjectList;
+    std::vector<GameObject*> gameObjects = Core::getInstance()->sceneManager.getCurrentScene()->gameObjectList;
     for (std::vector<GameObject*>::iterator obj = gameObjects.begin() ; obj != gameObjects.end(); ++obj) {
         if ((*obj)->name.find(name) != std::string::npos || (*obj)->name.compare(name) == 0) {
             return *obj;

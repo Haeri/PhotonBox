@@ -17,6 +17,7 @@ void Core::init()
 	sceneManager.addScene("TestScene", new TestScene());
 	sceneManager.loadScene("TestScene");
 
+	logic.start();
 	renderer.init();
 	postPocessing.init();
 }
@@ -26,13 +27,13 @@ void Core::update()
 	while (display.isRunning) {
 
 		// Update Logic
-		Logic::update();
+		logic.update();
 
 		// Update Physics
 		_accumulatedTime += Time::deltaTime;
 		if (_accumulatedTime > FIXED_TIME_INTERVAL) {
 			Physics::update();
-			Logic::fixedUpdate();
+			logic.fixedUpdate();
 			_accumulatedTime = 0;
 		}
 
@@ -44,17 +45,17 @@ void Core::update()
 		PostProcessing::postProcess();
 
 		// Late update Logic
-		Logic::lateUpdate();
+		logic.lateUpdate();
 	}
 
 }
 
 void Core::destroy()
 {
-	Logic::destroy();
+	logic.destroy();
 	renderer.destroy();
 	Physics::destroy();
-	SceneManager::destroy();
+	sceneManager.destroy();
 	display.~Display();
 
 }

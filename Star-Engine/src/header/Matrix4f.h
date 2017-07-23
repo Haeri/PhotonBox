@@ -32,9 +32,24 @@ public:
 
 
 	float &operator ()(int x, int y) {
-		return _matrix[x  + 4 * y];
+		float ret = _matrix[x + 4 * y];
+		return ret;
 	}
 
+	friend std::ostream& operator<<(std::ostream& os, Matrix4f m) {
+		for (size_t i = 0; i < 4; ++i) {
+			os << "[";
+			for (size_t j = 0; j < 4; ++j) {
+				os << m.at(j, i);
+				if (j < 3)
+					os << ", ";
+			}
+			os << "]";
+			if(i < 3)
+				os << std::endl;
+		}
+		return os;
+	}
 private:
 	float _matrix[16] = {0};
 

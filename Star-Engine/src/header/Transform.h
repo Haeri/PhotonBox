@@ -11,12 +11,12 @@ public:
 
 	void setPosition(Vector3f position);
 	void setRotation(Vector3f rotation);
-	void setRotation(Matrix4f rot);
+	//void setRotation(Matrix4f rot);
 	void setScale(Vector3f scale);
 	void setParent(Transform *_parent);
 	void setParent(GameObject *_gameObject);
 	Matrix4f getRotationMatrix();
-	Matrix4f getRotation();
+	Vector3f getRotation();
 	Vector3f getPosition();
 	Vector3f getScale();
 
@@ -26,11 +26,12 @@ public:
 	std::vector<Transform*> children;
 	Transform* getParent() { return _parent; }
 	void removeChild(Transform* child);
+	void print();
 private:
-	Matrix4f _rotMat;
+//	Matrix4f _rotMat = Matrix4f::IDENTITY;
 	bool _hasChanged = true;
 	Vector3f _position = Vector3f::ZERO;
-	//Vector3f _rotation = Vector3f::ZERO;
+	Vector3f _rotation = Vector3f::ZERO;
 	Vector3f _scale = Vector3f::ONE;
 	Matrix4f _cache;
 	Transform* _parent;

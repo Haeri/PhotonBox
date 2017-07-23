@@ -3,20 +3,22 @@
 
 #include <string>
 #include "Display.h"
-
+#include "Matrix4f.h"
 
 class Shader {
 public:
 	GLint positionAttrib, normalAttrib, colorAttrib, uvAttrib;
+	GLint transformUniform;
 
 	Shader(const std::string& fileName);
 	~Shader();
 
 	void bind();
-	void unbind();
+	void update(const Matrix4f& matrix);
 
 private:
 	const static unsigned int NUM_SHADERS = 2;
+
 
 	GLuint _program;
 	GLuint _shaders[NUM_SHADERS];
