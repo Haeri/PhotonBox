@@ -68,6 +68,7 @@
     <ClCompile Include="src\source\Texture.cpp" />
     <ClCompile Include="src\source\Time.cpp" />
     <ClCompile Include="src\source\Transform.cpp" />
+    <ClCompile Include="src\source\TransformerScript.cpp" />
     <ClCompile Include="src\source\Vector2f.cpp" />
     <ClCompile Include="src\source\Vector3f.cpp" />
   </ItemGroup>

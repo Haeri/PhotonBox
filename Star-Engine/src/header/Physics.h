@@ -6,14 +6,14 @@ class Collider;
 
 class Physics {
 public:
-	static void update();
-	static void addToPhysicsList(Collider *collider);
-	static void removeFromPhysicsList(Collider* collider);
-	static void destroy();
-	static void printList();
-	static std::string getList();
+	void update();
+	void addToPhysicsList(Collider *collider);
+	void removeFromPhysicsList(Collider* collider);
+	void destroy();
+	void printList();
+	std::string getList();
 private:
-	static std::vector<Collider*> physicsList;
+	std::vector<Collider*> physicsList;
 
 };
 #endif /* defined(PHYSICS_H) */

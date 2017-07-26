@@ -76,11 +76,10 @@ Matrix4f Matrix4f::createIdentity() {
 	return ret;
 }
 
-const float Matrix4f::at(unsigned int  x, unsigned int  y) const {
-	float ret = (x, y);
-	return ret;
+float Matrix4f::at(unsigned int  x, unsigned int  y)const {	
+	return _matrix[x + 4 * y];
 }
 
 void Matrix4f::set(unsigned int x, unsigned int  y, float val) {
-	(x, y) = val;
+	_matrix[x + 4 * y] = val;
 }

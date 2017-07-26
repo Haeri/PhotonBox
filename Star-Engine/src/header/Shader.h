@@ -14,7 +14,7 @@ public:
 	~Shader();
 
 	void bind();
-	void update(const Matrix4f& matrix);
+	void update(Matrix4f& matrix);
 
 private:
 	const static unsigned int NUM_SHADERS = 2;

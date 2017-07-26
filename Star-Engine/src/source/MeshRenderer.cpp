@@ -55,9 +55,7 @@ void MeshRenderer::render()
 	if(_material->texture != nullptr)
 		_material->texture->bind();
 
-//	_material->shader->update(transform->getTransformationMatrix());
-
-	//transform->print();
+	_material->shader->update(transform->getTransformationMatrix());
 
 	glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);

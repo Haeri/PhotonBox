@@ -10,16 +10,16 @@
 
 class Renderer {
 public:
-	static bool isRunning;
+	bool isRunning;
 
 	void init();
 	void render();
 	void destroy();
-	static void addToRenderQueue(ObjectRenderer *behaviour);
-	static void removeFromRenderQueue(ObjectRenderer *behaviour);
-	static void printList();
+	void addToRenderQueue(ObjectRenderer *behaviour);
+	void removeFromRenderQueue(ObjectRenderer *behaviour);
+	void printList();
 private:
-	static std::vector<ObjectRenderer*> renderQueue;
+	std::vector<ObjectRenderer*> renderQueue;
 };
 
 #endif /* defined(RENDERER_H) */

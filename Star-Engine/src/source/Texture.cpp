@@ -5,7 +5,7 @@
 
 Texture::Texture(const std::string & fileName)
 {
-	int width, height, numComponents;
+	int numComponents;
 	unsigned char* data = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4);
 
 	if (data == NULL)
@@ -20,6 +20,7 @@ Texture::Texture(const std::string & fileName)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	
 	stbi_image_free(data);
 }
 
