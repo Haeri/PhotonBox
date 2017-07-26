@@ -1,8 +1,5 @@
 #include "../header/Renderer.h"
-
 #include "../header/Core.h"
-
-std::vector<ObjectRenderer*> Renderer::renderQueue;
 
 
 void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer) {

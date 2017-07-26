@@ -4,8 +4,6 @@
 #include "../header/Physics.h"
 #include "../header/Collider.h"
 
-std::vector<Collider*> Physics::physicsList;
-
 void Physics::update() {
 	if (physicsList.size() == 0) return;
 	for (int i = 0; i < physicsList.size() - 1; ++i) {

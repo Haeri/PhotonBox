@@ -16,7 +16,7 @@ class Core{
 public:
 	SceneManager sceneManager;
 	Renderer renderer;
-	Time theTime;
+	Time time;
 	Logic logic;
 	Physics physics;
 	PostProcessing postPocessing;
@@ -31,8 +31,12 @@ public:
 	static Core* getInstance() { return _instance; }
 private:
 	static Core* _instance;
-	double _accumulatedTime;
-	static const double FIXED_TIME_INTERVAL;
+	double _accumulatedTime, _newTime, _lastTime;
+
+
+	const double FIXED_TIME_INTERVAL = 30;
+	const double TARGET_FPS = 60;
+	int FPS = 0;
 };
 
 #endif /* defined(PROJECT_MAIN_H) */

@@ -5,7 +5,11 @@ class Time {
 public:
 	static double deltaTime;
 	static double time;
+	static double timeScale;
 
-	void setTime(double _deltaTime, double _time);
+	void setDeltaTime(double deltaTime);
+	void setTime(double time);
+	void setTimeScale(double timeScale);
+	static long now();
 };
 #endif /* defined(TIME_H) */

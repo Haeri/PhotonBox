@@ -35,16 +35,18 @@ void Shader::bind() {
 	glUseProgram(_program);
 }
 
-void Shader::update(const Matrix4f& mat) {
+void Shader::update(Matrix4f& mat) {
 
+	/*
 	GLfloat matrix[4][4];
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			matrix[i][j] = mat.at(j, i);
 		}
 	}
+	*/
 
-	glUniformMatrix4fv(transformUniform, 16, GL_FALSE, &matrix[0][0]);
+	glUniformMatrix4fv(transformUniform, 1, GL_FALSE, &(mat(0, 0)));
 }
 
 

@@ -13,7 +13,7 @@ public:
 	static Matrix4f createTranslation(float x, float y, float z);
 	static Matrix4f createTranslation(Vector3f vec);
 	
-	const float at(unsigned int  x, unsigned int  y) const;
+	float at(unsigned int  x, unsigned int  y) const;
 	void set(unsigned int x, unsigned int  y, float val);
 
 	inline Matrix4f operator* (const Matrix4f& other) const {
@@ -32,14 +32,14 @@ public:
 
 
 	float &operator ()(int x, int y) {
-		float ret = _matrix[x + 4 * y];
-		return ret;
+		return _matrix[x + 4 * y];
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, Matrix4f m) {
 		for (size_t i = 0; i < 4; ++i) {
 			os << "[";
 			for (size_t j = 0; j < 4; ++j) {
+				int f = m.at(j, i);
 				os << m.at(j, i);
 				if (j < 3)
 					os << ", ";
@@ -50,10 +50,10 @@ public:
 		}
 		return os;
 	}
+	static Matrix4f createIdentity();
 private:
 	float _matrix[16] = {0};
 
-	static Matrix4f createIdentity();
 };
 
 #endif /* defined(MATRIX4F_H) */
