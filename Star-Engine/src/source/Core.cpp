@@ -3,6 +3,8 @@
 #include <chrono>
 #include <thread>
 
+#include "TestScene.cpp"
+
 Core* Core::_instance;
 
 Core::Core()
@@ -49,7 +51,7 @@ void Core::update()
 	
 		
 
-		std::cout << "DeltaTime: " << Time::deltaTime << std::endl;
+		//std::cout << "DeltaTime: " << Time::deltaTime << std::endl;
 
 		// Update Logic
 		logic.update();

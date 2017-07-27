@@ -3,6 +3,7 @@
 
 #include <string>
 
+class TestScene;
 #include "Display.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -10,7 +11,6 @@
 #include "Logic.h"
 #include "Physics.h"
 #include "PostProcessing.h"
-#include "TestScene.cpp"
 
 class Core{
 public:

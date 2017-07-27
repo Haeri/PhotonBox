@@ -12,6 +12,8 @@ public:
 	static Matrix4f createScaling(Vector3f vec);
 	static Matrix4f createTranslation(float x, float y, float z);
 	static Matrix4f createTranslation(Vector3f vec);
+	static Matrix4f createPerspective(float fov, float aspectRatio, float near, float far);
+	static Matrix4f lookAt(Vector3f pos, Vector3f up, Vector3f forward);
 	
 	float at(unsigned int  x, unsigned int  y) const;
 	void set(unsigned int x, unsigned int  y, float val);

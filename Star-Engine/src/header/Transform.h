@@ -11,7 +11,6 @@ public:
 
 	void setPosition(Vector3f position);
 	void setRotation(Vector3f rotation);
-	//void setRotation(Matrix4f rot);
 	void setScale(Vector3f scale);
 	void setParent(Transform *_parent);
 	void setParent(GameObject *_gameObject);
@@ -28,7 +27,6 @@ public:
 	void removeChild(Transform* child);
 	void print();
 private:
-//	Matrix4f _rotMat = Matrix4f::IDENTITY;
 	bool _hasChanged = true;
 	Vector3f _position = Vector3f::ZERO;
 	Vector3f _rotation = Vector3f::ZERO;

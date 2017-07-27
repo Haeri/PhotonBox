@@ -46,7 +46,7 @@ public:
 		return (*this - other).lengthSqrd();
 	}
 
-	inline Vector2f normali_ze() const {
+	inline Vector2f normalize() const {
 		Vector2f ret = *this;
 		return ret / ret.length();
 	}

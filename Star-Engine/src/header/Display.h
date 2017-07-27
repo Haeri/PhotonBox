@@ -14,8 +14,11 @@ public:
 	void init(const std::string& title, unsigned int width, unsigned int height);
 	void clearDisplay(float r, float b, float g, float a);
 	void swapBuffer();
+	unsigned int getWidth();
+	unsigned int getHeight();
 private:
-	GLFWwindow* window;
+	int _width, _height;
+	GLFWwindow* _window;
 };
 
 #endif /* defined(DISPLAY_H) */
