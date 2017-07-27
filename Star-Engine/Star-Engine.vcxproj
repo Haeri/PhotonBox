@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\header\Behaviour.h" />
+    <ClInclude Include="src\header\Camera.h" />
     <ClInclude Include="src\header\Collider.h" />
     <ClInclude Include="src\header\Component.h" />
     <ClInclude Include="src\header\Core.h" />
@@ -46,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\source\Behaviour.cpp" />
+    <ClCompile Include="src\source\Camera.cpp" />
     <ClCompile Include="src\source\Collider.cpp" />
     <ClCompile Include="src\source\Component.cpp" />
     <ClCompile Include="src\source\Core.cpp" />

@@ -1,6 +1,7 @@
 #include "../header/MeshRenderer.h"
 #include "../header/Display.h"
 #include "../header/Transform.h"
+#include "../header/Camera.h"
 
 void MeshRenderer::init()
 {
@@ -55,13 +56,14 @@ void MeshRenderer::render()
 	if(_material->texture != nullptr)
 		_material->texture->bind();
 
+	Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
+	std::cout << mvp << std::endl;
 	_material->shader->update(transform->getTransformationMatrix());
+	//_material->shader->update(mvp);
 
 	glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-
-	//_material->shader->unbind();
 }
 
 void MeshRenderer::onDestroy()

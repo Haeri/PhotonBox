@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #include "../header/Matrix4f.h"
 
 const Matrix4f Matrix4f::IDENTITY = createIdentity();
@@ -63,6 +66,79 @@ Matrix4f Matrix4f::createTranslation(float x, float y, float z) {
 
 Matrix4f Matrix4f::createTranslation(Vector3f vec) {
 	return createTranslation(vec.x(), vec.y(), vec.z());
+}
+
+Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float far)
+{
+	// General form of the Projection Matrix
+	//
+	// uh = Cot( fov/2 ) == 1/Tan(fov/2)
+	// uw / uh = 1/aspect
+	// 
+	//   uw         0       0       0
+	//    0        uh       0       0
+	//    0         0      f/(f-n)  1
+	//    0         0    -fn/(f-n)  0
+	//
+	// Make result to be identity first
+
+	// check for bad parameters to avoid divide by zero:
+	// if found, assert and return an identity matrix.
+
+	Matrix4f ret;
+
+	/*
+	if (fov <= 0 || aspect == 0)
+	{
+		Assert(fov > 0 && aspect != 0);
+		return;
+	}
+	*/
+
+	float frustumDepth = far - near;
+	float oneOverDepth = 1.0f / frustumDepth;
+
+	ret(1, 1) = 1.0f / tan(0.5f * fov);
+	ret(0, 0) = 1.0f * ret(1, 1) / aspect;
+	ret(2, 2) = far * oneOverDepth;
+	ret(3, 2) = (-far * near) * oneOverDepth;
+	ret(2, 3) = 1.0f;
+	ret(3, 3) = 0;
+
+
+	/*
+	float tanHalfFOV = (float)Math.tan(fov / 2);
+	float zRange = zNear - zFar;
+
+	m[0][0] = 1.0f / (tanHalfFOV * aspectRatio);	m[0][1] = 0;					m[0][2] = 0;	m[0][3] = 0;
+	m[1][0] = 0;						m[1][1] = 1.0f / tanHalfFOV;	m[1][2] = 0;	m[1][3] = 0;
+	m[2][0] = 0;						m[2][1] = 0;					m[2][2] = (-zNear -zFar)/zRange;	m[2][3] = 2 * zFar * zNear / zRange;
+	m[3][0] = 0;						m[3][1] = 0;					m[3][2] = 1;	m[3][3] = 0;
+
+	*/
+
+
+	return ret;
+}
+
+Matrix4f Matrix4f::lookAt(Vector3f pos, Vector3f up, Vector3f forward)
+{
+	Matrix4f ret;
+
+	Vector3f zaxis = forward.normalize();
+	Vector3f xaxis = (up.cross(zaxis)).normalize();
+	Vector3f yaxis = zaxis.cross(xaxis);
+
+	ret(0, 0) = xaxis.x();	ret(1, 0) = yaxis.x();	ret(2, 0) = zaxis.x();	ret(3, 0) = 0;
+	ret(0, 1) = xaxis.y();	ret(1, 1) = yaxis.y();	ret(2, 1) = zaxis.y();	ret(3, 1) = 0;
+	ret(0, 2) = xaxis.z();	ret(1, 2) = yaxis.z();	ret(2, 2) = zaxis.z();	ret(3, 2) = 0;
+	
+	ret(0, 3) = -(xaxis.dot(pos));
+	ret(1, 3) = -(yaxis.dot(pos));
+	ret(2, 3) = -(zaxis.dot(pos));
+	ret(3, 3) = 1;
+
+	return ret;
 }
 
 Matrix4f Matrix4f::createIdentity() {

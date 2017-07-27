@@ -3,6 +3,7 @@
 
 #include "../header/Scene.h"
 #include "../header/MeshRenderer.h"
+#include "../header/Camera.h"
 #include "TransformerScript.cpp"
 
 class TestScene : public Scene{
@@ -13,10 +14,6 @@ public:
 	Texture* tex;
 
 	void Load() override {
-
-		Matrix4f mat = Matrix4f::createIdentity();
-		std::cout << mat << std::endl;
-
 
 		std::vector <Vertex> vertices = {
 			Vertex(Vector3f(-0.5f, -0.5f, 0.0f), Vector3f(0, 0, 0), Vector3f(1, 0, 0), Vector2f(0, 0)),
@@ -45,6 +42,11 @@ public:
 		tex = new Texture("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/debug.png");
 		material2 = new Material(shader, tex);
 
+		GameObject* cam = instanciate("Camera");
+		cam->addComponent<Camera>();
+		cam->getComponent<Transform>()->setPosition(Vector3f(0, 0, 10));
+		cam->addComponent<TransformerScript>();
+
 		GameObject* triangle = instanciate("Triangle");
 		triangle->getComponent<Transform>()->setPosition(Vector3f(0.5f, 0, 0));
 		triangle->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
@@ -57,13 +59,15 @@ public:
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(mesh2);
 		quad->getComponent<MeshRenderer>()->setMaterial(material2);
-		quad->addComponent<TransformerScript>();
 	}
 
 	void OnUnload() override {
 		delete shader;
 		delete mesh;
+		delete mesh2;
 		delete material;
+		delete material2;
+		delete tex;
 	}
 };
 

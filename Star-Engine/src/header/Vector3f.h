@@ -23,9 +23,9 @@ public:
 
 	Vector3f(float x, float y, float z): _x(x), _y(y), _z(z) {}
 
-	float x() { return _x; }
-	float y() { return _y; }
-	float z() { return _z; }
+	float x() const { return _x; }
+	float y() const { return _y; }
+	float z() const { return _z; }
 
 	void setX(float value) { _x = value; }
 	void setY(float value) { _y = value; }
@@ -51,7 +51,19 @@ public:
 		return (*this - other).lengthSqrd();
 	}
 
-	inline Vector3f normali_ze() const {
+	inline Vector3f cross(const Vector3f& other) const{
+		float x = _y * other.z() - _z * other.y();
+		float y = _z * other.x() - _x * other.z();
+		float z = _x * other.y() - _y * other.x();
+
+		return Vector3f(x, y, z);
+	}
+
+	inline float dot(const Vector3f& other) const {
+		return _x * other.x() + _y * other.y() + _z * other.z();
+	}
+
+	inline Vector3f normalize() const {
 		Vector3f ret = *this;
 		return ret / ret.length();
 	}
