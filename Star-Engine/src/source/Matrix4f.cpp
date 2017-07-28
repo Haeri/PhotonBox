@@ -97,12 +97,15 @@ Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float 
 
 	float frustumDepth = far - near;
 	float oneOverDepth = 1.0f / frustumDepth;
+	float uh = 1.0f / tan(0.5f * fov);
 
-	ret(1, 1) = 1.0f / tan(0.5f * fov);
-	ret(0, 0) = 1.0f * ret(1, 1) / aspect;
-	ret(2, 2) = far * oneOverDepth;
-	ret(3, 2) = (-far * near) * oneOverDepth;
-	ret(2, 3) = 1.0f;
+	ret(0, 0) = 1.0f * uh / aspect;
+	ret(1, 1) = uh;
+//	ret(2, 2) = far * oneOverDepth;
+//	ret(3, 2) = (-far * near) * oneOverDepth;
+	ret(2, 2) = - (far + near) / (far - near);
+	ret(2, 3) = -((2.0f * far * near) / (far - near));
+	ret(3, 2) = - 1.0f;
 	ret(3, 3) = 0;
 
 
@@ -126,16 +129,16 @@ Matrix4f Matrix4f::lookAt(Vector3f pos, Vector3f up, Vector3f forward)
 	Matrix4f ret;
 
 	Vector3f zaxis = forward.normalize();
-	Vector3f xaxis = (up.cross(zaxis)).normalize();
-	Vector3f yaxis = zaxis.cross(xaxis);
+	Vector3f xaxis = (zaxis.cross(up)).normalize();
+	Vector3f yaxis = xaxis.cross(zaxis);
 
-	ret(0, 0) = xaxis.x();	ret(1, 0) = yaxis.x();	ret(2, 0) = zaxis.x();	ret(3, 0) = 0;
-	ret(0, 1) = xaxis.y();	ret(1, 1) = yaxis.y();	ret(2, 1) = zaxis.y();	ret(3, 1) = 0;
-	ret(0, 2) = xaxis.z();	ret(1, 2) = yaxis.z();	ret(2, 2) = zaxis.z();	ret(3, 2) = 0;
+	ret(0, 0) = xaxis.x();	ret(1, 0) = yaxis.x();	ret(2, 0) = -zaxis.x();	ret(3, 0) = 0;
+	ret(0, 1) = xaxis.y();	ret(1, 1) = yaxis.y();	ret(2, 1) = -zaxis.y();	ret(3, 1) = 0;
+	ret(0, 2) = xaxis.z();	ret(1, 2) = yaxis.z();	ret(2, 2) = -zaxis.z();	ret(3, 2) = 0;
 	
 	ret(0, 3) = -(xaxis.dot(pos));
 	ret(1, 3) = -(yaxis.dot(pos));
-	ret(2, 3) = -(zaxis.dot(pos));
+	ret(2, 3) = (zaxis.dot(pos));
 	ret(3, 3) = 1;
 
 	return ret;
