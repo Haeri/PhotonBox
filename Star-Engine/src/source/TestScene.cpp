@@ -6,6 +6,7 @@
 #include "../header/Camera.h"
 #include "TransformerScript.cpp"
 
+
 class TestScene : public Scene{
 public:
 	Shader *shader;
@@ -44,8 +45,7 @@ public:
 
 		GameObject* cam = instanciate("Camera");
 		cam->addComponent<Camera>();
-		cam->getComponent<Transform>()->setPosition(Vector3f(0, 0, 10));
-		cam->addComponent<TransformerScript>();
+		cam->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
 
 		GameObject* triangle = instanciate("Triangle");
 		triangle->getComponent<Transform>()->setPosition(Vector3f(0.5f, 0, 0));
@@ -54,11 +54,13 @@ public:
 		triangle->addComponent<MeshRenderer>();
 		triangle->getComponent<MeshRenderer>()->setMesh(mesh);
 		triangle->getComponent<MeshRenderer>()->setMaterial(material);
+		triangle->setEnable(false);
 
 		GameObject* quad = instanciate("Quad");
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(mesh2);
 		quad->getComponent<MeshRenderer>()->setMaterial(material2);
+		quad->addComponent<TransformerScript>();
 	}
 
 	void OnUnload() override {

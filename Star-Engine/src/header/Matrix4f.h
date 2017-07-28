@@ -26,7 +26,7 @@ public:
 			{
 				ret.set(i, j, 0);
 				for (unsigned int k = 0; k < 4; k++)
-					ret.set(i, j, ret.at(i, j) + at(k, j) * other.at(i, k));
+					ret.set(i, j, ret.at(i, j) + other.at(k, j) * at(i, k));
 			}
 		}
 		return ret;

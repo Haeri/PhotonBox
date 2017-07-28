@@ -57,9 +57,7 @@ void MeshRenderer::render()
 		_material->texture->bind();
 
 	Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
-	std::cout << mvp << std::endl;
-	_material->shader->update(transform->getTransformationMatrix());
-	//_material->shader->update(mvp);
+	_material->shader->update(mvp);
 
 	glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);

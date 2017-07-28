@@ -13,7 +13,7 @@ public:
 
 	void Update() {
 		//transform->setPosition(Vector3f(transform->getPosition().x() + 0.01f, 0, 0));
-		transform->setRotation(Vector3f(0, transform->getRotation().y() + 0.01f, 0));
+		transform->setRotation(Vector3f(0, transform->getRotation().y() + 0.08f, 0));
 	}
 };
 

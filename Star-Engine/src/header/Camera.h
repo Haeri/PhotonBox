@@ -12,7 +12,7 @@ public:
 		if (_main == nullptr) setMain();
 
 		float aspect = (float)Core::getInstance()->display.getWidth() / (float)Core::getInstance()->display.getHeight();
-		setProjection(70, aspect, 0.001f, 1000);
+		setProjection(45.0f, aspect, 0.1f, 50.0f);
 	}
 
 	void setFOV(float fov) {
