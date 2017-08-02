@@ -11,6 +11,8 @@ public:
 	Vector3f color;
 	Vector2f uv;
 
+	Vertex() {}
+
 	Vertex(Vector3f pos, Vector3f normal, Vector3f col, Vector2f uv) :
 		position(pos), 
 		normal(normal), 

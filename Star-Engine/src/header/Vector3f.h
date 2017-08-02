@@ -21,11 +21,16 @@ public:
 	static const Vector3f FORWARD;
 	static const Vector3f BACK;
 
+	Vector3f(): _x(0.0f), _y(0.0f), _z(0.0f) {}
 	Vector3f(float x, float y, float z): _x(x), _y(y), _z(z) {}
 
-	float x() const { return _x; }
-	float y() const { return _y; }
-	float z() const { return _z; }
+	float& x() { return _x; }
+	float& y() { return _y; }
+	float& z() { return _z; }
+
+	float getX() const { return _x; }
+	float getY() const { return _y; }
+	float getZ() const { return _z; }
 
 	void setX(float value) { _x = value; }
 	void setY(float value) { _y = value; }
@@ -52,15 +57,15 @@ public:
 	}
 
 	inline Vector3f cross(const Vector3f& other) const{
-		float x = _y * other.z() - _z * other.y();
-		float y = _z * other.x() - _x * other.z();
-		float z = _x * other.y() - _y * other.x();
+		float x = _y * other.getZ() - _z * other.getY();
+		float y = _z * other.getX() - _x * other.getZ();
+		float z = _x * other.getY() - _y * other.getX();
 
 		return Vector3f(x, y, z);
 	}
 
 	inline float dot(const Vector3f& other) const {
-		return _x * other.x() + _y * other.y() + _z * other.z();
+		return _x * other.getX() + _y * other.getY() + _z * other.getZ();
 	}
 
 	inline Vector3f normalize() const {
