@@ -18,10 +18,14 @@ public:
 	static const Vector2f LEFT;
 	static const Vector2f RIGHT;
 
+	Vector2f(): _x(0.0f), _y(0.0f) {}
 	Vector2f(float x, float y) : _x(x), _y(y) {}
 
-	float x() { return _x; }
-	float y() { return _y; }
+	float& x() { return _x; }
+	float& y() { return _y; }
+
+	float getX() const { return _x; }
+	float getY() const { return _y; }
 
 	void setX(float value) { _x = value; }
 	void setY(float value) { _y = value; }

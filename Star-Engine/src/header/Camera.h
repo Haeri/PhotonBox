@@ -15,6 +15,11 @@ public:
 		setProjection(45.0f, aspect, 0.1f, 50.0f);
 	}
 
+	void updateAspect() {
+		_aspect = (float)Core::getInstance()->display.getWidth() / (float)Core::getInstance()->display.getHeight();
+		updateProjection();
+	}
+
 	void setFOV(float fov) {
 		fov = fov;
 		updateProjection();

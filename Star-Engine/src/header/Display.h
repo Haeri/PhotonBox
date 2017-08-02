@@ -14,6 +14,10 @@ public:
 	void init(const std::string& title, unsigned int width, unsigned int height);
 	void clearDisplay(float r, float b, float g, float a);
 	void swapBuffer();
+	void setRect(int width, int height) {
+		_width = width;
+		_height = height;
+	}
 	unsigned int getWidth();
 	unsigned int getHeight();
 private:

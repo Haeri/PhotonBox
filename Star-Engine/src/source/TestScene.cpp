@@ -5,6 +5,7 @@
 #include "../header/MeshRenderer.h"
 #include "../header/Camera.h"
 #include "TransformerScript.cpp"
+#include "../header/OBJLoader.h"
 
 
 class TestScene : public Scene{
@@ -35,32 +36,36 @@ public:
 			0, 1, 2, 1, 3, 2
 		};
 
-		mesh = new Mesh(vertices, indices);
+		//mesh = new Mesh(vertices, indices);
+		mesh = OBJLoader::loadObj("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/trooper.obj");
 		shader = new Shader("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/shader");
-		material = new Material(shader);
-		
-		mesh2 = new Mesh(vertices2, indices2);
 		tex = new Texture("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/debug.png");
-		material2 = new Material(shader, tex);
+		material = new Material(shader, tex);
+		
+	/*	mesh2 = new Mesh(vertices2, indices2);
+		tex = new Texture("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/debug.png");
+		material2 = new Material(shader, tex);*/
 
 		GameObject* cam = instanciate("Camera");
 		cam->addComponent<Camera>();
-		cam->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
+		cam->getComponent<Transform>()->setPosition(Vector3f(0, 0, -4));
 
 		GameObject* triangle = instanciate("Triangle");
-		triangle->getComponent<Transform>()->setPosition(Vector3f(0.5f, 0, 0));
+		triangle->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		triangle->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		triangle->getComponent<Transform>()->setScale(Vector3f(1, 1, 1));
 		triangle->addComponent<MeshRenderer>();
 		triangle->getComponent<MeshRenderer>()->setMesh(mesh);
 		triangle->getComponent<MeshRenderer>()->setMaterial(material);
-		triangle->setEnable(false);
+		triangle->addComponent<TransformerScript>();
+		//triangle->setEnable(false);
 
-		GameObject* quad = instanciate("Quad");
+
+	/*	GameObject* quad = instanciate("Quad");
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(mesh2);
 		quad->getComponent<MeshRenderer>()->setMaterial(material2);
-		quad->addComponent<TransformerScript>();
+		quad->addComponent<TransformerScript>();*/
 	}
 
 	void OnUnload() override {
