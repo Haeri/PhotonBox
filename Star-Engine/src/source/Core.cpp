@@ -1,7 +1,5 @@
 #include "../header/Core.h"
 #include <time.h>
-#include <chrono>
-#include <thread>
 
 #include "TestScene.cpp"
 
@@ -25,33 +23,30 @@ void Core::init()
 	// Initializing Subsystems
 	logic.start();
 	renderer.init();
-	postPocessing.init();
-
-	
+	postPocessing.init();	
 }
 
 void Core::update()
 {
 
-	// Timing
-	long lastFpsTime = 0;
-	int frameCount = 0;
-	long lastLoopTime = Time::now();
-	double OPTIMAL_TIME = 1000000000.0 / TARGET_FPS;
+	double lastTime = glfwGetTime();
+	int nbFrames = 0;
+	double lastSecond = 0;
 
 
-	while (display.isRunning) {
+	while (_running) {
 
-		long now = Time::now();
-		time.setTime(now);
-		long updateLength = now - lastLoopTime;
-		lastLoopTime = now;
-		double delta = updateLength / ((double)OPTIMAL_TIME);
-		time.setDeltaTime(delta);
-	
-		
+		// Measure time
+		double currentTime = glfwGetTime();
+		time.setDeltaTime(currentTime - lastTime);
+		lastTime = currentTime;
+		lastSecond += Time::deltaTime;
 
-		//std::cout << "DeltaTime: " << Time::deltaTime << std::endl;
+		if (lastSecond >= 1.0) {
+			printf("%i FPS - %f ms/frame\n", nbFrames, 1000.0 / double(nbFrames));
+			nbFrames = 0;
+			lastSecond = 0;
+		}
 
 		// Update Logic
 		logic.update();
@@ -68,34 +63,15 @@ void Core::update()
 
 		// Render Scene
 		renderer.render();
+		nbFrames++;
 
 		PostProcessing::postProcess();
 
 		// Late update Logic
 		logic.lateUpdate();
 
-
-
-		// update the frame counter
-		lastFpsTime += updateLength;
-		frameCount++;
-
-		// update FPS
-		if (lastFpsTime >= 1000000000) {
-			FPS = frameCount;
-			lastFpsTime = 0;
-			frameCount = 0;
-
-			std::cout << "FPS: " << FPS << std::endl;
-		}
-
-		// wait for present
-		if (TARGET_FPS != -1) {
-			long wait = ((lastLoopTime - Time::now() + OPTIMAL_TIME) / 1000000);
-			std::this_thread::sleep_for(std::chrono::milliseconds(wait));
-		}
+		_running = display.isRunning;
 	}
-
 }
 
 void Core::destroy()
