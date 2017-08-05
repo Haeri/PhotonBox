@@ -7,13 +7,15 @@
 
 class TransformerScript: public Behaviour {
 public:
+	float speed = 1;
+
 	void Start() {
 	
 	}
 
 	void Update() {
 		//transform->setPosition(Vector3f(transform->getPosition().x() + 0.01f, 0, 0));
-		transform->setRotation(Vector3f(0, transform->getRotation().y() + 0.04f, 0));
+		transform->setRotation(Vector3f(0, transform->getRotation().y() + Time::deltaTime * speed, 0));
 	}
 };
 

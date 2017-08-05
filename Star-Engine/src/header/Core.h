@@ -28,8 +28,11 @@ public:
 	void init();
 	void update();
 	void destroy();
+
+	bool isRunning() { return _running; }
 	static Core* getInstance() { return _instance; }
 private:
+	bool _running = true;
 	static Core* _instance;
 	double _accumulatedTime, _newTime, _lastTime;
 

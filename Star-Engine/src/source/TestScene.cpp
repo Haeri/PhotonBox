@@ -39,7 +39,7 @@ public:
 		//mesh = new Mesh(vertices, indices);
 		mesh = OBJLoader::loadObj("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/trooper.obj");
 		shader = new Shader("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/shader");
-		tex = new Texture("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/debug.png");
+		tex = new Texture("C:/Users/haeri/Documents/github/Space-Engine/Star-Engine/res/grid.png");
 		material = new Material(shader, tex);
 		
 	/*	mesh2 = new Mesh(vertices2, indices2);
