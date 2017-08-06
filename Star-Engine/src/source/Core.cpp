@@ -33,7 +33,6 @@ void Core::update()
 	int nbFrames = 0;
 	double lastSecond = 0;
 
-
 	while (_running) {
 
 		// Measure time

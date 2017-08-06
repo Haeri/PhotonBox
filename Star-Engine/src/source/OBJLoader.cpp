@@ -29,19 +29,26 @@ void parseFace(const std::string& token, std::vector<OBJIndex>& indexList) {
 
 	std::vector<std::string> tokens;
 	split(token, "/", tokens);
+	
+	if (tokens.size() > 0) {
+		p = std::stoi(tokens[0]);
+		if (p != -1) {
+			obj.position = p - 1;
+		}
 
-	p = std::stoi(tokens[0]);
-	u = std::stoi(tokens[1]);
-	n = std::stoi(tokens[2]);
-
-	if (p != -1) {
-		obj.position = p - 1;
-	}
-	if (u != -1) {
-		obj.uv = u - 1;
-	}
-	if (n != -1) {
-		obj.normal = n - 1;
+		if (tokens.size() > 1) {
+			u = std::stoi(tokens[1]);
+			if (u != -1) {
+				obj.uv = u - 1;
+			}
+		
+			if (tokens.size() > 2) {
+				n = std::stoi(tokens[2]);
+				if (n != -1) {
+					obj.normal = n - 1;
+				}
+			}
+		}
 	}
 
 	indexList.push_back(obj);
@@ -76,7 +83,7 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 		else if (tokens[0].compare("vt") == 0) {
 			Vector2f uv;
 			uv.x() = std::stof(tokens[1]);
-			uv.y() = std::stof(tokens[2]);
+			uv.y() = 1 - std::stof(tokens[2]);
 			uvs.push_back(uv);
 		}
 		else if (tokens[0].compare("vn") == 0) {
