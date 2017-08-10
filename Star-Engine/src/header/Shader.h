@@ -2,23 +2,26 @@
 #define SHADER_H
 
 #include <string>
+#include <map>
 #include "Display.h"
 #include "Matrix4f.h"
 
 class Shader {
 public:
 	GLint positionAttrib, normalAttrib, colorAttrib, uvAttrib;
-	GLint transformUniform;
+	std::map<std::string, GLint> uniforms;
 
+	Shader() {}
 	Shader(const std::string& fileName);
 	~Shader();
 
+	virtual void addUniforms();
 	void bind();
 	void update(Matrix4f& matrix);
+	void addUniform(std::string uniform);
 
 private:
 	const static unsigned int NUM_SHADERS = 2;
-
 
 	GLuint _program;
 	GLuint _shaders[NUM_SHADERS];

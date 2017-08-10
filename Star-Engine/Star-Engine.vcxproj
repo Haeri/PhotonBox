@@ -25,7 +25,11 @@
     <ClInclude Include="src\header\Component.h" />
     <ClInclude Include="src\header\Core.h" />
     <ClInclude Include="src\header\Display.h" />
+    <ClInclude Include="src\header\ForwardAmbientLightShader.h" />
+    <ClInclude Include="src\header\ForwardShader.h" />
     <ClInclude Include="src\header\GameObject.h" />
+    <ClInclude Include="src\header\LightEmitter.h" />
+    <ClInclude Include="src\header\Lighting.h" />
     <ClInclude Include="src\header\Logic.h" />
     <ClInclude Include="src\header\Material.h" />
     <ClInclude Include="src\header\Matrix4f.h" />
@@ -33,7 +37,9 @@
     <ClInclude Include="src\header\MeshRenderer.h" />
     <ClInclude Include="src\header\ObjectRenderer.h" />
     <ClInclude Include="src\header\OBJLoader.h" />
+    <ClInclude Include="src\header\obj_loader.h" />
     <ClInclude Include="src\header\Physics.h" />
+    <ClInclude Include="src\header\PointLight.h" />
     <ClInclude Include="src\header\PostProcessing.h" />
     <ClInclude Include="src\header\Renderer.h" />
     <ClInclude Include="src\header\Scene.h" />
@@ -47,6 +53,7 @@
     <ClInclude Include="src\header\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\header\ForwardPointLightShader.h" />
     <ClCompile Include="src\source\Behaviour.cpp" />
     <ClCompile Include="src\source\Camera.cpp" />
     <ClCompile Include="src\source\Collider.cpp" />
@@ -55,6 +62,7 @@
     <ClCompile Include="src\source\Display.cpp" />
     <ClCompile Include="src\source\GameObject.cpp" />
     <ClCompile Include="src\source\glad.c" />
+    <ClCompile Include="src\source\Lighting.cpp" />
     <ClCompile Include="src\source\Logic.cpp" />
     <ClCompile Include="src\source\Main.cpp" />
     <ClCompile Include="src\source\Matrix4f.cpp" />

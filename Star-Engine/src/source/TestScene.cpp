@@ -6,7 +6,7 @@
 #include "../header/Camera.h"
 #include "TransformerScript.cpp"
 #include "../header/OBJLoader.h"
-
+#include "../header/PointLight.h"
 
 class TestScene : public Scene{
 public:
@@ -59,6 +59,13 @@ public:
 		triangle->getComponent<MeshRenderer>()->setMaterial(material);
 		triangle->addComponent<TransformerScript>();
 		//triangle->setEnable(false);
+
+
+		GameObject* pointLight = instanciate("Pointlight");
+		pointLight->addComponent<PointLight>();
+		pointLight->getComponent<PointLight>()->color = Vector3f(0.9f, 0.9f, 1);
+		pointLight->getComponent<PointLight>()->attenuation = 1;
+		pointLight->getComponent<PointLight>()->intensity = 1;
 
 
 	/*	GameObject* quad = instanciate("Quad");
