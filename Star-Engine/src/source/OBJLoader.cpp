@@ -1,6 +1,7 @@
 #include "../header/OBJLoader.h"
 #include <fstream>
 #include <string>
+#include <map>
 
 
 struct OBJIndex {
@@ -22,7 +23,7 @@ void split(const std::string& line, const std::string& delimiter, std::vector<st
 	output.push_back(s);
 }
 
-void parseFace(const std::string& token, std::vector<OBJIndex>& indexList) {
+void parseFace(const std::string& token, std::vector<OBJIndex>& indexList, std::map<OBJIndex, int>& faceIndexMap, int cnt) {
 
 	int p = -1, u = -1, n = -1;
 	OBJIndex obj;
@@ -51,6 +52,14 @@ void parseFace(const std::string& token, std::vector<OBJIndex>& indexList) {
 		}
 	}
 
+	/*
+	if (faceIndexMap.find(obj) != faceIndexMap.end()) {
+		 
+	}else {
+
+	}
+	*/
+	
 	indexList.push_back(obj);
 }
 
@@ -64,6 +73,8 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	std::vector<Vector3f> normals;
 	std::vector<Vector2f> uvs;
 	std::vector<OBJIndex> indices;
+	std::map<OBJIndex, int> faceIndexMap;
+	int cnt = 0;
 
 	while (std::getline(file, line)) {
 		
@@ -95,9 +106,9 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 		}
 		else if (tokens[0].compare("f") == 0) {
 			for (int i = 0; i < tokens.size()-3; ++i) {
-				parseFace(tokens[1 + i], indices);
-				parseFace(tokens[2 + i], indices);
-				parseFace(tokens[3 + i], indices);
+				parseFace(tokens[1 + i], indices, faceIndexMap, cnt++);
+				parseFace(tokens[2 + i], indices, faceIndexMap, cnt++);
+				parseFace(tokens[3 + i], indices, faceIndexMap, cnt++);
 			}	
 		}
 	}

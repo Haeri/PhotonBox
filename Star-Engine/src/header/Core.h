@@ -11,6 +11,7 @@ class TestScene;
 #include "Logic.h"
 #include "Physics.h"
 #include "PostProcessing.h"
+#include "Lighting.h"
 
 class Core{
 public:
@@ -21,6 +22,7 @@ public:
 	Physics physics;
 	PostProcessing postPocessing;
 	Display display;
+	Lighting lighting;
 
 	TestScene* testScene;
 

@@ -60,9 +60,9 @@ void MeshRenderer::render()
 	_material->shader->update(mvp);
 
 	glBindVertexArray(_vao);
-	//glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 
-	glDrawArrays(GL_TRIANGLES, 0, _mesh->indices.size());
+	//glDrawArrays(GL_TRIANGLES, 0, _mesh->indices.size());
+	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
 }

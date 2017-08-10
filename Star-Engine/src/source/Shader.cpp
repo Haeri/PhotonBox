@@ -21,8 +21,12 @@ Shader::Shader(const std::string& fileName) {
 	normalAttrib = glGetAttribLocation(_program, "normal");
 	colorAttrib = glGetAttribLocation(_program, "color");
 	uvAttrib = glGetAttribLocation(_program, "uv");
-	
-	transformUniform = glGetUniformLocation(_program, "transform");
+
+	addUniforms();
+}
+
+void Shader::addUniforms() {
+	addUniform("transform");
 }
 
 Shader::~Shader() {
@@ -36,9 +40,12 @@ void Shader::bind() {
 }
 
 void Shader::update(Matrix4f& mat) {
-	glUniformMatrix4fv(transformUniform, 1, GL_FALSE, &(mat(0, 0)));
+	glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(mat(0, 0)));
 }
 
+void Shader::addUniform(std::string uniform) {
+	uniforms[uniform] = glGetUniformLocation(_program, uniform.c_str());
+}
 
 std::string Shader::readShader(const std::string& fileName) {
 		std::string line, text;
