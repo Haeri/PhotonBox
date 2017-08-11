@@ -4,44 +4,40 @@
 #include <string>
 
 class TestScene;
-#include "Display.h"
-#include "SceneManager.h"
-#include "Renderer.h"
-#include "Time.h"
-#include "Logic.h"
-#include "Physics.h"
-#include "PostProcessing.h"
-#include "Lighting.h"
+class Display;
+class SceneManager;
+class Renderer;
+class Time;
+class Logic;
+class Physics;
+class PostProcessing;
+class Lighting;
 
 class Core{
 public:
-	SceneManager sceneManager;
-	Renderer renderer;
-	Time time;
-	Logic logic;
-	Physics physics;
-	PostProcessing postPocessing;
-	Display display;
-	Lighting lighting;
+	static bool isRunning() { return _isRunning; }
 
-	TestScene* testScene;
-
-	Core();
 	void init();
 	void update();
 	void destroy();
-
-	bool isRunning() { return _running; }
-	static Core* getInstance() { return _instance; }
 private:
-	bool _running = true;
-	static Core* _instance;
-	double _accumulatedTime, _newTime, _lastTime;
-
+	SceneManager* sceneManager;
+	Renderer* renderer;
+	Time* time;
+	Logic* logic;
+	Physics* physics;
+	PostProcessing* postPocessing;
+	Display* display;
+	Lighting* lighting;
+	TestScene* testScene;
 
 	const double FIXED_TIME_INTERVAL = 30;
 	const double TARGET_FPS = 60;
-	int FPS = 0;
+
+	double _accumulatedTime, _newTime, _lastTime;
+	int _fps = 0;
+
+	static bool _isRunning;
 };
 
-#endif /* defined(PROJECT_MAIN_H) */
+#endif // CORE_H

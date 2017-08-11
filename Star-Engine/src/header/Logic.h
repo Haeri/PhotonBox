@@ -6,17 +6,18 @@ class Behaviour;
 
 class Logic {
 public:
+	static void addToUpdateList(Behaviour *behaviour);
+	static void removeFromList(Behaviour *behaviour);
+	static void printList();
+	static std::string getList();
+
 	void start();
 	void update();
 	void fixedUpdate();
 	void lateUpdate();
 	void destroy();
-	void addToUpdateList(Behaviour *behaviour);
-	void removeFromList(Behaviour *behaviour);
-	void printList();
-	std::string getList();
 private:
-	std::vector<Behaviour*> behaviourList;
+	static std::vector<Behaviour*> _behaviourList;
 };
 
-#endif /* defined(LOGIC_H) */
+#endif // LOGIC_H

@@ -1,22 +1,22 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Core.h"
 #include "Behaviour.h"
 #include "Transform.h"
 #include "Matrix4f.h"
+#include "Display.h"
 
 class Camera: public Behaviour{
 public:
 	void Start() {
 		if (_main == nullptr) setMain();
 
-		float aspect = (float)Core::getInstance()->display.getWidth() / (float)Core::getInstance()->display.getHeight();
+		float aspect = (float)Display::getWidth() / (float)Display::getHeight();
 		setProjection(45.0f, aspect, 0.1f, 50.0f);
 	}
 
 	void updateAspect() {
-		_aspect = (float)Core::getInstance()->display.getWidth() / (float)Core::getInstance()->display.getHeight();
+		_aspect = (float)Display::getWidth() / (float)Display::getHeight();
 		updateProjection();
 	}
 

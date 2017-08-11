@@ -1,13 +1,13 @@
 #include "../header/ObjectRenderer.h"
-#include "../header/Core.h"
+#include "../header/Renderer.h"
 
 ObjectRenderer::ObjectRenderer() {
-	Core::getInstance()->renderer.addToRenderQueue(this);
+	Renderer::addToRenderQueue(this);
 }
 
 void ObjectRenderer::onDestroy() {}
 
 void ObjectRenderer::destroy(){
 	onDestroy();
-	Core::getInstance()->renderer.removeFromRenderQueue(this);
+	Renderer::removeFromRenderQueue(this);
 }
