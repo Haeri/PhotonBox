@@ -7,22 +7,22 @@
 
 class Display {
 public:
-	bool isRunning;
-
-	~Display();
-
-	void init(const std::string& title, unsigned int width, unsigned int height);
-	void clearDisplay(float r, float b, float g, float a);
-	void swapBuffer();
-	void setRect(int width, int height) {
+	static bool isRunning() { return _isRunning; }
+	static void clearDisplay(float r, float b, float g, float a);
+	static void swapBuffer();
+	static void setRect(int width, int height) {
 		_width = width;
 		_height = height;
 	}
-	unsigned int getWidth();
-	unsigned int getHeight();
+	static unsigned int getWidth();
+	static unsigned int getHeight();
+
+	void init(const std::string& title, unsigned int width, unsigned int height);
+	void destroy();
 private:
-	int _width, _height;
-	GLFWwindow* _window;
+	static bool _isRunning;
+	static int _width, _height;
+	static GLFWwindow* _window;
 };
 
-#endif /* defined(DISPLAY_H) */
+#endif // DISPLAY_H

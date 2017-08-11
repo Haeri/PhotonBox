@@ -1,47 +1,47 @@
 #include "../header/SceneManager.h"
 #include "../header/Scene.h"
-#include "../header/Renderer.h"
-#include "../header/Core.h"
-#include "../header/Logic.h"
+
+Scene* SceneManager::_currentScene;
+std::map<std::string, Scene*> SceneManager::_sceneMap;
+std::string SceneManager::_currentSceneName;
 
 void SceneManager::addScene(const std::string name, Scene* scene){
-	sceneMap[name] = scene;
+	_sceneMap[name] = scene;
 }
 
 void SceneManager::loadScene(Scene * scene){
-	unloadScene(currentScene);
+	unloadScene(_currentScene);
     scene->Load();
-	currentScene = scene;
+	_currentScene = scene;
 }
 
-
 void SceneManager::loadScene(const std::string & name){
-	loadScene(sceneMap[name]);
-	currentSceneName = name;
+	loadScene(_sceneMap[name]);
+	_currentSceneName = name;
 }
 
 void SceneManager::unloadScene(Scene * scene){
-	if (currentScene == nullptr) return;
+	if (_currentScene == nullptr) return;
 
 	scene->unload();
-	currentScene = nullptr;
+	_currentScene = nullptr;
 }
 
 void SceneManager::unloadScene(const std::string & name){
-	unloadScene(sceneMap[name]);
+	unloadScene(_sceneMap[name]);
 }
 
 std::string SceneManager::getCurrentName() {
-	return currentSceneName;
+	return _currentSceneName;
 }
 
 Scene* SceneManager::getCurrentScene() {
-	return currentScene;
+	return _currentScene;
 }
 
 void SceneManager::destroy(){
 
-	for (auto const &scene : sceneMap) {
+	for (auto const &scene : _sceneMap) {
 		scene.second->unload();
 		delete scene.second;
 	}

@@ -1,39 +1,43 @@
+#include <algorithm>
+#include <iostream>
 #include "../header/Renderer.h"
-#include "../header/Core.h"
+#include "../header/Display.h"
+#include "../header/ObjectRenderer.h"
 
+bool Renderer::_isRunning;
+std::vector<ObjectRenderer*> Renderer::_renderQueue;
 
 void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer) {
-	renderQueue.push_back(objectRenderer);
+	_renderQueue.push_back(objectRenderer);
 }
 
 void Renderer::removeFromRenderQueue(ObjectRenderer *objectRenderer) {
-	renderQueue.erase(std::remove(renderQueue.begin(), renderQueue.end(), objectRenderer), renderQueue.end());
+	_renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), objectRenderer), _renderQueue.end());
 }
 
 void Renderer::init() {
-	for (std::vector<ObjectRenderer*>::iterator it = renderQueue.begin(); it != renderQueue.end(); ++it) {
+	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		(*it)->init();
 	}
 }
 
 void Renderer::render() {
-	
-	Core::getInstance()->display.clearDisplay(0.1, 0.1, 0.1, 1);
+	Display::clearDisplay(0.1, 0.1, 0.1, 1);
 
-	for (std::vector<ObjectRenderer*>::iterator it = renderQueue.begin(); it != renderQueue.end(); ++it) {
+	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		if ((*it)->getEnable())
 			(*it)->render();
 	}
 	
-	Core::getInstance()->display.swapBuffer();
+	Display::swapBuffer();
 }
 
 void Renderer::destroy() {
-	renderQueue.clear();
+	_renderQueue.clear();
 }
 
 void Renderer::printList(){
-	for (std::vector<ObjectRenderer*>::iterator it = renderQueue.begin(); it != renderQueue.end(); ++it) {
+	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		std::cout << (*it)->getName() << std::endl;
 	}
 }

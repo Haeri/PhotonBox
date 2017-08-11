@@ -1,25 +1,22 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-
+class ObjectRenderer;
 #include <vector>
-#include <iostream>
-#include <algorithm>
-
-#include "ObjectRenderer.h"
 
 class Renderer {
 public:
-	bool isRunning;
+	static bool isRunning() { return _isRunning; }
+	static void addToRenderQueue(ObjectRenderer *behaviour);
+	static void removeFromRenderQueue(ObjectRenderer *behaviour);
+	static void printList();
 
 	void init();
 	void render();
 	void destroy();
-	void addToRenderQueue(ObjectRenderer *behaviour);
-	void removeFromRenderQueue(ObjectRenderer *behaviour);
-	void printList();
 private:
-	std::vector<ObjectRenderer*> renderQueue;
+	static bool _isRunning;
+	static std::vector<ObjectRenderer*> _renderQueue;
 };
 
-#endif /* defined(RENDERER_H) */
+#endif // RENDERER_H

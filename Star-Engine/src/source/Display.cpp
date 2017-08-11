@@ -1,12 +1,12 @@
 #include "../header/Display.h"
-#include <stdlib.h>
-#include "../header/Core.h"
 #include "../header/Camera.h"
 
-void window_size_callback(GLFWwindow* window, int width, int height) {
-	Core::getInstance()->display.setRect(width, height);
-	Camera::getMainCamera()->updateAspect();
-}
+
+bool Display::_isRunning;
+int Display::_width, Display::_height;
+GLFWwindow* Display::_window;
+
+void window_size_callback(GLFWwindow*, int, int);
 
 void Display::init(const std::string& title, unsigned int width, unsigned int height) {
 	_width = width;
@@ -27,7 +27,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	glfwSwapInterval(1);
-	isRunning = true;
+	_isRunning = true;
 
 
 	glfwSetWindowSizeCallback(_window, window_size_callback);
@@ -37,7 +37,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	glCullFace(GL_BACK);
 }
 
-Display::~Display() {
+void Display::destroy() {
 	glfwDestroyWindow(_window);
 	glfwTerminate();
 }
@@ -55,7 +55,7 @@ void Display::swapBuffer() {
 	glfwSwapBuffers(_window);
 	glfwPollEvents();
 
-	isRunning = !glfwWindowShouldClose(_window);
+	_isRunning = !glfwWindowShouldClose(_window);
 }
 
 unsigned int Display::getWidth(){
@@ -64,4 +64,9 @@ unsigned int Display::getWidth(){
 
 unsigned int Display::getHeight(){
 	return _height;
+}
+
+void window_size_callback(GLFWwindow* window, int width, int height) {
+	Display::setRect(width, height);
+	Camera::getMainCamera()->updateAspect();
 }

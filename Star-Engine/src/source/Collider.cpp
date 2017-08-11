@@ -1,10 +1,10 @@
 #include "../header/Collider.h"
-#include "../header/Core.h"
+#include "../header/Physics.h"
 
 Collider::Collider() {
-	Core::getInstance()->physics.addToPhysicsList(this);
+	Physics::addToPhysicsList(this);
 }
 
 void Collider::destroy(){
-	Core::getInstance()->physics.removeFromPhysicsList(this);
+	Physics::removeFromPhysicsList(this);
 }

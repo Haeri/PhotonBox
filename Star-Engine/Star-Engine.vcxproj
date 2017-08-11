@@ -37,7 +37,6 @@
     <ClInclude Include="src\header\MeshRenderer.h" />
     <ClInclude Include="src\header\ObjectRenderer.h" />
     <ClInclude Include="src\header\OBJLoader.h" />
-    <ClInclude Include="src\header\obj_loader.h" />
     <ClInclude Include="src\header\Physics.h" />
     <ClInclude Include="src\header\PointLight.h" />
     <ClInclude Include="src\header\PostProcessing.h" />
@@ -62,6 +61,7 @@
     <ClCompile Include="src\source\Display.cpp" />
     <ClCompile Include="src\source\GameObject.cpp" />
     <ClCompile Include="src\source\glad.c" />
+    <ClCompile Include="src\source\LightEmitter.cpp" />
     <ClCompile Include="src\source\Lighting.cpp" />
     <ClCompile Include="src\source\Logic.cpp" />
     <ClCompile Include="src\source\Main.cpp" />

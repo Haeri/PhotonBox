@@ -9,13 +9,8 @@ public:
 	Vector3f color;
 	float intensity;
 
-	LightEmitter() {
-		//Core::getInstance()->lighting.addLight(this);
-	}
-
-	LightEmitter(Vector3f color, float intensity) : color(color), intensity(intensity) {
-		//Core::getInstance()->lighting.addLight(this);
-	}
+	LightEmitter();
+	LightEmitter(Vector3f, float);
 };
 
-#endif /* defined(LIGHT_EMITTER_H) */
+#endif // LIGHT_EMITTER_H
