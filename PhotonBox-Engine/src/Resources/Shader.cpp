@@ -2,8 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-
-Shader::Shader(const std::string& fileName) {
+void Shader::init(const std::string& fileName) {
 	std::cout << "Creating shader " << fileName << std::endl;
 	_program = glCreateProgram();
 	_shaders[0] = createShader(readShader(fileName + ".vs"), GL_VERTEX_SHADER);
@@ -18,19 +17,11 @@ Shader::Shader(const std::string& fileName) {
 	glValidateProgram(_program);
 	checkShaderError(_program, GL_VALIDATE_STATUS, true, "ERROR: Shader Program invalid!");
 
-	positionAttrib = glGetAttribLocation(_program, "position");
-	normalAttrib = glGetAttribLocation(_program, "normal");
-	colorAttrib = glGetAttribLocation(_program, "color");
-	uvAttrib = glGetAttribLocation(_program, "uv");
-
+	addAttributes();
 	addUniforms();
 }
 
-void Shader::addUniforms() {
-	addUniform("transform");
-}
-
-Shader::~Shader() {
+void Shader::destroy() {
 	glDetachShader(_program, _shaders[0]);
 	glDetachShader(_program, _shaders[1]);
 	glDeleteProgram(_program);
@@ -42,6 +33,10 @@ void Shader::bind() {
 
 void Shader::update(Matrix4f& mat) {
 	glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(mat(0, 0)));
+}
+
+void Shader::addAttribut(std::string attribute) {
+	attributes[attribute] = glGetAttribLocation(_program, attribute.c_str());
 }
 
 void Shader::addUniform(std::string uniform) {

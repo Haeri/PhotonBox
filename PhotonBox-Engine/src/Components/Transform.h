@@ -17,6 +17,7 @@ public:
 	Matrix4f getRotationMatrix();
 	Vector3f getRotation();
 	Vector3f getPosition();
+	Vector3f getPositionWorld();
 	Vector3f getScale();
 
 	Matrix4f getTransformationMatrix();

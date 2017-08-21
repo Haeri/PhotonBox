@@ -23,51 +23,81 @@ void MeshRenderer::init()
 
 	if (Renderer::renderMode == Renderer::RenderMode::CUSTOM) {
 		// vertex positions
-		if (_material->shader->positionAttrib != -1) {
-			glEnableVertexAttribArray(_material->shader->positionAttrib);
-			glVertexAttribPointer(_material->shader->positionAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		if (_material->shader->attributes["position"] != -1) {
+			glEnableVertexAttribArray(_material->shader->attributes["position"]);
+			glVertexAttribPointer(_material->shader->attributes["position"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 		}
 
 		// vertex normals
-		if (_material->shader->normalAttrib != -1) {
-			glEnableVertexAttribArray(_material->shader->normalAttrib);
-			glVertexAttribPointer(_material->shader->normalAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+		if (_material->shader->attributes["normal"] != -1) {
+			glEnableVertexAttribArray(_material->shader->attributes["normal"]);
+			glVertexAttribPointer(_material->shader->attributes["normal"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 		}
 
 		// vertex colors
-		if (_material->shader->colorAttrib != -1) {
-			glEnableVertexAttribArray(_material->shader->colorAttrib);
-			glVertexAttribPointer(_material->shader->colorAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+		if (_material->shader->attributes["color"] != -1) {
+			glEnableVertexAttribArray(_material->shader->attributes["color"]);
+			glVertexAttribPointer(_material->shader->attributes["color"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 		}
 
 		// vertex texture coords
-		if (_material->shader->uvAttrib != -1) {
-			glEnableVertexAttribArray(_material->shader->uvAttrib);
-			glVertexAttribPointer(_material->shader->uvAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+		if (_material->shader->attributes["uv"] != -1) {
+			glEnableVertexAttribArray(_material->shader->attributes["uv"]);
+			glVertexAttribPointer(_material->shader->attributes["uv"], 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 		}
 	}else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
 		// vertex positions
-		if (_material->forwardShader->positionAttrib != -1) {
-			glEnableVertexAttribArray(_material->forwardShader->positionAttrib);
-			glVertexAttribPointer(_material->forwardShader->positionAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		if (_material->forwardShader->ambientShader->attributes["position"] != -1) {
+			glEnableVertexAttribArray(_material->forwardShader->ambientShader->attributes["position"]);
+			glVertexAttribPointer(_material->forwardShader->ambientShader->attributes["position"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 		}
 
 		// vertex normals
-		if (_material->forwardShader->normalAttrib != -1) {
-			glEnableVertexAttribArray(_material->forwardShader->normalAttrib);
-			glVertexAttribPointer(_material->forwardShader->normalAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+		if (_material->forwardShader->ambientShader->attributes["normal"] != -1) {
+			glEnableVertexAttribArray(_material->forwardShader->ambientShader->attributes["normal"]);
+			glVertexAttribPointer(_material->forwardShader->ambientShader->attributes["normal"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 		}
 
 		// vertex colors
-		if (_material->forwardShader->colorAttrib != -1) {
-			glEnableVertexAttribArray(_material->forwardShader->colorAttrib);
-			glVertexAttribPointer(_material->forwardShader->colorAttrib, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+		if (_material->forwardShader->ambientShader->attributes["color"] != -1) {
+			glEnableVertexAttribArray(_material->forwardShader->ambientShader->attributes["color"]);
+			glVertexAttribPointer(_material->forwardShader->ambientShader->attributes["color"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 		}
 
 		// vertex texture coords
-		if (_material->forwardShader->uvAttrib != -1) {
-			glEnableVertexAttribArray(_material->forwardShader->uvAttrib);
-			glVertexAttribPointer(_material->forwardShader->uvAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+		if (_material->forwardShader->ambientShader->attributes["uv"] != -1) {
+			glEnableVertexAttribArray(_material->forwardShader->ambientShader->attributes["uv"]);
+			glVertexAttribPointer(_material->forwardShader->ambientShader->attributes["uv"], 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+		}
+
+
+
+
+
+
+
+		// vertex positions
+		if (_material->forwardShader->pointLightShader->attributes["position"] != -1) {
+			glEnableVertexAttribArray(_material->forwardShader->pointLightShader->attributes["position"]);
+			glVertexAttribPointer(_material->forwardShader->pointLightShader->attributes["position"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		}
+
+		// vertex normals
+		if (_material->forwardShader->pointLightShader->attributes["normal"] != -1) {
+			glEnableVertexAttribArray(_material->forwardShader->pointLightShader->attributes["normal"]);
+			glVertexAttribPointer(_material->forwardShader->pointLightShader->attributes["normal"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+		}
+
+		// vertex colors
+		if (_material->forwardShader->pointLightShader->attributes["color"] != -1) {
+			glEnableVertexAttribArray(_material->forwardShader->pointLightShader->attributes["color"]);
+			glVertexAttribPointer(_material->forwardShader->pointLightShader->attributes["color"], 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+		}
+
+		// vertex texture coords
+		if (_material->forwardShader->pointLightShader->attributes["uv"] != -1) {
+			glEnableVertexAttribArray(_material->forwardShader->pointLightShader->attributes["uv"]);
+			glVertexAttribPointer(_material->forwardShader->pointLightShader->attributes["uv"], 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 		}
 	}
 
@@ -96,14 +126,15 @@ void MeshRenderer::render()
 		glBindVertexArray(0);
 	}
 	else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
-		//glEnable(GL_BLEND); 
-		//glBlendFunc(GL_ONE, GL_ONE);
+	
+		
 		glBindVertexArray(_vao);
 
 
 		if (_material->texture != nullptr)
 			_material->texture->bind();
 
+		
 
 		// AMBIENT
 		//LightEmitter* ambient = Lighting::getLights<LightEmitter>()[0];
@@ -113,9 +144,17 @@ void MeshRenderer::render()
 		_material->forwardShader->ambientShader->update(mvp);
 
 		glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
+		
 
 
-		/*
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_EQUAL);
+
+		
+		
 		// POINTLIGHTS
 		std::vector<PointLight*> pointLights = Lighting::getLights<PointLight>();
 		for(size_t i = 0; i < pointLights.size(); ++i){
@@ -126,10 +165,14 @@ void MeshRenderer::render()
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		}
 
-		*/
+		
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
+		glDisable(GL_BLEND);
+
 
 		glBindVertexArray(0);
-		//glDisable(GL_BLEND);
+	
 	}
 }
 

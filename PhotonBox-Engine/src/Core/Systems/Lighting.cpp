@@ -1,6 +1,6 @@
 #include "Lighting.h"
 
-std::map<std::type_index, std::vector<LightEmitter*>> Lighting::_lights;
+std::map<std::type_index, std::vector<PointLight*>> Lighting::_lights;
 
 /*
 void Lighting::addLight(LightEmitter* light)
@@ -15,10 +15,10 @@ void Lighting::addLight(LightEmitter* light)
 }
 */
 
-void Lighting::removeLight(LightEmitter* light)
+/*void Lighting::removeLight(LightEmitter* light)
 {
 	// TODO: Make this happen
-	/*
+	
 	_lights.erase(_lights.find(light));
 
 
@@ -32,5 +32,6 @@ void Lighting::removeLight(LightEmitter* light)
 			break;
 		}
 	}
-	*/
+
 }
+*/

@@ -31,10 +31,6 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 
 	glfwSetWindowSizeCallback(_window, window_size_callback);
-
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
 }
 
 void Display::destroy() {

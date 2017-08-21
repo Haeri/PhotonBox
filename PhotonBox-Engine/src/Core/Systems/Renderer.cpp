@@ -17,6 +17,12 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *objectRenderer) {
 }
 
 void Renderer::init(RenderMode mode) {
+
+	
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	
 	renderMode = mode;
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		(*it)->init();
@@ -26,10 +32,14 @@ void Renderer::init(RenderMode mode) {
 void Renderer::render() {
 	Display::clearDisplay(0.1, 0.1, 0.1, 1);
 
+
+
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		if ((*it)->getEnable())
 			(*it)->render();
 	}
+
+
 	
 	Display::swapBuffer();
 }

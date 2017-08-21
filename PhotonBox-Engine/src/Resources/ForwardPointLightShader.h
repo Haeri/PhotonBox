@@ -4,23 +4,37 @@
 #include "Shader.h"
 #include "../Components/PointLight.h"
 #include "../Components/Transform.h"
+#include "../Components/Camera.h"
 
 class ForwardPointLightShader : public Shader{
 public:
-	ForwardPointLightShader(const std::string& fileName) : Shader(fileName) {}
+	ForwardPointLightShader(const std::string& fileName) { init(fileName); }
 
 	void update(Matrix4f& matrix, PointLight& pointLight) {
 		glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(matrix(0, 0)));
-		glUniform3fv(uniforms["lightPosition"], 1, &(pointLight.transform->getPosition().x()));
-		glUniform1f(uniforms["lightIntensity"], pointLight.intensity);
-		glUniform4fv(uniforms["lightColor"], 1, &(pointLight.color.x()));
+		glUniform3fv(uniforms["light.position"], 1, &(pointLight.transform->getPositionWorld().x()));
+		glUniform3fv(uniforms["light.color"], 1, &(pointLight.color.x()));
+		glUniform1f(uniforms["light.constant"], pointLight.constant);
+		glUniform1f(uniforms["light.linear"], pointLight.linear);
+		glUniform1f(uniforms["light.quadratic"], pointLight.quadratic);
+		glUniform3fv(uniforms["viewPos"], 1, &(Camera::getMainCamera()->transform->getPositionWorld().x()));
 	}
 
 	void addUniforms() {
 		addUniform("transform");
-		addUniform("lightPosition");
-		addUniform("lightIntensity");
-		addUniform("lightColor");
+		addUniform("light.position");
+		addUniform("light.color");
+		addUniform("light.constant");
+		addUniform("light.linear");
+		addUniform("light.quadratic");
+		addUniform("viewPos");
+	}
+
+	void addAttributes() override {
+		addAttribut("position");
+		addAttribut("normal");
+		addAttribut("color");
+		addAttribut("uv");
 	}
 };
 

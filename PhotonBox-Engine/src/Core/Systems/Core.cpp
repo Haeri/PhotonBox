@@ -33,7 +33,7 @@ void Core::init()
 
 	// Initializing Subsystems
 	logic->start();
-	renderer->init(Renderer::RenderMode::CUSTOM);
+	renderer->init(Renderer::RenderMode::FORWARD);
 	postPocessing->init();	
 }
 

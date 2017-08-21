@@ -39,6 +39,12 @@ Vector3f Transform::getPosition(){
 	return _position;
 }
 
+Vector3f Transform::getPositionWorld()
+{
+	Matrix4f temp = getTransformationMatrix();
+	return Vector3f(temp(0,3), temp(1, 3), temp(2, 3));
+}
+
 Vector3f Transform::getScale(){
 	return _scale;
 }

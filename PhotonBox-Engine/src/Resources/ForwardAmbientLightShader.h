@@ -6,10 +6,10 @@
 
 class ForwardAmbientLightShader : public Shader {
 public:
-	ForwardAmbientLightShader(const std::string& fileName) : Shader(fileName) {}
+	ForwardAmbientLightShader(const std::string& fileName) { init(fileName); }
 
 	void update(Matrix4f& matrix) override{
-		Vector3f color(1, 0, 0);
+		Vector3f color(0.2f, 0.2f, 0.2f);
 		glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(matrix(0, 0)));
 		glUniform1f(uniforms["lightIntensity"], 1);
 		glUniform4fv(uniforms["lightColor"], 1, &(color.x()));
@@ -22,6 +22,13 @@ public:
 		glUniform4fv(uniforms["lightColor"], 1, &(lightEmitter.color.x()));
 	}
 	*/
+
+	void addAttributes() override {
+		addAttribut("position");
+		addAttribut("normal");
+		addAttribut("color");
+		addAttribut("uv");
+	}
 
 	void addUniforms() override{
 		addUniform("transform");
