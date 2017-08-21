@@ -1,6 +1,8 @@
 #ifndef TEST_SCENE_H
 #define TEST_SCENE_H
 
+class BasicShader;
+
 #include "Resources/Scene.h"
 #include "Components/MeshRenderer.h"
 #include "Components/Camera.h"
@@ -10,11 +12,11 @@
 
 class TestScene : public Scene {
 public:
-	Shader *shader;
+	BasicShader* basicShader;
 	ForwardShader* forwardShader;
-	Mesh *mesh, *mesh2;
+	Mesh *mesh, *mesh2, *plane, *sphere;
 	Material *material, *material2;
-	Texture* tex;
+	Texture* tex, *tex2;
 
 	void Load() override;
 

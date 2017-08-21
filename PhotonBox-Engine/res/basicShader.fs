@@ -16,6 +16,7 @@ varying vec2 texCoordVarying;
 varying vec3 normalVarying;
 
 void main(){
+/*
 	gl_FragColor = 
 	texture2D(diffuse, texCoordVarying)
 	* ambient
@@ -25,4 +26,6 @@ void main(){
 	+
 	texture2D(diffuse, texCoordVarying)
 	* (intensity2 * lightColor2 * clamp(dot(-lightDir2, normalVarying), 0, 1));
+*/
+	gl_FragColor = normalize(vec4(normalVarying, 1));
 }

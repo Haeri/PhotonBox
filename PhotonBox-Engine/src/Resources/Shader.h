@@ -8,16 +8,18 @@
 
 class Shader {
 public:
-	GLint positionAttrib, normalAttrib, colorAttrib, uvAttrib;
 	std::map<std::string, GLint> uniforms;
+	std::map<std::string, GLint> attributes;
 
-	Shader() {}
-	Shader(const std::string& fileName);
-	~Shader();
-
-	virtual void addUniforms();
+	void init(const std::string& fileName);
 	void bind();
+	void destroy();
+
+	virtual void addUniforms() = 0;
+	virtual void addAttributes() = 0;
 	virtual void update(Matrix4f& matrix);
+
+	void addAttribut(std::string attribute);
 	void addUniform(std::string uniform);
 
 private:

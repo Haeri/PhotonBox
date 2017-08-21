@@ -139,6 +139,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Math\Vector2f.cpp" />
     <ClCompile Include="src\Math\Vector3f.cpp" />
+    <ClCompile Include="src\PrinterScript.cpp" />
     <ClCompile Include="src\Resources\Matrix4f.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />
     <ClCompile Include="src\Resources\Scene.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="src\Components\MeshRenderer.h" />
     <ClInclude Include="src\Components\ObjectRenderer.h" />
     <ClInclude Include="src\Components\PointLight.h" />
+    <ClInclude Include="src\Components\PointRenderer.h" />
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Core\Component.h" />
     <ClInclude Include="src\Core\Display.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="src\Math\Matrix4f.h" />
     <ClInclude Include="src\Math\Vector2f.h" />
     <ClInclude Include="src\Math\Vector3f.h" />
+    <ClInclude Include="src\Resources\BasicShader.h" />
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
     <ClInclude Include="src\Resources\ForwardShader.h" />

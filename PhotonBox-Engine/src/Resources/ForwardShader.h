@@ -1,12 +1,10 @@
 #ifndef FORWARD_SHADER_H
 #define FORWARD_SHADER_H
 
-#include "Shader.h"
-
 #include "ForwardAmbientLightShader.h"
 #include "ForwardPointLightShader.h"
 
-class ForwardShader: public Shader {
+class ForwardShader {
 public:
 	ForwardAmbientLightShader* ambientShader;
 	ForwardPointLightShader* pointLightShader;

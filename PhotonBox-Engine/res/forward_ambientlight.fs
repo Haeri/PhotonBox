@@ -9,9 +9,5 @@ varying vec2 texCoordVarying;
 varying vec3 normalVarying;
 
 void main(){
-	vec4 totalColor = texture2D(diffuse, texCoordVarying);
-	totalColor += lightIntensity * lightColor;
-
-	gl_FragColor = totalColor;
-	gl_FragColor = vec4(1, 0, 0, 1);
+	gl_FragColor = vec4(lightIntensity * lightColor.xyz, 1) * texture2D(diffuse, texCoordVarying);
 }

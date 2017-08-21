@@ -111,6 +111,9 @@
     <ClCompile Include="src\Core\Systems\SceneManager.cpp">
       <Filter>src\Core\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="src\PrinterScript.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TestScene.h">
@@ -211,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="src\Core\Systems\SceneManager.h">
       <Filter>src\Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\BasicShader.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\PointRenderer.h">
+      <Filter>src\Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
