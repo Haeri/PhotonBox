@@ -114,6 +114,9 @@
     <ClCompile Include="src\PrinterScript.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Math\Vector4f.cpp">
+      <Filter>src\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TestScene.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="src\Components\PointRenderer.h">
       <Filter>src\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math\Vector4f.h">
+      <Filter>src\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -42,7 +42,7 @@ public:
 	}
 
 	Matrix4f getViewProjection() {
-		return _projection * Matrix4f::lookAt(transform->getPosition(), transform->up(), transform->forward());
+		return _projection * Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
 	}
 
 	void setMain() {

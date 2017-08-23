@@ -2,6 +2,7 @@
 #define MATRIX4F_H
 
 #include "Vector3f.h"
+#include "Vector4f.h"
 
 class Matrix4f {
 public:
@@ -29,6 +30,20 @@ public:
 					ret.set(i, j, ret.at(i, j) + other.at(k, j) * at(i, k));
 			}
 		}
+		return ret;
+	}
+
+	inline Vector4f operator*(const Vector4f& other) const {
+		Vector4f ret = Vector4f::ZERO;
+
+		for (unsigned int i = 0; i < 4; i++)
+		{
+			ret.x() += other.getX() * at(i, 0);
+			ret.y() += other.getY() * at(i, 1);
+			ret.z() += other.getZ() * at(i, 2);
+			ret.w() += other.getW() * at(i, 3);
+		}
+
 		return ret;
 	}
 

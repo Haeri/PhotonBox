@@ -139,6 +139,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Math\Vector2f.cpp" />
     <ClCompile Include="src\Math\Vector3f.cpp" />
+    <ClCompile Include="src\Math\Vector4f.cpp" />
     <ClCompile Include="src\PrinterScript.cpp" />
     <ClCompile Include="src\Resources\Matrix4f.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="src\Math\Matrix4f.h" />
     <ClInclude Include="src\Math\Vector2f.h" />
     <ClInclude Include="src\Math\Vector3f.h" />
+    <ClInclude Include="src\Math\Vector4f.h" />
     <ClInclude Include="src\Resources\BasicShader.h" />
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />

@@ -28,7 +28,7 @@ void TestScene::Load() {
 
 	//mesh = new Mesh(vertices, indices);
 	mesh = OBJLoader::loadObj("./res/trooper.obj");
-	plane = OBJLoader::loadObj("./res/plane.obj");
+	plane = OBJLoader::loadObj("./res/plane2.obj");
 	sphere = OBJLoader::loadObj("./res/sphere.obj");
 	basicShader = new BasicShader("./res/basicShader");
 	forwardShader = new ForwardShader("./res/forward_ambientlight", 
@@ -50,8 +50,10 @@ void TestScene::Load() {
 
 	GameObject* cam = instanciate("Camera");
 	cam->addComponent<Camera>();
-	cam->getComponent<Transform>()->setPosition(Vector3f(0, 0, -30 ));
-	//cam->getComponent<Transform>()->setParent(rig);
+	cam->getComponent<Transform>()->setPosition(Vector3f(0, 0, -10));
+	//cam->getComponent<Transform>()->setRotation(Vector3f(3.1415/2.0f, 0, 0));
+	cam->getComponent<Transform>()->setParent(rig);
+	cam->addComponent<TransformerScript>();
 	cam->addComponent<PrinterScript>();
 
 
@@ -76,7 +78,7 @@ void TestScene::Load() {
 	GameObject* pointLight = instanciate("Pointlight");
 	pointLight->addComponent<MeshRenderer>()->setMesh(sphere);
 	pointLight->getComponent<MeshRenderer>()->setMaterial(material2);
-	//pointLight->addComponent<PointRenderer>();
+	pointLight->addComponent<PointRenderer>();
 	pointLight->getComponent<Transform>()->setPosition(Vector3f(-2, -1, 3));
 	pointLight->getComponent<Transform>()->setScale(Vector3f(0.1, 0.1, 0.1));
 	pointLight->getComponent<Transform>()->setParent(rig);
@@ -91,7 +93,7 @@ void TestScene::Load() {
 	GameObject* pointLight2 = instanciate("Pointlight");
 	pointLight2->addComponent<MeshRenderer>()->setMesh(sphere);
 	pointLight2->getComponent<MeshRenderer>()->setMaterial(material2);
-	//pointLight2->addComponent<PointRenderer>();
+	pointLight2->addComponent<PointRenderer>();
 	pointLight2->getComponent<Transform>()->setPosition(Vector3f(2, 0, -4));
 	pointLight2->getComponent<Transform>()->setScale(Vector3f(0.1, 0.1, 0.1));
 	pointLight2->getComponent<Transform>()->setParent(rig);
