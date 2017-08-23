@@ -39,7 +39,6 @@ void Renderer::render() {
 			(*it)->render();
 	}
 
-
 	
 	Display::swapBuffer();
 }
