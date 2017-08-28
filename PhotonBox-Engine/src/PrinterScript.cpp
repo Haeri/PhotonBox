@@ -8,7 +8,8 @@
 class PrinterScript : public Behaviour {
 public:
 	void Update() {
-		std::cout << transform->getPositionWorld() << std::endl;
+		transform->print();
+		//std::cout << transform->getPositionWorld() << std::endl;
 	}
 };
 

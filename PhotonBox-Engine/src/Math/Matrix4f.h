@@ -18,6 +18,7 @@ public:
 	
 	float at(unsigned int  x, unsigned int  y) const;
 	void set(unsigned int x, unsigned int  y, float val);
+	Matrix4f transpose();
 
 	inline Matrix4f operator* (const Matrix4f& other) const {
 		Matrix4f ret;
@@ -38,12 +39,11 @@ public:
 
 		for (unsigned int i = 0; i < 4; i++)
 		{
-			ret.x() += other.getX() * at(i, 0);
-			ret.y() += other.getY() * at(i, 1);
-			ret.z() += other.getZ() * at(i, 2);
-			ret.w() += other.getW() * at(i, 3);
+			for (unsigned int j = 0; j < 4; j++)
+			{
+				ret[i] += at(j, i) * (other[j]);
+			}
 		}
-
 		return ret;
 	}
 
@@ -59,7 +59,7 @@ public:
 				int f = m.at(j, i);
 				os << m.at(j, i);
 				if (j < 3)
-					os << ", ";
+					os << ",\t";
 			}
 			os << "]";
 			if(i < 3)

@@ -20,6 +20,7 @@ void Transform::print()
 {
 	std::cout << gameObject->name << std::endl;
 	std::cout << "Position: " << getPosition() << std::endl;
+	std::cout << "World Position: " << getPositionWorld() << std::endl;
 	std::cout << "Rotation: " << getRotation() << std::endl;
 	std::cout << "Scale: " << getScale() << std::endl;
 	std::cout << "Transform: " << std::endl << getTransformationMatrix() << std::endl << std::endl;
@@ -29,8 +30,7 @@ Matrix4f Transform::getRotationMatrix(){
 	return Matrix4f::createRotation(_rotation.z(), Vector3f::UNIT_Z) *  Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y) * Matrix4f::createRotation(_rotation.x(), Vector3f::UNIT_X);
 }
 
-Vector3f Transform::getRotation()
-{
+Vector3f Transform::getRotation(){
 	return _rotation;
 }
 
@@ -39,8 +39,7 @@ Vector3f Transform::getPosition(){
 	return _position;
 }
 
-Vector3f Transform::getPositionWorld()
-{
+Vector3f Transform::getPositionWorld(){
 	Matrix4f temp = getTransformationMatrix();
 	return Vector3f(temp(0,3), temp(1, 3), temp(2, 3));
 }
@@ -99,7 +98,8 @@ Matrix4f Transform::getTransformationMatrix(){
 
 Matrix4f Transform::getLocalTransformationMatrix(){
 	if (_hasChanged) {
-		_cache = (getRotationMatrix() * Matrix4f::createScaling(_scale));
+		_cache = Matrix4f::IDENTITY;
+		_cache = getRotationMatrix() *  Matrix4f::createScaling(_scale);
 		
 		_cache(0,3) = _position.x();
 		_cache(1,3) = _position.y();

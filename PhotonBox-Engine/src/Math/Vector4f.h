@@ -61,6 +61,10 @@ public:
 		return _x * other._z + _y * other._y + _z * other._z + _w * other._w;
 	}
 
+	inline Vector3f xyz() const {
+		return Vector3f(_x, _y, _z);
+	}
+
 	inline Vector4f normalize() const {
 		Vector4f ret = *this;
 		return ret / ret.length();
@@ -86,15 +90,18 @@ public:
 		return Vector4f(_x + other._x, _y + other._y, _z + other._z, _w + other._w);
 	}
 
+	float& operator [](int index) {
+		if (index == 0) return _x;
+		else if (index == 1) return _y;
+		else if (index == 2) return _z;
+		else if (index == 3) return _w;
+	}
+
 	float operator [](int index) const {
 		if (index == 0) return _x;
 		else if (index == 1) return _y;
 		else if (index == 2) return _z;
 		else if (index == 3) return _w;
-		else {
-			std::cerr << "Error: Index " << index << " out of range!" << std::endl;
-			return -1;
-		}
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, Vector4f m) {

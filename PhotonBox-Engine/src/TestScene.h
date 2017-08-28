@@ -2,6 +2,7 @@
 #define TEST_SCENE_H
 
 class BasicShader;
+class LitShader;
 
 #include "Resources/Scene.h"
 #include "Components/MeshRenderer.h"
@@ -13,6 +14,7 @@ class BasicShader;
 class TestScene : public Scene {
 public:
 	BasicShader* basicShader;
+	LitShader* litShader;
 	ForwardShader* forwardShader;
 	Mesh *mesh, *mesh2, *plane, *sphere;
 	Material *material, *material2;

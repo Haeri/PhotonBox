@@ -11,13 +11,15 @@ public:
 	ForwardPointLightShader(const std::string& fileName) { init(fileName); }
 
 	void update(Matrix4f& matrix, PointLight& pointLight) {
+		Vector3f light = pointLight.transform->getPositionWorld();
+		Vector3f eye = Camera::getMainCamera()->transform->getPositionWorld();
 		glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(matrix(0, 0)));
-		glUniform3fv(uniforms["light.position"], 1, &(pointLight.transform->getPositionWorld().x()));
+		glUniform3fv(uniforms["light.position"], 1, &(light.x()));
 		glUniform3fv(uniforms["light.color"], 1, &(pointLight.color.x()));
 		glUniform1f(uniforms["light.constant"], pointLight.constant);
 		glUniform1f(uniforms["light.linear"], pointLight.linear);
 		glUniform1f(uniforms["light.quadratic"], pointLight.quadratic);
-		glUniform3fv(uniforms["viewPos"], 1, &(Camera::getMainCamera()->transform->getPositionWorld().x()));
+		glUniform3fv(uniforms["viewPos"], 1, &(eye.x()));
 	}
 
 	void addUniforms() {

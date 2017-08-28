@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "../Math/Matrix4f.h"
 #include "../Core/Display.h"
+#include "../Math/Vector2f.h"
 
 class Camera: public Behaviour{
 public:
@@ -43,6 +44,14 @@ public:
 
 	Matrix4f getViewProjection() {
 		return _projection * Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
+	}
+
+	static Vector2f worldToScreen(Vector3f point) {
+		Vector4f clipSpacePos = Camera::getMainCamera()->getViewProjection() * Vector4f(point, 1.0);
+		if (clipSpacePos.w() == 0) {
+			clipSpacePos.w() = 0.0001;
+		}
+		return Vector2f(clipSpacePos.x() / clipSpacePos.w(), clipSpacePos.y() / clipSpacePos.w());
 	}
 
 	void setMain() {

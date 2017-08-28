@@ -16,7 +16,9 @@ public:
 	void Update() {
 		//transform->setPosition(Vector3f(transform->getPosition().x() + 0.01f, 0, 0));
 		transform->setRotation(Vector3f(0, transform->getRotation().y() + Time::deltaTime * speed, 0));
+		//transform->setPosition(Vector3f(0,0, transform->getPosition().z() + Time::deltaTime * speed));
 	}
 };
 
 #endif /* defined(TRANSFORMER_SCRIPT_CPP) */
+

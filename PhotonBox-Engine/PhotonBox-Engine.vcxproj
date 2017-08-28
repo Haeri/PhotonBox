@@ -178,6 +178,7 @@
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
     <ClInclude Include="src\Resources\ForwardShader.h" />
+    <ClInclude Include="src\Resources\LitShader.h" />
     <ClInclude Include="src\Resources\Material.h" />
     <ClInclude Include="src\Resources\Mesh.h" />
     <ClInclude Include="src\Resources\OBJLoader.h" />

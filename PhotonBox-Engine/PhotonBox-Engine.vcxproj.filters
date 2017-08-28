@@ -78,9 +78,6 @@
     <ClCompile Include="src\Math\Vector3f.cpp">
       <Filter>src\Math</Filter>
     </ClCompile>
-    <ClCompile Include="src\Resources\Matrix4f.cpp">
-      <Filter>src\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="src\Resources\OBJLoader.cpp">
       <Filter>src\Resources</Filter>
     </ClCompile>
@@ -115,6 +112,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Math\Vector4f.cpp">
+      <Filter>src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\Matrix4f.cpp">
       <Filter>src\Math</Filter>
     </ClCompile>
   </ItemGroup>
@@ -226,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="src\Math\Vector4f.h">
       <Filter>src\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\LitShader.h">
+      <Filter>src\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
