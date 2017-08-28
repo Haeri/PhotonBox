@@ -85,16 +85,16 @@ Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float 
 	// check for bad parameters to avoid divide by zero:
 	// if found, assert and return an identity matrix.
 
+	float f = 1.0f / tan(fov * (M_PI / 360.0));
+
 	Matrix4f ret;
+	ret(0, 0) = f / aspect;		ret(1, 0) = 0;	ret(2, 0) = 0;									ret(3, 0) = 0;
+	ret(0, 1) = 0;				ret(1, 1) = f;	ret(2, 1) = 0;									ret(3, 1) = 0;
+	ret(0, 2) = 0;				ret(1, 2) = 0;	ret(2, 2) = (far + near) / (near - far);		ret(3, 2) = -1.0f;
+	ret(0, 3) = 0;				ret(1, 3) = 0;	ret(2, 3) = (2.0f * far * near) / (near - far); ret(3, 3) = 0;
+
 
 	/*
-	if (fov <= 0 || aspect == 0)
-	{
-		Assert(fov > 0 && aspect != 0);
-		return;
-	}
-	*/
-
 	float frustumDepth = far - near;
 	float oneOverDepth = 1.0f / frustumDepth;
 	float uh = 1.0f / tan(0.5f * fov);
@@ -107,8 +107,8 @@ Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float 
 	ret(2, 3) = -((2.0f * far * near) / (far - near));
 	ret(3, 2) = - 1.0f;
 	ret(3, 3) = 0;
-
-
+	*/
+ 
 	/*
 	float tanHalfFOV = (float)Math.tan(fov / 2);
 	float zRange = zNear - zFar;
@@ -161,4 +161,18 @@ float Matrix4f::at(unsigned int  x, unsigned int  y)const {
 
 void Matrix4f::set(unsigned int x, unsigned int  y, float val) {
 	_matrix[x + 4 * y] = val;
+}
+
+Matrix4f Matrix4f::transpose() {
+	Matrix4f temp;
+
+	for (size_t i = 0; i < 4; ++i) {
+		for (size_t j = 0; j < 4; ++j) {
+			temp(j, i) = this->at(i, j);
+		}
+	}
+	for (size_t i = 0; i < 16; ++i) {
+		this->_matrix[i] = temp._matrix[i];
+	}
+	return *this;
 }

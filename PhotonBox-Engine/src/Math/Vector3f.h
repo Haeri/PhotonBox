@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <math.h>
+#include "Vector2f.h"
 
 class Vector3f {
 public:
@@ -73,6 +74,10 @@ public:
 		return ret / ret.length();
 	}
 
+	inline Vector2f xy() const {
+		return Vector2f(_x, _y);
+	}
+
 	inline bool operator== (const Vector3f& other) const {
 		return (_x == other._x && _y == other._y && _z == other._z);
 	}
@@ -93,14 +98,16 @@ public:
 		return Vector3f(_x + other._x, _y + other._y, _z + other._z);
 	}
 
+	float& operator [](int index) {
+		if (index == 0) return _x;
+		else if (index == 1) return _y;
+		else if (index == 2) return _z;
+	}
+
 	float operator [](int index) const {
 		if (index == 0) return _x;
 		else if (index == 1) return _y;
 		else if (index == 2) return _z;
-		else {
-			std::cerr << "Error: Index " << index << " out of range!" << std::endl;
-			return -1;
-		}
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, Vector3f m) {

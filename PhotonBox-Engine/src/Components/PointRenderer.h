@@ -8,29 +8,34 @@
 
 class PointRenderer : public ObjectRenderer {
 public:
-	void init() override {}
+	Texture* texture;
+
+	void init() override {
+		texture = new Texture("./res/trooper.png");
+	}
+
+
 	void render() override{
 		glDepthFunc(GL_ALWAYS);
 		glPointSize(10.0);
 
 		glUseProgram(0);
 		glBegin(GL_POINTS);
+		texture->bind();
 		glColor4f(1, 0, 0, 1);
 
-		Vector4f vec = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix() * Vector4f(transform->getPosition(), 1);
-		Vector3f vec2 = Vector3f(vec.x(), vec.y(), vec.z()) / vec.w();
-		
-
-		float winx = ((vec2.x() + 1.0) / 2.0) * Display::getWidth();
-		float winy = ((1.0 - vec2.y()) / 2.0) *  Display::getHeight();
-
-		glVertex2f(winx, winy);
+		Vector2f pos2D = Camera::worldToScreen(transform->getPositionWorld());
+		glVertex2f(pos2D.x(), pos2D.x());
 		
 		glEnd(); 
 		glFinish();
 
 		glDepthFunc(GL_LESS);
 
+	}
+
+	void onDestroy() override {
+		delete texture;
 	}
 };
 
