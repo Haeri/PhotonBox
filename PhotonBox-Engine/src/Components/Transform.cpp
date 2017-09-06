@@ -41,7 +41,7 @@ Vector3f Transform::getPosition(){
 
 Vector3f Transform::getPositionWorld(){
 	Matrix4f temp = getTransformationMatrix();
-	return Vector3f(temp(0,3), temp(1, 3), temp(2, 3));
+	return Vector3f(temp(3,0), temp(3, 1), temp(3, 2));
 }
 
 Vector3f Transform::getScale(){
@@ -99,11 +99,11 @@ Matrix4f Transform::getTransformationMatrix(){
 Matrix4f Transform::getLocalTransformationMatrix(){
 	if (_hasChanged) {
 		_cache = Matrix4f::IDENTITY;
-		_cache = getRotationMatrix() *  Matrix4f::createScaling(_scale);
+		_cache = getRotationMatrix() * Matrix4f::createScaling(_scale);
 		
-		_cache(0,3) = _position.x();
-		_cache(1,3) = _position.y();
-		_cache(2,3) = _position.z();
+		_cache(3, 0) = _position.x();
+		_cache(3, 1) = _position.y();
+		_cache(3, 2) = _position.z();
 		_hasChanged = false;
 	}
 

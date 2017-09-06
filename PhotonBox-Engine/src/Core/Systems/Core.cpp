@@ -25,7 +25,7 @@ void Core::init()
 	testScene = new TestScene();
 
 	// Initialize OpenGL
-	display->init("Star Engine", 800, 600);
+	display->init("PhotonBox Engine", 900, 700);
 	
 	// Load Scenes
 	sceneManager->addScene("TestScene", new TestScene());

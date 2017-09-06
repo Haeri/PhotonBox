@@ -22,13 +22,13 @@ public:
 
 	inline Matrix4f operator* (const Matrix4f& other) const {
 		Matrix4f ret;
-		for (unsigned int i = 0; i < 4; i++)
-		{
-			for (unsigned int j = 0; j < 4; j++)
-			{
-				ret.set(i, j, 0);
-				for (unsigned int k = 0; k < 4; k++)
-					ret.set(i, j, ret.at(i, j) + other.at(k, j) * at(i, k));
+
+		for (unsigned int i = 0; i < 4; i++){
+			for (unsigned int j = 0; j < 4; j++){
+				ret._matrix[j * 4 + i] =	_matrix[0 * 4 + i] * other._matrix[j * 4 + 0] +
+											_matrix[1 * 4 + i] * other._matrix[j * 4 + 1] +
+											_matrix[2 * 4 + i] * other._matrix[j * 4 + 2] +
+											_matrix[3 * 4 + i] * other._matrix[j * 4 + 3];
 			}
 		}
 		return ret;
@@ -47,9 +47,15 @@ public:
 		return ret;
 	}
 
+	inline bool operator== (const Matrix4f& other) const {
+		for (unsigned int i = 0; i < 16; i++) {
+			if (_matrix[i] != other._matrix[i]) return false;
+		}
+		return true;
+	}
 
 	float &operator ()(int x, int y) {
-		return _matrix[x + 4 * y];
+		return _matrix[y + 4 * x];
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, Matrix4f m) {
@@ -73,4 +79,4 @@ private:
 
 };
 
-#endif /* defined(MATRIX4F_H) */
+#endif // MATRIX4F_H

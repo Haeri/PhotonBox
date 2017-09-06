@@ -1,8 +1,12 @@
 #include <iostream>
 #include "Core/Systems/Core.h"
+#include "Test\MathTest.h"
 
 int main(void)
 {
+
+	// Tests
+	MathTest::startTest();
 
 	// Create and initialize the RenderProject
 	Core core;

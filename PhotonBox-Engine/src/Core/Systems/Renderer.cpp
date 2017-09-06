@@ -32,13 +32,10 @@ void Renderer::init(RenderMode mode) {
 void Renderer::render() {
 	Display::clearDisplay(0.1, 0.1, 0.1, 1);
 
-
-
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		if ((*it)->getEnable())
 			(*it)->render();
 	}
-
 	
 	Display::swapBuffer();
 }

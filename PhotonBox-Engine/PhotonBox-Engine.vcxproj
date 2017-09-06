@@ -116,6 +116,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\CameraController.cpp" />
     <ClCompile Include="src\Components\Behaviour.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="src\Resources\Texture.h" />
     <ClInclude Include="src\Resources\Vertex.h" />
     <ClInclude Include="src\TestScene.h" />
+    <ClInclude Include="src\Test\MathTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
