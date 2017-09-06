@@ -13,7 +13,7 @@ public:
 		if (_main == nullptr) setMain();
 
 		float aspect = (float)Display::getWidth() / (float)Display::getHeight();
-		setProjection(45.0f, aspect, 0.1f, 50.0f);
+		setProjection(45, aspect, 0.1f, 50.0f);
 	}
 
 	void updateAspect() {
@@ -51,6 +51,7 @@ public:
 		if (clipSpacePos.w() == 0) {
 			clipSpacePos.w() = 0.0001;
 		}
+
 		return Vector2f(clipSpacePos.x() / clipSpacePos.w(), clipSpacePos.y() / clipSpacePos.w());
 	}
 
