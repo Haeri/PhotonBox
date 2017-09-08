@@ -1,7 +1,7 @@
 #include "Time.h"
 #include <chrono>
 
-double Time::deltaTime;
+double Time::deltaTime = 0.001;
 double Time::time;
 double Time::timeScale;
 

@@ -12,6 +12,7 @@ class Logic;
 class Physics;
 class PostProcessing;
 class Lighting;
+class InputManager;
 
 class Core{
 public:
@@ -29,6 +30,8 @@ private:
 	PostProcessing* postPocessing;
 	Display* display;
 	Lighting* lighting;
+	InputManager* inputManager;
+
 	TestScene* testScene;
 
 	const double FIXED_TIME_INTERVAL = 30;

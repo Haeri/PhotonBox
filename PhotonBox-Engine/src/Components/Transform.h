@@ -23,6 +23,7 @@ public:
 	Matrix4f getTransformationMatrix();
 	Vector3f forward();
 	Vector3f up();
+	Vector3f right();
 	std::vector<Transform*> children;
 	Transform* getParent() { return _parent; }
 	void removeChild(Transform* child);

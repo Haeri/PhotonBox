@@ -7,7 +7,7 @@
 #include "Physics.h"
 #include "../PostProcessing.h"
 #include "Lighting.h"
-
+#include "../InputManager.h"
 #include "../../TestScene.h"
 
 bool Core::_isRunning;
@@ -22,6 +22,7 @@ void Core::init()
 	postPocessing = new PostProcessing();
 	display = new Display();
 	lighting = new Lighting();
+	inputManager = new InputManager();
 	testScene = new TestScene();
 
 	// Initialize OpenGL
@@ -34,7 +35,8 @@ void Core::init()
 	// Initializing Subsystems
 	logic->start();
 	renderer->init(Renderer::RenderMode::FORWARD);
-	postPocessing->init();	
+	postPocessing->init();
+	inputManager->init();
 }
 
 void Core::update()
@@ -61,6 +63,9 @@ void Core::update()
 		// Update Logic
 		logic->update();
 
+		// Late update Logic
+		logic->lateUpdate();
+
 		// Update Physics
 		_accumulatedTime += Time::deltaTime;
 		if (_accumulatedTime > FIXED_TIME_INTERVAL) {
@@ -68,6 +73,9 @@ void Core::update()
 			logic->fixedUpdate();
 			_accumulatedTime = 0;
 		}
+
+		// Update input
+		inputManager->update();
 
 		PostProcessing::preProcess();
 
@@ -77,9 +85,8 @@ void Core::update()
 
 		PostProcessing::postProcess();
 
-		// Late update Logic
-		logic->lateUpdate();
-
+		inputManager->pollEvents();
+		
 		_isRunning = display->isRunning();
 	}
 }

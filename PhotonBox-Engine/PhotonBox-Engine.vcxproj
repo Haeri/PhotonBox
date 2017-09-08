@@ -116,7 +116,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\CameraController.cpp" />
+    <ClCompile Include="src\CameraController.h" />
+    <ClCompile Include="src\Components\AxisRenderer.h" />
     <ClCompile Include="src\Components\Behaviour.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="src\Core\Component.cpp" />
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
+    <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\PostProcessing.cpp" />
     <ClCompile Include="src\Core\Systems\Core.cpp" />
     <ClCompile Include="src\Core\Systems\Lighting.cpp" />
@@ -163,6 +165,7 @@
     <ClInclude Include="src\Core\Component.h" />
     <ClInclude Include="src\Core\Display.h" />
     <ClInclude Include="src\Core\GameObject.h" />
+    <ClInclude Include="src\Core\InputManager.h" />
     <ClInclude Include="src\Core\PostProcessing.h" />
     <ClInclude Include="src\Core\Systems\Core.h" />
     <ClInclude Include="src\Core\Systems\Lighting.h" />

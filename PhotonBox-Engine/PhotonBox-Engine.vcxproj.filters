@@ -117,7 +117,13 @@
     <ClCompile Include="src\Resources\Matrix4f.cpp">
       <Filter>src\Math</Filter>
     </ClCompile>
-    <ClCompile Include="src\CameraController.cpp">
+    <ClCompile Include="src\Components\AxisRenderer.h">
+      <Filter>src\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\InputManager.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraController.h">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -234,5 +240,8 @@
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\Test\MathTest.h" />
+    <ClInclude Include="src\Core\InputManager.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

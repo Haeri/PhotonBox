@@ -15,7 +15,7 @@ public:
 	}
 
 	void render() override{
-		glDepthFunc(GL_ALWAYS);
+		//glDepthFunc(GL_ALWAYS);
 		glPointSize(10.0);
 
 		glUseProgram(0);
@@ -30,7 +30,7 @@ public:
 		glEnd(); 
 		glFinish();
 
-		glDepthFunc(GL_LESS);
+		//glDepthFunc(GL_LESS);
 
 	}
 
