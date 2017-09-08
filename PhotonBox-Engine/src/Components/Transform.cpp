@@ -12,6 +12,11 @@ Vector3f Transform::up(){
 	return Vector3f(r(0, 1), r(1, 1), r(2, 1));
 }
 
+Vector3f Transform::right() {
+	Matrix4f r = getRotationMatrix();
+	return Vector3f(r(0, 0), r(1, 0), r(2, 0));
+}
+
 void Transform::removeChild(Transform * child){
 	children.erase(std::remove(children.begin(), children.end(), child), children.end());
 }
@@ -28,6 +33,7 @@ void Transform::print()
 
 Matrix4f Transform::getRotationMatrix(){
 	return Matrix4f::createRotation(_rotation.z(), Vector3f::UNIT_Z) *  Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y) * Matrix4f::createRotation(_rotation.x(), Vector3f::UNIT_X);
+	/*return Matrix4f::createRotation(_rotation.z(), Vector3f(cos(_rotation.x), sin(_rotation.y), cos(_rotation.y()))) *  Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y) * Matrix4f::createRotation(_rotation.x(), Vector3f());*/
 }
 
 Vector3f Transform::getRotation(){

@@ -5,6 +5,8 @@
 #include "PrinterScript.cpp"
 #include "Components/MeshRenderer.h"
 #include "Components/PointRenderer.h"
+#include "Components/AxisRenderer.h"
+#include "CameraController.h"
 
 void TestScene::Load() {
 
@@ -54,9 +56,12 @@ void TestScene::Load() {
 	cam->addComponent<Camera>();
 	cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -10));
 	cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
+	cam->addComponent<CameraController>();
+	//cam->getComponent<Transform>()->setParent(rig);
+	//cam->addComponent<TransformerScript>()->speed = -0.7;
 
 	GameObject* triangle = instanciate("Triangle");
-	triangle->getComponent<Transform>()->setPosition(Vector3f(0, 1, 3));
+	triangle->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
 	triangle->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
 	//triangle->getComponent<Transform>()->setScale(Vector3f(1, 1, 1));
 	//triangle->getComponent<Transform>()->setParent(rig);
@@ -71,9 +76,28 @@ void TestScene::Load() {
 	ambientLight->getComponent<LightEmitter>()->intensity = 1;
 	*/
 	
+	/*
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 4; j++) {
+			for (int k = 0; k < 5; k++) {
+				GameObject* pointLight = instanciate("Pointlight" + i);
+				pointLight->addComponent<PointRenderer>();
+				pointLight->getComponent<Transform>()->setPosition(Vector3f(i * 3 - (5/2) * 3, j * 2, k * 3 - (5 / 2) * 3));
+				pointLight->getComponent<Transform>()->setParent(rig);
+				pointLight->addComponent<PointLight>();
+				pointLight->getComponent<PointLight>()->color = Vector3f(i/10.0f, j / 10.0f, k / 10.0f);
+				pointLight->getComponent<PointLight>()->constant = 1;
+				pointLight->getComponent<PointLight>()->linear = 0.9f;
+				pointLight->getComponent<PointLight>()->quadratic = 0.8f;
+			}
+		}
+	}
+	*/
+	
+
 	GameObject* pointLight = instanciate("Pointlight");
 	pointLight->addComponent<PointRenderer>();
-	pointLight->getComponent<Transform>()->setPosition(Vector3f(4, 1, 0));
+	pointLight->getComponent<Transform>()->setPosition(Vector3f(4, 2, 0));
 	pointLight->getComponent<Transform>()->setParent(rig);
 	pointLight->addComponent<PointLight>();
 	pointLight->getComponent<PointLight>()->color = Vector3f(0.93f, 0.52f, 0.24f);
@@ -91,10 +115,10 @@ void TestScene::Load() {
 	pointLight2->getComponent<PointLight>()->constant = 1;
 	pointLight2->getComponent<PointLight>()->linear = 0.09f;
 	pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
-
+	
 	
 	GameObject* quad = instanciate("Quad");
-	quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+	quad->getComponent<Transform>()->setPosition(Vector3f(0, -0.2f, 0));
 	quad->getComponent<Transform>()->setScale(Vector3f(8, 8, 8));
 	quad->addComponent<MeshRenderer>();
 	quad->getComponent<MeshRenderer>()->setMesh(plane);

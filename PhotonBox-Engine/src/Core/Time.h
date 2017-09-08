@@ -12,4 +12,4 @@ public:
 	void setTimeScale(double timeScale);
 	static long now();
 };
-#endif /* defined(TIME_H) */
+#endif // TIME_H

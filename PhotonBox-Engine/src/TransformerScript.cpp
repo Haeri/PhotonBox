@@ -7,7 +7,7 @@
 
 class TransformerScript: public Behaviour {
 public:
-	float speed = 0.7f;
+	float speed = 0.3f;
 
 	void Start() {
 	

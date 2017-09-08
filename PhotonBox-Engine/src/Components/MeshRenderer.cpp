@@ -160,7 +160,8 @@ void MeshRenderer::render()
 		for(size_t i = 0; i < pointLights.size(); ++i){
 			_material->forwardShader->bindPointLightShader();
 			Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
-			_material->forwardShader->pointLightShader->update(mvp, *pointLights[i]);
+			Vector4f eyePos = Camera::getMainCamera()->getViewProjection() * Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
+			_material->forwardShader->pointLightShader->update(mvp, *pointLights[i], eyePos);
 
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		}
