@@ -11,13 +11,15 @@ void Shader::init(const std::string& fileName) {
 	glAttachShader(_program, _shaders[0]);
 	glAttachShader(_program, _shaders[1]);
 
+	addAttributes();
+
 	glLinkProgram(_program);
 	checkShaderError(_program, GL_LINK_STATUS, true, "ERROR: Faild linking program!");
 
 	glValidateProgram(_program);
 	checkShaderError(_program, GL_VALIDATE_STATUS, true, "ERROR: Shader Program invalid!");
 
-	addAttributes();
+	//addAttributes();
 	addUniforms();
 }
 
@@ -31,16 +33,32 @@ void Shader::bind() {
 	glUseProgram(_program);
 }
 
-void Shader::update(Matrix4f& mat) {
-	glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(mat(0, 0)));
-}
-
-void Shader::addAttribut(std::string attribute) {
-	attributes[attribute] = glGetAttribLocation(_program, attribute.c_str());
+void Shader::addAttribut(std::string attribute, GLint index) {
+	/*attributes[attribute] = glGetAttribLocation(_program, attribute.c_str());*/
+	attributes[attribute] = index;
+	glBindAttribLocation(_program, index, attribute.c_str());
 }
 
 void Shader::addUniform(std::string uniform) {
 	uniforms[uniform] = glGetUniformLocation(_program, uniform.c_str());
+}
+
+void Shader::enableAttributes() {
+	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
+	{
+		glEnableVertexAttribArray(it->second);
+	}
+}
+
+void Shader::disableAttributes() {
+	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
+	{
+		glDisableVertexAttribArray(it->second);
+	}
+}
+
+void Shader::update(Matrix4f& matrix) {
+	glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(matrix(0, 0)));
 }
 
 std::string Shader::readShader(const std::string& fileName) {
@@ -78,10 +96,10 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 
 	
 	if (checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!") == 0)
-		std::cout << (shaderType == GL_FRAGMENT_SHADER ? "Fragment" : "Vertex") << " Shader created: " << std::endl
-		<< "---------------------------------------------" << std::endl
-		<< shaderSource << std::endl
-		<< "---------------------------------------------" << std::endl << std::endl;
+		std::cout << (shaderType == GL_FRAGMENT_SHADER ? "Fragment" : "Vertex") << " Shader created: " << std::endl;
+		//<< "---------------------------------------------" << std::endl
+		//<< shaderSource << std::endl
+		//<< "---------------------------------------------" << std::endl << std::endl;
 
 
 	return shader;

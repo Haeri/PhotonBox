@@ -141,16 +141,17 @@ public:
 	void pollEvents();
 
 	static bool keyPressed(int key);
+	static bool keyDown(int key);
 	static bool keyReleased(int key);
 	static Vector2f getMouse();
 	static Vector2f getMouseDelta();
 	static void setCursorMode(CursorMode mode);
 
-	static void handlePress(int key);
-	static void handleRelease(int key);
+	static void handleKey(int key, int action);
 	static void handleMouse(double x, double y);
 private:
 	static std::vector<int> _keyPress;
+	static std::vector<int> _keyDown;
 	static std::vector<int> _keyRelease;
 	static double _xPos, _yPos, _xPosLast, _yPosLast;
 };

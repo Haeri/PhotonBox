@@ -13,7 +13,7 @@ public:
 	}
 
 	void addAttributes() override {
-		addAttribut("position");
+		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 
 	void update(Matrix4f& matrix, Vector3f color) {

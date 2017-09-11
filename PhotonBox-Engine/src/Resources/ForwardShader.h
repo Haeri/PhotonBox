@@ -3,24 +3,37 @@
 
 #include "ForwardAmbientLightShader.h"
 #include "ForwardPointLightShader.h"
+#include "ForwardDirectionalLightShader.h"
 
 class ForwardShader {
 public:
-	ForwardAmbientLightShader* ambientShader;
+	ForwardAmbientLightShader* ambientLightShader;
+	ForwardDirectionalLightShader* directionalLightShader;
 	ForwardPointLightShader* pointLightShader;
 
-	ForwardShader(const std::string& ambient, const std::string& pointLight) {
-		ambientShader = new ForwardAmbientLightShader(ambient);
+	ForwardShader() {
+		ambientLightShader = new ForwardAmbientLightShader(ambientLight);
+		directionalLightShader = new ForwardDirectionalLightShader(directionalLight);
 		pointLightShader = new ForwardPointLightShader(pointLight);
 	}
 
 	void bindAmbientShader() {
-		ambientShader->bind();
+		ambientLightShader->bind();
+	}
+
+	void bindDirectionalLightShader() {
+		directionalLightShader->bind();
 	}
 
 	void bindPointLightShader() {
 		pointLightShader->bind();
 	}
+
+private:
+	const std::string SHADER_DIR		= "./res/forward-rendering/";
+	const std::string ambientLight		= SHADER_DIR + "forward_ambientlight";
+	const std::string directionalLight	= SHADER_DIR + "forward_directionallight";
+	const std::string pointLight		= SHADER_DIR + "forward_pointlight";
 };
 
 #endif /* defined(FORWARD_SHADER_H) */

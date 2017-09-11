@@ -25,6 +25,9 @@ void Core::init()
 	inputManager = new InputManager();
 	testScene = new TestScene();
 
+	std::cout << "==================================================" << std::endl;
+	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
+
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 900, 700);
 	
@@ -37,6 +40,9 @@ void Core::init()
 	renderer->init(Renderer::RenderMode::FORWARD);
 	postPocessing->init();
 	inputManager->init();
+
+	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
+	std::cout << "==================================================" << std::endl << std::endl;
 }
 
 void Core::update()
@@ -77,15 +83,14 @@ void Core::update()
 		// Update input
 		inputManager->update();
 
-		PostProcessing::preProcess();
+		postPocessing->preProcess();
 
 		// Render Scene
 		renderer->render();
 		nbFrames++;
-
-		PostProcessing::postProcess();
-
 		inputManager->pollEvents();
+
+		postPocessing->postProcess();
 		
 		_isRunning = display->isRunning();
 	}

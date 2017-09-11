@@ -4,6 +4,7 @@
 #include "Time.h"
 
 std::vector<int> InputManager::_keyPress;
+std::vector<int> InputManager::_keyDown;
 std::vector<int> InputManager::_keyRelease;
 double InputManager::_xPos = 0;
 double InputManager::_yPos = 0;
@@ -30,6 +31,13 @@ void InputManager::init() {
 bool InputManager::keyPressed(int key) {
 	for (size_t i = 0; i < _keyPress.size(); ++i) {
 		if (_keyPress[i] == key) return true;
+	}
+	return false;
+}
+
+bool InputManager::keyDown(int key) {
+	for (size_t i = 0; i < _keyDown.size(); ++i) {
+		if (_keyDown[i] == key) return true;
 	}
 	return false;
 }
@@ -61,13 +69,14 @@ void InputManager::setCursorMode(CursorMode mode){
 	glfwSetInputMode(Display::getWindow(), GLFW_CURSOR, (int)mode);
 }
 
-void InputManager::handlePress(int key) {
-	_keyPress.push_back(key);
-}
-
-void InputManager::handleRelease(int key) {
-	_keyPress.erase(std::remove(_keyPress.begin(), _keyPress.end(), key), _keyPress.end());
-	_keyRelease.push_back(key);
+void InputManager::handleKey(int key, int action) {
+	if (action == GLFW_PRESS) {
+		_keyPress.push_back(key);
+		_keyDown.push_back(key);
+	}else if (action == GLFW_RELEASE) {
+		_keyDown.erase(std::remove(_keyDown.begin(), _keyDown.end(), key), _keyDown.end());
+		_keyRelease.push_back(key);
+	}
 }
 
 void InputManager::handleMouse(double x, double y) {
@@ -78,15 +87,12 @@ void InputManager::handleMouse(double x, double y) {
 void InputManager::update() {
 	_xPosLast = _xPos;
 	_yPosLast = _yPos;
+	_keyPress.clear();
 	_keyRelease.clear();
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (action == GLFW_PRESS){
-		InputManager::handlePress(key);
-	}else if (action == GLFW_RELEASE) {
-		InputManager::handleRelease(key);
-	}
+	InputManager::handleKey(key, action);
 }
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos){

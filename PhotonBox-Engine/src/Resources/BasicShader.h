@@ -12,14 +12,10 @@ public:
 	}
 	
 	void addAttributes() override {
-		addAttribut("position");
-		addAttribut("normal");
-		addAttribut("color");
-		addAttribut("uv");
-	}
-	
-	void update(Matrix4f& matrix) override {
-		glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(matrix(0, 0)));
+		addAttribut("position", Vertex::AttibLocation::POSITION);
+		addAttribut("normal", Vertex::AttibLocation::NORMAL);
+		addAttribut("color", Vertex::AttibLocation::COLOR);
+		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
 	}
 };
 

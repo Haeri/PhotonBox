@@ -243,5 +243,14 @@
     <ClInclude Include="src\Core\InputManager.h">
       <Filter>src\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Components\DirectionalLight.h">
+      <Filter>src\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\AmbientLight.h">
+      <Filter>src\Component</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

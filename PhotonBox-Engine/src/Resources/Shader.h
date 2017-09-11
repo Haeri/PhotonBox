@@ -19,8 +19,10 @@ public:
 	virtual void addAttributes() = 0;
 	virtual void update(Matrix4f& matrix);
 
-	void addAttribut(std::string attribute);
+	void addAttribut(std::string attribute, GLint index);
 	void addUniform(std::string uniform);
+	void enableAttributes();
+	void disableAttributes();
 
 private:
 	const static unsigned int NUM_SHADERS = 2;

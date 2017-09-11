@@ -10,6 +10,7 @@ public:
 	static bool isRunning() { return _isRunning; }
 	static GLFWwindow* getWindow() { return _window; }
 	static void clearDisplay(float r, float b, float g, float a);
+	static void setVSync(bool vsync);
 	static void swapBuffer();
 	static void setRect(int width, int height) {
 		_width = width;
@@ -24,6 +25,7 @@ private:
 	static bool _isRunning;
 	static int _width, _height;
 	static GLFWwindow* _window;
+	static bool _isVSync;
 };
 
 #endif // DISPLAY_H

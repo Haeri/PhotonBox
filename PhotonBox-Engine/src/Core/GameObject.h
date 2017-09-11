@@ -59,10 +59,13 @@ public:
 	int getId();
 	void setEnable(bool enable);
 	bool getEnable() { return _isEnabled; }
+	void setStatic(bool _static);
+	bool getStatic() { return _isStatic; }
 	void printComponents();
 private:
 	static int _idCnt;
 	bool _isEnabled;
+	bool _isStatic;
 	int _id;
 	std::unordered_map<std::type_index, Component*> componentMap;
 };
