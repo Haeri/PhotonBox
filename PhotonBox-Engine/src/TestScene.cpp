@@ -7,6 +7,7 @@
 #include "Components/PointRenderer.h"
 #include "Components/AxisRenderer.h"
 #include "CameraController.h"
+#include "Components/AmbientLight.h"
 
 void TestScene::Load() {
 
@@ -34,9 +35,8 @@ void TestScene::Load() {
 	plane = OBJLoader::loadObj("./res/plane2.obj");
 	sphere = OBJLoader::loadObj("./res/sphere.obj");
 	basicShader = new BasicShader("./res/basicShader");
-	litShader = new LitShader("./res/litShader");
-	forwardShader = new ForwardShader("./res/forward_ambientlight", 
-		"./res/forward_pointlight");
+	//litShader = new LitShader("./res/litShader");
+	forwardShader = new ForwardShader();
 	tex = new Texture("./res/trooper.png");
 	tex2 = new Texture("./res/grid.png");
 	material = new Material(forwardShader, tex);
@@ -76,12 +76,13 @@ void TestScene::Load() {
 	ambientLight->getComponent<LightEmitter>()->intensity = 1;
 	*/
 	
+
 	/*
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 4; j++) {
 			for (int k = 0; k < 5; k++) {
 				GameObject* pointLight = instanciate("Pointlight" + i);
-				pointLight->addComponent<PointRenderer>();
+				//pointLight->addComponent<PointRenderer>();
 				pointLight->getComponent<Transform>()->setPosition(Vector3f(i * 3 - (5/2) * 3, j * 2, k * 3 - (5 / 2) * 3));
 				pointLight->getComponent<Transform>()->setParent(rig);
 				pointLight->addComponent<PointLight>();
@@ -94,7 +95,20 @@ void TestScene::Load() {
 	}
 	*/
 	
+	GameObject* ambient = instanciate("Ambient");
+	ambient->addComponent<AmbientLight>();
+	ambient->getComponent<AmbientLight>()->color = Vector3f(0.3f, 0.3f, 0.3f);
+	ambient->getComponent<AmbientLight>()->intensity = 1.0f;
 
+
+	GameObject* sun = instanciate("Sun");
+	sun->addComponent<DirectionalLight>();
+	sun->getComponent<DirectionalLight>()->color = Vector3f(0.83f, 0.82f, 0.64f);
+	sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, 1, -1);
+	sun->getComponent<DirectionalLight>()->intensity = 0.7f;
+	sun->setEnable(false);
+	
+	
 	GameObject* pointLight = instanciate("Pointlight");
 	pointLight->addComponent<PointRenderer>();
 	pointLight->getComponent<Transform>()->setPosition(Vector3f(4, 2, 0));
@@ -104,8 +118,9 @@ void TestScene::Load() {
 	pointLight->getComponent<PointLight>()->constant = 1;
 	pointLight->getComponent<PointLight>()->linear = 0.09f;
 	pointLight->getComponent<PointLight>()->quadratic = 0.032f;
+	pointLight->getComponent<PointLight>()->intensity = 1;
+	//pointLight->setEnable(false);
 	
-
 	GameObject* pointLight2 = instanciate("Pointlight");
 	pointLight2->addComponent<PointRenderer>();
 	pointLight2->getComponent<Transform>()->setPosition(Vector3f(-4, 0.1, 0));
@@ -115,8 +130,9 @@ void TestScene::Load() {
 	pointLight2->getComponent<PointLight>()->constant = 1;
 	pointLight2->getComponent<PointLight>()->linear = 0.09f;
 	pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
-	
-	
+	pointLight2->getComponent<PointLight>()->intensity = 1;
+	//pointLight2->setEnable(false);
+
 	GameObject* quad = instanciate("Quad");
 	quad->getComponent<Transform>()->setPosition(Vector3f(0, -0.2f, 0));
 	quad->getComponent<Transform>()->setScale(Vector3f(8, 8, 8));

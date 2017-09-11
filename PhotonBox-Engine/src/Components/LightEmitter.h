@@ -9,7 +9,7 @@ public:
 	Vector3f color;
 	float intensity;
 
-	//LightEmitter();
+	LightEmitter();
 };
 
 #endif // LIGHT_EMITTER_H

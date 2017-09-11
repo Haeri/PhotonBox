@@ -1,7 +1,7 @@
 #ifndef LIGHTING_H
 #define LIGHTING_H
 
-class PointLight;
+class LightEmitter;
 #include <map>
 #include <vector>
 #include <typeindex>
@@ -15,9 +15,9 @@ public:
 			_lights[typeid(T)].push_back(light);
 		}
 		else {
-			std::vector<T*> vec;
+			std::vector<LightEmitter*> vec;
 			vec.push_back(light);
-			_lights.insert(std::pair<std::type_index, std::vector<T*>>(typeid(T), vec));
+			_lights.insert(std::pair<std::type_index, std::vector<LightEmitter*>>(typeid(T), vec));
 		}
 	}
 
@@ -34,7 +34,7 @@ public:
 		return (std::vector<T*>&)_lights[typeid(T)];
 	}
 private:
-	static std::map<std::type_index, std::vector<PointLight*>> _lights;
+	static std::map<std::type_index, std::vector<LightEmitter*>> _lights;
 	
 };
 

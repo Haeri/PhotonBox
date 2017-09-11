@@ -3,15 +3,15 @@
 struct PointLight{
 	vec3 position;
 	vec3 color;
+    float intensity;
 
  	float constant;
     float linear;
     float quadratic;
 };
 
-float shininess = 4; 
+float shininess = 12; 
 
-uniform sampler2D diffuse;
 uniform PointLight light;
 uniform vec3 viewPos;
 
@@ -41,31 +41,6 @@ void main(){
     diffuse   *= attenuation;
     specular *= attenuation;   
         
-    vec3 result = diffuse + specular;
+    vec3 result = (diffuse + specular) * light.intensity;
     gl_FragColor = vec4(result, 1.0);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-	gl_FragColor = texture2D(diffuse, texCoordVarying)
-	* (lightIntensity * () * lightColor * clamp(dot(normalize(vec3(lightTransform * vec4(lightPosition, 1)).xyz - positionVarying), normalVarying), 0, 1));
-
-	*/
 }

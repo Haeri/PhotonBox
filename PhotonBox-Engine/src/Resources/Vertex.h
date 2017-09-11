@@ -6,6 +6,14 @@
 
 class Vertex {
 public:
+	enum AttibLocation
+	{
+		POSITION,
+		NORMAL,
+		COLOR,
+		TEXTURECOORD,
+	};
+
 	Vector3f position;
 	Vector3f normal;
 	Vector3f color;

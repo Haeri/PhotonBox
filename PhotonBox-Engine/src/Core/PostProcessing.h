@@ -3,9 +3,9 @@
 
 class PostProcessing {
 public:
-	static void init();
-	static void preProcess();
-	static void postProcess();
+	void init();
+	void preProcess();
+	void postProcess();
 	
 private:
 };

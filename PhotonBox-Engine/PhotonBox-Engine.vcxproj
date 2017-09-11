@@ -153,9 +153,11 @@
     <ClCompile Include="src\TransformerScript.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\AmbientLight.h" />
     <ClInclude Include="src\Components\Behaviour.h" />
     <ClInclude Include="src\Components\Camera.h" />
     <ClInclude Include="src\Components\Collider.h" />
+    <ClInclude Include="src\Components\DirectionalLight.h" />
     <ClInclude Include="src\Components\LightEmitter.h" />
     <ClInclude Include="src\Components\MeshRenderer.h" />
     <ClInclude Include="src\Components\ObjectRenderer.h" />
@@ -180,6 +182,7 @@
     <ClInclude Include="src\Math\Vector4f.h" />
     <ClInclude Include="src\Resources\BasicShader.h" />
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
+    <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
     <ClInclude Include="src\Resources\ForwardShader.h" />
     <ClInclude Include="src\Resources\LitShader.h" />

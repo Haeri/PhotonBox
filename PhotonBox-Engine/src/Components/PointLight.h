@@ -14,4 +14,4 @@ public:
 		Lighting::addLight(this);
 	}
 };
-#endif /* defined(POINT_LIGHT_H) */
+#endif // POINT_LIGHT_H

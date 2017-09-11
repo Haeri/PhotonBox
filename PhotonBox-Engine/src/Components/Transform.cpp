@@ -32,8 +32,7 @@ void Transform::print()
 }
 
 Matrix4f Transform::getRotationMatrix(){
-	return Matrix4f::createRotation(_rotation.z(), Vector3f::UNIT_Z) *  Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y) * Matrix4f::createRotation(_rotation.x(), Vector3f::UNIT_X);
-	/*return Matrix4f::createRotation(_rotation.z(), Vector3f(cos(_rotation.x), sin(_rotation.y), cos(_rotation.y()))) *  Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y) * Matrix4f::createRotation(_rotation.x(), Vector3f());*/
+	return Matrix4f::createRotation(_rotation.z(), Vector3f::UNIT_Z) * Matrix4f::createRotation(_rotation.x(), Vector3f::UNIT_X) * Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y);
 }
 
 Vector3f Transform::getRotation(){

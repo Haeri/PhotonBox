@@ -1,6 +1,6 @@
 #include "Lighting.h"
 
-std::map<std::type_index, std::vector<PointLight*>> Lighting::_lights;
+std::map<std::type_index, std::vector<LightEmitter*>> Lighting::_lights;
 
 /*
 void Lighting::addLight(LightEmitter* light)
