@@ -8,9 +8,12 @@
 #include "../PostProcessing.h"
 #include "Lighting.h"
 #include "../InputManager.h"
+
 #include "../../TestScene.h"
+#include "../../PBRScene.h"
 
 bool Core::_isRunning;
+bool Core::_isDebug;
 
 void Core::init()
 {
@@ -23,26 +26,32 @@ void Core::init()
 	display = new Display();
 	lighting = new Lighting();
 	inputManager = new InputManager();
-	testScene = new TestScene();
+
 
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 900, 700);
-	
-	// Load Scenes
-	sceneManager->addScene("TestScene", new TestScene());
-	sceneManager->loadScene("TestScene");
-
-	// Initializing Subsystems
-	logic->start();
 	renderer->init(Renderer::RenderMode::FORWARD);
 	postPocessing->init();
 	inputManager->init();
 
+	// Load Scenes
+	sceneManager->addScene("TestScene", new TestScene());
+	sceneManager->addScene("PBRScene", new PBRScene());
+	sceneManager->loadSceneImediately("TestScene");
+
+	// Start Subsystems
+	start();
+
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
+}
+
+void Core::start() {
+	logic->start();
+	renderer->start();
 }
 
 void Core::update()
@@ -91,6 +100,10 @@ void Core::update()
 		inputManager->pollEvents();
 
 		postPocessing->postProcess();
+
+		// End of Frame
+		if (sceneManager->loadQueuedScene())
+			start();
 		
 		_isRunning = display->isRunning();
 	}
@@ -112,5 +125,4 @@ void Core::destroy()
 	delete postPocessing;
 	delete display;
 	delete lighting;
-	delete testScene;
 }

@@ -10,27 +10,32 @@ struct PointLight{
     float quadratic;
 };
 
-float shininess = 12; 
 
 uniform PointLight light;
+uniform float shininess; 
+uniform sampler2D albedo;
 uniform vec3 viewPos;
 
 varying vec2 texCoordVarying;
 varying vec3 positionVarying;
 varying vec3 normalVarying;
 
+float saturate(float value){
+    return max(min(value, 1), 0);
+}
+
 void main(){
   	// diffuse 
     vec3 norm = normalize(normalVarying);
     vec3 lightDir = normalize(light.position - positionVarying);
-    float diff = max(dot(norm, lightDir), 0.0);
+    float diff = saturate(dot(norm, lightDir));
     vec3 diffuse = light.color * diff;  
     
 
     // specular
     vec3 viewDir = normalize(viewPos - positionVarying);
     vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
+    float spec = pow(saturate(dot(viewDir, reflectDir)), max(shininess, 1));
     vec3 specular = light.color * spec;  
 
 
@@ -41,6 +46,6 @@ void main(){
     diffuse   *= attenuation;
     specular *= attenuation;   
         
-    vec3 result = (diffuse + specular) * light.intensity;
+    vec3 result = (diffuse /* texture2D(albedo, texCoordVarying) */+ specular) * light.intensity;
     gl_FragColor = vec4(result, 1.0);
 }

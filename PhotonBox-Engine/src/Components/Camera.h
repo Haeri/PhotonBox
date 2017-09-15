@@ -13,7 +13,7 @@ public:
 		if (_main == nullptr) setMain();
 
 		float aspect = (float)Display::getWidth() / (float)Display::getHeight();
-		setProjection(45, aspect, 0.1f, 50.0f);
+		setProjection(45, aspect, 0.01f, 1000.0f);
 	}
 
 	void updateAspect() {
@@ -22,7 +22,7 @@ public:
 	}
 
 	void setFOV(float fov) {
-		fov = fov;
+		_fov = fov;
 		updateProjection();
 	}
 
@@ -42,9 +42,15 @@ public:
 		return _projection;
 	}
 
+	Matrix4f getViewMatrix() {
+		return Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
+	}
+
 	Matrix4f getViewProjection() {
 		return _projection * Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
 	}
+
+	float getFOV() { return _fov; }
 
 	static Vector2f worldToScreen(Vector3f point) {
 		Vector4f clipSpacePos = Camera::getMainCamera()->getViewProjection() * Vector4f(point, 1.0);

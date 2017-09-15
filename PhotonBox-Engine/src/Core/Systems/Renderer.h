@@ -19,6 +19,7 @@ public:
 	static void printList();
 
 	void init(RenderMode);
+	void start();
 	void render();
 	void destroy();
 private:

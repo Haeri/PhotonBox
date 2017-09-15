@@ -19,7 +19,6 @@ void Shader::init(const std::string& fileName) {
 	glValidateProgram(_program);
 	checkShaderError(_program, GL_VALIDATE_STATUS, true, "ERROR: Shader Program invalid!");
 
-	//addAttributes();
 	addUniforms();
 }
 
@@ -34,7 +33,6 @@ void Shader::bind() {
 }
 
 void Shader::addAttribut(std::string attribute, GLint index) {
-	/*attributes[attribute] = glGetAttribLocation(_program, attribute.c_str());*/
 	attributes[attribute] = index;
 	glBindAttribLocation(_program, index, attribute.c_str());
 }

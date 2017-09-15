@@ -6,11 +6,13 @@
 #include "Core/Time.h"
 #include "Core/InputManager.h"
 #include "Core/Systems/Renderer.h"
+#include "Components/Camera.h"
+#include "Core/Systems/SceneManager.h"
 
 class CameraController : public Behaviour {
 public:
 	float speed = 3;
-	float mouseIntensity = 0.6f;
+	float mouseSensitivity = 0.6f;
 
 	bool toggleCursorMode = true;
 	bool toggleRenderMode = true;
@@ -41,8 +43,8 @@ public:
 
 		Vector2f mouse = InputManager::getMouseDelta();
 
-		float x = transform->getRotation().x() + mouse.y() * Time::deltaTime * mouseIntensity;
-		float y = transform->getRotation().y() + mouse.x() * Time::deltaTime * mouseIntensity;
+		float x = transform->getRotation().x() + mouse.y() * Time::deltaTime * mouseSensitivity;
+		float y = transform->getRotation().y() + mouse.x() * Time::deltaTime * mouseSensitivity;
 		float z = transform->getRotation().z();
 		transform->setRotation(Vector3f(x, y, z));
 
@@ -54,6 +56,17 @@ public:
 
 		if (InputManager::keyPressed(InputManager::KEY_V))
 			toggleVSync();
+
+		if (InputManager::keyDown(InputManager::KEY_PAGE_UP))
+			Camera::getMainCamera()->setFOV(Camera::getMainCamera()->getFOV() + 0.1f);
+		if (InputManager::keyDown(InputManager::KEY_PAGE_DOWN))
+			Camera::getMainCamera()->setFOV(Camera::getMainCamera()->getFOV() - 0.1f);
+
+
+		if (InputManager::keyPressed(InputManager::KEY_1))
+			SceneManager::loadScene("TestScene");
+		if (InputManager::keyPressed(InputManager::KEY_2))
+			SceneManager::loadScene("PBRScene");
 	}
 
 	void toggleCursor() {

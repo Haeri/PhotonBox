@@ -9,6 +9,7 @@ class Material {
 public:
 	Material(Shader* shader): shader(shader) {}
 	Material(Shader* shader, Texture* texture): shader(shader), texture(texture){}
+	Material(ForwardShader* forwardShader) : forwardShader(forwardShader) {}
 	Material(ForwardShader* forwardShader, Texture* texture) : forwardShader(forwardShader), texture(texture) {}
 
 	Shader* shader;

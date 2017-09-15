@@ -8,7 +8,7 @@ class Texture {
 public:
 	int width, height;
 
-	Texture(const std::string& fileName);
+	Texture(const std::string& fileName, bool generateMipMaps);
 	~Texture();
 	void bind();
 private:

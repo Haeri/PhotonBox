@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "../Display.h"
 #include "../../Components/ObjectRenderer.h"
+#include "../../Components/Transform.h"
 
 bool Renderer::_isRunning;
 std::vector<ObjectRenderer*> Renderer::_renderQueue;
@@ -17,13 +18,14 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *objectRenderer) {
 }
 
 void Renderer::init(RenderMode mode) {
-
-	
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	
 	renderMode = mode;
+}
+
+void Renderer::start() {
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		(*it)->init();
 	}
@@ -33,10 +35,17 @@ void Renderer::render() {
 	Display::clearDisplay(0.1, 0.1, 0.1, 1);
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
-		if ((*it)->getEnable())
+		if ((*it)->getEnable()) {
 			(*it)->render();
+		}
 	}
 	
+	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
+		if ((*it)->getEnable()) {
+			(*it)->transform->renderHandels();
+		}
+	}
+
 	Display::swapBuffer();
 }
 

@@ -5,6 +5,7 @@ ObjectRenderer::ObjectRenderer() {
 	Renderer::addToRenderQueue(this);
 }
 
+void ObjectRenderer::init() {}
 void ObjectRenderer::onDestroy() {}
 
 void ObjectRenderer::destroy(){

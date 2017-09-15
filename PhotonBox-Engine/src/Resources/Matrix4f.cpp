@@ -66,7 +66,7 @@ Matrix4f Matrix4f::createTranslation(Vector3f vec) {
 
 Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float far)
 {
-	float tanHalfFovy = tan(fov / 2);
+	float tanHalfFovy = tan((fov/360 * 2 * M_PI) / 2);
 
 	Matrix4f ret;
 	ret._matrix[0] = 1.0f / (aspect * tanHalfFovy);	ret._matrix[4] = 0;							ret._matrix[8] = 0;								ret._matrix[12] = 0;

@@ -29,20 +29,10 @@ void MeshRenderer::init()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _mesh->indices.size() * sizeof(unsigned int), &(_mesh->indices[0]), drawMode);
 
-	
-	// vertex positions
 	glVertexAttribPointer(Vertex::AttibLocation::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-
-	// vertex normals		
 	glVertexAttribPointer(Vertex::AttibLocation::NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-
-	// vertex colors
 	glVertexAttribPointer(Vertex::AttibLocation::COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-
-	// vertex texture coords
 	glVertexAttribPointer(Vertex::AttibLocation::TEXTURECOORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-
-
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -57,6 +47,8 @@ void MeshRenderer::render()
 		_material->shader->bind();
 		if (_material->texture != nullptr)
 			_material->texture->bind();
+		else
+			glBindTexture(GL_TEXTURE_2D, 0);
 
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		_material->shader->update(mvp);
@@ -68,8 +60,7 @@ void MeshRenderer::render()
 		_material->shader->enableAttributes();
 
 		glBindVertexArray(0);
-	}
-	else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
+	}else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
 	
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Matrix4f modelMatrix = transform->getTransformationMatrix();
@@ -80,7 +71,8 @@ void MeshRenderer::render()
 
 		if (_material->texture != nullptr)
 			_material->texture->bind();
-
+		else
+			glBindTexture(GL_TEXTURE_2D, 0);
 		
 
 		// AMBIENT

@@ -7,7 +7,7 @@
 class ObjectRenderer : public Component{
 public:
 	ObjectRenderer();
-	virtual void init() = 0;
+	virtual void init();
 	virtual void render() = 0;
 	virtual void onDestroy();
 	void destroy();

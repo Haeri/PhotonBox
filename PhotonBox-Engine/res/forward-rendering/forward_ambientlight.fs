@@ -6,10 +6,11 @@ struct AmbientLight{
 };
 
 uniform AmbientLight light;
-uniform sampler2D diffuse;
+uniform sampler2D albedo;
 
 varying vec2 texCoordVarying;
 
 void main(){
-	gl_FragColor = vec4(light.intensity * light.color.xyz, 1) * texture2D(diffuse, texCoordVarying);
+	vec3 res = light.color * texture2D(albedo, texCoordVarying) * light.intensity;
+	gl_FragColor = vec4(res, 1);
 }
