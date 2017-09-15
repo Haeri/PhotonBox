@@ -8,7 +8,6 @@
 
 class Transform : public Component{
 public:
-
 	void setPosition(Vector3f position);
 	void setRotation(Vector3f rotation);
 	void setScale(Vector3f scale);
@@ -21,13 +20,18 @@ public:
 	Vector3f getScale();
 
 	Matrix4f getTransformationMatrix();
+	Matrix4f getTransformationMatrix(bool, bool, bool);
+	Matrix4f getLocalTransformationMatrix();
+	Matrix4f getLocalTransformationMatrix(bool, bool, bool);
 	Vector3f forward();
 	Vector3f up();
 	Vector3f right();
 	std::vector<Transform*> children;
 	Transform* getParent() { return _parent; }
 	void removeChild(Transform* child);
+	void renderHandels();
 	void print();
+
 private:
 	bool _hasChanged = true;
 	Vector3f _position = Vector3f::ZERO;
@@ -35,7 +39,5 @@ private:
 	Vector3f _scale = Vector3f::ONE;
 	Matrix4f _cache;
 	Transform* _parent;
-	
-	Matrix4f getLocalTransformationMatrix();
 };
 #endif /* defined(TRANSFORM_H) */

@@ -13,8 +13,8 @@ public:
 		std::cout << "Perspective Test\t\t - ";
 		Matrix4f perspective = Matrix4f::createPerspective(45.0f, 1.33333337, 0.1f, 50.0);
 		Matrix4f perspectvieResult;
-		perspectvieResult(0, 0) = 1.34444320;	perspectvieResult(1, 0) = 0;			perspectvieResult(2, 0) = 0;			perspectvieResult(3, 0) = 0;
-		perspectvieResult(0, 1) = 0;			perspectvieResult(1, 1) = 1.79259098;	perspectvieResult(2, 1) = 0;			perspectvieResult(3, 1) = 0;
+		perspectvieResult(0, 0) = 1.81066012;	perspectvieResult(1, 0) = 0;			perspectvieResult(2, 0) = 0;			perspectvieResult(3, 0) = 0;
+		perspectvieResult(0, 1) = 0;			perspectvieResult(1, 1) = 2.41421342;	perspectvieResult(2, 1) = 0;			perspectvieResult(3, 1) = 0;
 		perspectvieResult(0, 2) = 0;			perspectvieResult(1, 2) = 0;			perspectvieResult(2, 2) = -1.00400794;	perspectvieResult(3, 2) = -0.200400800;
 		perspectvieResult(0, 3) = 0;			perspectvieResult(1, 3) = 0;			perspectvieResult(2, 3) = -1;			perspectvieResult(3, 3) = 0;
 

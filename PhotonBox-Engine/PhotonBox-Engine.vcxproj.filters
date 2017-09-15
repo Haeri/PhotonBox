@@ -126,6 +126,9 @@
     <ClCompile Include="src\CameraController.h">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\PBRScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TestScene.h">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="src\Components\AmbientLight.h">
       <Filter>src\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PBRScene.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

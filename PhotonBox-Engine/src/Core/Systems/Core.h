@@ -3,7 +3,6 @@
 
 #include <string>
 
-class TestScene;
 class Display;
 class SceneManager;
 class Renderer;
@@ -19,6 +18,7 @@ public:
 	static bool isRunning() { return _isRunning; }
 
 	void init();
+	void start();
 	void update();
 	void destroy();
 private:
@@ -31,8 +31,6 @@ private:
 	Display* display;
 	Lighting* lighting;
 	InputManager* inputManager;
-
-	TestScene* testScene;
 
 	const double FIXED_TIME_INTERVAL = 30;
 	const double TARGET_FPS = 60;

@@ -8,6 +8,8 @@
 
 class ForwardPointLightShader : public Shader{
 public:
+	float shininess = 1;
+
 	ForwardPointLightShader(const std::string& fileName) { init(fileName); }
 
 	void update(Matrix4f& mvp, Matrix4f& modelMatrix, PointLight& pointLight, Vector4f& eyeTransformed) {
@@ -21,6 +23,7 @@ public:
 		glUniform1f(uniforms["light.constant"], pointLight.constant);
 		glUniform1f(uniforms["light.linear"], pointLight.linear);
 		glUniform1f(uniforms["light.quadratic"], pointLight.quadratic);
+		glUniform1f(uniforms["shininess"], shininess);
 	}
 
 	void addUniforms() {
@@ -33,6 +36,7 @@ public:
 		addUniform("light.linear");
 		addUniform("light.quadratic");
 		addUniform("viewPos");
+		addUniform("shininess");
 	}
 
 	void addAttributes() override {

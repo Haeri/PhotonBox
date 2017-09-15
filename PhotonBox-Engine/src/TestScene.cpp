@@ -32,13 +32,15 @@ void TestScene::Load() {
 
 	//mesh = new Mesh(vertices, indices);
 	mesh = OBJLoader::loadObj("./res/trooper.obj");
-	plane = OBJLoader::loadObj("./res/plane2.obj");
+	plane = OBJLoader::loadObj("./res/plane_big.obj");
 	sphere = OBJLoader::loadObj("./res/sphere.obj");
 	basicShader = new BasicShader("./res/basicShader");
 	//litShader = new LitShader("./res/litShader");
 	forwardShader = new ForwardShader();
-	tex = new Texture("./res/trooper.png");
-	tex2 = new Texture("./res/grid.png");
+	forwardShader->directionalLightShader->shininess = 20;
+	forwardShader->pointLightShader->shininess = 20;
+	tex = new Texture("./res/trooper.png", false);
+	tex2 = new Texture("./res/grid.png", true);
 	material = new Material(forwardShader, tex);
 	material->shader = basicShader;
 
