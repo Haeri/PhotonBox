@@ -13,7 +13,7 @@
 #include "../../PBRScene.h"
 
 bool Core::_isRunning;
-bool Core::_isDebug;
+//bool Core::_isDebug;
 
 void Core::init()
 {
