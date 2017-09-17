@@ -6,6 +6,7 @@
 class OBJLoader {
 public:
 	static Mesh* loadObj(const std::string& filePath);
+	
 };
 
 #endif /* defined(OBJ_LOADER_H) */

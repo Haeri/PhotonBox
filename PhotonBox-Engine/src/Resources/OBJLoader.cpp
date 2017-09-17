@@ -63,6 +63,30 @@ void parseFace(const std::string& token, std::vector<OBJIndex>& indexList, std::
 	indexList.push_back(obj);
 }
 
+Vector3f calculateTangent(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f uv1, Vector2f uv2, Vector2f uv3, Vector3f normal) {	
+	Vector3f tangent;
+
+	Vector3f edge1 = p2 - p1;
+	Vector3f edge2 = p3 - p1;
+	Vector2f deltaUV1 = uv2 - uv1;
+	Vector2f deltaUV2 = uv3 - uv1;
+	//Vector3f normal = Vector3f::cross(edge1, edge2);
+
+	float f = 1.0f / (deltaUV1.x() * deltaUV2.y() - deltaUV2.x() * deltaUV1.y());
+
+	tangent.x() = f * (deltaUV2.y() * edge1.x() - deltaUV1.y() * edge2.x());
+	tangent.y() = f * (deltaUV2.y() * edge1.y() - deltaUV1.y() * edge2.y());
+	tangent.z() = f * (deltaUV2.y() * edge1.z() - deltaUV1.y() * edge2.z());
+	tangent.normalize();
+	/*
+	bitangent.x() = f * (-deltaUV2.x() * edge1.x() + deltaUV1.x() * edge2.x());
+	bitangent.y() = f * (-deltaUV2.x() * edge1.y() + deltaUV1.x() * edge2.y());
+	bitangent.z() = f * (-deltaUV2.x() * edge1.z() + deltaUV1.x() * edge2.z());
+	bitangent.normalize();
+	*/
+	return tangent;
+}
+
 Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	std::ifstream file(filePath);
 	std::string line;
@@ -114,16 +138,37 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	}
 
 	// Create Indexed Model 
-	for (size_t i = 0; i < indices.size(); ++i)
+	for (size_t i = 0; i < indices.size() - 3; i += 3)
 	{
+		Vector3f tangent = calculateTangent(
+			positions[indices[i].position], positions[indices[i + 1].position], positions[indices[i + 2].position],
+			uvs[indices[i].uv], uvs[indices[i + 1].uv], uvs[indices[i + 2].uv], normals[indices[i].normal]);
+
 		mesh->vertices.push_back(Vertex(
-			positions[indices[i].position], 
-			normals[indices[i].normal], 
-			Vector3f::ZERO, 
-			uvs[indices[i].uv]
+			positions[indices[i].position],
+			normals[indices[i].normal],
+			Vector3f::ZERO,
+			uvs[indices[i].uv],
+			tangent
+		));
+		mesh->vertices.push_back(Vertex(
+			positions[indices[i+1].position],
+			normals[indices[i+1].normal],
+			Vector3f::ZERO,
+			uvs[indices[i+1].uv],
+			tangent
+		));
+		mesh->vertices.push_back(Vertex(
+			positions[indices[i+2].position],
+			normals[indices[i+2].normal],
+			Vector3f::ZERO,
+			uvs[indices[i+2].uv],
+			tangent
 		));
 
 		mesh->indices.push_back(i);
+		mesh->indices.push_back(i+1);
+		mesh->indices.push_back(i+2);
 	}
 
 	return mesh;

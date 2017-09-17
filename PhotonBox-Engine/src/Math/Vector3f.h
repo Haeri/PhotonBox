@@ -65,6 +65,14 @@ public:
 		return Vector3f(x, y, z);
 	}
 
+	static Vector3f cross(const Vector3f& a, const Vector3f& b) {
+		float x = a.getY() * b.getZ() - a.getZ() * b.getY();
+		float y = a.getZ() * b.getX() - a.getX() * b.getZ();
+		float z = a.getX() * b.getY() - a.getY() * b.getX();
+
+		return Vector3f(x, y, z);
+	}
+
 	inline float dot(const Vector3f& other) const {
 		return _x * other.getX() + _y * other.getY() + _z * other.getZ();
 	}
