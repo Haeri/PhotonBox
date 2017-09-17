@@ -39,3 +39,13 @@ void Texture::bind()
 {
 	glBindTexture(GL_TEXTURE_2D, _texture);
 }
+
+unsigned char* Texture::loadIcon(const std::string& fileName, int& width, int& height) {
+	int numComponents;
+	unsigned char* data = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4);
+
+	if (data == NULL)
+		std::cerr << "Unable to load texture: " << fileName << std::endl;
+
+	return data;
+}

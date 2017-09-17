@@ -11,6 +11,8 @@ public:
 	Texture(const std::string& fileName, bool generateMipMaps);
 	~Texture();
 	void bind();
+
+	static unsigned char* loadIcon(const std::string& fileName, int& width, int& height);
 private:
 	GLuint _texture;
 };

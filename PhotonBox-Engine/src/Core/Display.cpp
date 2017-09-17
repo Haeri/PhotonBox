@@ -1,6 +1,6 @@
 #include "Display.h"
 #include "../Components/Camera.h"
-
+#include "../Resources/Texture.h"
 
 bool Display::_isRunning;
 int Display::_width, Display::_height;
@@ -26,6 +26,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	glfwWindowHint(GLFW_ALPHA_BITS, 8);
 	glfwWindowHint(GLFW_DEPTH_BITS, 32);
 
+
 	_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if (!_window) {
 		glfwTerminate();
@@ -33,6 +34,11 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	}
 	glfwMakeContextCurrent(_window);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+	// Set Icon
+	GLFWimage images[1];
+	images[0].pixels = Texture::loadIcon("./res/PhotonBox.png", images[0].width, images[0].height);
+	glfwSetWindowIcon(_window, 1, images);
 
 	setVSync(false);
 	_isRunning = true;

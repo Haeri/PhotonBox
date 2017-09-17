@@ -12,20 +12,28 @@ public:
 		NORMAL,
 		COLOR,
 		TEXTURECOORD,
+		TANGENT,
 	};
 
 	Vector3f position;
 	Vector3f normal;
 	Vector3f color;
 	Vector2f uv;
+	Vector3f tangent;
 
 	Vertex() {}
-
 	Vertex(Vector3f pos, Vector3f normal, Vector3f col, Vector2f uv) :
+		position(pos),
+		normal(normal),
+		color(col),
+		uv(uv)
+	{}
+	Vertex(Vector3f pos, Vector3f normal, Vector3f col, Vector2f uv, Vector3f tangent) :
 		position(pos), 
 		normal(normal), 
 		color(col),
-		uv(uv)
+		uv(uv),
+		tangent(tangent)
 	{}
 };
 

@@ -33,6 +33,7 @@ void MeshRenderer::init()
 	glVertexAttribPointer(Vertex::AttibLocation::NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 	glVertexAttribPointer(Vertex::AttibLocation::COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 	glVertexAttribPointer(Vertex::AttibLocation::TEXTURECOORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	glVertexAttribPointer(Vertex::AttibLocation::TANGENT, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -114,6 +115,8 @@ void MeshRenderer::render()
 			_material->forwardShader->pointLightShader->enableAttributes();
 		}
 
+		// SPOT LIGHTS
+
 		
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
@@ -121,7 +124,6 @@ void MeshRenderer::render()
 
 
 		glBindVertexArray(0);
-	
 	}
 }
 
