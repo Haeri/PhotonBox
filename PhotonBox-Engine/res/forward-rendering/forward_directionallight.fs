@@ -25,7 +25,6 @@ float saturate(float value){
 
 void main(){
   	// diffuse 
-    //vec3 norm = normalize(normalVarying);
     vec3 norm = normalize(tbnVarying * (255.0/128.0 * texture2D(normalMap, texCoordVarying).xyz - 1));
     vec3 lightDir = normalize(light.direction);
     float diff = saturate(dot(norm, lightDir));
@@ -34,9 +33,9 @@ void main(){
     // specular
     vec3 viewDir = normalize(viewPos - positionVarying);
     vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(saturate(dot(viewDir, reflectDir)), texture2D(specularMap, texCoordVarying).x * 255.0);
-    vec3 specular = light.color * spec;
-
+    float spec = pow(saturate(dot(viewDir, reflectDir)), shininess);
+    vec3 specular = light.color * spec * texture2D(specularMap, texCoordVarying).x;
+    
     vec3 result = (diffuse + specular) * light.intensity;
     gl_FragColor = vec4(result, 1.0);
 }
