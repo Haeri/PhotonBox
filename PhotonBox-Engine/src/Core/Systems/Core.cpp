@@ -53,7 +53,7 @@ void Core::start() {
 	renderer->start();
 }
 
-void Core::run()
+void Core::update()
 {
 	double lastTime = glfwGetTime();
 	int nbFrames = 0;

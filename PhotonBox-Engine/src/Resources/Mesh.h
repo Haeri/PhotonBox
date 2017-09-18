@@ -12,6 +12,7 @@ public:
 		this->indices = indices;
 	}
 
+
 	std::vector< Vertex > vertices;
 	std::vector< unsigned int> indices;
 };
