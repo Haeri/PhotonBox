@@ -176,12 +176,14 @@
     <ClInclude Include="src\Core\Systems\Renderer.h" />
     <ClInclude Include="src\Core\Systems\SceneManager.h" />
     <ClInclude Include="src\Core\Time.h" />
+    <ClInclude Include="src\Core\Util.h" />
     <ClInclude Include="src\Math\Matrix4f.h" />
     <ClInclude Include="src\Math\Vector2f.h" />
     <ClInclude Include="src\Math\Vector3f.h" />
     <ClInclude Include="src\Math\Vector4f.h" />
     <ClInclude Include="src\PBRScene.h" />
     <ClInclude Include="src\Resources\BasicShader.h" />
+    <ClInclude Include="src\Resources\CubeMap.h" />
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
