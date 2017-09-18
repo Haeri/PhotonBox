@@ -2,6 +2,7 @@
 #define BASIC_SHADER_H
 
 #include "Shader.h"
+#include "Vertex.h"
 
 class BasicShader: public Shader {
 public:

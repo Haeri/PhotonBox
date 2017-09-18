@@ -37,12 +37,16 @@ public:
 		addUniform("light.quadratic");
 		addUniform("viewPos");
 		addUniform("shininess");
+
+		addUniform("specularMap");
+		addUniform("normalMap");
 	}
 
 	void addAttributes() override {
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
+		addAttribut("tangent", Vertex::AttibLocation::TANGENT);
 	}
 };
 

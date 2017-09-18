@@ -40,14 +40,18 @@ void MeshRenderer::init()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glDeleteBuffers(1, &_vbo);
 	glDeleteBuffers(1, &_ebo);
+
+
+	default_normal = new Texture("./res/default_normal.png", false);
+	default_specular = new Texture("./res/default_specular.png", false);
 }
 
 void MeshRenderer::render()
 {
 	if (Renderer::renderMode == Renderer::RenderMode::CUSTOM) {
 		_material->shader->bind();
-		if (_material->texture != nullptr)
-			_material->texture->bind();
+		if (_material->albedoMap != nullptr)
+			_material->albedoMap->bind();
 		else
 			glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -69,9 +73,9 @@ void MeshRenderer::render()
 		
 		glBindVertexArray(_vao);
 
-
-		if (_material->texture != nullptr)
-			_material->texture->bind();
+		glActiveTexture(GL_TEXTURE0);
+		if (_material->albedoMap != nullptr)
+			_material->albedoMap->bind();
 		else
 			glBindTexture(GL_TEXTURE_2D, 0);
 		
@@ -100,6 +104,17 @@ void MeshRenderer::render()
 			_material->forwardShader->bindDirectionalLightShader();
 			_material->forwardShader->directionalLightShader->update(mvp, modelMatrix, *directionalLights[i], eyePos);
 			_material->forwardShader->directionalLightShader->enableAttributes();
+			
+			glUniform1i(_material->forwardShader->directionalLightShader->uniforms["normalMap"], GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0);
+			if (_material->normalMap != nullptr) _material->normalMap->bind();
+			else default_normal->bind();
+
+			glUniform1i(_material->forwardShader->directionalLightShader->uniforms["specularMap"], GL_TEXTURE1);
+			glActiveTexture(GL_TEXTURE1);
+			if (_material->specularMap != nullptr) _material->specularMap->bind();
+			else default_specular->bind();
+
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			_material->forwardShader->directionalLightShader->disableAttributes();
 		}
@@ -111,6 +126,17 @@ void MeshRenderer::render()
 			_material->forwardShader->bindPointLightShader();
 			_material->forwardShader->pointLightShader->update(mvp, modelMatrix, *pointLights[i], eyePos);
 			_material->forwardShader->pointLightShader->enableAttributes();
+
+			glUniform1i(_material->forwardShader->pointLightShader->uniforms["normalMap"], GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0);
+			if (_material->normalMap != nullptr) _material->normalMap->bind();
+			else default_normal->bind();
+
+			glUniform1i(_material->forwardShader->pointLightShader->uniforms["specularMap"], GL_TEXTURE1);
+			glActiveTexture(GL_TEXTURE1);
+			if (_material->specularMap != nullptr) _material->specularMap->bind();
+			else default_specular->bind();
+
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			_material->forwardShader->pointLightShader->enableAttributes();
 		}

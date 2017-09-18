@@ -5,15 +5,21 @@
 #include "../Core/Display.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "../Core/GameObject.h"
 
 class PointRenderer : public ObjectRenderer {
 public:
 
 	void render() override{
 
+		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
 		glPointSize(10.0);
 
+		//glDisable(GL_DEPTH_TEST);
 		glDepthFunc(GL_ALWAYS);
 
 		glUseProgram(0);

@@ -42,6 +42,7 @@ public:
 			* Time::deltaTime * speed * shift);
 
 		Vector2f mouse = InputManager::getMouseDelta();
+		//std:: cout << mouse << std::endl;
 
 		float x = transform->getRotation().x() + mouse.y() * Time::deltaTime * mouseSensitivity;
 		float y = transform->getRotation().y() + mouse.x() * Time::deltaTime * mouseSensitivity;
@@ -67,6 +68,9 @@ public:
 			SceneManager::loadScene("TestScene");
 		if (InputManager::keyPressed(InputManager::KEY_2))
 			SceneManager::loadScene("PBRScene");
+
+		if (InputManager::keyPressed(InputManager::KEY_T))
+			toggleDebug();
 	}
 
 	void toggleCursor() {
@@ -90,6 +94,10 @@ public:
 	void toggleVSync() {
 		Display::setVSync(toggleVsyncMode);
 		toggleVsyncMode = !toggleVsyncMode;
+	}
+
+	void toggleDebug() {
+		Renderer::setDebug(!Renderer::isDebug());
 	}
 };
 

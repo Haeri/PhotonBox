@@ -18,6 +18,8 @@ private:
 	Material* _material;
 
 	GLuint _vao, _vbo, _ebo;
+	
+	Texture* default_normal, *default_specular;
 };
 
 #endif /* defined(MESH_RENDERER_H) */

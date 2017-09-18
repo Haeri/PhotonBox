@@ -138,7 +138,7 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	}
 
 	// Create Indexed Model 
-	for (size_t i = 0; i < indices.size() - 3; i += 3)
+	for (size_t i = 0; i <= indices.size() - 3; i += 3)
 	{
 		Vector3f tangent = calculateTangent(
 			positions[indices[i].position], positions[indices[i + 1].position], positions[indices[i + 2].position],
