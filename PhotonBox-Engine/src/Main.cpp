@@ -5,17 +5,21 @@
 int main(void)
 {
 
+#ifdef _DEBUG
 	// Tests
 	MathTest::startTest();
+#endif
 
 	// Create and initialize the RenderProject
 	Core core;
 	core.init();
-	core.update();
+	core.run();
 	core.destroy();
 
+#ifdef _DEBUG
 	std::cout << "press ENTER to quit" << std::endl;
 	std::cin.ignore();
+#endif
 
 	return 0;
 }
