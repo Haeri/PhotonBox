@@ -1,14 +1,9 @@
 #include "Shader.h"
 #include <iostream>
 #include <fstream>
-#include "../Core/Util.h"
 
 void Shader::init(const std::string& fileName) {
-	/*std::vector<std::string> path;
-	Util::split(fileName, "/", path);
-
-	std::cout << "Creating " << path.back() << std::endl;*/
-	
+	std::cout << "Creating shader " << fileName << std::endl;
 	_program = glCreateProgram();
 	_shaders[0] = createShader(readShader(fileName + ".vs"), GL_VERTEX_SHADER);
 	_shaders[1] = createShader(readShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
@@ -91,7 +86,7 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 	const GLchar* shaderSourceArray[1];
 	shaderSourceArray[0] = shaderSource.c_str();
 	GLint lengths[1];
-	lengths[0] = (GLuint) shaderSource.length();
+	lengths[0] = shaderSource.length();
 
 	glShaderSource(shader, 1, shaderSourceArray, lengths);
 	glCompileShader(shader);
@@ -99,7 +94,7 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 
 	
 	if (checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!") == 0)
-		std::cout << "\t- " << (shaderType == GL_FRAGMENT_SHADER ? "Fragment" : "Vertex") << " Shader successfuly created" << std::endl;
+		std::cout << (shaderType == GL_FRAGMENT_SHADER ? "Fragment" : "Vertex") << " Shader created: " << std::endl;
 		//<< "---------------------------------------------" << std::endl
 		//<< shaderSource << std::endl
 		//<< "---------------------------------------------" << std::endl << std::endl;
@@ -131,4 +126,5 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 	}else {
 		return 0;
 	}
+
 }

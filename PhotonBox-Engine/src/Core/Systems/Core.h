@@ -19,7 +19,7 @@ public:
 
 	void init();
 	void start();
-	void run();
+	void update();
 	void destroy();
 private:
 	SceneManager* sceneManager;

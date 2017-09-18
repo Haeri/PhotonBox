@@ -255,11 +255,5 @@
     <ClInclude Include="src\PBRScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Resources\CubeMap.h">
-      <Filter>src\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\Util.h">
-      <Filter>src\Core</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

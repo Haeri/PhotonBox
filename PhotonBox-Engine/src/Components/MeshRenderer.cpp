@@ -73,6 +73,7 @@ void MeshRenderer::render()
 		
 		glBindVertexArray(_vao);
 
+		glActiveTexture(GL_TEXTURE0);
 		if (_material->albedoMap != nullptr)
 			_material->albedoMap->bind();
 		else
@@ -107,11 +108,13 @@ void MeshRenderer::render()
 			_material->forwardShader->directionalLightShader->update(mvp, modelMatrix, *directionalLights[i], eyePos);
 			_material->forwardShader->directionalLightShader->enableAttributes();
 
-			if (_material->normalMap != nullptr) _material->normalMap->bind(GL_TEXTURE0);
-			else default_normal->bind(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0);
+			if (_material->normalMap != nullptr) _material->normalMap->bind();
+			else default_normal->bind();
 
-			if (_material->specularMap != nullptr) _material->specularMap->bind(GL_TEXTURE1);
-			else default_specular->bind(GL_TEXTURE1);
+			glActiveTexture(GL_TEXTURE1);
+			if (_material->specularMap != nullptr) _material->specularMap->bind();
+			else default_specular->bind();
 
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			_material->forwardShader->directionalLightShader->disableAttributes();
@@ -130,12 +133,17 @@ void MeshRenderer::render()
 			glUniform1i(_material->forwardShader->pointLightShader->uniforms["specularMap"], 1);
 			_material->forwardShader->pointLightShader->update(mvp, modelMatrix, *pointLights[i], eyePos);
 			_material->forwardShader->pointLightShader->enableAttributes();
-			
-			if (_material->normalMap != nullptr) _material->normalMap->bind(GL_TEXTURE0);
-			else default_normal->bind(GL_TEXTURE0);
 
-			if (_material->specularMap != nullptr) _material->specularMap->bind(GL_TEXTURE1);
-			else default_specular->bind(GL_TEXTURE1);
+			
+			glActiveTexture(GL_TEXTURE0);
+			if (_material->normalMap != nullptr) _material->normalMap->bind();
+			else default_normal->bind();
+
+
+			glActiveTexture(GL_TEXTURE1);
+			if (_material->specularMap != nullptr) _material->specularMap->bind();
+			else default_specular->bind();
+		
 
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			_material->forwardShader->pointLightShader->enableAttributes();
