@@ -27,9 +27,6 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\TestScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\TransformerScript.cpp">
       <Filter>src</Filter>
     </ClCompile>

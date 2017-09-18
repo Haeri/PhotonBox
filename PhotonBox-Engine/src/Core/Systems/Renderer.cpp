@@ -5,7 +5,7 @@
 #include "../../Components/ObjectRenderer.h"
 #include "../../Components/Transform.h"
 
-bool Renderer::_isRunning;
+bool Renderer::_isDebug;
 std::vector<ObjectRenderer*> Renderer::_renderQueue;
 Renderer::RenderMode Renderer::renderMode;
 
@@ -23,6 +23,7 @@ void Renderer::init(RenderMode mode) {
 	glEnable(GL_DEPTH_TEST);
 	
 	renderMode = mode;
+	_isDebug = false;
 }
 
 void Renderer::start() {
@@ -40,13 +41,19 @@ void Renderer::render() {
 		}
 	}
 	
-	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
-		if ((*it)->getEnable()) {
-			(*it)->transform->renderHandels();
+	if(_isDebug){
+		for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
+			if ((*it)->getEnable()) {
+				(*it)->transform->renderHandels();
+			}
 		}
 	}
 
 	Display::swapBuffer();
+}
+
+void Renderer::setDebug(bool debug) {
+	_isDebug = debug;
 }
 
 void Renderer::destroy() {

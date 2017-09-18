@@ -13,7 +13,8 @@ public:
 		DEFERRED
 	};
 	static RenderMode renderMode;
-	static bool isRunning() { return _isRunning; }
+	static bool isDebug() { return _isDebug; }
+	static void setDebug(bool debug);
 	static void addToRenderQueue(ObjectRenderer *behaviour);
 	static void removeFromRenderQueue(ObjectRenderer *behaviour);
 	static void printList();
@@ -23,7 +24,7 @@ public:
 	void render();
 	void destroy();
 private:
-	static bool _isRunning;
+	static bool _isDebug;
 	static std::vector<ObjectRenderer*> _renderQueue;
 };
 

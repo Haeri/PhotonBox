@@ -150,7 +150,6 @@
     <ClCompile Include="src\Resources\Scene.cpp" />
     <ClCompile Include="src\Resources\Shader.cpp" />
     <ClCompile Include="src\Resources\Texture.cpp" />
-    <ClCompile Include="src\TestScene.cpp" />
     <ClCompile Include="src\TransformerScript.cpp" />
   </ItemGroup>
   <ItemGroup>
