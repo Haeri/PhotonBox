@@ -37,7 +37,7 @@ private:
 	Vector3f _position = Vector3f::ZERO;
 	Vector3f _rotation = Vector3f::ZERO;
 	Vector3f _scale = Vector3f::ONE;
-	Matrix4f _cache;
+	Matrix4f _modelMatrixCached;
 	Transform* _parent;
 };
-#endif /* defined(TRANSFORM_H) */
+#endif // TRANSFORM_H

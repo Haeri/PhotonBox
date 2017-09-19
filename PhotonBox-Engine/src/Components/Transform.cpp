@@ -22,8 +22,7 @@ void Transform::removeChild(Transform * child){
 	children.erase(std::remove(children.begin(), children.end(), child), children.end());
 }
 
-void Transform::renderHandels()
-{
+void Transform::renderHandels(){
 	Matrix4f projectionMatrix = Camera::getMainCamera()->getProjectionMatrix();	
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf((const GLfloat*)&projectionMatrix(0, 0));
@@ -58,8 +57,7 @@ void Transform::renderHandels()
 	glDepthFunc(GL_LESS);
 }
 
-void Transform::print()
-{
+void Transform::print(){
 	std::cout << gameObject->name << std::endl;
 	std::cout << "Position: " << getPosition() << std::endl;
 	std::cout << "World Position: " << getPositionWorld() << std::endl;
@@ -96,13 +94,6 @@ void Transform::setPosition(Vector3f position){
 		_hasChanged = true;
 	}
 }
-
-/*
-void Transform::setRotation(Matrix4f rot) {
-	_rotMat = rot;
-	_hasChanged = true;
-}
-*/
 
 void Transform::setRotation(Vector3f rotation){
 	_rotation = rotation;
@@ -144,39 +135,39 @@ Matrix4f Transform::getTransformationMatrix(bool rot, bool scale, bool trans){
 
 Matrix4f Transform::getLocalTransformationMatrix() {
 	if (_hasChanged) {
-		_cache = Matrix4f::IDENTITY;
+		_modelMatrixCached = Matrix4f::IDENTITY;
 
-		_cache = getRotationMatrix() * Matrix4f::createScaling(_scale);
+		_modelMatrixCached = getRotationMatrix() * Matrix4f::createScaling(_scale);
 
-		_cache(3, 0) = _position.x();
-		_cache(3, 1) = _position.y();
-		_cache(3, 2) = _position.z();
+		_modelMatrixCached(3, 0) = _position.x();
+		_modelMatrixCached(3, 1) = _position.y();
+		_modelMatrixCached(3, 2) = _position.z();
 
 		_hasChanged = false;
 	}
 
-	return _cache;
+	return _modelMatrixCached;
 }
 
 Matrix4f Transform::getLocalTransformationMatrix(bool rot, bool scale, bool trans) {
 	if (rot && scale && trans)
 		return getLocalTransformationMatrix();
 
-	_cache = Matrix4f::IDENTITY;
+	_modelMatrixCached = Matrix4f::IDENTITY;
 		
 	if(rot)
-		_cache = _cache * getRotationMatrix();
+		_modelMatrixCached = _modelMatrixCached * getRotationMatrix();
 	
 	if(scale)
-		_cache = _cache * Matrix4f::createScaling(_scale);
+		_modelMatrixCached = _modelMatrixCached * Matrix4f::createScaling(_scale);
 	
 	if (trans) {
-		_cache(3, 0) = _position.x();
-		_cache(3, 1) = _position.y();
-		_cache(3, 2) = _position.z();
+		_modelMatrixCached(3, 0) = _position.x();
+		_modelMatrixCached(3, 1) = _position.y();
+		_modelMatrixCached(3, 2) = _position.z();
 	}
 
 	_hasChanged = true;
 
-	return _cache;
+	return _modelMatrixCached;
 }

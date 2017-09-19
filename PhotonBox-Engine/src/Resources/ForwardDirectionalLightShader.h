@@ -21,6 +21,10 @@ public:
 		glUniform3fv(uniforms["light.color"], 1, &(directionalLight.color.x()));
 		glUniform1f(uniforms["light.intensity"], directionalLight.intensity);
 		glUniform1f(uniforms["shininess"], shininess);
+		
+		// Textures
+		glUniform1i(uniforms["normalMap"], GL_TEXTURE0);
+		glUniform1i(uniforms["specularMap"], GL_TEXTURE1);
 	}
 
 	void addUniforms() override {
@@ -32,8 +36,8 @@ public:
 		addUniform("viewPos");
 		addUniform("shininess");
 
-		addUniform("specularMap");
-		addUniform("normalMap");
+		addTextureUnit("normalMap", GL_TEXTURE0);
+		addTextureUnit("specularMap", GL_TEXTURE1);
 	}
 
 	void addAttributes() override {

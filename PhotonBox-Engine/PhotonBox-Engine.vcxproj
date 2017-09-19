@@ -18,6 +18,94 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Components\Behaviour.cpp" />
+    <ClCompile Include="src\Components\Camera.cpp" />
+    <ClCompile Include="src\Components\Collider.cpp" />
+    <ClCompile Include="src\Components\LightEmitter.cpp" />
+    <ClCompile Include="src\Components\MeshRenderer.cpp" />
+    <ClCompile Include="src\Components\ObjectRenderer.cpp" />
+    <ClCompile Include="src\Components\SphereCollider.cpp" />
+    <ClCompile Include="src\Components\Transform.cpp" />
+    <ClCompile Include="src\Core\Component.cpp" />
+    <ClCompile Include="src\Core\Display.cpp" />
+    <ClCompile Include="src\Core\GameObject.cpp" />
+    <ClCompile Include="src\Core\InputManager.cpp" />
+    <ClCompile Include="src\Core\PostProcessing.cpp" />
+    <ClCompile Include="src\Core\Systems\Core.cpp" />
+    <ClCompile Include="src\Core\Systems\Lighting.cpp" />
+    <ClCompile Include="src\Core\Systems\Logic.cpp" />
+    <ClCompile Include="src\Core\Systems\Physics.cpp" />
+    <ClCompile Include="src\Core\Systems\Renderer.cpp" />
+    <ClCompile Include="src\Core\Systems\SceneManager.cpp" />
+    <ClCompile Include="src\Core\Time.cpp" />
+    <ClCompile Include="src\Core\Util.cpp" />
+    <ClCompile Include="src\Game\PBRScene.cpp" />
+    <ClCompile Include="src\Game\PrinterScript.cpp" />
+    <ClCompile Include="src\Game\TransformerScript.cpp" />
+    <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Math\Vector2f.cpp" />
+    <ClCompile Include="src\Math\Vector3f.cpp" />
+    <ClCompile Include="src\Math\Vector4f.cpp" />
+    <ClCompile Include="src\Resources\CubeMap.cpp" />
+    <ClCompile Include="src\Resources\Matrix4f.cpp" />
+    <ClCompile Include="src\Resources\OBJLoader.cpp" />
+    <ClCompile Include="src\Resources\Scene.cpp" />
+    <ClCompile Include="src\Resources\Shader.cpp" />
+    <ClCompile Include="src\Resources\SkyBox.cpp" />
+    <ClCompile Include="src\Resources\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Components\AmbientLight.h" />
+    <ClInclude Include="src\Components\Behaviour.h" />
+    <ClInclude Include="src\Components\Camera.h" />
+    <ClInclude Include="src\Components\Collider.h" />
+    <ClInclude Include="src\Components\DirectionalLight.h" />
+    <ClInclude Include="src\Components\LightEmitter.h" />
+    <ClInclude Include="src\Components\MeshRenderer.h" />
+    <ClInclude Include="src\Components\ObjectRenderer.h" />
+    <ClInclude Include="src\Components\PointLight.h" />
+    <ClInclude Include="src\Components\PointRenderer.h" />
+    <ClInclude Include="src\Components\Transform.h" />
+    <ClInclude Include="src\Core\Component.h" />
+    <ClInclude Include="src\Core\Display.h" />
+    <ClInclude Include="src\Core\GameObject.h" />
+    <ClInclude Include="src\Core\InputManager.h" />
+    <ClInclude Include="src\Core\PostProcessing.h" />
+    <ClInclude Include="src\Core\Systems\Core.h" />
+    <ClInclude Include="src\Core\Systems\Lighting.h" />
+    <ClInclude Include="src\Core\Systems\Logic.h" />
+    <ClInclude Include="src\Core\Systems\Physics.h" />
+    <ClInclude Include="src\Core\Systems\Renderer.h" />
+    <ClInclude Include="src\Core\Systems\SceneManager.h" />
+    <ClInclude Include="src\Core\Time.h" />
+    <ClInclude Include="src\Core\Util.h" />
+    <ClInclude Include="src\Game\CameraController.h" />
+    <ClInclude Include="src\Game\PBRScene.h" />
+    <ClInclude Include="src\Game\TestScene.h" />
+    <ClInclude Include="src\Math\Matrix4f.h" />
+    <ClInclude Include="src\Math\Vector2f.h" />
+    <ClInclude Include="src\Math\Vector3f.h" />
+    <ClInclude Include="src\Math\Vector4f.h" />
+    <ClInclude Include="src\Resources\BasicShader.h" />
+    <ClInclude Include="src\Resources\CubeMap.h" />
+    <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
+    <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
+    <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
+    <ClInclude Include="src\Resources\ForwardShader.h" />
+    <ClInclude Include="src\Resources\LitShader.h" />
+    <ClInclude Include="src\Resources\Material.h" />
+    <ClInclude Include="src\Resources\Mesh.h" />
+    <ClInclude Include="src\Resources\OBJLoader.h" />
+    <ClInclude Include="src\Resources\Scene.h" />
+    <ClInclude Include="src\Resources\Shader.h" />
+    <ClInclude Include="src\Resources\SkyBox.h" />
+    <ClInclude Include="src\Resources\SkyBoxShader.h" />
+    <ClInclude Include="src\Resources\Texture.h" />
+    <ClInclude Include="src\Resources\Vertex.h" />
+    <ClInclude Include="src\Test\MathTest.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F4FBA3E5-7430-4B45-B047-1CE9EDD7BAB5}</ProjectGuid>
@@ -115,90 +203,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\CameraController.h" />
-    <ClCompile Include="src\Components\AxisRenderer.h" />
-    <ClCompile Include="src\Components\Behaviour.cpp" />
-    <ClCompile Include="src\Components\Camera.cpp" />
-    <ClCompile Include="src\Components\Collider.cpp" />
-    <ClCompile Include="src\Components\LightEmitter.cpp" />
-    <ClCompile Include="src\Components\MeshRenderer.cpp" />
-    <ClCompile Include="src\Components\ObjectRenderer.cpp" />
-    <ClCompile Include="src\Components\SphereCollider.cpp" />
-    <ClCompile Include="src\Components\Transform.cpp" />
-    <ClCompile Include="src\Core\Component.cpp" />
-    <ClCompile Include="src\Core\Display.cpp" />
-    <ClCompile Include="src\Core\GameObject.cpp" />
-    <ClCompile Include="src\Core\InputManager.cpp" />
-    <ClCompile Include="src\Core\PostProcessing.cpp" />
-    <ClCompile Include="src\Core\Systems\Core.cpp" />
-    <ClCompile Include="src\Core\Systems\Lighting.cpp" />
-    <ClCompile Include="src\Core\Systems\Logic.cpp" />
-    <ClCompile Include="src\Core\Systems\Physics.cpp" />
-    <ClCompile Include="src\Core\Systems\Renderer.cpp" />
-    <ClCompile Include="src\Core\Systems\SceneManager.cpp" />
-    <ClCompile Include="src\Core\Time.cpp" />
-    <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Math\Vector2f.cpp" />
-    <ClCompile Include="src\Math\Vector3f.cpp" />
-    <ClCompile Include="src\Math\Vector4f.cpp" />
-    <ClCompile Include="src\PBRScene.cpp" />
-    <ClCompile Include="src\PrinterScript.cpp" />
-    <ClCompile Include="src\Resources\Matrix4f.cpp" />
-    <ClCompile Include="src\Resources\OBJLoader.cpp" />
-    <ClCompile Include="src\Resources\Scene.cpp" />
-    <ClCompile Include="src\Resources\Shader.cpp" />
-    <ClCompile Include="src\Resources\Texture.cpp" />
-    <ClCompile Include="src\TransformerScript.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Components\AmbientLight.h" />
-    <ClInclude Include="src\Components\Behaviour.h" />
-    <ClInclude Include="src\Components\Camera.h" />
-    <ClInclude Include="src\Components\Collider.h" />
-    <ClInclude Include="src\Components\DirectionalLight.h" />
-    <ClInclude Include="src\Components\LightEmitter.h" />
-    <ClInclude Include="src\Components\MeshRenderer.h" />
-    <ClInclude Include="src\Components\ObjectRenderer.h" />
-    <ClInclude Include="src\Components\PointLight.h" />
-    <ClInclude Include="src\Components\PointRenderer.h" />
-    <ClInclude Include="src\Components\Transform.h" />
-    <ClInclude Include="src\Core\Component.h" />
-    <ClInclude Include="src\Core\Display.h" />
-    <ClInclude Include="src\Core\GameObject.h" />
-    <ClInclude Include="src\Core\InputManager.h" />
-    <ClInclude Include="src\Core\PostProcessing.h" />
-    <ClInclude Include="src\Core\Systems\Core.h" />
-    <ClInclude Include="src\Core\Systems\Lighting.h" />
-    <ClInclude Include="src\Core\Systems\Logic.h" />
-    <ClInclude Include="src\Core\Systems\Physics.h" />
-    <ClInclude Include="src\Core\Systems\Renderer.h" />
-    <ClInclude Include="src\Core\Systems\SceneManager.h" />
-    <ClInclude Include="src\Core\Time.h" />
-    <ClInclude Include="src\Core\Util.h" />
-    <ClInclude Include="src\Math\Matrix4f.h" />
-    <ClInclude Include="src\Math\Vector2f.h" />
-    <ClInclude Include="src\Math\Vector3f.h" />
-    <ClInclude Include="src\Math\Vector4f.h" />
-    <ClInclude Include="src\PBRScene.h" />
-    <ClInclude Include="src\Resources\BasicShader.h" />
-    <ClInclude Include="src\Resources\CubeMap.h" />
-    <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
-    <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
-    <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
-    <ClInclude Include="src\Resources\ForwardShader.h" />
-    <ClInclude Include="src\Resources\LitShader.h" />
-    <ClInclude Include="src\Resources\Material.h" />
-    <ClInclude Include="src\Resources\Mesh.h" />
-    <ClInclude Include="src\Resources\OBJLoader.h" />
-    <ClInclude Include="src\Resources\Scene.h" />
-    <ClInclude Include="src\Resources\Shader.h" />
-    <ClInclude Include="src\Resources\Texture.h" />
-    <ClInclude Include="src\Resources\Vertex.h" />
-    <ClInclude Include="src\TestScene.h" />
-    <ClInclude Include="src\Test\MathTest.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

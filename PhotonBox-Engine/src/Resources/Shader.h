@@ -6,10 +6,19 @@
 #include "../Core/Display.h"
 #include "../Math/Matrix4f.h"
 
+
+
 class Shader {
 public:
+	struct TexUniforUnit
+	{
+		GLuint uniformLocation;
+		GLuint unit;
+	};
+
 	std::map<std::string, GLint> uniforms;
 	std::map<std::string, GLint> attributes;
+	std::map<std::string, TexUniforUnit> textures;
 
 	void init(const std::string& fileName);
 	void bind();
@@ -21,6 +30,7 @@ public:
 
 	void addAttribut(std::string attribute, GLint index);
 	void addUniform(std::string uniform);
+	void addTextureUnit(std::string uniform, GLuint unit);
 	void enableAttributes();
 	void disableAttributes();
 

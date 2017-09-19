@@ -2,16 +2,27 @@
 #define CUBE_MAP_H
 
 #include <string>
+#include <vector>
 #include "../src/Core/Display.h"
 
 class CubeMap {
 public:
-	CubeMap(const std::string & fileName);
+	enum Face
+	{
+		RIGHT,
+		LEFT,
+		TOP,
+		BOTTOM,
+		BACK,
+		FRONT
+	};
+
+	CubeMap(const std::vector<std::string>& faces);
 	~CubeMap();
+	GLuint getLocation() { return _cubeMap; }
 	void bind();
 private:
-	GLuint _texture;
-	int _width, _height;
+	GLuint _cubeMap;
 };
 
 #endif // CUBE_MAP_H

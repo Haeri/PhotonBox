@@ -4,20 +4,20 @@
 class BasicShader;
 class LitShader;
 
-#include "Resources/Scene.h"
-#include "Components/Camera.h"
+#include "../Resources/Scene.h"
+#include "../Components/Camera.h"
 #include "TransformerScript.cpp"
-#include "Resources/OBJLoader.h"
-#include "Components/PointLight.h"
-#include "Resources/BasicShader.h"
-#include "Resources/ForwardShader.h"
-#include "Resources/LitShader.h"
+#include "../Resources/OBJLoader.h"
+#include "../Components/PointLight.h"
+#include "../Resources/BasicShader.h"
+#include "../Resources/ForwardShader.h"
+#include "../Resources/LitShader.h"
 #include "PrinterScript.cpp"
-#include "Components/MeshRenderer.h"
-#include "Components/PointRenderer.h"
-#include "Components/AxisRenderer.h"
+#include "../Components/MeshRenderer.h"
+#include "../Components/PointRenderer.h"
 #include "CameraController.h"
-#include "Components/AmbientLight.h"
+#include "../Components/AmbientLight.h"
+#include "../Resources/SkyBox.h"
 
 class TestScene : public Scene {
 public:
@@ -53,6 +53,26 @@ public:
 			0, 1, 2, 1, 3, 2
 		};
 
+		//SkyBox
+		std::vector<std::string> skyBox = { 
+			"./res/skybox/right.jpg",
+			"./res/skybox/left.jpg",
+			"./res/skybox/top.jpg",
+			"./res/skybox/bottom.jpg",
+			"./res/skybox/back.jpg",
+			"./res/skybox/front.jpg"
+		};
+		std::vector<std::string> skyBox2 = {
+			"./res/skybox-night/right.png",
+			"./res/skybox-night/left.png",
+			"./res/skybox-night/top.png",
+			"./res/skybox-night/bottom.png",
+			"./res/skybox-night/back.png",
+			"./res/skybox-night/front.png"
+		};
+		Renderer::setSkyBox(new CubeMap(skyBox2));
+
+
 		//mesh = new Mesh(vertices, indices);
 		mesh = OBJLoader::loadObj("./res/trooper.obj");
 		plane = OBJLoader::loadObj("./res/plane_big.obj");
@@ -71,14 +91,26 @@ public:
 		rockSpecular = new Texture("./res/rock/specular.jpg", false);
 		Material* rockMaterial = new Material(forwardShader, rockAlbedo, rockNormal);
 		rockMaterial->specularMap = rockSpecular;
+		rockMaterial->shader = basicShader;
 
-
+		
 		Mesh* stevenMesh = OBJLoader::loadObj("./res/steven/steven.obj");
 		Texture* stevenAlbedo = new Texture("./res/steven/albedo.png", true);
 		Texture* stevenNormal = new Texture("./res/steven/normal.png", false);
 		Texture* stevenSpecular = new Texture("./res/steven/specular.png", false);
 		Material* stevenMaterial = new Material(forwardShader, stevenAlbedo, stevenNormal);
-		rockMaterial->specularMap = stevenSpecular;
+		stevenMaterial->specularMap = stevenSpecular;
+		stevenMaterial->shader = basicShader;
+		
+
+
+		Mesh* xwingMesh = OBJLoader::loadObj("./res/xwing/x-wing.obj");
+		Texture* xwingAlbedo = new Texture("./res/xwing/diffuse.png", true);
+		Texture* xwingNormal = new Texture("./res/xwing/normal.png", false);
+		Texture* xwingSpecular = new Texture("./res/xwing/specular.png", false);
+		Material* xwingMaterial = new Material(forwardShader, xwingAlbedo, xwingNormal);
+		xwingMaterial->specularMap = xwingSpecular;
+		xwingMaterial->shader = basicShader;
 
 
 		Texture* metalAlbedo = new Texture("./res/metal/albedo.png", true);
@@ -126,6 +158,16 @@ public:
 		steven->addComponent<MeshRenderer>();
 		steven->getComponent<MeshRenderer>()->setMesh(stevenMesh);
 		steven->getComponent<MeshRenderer>()->setMaterial(stevenMaterial);
+		steven->setEnable(false);
+
+		GameObject* xwing = instanciate("Steven");
+		xwing->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		xwing->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
+		xwing->addComponent<MeshRenderer>();
+		xwing->getComponent<MeshRenderer>()->setMesh(xwingMesh);
+		xwing->getComponent<MeshRenderer>()->setMaterial(xwingMaterial);
+		//xwing->setEnable(false);
+
 
 
 		/*
@@ -162,10 +204,10 @@ public:
 
 		GameObject* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
-		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
+		sun->getComponent<DirectionalLight>()->color = Vector3f(146/255.0f, 253 / 255.0f, 255 / 255.0f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, 1, -1);
 		sun->getComponent<DirectionalLight>()->intensity = 0.6f;
-		sun->setEnable(false);
+		//sun->setEnable(false);
 
 
 		GameObject* pointLight = instanciate("Pointlight");
@@ -178,7 +220,7 @@ public:
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 2;
-		//pointLight->setEnable(false);
+		pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight");
 		pointLight2->addComponent<PointRenderer>();
@@ -190,7 +232,7 @@ public:
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 2;
-		//pointLight2->setEnable(false);
+		pointLight2->setEnable(false);
 
 		GameObject* quad = instanciate("Quad");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
@@ -198,6 +240,7 @@ public:
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(plane);
 		quad->getComponent<MeshRenderer>()->setMaterial(material2);
+		quad->setEnable(false);
 		//quad->addComponent<TransformerScript>();
 
 	}

@@ -4,20 +4,26 @@
     <Filter Include="src">
       <UniqueIdentifier>{73a65e30-be51-4713-9fa9-268bad3b0a47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Component">
-      <UniqueIdentifier>{07d13ee2-8f34-4def-8e51-7557789b0efc}</UniqueIdentifier>
+    <Filter Include="src\Components">
+      <UniqueIdentifier>{54c5dd96-938b-41b3-af06-7a3b13022aa0}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Core">
-      <UniqueIdentifier>{7e837402-487e-416e-af72-0fadd38c620b}</UniqueIdentifier>
+      <UniqueIdentifier>{2ce6d3c0-33fa-4df0-8a24-529cfd86e6f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Game">
+      <UniqueIdentifier>{9d64266d-2477-413a-a4b5-07c35c1f90c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Math">
-      <UniqueIdentifier>{7d134c32-ba7c-476f-b7d2-2eefe2be5494}</UniqueIdentifier>
+      <UniqueIdentifier>{937c9ea9-7ce7-464f-a238-ceb22a21c8d6}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Resources">
-      <UniqueIdentifier>{7365608e-7e14-4017-8590-086943075301}</UniqueIdentifier>
+      <UniqueIdentifier>{32624054-839e-4f39-81d3-46cc1f000556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Test">
+      <UniqueIdentifier>{071ed020-e3d2-4f47-a072-4d689f1f4192}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Core\Systems">
-      <UniqueIdentifier>{26d83db2-c334-4edd-b9cb-07cbd645a37e}</UniqueIdentifier>
+      <UniqueIdentifier>{334c0867-0290-4b4d-bbf3-06a872f4cbdb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,32 +33,29 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\TransformerScript.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Components\Behaviour.cpp">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Camera.cpp">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Collider.cpp">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\LightEmitter.cpp">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\MeshRenderer.cpp">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\ObjectRenderer.cpp">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\SphereCollider.cpp">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Transform.cpp">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Component.cpp">
       <Filter>src\Core</Filter>
@@ -63,29 +66,17 @@
     <ClCompile Include="src\Core\GameObject.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\InputManager.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\PostProcessing.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Time.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Math\Vector2f.cpp">
-      <Filter>src\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Math\Vector3f.cpp">
-      <Filter>src\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Resources\OBJLoader.cpp">
-      <Filter>src\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Resources\Scene.cpp">
-      <Filter>src\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Resources\Shader.cpp">
-      <Filter>src\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Resources\Texture.cpp">
-      <Filter>src\Resources</Filter>
+    <ClCompile Include="src\Core\Util.cpp">
+      <Filter>src\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Systems\Core.cpp">
       <Filter>src\Core\Systems</Filter>
@@ -105,55 +96,79 @@
     <ClCompile Include="src\Core\Systems\SceneManager.cpp">
       <Filter>src\Core\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\PrinterScript.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Game\PBRScene.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\PrinterScript.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\TransformerScript.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math\Vector2f.cpp">
+      <Filter>src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math\Vector3f.cpp">
+      <Filter>src\Math</Filter>
     </ClCompile>
     <ClCompile Include="src\Math\Vector4f.cpp">
       <Filter>src\Math</Filter>
     </ClCompile>
     <ClCompile Include="src\Resources\Matrix4f.cpp">
-      <Filter>src\Math</Filter>
+      <Filter>src\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\AxisRenderer.h">
-      <Filter>src\Component</Filter>
+    <ClCompile Include="src\Resources\OBJLoader.cpp">
+      <Filter>src\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\InputManager.cpp">
-      <Filter>src\Core</Filter>
+    <ClCompile Include="src\Resources\Scene.cpp">
+      <Filter>src\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="src\CameraController.h">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Resources\Shader.cpp">
+      <Filter>src\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="src\PBRScene.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Resources\Texture.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\CubeMap.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\SkyBox.cpp">
+      <Filter>src\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\TestScene.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\Components\AmbientLight.h">
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\Behaviour.h">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\Camera.h">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\Collider.h">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\DirectionalLight.h">
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\LightEmitter.h">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\MeshRenderer.h">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\ObjectRenderer.h">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\PointLight.h">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\PointRenderer.h">
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\Transform.h">
-      <Filter>src\Component</Filter>
+      <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Component.h">
       <Filter>src\Core</Filter>
@@ -164,11 +179,44 @@
     <ClInclude Include="src\Core\GameObject.h">
       <Filter>src\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\InputManager.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\PostProcessing.h">
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Time.h">
       <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Util.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Systems\Core.h">
+      <Filter>src\Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Systems\Lighting.h">
+      <Filter>src\Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Systems\Logic.h">
+      <Filter>src\Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Systems\Physics.h">
+      <Filter>src\Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Systems\Renderer.h">
+      <Filter>src\Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Systems\SceneManager.h">
+      <Filter>src\Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CameraController.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\PBRScene.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\TestScene.h">
+      <Filter>src\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\Math\Matrix4f.h">
       <Filter>src\Math</Filter>
@@ -179,13 +227,28 @@
     <ClInclude Include="src\Math\Vector3f.h">
       <Filter>src\Math</Filter>
     </ClInclude>
+    <ClInclude Include="src\Math\Vector4f.h">
+      <Filter>src\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\BasicShader.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\CubeMap.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\Resources\ForwardPointLightShader.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\Resources\ForwardShader.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\LitShader.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\Resources\Material.h">
@@ -209,57 +272,14 @@
     <ClInclude Include="src\Resources\Vertex.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Systems\Core.h">
-      <Filter>src\Core\Systems</Filter>
+    <ClInclude Include="src\Test\MathTest.h">
+      <Filter>src\Test</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Systems\Lighting.h">
-      <Filter>src\Core\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\Systems\Logic.h">
-      <Filter>src\Core\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\Systems\Physics.h">
-      <Filter>src\Core\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\Systems\Renderer.h">
-      <Filter>src\Core\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\Systems\SceneManager.h">
-      <Filter>src\Core\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Resources\BasicShader.h">
+    <ClInclude Include="src\Resources\SkyBox.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="src\Components\PointRenderer.h">
-      <Filter>src\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Math\Vector4f.h">
-      <Filter>src\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Resources\LitShader.h">
+    <ClInclude Include="src\Resources\SkyBoxShader.h">
       <Filter>src\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Test\MathTest.h" />
-    <ClInclude Include="src\Core\InputManager.h">
-      <Filter>src\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Components\DirectionalLight.h">
-      <Filter>src\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h">
-      <Filter>src\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Components\AmbientLight.h">
-      <Filter>src\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PBRScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Resources\CubeMap.h">
-      <Filter>src\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\Util.h">
-      <Filter>src\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

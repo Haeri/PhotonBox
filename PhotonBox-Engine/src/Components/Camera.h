@@ -13,7 +13,7 @@ public:
 		if (_main == nullptr) setMain();
 
 		float aspect = (float)Display::getWidth() / (float)Display::getHeight();
-		setProjection(45, aspect, 0.01f, 1000.0f);
+		setProjection(70, aspect, 0.01f, 1000.0f);
 	}
 
 	void updateAspect() {
