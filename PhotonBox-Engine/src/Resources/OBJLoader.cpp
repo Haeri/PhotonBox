@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include "../Core/Util.h"
 
 
 struct OBJIndex {
@@ -10,26 +11,13 @@ struct OBJIndex {
 	int normal;
 };
 
-void split(const std::string& line, const std::string& delimiter, std::vector<std::string>& output) {
-	std::string s = line;
-	size_t pos = 0;
-	std::string token;
-
-	while ((pos = s.find(delimiter)) != std::string::npos) {
-		token = s.substr(0, pos);
-		output.push_back(token);
-		s.erase(0, pos + delimiter.length());
-	}
-	output.push_back(s);
-}
-
 void parseFace(const std::string& token, std::vector<OBJIndex>& indexList, std::map<OBJIndex, int>& faceIndexMap, int cnt) {
 
 	int p = -1, u = -1, n = -1;
 	OBJIndex obj;
 
 	std::vector<std::string> tokens;
-	split(token, "/", tokens);
+	Util::split(token, "/", tokens);
 	
 	if (tokens.size() > 0) {
 		p = std::stoi(tokens[0]);
@@ -103,7 +91,7 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	while (std::getline(file, line)) {
 		
 		tokens.clear();
-		split(line, " ", tokens);
+		Util::split(line, " ", tokens);
 		
 		if (tokens[0].compare("") == 0 || tokens[0].compare(0, 1, "#") == 0) {
 			continue;
