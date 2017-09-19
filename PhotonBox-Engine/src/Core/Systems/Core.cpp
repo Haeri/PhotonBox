@@ -9,8 +9,8 @@
 #include "Lighting.h"
 #include "../InputManager.h"
 
-#include "../../TestScene.h"
-#include "../../PBRScene.h"
+#include "../../Game/TestScene.h"
+#include "../../Game/PBRScene.h"
 
 bool Core::_isRunning;
 

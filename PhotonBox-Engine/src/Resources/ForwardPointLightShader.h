@@ -24,6 +24,10 @@ public:
 		glUniform1f(uniforms["light.linear"], pointLight.linear);
 		glUniform1f(uniforms["light.quadratic"], pointLight.quadratic);
 		glUniform1f(uniforms["shininess"], shininess);
+		
+		// Textures
+		glUniform1i(uniforms["normalMap"], GL_TEXTURE0);
+		glUniform1i(uniforms["specularMap"], GL_TEXTURE1);
 	}
 
 	void addUniforms() {
@@ -38,8 +42,8 @@ public:
 		addUniform("viewPos");
 		addUniform("shininess");
 
-		addUniform("specularMap");
-		addUniform("normalMap");
+		addTextureUnit("normalMap", GL_TEXTURE0);
+		addTextureUnit("specularMap", GL_TEXTURE1);
 	}
 
 	void addAttributes() override {

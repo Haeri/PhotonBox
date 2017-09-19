@@ -1,13 +1,13 @@
 #ifndef CAMERA_CONTROLLER_H
 #define CAMERA_CONTROLLER_H
 
-#include "Components/Behaviour.h"
-#include "Components/Transform.h"
-#include "Core/Time.h"
-#include "Core/InputManager.h"
-#include "Core/Systems/Renderer.h"
-#include "Components/Camera.h"
-#include "Core/Systems/SceneManager.h"
+#include "../Components/Behaviour.h"
+#include "../Components/Transform.h"
+#include "../Core/Time.h"
+#include "../Core/InputManager.h"
+#include "../Core/Systems/Renderer.h"
+#include "../Components/Camera.h"
+#include "../Core/Systems/SceneManager.h"
 
 class CameraController : public Behaviour {
 public:

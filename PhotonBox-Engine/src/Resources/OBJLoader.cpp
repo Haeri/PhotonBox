@@ -26,11 +26,12 @@ void parseFace(const std::string& token, std::vector<OBJIndex>& indexList, std::
 		}
 
 		if (tokens.size() > 1) {
-			u = std::stoi(tokens[1]);
-			if (u != -1) {
-				obj.uv = u - 1;
+			if (tokens[1] != "") {
+				u = std::stoi(tokens[1]);
+				if (u != -1) {
+					obj.uv = u - 1;
+				}
 			}
-		
 			if (tokens.size() > 2) {
 				n = std::stoi(tokens[2]);
 				if (n != -1) {

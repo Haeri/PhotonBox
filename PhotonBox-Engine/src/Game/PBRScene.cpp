@@ -1,13 +1,12 @@
 #include "PBRScene.h"
-#include "Resources/BasicShader.h"
-#include "Resources/ForwardShader.h"
-#include "Resources/LitShader.h"
+#include "../Resources/BasicShader.h"
+#include "../Resources/ForwardShader.h"
+#include "../Resources/LitShader.h"
 #include "PrinterScript.cpp"
-#include "Components/MeshRenderer.h"
-#include "Components/PointRenderer.h"
-#include "Components/AxisRenderer.h"
+#include "../Components/MeshRenderer.h"
+#include "../Components/PointRenderer.h"
 #include "CameraController.h"
-#include "Components/AmbientLight.h"
+#include "../Components/AmbientLight.h"
 
 void PBRScene::Load() {
 

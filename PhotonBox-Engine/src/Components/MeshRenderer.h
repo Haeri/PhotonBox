@@ -22,4 +22,4 @@ private:
 	Texture* default_normal, *default_specular;
 };
 
-#endif /* defined(MESH_RENDERER_H) */
+#endif // MESH_RENDERER_H

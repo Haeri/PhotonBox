@@ -4,12 +4,12 @@
 class BasicShader;
 class LitShader;
 
-#include "Resources/Scene.h"
-#include "Components/MeshRenderer.h"
-#include "Components/Camera.h"
+#include "../Resources/Scene.h"
+#include "../Components/MeshRenderer.h"
+#include "../Components/Camera.h"
 #include "TransformerScript.cpp"
-#include "Resources/OBJLoader.h"
-#include "Components/PointLight.h"
+#include "../Resources/OBJLoader.h"
+#include "../Components/PointLight.h"
 
 class PBRScene : public Scene {
 public:

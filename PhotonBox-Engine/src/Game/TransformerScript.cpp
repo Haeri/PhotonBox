@@ -1,9 +1,9 @@
 #ifndef TRANSFORMER_SCRIPT_CPP
 #define TRANSFORMER_SCRIPT_CPP
 
-#include "Components/Behaviour.h"
-#include "Components/Transform.h"
-#include "Core/Time.h"
+#include "../Components/Behaviour.h"
+#include "../Components/Transform.h"
+#include "../Core/Time.h"
 
 class TransformerScript: public Behaviour {
 public:
