@@ -12,6 +12,10 @@ public:
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(matrix(0, 0)));
 		glUniform1f(uniforms["light.intensity"], ambient.intensity);
 		glUniform3fv(uniforms["light.color"], 1, &(ambient.color.x()));
+
+		// Textures
+		glUniform1i(textures["albedoMap"].uniformLocation, 0);
+		glUniform1i(textures["emissionMap"].uniformLocation, 1);
 	}
 
 	void addAttributes() override {
@@ -23,6 +27,9 @@ public:
 		addUniform("mvp");
 		addUniform("light.intensity");
 		addUniform("light.color");
+
+		addTextureUnit("albedoMap", GL_TEXTURE0);
+		addTextureUnit("emissionMap", GL_TEXTURE1);
 	}
 };
 

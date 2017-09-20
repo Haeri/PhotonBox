@@ -19,6 +19,7 @@ public:
 	Texture* albedoMap;
 	Texture* normalMap;
 	Texture* specularMap;
+	Texture* emissionMap;
 };
 
 #endif /* defined(MATERIAL_H) */

@@ -44,6 +44,7 @@ void MeshRenderer::init()
 
 	default_normal = new Texture("./res/default_normal.png", false);
 	default_specular = new Texture("./res/default_specular.png", false);
+	default_emission = new Texture("./res/default_emission.png", false);
 }
 
 void MeshRenderer::render()
@@ -80,8 +81,11 @@ void MeshRenderer::render()
 		_material->forwardShader->ambientLightShader->update(mvp, *ambient);
 		_material->forwardShader->ambientLightShader->enableAttributes();
 
-		if (_material->albedoMap != nullptr) _material->albedoMap->bind();
-		else glBindTexture(GL_TEXTURE_2D, 0);
+		if (_material->albedoMap != nullptr) _material->albedoMap->bind(_material->forwardShader->ambientLightShader->textures["albedoMap"].unit);
+		else default_specular->bind(_material->forwardShader->ambientLightShader->textures["albedoMap"].unit);
+
+		if (_material->emissionMap != nullptr) _material->emissionMap->bind(_material->forwardShader->ambientLightShader->textures["emissionMap"].unit);
+		else default_emission->bind(_material->forwardShader->ambientLightShader->textures["emissionMap"].unit);
 
 		glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		_material->forwardShader->ambientLightShader->disableAttributes();

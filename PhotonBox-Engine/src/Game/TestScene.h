@@ -108,8 +108,10 @@ public:
 		Texture* xwingAlbedo = new Texture("./res/xwing/diffuse.png", true);
 		Texture* xwingNormal = new Texture("./res/xwing/normal.png", false);
 		Texture* xwingSpecular = new Texture("./res/xwing/specular.png", false);
+		Texture* xwingEmission = new Texture("./res/xwing/emission.png", false);
 		Material* xwingMaterial = new Material(forwardShader, xwingAlbedo, xwingNormal);
 		xwingMaterial->specularMap = xwingSpecular;
+		xwingMaterial->emissionMap = xwingEmission;
 		xwingMaterial->shader = basicShader;
 
 
@@ -122,8 +124,10 @@ public:
 		material->shader = basicShader;
 
 		Texture* gridSpecular = new Texture("./res/grid_specular.png", true);
+		Texture* gridEmission = new Texture("./res/grid_emission.png", true);
 		material2 = new Material(forwardShader, tex2, nullptr);
 		material2->specularMap = gridSpecular;
+		material2->emissionMap = gridEmission;
 		material2->shader = basicShader;
 
 		/*	mesh2 = new Mesh(vertices2, indices2);
@@ -161,7 +165,8 @@ public:
 		steven->setEnable(false);
 
 		GameObject* xwing = instanciate("Steven");
-		xwing->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
+		xwing->getComponent<Transform>()->setPosition(Vector3f(0, 3, 0));
+		xwing->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
 		xwing->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
 		xwing->addComponent<MeshRenderer>();
 		xwing->getComponent<MeshRenderer>()->setMesh(xwingMesh);
@@ -198,7 +203,7 @@ public:
 
 		GameObject* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
-		ambient->getComponent<AmbientLight>()->color = Vector3f(0.3f, 0.3f, 0.3f);
+		ambient->getComponent<AmbientLight>()->color = Vector3f(29 /255.0f, 52/255.0f, 63/255.0f);
 		ambient->getComponent<AmbientLight>()->intensity = 1.0f;
 
 
@@ -212,27 +217,38 @@ public:
 
 		GameObject* pointLight = instanciate("Pointlight");
 		pointLight->addComponent<PointRenderer>();
-		pointLight->getComponent<Transform>()->setPosition(Vector3f(6, 2, 0));
+		pointLight->getComponent<Transform>()->setPosition(Vector3f(8, 1, 0));
 		pointLight->getComponent<Transform>()->setParent(rig);
 		pointLight->addComponent<PointLight>();
 		pointLight->getComponent<PointLight>()->color = Vector3f(0.93f, 0.52f, 0.24f);
 		pointLight->getComponent<PointLight>()->constant = 1;
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
-		pointLight->getComponent<PointLight>()->intensity = 2;
+		pointLight->getComponent<PointLight>()->intensity = 3;
 		//pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight");
 		pointLight2->addComponent<PointRenderer>();
-		pointLight2->getComponent<Transform>()->setPosition(Vector3f(-6, 4, 0));
+		pointLight2->getComponent<Transform>()->setPosition(Vector3f(-8, 6, 0));
 		pointLight2->getComponent<Transform>()->setParent(rig);
 		pointLight2->addComponent<PointLight>();
 		pointLight2->getComponent<PointLight>()->color = Vector3f(0.4f, 0.3f, 1);
 		pointLight2->getComponent<PointLight>()->constant = 1;
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
-		pointLight2->getComponent<PointLight>()->intensity = 2;
+		pointLight2->getComponent<PointLight>()->intensity = 3;
 		//pointLight2->setEnable(false);
+
+		GameObject* pointLight3 = instanciate("Pointlight");
+		pointLight3->addComponent<PointRenderer>();
+		pointLight3->getComponent<Transform>()->setPosition(Vector3f(0, 3, 9));
+		pointLight3->addComponent<PointLight>();
+		pointLight3->getComponent<PointLight>()->color = Vector3f(0.98f, 0.1f, 0.1f);
+		pointLight3->getComponent<PointLight>()->constant = 1;
+		pointLight3->getComponent<PointLight>()->linear = 0.09f;
+		pointLight3->getComponent<PointLight>()->quadratic = 0.032f;
+		pointLight3->getComponent<PointLight>()->intensity = 2;
+
 
 		GameObject* quad = instanciate("Quad");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
