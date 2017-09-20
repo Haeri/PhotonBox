@@ -19,7 +19,7 @@ private:
 
 	GLuint _vao, _vbo, _ebo;
 	
-	Texture* default_normal, *default_specular;
+	Texture* default_normal, *default_specular, *default_emission;
 };
 
 #endif // MESH_RENDERER_H
