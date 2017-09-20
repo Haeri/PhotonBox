@@ -161,7 +161,7 @@ public:
 		steven->setEnable(false);
 
 		GameObject* xwing = instanciate("Steven");
-		xwing->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		xwing->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
 		xwing->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
 		xwing->addComponent<MeshRenderer>();
 		xwing->getComponent<MeshRenderer>()->setMesh(xwingMesh);
@@ -207,7 +207,7 @@ public:
 		sun->getComponent<DirectionalLight>()->color = Vector3f(146/255.0f, 253 / 255.0f, 255 / 255.0f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, 1, -1);
 		sun->getComponent<DirectionalLight>()->intensity = 0.6f;
-		//sun->setEnable(false);
+		sun->setEnable(false);
 
 
 		GameObject* pointLight = instanciate("Pointlight");
@@ -220,7 +220,7 @@ public:
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 2;
-		pointLight->setEnable(false);
+		//pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight");
 		pointLight2->addComponent<PointRenderer>();
@@ -232,7 +232,7 @@ public:
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 2;
-		pointLight2->setEnable(false);
+		//pointLight2->setEnable(false);
 
 		GameObject* quad = instanciate("Quad");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
@@ -240,7 +240,7 @@ public:
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(plane);
 		quad->getComponent<MeshRenderer>()->setMaterial(material2);
-		quad->setEnable(false);
+		//quad->setEnable(false);
 		//quad->addComponent<TransformerScript>();
 
 	}

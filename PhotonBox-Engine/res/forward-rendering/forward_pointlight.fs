@@ -13,7 +13,7 @@ struct PointLight{
 
 uniform PointLight light;
 uniform float shininess; 
-//uniform sampler2D albedoMap;
+uniform sampler2D albedoMap;
 uniform sampler2D normalMap;
 uniform sampler2D specularMap;
 uniform vec3 viewPos;
@@ -32,7 +32,7 @@ void main(){
     vec3 norm = normalize(tbnVarying * (255.0/128.0 * texture2D(normalMap, texCoordVarying).xyz - 1));
     vec3 lightDir = normalize(light.position - positionVarying);
     float diff = saturate(dot(norm, lightDir));
-    vec3 diffuse = light.color * diff;  
+    vec3 diffuse = light.color * diff * texture2D(albedoMap, texCoordVarying).xyz;
     
     // specular
     vec3 viewDir = normalize(viewPos - positionVarying);

@@ -71,13 +71,7 @@ void MeshRenderer::render()
 		Matrix4f modelMatrix = transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
 		
-		glBindVertexArray(_vao);
-
-		if (_material->albedoMap != nullptr)
-			_material->albedoMap->bind();
-		else
-			glBindTexture(GL_TEXTURE_2D, 0);
-	
+		glBindVertexArray(_vao);	
 		
 		
 		// AMBIENT
@@ -85,6 +79,10 @@ void MeshRenderer::render()
 		_material->forwardShader->bindAmbientShader();
 		_material->forwardShader->ambientLightShader->update(mvp, *ambient);
 		_material->forwardShader->ambientLightShader->enableAttributes();
+
+		if (_material->albedoMap != nullptr) _material->albedoMap->bind();
+		else glBindTexture(GL_TEXTURE_2D, 0);
+
 		glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		_material->forwardShader->ambientLightShader->disableAttributes();
 		
@@ -96,7 +94,6 @@ void MeshRenderer::render()
 		glDepthFunc(GL_EQUAL);
 		
 		
-		
 		// DIRECTIONAL LIGHTS
 		std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
 		for (size_t i = 0; i < directionalLights.size(); ++i) {
@@ -105,6 +102,10 @@ void MeshRenderer::render()
 			
 			_material->forwardShader->directionalLightShader->update(mvp, modelMatrix, *directionalLights[i], eyePos);
 			_material->forwardShader->directionalLightShader->enableAttributes();
+
+
+			if (_material->albedoMap != nullptr) _material->albedoMap->bind(_material->forwardShader->directionalLightShader->textures["albedoMap"].unit);
+			else default_specular->bind(_material->forwardShader->directionalLightShader->textures["albedoMap"].unit);
 
 			if (_material->normalMap != nullptr) _material->normalMap->bind(_material->forwardShader->directionalLightShader->textures["normalMap"].unit);
 			else default_normal->bind(_material->forwardShader->directionalLightShader->textures["normalMap"].unit);
@@ -120,15 +121,22 @@ void MeshRenderer::render()
 		std::vector<PointLight*> pointLights = Lighting::getLights<PointLight>();
 		for(size_t i = 0; i < pointLights.size(); ++i){
 			if (!pointLights[i]->getEnable()) continue;
+								
 			_material->forwardShader->bindPointLightShader();
 			_material->forwardShader->pointLightShader->update(mvp, modelMatrix, *pointLights[i], eyePos);
 			_material->forwardShader->pointLightShader->enableAttributes();
 			
+			if (_material->albedoMap != nullptr) _material->albedoMap->bind(_material->forwardShader->pointLightShader->textures["albedoMap"].unit);
+			else default_specular->bind(_material->forwardShader->pointLightShader->textures["albedoMap"].unit);
+
 			if (_material->normalMap != nullptr) _material->normalMap->bind(_material->forwardShader->pointLightShader->textures["normalMap"].unit);
 			else default_normal->bind(_material->forwardShader->pointLightShader->textures["normalMap"].unit);
 
 			if (_material->specularMap != nullptr) _material->specularMap->bind(_material->forwardShader->pointLightShader->textures["specularMap"].unit);
 			else default_specular->bind(_material->forwardShader->pointLightShader->textures["specularMap"].unit);
+
+
+		
 
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			_material->forwardShader->pointLightShader->enableAttributes();
