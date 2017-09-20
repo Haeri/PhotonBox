@@ -23,8 +23,9 @@ public:
 		glUniform1f(uniforms["shininess"], shininess);
 		
 		// Textures
-		glUniform1i(uniforms["normalMap"], GL_TEXTURE0);
-		glUniform1i(uniforms["specularMap"], GL_TEXTURE1);
+		glUniform1i(textures["albedoMap"].uniformLocation, 0);
+		glUniform1i(textures["normalMap"].uniformLocation, 1);
+		glUniform1i(textures["specularMap"].uniformLocation, 2);
 	}
 
 	void addUniforms() override {
@@ -36,8 +37,9 @@ public:
 		addUniform("viewPos");
 		addUniform("shininess");
 
-		addTextureUnit("normalMap", GL_TEXTURE0);
-		addTextureUnit("specularMap", GL_TEXTURE1);
+		addTextureUnit("albedoMap", GL_TEXTURE0);
+		addTextureUnit("normalMap", GL_TEXTURE1);
+		addTextureUnit("specularMap", GL_TEXTURE2);
 	}
 
 	void addAttributes() override {
