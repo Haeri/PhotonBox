@@ -8,6 +8,7 @@
 #include "DirectionalLight.h"
 #include "AmbientLight.h"
 #include "../Core/GameObject.h"
+#include "../Resources/SkyBox.h"
 
 void MeshRenderer::init()
 {
@@ -45,6 +46,7 @@ void MeshRenderer::init()
 	default_normal = new Texture("./res/default_normal.png", false);
 	default_specular = new Texture("./res/default_specular.png", false);
 	default_emission = new Texture("./res/default_emission.png", false);
+	default_ao = new Texture("./res/default_ao.png", false);
 }
 
 void MeshRenderer::render()
@@ -78,14 +80,27 @@ void MeshRenderer::render()
 		// AMBIENT
 		AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
 		_material->forwardShader->bindAmbientShader();
-		_material->forwardShader->ambientLightShader->update(mvp, *ambient);
+		_material->forwardShader->ambientLightShader->update(mvp, modelMatrix, *ambient, eyePos);
 		_material->forwardShader->ambientLightShader->enableAttributes();
+
 
 		if (_material->albedoMap != nullptr) _material->albedoMap->bind(_material->forwardShader->ambientLightShader->textures["albedoMap"].unit);
 		else default_specular->bind(_material->forwardShader->ambientLightShader->textures["albedoMap"].unit);
 
+		if (_material->normalMap != nullptr) _material->normalMap->bind(_material->forwardShader->ambientLightShader->textures["normalMap"].unit);
+		else default_normal->bind(_material->forwardShader->ambientLightShader->textures["normalMap"].unit);
+
+		if (_material->specularMap != nullptr) _material->specularMap->bind(_material->forwardShader->ambientLightShader->textures["specularMap"].unit);
+		else default_specular->bind(_material->forwardShader->ambientLightShader->textures["specularMap"].unit);
+
+		if (_material->aoMap != nullptr) _material->aoMap->bind(_material->forwardShader->ambientLightShader->textures["aoMap"].unit);
+		else default_ao->bind(_material->forwardShader->ambientLightShader->textures["aoMap"].unit);
+
 		if (_material->emissionMap != nullptr) _material->emissionMap->bind(_material->forwardShader->ambientLightShader->textures["emissionMap"].unit);
 		else default_emission->bind(_material->forwardShader->ambientLightShader->textures["emissionMap"].unit);
+
+		if (Renderer::getSkyBox()->getCubeMapSpecular() != nullptr)  Renderer::getSkyBox()->getCubeMapSpecular()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxSpec"].unit);
+		if (Renderer::getSkyBox()->getCubeMapDefuse() != nullptr)  Renderer::getSkyBox()->getCubeMapDefuse()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxDif"].unit);
 
 		glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		_material->forwardShader->ambientLightShader->disableAttributes();

@@ -62,7 +62,7 @@ public:
 			"./res/skybox/back.jpg",
 			"./res/skybox/front.jpg"
 		};
-		std::vector<std::string> skyBox2 = {
+		std::vector<std::string> skyBoxNightSpec = {
 			"./res/skybox-night/right.png",
 			"./res/skybox-night/left.png",
 			"./res/skybox-night/top.png",
@@ -70,8 +70,33 @@ public:
 			"./res/skybox-night/back.png",
 			"./res/skybox-night/front.png"
 		};
-		Renderer::setSkyBox(new CubeMap(skyBox2));
+		std::vector<std::string> skyBoxNightDif = {
+			"./res/skybox-night_defuse/right.png",
+			"./res/skybox-night_defuse/left.png",
+			"./res/skybox-night_defuse/top.png",
+			"./res/skybox-night_defuse/bottom.png",
+			"./res/skybox-night_defuse/back.png",
+			"./res/skybox-night_defuse/front.png"
+		};
+		std::vector<std::string> skyBoxSpec = {
+			"./res/neg/right.jpg",
+			"./res/neg/left.jpg",
+			"./res/neg/top.jpg",
+			"./res/neg/bottom.jpg",
+			"./res/neg/back.jpg",
+			"./res/neg/front.jpg",
+		};
+		std::vector<std::string> skyBoxDef = {
+			"./res/neg_defuse/right.jpg",
+			"./res/neg_defuse/left.jpg",
+			"./res/neg_defuse/top.jpg",
+			"./res/neg_defuse/bottom.jpg",
+			"./res/neg_defuse/back.jpg",
+			"./res/neg_defuse/front.jpg",
+		};
 
+		Renderer::setSkyBox(new CubeMap(skyBoxSpec), new CubeMap(skyBoxDef));
+		//Renderer::setSkyBox(new CubeMap(skyBoxNightSpec), new CubeMap(skyBoxNightDif));
 
 		//mesh = new Mesh(vertices, indices);
 		mesh = OBJLoader::loadObj("./res/trooper.obj");
@@ -105,12 +130,14 @@ public:
 
 
 		Mesh* xwingMesh = OBJLoader::loadObj("./res/xwing/x-wing.obj");
-		Texture* xwingAlbedo = new Texture("./res/xwing/diffuse.png", true);
-		Texture* xwingNormal = new Texture("./res/xwing/normal.png", false);
-		Texture* xwingSpecular = new Texture("./res/xwing/specular.png", false);
-		Texture* xwingEmission = new Texture("./res/xwing/emission.png", false);
+		Texture* xwingAlbedo = new Texture("./res/xwing/4k_diffuse.jpg", true);
+		Texture* xwingNormal = new Texture("./res/xwing/4k_normal.jpg", false);
+		Texture* xwingSpecular = new Texture("./res/xwing/4k_specular.jpg", false);
+		Texture* xwingAo = new Texture("./res/xwing/4k_ao.jpg", false);
+		Texture* xwingEmission = new Texture("./res/xwing/4k_emission.jpg", false);
 		Material* xwingMaterial = new Material(forwardShader, xwingAlbedo, xwingNormal);
 		xwingMaterial->specularMap = xwingSpecular;
+		xwingMaterial->aoMap = xwingAo;
 		xwingMaterial->emissionMap = xwingEmission;
 		xwingMaterial->shader = basicShader;
 
@@ -126,7 +153,7 @@ public:
 		Texture* gridSpecular = new Texture("./res/grid_specular.png", true);
 		Texture* gridEmission = new Texture("./res/grid_emission.png", true);
 		material2 = new Material(forwardShader, tex2, nullptr);
-		material2->specularMap = gridSpecular;
+		material2->specularMap = tex2;
 		material2->emissionMap = gridEmission;
 		material2->shader = basicShader;
 
@@ -184,20 +211,21 @@ public:
 
 
 		/*
-		for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 4; j++) {
-		for (int k = 0; k < 5; k++) {
-		GameObject* pointLight = instanciate("Pointlight" + i);
-		//pointLight->addComponent<PointRenderer>();
-		pointLight->getComponent<Transform>()->setPosition(Vector3f(i * 3 - (5/2) * 3, j * 2, k * 3 - (5 / 2) * 3));
-		pointLight->getComponent<Transform>()->setParent(rig);
-		pointLight->addComponent<PointLight>();
-		pointLight->getComponent<PointLight>()->color = Vector3f(i/10.0f, j / 10.0f, k / 10.0f);
-		pointLight->getComponent<PointLight>()->constant = 1;
-		pointLight->getComponent<PointLight>()->linear = 0.9f;
-		pointLight->getComponent<PointLight>()->quadratic = 0.8f;
-		}
-		}
+		for (int i = 0; i < 6; i++) {
+			for (int j = 1; j < 2; j++) {
+				for (int k = 0; k < 6; k++) {
+				GameObject* pointLight = instanciate("Pointlight" + std::to_string(i));
+				pointLight->addComponent<PointRenderer>();
+				pointLight->getComponent<Transform>()->setPosition(Vector3f(i * 10 - (6/2) * 10, j * 10, k * 10 - (6/ 2) * 10));
+				pointLight->getComponent<Transform>()->setParent(rig);
+				pointLight->addComponent<PointLight>();
+				pointLight->getComponent<PointLight>()->color = Vector3f(i/8.0f, j / 2.0f, k / 8.0f);
+				pointLight->getComponent<PointLight>()->constant = 1;
+				pointLight->getComponent<PointLight>()->linear = 0.09f;
+				pointLight->getComponent<PointLight>()->quadratic = 0.032f;
+				pointLight->getComponent<PointLight>()->intensity = 3;
+				}
+			}
 		}
 		*/
 
@@ -225,7 +253,7 @@ public:
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 3;
-		//pointLight->setEnable(false);
+		pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight");
 		pointLight2->addComponent<PointRenderer>();
@@ -237,7 +265,7 @@ public:
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 3;
-		//pointLight2->setEnable(false);
+		pointLight2->setEnable(false);
 
 		GameObject* pointLight3 = instanciate("Pointlight");
 		pointLight3->addComponent<PointRenderer>();
@@ -248,7 +276,7 @@ public:
 		pointLight3->getComponent<PointLight>()->linear = 0.09f;
 		pointLight3->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight3->getComponent<PointLight>()->intensity = 2;
-
+		//pointLight3->setEnable(false);
 
 		GameObject* quad = instanciate("Quad");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));

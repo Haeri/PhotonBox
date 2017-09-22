@@ -19,6 +19,7 @@ public:
 	Texture* albedoMap;
 	Texture* normalMap;
 	Texture* specularMap;
+	Texture* aoMap;
 	Texture* emissionMap;
 };
 

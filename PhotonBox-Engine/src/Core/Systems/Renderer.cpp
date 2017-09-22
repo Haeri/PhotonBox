@@ -20,7 +20,12 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *objectRenderer) {
 }
 
 void Renderer::setSkyBox(CubeMap* cubeMap){
-	_skyBox.setCubeMap(cubeMap);
+	_skyBox.setCubeMapSpecular(cubeMap);
+}
+
+void Renderer::setSkyBox(CubeMap* cubeMapSpecular, CubeMap* cubeMapDefuse) {
+	_skyBox.setCubeMapSpecular(cubeMapSpecular);
+	_skyBox.setCubeMapDefuse(cubeMapDefuse);
 }
 
 void Renderer::init(RenderMode mode) {
@@ -33,6 +38,8 @@ void Renderer::init(RenderMode mode) {
 }
 
 void Renderer::start() {
+	_skyBox.init();
+
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		(*it)->init();
 	}

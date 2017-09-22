@@ -2,9 +2,10 @@
 #define RENDERER_H
 
 class ObjectRenderer;
-class SkyBox;
 class CubeMap;
+
 #include <vector>
+#include "../../Resources/SkyBox.h"
 
 class Renderer {
 public:
@@ -20,7 +21,8 @@ public:
 	static void addToRenderQueue(ObjectRenderer *behaviour);
 	static void removeFromRenderQueue(ObjectRenderer *behaviour);
 	static void setSkyBox(CubeMap* cubeMap);
-	//static SkyBox* getSkyBox() { return _skyBox; }
+	static void setSkyBox(CubeMap* cubeMapSpecular, CubeMap* cubeMapDefuse);
+	static SkyBox* getSkyBox() { return &_skyBox; }
 	static void printList();
 
 	void init(RenderMode);

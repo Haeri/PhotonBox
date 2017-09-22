@@ -7,8 +7,9 @@ void Shader::init(const std::string& fileName) {
 	std::vector<std::string> path;
 	Util::split(fileName, "/", path);
 
-	std::cout << "Creating " << path.back() << std::endl;
-	
+	_fileName = path.back();
+	std::cout << "Creating " << _fileName << std::endl;
+
 	_program = glCreateProgram();
 	_shaders[0] = createShader(readShader(fileName + ".vs"), GL_VERTEX_SHADER);
 	_shaders[1] = createShader(readShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
@@ -43,7 +44,9 @@ void Shader::addAttribut(std::string attribute, GLint index) {
 }
 
 void Shader::addUniform(std::string uniform) {
-	uniforms[uniform] = glGetUniformLocation(_program, uniform.c_str());
+	GLint pos = glGetUniformLocation(_program, uniform.c_str());
+	if (pos == -1) std::cout << "\t\tcould not find uniform '" << uniform << "' in shader " << _fileName << std::endl;
+	uniforms[uniform] = pos;
 }
 
 void Shader::addTextureUnit(std::string uniform, GLuint unit) {
