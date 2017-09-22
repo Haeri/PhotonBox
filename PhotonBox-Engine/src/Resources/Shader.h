@@ -33,10 +33,11 @@ public:
 	void addTextureUnit(std::string uniform, GLuint unit);
 	void enableAttributes();
 	void disableAttributes();
-
+	std::string& getName() { return _fileName; }
 private:
 	const static unsigned int NUM_SHADERS = 2;
-
+	
+	std::string _fileName;
 	GLuint _program;
 	GLuint _shaders[NUM_SHADERS];
 

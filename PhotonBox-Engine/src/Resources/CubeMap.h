@@ -21,6 +21,7 @@ public:
 	~CubeMap();
 	GLuint getLocation() { return _cubeMap; }
 	void bind();
+	void bind(GLuint textureUnit);
 private:
 	GLuint _cubeMap;
 };

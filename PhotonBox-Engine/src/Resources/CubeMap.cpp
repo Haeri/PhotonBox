@@ -32,6 +32,10 @@ CubeMap::~CubeMap() {
 }
 
 void CubeMap::bind() {
-	glActiveTexture(GL_TEXTURE0);
+	bind(GL_TEXTURE0);
+}
+
+void CubeMap::bind(GLuint textureUnit) {
+	glActiveTexture(textureUnit);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap);
 }

@@ -2,10 +2,6 @@
 #include "../Components/Camera.h"
 #include "OBJLoader.h"
 
-SkyBox::SkyBox(CubeMap* cubeMap){
-	_cubeMap = cubeMap;
-	init();
-}
 
 void SkyBox::init(){
 	_skyBoxShader = new SkyBoxShader("./res/forward-rendering/skyBox");
@@ -13,9 +9,12 @@ void SkyBox::init(){
 	genVAO();
 }
 
-void SkyBox::setCubeMap(CubeMap* cubeMap) {
-	_cubeMap = cubeMap;
-	init();
+void SkyBox::setCubeMapSpecular(CubeMap* cubeMap) {
+	_cubeMapSpecular = cubeMap;
+}
+
+void SkyBox::setCubeMapDefuse(CubeMap * cubeMap){
+	_cubeMapDefuse = cubeMap;
 }
 
 void SkyBox::genVAO() {
@@ -43,7 +42,7 @@ void SkyBox::genVAO() {
 }
 
 void SkyBox::render() {
-	if (_cubeMap == nullptr) return;
+	if (_cubeMapSpecular == nullptr) return;
 
 	Matrix4f vp = Camera::getMainCamera()->getViewMatrix();
 	vp(3, 0) = 0;
@@ -56,7 +55,7 @@ void SkyBox::render() {
 	_skyBoxShader->bind();
 	_skyBoxShader->update(vp);
 	_skyBoxShader->enableAttributes();
-	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap->getLocation());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMapSpecular->getLocation());
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	_skyBoxShader->disableAttributes();
 
