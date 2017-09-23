@@ -12,8 +12,8 @@ class Shader {
 public:
 	struct TexUniforUnit
 	{
-		GLuint uniformLocation;
-		GLuint unit;
+		GLint uniformLocation;
+		GLenum unit;
 	};
 
 	std::map<std::string, GLint> uniforms;
@@ -30,16 +30,16 @@ public:
 
 	void addAttribut(std::string attribute, GLint index);
 	void addUniform(std::string uniform);
-	void addTextureUnit(std::string uniform, GLuint unit);
+	void addTexture(std::string uniform);
 	void enableAttributes();
 	void disableAttributes();
 	std::string& getName() { return _fileName; }
 private:
 	const static unsigned int NUM_SHADERS = 2;
-	
 	std::string _fileName;
 	GLuint _program;
 	GLuint _shaders[NUM_SHADERS];
+	GLenum _textureUnit = GL_TEXTURE0;
 
 	std::string readShader(const std::string& fileName);
 	GLuint createShader(const std::string& shaderSource, unsigned int shaderType);

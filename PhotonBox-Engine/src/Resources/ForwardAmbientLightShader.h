@@ -16,13 +16,25 @@ public:
 		glUniform3fv(uniforms["viewPos"], 1, &(eyeTransformed.x()));
 
 		// Textures
+	}
+
+	void updateTextures() {
 		glUniform1i(textures["albedoMap"].uniformLocation, 0);
 		glUniform1i(textures["normalMap"].uniformLocation, 1);
 		glUniform1i(textures["specularMap"].uniformLocation, 2);
 		glUniform1i(textures["aoMap"].uniformLocation, 3);
 		glUniform1i(textures["emissionMap"].uniformLocation, 4);
-		glUniform1i(textures["skyBoxSpec"].uniformLocation, 5);
-		glUniform1i(textures["skyBoxDif"].uniformLocation, 6);
+
+		glUniform1i(textures["skyBoxLod0"].uniformLocation, 5);
+		glUniform1i(textures["skyBoxLod1"].uniformLocation, 6);
+		glUniform1i(textures["skyBoxLod2"].uniformLocation, 7);
+		glUniform1i(textures["skyBoxLod3"].uniformLocation, 8);
+
+		std::cout <<
+			"glUniform1i(" << textures["skyBoxLod0"].uniformLocation << ", 5);" << std::endl <<
+			"glUniform1i(" << textures["skyBoxLod1"].uniformLocation << ", 6);" << std::endl <<
+			"glUniform1i(" << textures["skyBoxLod2"].uniformLocation << ", 7);" << std::endl <<
+			"glUniform1i(" << textures["skyBoxLod3"].uniformLocation << ", 8);" << std::endl;
 	}
 
 	void addAttributes() override {
@@ -39,13 +51,16 @@ public:
 		addUniform("light.color");
 		addUniform("viewPos");
 
-		addTextureUnit("albedoMap", GL_TEXTURE0);
-		addTextureUnit("normalMap", GL_TEXTURE1);
-		addTextureUnit("specularMap", GL_TEXTURE2);
-		addTextureUnit("aoMap", GL_TEXTURE3);
-		addTextureUnit("emissionMap", GL_TEXTURE4);
-		addTextureUnit("skyBoxSpec", GL_TEXTURE5);
-		addTextureUnit("skyBoxDif", GL_TEXTURE6);
+		addTexture("albedoMap");
+		addTexture("normalMap");
+		addTexture("specularMap");
+		addTexture("aoMap");
+		addTexture("emissionMap");
+
+		addTexture("skyBoxLod0");
+		addTexture("skyBoxLod1");
+		addTexture("skyBoxLod2");
+		addTexture("skyBoxLod3");
 	}
 };
 

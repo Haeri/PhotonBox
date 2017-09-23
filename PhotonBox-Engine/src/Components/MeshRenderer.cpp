@@ -99,8 +99,14 @@ void MeshRenderer::render()
 		if (_material->emissionMap != nullptr) _material->emissionMap->bind(_material->forwardShader->ambientLightShader->textures["emissionMap"].unit);
 		else default_emission->bind(_material->forwardShader->ambientLightShader->textures["emissionMap"].unit);
 
-		if (Renderer::getSkyBox()->getCubeMapSpecular() != nullptr)  Renderer::getSkyBox()->getCubeMapSpecular()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxSpec"].unit);
-		if (Renderer::getSkyBox()->getCubeMapDefuse() != nullptr)  Renderer::getSkyBox()->getCubeMapDefuse()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxDif"].unit);
+		if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
+			Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod0"].unit, 0);
+			Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod1"].unit, 1);
+			Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod2"].unit, 2);
+			Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod3"].unit, 3);
+		}
+
+		_material->forwardShader->ambientLightShader->updateTextures();
 
 		glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		_material->forwardShader->ambientLightShader->disableAttributes();
@@ -153,9 +159,6 @@ void MeshRenderer::render()
 
 			if (_material->specularMap != nullptr) _material->specularMap->bind(_material->forwardShader->pointLightShader->textures["specularMap"].unit);
 			else default_specular->bind(_material->forwardShader->pointLightShader->textures["specularMap"].unit);
-
-
-		
 
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			_material->forwardShader->pointLightShader->enableAttributes();

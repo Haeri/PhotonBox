@@ -21,7 +21,6 @@ public:
 	static void addToRenderQueue(ObjectRenderer *behaviour);
 	static void removeFromRenderQueue(ObjectRenderer *behaviour);
 	static void setSkyBox(CubeMap* cubeMap);
-	static void setSkyBox(CubeMap* cubeMapSpecular, CubeMap* cubeMapDefuse);
 	static SkyBox* getSkyBox() { return &_skyBox; }
 	static void printList();
 
