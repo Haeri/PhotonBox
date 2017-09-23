@@ -86,16 +86,37 @@ public:
 			"./res/neg/back.jpg",
 			"./res/neg/front.jpg",
 		};
-		std::vector<std::string> skyBoxDef = {
-			"./res/neg_defuse/right.jpg",
-			"./res/neg_defuse/left.jpg",
-			"./res/neg_defuse/top.jpg",
-			"./res/neg_defuse/bottom.jpg",
-			"./res/neg_defuse/back.jpg",
-			"./res/neg_defuse/front.jpg",
+		std::vector<std::string> skyBoxLod = {
+			"./res/enviroment/lod0_right.jpg",
+			"./res/enviroment/lod0_left.jpg",
+			"./res/enviroment/lod0_top.jpg",
+			"./res/enviroment/lod0_bottom.jpg",
+			"./res/enviroment/lod0_back.jpg",
+			"./res/enviroment/lod0_front.jpg",
+
+			"./res/enviroment/lod1_right.jpg",
+			"./res/enviroment/lod1_left.jpg",
+			"./res/enviroment/lod1_top.jpg",
+			"./res/enviroment/lod1_bottom.jpg",
+			"./res/enviroment/lod1_back.jpg",
+			"./res/enviroment/lod1_front.jpg",
+
+			"./res/enviroment/lod2_right.jpg",
+			"./res/enviroment/lod2_left.jpg",
+			"./res/enviroment/lod2_top.jpg",
+			"./res/enviroment/lod2_bottom.jpg",
+			"./res/enviroment/lod2_back.jpg",
+			"./res/enviroment/lod2_front.jpg",
+
+			"./res/enviroment/lod3_right.jpg",
+			"./res/enviroment/lod3_left.jpg",
+			"./res/enviroment/lod3_top.jpg",
+			"./res/enviroment/lod3_bottom.jpg",
+			"./res/enviroment/lod3_back.jpg",
+			"./res/enviroment/lod3_front.jpg",
 		};
 
-		Renderer::setSkyBox(new CubeMap(skyBoxSpec), new CubeMap(skyBoxDef));
+		Renderer::setSkyBox(new CubeMap(skyBoxLod));
 		//Renderer::setSkyBox(new CubeMap(skyBoxNightSpec), new CubeMap(skyBoxNightDif));
 
 		//mesh = new Mesh(vertices, indices);
@@ -119,13 +140,13 @@ public:
 		rockMaterial->shader = basicShader;
 
 		
-		Mesh* stevenMesh = OBJLoader::loadObj("./res/steven/steven.obj");
-		Texture* stevenAlbedo = new Texture("./res/steven/albedo.png", true);
-		Texture* stevenNormal = new Texture("./res/steven/normal.png", false);
-		Texture* stevenSpecular = new Texture("./res/steven/specular.png", false);
-		Material* stevenMaterial = new Material(forwardShader, stevenAlbedo, stevenNormal);
-		stevenMaterial->specularMap = stevenSpecular;
-		stevenMaterial->shader = basicShader;
+		//Mesh* stevenMesh = OBJLoader::loadObj("./res/steven/steven.obj");
+		//Texture* stevenAlbedo = new Texture("./res/steven/albedo.png", true);
+		//Texture* stevenNormal = new Texture("./res/steven/normal.png", false);
+		//Texture* stevenSpecular = new Texture("./res/steven/specular.png", false);
+		//Material* stevenMaterial = new Material(forwardShader, stevenAlbedo, stevenNormal);
+		//stevenMaterial->specularMap = stevenSpecular;
+		//stevenMaterial->shader = basicShader;
 		
 
 
@@ -172,24 +193,24 @@ public:
 		//cam->getComponent<Transform>()->setParent(rig);
 		//cam->addComponent<TransformerScript>()->speed = -0.7;
 
-		GameObject* triangle = instanciate("Triangle");
+		/*GameObject* triangle = instanciate("Triangle");
 		triangle->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
-		triangle->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
+		triangle->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));*/
 		//triangle->getComponent<Transform>()->setScale(Vector3f(1, 1, 1));
 		//triangle->getComponent<Transform>()->setParent(rig);
-		triangle->addComponent<MeshRenderer>();
+		/*triangle->addComponent<MeshRenderer>();
 		triangle->getComponent<MeshRenderer>()->setMesh(mesh);
-		triangle->getComponent<MeshRenderer>()->setMaterial(material);
-		triangle->setEnable(false);
+		triangle->getComponent<MeshRenderer>()->setMaterial(material);*/
+		//triangle->setEnable(false);
 
 
-		GameObject* steven = instanciate("Steven");
+		/*GameObject* steven = instanciate("Steven");
 		steven->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		steven->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
 		steven->addComponent<MeshRenderer>();
 		steven->getComponent<MeshRenderer>()->setMesh(stevenMesh);
 		steven->getComponent<MeshRenderer>()->setMaterial(stevenMaterial);
-		steven->setEnable(false);
+		steven->setEnable(false);*/
 
 		GameObject* xwing = instanciate("Steven");
 		xwing->getComponent<Transform>()->setPosition(Vector3f(0, 3, 0));

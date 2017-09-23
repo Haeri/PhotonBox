@@ -43,9 +43,9 @@ public:
 		addUniform("viewPos");
 		addUniform("shininess");
 
-		addTextureUnit("albedoMap", GL_TEXTURE0);
-		addTextureUnit("normalMap", GL_TEXTURE1);
-		addTextureUnit("specularMap", GL_TEXTURE2);
+		addTexture("albedoMap");
+		addTexture("normalMap");
+		addTexture("specularMap");
 	}
 
 	void addAttributes() override {

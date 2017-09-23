@@ -9,12 +9,8 @@ void SkyBox::init(){
 	genVAO();
 }
 
-void SkyBox::setCubeMapSpecular(CubeMap* cubeMap) {
-	_cubeMapSpecular = cubeMap;
-}
-
-void SkyBox::setCubeMapDefuse(CubeMap * cubeMap){
-	_cubeMapDefuse = cubeMap;
+void SkyBox::setCubeMap(CubeMap* cubeMap) {
+	_cubeMap = cubeMap;
 }
 
 void SkyBox::genVAO() {
@@ -42,7 +38,7 @@ void SkyBox::genVAO() {
 }
 
 void SkyBox::render() {
-	if (_cubeMapSpecular == nullptr) return;
+	if (_cubeMap == nullptr) return;
 
 	Matrix4f vp = Camera::getMainCamera()->getViewMatrix();
 	vp(3, 0) = 0;
@@ -55,7 +51,7 @@ void SkyBox::render() {
 	_skyBoxShader->bind();
 	_skyBoxShader->update(vp);
 	_skyBoxShader->enableAttributes();
-	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMapSpecular->getLocation());
+	_cubeMap->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	_skyBoxShader->disableAttributes();
 

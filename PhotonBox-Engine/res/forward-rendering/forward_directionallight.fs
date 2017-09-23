@@ -33,7 +33,7 @@ void main(){
     // specular
     vec3 viewDir = normalize(viewPos - positionVarying);
     vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(saturate(dot(viewDir, reflectDir)), shininess);
+    float spec = pow(saturate(dot(viewDir, reflectDir)), max(shininess+1, 1)); // +1 because if shinines is lowe than 1 it clips
     vec3 specular = light.color * spec * texture2D(specularMap, texCoordVarying).x;
     
     vec3 result = (diffuse + specular) * light.intensity;

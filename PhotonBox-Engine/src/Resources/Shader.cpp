@@ -25,6 +25,18 @@ void Shader::init(const std::string& fileName) {
 	glValidateProgram(_program);
 	checkShaderError(_program, GL_VALIDATE_STATUS, true, "ERROR: Shader Program invalid!");
 
+	GLint numUniforms;
+	glGetProgramiv(_program, GL_ACTIVE_UNIFORMS, &numUniforms);
+	for(int i = 0; i < numUniforms; i++) {
+		int name_len = -1, num = -1;
+		GLenum type = GL_ZERO;
+		char name[100];
+		glGetActiveUniform(_program, GLuint(i), sizeof(name) - 1, &name_len, &num, &type, name);
+		name[name_len] = 0;
+		GLuint location = glGetUniformLocation(_program, name);
+		std::cout << name << " location:" << location << std::endl;
+	}
+
 	addUniforms();
 }
 
@@ -49,10 +61,11 @@ void Shader::addUniform(std::string uniform) {
 	uniforms[uniform] = pos;
 }
 
-void Shader::addTextureUnit(std::string uniform, GLuint unit) {
+void Shader::addTexture(std::string uniform) {
 	TexUniforUnit texUnit;
 	texUnit.uniformLocation = glGetUniformLocation(_program, uniform.c_str());
-	texUnit.unit = unit;
+	if (texUnit.uniformLocation == -1) std::cout << "\t\tcould not find uniform '" << uniform << "' in shader " << _fileName << std::endl;
+	texUnit.unit = _textureUnit++;
 	textures[uniform] = texUnit;
 }
 

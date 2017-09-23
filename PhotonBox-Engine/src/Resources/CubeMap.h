@@ -19,11 +19,16 @@ public:
 
 	CubeMap(const std::vector<std::string>& faces);
 	~CubeMap();
-	GLuint getLocation() { return _cubeMap; }
+	GLuint getLocation() { return _cubeMaps.at(0); }
+	GLuint getLocation(int lod) { return _cubeMaps.at(lod); }
 	void bind();
-	void bind(GLuint textureUnit);
+	void bind(GLenum textureUnit);
+	void bind(GLenum textureUnit, int lod);
+	int getMaxLod() { return _maxLod; }
 private:
-	GLuint _cubeMap;
+	int _maxLod = 0;
+	std::vector<GLuint> _cubeMaps;
+
 };
 
 #endif // CUBE_MAP_H
