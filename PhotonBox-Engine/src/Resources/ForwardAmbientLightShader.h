@@ -29,12 +29,6 @@ public:
 		glUniform1i(textures["skyBoxLod1"].uniformLocation, 6);
 		glUniform1i(textures["skyBoxLod2"].uniformLocation, 7);
 		glUniform1i(textures["skyBoxLod3"].uniformLocation, 8);
-
-		std::cout <<
-			"glUniform1i(" << textures["skyBoxLod0"].uniformLocation << ", 5);" << std::endl <<
-			"glUniform1i(" << textures["skyBoxLod1"].uniformLocation << ", 6);" << std::endl <<
-			"glUniform1i(" << textures["skyBoxLod2"].uniformLocation << ", 7);" << std::endl <<
-			"glUniform1i(" << textures["skyBoxLod3"].uniformLocation << ", 8);" << std::endl;
 	}
 
 	void addAttributes() override {

@@ -43,7 +43,7 @@ void Renderer::start() {
 void Renderer::render() {
 	Display::clearDisplay(0.1, 0.1, 0.1, 1);
 
-	//_skyBox.render();
+	_skyBox.render();
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		if ((*it)->getEnable()) {

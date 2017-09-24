@@ -25,6 +25,7 @@ void Shader::init(const std::string& fileName) {
 	glValidateProgram(_program);
 	checkShaderError(_program, GL_VALIDATE_STATUS, true, "ERROR: Shader Program invalid!");
 
+	/*
 	GLint numUniforms;
 	glGetProgramiv(_program, GL_ACTIVE_UNIFORMS, &numUniforms);
 	for(int i = 0; i < numUniforms; i++) {
@@ -36,7 +37,7 @@ void Shader::init(const std::string& fileName) {
 		GLuint location = glGetUniformLocation(_program, name);
 		std::cout << name << " location:" << location << std::endl;
 	}
-
+	*/
 	addUniforms();
 }
 

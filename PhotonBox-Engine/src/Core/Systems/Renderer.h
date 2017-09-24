@@ -32,6 +32,7 @@ private:
 	static SkyBox _skyBox;
 	static bool _isDebug;
 	static std::vector<ObjectRenderer*> _renderQueue;
+
 };
 
 #endif // RENDERER_H
