@@ -31,30 +31,30 @@ void main(){
 
     //float roughness = max(exp(texture2D(specularMap, texCoordVarying).x) - 1.5, 0);
 	float roughness = texture2D(specularMap, texCoordVarying).x;
-	float mix = 0;
+	float mixVal = 0;
     vec4 lower;
     vec4 higher;
 
     if(roughness > 0.666){
     	higher = textureCube(skyBoxLod0, reflectDir);
     	lower = textureCube(skyBoxLod1, reflectDir);
-    	mix = (roughness - 0.666) / 0.444;
+    	mixVal = (roughness - 0.666) / 0.444;
     }else if(roughness > 0.333){
        	higher = textureCube(skyBoxLod1, reflectDir);
     	lower = textureCube(skyBoxLod2, reflectDir);
-    	mix = (roughness - 0.333) / 0.777;
+    	mixVal = (roughness - 0.333) / 0.777;
     }else{
         higher = textureCube(skyBoxLod2, reflectDir);
     	lower = textureCube(skyBoxLod3, reflectDir);
-    	mix = roughness / 0.333;
+    	mixVal = roughness / 0.333;
     }
 		
 	vec4 col2 =	vec4(light.color, 1);
-    vec4 col = (textureCube(skyBoxLod3, norm) /* vec4(light.color, 1) */)  * texture2D(albedoMap, texCoordVarying) * light.intensity;
-    vec4 refcol = mix(lower, higher, mix);
+    vec4 col = textureCube(skyBoxLod3, norm) * texture2D(albedoMap, texCoordVarying) * light.intensity;
+    vec4 refcol = mix(lower, higher, mixVal);
 
 	gl_FragColor = mix(col, refcol, roughness) * texture2D(aoMap, texCoordVarying).x + texture2D(emissionMap, texCoordVarying);
 
-
-	gl_FragColor = textureCube(skyBoxLod3, norm);
+//gl_FragColor =  texture2D(specularMap, texCoordVarying);
+	
 }

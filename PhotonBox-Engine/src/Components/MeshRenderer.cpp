@@ -106,6 +106,8 @@ void MeshRenderer::render()
 			Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod3"].unit, 3);
 		}
 
+		
+		
 		_material->forwardShader->ambientLightShader->updateTextures();
 
 		glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);

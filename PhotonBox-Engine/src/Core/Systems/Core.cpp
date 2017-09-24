@@ -39,7 +39,7 @@ void Core::init()
 	// Load Scenes
 	sceneManager->addScene("TestScene", new TestScene());
 	sceneManager->addScene("PBRScene", new PBRScene());
-	sceneManager->loadSceneImediately("PBRScene");
+	sceneManager->loadSceneImediately("TestScene");
 
 	// Start Subsystems
 	start();
