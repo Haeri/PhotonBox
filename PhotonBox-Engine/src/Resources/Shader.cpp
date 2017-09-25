@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include "../Core/Util.h"
+#include "Texture.h"
+#include "CubeMap.h"
 
 void Shader::init(const std::string& fileName) {
 	std::vector<std::string> path;
@@ -79,9 +81,14 @@ void Shader::enableAttributes() {
 }
 
 void Shader::disableAttributes() {
-	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
-	{
+	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it){
 		glDisableVertexAttribArray(it->second);
+	}
+}
+
+void Shader::updateTextures(){
+	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it) {
+		glUniform1i(it->second.uniformLocation, it->second.unit - GL_TEXTURE0);
 	}
 }
 
@@ -157,3 +164,43 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 		return 0;
 	}
 }
+
+
+void Shader::setUniform(const std::string& uniformName, int value) {
+	glUniform1i(uniforms[uniformName], GLint(value));
+}
+
+void Shader::setUniform(const std::string& uniformName, float value) {
+	glUniform1f(uniforms[uniformName], GLint(value));
+}
+
+void Shader::setUniform(const std::string& uniformName, bool value) {
+	glUniform1i(uniforms[uniformName], GLint(value));
+}
+
+void Shader::setUniform(const std::string& uniformName, Vector2f value) {
+	glUniform2fv(uniforms[uniformName], 1, &(value.x()));
+}
+
+void Shader::setUniform(const std::string& uniformName, Vector3f value) {
+	glUniform3fv(uniforms[uniformName], 1, &(value.x()));
+}
+
+void Shader::setUniform(const std::string& uniformName, Vector4f value) {
+	glUniform4fv(uniforms[uniformName], 1, &(value.x()));
+}
+
+void Shader::setUniform(const std::string& uniformName, Matrix4f value) {
+	glUniformMatrix4fv(uniforms[uniformName], 1, GL_FALSE, &(value(0, 0)));
+}
+
+
+/*
+void Shader::setUniform(const std::string& uniformName, Texture* texture) {
+	glUniform1i(textures[uniformName].uniformLocation, textures[uniformName].unit - GL_TEXTURE0);
+}
+
+void Shader::setUniform(const std::string& uniformName, CubeMap* cubeMap) {
+	glUniform1i(textures[uniformName].uniformLocation, textures[uniformName].unit - GL_TEXTURE0);
+}
+*/

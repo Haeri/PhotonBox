@@ -1,6 +1,7 @@
 #ifndef MESH_RENDERER_H
 #define MESH_RENDERER_H
 
+class Texture;
 #include "ObjectRenderer.h"
 #include "../Resources/Mesh.h"
 #include "../Resources/Material.h"
@@ -13,6 +14,7 @@ public:
 
 	MeshRenderer& setMesh(Mesh* mesh) { _mesh = mesh; return *this; }
 	MeshRenderer& setMaterial(Material* material) { _material = material; return *this; }
+	Material* getMaterial() { return _material; }
 private: 
 	Mesh* _mesh;
 	Material* _material;

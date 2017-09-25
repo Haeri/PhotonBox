@@ -3,6 +3,7 @@
 
 #include "Shader.h"
 #include "../Components/LightEmitter.h"
+#include "Vertex.h"
 
 class ForwardAmbientLightShader : public Shader {
 public:
@@ -15,9 +16,9 @@ public:
 		glUniform3fv(uniforms["light.color"], 1, &(ambient.color.x()));
 		glUniform3fv(uniforms["viewPos"], 1, &(eyeTransformed.x()));
 
-		// Textures
+		
 	}
-
+	/*
 	void updateTextures() {
 		glUniform1i(textures["albedoMap"].uniformLocation, 0);
 		glUniform1i(textures["normalMap"].uniformLocation, 1);
@@ -30,6 +31,7 @@ public:
 		glUniform1i(textures["skyBoxLod2"].uniformLocation, 7);
 		glUniform1i(textures["skyBoxLod3"].uniformLocation, 8);
 	}
+	*/
 
 	void addAttributes() override {
 		addAttribut("position", Vertex::AttibLocation::POSITION);

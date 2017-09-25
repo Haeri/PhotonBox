@@ -18,6 +18,7 @@ class LitShader;
 #include "CameraController.h"
 #include "../Components/AmbientLight.h"
 #include "../Resources/SkyBox.h"
+#include "../Resources/Texture.h"
 
 class TestScene : public Scene {
 public:
@@ -135,8 +136,10 @@ public:
 		rockAlbedo = new Texture("./res/rock/albedo.jpg", true);
 		rockNormal = new Texture("./res/rock/normal.jpg", false);
 		rockSpecular = new Texture("./res/rock/specular.jpg", false);
-		Material* rockMaterial = new Material(forwardShader, rockAlbedo, rockNormal);
-		rockMaterial->specularMap = rockSpecular;
+		Material* rockMaterial = new Material(basicShader);
+		rockMaterial->setTexture("albedoMap", rockAlbedo);
+		rockMaterial->setTexture("normalMap", rockNormal);
+		rockMaterial->setTexture("specularMap", rockSpecular);
 		rockMaterial->shader = basicShader;
 
 		
@@ -156,26 +159,30 @@ public:
 		Texture* xwingSpecular = new Texture("./res/xwing/4k_specular.jpg", false);
 		Texture* xwingAo = new Texture("./res/xwing/4k_ao.jpg", false);
 		Texture* xwingEmission = new Texture("./res/xwing/4k_emission.jpg", false);
-		Material* xwingMaterial = new Material(forwardShader, xwingAlbedo, xwingNormal);
-		xwingMaterial->specularMap = xwingSpecular;
-		xwingMaterial->aoMap = xwingAo;
-		xwingMaterial->emissionMap = xwingEmission;
+		Material* xwingMaterial = new Material(basicShader);
+		xwingMaterial->setTexture("albedoMap", xwingAlbedo);
+		xwingMaterial->setTexture("normalMap", xwingNormal);
+		xwingMaterial->setTexture("specularMap", xwingSpecular);
+		xwingMaterial->setTexture("aoMap", xwingAo);
+		xwingMaterial->setTexture("emissionMap", xwingEmission);
 		xwingMaterial->shader = basicShader;
 
 
 		Texture* metalAlbedo = new Texture("./res/metal/albedo.png", true);
 		Texture* metalSpecular = new Texture("./res/metal/specular.png", true);
-		Material* metalMaterial = new Material(forwardShader, metalSpecular, nullptr);
-		metalMaterial->specularMap = metalSpecular;
+		Material* metalMaterial = new Material(basicShader);
+		metalMaterial->setTexture("specularMap", metalSpecular);
 
-		material = new Material(forwardShader, tex);
+		material = new Material(basicShader);
+		material->setTexture("albedoMap", tex);
 		material->shader = basicShader;
 
 		Texture* gridSpecular = new Texture("./res/grid_specular.png", true);
 		Texture* gridEmission = new Texture("./res/grid_emission.png", true);
-		material2 = new Material(forwardShader, tex2, nullptr);
-		material2->specularMap = tex2;
-		material2->emissionMap = gridEmission;
+		material2 = new Material(basicShader);
+		material2->setTexture("albedoMap", tex2);
+		material2->setTexture("specularMap", tex2);
+		material2->setTexture("emissionMap", gridEmission);
 		material2->shader = basicShader;
 
 		/*	mesh2 = new Mesh(vertices2, indices2);
@@ -297,7 +304,7 @@ public:
 		pointLight3->getComponent<PointLight>()->linear = 0.09f;
 		pointLight3->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight3->getComponent<PointLight>()->intensity = 2;
-		//pointLight3->setEnable(false);
+		pointLight3->setEnable(false);
 
 		GameObject* quad = instanciate("Quad");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
@@ -305,7 +312,7 @@ public:
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(plane);
 		quad->getComponent<MeshRenderer>()->setMaterial(material2);
-		//quad->setEnable(false);
+		quad->setEnable(false);
 		//quad->addComponent<TransformerScript>();
 
 	}

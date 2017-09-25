@@ -22,10 +22,11 @@ public:
 		glUniform1f(uniforms["light.intensity"], directionalLight.intensity);
 		glUniform1f(uniforms["shininess"], shininess);
 		
-		// Textures
-		glUniform1i(textures["albedoMap"].uniformLocation, 0);
-		glUniform1i(textures["normalMap"].uniformLocation, 1);
-		glUniform1i(textures["specularMap"].uniformLocation, 2);
+
+		//// Textures
+		//glUniform1i(textures["albedoMap"].uniformLocation, 0);
+		//glUniform1i(textures["normalMap"].uniformLocation, 1);
+		//glUniform1i(textures["specularMap"].uniformLocation, 2);
 	}
 
 	void addUniforms() override {

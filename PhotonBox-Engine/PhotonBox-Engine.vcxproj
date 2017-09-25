@@ -40,7 +40,6 @@
     <ClCompile Include="src\Core\Systems\SceneManager.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\Util.cpp" />
-    <ClCompile Include="src\Game\PBRScene.cpp" />
     <ClCompile Include="src\Game\PrinterScript.cpp" />
     <ClCompile Include="src\Game\TransformerScript.cpp" />
     <ClCompile Include="src\glad.c" />
@@ -49,6 +48,7 @@
     <ClCompile Include="src\Math\Vector3f.cpp" />
     <ClCompile Include="src\Math\Vector4f.cpp" />
     <ClCompile Include="src\Resources\CubeMap.cpp" />
+    <ClCompile Include="src\Resources\Material.cpp" />
     <ClCompile Include="src\Resources\Matrix4f.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />
     <ClCompile Include="src\Resources\Scene.cpp" />
@@ -110,7 +110,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F4FBA3E5-7430-4B45-B047-1CE9EDD7BAB5}</ProjectGuid>
     <RootNamespace>PhotonBoxEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
