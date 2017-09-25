@@ -10,7 +10,7 @@ Texture::Texture(const std::string & fileName) {
 Texture::Texture(const std::string & fileName, bool generateMipMaps)
 {
 	int numComponents;
-	unsigned char* data = stbi_load((fileName).c_str(), &_width, &_height, &numComponents, 4);
+	unsigned char* data = stbi_load((fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
 
 	if (data == NULL)
 		std::cerr << "Unable to load texture: " << fileName << std::endl;

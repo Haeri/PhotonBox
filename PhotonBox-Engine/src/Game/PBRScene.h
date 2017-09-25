@@ -63,10 +63,10 @@ public:
 		// TEXTURES
 		Texture* grid = new Texture("./res/grid.png", true);
 		Texture* gradient = new Texture("./res/gradient.jpg");
-		Texture* woodAlbedo = new Texture("./res/wood/albedo.png");
-		Texture* woodSpec = new Texture("./res/wood/specular.png");
-		Texture* woodNormal = new Texture("./res/wood/normal.png");
-		Texture* woodAo= new Texture("./res/wood/ao.png");
+		Texture* woodAlbedo = new Texture("./res/wood/albedo.jpg");
+		Texture* woodSpec = new Texture("./res/wood/specular.jpg");
+		Texture* woodNormal = new Texture("./res/wood/normal.jpg");
+		Texture* woodAo= new Texture("./res/wood/ao.jpg");
 
 		// SHADERS
 		BasicShader* basicShader = new BasicShader("./res/basicShader");
@@ -75,15 +75,15 @@ public:
 		forwardShader_->pointLightShader->shininess = 600;
 
 		// MATERIALS
-		Material* probeMaterial = new Material(forwardShader_);
+		Material* probeMaterial = new Material(basicShader);
 		probeMaterial->shader = basicShader;
-		probeMaterial->specularMap = gradient;
-		Material* wood = new Material(forwardShader_);
+		probeMaterial->setTexture("specularMap", gradient);
+		Material* wood = new Material(basicShader);
 		wood->shader = basicShader;
-		wood->albedoMap = woodAlbedo;
-		wood->specularMap = woodSpec;
-		wood->normalMap = woodNormal;
-		wood->aoMap = woodAo;
+		wood->setTexture("albedoMap", woodAlbedo);
+		//wood->specularMap = woodSpec;
+		//wood->normalMap = woodNormal;
+		//wood->aoMap = woodAo;
 
 
 		// CAMERA

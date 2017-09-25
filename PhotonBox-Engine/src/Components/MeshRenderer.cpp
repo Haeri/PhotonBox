@@ -9,6 +9,7 @@
 #include "AmbientLight.h"
 #include "../Core/GameObject.h"
 #include "../Resources/SkyBox.h"
+#include "../Resources/Texture.h"
 
 void MeshRenderer::init()
 {
@@ -52,23 +53,25 @@ void MeshRenderer::init()
 void MeshRenderer::render()
 {
 	if (Renderer::renderMode == Renderer::RenderMode::CUSTOM) {
-		_material->shader->bind();
-		if (_material->albedoMap != nullptr)
-			_material->albedoMap->bind();
-		else
-			glBindTexture(GL_TEXTURE_2D, 0);
 
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
-		_material->shader->update(mvp);
 
 		glBindVertexArray(_vao);
 
+		_material->shader->bind();
+		_material->shader->update(mvp);
+		_material->updateUniforms();
+		_material->updateTextures();
+		_material->shader->updateTextures();
 		_material->shader->enableAttributes();
 		glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
-		_material->shader->enableAttributes();
-
+		_material->shader->enableAttributes();		
+		
+		
 		glBindVertexArray(0);
 	}else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
+		
+	/*
 	
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Matrix4f modelMatrix = transform->getTransformationMatrix();
@@ -83,21 +86,8 @@ void MeshRenderer::render()
 		_material->forwardShader->ambientLightShader->update(mvp, modelMatrix, *ambient, eyePos);
 		_material->forwardShader->ambientLightShader->enableAttributes();
 
-
-		if (_material->albedoMap != nullptr) _material->albedoMap->bind(_material->forwardShader->ambientLightShader->textures["albedoMap"].unit);
-		else default_specular->bind(_material->forwardShader->ambientLightShader->textures["albedoMap"].unit);
-
-		if (_material->normalMap != nullptr) _material->normalMap->bind(_material->forwardShader->ambientLightShader->textures["normalMap"].unit);
-		else default_normal->bind(_material->forwardShader->ambientLightShader->textures["normalMap"].unit);
-
-		if (_material->specularMap != nullptr) _material->specularMap->bind(_material->forwardShader->ambientLightShader->textures["specularMap"].unit);
-		else default_specular->bind(_material->forwardShader->ambientLightShader->textures["specularMap"].unit);
-
-		if (_material->aoMap != nullptr) _material->aoMap->bind(_material->forwardShader->ambientLightShader->textures["aoMap"].unit);
-		else default_ao->bind(_material->forwardShader->ambientLightShader->textures["aoMap"].unit);
-
-		if (_material->emissionMap != nullptr) _material->emissionMap->bind(_material->forwardShader->ambientLightShader->textures["emissionMap"].unit);
-		else default_emission->bind(_material->forwardShader->ambientLightShader->textures["emissionMap"].unit);
+		_material->updateUniforms();
+		_material->updateTextures();
 
 		if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
 			Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod0"].unit, 0);
@@ -140,6 +130,8 @@ void MeshRenderer::render()
 			if (_material->specularMap != nullptr) _material->specularMap->bind(_material->forwardShader->directionalLightShader->textures["specularMap"].unit);
 			else default_specular->bind(_material->forwardShader->directionalLightShader->textures["specularMap"].unit);
 
+			_material->forwardShader->directionalLightShader->updateTextures();
+
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			_material->forwardShader->directionalLightShader->disableAttributes();
 		}
@@ -162,6 +154,8 @@ void MeshRenderer::render()
 			if (_material->specularMap != nullptr) _material->specularMap->bind(_material->forwardShader->pointLightShader->textures["specularMap"].unit);
 			else default_specular->bind(_material->forwardShader->pointLightShader->textures["specularMap"].unit);
 
+			_material->forwardShader->pointLightShader->updateTextures();
+
 			glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			_material->forwardShader->pointLightShader->enableAttributes();
 		}
@@ -175,6 +169,7 @@ void MeshRenderer::render()
 		
 
 		glBindVertexArray(0);
+		*/
 	}
 }
 

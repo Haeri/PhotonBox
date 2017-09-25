@@ -32,7 +32,7 @@ void Core::init()
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 900, 700);
-	renderer->init(Renderer::RenderMode::FORWARD);
+	renderer->init(Renderer::RenderMode::CUSTOM);
 	postPocessing->init();
 	inputManager->init();
 
