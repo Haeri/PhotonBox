@@ -31,11 +31,20 @@ void main(){
     vec3 diffuse = light.color * diff * texture2D(albedoMap, texCoordVarying).xyz;
 
     // specular
+    // Phong
+/*
     vec3 viewDir = normalize(viewPos - positionVarying);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(saturate(dot(viewDir, reflectDir)), max(shininess+1, 1)); // +1 because if shinines is lowe than 1 it clips
     vec3 specular = light.color * spec * texture2D(specularMap, texCoordVarying).x;
-    
+*/
+    // Blinn
+    vec3 viewDir = normalize(viewPos - positionVarying);
+    vec3 halfDir = normalize(lightDir + viewDir);
+    float spec = pow(saturate(dot(halfDir, norm)), max(shininess+1, 1));
+    vec3 specular = light.color * spec * texture2D(specularMap, texCoordVarying).x;
+
+
     vec3 result = (diffuse + specular) * light.intensity;
     gl_FragColor = vec4(result, 1.0);
 }
