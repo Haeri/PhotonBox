@@ -2,7 +2,6 @@
 
 attribute vec3 position;
 attribute vec3 normal;
-attribute vec3 color;
 attribute vec2 uv;
 
 uniform mat4 transform;

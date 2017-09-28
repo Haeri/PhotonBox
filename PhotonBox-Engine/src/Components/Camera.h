@@ -46,6 +46,7 @@ public:
 		return Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
 	}
 
+	//TODO: cache this matrix
 	Matrix4f getViewProjection() {
 		return _projection * Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
 	}

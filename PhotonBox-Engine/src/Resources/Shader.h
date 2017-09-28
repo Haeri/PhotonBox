@@ -3,6 +3,8 @@
 
 class Texture;
 class CubeMap;
+class Transform;
+class LightEmitter;
 
 #include <string>
 #include <map>
@@ -27,7 +29,8 @@ public:
 
 	virtual void addUniforms() = 0;
 	virtual void addAttributes() = 0;
-	virtual void update(Matrix4f& matrix);
+	virtual void update(Transform* transform) {}
+	virtual void update(Transform* transform, LightEmitter* light) {}
 
 	void addAttribut(std::string attribute, GLint index);
 	void addUniform(std::string uniform);

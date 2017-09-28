@@ -15,7 +15,6 @@ public:
 	void addAttributes() override {
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 		addAttribut("normal", Vertex::AttibLocation::NORMAL);
-		addAttribut("color", Vertex::AttibLocation::COLOR);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
 	}
 };
