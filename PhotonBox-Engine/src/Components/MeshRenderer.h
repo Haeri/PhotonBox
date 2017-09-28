@@ -10,6 +10,8 @@ class MeshRenderer : public ObjectRenderer {
 public:
 	void init() override;
 	void render() override;
+	void render(Shader* shader) override;
+	void render(Shader* shader, LightEmitter* light) override;
 	void onDestroy() override;
 
 	MeshRenderer& setMesh(Mesh* mesh) { _mesh = mesh; return *this; }

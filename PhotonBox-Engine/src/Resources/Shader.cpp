@@ -92,10 +92,6 @@ void Shader::updateTextures(){
 	}
 }
 
-void Shader::update(Matrix4f& matrix) {
-	glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(matrix(0, 0)));
-}
-
 std::string Shader::readShader(const std::string& fileName) {
 		std::string line, text;
 		std::ifstream myfile(fileName);

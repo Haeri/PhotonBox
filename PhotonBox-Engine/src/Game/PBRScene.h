@@ -81,6 +81,8 @@ public:
 		Material* wood = new Material(basicShader);
 		wood->shader = basicShader;
 		wood->setTexture("albedoMap", woodAlbedo);
+		probeMaterial->setTexture("diffuseMap", grid);
+		wood->setTexture("diffuseMap", grid);
 		//wood->specularMap = woodSpec;
 		//wood->normalMap = woodNormal;
 		//wood->aoMap = woodAo;

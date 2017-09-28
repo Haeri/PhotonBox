@@ -9,6 +9,8 @@ public:
 	ObjectRenderer();
 	virtual void init();
 	virtual void render() = 0;
+	virtual void render(Shader* shader) {}
+	virtual void render(Shader* shader, LightEmitter* light) {}
 	virtual void onDestroy();
 	void destroy();
 };
