@@ -11,19 +11,20 @@ public:
 	ForwardDirectionalLightShader(const std::string& fileName) { init(fileName); }
 
 	//void update(Matrix4f& mvp, Matrix4f& modelMatrix, DirectionalLight& directionalLight, Vector4f& eyeTransformed) {
+	
 	void update(Transform* transform, LightEmitter* light) {
 
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
-		//Vector3f lvp = directionalLight.direction;
-		DirectionalLight* dl = light;
+		DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
+		Vector3f lvp = dl->direction;
 
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
 		glUniformMatrix4fv(uniforms["modelMatrix"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
 		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
 		glUniform3fv(uniforms["light.direction"], 1, &(lvp.x()));
-		glUniform3fv(uniforms["light.color"], 1, &(directionalLight.color.x()));
-		glUniform1f(uniforms["light.intensity"], directionalLight.intensity);
+		glUniform3fv(uniforms["light.color"], 1, &(dl->color.x()));
+		glUniform1f(uniforms["light.intensity"], dl->intensity);
 	}
 
 	void addUniforms() override {

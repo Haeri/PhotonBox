@@ -16,7 +16,7 @@ public:
 	struct TexUniforUnit
 	{
 		GLint uniformLocation;
-		GLenum unit;
+		GLint unit;
 	};
 
 	std::map<std::string, GLint> uniforms;
@@ -30,7 +30,7 @@ public:
 	virtual void addUniforms() = 0;
 	virtual void addAttributes() = 0;
 	virtual void update(Transform* transform) {}
-	virtual void update(Transform* transform, LightEmitter* light) {}
+	virtual void update(Transform* transform, LightEmitter* thing) {}
 
 	void addAttribut(std::string attribute, GLint index);
 	void addUniform(std::string uniform);

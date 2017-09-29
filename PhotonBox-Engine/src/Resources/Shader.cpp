@@ -74,8 +74,7 @@ void Shader::addTexture(std::string uniform) {
 
 
 void Shader::enableAttributes() {
-	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
-	{
+	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it){
 		glEnableVertexAttribArray(it->second);
 	}
 }
@@ -89,6 +88,10 @@ void Shader::disableAttributes() {
 void Shader::updateTextures(){
 	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it) {
 		glUniform1i(it->second.uniformLocation, it->second.unit - GL_TEXTURE0);
+		
+		/*
+		std::cout << "glUniform1i(" << it->second.uniformLocation << ", " << it->second.unit - GL_TEXTURE0 << ");" << std::endl;
+		*/
 	}
 }
 

@@ -12,6 +12,8 @@
 #include "../../Game/TestScene.h"
 #include "../../Game/PBRScene.h"
 
+#define DEBUG = false;
+
 bool Core::_isRunning;
 
 void Core::init()
@@ -32,14 +34,14 @@ void Core::init()
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 900, 700);
-	renderer->init(Renderer::RenderMode::CUSTOM);
+	renderer->init(Renderer::RenderMode::FORWARD);
 	postPocessing->init();
 	inputManager->init();
 
 	// Load Scenes
 	sceneManager->addScene("TestScene", new TestScene());
 	sceneManager->addScene("PBRScene", new PBRScene());
-	sceneManager->loadSceneImediately("PBRScene");
+	sceneManager->loadSceneImediately("TestScene");
 
 	// Start Subsystems
 	start();
@@ -61,6 +63,9 @@ void Core::run()
 	_isRunning = true;
 
 	while (_isRunning) {
+		/*
+		std::cout << "------------------------------START NEW FRAME------------------------------" << std::endl;
+		*/
 
 		// Measure time
 		double currentTime = glfwGetTime();
