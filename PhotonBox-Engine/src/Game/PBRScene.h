@@ -11,7 +11,6 @@ class LitShader;
 #include "../Resources/OBJLoader.h"
 #include "../Components/PointLight.h"
 #include "../Resources/BasicShader.h"
-#include "../Resources/ForwardShader.h"
 #include "../Resources/LitShader.h"
 #include "PrinterScript.cpp"
 #include "../Components/MeshRenderer.h"
@@ -66,23 +65,28 @@ public:
 		Texture* woodAlbedo = new Texture("./res/wood/albedo.jpg");
 		Texture* woodSpec = new Texture("./res/wood/specular.jpg");
 		Texture* woodNormal = new Texture("./res/wood/normal.jpg");
-		Texture* woodAo= new Texture("./res/wood/ao.jpg");
+		Texture* woodAo = new Texture("./res/wood/ao.jpg");
+
+
+		Texture* default_normal = new Texture("./res/default_normal.png", false);
+		Texture* default_specular = new Texture("./res/default_specular.png", false);
+		Texture* default_emission = new Texture("./res/default_emission.png", false);
+		Texture* default_ao = new Texture("./res/default_ao.png", false);
 
 		// SHADERS
 		BasicShader* basicShader = new BasicShader("./res/basicShader");
-		ForwardShader* forwardShader_ = new ForwardShader();
-		forwardShader_->directionalLightShader->shininess = 600;
-		forwardShader_->pointLightShader->shininess = 600;
 
 		// MATERIALS
 		Material* probeMaterial = new Material(basicShader);
-		probeMaterial->shader = basicShader;
-		probeMaterial->setTexture("specularMap", gradient);
+		probeMaterial->setTexture("albedoMap", grid);
+		probeMaterial->setTexture("normalMap", default_normal);
+		probeMaterial->setTexture("specularMap", default_specular);
+		probeMaterial->setTexture("aoMap", default_ao);
 		Material* wood = new Material(basicShader);
-		wood->shader = basicShader;
-		wood->setTexture("albedoMap", woodAlbedo);
-		probeMaterial->setTexture("diffuseMap", grid);
-		wood->setTexture("diffuseMap", grid);
+		wood->setTexture("albedoMap", grid);
+		wood->setTexture("normalMap", default_normal);
+		wood->setTexture("specularMap", default_specular);
+		wood->setTexture("aoMap", default_ao);
 		//wood->specularMap = woodSpec;
 		//wood->normalMap = woodNormal;
 		//wood->aoMap = woodAo;

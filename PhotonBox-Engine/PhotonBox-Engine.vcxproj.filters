@@ -242,9 +242,6 @@
     <ClInclude Include="src\Resources\ForwardPointLightShader.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="src\Resources\ForwardShader.h">
-      <Filter>src\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="src\Resources\LitShader.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
@@ -279,6 +276,9 @@
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\PBRScene.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\MaterialScript.h">
       <Filter>src\Game</Filter>
     </ClInclude>
   </ItemGroup>

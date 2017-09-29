@@ -11,8 +11,7 @@
 #include "../Resources/SkyBox.h"
 #include "../Resources/Texture.h"
 
-void MeshRenderer::init()
-{
+void MeshRenderer::init(){
 	GLenum drawMode = 0;
 	if (gameObject->getStatic())
 		drawMode = GL_STATIC_DRAW;
@@ -42,12 +41,6 @@ void MeshRenderer::init()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glDeleteBuffers(1, &_vbo);
 	glDeleteBuffers(1, &_ebo);
-
-
-	default_normal = new Texture("./res/default_normal.png", false);
-	default_specular = new Texture("./res/default_specular.png", false);
-	default_emission = new Texture("./res/default_emission.png", false);
-	default_ao = new Texture("./res/default_ao.png", false);
 }
 
 void MeshRenderer::render() {
@@ -58,8 +51,7 @@ void MeshRenderer::render(Shader* shader) {
 	render(shader, nullptr);
 }
 
-void MeshRenderer::render(Shader* shader, LightEmitter* light)
-{
+void MeshRenderer::render(Shader* shader, LightEmitter* light){
 	if (shader == nullptr) shader = _material->shader;
 
 	glBindVertexArray(_vao);
@@ -70,8 +62,8 @@ void MeshRenderer::render(Shader* shader, LightEmitter* light)
 	else
 		shader->update(transform, light);
 
-	_material->updateUniforms();
-	_material->updateTextures();
+	_material->updateUniforms(shader);
+	_material->bindTextures(shader);
 	shader->updateTextures();
 	shader->enableAttributes();
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
@@ -81,7 +73,6 @@ void MeshRenderer::render(Shader* shader, LightEmitter* light)
 	glBindVertexArray(0);
 }
 
-void MeshRenderer::onDestroy()
-{
+void MeshRenderer::onDestroy(){
 	glDeleteVertexArrays(1, &_vao);
 }

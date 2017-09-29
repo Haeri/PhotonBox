@@ -82,6 +82,7 @@
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\Util.h" />
     <ClInclude Include="src\Game\CameraController.h" />
+    <ClInclude Include="src\Game\MaterialScript.h" />
     <ClInclude Include="src\Game\PBRScene.h" />
     <ClInclude Include="src\Game\TestScene.h" />
     <ClInclude Include="src\Math\Matrix4f.h" />
@@ -93,7 +94,6 @@
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
-    <ClInclude Include="src\Resources\ForwardShader.h" />
     <ClInclude Include="src\Resources\LitShader.h" />
     <ClInclude Include="src\Resources\Material.h" />
     <ClInclude Include="src\Resources\Mesh.h" />
@@ -110,7 +110,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F4FBA3E5-7430-4B45-B047-1CE9EDD7BAB5}</ProjectGuid>
     <RootNamespace>PhotonBoxEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

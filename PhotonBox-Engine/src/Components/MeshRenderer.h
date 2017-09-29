@@ -15,15 +15,10 @@ public:
 	void onDestroy() override;
 
 	MeshRenderer& setMesh(Mesh* mesh) { _mesh = mesh; return *this; }
-	MeshRenderer& setMaterial(Material* material) { _material = material; return *this; }
-	Material* getMaterial() { return _material; }
 private: 
 	Mesh* _mesh;
-	Material* _material;
 
 	GLuint _vao, _vbo, _ebo;
-	
-	Texture* default_normal, *default_specular, *default_emission, *default_ao;
 };
 
 #endif // MESH_RENDERER_H

@@ -16,6 +16,10 @@ SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderQueue;
 Renderer::RenderMode Renderer::renderMode;
 
+ForwardAmbientLightShader* Renderer::_ambientLightShader;
+ForwardDirectionalLightShader* Renderer::_directionalLightShader;
+ForwardPointLightShader* Renderer::_pointLightShader;
+
 void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer) {
 	_renderQueue.push_back(objectRenderer);
 }
@@ -33,6 +37,10 @@ void Renderer::init(RenderMode mode) {
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	
+	_ambientLightShader = new ForwardAmbientLightShader("./res/forward-rendering/forward_ambientlight");
+	_directionalLightShader = new ForwardDirectionalLightShader("./res/forward-rendering/forward_directionallight");
+	_pointLightShader = new ForwardPointLightShader("./res/forward-rendering/forward_pointlight");
+
 	renderMode = mode;
 	_isDebug = false;
 }
@@ -56,38 +64,19 @@ void Renderer::render() {
 				(*it)->render();
 			}else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
 
-
-
-				
-
-				glBindVertexArray(_vao);
-
+				if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
+					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod0"].unit, 0);
+					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod1"].unit, 1);
+					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod2"].unit, 2);
+					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod3"].unit, 3);
+				}
 
 				// AMBIENT
 				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
-				_material->forwardShader->bindAmbientShader();
-				_material->forwardShader->ambientLightShader->update(mvp, modelMatrix, *ambient, eyePos);
-				_material->forwardShader->ambientLightShader->enableAttributes();
+				(*it)->render(_ambientLightShader, ambient);
+				
 
-				_material->updateUniforms();
-				_material->updateTextures();
-
-				if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
-					Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod0"].unit, 0);
-					Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod1"].unit, 1);
-					Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod2"].unit, 2);
-					Renderer::getSkyBox()->getCubeMap()->bind(_material->forwardShader->ambientLightShader->textures["skyBoxLod3"].unit, 3);
-				}
-
-
-
-				_material->forwardShader->ambientLightShader->updateTextures();
-
-				glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
-				_material->forwardShader->ambientLightShader->disableAttributes();
-
-
-
+				
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_ONE, GL_ONE);
 				glDepthMask(GL_FALSE);
@@ -98,59 +87,22 @@ void Renderer::render() {
 				std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
 				for (size_t i = 0; i < directionalLights.size(); ++i) {
 					if (!directionalLights[i]->getEnable()) continue;
-					_material->forwardShader->bindDirectionalLightShader();
-
-					_material->forwardShader->directionalLightShader->update(mvp, modelMatrix, *directionalLights[i], eyePos);
-					_material->forwardShader->directionalLightShader->enableAttributes();
-
-
-					if (_material->albedoMap != nullptr) _material->albedoMap->bind(_material->forwardShader->directionalLightShader->textures["albedoMap"].unit);
-					else default_specular->bind(_material->forwardShader->directionalLightShader->textures["albedoMap"].unit);
-
-					if (_material->normalMap != nullptr) _material->normalMap->bind(_material->forwardShader->directionalLightShader->textures["normalMap"].unit);
-					else default_normal->bind(_material->forwardShader->directionalLightShader->textures["normalMap"].unit);
-
-					if (_material->specularMap != nullptr) _material->specularMap->bind(_material->forwardShader->directionalLightShader->textures["specularMap"].unit);
-					else default_specular->bind(_material->forwardShader->directionalLightShader->textures["specularMap"].unit);
-
-					_material->forwardShader->directionalLightShader->updateTextures();
-
-					glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
-					_material->forwardShader->directionalLightShader->disableAttributes();
+					(*it)->render(_directionalLightShader, directionalLights[i]);
 				}
 
 				// POINT LIGHTS
 				std::vector<PointLight*> pointLights = Lighting::getLights<PointLight>();
 				for (size_t i = 0; i < pointLights.size(); ++i) {
 					if (!pointLights[i]->getEnable()) continue;
-
-					(*it)->render(_material->forwardShader->pointLightShader);
-
-				
-					_material->forwardShader->pointLightShader->update(mvp, modelMatrix, *pointLights[i], eyePos);
-				
+					(*it)->render(_pointLightShader, pointLights[i]);
 				}
 
 				// SPOT LIGHTS
 
-
 				glDepthMask(GL_TRUE);
 				glDepthFunc(GL_LESS);
 				glDisable(GL_BLEND);
-
-
-				glBindVertexArray(0);
-
 			}
-
-
-
-
-
-
-
-
-
 		}
 	}
 	
