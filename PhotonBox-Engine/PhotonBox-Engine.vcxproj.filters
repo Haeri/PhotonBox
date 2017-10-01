@@ -96,9 +96,6 @@
     <ClCompile Include="src\Core\Systems\SceneManager.cpp">
       <Filter>src\Core\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\PBRScene.cpp">
-      <Filter>src\Game</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game\PrinterScript.cpp">
       <Filter>src\Game</Filter>
     </ClCompile>
@@ -133,6 +130,9 @@
       <Filter>src\Resources</Filter>
     </ClCompile>
     <ClCompile Include="src\Resources\SkyBox.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\Material.cpp">
       <Filter>src\Resources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -212,9 +212,6 @@
     <ClInclude Include="src\Game\CameraController.h">
       <Filter>src\Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\PBRScene.h">
-      <Filter>src\Game</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game\TestScene.h">
       <Filter>src\Game</Filter>
     </ClInclude>
@@ -243,9 +240,6 @@
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\Resources\ForwardPointLightShader.h">
-      <Filter>src\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Resources\ForwardShader.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\Resources\LitShader.h">
@@ -280,6 +274,12 @@
     </ClInclude>
     <ClInclude Include="src\Resources\SkyBoxShader.h">
       <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\PBRScene.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\MaterialScript.h">
+      <Filter>src\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

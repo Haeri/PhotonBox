@@ -12,6 +12,8 @@
 #include "../../Game/TestScene.h"
 #include "../../Game/PBRScene.h"
 
+#define DEBUG = false;
+
 bool Core::_isRunning;
 
 void Core::init()
@@ -61,6 +63,9 @@ void Core::run()
 	_isRunning = true;
 
 	while (_isRunning) {
+		/*
+		std::cout << "------------------------------START NEW FRAME------------------------------" << std::endl;
+		*/
 
 		// Measure time
 		double currentTime = glfwGetTime();

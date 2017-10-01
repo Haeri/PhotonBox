@@ -5,11 +5,20 @@
 #include "../../Components/ObjectRenderer.h"
 #include "../../Components/Transform.h"
 #include "../../Resources/Skybox.h"
+#include "../src/Core/Systems/Lighting.h"
+#include "../src/Components/Camera.h"
+#include "../src/Components/PointLight.h"
+#include "../src/Components/AmbientLight.h"
+#include "../src/Components/DirectionalLight.h"
 
 bool Renderer::_isDebug;
 SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderQueue;
 Renderer::RenderMode Renderer::renderMode;
+
+ForwardAmbientLightShader* Renderer::_ambientLightShader;
+ForwardDirectionalLightShader* Renderer::_directionalLightShader;
+ForwardPointLightShader* Renderer::_pointLightShader;
 
 void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer) {
 	_renderQueue.push_back(objectRenderer);
@@ -28,6 +37,10 @@ void Renderer::init(RenderMode mode) {
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	
+	_ambientLightShader = new ForwardAmbientLightShader("./res/forward-rendering/forward_ambientlight");
+	_directionalLightShader = new ForwardDirectionalLightShader("./res/forward-rendering/forward_directionallight");
+	_pointLightShader = new ForwardPointLightShader("./res/forward-rendering/forward_pointlight");
+
 	renderMode = mode;
 	_isDebug = false;
 }
@@ -47,7 +60,49 @@ void Renderer::render() {
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		if ((*it)->getEnable()) {
-			(*it)->render();
+			if (Renderer::renderMode == Renderer::RenderMode::CUSTOM) {
+				(*it)->render();
+			}else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
+
+				if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
+					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod0"].unit, 0);
+					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod1"].unit, 1);
+					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod2"].unit, 2);
+					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod3"].unit, 3);
+				}
+
+				// AMBIENT
+				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+				(*it)->render(_ambientLightShader, ambient);
+				
+
+				
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_ONE, GL_ONE);
+				glDepthMask(GL_FALSE);
+				glDepthFunc(GL_EQUAL);
+
+
+				// DIRECTIONAL LIGHTS
+				std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
+				for (size_t i = 0; i < directionalLights.size(); ++i) {
+					if (!directionalLights[i]->getEnable()) continue;
+					(*it)->render(_directionalLightShader, directionalLights[i]);
+				}
+
+				// POINT LIGHTS
+				std::vector<PointLight*> pointLights = Lighting::getLights<PointLight>();
+				for (size_t i = 0; i < pointLights.size(); ++i) {
+					if (!pointLights[i]->getEnable()) continue;
+					(*it)->render(_pointLightShader, pointLights[i]);
+				}
+
+				// SPOT LIGHTS
+
+				glDepthMask(GL_TRUE);
+				glDepthFunc(GL_LESS);
+				glDisable(GL_BLEND);
+			}
 		}
 	}
 	
