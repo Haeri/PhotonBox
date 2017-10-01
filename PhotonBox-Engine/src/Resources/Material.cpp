@@ -2,7 +2,7 @@
 #include "CubeMap.h"
 #include "Texture.h"
 
-/*
+
 void Material::setUniform(const std::string & uniformName, int value){
 	_uniformMap[uniformName] = new IntObject(value, shader, uniformName);
 }
@@ -30,7 +30,7 @@ void Material::setUniform(const std::string & uniformName, Vector4f value){
 void Material::setUniform(const std::string & uniformName, Matrix4f value){
 	_uniformMap[uniformName] = new Mat4Object(value, shader, uniformName);
 }
-*/
+
 
 void Material::setTexture(const std::string & uniformName, Texture* texture){
 	_textreMap[uniformName] = texture;
@@ -46,9 +46,8 @@ void Material::updateUniforms() {
 }
 
 void Material::updateUniforms(Shader* shader){
-	for (std::unordered_map<std::string, byte*>::const_iterator it = _uniformMap.begin(); it != _uniformMap.end(); ++it) {
-		float f = 0;
-		shader->setUniform(it->first, from_bytes(*(it->second), f));
+	for (std::unordered_map<std::string, BaseObject*>::const_iterator it = _uniformMap.begin(); it != _uniformMap.end(); ++it) {
+		it->second->update(shader);
 	}
 }
 
