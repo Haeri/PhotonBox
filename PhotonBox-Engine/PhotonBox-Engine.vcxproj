@@ -40,7 +40,6 @@
     <ClCompile Include="src\Core\Systems\SceneManager.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\Util.cpp" />
-    <ClCompile Include="src\Game\PBRScene.cpp" />
     <ClCompile Include="src\Game\PrinterScript.cpp" />
     <ClCompile Include="src\Game\TransformerScript.cpp" />
     <ClCompile Include="src\glad.c" />
@@ -49,6 +48,7 @@
     <ClCompile Include="src\Math\Vector3f.cpp" />
     <ClCompile Include="src\Math\Vector4f.cpp" />
     <ClCompile Include="src\Resources\CubeMap.cpp" />
+    <ClCompile Include="src\Resources\Material.cpp" />
     <ClCompile Include="src\Resources\Matrix4f.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />
     <ClCompile Include="src\Resources\Scene.cpp" />
@@ -82,6 +82,7 @@
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\Util.h" />
     <ClInclude Include="src\Game\CameraController.h" />
+    <ClInclude Include="src\Game\MaterialScript.h" />
     <ClInclude Include="src\Game\PBRScene.h" />
     <ClInclude Include="src\Game\TestScene.h" />
     <ClInclude Include="src\Math\Matrix4f.h" />
@@ -93,7 +94,6 @@
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
-    <ClInclude Include="src\Resources\ForwardShader.h" />
     <ClInclude Include="src\Resources\LitShader.h" />
     <ClInclude Include="src\Resources\Material.h" />
     <ClInclude Include="src\Resources\Mesh.h" />

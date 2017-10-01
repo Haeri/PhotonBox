@@ -10,7 +10,6 @@ class LitShader;
 #include "../Resources/OBJLoader.h"
 #include "../Components/PointLight.h"
 #include "../Resources/BasicShader.h"
-#include "../Resources/ForwardShader.h"
 #include "../Resources/LitShader.h"
 #include "PrinterScript.cpp"
 #include "../Components/MeshRenderer.h"
@@ -18,12 +17,12 @@ class LitShader;
 #include "CameraController.h"
 #include "../Components/AmbientLight.h"
 #include "../Resources/SkyBox.h"
+#include "../Resources/Texture.h"
 
 class TestScene : public Scene {
 public:
 	BasicShader* basicShader;
 	LitShader* litShader;
-	ForwardShader* forwardShader;
 	Mesh *mesh, *mesh2, *plane, *sphere;
 	Material *material, *material2;
 	Texture* tex, *tex2, *normalMap;
@@ -125,19 +124,25 @@ public:
 		sphere = OBJLoader::loadObj("./res/sphere.obj");
 		basicShader = new BasicShader("./res/basicShader");
 		//litShader = new LitShader("./res/litShader");
-		forwardShader = new ForwardShader();
-		forwardShader->directionalLightShader->shininess = 200;
-		forwardShader->pointLightShader->shininess = 200;
 		tex = new Texture("./res/trooper.png", false);
 		tex2 = new Texture("./res/grid.png", true);
 		normalMap = new Texture("./res/pouch.png", false);
 
+		Texture* default_normal = new Texture("./res/default_normal.png", false);
+		Texture* default_specular = new Texture("./res/default_specular.png", false);
+		Texture* default_emission = new Texture("./res/default_emission.png", false);
+		Texture* default_ao = new Texture("./res/default_ao.png", false);
+
 		rockAlbedo = new Texture("./res/rock/albedo.jpg", true);
 		rockNormal = new Texture("./res/rock/normal.jpg", false);
 		rockSpecular = new Texture("./res/rock/specular.jpg", false);
-		Material* rockMaterial = new Material(forwardShader, rockAlbedo, rockNormal);
-		rockMaterial->specularMap = rockSpecular;
-		rockMaterial->shader = basicShader;
+
+		Material* rockMaterial = new Material(basicShader);
+		rockMaterial->setTexture("albedoMap", rockAlbedo);
+		rockMaterial->setTexture("normalMap", rockNormal);
+		rockMaterial->setTexture("specularMap", rockSpecular);
+		rockMaterial->setUniform("shininess", 300);
+		//rockMaterial->shader = basicShader;
 
 		
 		//Mesh* stevenMesh = OBJLoader::loadObj("./res/steven/steven.obj");
@@ -156,26 +161,32 @@ public:
 		Texture* xwingSpecular = new Texture("./res/xwing/4k_specular.jpg", false);
 		Texture* xwingAo = new Texture("./res/xwing/4k_ao.jpg", false);
 		Texture* xwingEmission = new Texture("./res/xwing/4k_emission.jpg", false);
-		Material* xwingMaterial = new Material(forwardShader, xwingAlbedo, xwingNormal);
-		xwingMaterial->specularMap = xwingSpecular;
-		xwingMaterial->aoMap = xwingAo;
-		xwingMaterial->emissionMap = xwingEmission;
-		xwingMaterial->shader = basicShader;
-
+		Material* xwingMaterial = new Material(basicShader);
+		xwingMaterial->setTexture("albedoMap", xwingAlbedo);
+		xwingMaterial->setTexture("normalMap", xwingNormal);
+		xwingMaterial->setTexture("specularMap", xwingSpecular);
+		xwingMaterial->setTexture("aoMap", xwingAo);
+		xwingMaterial->setTexture("emissionMap", xwingEmission);
+		xwingMaterial->setUniform("shininess", 200.0f);
 
 		Texture* metalAlbedo = new Texture("./res/metal/albedo.png", true);
 		Texture* metalSpecular = new Texture("./res/metal/specular.png", true);
-		Material* metalMaterial = new Material(forwardShader, metalSpecular, nullptr);
-		metalMaterial->specularMap = metalSpecular;
+		Material* metalMaterial = new Material(basicShader);
+		metalMaterial->setTexture("specularMap", metalSpecular);
 
-		material = new Material(forwardShader, tex);
+		material = new Material(basicShader);
+		material->setTexture("albedoMap", tex);
 		material->shader = basicShader;
 
 		Texture* gridSpecular = new Texture("./res/grid_specular.png", true);
 		Texture* gridEmission = new Texture("./res/grid_emission.png", true);
-		material2 = new Material(forwardShader, tex2, nullptr);
-		material2->specularMap = tex2;
-		material2->emissionMap = gridEmission;
+		material2 = new Material(basicShader);
+		material2->setTexture("albedoMap", tex2);
+		material2->setTexture("normalMap", default_normal);
+		material2->setTexture("specularMap", default_specular);
+		material2->setTexture("aoMap", default_ao);
+		material2->setTexture("emissionMap", gridEmission);
+		material2->setUniform("shininess", 200.0f);
 		material2->shader = basicShader;
 
 		/*	mesh2 = new Mesh(vertices2, indices2);
