@@ -41,14 +41,36 @@ public:
 	
 	std::string& getName() { return _fileName; }
 
-
-	void setUniform(const std::string& uniformName, int value);
-	void setUniform(const std::string& uniformName, float value);
-	void setUniform(const std::string& uniformName, bool value);
-	void setUniform(const std::string& uniformName, Vector2f value);
-	void setUniform(const std::string& uniformName, Vector3f value);
-	void setUniform(const std::string& uniformName, Vector4f value);
-	void setUniform(const std::string& uniformName, Matrix4f value);
+	template<typename T>
+	void setUniform(const std::string& uniformName, T value) {}
+	template<>
+	void setUniform<int>(const std::string& uniformName, int value) {
+		glUniform1i(uniforms[uniformName], GLint(value));
+	}
+	template<>
+	void setUniform<float>(const std::string& uniformName, float value) {
+		glUniform1f(uniforms[uniformName], GLfloat(value));
+	}
+	template<>
+	void setUniform<bool>(const std::string& uniformName, bool value){ 
+		glUniform1i(uniforms[uniformName], GLint(value)); 
+	}
+	template<>
+	void setUniform<Vector2f>(const std::string& uniformName, Vector2f value) {
+		glUniform2fv(uniforms[uniformName], 1, &(value.x()));
+	}
+	template<>
+	void setUniform<Vector3f>(const std::string& uniformName, Vector3f value) {
+		glUniform3fv(uniforms[uniformName], 1, &(value.x()));
+	}
+	template<>
+	void setUniform<Vector4f>(const std::string& uniformName, Vector4f value) {
+		glUniform4fv(uniforms[uniformName], 1, &(value.x()));
+	}
+	template<>
+	void setUniform<Matrix4f>(const std::string& uniformName, Matrix4f value) {
+		glUniformMatrix4fv(uniforms[uniformName], 1, GL_FALSE, &(value(0, 0))); 
+	}
 	//void setUniform(const std::string& uniformName, Texture* texture);
 	//void setUniform(const std::string& uniformName, CubeMap* cubeMap);
 private:

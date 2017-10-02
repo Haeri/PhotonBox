@@ -17,6 +17,7 @@ uniform samplerCube skyBoxLod2;
 uniform samplerCube skyBoxLod3;
 uniform mat4 modelMatrix;
 uniform vec3 viewPos;
+uniform float shininess; 
 
 varying vec2 texCoordVarying;
 varying vec3 positionVarying;
@@ -30,7 +31,7 @@ void main(){
 
 
     //float roughness = max(exp(texture2D(specularMap, texCoordVarying).x) - 1.5, 0);
-	float roughness = texture2D(specularMap, texCoordVarying).x;
+	float roughness = texture2D(specularMap, texCoordVarying).x * (shininess / 1200.0);
 	float mixVal = 0;
     vec4 lower;
     vec4 higher;

@@ -37,6 +37,7 @@ public:
 		addUniform("light.intensity");
 		addUniform("light.color");
 		addUniform("viewPos");
+		addUniform("shininess");
 
 		addTexture("albedoMap");
 		addTexture("normalMap");

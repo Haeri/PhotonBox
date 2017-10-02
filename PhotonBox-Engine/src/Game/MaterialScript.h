@@ -15,12 +15,17 @@ public:
 	Material* material;
 
 	void Update() {
-		if (InputManager::keyPressed(InputManager::KEY_UP))
-			material->getUniform<float>("shininess");
+		if (InputManager::keyPressed(InputManager::KEY_UP)) {
+			float s = material->getProperty<float>("shininess");
+			material->setProperty<float>("shininess", s += 100);
+		}
 
-		if (InputManager::keyPressed(InputManager::KEY_DOWN))
-			
-
+		if (InputManager::keyPressed(InputManager::KEY_DOWN)) {
+			float s = material->getProperty<float>("shininess");
+			material->setProperty<float>("shininess", s -= 100);
+		}
+		
+		std::cout << material->getProperty<float>("shininess") << std::endl;
 	}
 };
 
