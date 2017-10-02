@@ -2,36 +2,6 @@
 #include "CubeMap.h"
 #include "Texture.h"
 
-
-void Material::setUniform(const std::string & uniformName, int value){
-	_uniformMap[uniformName] = new IntObject(value, shader, uniformName);
-}
-
-void Material::setUniform(const std::string & uniformName, float value){
-	_uniformMap[uniformName] = new FloatObject(value, shader, uniformName);
-}
-
-void Material::setUniform(const std::string & uniformName, bool value){
-	_uniformMap[uniformName] = new BoolObject(value, shader, uniformName);
-}
-
-void Material::setUniform(const std::string & uniformName, Vector2f value){
-	_uniformMap[uniformName] = new Vec2Object(value, shader, uniformName);
-}
-
-void Material::setUniform(const std::string & uniformName, Vector3f value){
-	_uniformMap[uniformName] = new Vec3Object(value, shader, uniformName);
-}
-
-void Material::setUniform(const std::string & uniformName, Vector4f value){
-	_uniformMap[uniformName] = new Vec4Object(value, shader, uniformName);
-}
-
-void Material::setUniform(const std::string & uniformName, Matrix4f value){
-	_uniformMap[uniformName] = new Mat4Object(value, shader, uniformName);
-}
-
-
 void Material::setTexture(const std::string & uniformName, Texture* texture){
 	_textreMap[uniformName] = texture;
 }
@@ -46,7 +16,7 @@ void Material::updateUniforms() {
 }
 
 void Material::updateUniforms(Shader* shader){
-	for (std::unordered_map<std::string, BaseObject*>::const_iterator it = _uniformMap.begin(); it != _uniformMap.end(); ++it) {
+	for (std::unordered_map<std::string, SuperObject*>::const_iterator it = _uniformMap.begin(); it != _uniformMap.end(); ++it) {
 		it->second->update(shader);
 	}
 }

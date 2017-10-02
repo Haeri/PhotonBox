@@ -18,6 +18,7 @@ class LitShader;
 #include "../Components/AmbientLight.h"
 #include "../Resources/SkyBox.h"
 #include "../Resources/Texture.h"
+#include "../Game/MaterialScript.h"
 
 class TestScene : public Scene {
 public:
@@ -141,7 +142,7 @@ public:
 		rockMaterial->setTexture("albedoMap", rockAlbedo);
 		rockMaterial->setTexture("normalMap", rockNormal);
 		rockMaterial->setTexture("specularMap", rockSpecular);
-		rockMaterial->setUniform("shininess", 300);
+		rockMaterial->setProperty<float>("shininess", 300);
 		//rockMaterial->shader = basicShader;
 
 		
@@ -167,7 +168,7 @@ public:
 		xwingMaterial->setTexture("specularMap", xwingSpecular);
 		xwingMaterial->setTexture("aoMap", xwingAo);
 		xwingMaterial->setTexture("emissionMap", xwingEmission);
-		xwingMaterial->setUniform("shininess", 200.0f);
+		xwingMaterial->setProperty<float>("shininess", 900.0f);
 
 		Texture* metalAlbedo = new Texture("./res/metal/albedo.png", true);
 		Texture* metalSpecular = new Texture("./res/metal/specular.png", true);
@@ -186,7 +187,7 @@ public:
 		material2->setTexture("specularMap", default_specular);
 		material2->setTexture("aoMap", default_ao);
 		material2->setTexture("emissionMap", gridEmission);
-		material2->setUniform("shininess", 200.0f);
+		material2->setProperty<float>("shininess", 200.0f);
 		material2->shader = basicShader;
 
 		/*	mesh2 = new Mesh(vertices2, indices2);
@@ -230,6 +231,7 @@ public:
 		xwing->addComponent<MeshRenderer>();
 		xwing->getComponent<MeshRenderer>()->setMesh(xwingMesh);
 		xwing->getComponent<MeshRenderer>()->setMaterial(xwingMaterial);
+		xwing->addComponent<MaterialScript>()->material = xwingMaterial;
 		//xwing->setEnable(false);
 
 
