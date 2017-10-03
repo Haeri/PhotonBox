@@ -47,7 +47,9 @@ void main(){
     vec3 viewDir = normalize(viewPos - positionVarying);
     vec3 halfDir = normalize(lightDir + viewDir);
     float spec = pow(saturate(dot(halfDir, norm)), max(shininess+1, 1));
-    vec3 specular = light.color * spec * texture2D(specularMap, texCoordVarying).x;
+    vec3 specularColor = vec3(0.4);
+    vec3 fresnel = specularColor + (1 - specularColor)* pow((1 - dot(norm, viewDir)), 5);
+    vec3 specular = light.color  * fresnel * spec * texture2D(specularMap, texCoordVarying).x;
 
     // attenuation
     float distance    = length(light.position - positionVarying);

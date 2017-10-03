@@ -3,11 +3,7 @@
 
 #include "../Components/Behaviour.h"
 #include "../Components/Transform.h"
-#include "../Core/Time.h"
 #include "../Core/InputManager.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Components/Camera.h"
-#include "../Core/Systems/SceneManager.h"
 #include "../Resources/Material.h"
 
 class MaterialScript : public Behaviour {
@@ -25,7 +21,7 @@ public:
 			material->setProperty<float>("shininess", s -= 100);
 		}
 		
-		std::cout << material->getProperty<float>("shininess") << std::endl;
+		//std::cout << material->getProperty<float>("shininess") << std::endl;
 	}
 };
 

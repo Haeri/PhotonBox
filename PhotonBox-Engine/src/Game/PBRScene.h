@@ -17,6 +17,7 @@ class LitShader;
 #include "../Components/PointRenderer.h"
 #include "CameraController.h"
 #include "../Components/AmbientLight.h"
+#include "../Game/MaterialScript.h"
 
 class PBRScene : public Scene {
 public:
@@ -82,6 +83,7 @@ public:
 		probeMaterial->setTexture("normalMap", default_normal);
 		probeMaterial->setTexture("specularMap", default_specular);
 		probeMaterial->setTexture("aoMap", default_ao);
+		probeMaterial->setProperty("shininess", 300.0f);
 		Material* wood = new Material(basicShader);
 		wood->setTexture("albedoMap", grid);
 		wood->setTexture("normalMap", default_normal);
@@ -112,7 +114,7 @@ public:
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, 1, -1);
 		sun->getComponent<DirectionalLight>()->intensity = 1.0f;
-		//sun->setEnable(false);
+		sun->setEnable(false);
 
 
 		// OBJECTS
@@ -134,12 +136,23 @@ public:
 		}
 		*/
 
+		GameObject* pointLight = instanciate("Pointlight");
+		pointLight->addComponent<PointRenderer>();
+		pointLight->getComponent<Transform>()->setPosition(Vector3f(8, 1, 0));
+		pointLight->addComponent<PointLight>();
+		pointLight->getComponent<PointLight>()->color = Vector3f(0.93f, 0.52f, 0.24f);
+		pointLight->getComponent<PointLight>()->constant = 1;
+		pointLight->getComponent<PointLight>()->linear = 0.09f;
+		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
+		pointLight->getComponent<PointLight>()->intensity = 3;
+
 
 		GameObject* probe = instanciate("Sphere");
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(probeMaterial);
+		probe->addComponent<MaterialScript>()->material = probeMaterial;
 
 		GameObject* quad = instanciate("Quad");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, -0.2f, 0));

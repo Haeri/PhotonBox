@@ -39,11 +39,11 @@ void main(){
     if(roughness > 0.666){
     	higher = textureCube(skyBoxLod0, reflectDir);
     	lower = textureCube(skyBoxLod1, reflectDir);
-    	mixVal = (roughness - 0.666) / 0.444;
+    	mixVal = (roughness - 0.666) / 0.333;
     }else if(roughness > 0.333){
        	higher = textureCube(skyBoxLod1, reflectDir);
     	lower = textureCube(skyBoxLod2, reflectDir);
-    	mixVal = (roughness - 0.333) / 0.777;
+    	mixVal = (roughness - 0.333) / 0.333;
     }else{
         higher = textureCube(skyBoxLod2, reflectDir);
     	lower = textureCube(skyBoxLod3, reflectDir);
