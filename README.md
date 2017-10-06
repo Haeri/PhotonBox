@@ -12,7 +12,7 @@ An modern OpenGL Game-Engine with focus on PBR
   - Ambient occlusion Map
   - Emission Map
 
-##Systems
+## Systems
 - Component system
 - Scene loading
 - Transformation system
@@ -21,4 +21,4 @@ An modern OpenGL Game-Engine with focus on PBR
 
 ## Media
 
-![Demo](http://monolith-code.net.tiberius.sui-inter.net/Upload/PhotonBox.gif)
+![Demo Video](http://monolith-code.net.tiberius.sui-inter.net/Upload/PhotonBox.gif)
