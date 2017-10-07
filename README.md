@@ -1,5 +1,5 @@
 # PhotonBox
-An modern OpenGL Game-Engine with focus on PBR
+A modern OpenGL Game-Engine with focus on PBR
 
 ## Rendering 
 - Forward Rendering
@@ -22,3 +22,4 @@ An modern OpenGL Game-Engine with focus on PBR
 ## Media
 
 ![Demo Video](http://monolith-code.net.tiberius.sui-inter.net/Upload/PhotonBox.gif)
+http://monolith-code.net.tiberius.sui-inter.net/Upload/PhotonBox.gif
