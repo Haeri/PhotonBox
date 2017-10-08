@@ -35,7 +35,6 @@ void Renderer::setSkyBox(CubeMap* cubeMap){
 void Renderer::init(RenderMode mode) {
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
 	
 	_ambientLightShader = new ForwardAmbientLightShader("./res/forward-rendering/forward_ambientlight");
 	_directionalLightShader = new ForwardDirectionalLightShader("./res/forward-rendering/forward_directionallight");
@@ -61,8 +60,10 @@ void Renderer::render() {
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		if ((*it)->getEnable()) {
 			if (Renderer::renderMode == Renderer::RenderMode::CUSTOM) {
+				glEnable(GL_DEPTH_TEST);
 				(*it)->render();
 			}else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
+				glEnable(GL_DEPTH_TEST);
 
 				if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
 					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod0"].unit, 0);
@@ -76,7 +77,6 @@ void Renderer::render() {
 				(*it)->render(_ambientLightShader, ambient);
 				
 
-				
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_ONE, GL_ONE);
 				glDepthMask(GL_FALSE);

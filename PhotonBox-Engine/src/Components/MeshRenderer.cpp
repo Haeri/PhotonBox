@@ -12,12 +12,6 @@
 #include "../Resources/Texture.h"
 
 void MeshRenderer::init(){
-	GLenum drawMode = 0;
-	if (gameObject->getStatic())
-		drawMode = GL_STATIC_DRAW;
-	else
-		drawMode = GL_DYNAMIC_DRAW;
-
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
 	glGenBuffers(1, &_ebo);
@@ -25,10 +19,10 @@ void MeshRenderer::init(){
 	glBindVertexArray(_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 
-	glBufferData(GL_ARRAY_BUFFER, _mesh->vertices.size() * sizeof(Vertex), &(_mesh->vertices[0]), drawMode);
+	glBufferData(GL_ARRAY_BUFFER, _mesh->vertices.size() * sizeof(Vertex), &(_mesh->vertices[0]), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _mesh->indices.size() * sizeof(unsigned int), &(_mesh->indices[0]), drawMode);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _mesh->indices.size() * sizeof(unsigned int), &(_mesh->indices[0]), GL_STATIC_DRAW);
 
 	glVertexAttribPointer(Vertex::AttibLocation::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glVertexAttribPointer(Vertex::AttibLocation::NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
@@ -67,7 +61,7 @@ void MeshRenderer::render(Shader* shader, LightEmitter* light){
 	shader->updateTextures();
 	shader->enableAttributes();
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
-	shader->enableAttributes();		
+	shader->disableAttributes();
 		
 		
 	glBindVertexArray(0);

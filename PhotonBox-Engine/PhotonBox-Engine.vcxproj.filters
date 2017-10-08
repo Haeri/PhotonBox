@@ -281,5 +281,11 @@
     <ClInclude Include="src\Game\MaterialScript.h">
       <Filter>src\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\FrameBuffer.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\PostShader.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

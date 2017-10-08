@@ -32,8 +32,10 @@ void Core::init()
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
 
+
 	// Initialize OpenGL
-	display->init("PhotonBox Engine", 900, 700);
+	display->init("PhotonBox Engine", 1200, 800);
+	std::cout << "OpenGL Version " << glGetString(GL_VERSION) << std::endl << std::endl;
 	renderer->init(Renderer::RenderMode::FORWARD);
 	postPocessing->init();
 	inputManager->init();
@@ -120,6 +122,7 @@ void Core::destroy()
 	physics->destroy();
 	sceneManager->destroy();
 	display->destroy();
+	postPocessing->destroy();
 
 	delete sceneManager;
 	delete renderer;
