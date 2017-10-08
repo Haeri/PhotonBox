@@ -41,6 +41,7 @@ void main(){
     // Blinn
     vec3 viewDir = normalize(viewPos - positionVarying);
     vec3 halfDir = normalize(lightDir + viewDir);
+    vec3 specularColor = vec3(0.4);
     vec3 fresnel = specularColor + (1 - specularColor)* pow((1 - dot(norm, viewDir)), 5);
     float spec = pow(saturate(dot(halfDir, norm)), max(shininess+1, 1));
     vec3 specular = light.color * fresnel * spec * texture2D(specularMap, texCoordVarying).x;

@@ -70,6 +70,7 @@
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Core\Component.h" />
     <ClInclude Include="src\Core\Display.h" />
+    <ClInclude Include="src\Core\FrameBuffer.h" />
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\InputManager.h" />
     <ClInclude Include="src\Core\PostProcessing.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="src\Resources\Material.h" />
     <ClInclude Include="src\Resources\Mesh.h" />
     <ClInclude Include="src\Resources\OBJLoader.h" />
+    <ClInclude Include="src\Resources\PostShader.h" />
     <ClInclude Include="src\Resources\Scene.h" />
     <ClInclude Include="src\Resources\Shader.h" />
     <ClInclude Include="src\Resources\SkyBox.h" />

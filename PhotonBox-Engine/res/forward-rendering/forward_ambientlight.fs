@@ -30,7 +30,10 @@ void main(){
     vec3 reflectDir = reflect(viewDir, norm); 
 
 
+
     //float roughness = max(exp(texture2D(specularMap, texCoordVarying).x) - 1.5, 0);
+    vec3 specularColor = vec3(0.4);
+    vec3 fresnel = specularColor + (1 - specularColor)* pow((1 - dot(norm, viewDir)), 5);
 	float roughness = texture2D(specularMap, texCoordVarying).x * (shininess / 1200.0);
 	float mixVal = 0;
     vec4 lower;
@@ -54,7 +57,7 @@ void main(){
     vec4 col = textureCube(skyBoxLod3, norm) * texture2D(albedoMap, texCoordVarying) * light.intensity;
     vec4 refcol = mix(lower, higher, mixVal);
 
-	gl_FragColor = mix(col, refcol, roughness) * texture2D(aoMap, texCoordVarying).x + texture2D(emissionMap, texCoordVarying);
+	gl_FragColor = mix(col, refcol, roughness / fresnel.x) * texture2D(aoMap, texCoordVarying).x + texture2D(emissionMap, texCoordVarying);
 
 //gl_FragColor =  texture2D(specularMap, texCoordVarying);
 	

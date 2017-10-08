@@ -287,7 +287,7 @@ public:
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 3;
-		//pointLight->setEnable(false);
+		pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight");
 		pointLight2->addComponent<PointRenderer>();
@@ -299,7 +299,7 @@ public:
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 3;
-		//pointLight2->setEnable(false);
+		pointLight2->setEnable(false);
 
 		GameObject* pointLight3 = instanciate("Pointlight");
 		pointLight3->addComponent<PointRenderer>();
