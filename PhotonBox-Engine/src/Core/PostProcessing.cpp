@@ -20,10 +20,9 @@ void PostProcessing::init() {
 }
 
 void PostProcessing::preProcess() {
-	if (_processorMap.begin() == _processorMap.end()) {
-		_doPostProcessing = false;
-		return;
-	}
+	_doPostProcessing = (_processorMap.size() > 0);
+	if (!_doPostProcessing) return;
+
 	_processorMap.begin()->second->enable();
 }
 

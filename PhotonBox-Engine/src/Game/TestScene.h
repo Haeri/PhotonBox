@@ -120,7 +120,7 @@ public:
 		};
 
 
-		Shader* postShader = new PostShader("./res/post-processing/monochrom");
+		PostShader* postShader = new PostShader("./res/post-processing/monochrom");
 		Material* m_monochrom = new Material(postShader);
 		MonochromProcessor* p_monochrom = new MonochromProcessor(1, m_monochrom);
 		p_monochrom->setFrameBuffer(new FrameBuffer(Display::getWidth(), Display::getHeight()));
