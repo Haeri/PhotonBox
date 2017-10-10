@@ -9,7 +9,7 @@ public:
 	Material* material;
 
 	PostProcessor(int index, Material* material) {
-		material = material;
+		this->material = material;
 		_index = index;
 		PostProcessing::addProcessor(this);
 	}
