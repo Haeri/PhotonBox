@@ -10,7 +10,7 @@ GameObject::GameObject(Scene &_scene) {
 }
 
 GameObject::GameObject(Scene &_scene, std::string _name) {
-	componentMap = std::unordered_map<std::type_index, Component*>();
+	_componentMap = std::unordered_map<std::type_index, Component*>();
 	name = _name;
 	_id = GameObject::_idCnt++;
 	_isEnabled = true;
@@ -19,10 +19,10 @@ GameObject::GameObject(Scene &_scene, std::string _name) {
 }
 
 void GameObject::destroyComponents(){
-	for (std::unordered_map<std::type_index, Component*>::iterator it = componentMap.begin(); it != componentMap.end();) {
-		Component *c = componentMap[(it->first)];
+	for (std::unordered_map<std::type_index, Component*>::iterator it = _componentMap.begin(); it != _componentMap.end();) {
+		Component *c = _componentMap[(it->first)];
 		c->destroy();
-		it = componentMap.erase(it);
+		it = _componentMap.erase(it);
 		delete c;
 	}
 }
@@ -44,7 +44,7 @@ int GameObject::getId() {
 }
 
 void GameObject::setEnable(bool enable) {
-	for (std::unordered_map<std::type_index, Component*>::const_iterator it = componentMap.begin(); it != componentMap.end(); ++it){
+	for (std::unordered_map<std::type_index, Component*>::const_iterator it = _componentMap.begin(); it != _componentMap.end(); ++it){
 		it->second->setEnable(enable);
 	}
 
@@ -61,10 +61,10 @@ void GameObject::setStatic(bool _static) {
 
 void GameObject::printComponents()
 {
-	std::cout << name << " contains " << componentMap.size() << ":\n<";
-	for (std::unordered_map<std::type_index, Component*>::const_iterator it = componentMap.begin(); it != componentMap.end(); ++it)
+	std::cout << name << " contains " << _componentMap.size() << ":\n<";
+	for (std::unordered_map<std::type_index, Component*>::const_iterator it = _componentMap.begin(); it != _componentMap.end(); ++it)
 	{
-		if(it == componentMap.begin())
+		if(it == _componentMap.begin())
 			std::cout << it->second->getName();
 		else
 			std::cout << ", " << it->second->getName();
