@@ -287,5 +287,11 @@
     <ClInclude Include="src\Resources\PostShader.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\PostProcessor.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\MonochromProcessor.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

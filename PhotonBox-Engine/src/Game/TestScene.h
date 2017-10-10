@@ -19,6 +19,9 @@ class LitShader;
 #include "../Resources/SkyBox.h"
 #include "../Resources/Texture.h"
 #include "../Game/MaterialScript.h"
+#include "../Core/PostProcessor.h"
+#include "MonochromProcessor.h"
+#include "../Resources/PostShader.h"
 
 class TestScene : public Scene {
 public:
@@ -115,6 +118,13 @@ public:
 			"./res/enviroment/lod3_back.jpg",
 			"./res/enviroment/lod3_front.jpg",
 		};
+
+
+		Shader* postShader = new PostShader("./res/post-processing/monochrom");
+		Material* m_monochrom = new Material(postShader);
+		MonochromProcessor* p_monochrom = new MonochromProcessor(1, m_monochrom);
+		p_monochrom->setFrameBuffer(new FrameBuffer(Display::getWidth(), Display::getHeight()));
+
 
 		Renderer::setSkyBox(new CubeMap(skyBoxLod));
 		//Renderer::setSkyBox(new CubeMap(skyBoxNightSpec), new CubeMap(skyBoxNightDif));

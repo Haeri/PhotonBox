@@ -1,17 +1,20 @@
 #ifndef POST_PROCESSING_H
 #define POST_PROCESSING_H
 
+class PostProcessor;
 #include "FrameBuffer.h"
 
 class PostProcessing {
 public:
+	static void addProcessor(PostProcessor* processor);
+	static void removeProcessor(PostProcessor* processor);
 	void init();
 	void preProcess();
 	void postProcess();
 	void destroy();
 private:
-	FrameBuffer* mono;
-	Material* normal;
+	static bool _doPostProcessing;
+	static std::map<int, PostProcessor*> _processorMap;
 };
 
 #endif /* defined(POST_PROCESSING_H) */

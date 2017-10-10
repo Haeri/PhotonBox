@@ -20,37 +20,37 @@ public:
 	
 	template <class T>
 	T* addComponent() {
-		if (componentMap.find(typeid(T)) != componentMap.end()) {
+		if (_componentMap.find(typeid(T)) != _componentMap.end()) {
 			std::cerr << name << " GameObject already contains Component " << std::endl;
 			return nullptr;
 		}
 		T* c = new T();
 		c->setGameObject(this);
 		c->setTransform(transform);
-		componentMap.insert(std::pair<std::type_index, Component*>(typeid(T), c));
+		_componentMap.insert(std::pair<std::type_index, Component*>(typeid(T), c));
 		return c;
 	}
 
 	template<class T>
 	T* getComponent(){
-		if (componentMap.find(typeid(T)) == componentMap.end()) {
+		if (_componentMap.find(typeid(T)) == _componentMap.end()) {
 			std::cerr << "Component was not found!" << std::endl;
 			return nullptr;
 		}
-		return (T*)componentMap[typeid(T)];
+		return (T*)_componentMap[typeid(T)];
 	}
 
 	template <class T>
 	void removeComponent() {
 		T* c = getComponent<T>();
-		componentMap.erase(typeid(T));
+		_componentMap.erase(typeid(T));
 		delete c;
 	}
 
 	void removeComponent(std::type_index ti) {
-		Component *c = componentMap[ti];
+		Component *c = _componentMap[ti];
 		c->destroy();
-		componentMap.erase(ti);
+		_componentMap.erase(ti);
 		delete c;
 	}
 
@@ -67,6 +67,6 @@ private:
 	bool _isEnabled;
 	bool _isStatic;
 	int _id;
-	std::unordered_map<std::type_index, Component*> componentMap;
+	std::unordered_map<std::type_index, Component*> _componentMap;
 };
 #endif /* defined(GAME_OBJECT_H) */

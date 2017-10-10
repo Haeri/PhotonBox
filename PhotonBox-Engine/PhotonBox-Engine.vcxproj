@@ -74,6 +74,7 @@
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\InputManager.h" />
     <ClInclude Include="src\Core\PostProcessing.h" />
+    <ClInclude Include="src\Core\PostProcessor.h" />
     <ClInclude Include="src\Core\Systems\Core.h" />
     <ClInclude Include="src\Core\Systems\Lighting.h" />
     <ClInclude Include="src\Core\Systems\Logic.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="src\Core\Util.h" />
     <ClInclude Include="src\Game\CameraController.h" />
     <ClInclude Include="src\Game\MaterialScript.h" />
+    <ClInclude Include="src\Game\MonochromProcessor.h" />
     <ClInclude Include="src\Game\PBRScene.h" />
     <ClInclude Include="src\Game\TestScene.h" />
     <ClInclude Include="src\Math\Matrix4f.h" />
