@@ -18,10 +18,10 @@ public:
 
 	BloomProcessor(int index) : PostProcessor(index) {
 		m_cutOff = new Material(new CutOffShader("./res/post-processing/cutOff"));
-		m_cutOff->setProperty<float>("threshold", 0.5f);
+		m_cutOff->setProperty<float>("threshold", 0.8f);
 		m_blur = new Material(new BlurShader("./res/post-processing/blur"));
 		m_blur->setProperty("aspectRatio", (float)(Display::getWidth() / Display::getHeight()));
-		m_blur->setProperty("offset", 0.01f);
+		m_blur->setProperty("offset", 0.004f);
 		m_add = new Material(new AddShader("./res/post-processing/add"));
 
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());

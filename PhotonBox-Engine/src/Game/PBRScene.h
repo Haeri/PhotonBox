@@ -67,7 +67,13 @@ public:
 		MonochromProcessor* p_monochrom = new MonochromProcessor(1, m_blur);
 		*/
 
-		BloomProcessor* p_monochrom = new BloomProcessor(1);
+		BloomProcessor* p_bloom = new BloomProcessor(1);
+
+
+		PostShader* postShader = new PostShader("./res/post-processing/monochrom");
+		Material* m_monochrom = new Material(postShader);
+		MonochromProcessor* p_monochrom = new MonochromProcessor(2, m_monochrom);
+
 
 		// OBJ
 		Mesh* plane = OBJLoader::loadObj("./res/plane_big.obj");
