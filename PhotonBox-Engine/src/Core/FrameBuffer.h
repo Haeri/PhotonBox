@@ -76,7 +76,6 @@ public:
 		material->shader->update(nullptr);
 		material->updateUniforms();
 		//material->bindTextures();
-		//material->shader->updateTextures();
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texColor);
@@ -84,10 +83,13 @@ public:
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, second);
 		}
+		/*
 		glUniform1i(_texColor, 0);
 		if (second != 987654) {
 			glUniform1i(second, 1);
 		}
+		*/
+		material->shader->updateTextures();
 
 		material->shader->enableAttributes();
 

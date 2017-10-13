@@ -22,6 +22,8 @@ class LitShader;
 #include "../Core/PostProcessor.h"
 #include "MonochromProcessor.h"
 #include "../Resources/PostShader.h"
+#include "../Game/BlurShader.h"
+#include "../Game/BloomProcessor.h"
 
 class TestScene : public Scene {
 public:
@@ -120,10 +122,12 @@ public:
 		};
 
 
+		BloomProcessor* p_bloom = new BloomProcessor(1);
+
+
 		PostShader* postShader = new PostShader("./res/post-processing/monochrom");
 		Material* m_monochrom = new Material(postShader);
-		MonochromProcessor* p_monochrom = new MonochromProcessor(1, m_monochrom);
-
+		MonochromProcessor* p_monochrom = new MonochromProcessor(2, m_monochrom);
 
 		Renderer::setSkyBox(new CubeMap(skyBoxLod));
 		//Renderer::setSkyBox(new CubeMap(skyBoxNightSpec), new CubeMap(skyBoxNightDif));
