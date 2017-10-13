@@ -65,15 +65,30 @@ public:
 	}
 
 	void render(Material* material){
+		render(material, 987654);
+	}
+
+	void render(Material* material, GLuint second) {
 		glBindVertexArray(_quadVAO);
 
 		material->shader->bind();
+
 		material->shader->update(nullptr);
 		material->updateUniforms();
-		material->bindTextures();
-		material->shader->updateTextures();
+		//material->bindTextures();
+		//material->shader->updateTextures();
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texColor);
+		if (second != 987654) {
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, second);
+		}
+		glUniform1i(_texColor, 0);
+		if (second != 987654) {
+			glUniform1i(second, 1);
+		}
+
 		material->shader->enableAttributes();
 
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -86,6 +101,10 @@ public:
 		glDeleteFramebuffers(1, &_fbo);
 		glDeleteRenderbuffers(1, &_rbDS);
 
+	}
+
+	GLuint getTextureID() {
+		return _texColor;
 	}
 
 	static void resetDefaultBuffer() {

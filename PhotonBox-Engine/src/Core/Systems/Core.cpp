@@ -34,16 +34,16 @@ void Core::init()
 
 
 	// Initialize OpenGL
-	display->init("PhotonBox Engine", 1200, 800);
+	display->init("PhotonBox Engine", 1480, 900);
 	std::cout << "OpenGL Version " << glGetString(GL_VERSION) << std::endl << std::endl;
 	renderer->init(Renderer::RenderMode::FORWARD);
-	postPocessing->init();
+//	postPocessing->init();
 	inputManager->init();
 
 	// Load Scenes
 	sceneManager->addScene("TestScene", new TestScene());
 	sceneManager->addScene("PBRScene", new PBRScene());
-	sceneManager->loadSceneImediately("TestScene");
+	sceneManager->loadSceneImediately("PBRScene");
 
 	// Start Subsystems
 	start();

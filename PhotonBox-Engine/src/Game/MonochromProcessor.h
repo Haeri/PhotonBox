@@ -5,11 +5,27 @@
 
 class MonochromProcessor: public PostProcessor {
 public:
-	MonochromProcessor(int index, Material* material): PostProcessor(index, material){}
+	Material* material;
+	FrameBuffer* frameBuffer;
+
+	MonochromProcessor(int index, Material* material): PostProcessor(index) {
+		this->material = material;
+		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+	}
+
+	void enable() override {
+		frameBuffer->enable();
+	}
 
 	void render() override {
-		_frameBuffer->render(material);
+		frameBuffer->render(material);
 	}
+
+	void destroy() override {
+		delete material;
+		delete frameBuffer;
+	}
+
 };
 
 #endif // MONOCHROM_PROCESSOR_H

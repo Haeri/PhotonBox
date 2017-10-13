@@ -18,6 +18,8 @@ class LitShader;
 #include "CameraController.h"
 #include "../Components/AmbientLight.h"
 #include "../Game/MaterialScript.h"
+#include "../Game/BlurShader.h"
+#include "../Game/BloomProcessor.h"
 
 class PBRScene : public Scene {
 public:
@@ -55,6 +57,17 @@ public:
 			"./res/enviroment/lod3_front.jpg",
 		};
 		Renderer::setSkyBox(new CubeMap(skyBoxLod));
+
+		// Post Processing
+		/*
+		BlurShader* blurShader = new BlurShader("./res/post-processing/blur");
+		Material* m_blur = new Material(blurShader);
+		m_blur->setProperty("aspectRatio", (float)(Display::getWidth() / Display::getHeight()));
+		m_blur->setProperty("offset", 0.001f);
+		MonochromProcessor* p_monochrom = new MonochromProcessor(1, m_blur);
+		*/
+
+		BloomProcessor* p_monochrom = new BloomProcessor(1);
 
 		// OBJ
 		Mesh* plane = OBJLoader::loadObj("./res/plane_big.obj");

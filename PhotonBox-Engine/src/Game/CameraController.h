@@ -18,6 +18,8 @@ public:
 	bool toggleRenderMode = true;
 	bool toggleVsyncMode = true;
 
+	Material* blur;
+
 	void Start() {
 		toggleCursor();
 	}
@@ -71,6 +73,18 @@ public:
 
 		if (InputManager::keyPressed(InputManager::KEY_T))
 			toggleDebug();
+
+
+		// Blur
+		if (InputManager::keyPressed(InputManager::KEY_K)) {
+			float s = blur->getProperty<float>("offset");
+			blur->setProperty<float>("offset", s += 0.001f);
+		}
+
+		if (InputManager::keyPressed(InputManager::KEY_L)) {
+			float s = blur->getProperty<float>("offset");
+			blur->setProperty<float>("offset", s -= 0.001f);
+		}
 	}
 
 	void toggleCursor() {

@@ -14,6 +14,7 @@ public:
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }
 	std::string getName() { return _fileName; }
+	GLuint getTextureLocation() { return _texture; }
 
 	static unsigned char* loadIcon(const std::string& fileName, int& width, int& height);
 private:

@@ -8,7 +8,7 @@ class PostProcessing {
 public:
 	static void addProcessor(PostProcessor* processor);
 	static void removeProcessor(PostProcessor* processor);
-	void init();
+	//void init();
 	void preProcess();
 	void postProcess();
 	void destroy();

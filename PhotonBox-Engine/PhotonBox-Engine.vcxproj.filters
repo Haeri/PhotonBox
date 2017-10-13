@@ -293,5 +293,17 @@
     <ClInclude Include="src\Game\MonochromProcessor.h">
       <Filter>src\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\BloomProcessor.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CutOffShader.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\BlurShader.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\AddShader.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
