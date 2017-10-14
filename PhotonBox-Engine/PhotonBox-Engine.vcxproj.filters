@@ -305,5 +305,14 @@
     <ClInclude Include="src\Game\AddShader.h">
       <Filter>src\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\BlurProcessor.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\BlurHShader.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\BlurVShader.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
