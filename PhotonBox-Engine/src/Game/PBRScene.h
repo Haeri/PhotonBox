@@ -20,6 +20,7 @@ class LitShader;
 #include "../Game/MaterialScript.h"
 #include "../Game/BlurShader.h"
 #include "../Game/BloomProcessor.h"
+#include "../Game/BlurProcessor.h"
 
 class PBRScene : public Scene {
 public:
@@ -67,12 +68,15 @@ public:
 		MonochromProcessor* p_monochrom = new MonochromProcessor(1, m_blur);
 		*/
 
-		BloomProcessor* p_bloom = new BloomProcessor(1);
+		//BloomProcessor* p_bloom = new BloomProcessor(1);
 
+		BlurProcessor* p_bloom = new BlurProcessor(1);
 
 		PostShader* postShader = new PostShader("./res/post-processing/monochrom");
 		Material* m_monochrom = new Material(postShader);
 		MonochromProcessor* p_monochrom = new MonochromProcessor(2, m_monochrom);
+
+
 
 
 		// OBJ

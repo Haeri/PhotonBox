@@ -85,7 +85,10 @@
     <ClInclude Include="src\Core\Util.h" />
     <ClInclude Include="src\Game\AddShader.h" />
     <ClInclude Include="src\Game\BloomProcessor.h" />
+    <ClInclude Include="src\Game\BlurHShader.h" />
+    <ClInclude Include="src\Game\BlurProcessor.h" />
     <ClInclude Include="src\Game\BlurShader.h" />
+    <ClInclude Include="src\Game\BlurVShader.h" />
     <ClInclude Include="src\Game\CameraController.h" />
     <ClInclude Include="src\Game\CutOffShader.h" />
     <ClInclude Include="src\Game\MaterialScript.h" />
