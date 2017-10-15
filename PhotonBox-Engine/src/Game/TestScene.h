@@ -125,9 +125,9 @@ public:
 		BloomProcessor* p_bloom = new BloomProcessor(1);
 
 
-		PostShader* postShader = new PostShader("./res/post-processing/monochrom");
-		Material* m_monochrom = new Material(postShader);
-		MonochromProcessor* p_monochrom = new MonochromProcessor(2, m_monochrom);
+		//PostShader* postShader = new PostShader("./res/post-processing/monochrom");
+		//Material* m_monochrom = new Material(postShader);
+		//MonochromProcessor* p_monochrom = new MonochromProcessor(2, m_monochrom);
 
 		Renderer::setSkyBox(new CubeMap(skyBoxLod));
 		//Renderer::setSkyBox(new CubeMap(skyBoxNightSpec), new CubeMap(skyBoxNightDif));
@@ -286,8 +286,8 @@ public:
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(146/255.0f, 253 / 255.0f, 255 / 255.0f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, 1, -1);
-		sun->getComponent<DirectionalLight>()->intensity = 0.6f;
-		sun->setEnable(false);
+		sun->getComponent<DirectionalLight>()->intensity =1.3f;
+		//sun->setEnable(false);
 
 
 		GameObject* pointLight = instanciate("Pointlight");
