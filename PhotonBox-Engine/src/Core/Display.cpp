@@ -54,7 +54,7 @@ void Display::destroy() {
 
 void Display::clearDisplay(float r, float b, float g, float a){
 	glfwGetFramebufferSize(_window, &_width, &_height);
-	glViewport(0, 0, _width, _height);
+	//glViewport(0, 0, _width, _height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(r, g, b, a);
 }

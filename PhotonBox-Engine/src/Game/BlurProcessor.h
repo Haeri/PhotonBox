@@ -21,13 +21,13 @@ public:
 
 	BlurProcessor(int index) : PostProcessor(index) {
 		m_hBlur1 = new Material(new BlurHShader("./res/post-processing/blur-h"));
-		m_hBlur1->setProperty("offset", 0.002f);
+		m_hBlur1->setProperty("offset", 0.003f);
 
 		m_vBlur1 = new Material(new BlurVShader("./res/post-processing/blur-v"));
-		m_vBlur1->setProperty("offset", 0.002f * (Display::getWidth() / Display::getHeight()));
+		m_vBlur1->setProperty("offset", 0.003f * (Display::getWidth() / Display::getHeight()));
 
-		fb_blur1 = new FrameBuffer(Display::getWidth()/2, Display::getHeight()/2);
-		fb_blur2 = new FrameBuffer(Display::getWidth()/2, Display::getHeight()/2);
+		fb_blur1 = new FrameBuffer(Display::getWidth()/4, Display::getHeight()/4);
+		fb_blur2 = new FrameBuffer(Display::getWidth()/4, Display::getHeight()/4);
 	}
 
 	void enable() override {
