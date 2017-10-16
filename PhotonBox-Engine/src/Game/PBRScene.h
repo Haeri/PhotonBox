@@ -70,11 +70,13 @@ public:
 
 		BloomProcessor* p_bloom = new BloomProcessor(1);
 
-	/*	BlurProcessor* p_bloom = new BlurProcessor(1);
+		//BlurProcessor* p_bloom = new BlurProcessor(1);
 
+		/*
 		PostShader* postShader = new PostShader("./res/post-processing/monochrom");
 		Material* m_monochrom = new Material(postShader);
-		MonochromProcessor* p_monochrom = new MonochromProcessor(2, m_monochrom);*/
+		MonochromProcessor* p_monochrom = new MonochromProcessor(2, m_monochrom);
+		*/
 
 
 

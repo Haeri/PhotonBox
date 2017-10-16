@@ -23,6 +23,16 @@ public:
 	std::map<std::string, GLint> attributes;
 	std::map<std::string, TexUniforUnit> textures;
 
+
+	/*
+	static Shader* getInstance() {
+		if (_instance == nullptr)
+			_instance = new Shader();
+		return _instance;
+	}
+	*/
+	
+
 	void init(const std::string& fileName);
 	void bind();
 	void destroy();
@@ -74,6 +84,9 @@ public:
 	//void setUniform(const std::string& uniformName, Texture* texture);
 	//void setUniform(const std::string& uniformName, CubeMap* cubeMap);
 private:
+	static Shader* _instance;
+	static std::string _pathName;
+
 	const static unsigned int NUM_SHADERS = 2;
 	std::string _fileName;
 	GLuint _program;
@@ -82,8 +95,7 @@ private:
 
 	std::string readShader(const std::string& fileName);
 	GLuint createShader(const std::string& shaderSource, unsigned int shaderType);
-	int checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
-	
+	int checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);	
 };
 
 #endif /* defined(SHADER_H) */
