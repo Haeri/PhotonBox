@@ -11,6 +11,24 @@ class LightEmitter;
 #include "../Core/Display.h"
 #include "../Math/Matrix4f.h"
 
+template <class Instance>
+class InstancedShader: public Shader {
+public:
+	static Instance* getInstance() {
+		if (_instance == nullptr) {
+			_instance = new Instance;
+			_instance->init();
+		}
+		return _instance;
+	}
+protected:
+	static Instance* _instance;
+	InstancedShader<Instance>() {}
+};
+
+template <class Instance>
+Instance* InstancedShader<Instance>::_instance = nullptr;
+
 class Shader {
 public:
 	struct TexUniforUnit
@@ -23,20 +41,11 @@ public:
 	std::map<std::string, GLint> attributes;
 	std::map<std::string, TexUniforUnit> textures;
 
-
-	/*
-	static Shader* getInstance() {
-		if (_instance == nullptr)
-			_instance = new Shader();
-		return _instance;
-	}
-	*/
-	
-
-	void init(const std::string& fileName);
+	void init();
 	void bind();
 	void destroy();
 
+	virtual std::string getFilePath() = 0;
 	virtual void addUniforms() = 0;
 	virtual void addAttributes() = 0;
 	virtual void update(Transform* transform) {}
@@ -83,10 +92,7 @@ public:
 	}
 	//void setUniform(const std::string& uniformName, Texture* texture);
 	//void setUniform(const std::string& uniformName, CubeMap* cubeMap);
-private:
-	static Shader* _instance;
-	static std::string _pathName;
-
+protected:
 	const static unsigned int NUM_SHADERS = 2;
 	std::string _fileName;
 	GLuint _program;

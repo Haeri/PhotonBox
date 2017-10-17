@@ -20,14 +20,14 @@ public:
 	FrameBuffer* fb_blur4;
 
 	BlurProcessor(int index) : PostProcessor(index) {
-		m_hBlur1 = new Material(new BlurHShader("./res/post-processing/blur-h"));
+		m_hBlur1 = new Material(BlurHShader::getInstance());
 		m_hBlur1->setProperty("offset", 0.005f);
-		m_vBlur1 = new Material(new BlurVShader("./res/post-processing/blur-v"));
+		m_vBlur1 = new Material(BlurVShader::getInstance());
 		m_vBlur1->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
 
-		m_hBlur2 = new Material(new BlurHShader("./res/post-processing/blur-h"));
+		m_hBlur2 = new Material(BlurHShader::getInstance());
 		m_hBlur2->setProperty("offset", 0.005f);
-		m_vBlur2 = new Material(new BlurVShader("./res/post-processing/blur-v"));
+		m_vBlur2 = new Material(BlurVShader::getInstance());
 		m_vBlur2->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
 
 		fb_blur1 = new FrameBuffer(Display::getWidth()/2, Display::getHeight()/2);

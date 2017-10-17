@@ -7,10 +7,13 @@
 #include "../Components/Camera.h"
 #include "../Components/AmbientLight.h"
 
-class ForwardAmbientLightShader : public Shader {
+class ForwardAmbientLightShader : public InstancedShader<ForwardAmbientLightShader>{
 public:
-	ForwardAmbientLightShader(const std::string& fileName) { init(fileName); }
-	
+	std::string getFilePath() override {
+		std::string s = "./res/forward-rendering/forward_ambientlight";
+		return s;
+	}
+
 	void update(Transform* transform, LightEmitter* light){ // Matrix4f& matrix, Matrix4f& modelMatrix, LightEmitter& ambient, Vector4f& eyeTransformed) {
 		
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();

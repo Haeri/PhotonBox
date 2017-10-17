@@ -4,9 +4,11 @@
 #include "../Resources/Shader.h"
 #include "../Resources/Vertex.h"
 
-class BlurHShader : public Shader {
+class BlurHShader : public InstancedShader<BlurHShader>{
 public:
-	BlurHShader(const std::string& fileName) { init(fileName); }
+	std::string getFilePath() override {
+		return std::string("./res/post-processing/blur-h");
+	}
 
 	void addUniforms() override {
 		addUniform("offset");

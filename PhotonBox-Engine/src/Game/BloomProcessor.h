@@ -24,21 +24,21 @@ public:
 	FrameBuffer* fb_blur4;
 
 	BloomProcessor(int index) : PostProcessor(index) {
-		m_cutOff = new Material(new CutOffShader("./res/post-processing/cutOff"));
+		m_cutOff = new Material(CutOffShader::getInstance());
 		m_cutOff->setProperty("threshold", 1.0f);
 		
-		m_hBlur1 = new Material(new BlurHShader("./res/post-processing/blur-h"));
+		m_hBlur1 = new Material(BlurHShader::getInstance());
 		m_hBlur1->setProperty("offset", 0.005f);
-		m_vBlur1 = new Material(new BlurVShader("./res/post-processing/blur-v"));
+		m_vBlur1 = new Material(BlurVShader::getInstance());
 		m_vBlur1->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
 
-		m_hBlur2 = new Material(new BlurHShader("./res/post-processing/blur-h"));
+		m_hBlur2 = new Material(BlurHShader::getInstance());
 		m_hBlur2->setProperty("offset", 0.005f);
-		m_vBlur2 = new Material(new BlurVShader("./res/post-processing/blur-v"));
+		m_vBlur2 = new Material(BlurVShader::getInstance());
 		m_vBlur2->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
 
 				
-		m_add = new Material(new AddShader("./res/post-processing/add"));
+		m_add = new Material(AddShader::getInstance());
 
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		fb_cutOff = new FrameBuffer(Display::getWidth(), Display::getHeight());

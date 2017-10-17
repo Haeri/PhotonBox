@@ -4,9 +4,11 @@
 #include "../Resources/Shader.h"
 #include "../Resources/Vertex.h"
 
-class BlurShader : public Shader {
+class BlurShader : public InstancedShader<BlurShader> {
 public:
-	BlurShader(const std::string& fileName) { init(fileName); }
+	std::string getFilePath() override {
+		return std::string("./res/post-processing/blur");
+	}
 
 	void addUniforms() override {
 		addUniform("aspectRatio");

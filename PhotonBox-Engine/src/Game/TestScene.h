@@ -136,7 +136,7 @@ public:
 		mesh = OBJLoader::loadObj("./res/trooper.obj");
 		plane = OBJLoader::loadObj("./res/plane_big.obj");
 		sphere = OBJLoader::loadObj("./res/sphere.obj");
-		basicShader = new BasicShader("./res/basicShader");
+		basicShader = BasicShader::getInstance();
 		//litShader = new LitShader("./res/litShader");
 		tex = new Texture("./res/trooper.png", false);
 		tex2 = new Texture("./res/grid.png", true);

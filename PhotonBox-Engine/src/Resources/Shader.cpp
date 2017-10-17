@@ -5,16 +5,18 @@
 #include "Texture.h"
 #include "CubeMap.h"
 
-void Shader::init(const std::string& fileName) {
+void Shader::init() {
 	std::vector<std::string> path;
-	Util::split(fileName, "/", path);
+
+	std::string filePath = getFilePath();
+	Util::split(filePath, "/", path);
 
 	_fileName = path.back();
 	std::cout << "Creating " << _fileName << std::endl;
 
 	_program = glCreateProgram();
-	_shaders[0] = createShader(readShader(fileName + ".vs"), GL_VERTEX_SHADER);
-	_shaders[1] = createShader(readShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
+	_shaders[0] = createShader(readShader(filePath + ".vs"), GL_VERTEX_SHADER);
+	_shaders[1] = createShader(readShader(filePath + ".fs"), GL_FRAGMENT_SHADER);
 
 	glAttachShader(_program, _shaders[0]);
 	glAttachShader(_program, _shaders[1]);
@@ -71,7 +73,6 @@ void Shader::addTexture(std::string uniform) {
 	texUnit.unit = _textureUnit++;
 	textures[uniform] = texUnit;
 }
-
 
 void Shader::enableAttributes() {
 	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it){

@@ -88,10 +88,16 @@ public:
 		// TEXTURES
 		Texture* grid = new Texture("./res/grid.png", true);
 		Texture* gradient = new Texture("./res/gradient.jpg");
+		
 		Texture* woodAlbedo = new Texture("./res/wood/albedo.jpg");
 		Texture* woodSpec = new Texture("./res/wood/specular.jpg");
 		Texture* woodNormal = new Texture("./res/wood/normal.jpg");
 		Texture* woodAo = new Texture("./res/wood/ao.jpg");
+
+		Texture* woodFloorAlbedo = new Texture("./res/materials/mahogfloor/mahogfloor_basecolor.png");
+		Texture* woodFloorSpec = new Texture("./res/materials/mahogfloor/");
+		Texture* woodFloorNormal = new Texture("./res/materials/mahogfloor/mahogfloor_normal.png");
+		Texture* woodFloorAo = new Texture("./res/materials/mahogfloor/mahogfloor_AO.png");
 
 
 		Texture* default_normal = new Texture("./res/default_normal.png", false);
@@ -100,7 +106,7 @@ public:
 		Texture* default_ao = new Texture("./res/default_ao.png", false);
 
 		// SHADERS
-		BasicShader* basicShader = new BasicShader("./res/basicShader");
+		BasicShader* basicShader = BasicShader::getInstance();
 
 		// MATERIALS
 		Material* probeMaterial = new Material(basicShader);

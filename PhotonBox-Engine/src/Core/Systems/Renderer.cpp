@@ -36,9 +36,10 @@ void Renderer::init(RenderMode mode) {
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 	
-	_ambientLightShader = new ForwardAmbientLightShader("./res/forward-rendering/forward_ambientlight");
-	_directionalLightShader = new ForwardDirectionalLightShader("./res/forward-rendering/forward_directionallight");
-	_pointLightShader = new ForwardPointLightShader("./res/forward-rendering/forward_pointlight");
+	_ambientLightShader = ForwardAmbientLightShader::getInstance();
+	//_ambientLightShader->init();
+	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
+	_pointLightShader = ForwardPointLightShader::getInstance();
 
 	renderMode = mode;
 	_isDebug = false;

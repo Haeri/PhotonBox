@@ -4,7 +4,7 @@
 
 
 void SkyBox::init(){
-	_skyBoxShader = new SkyBoxShader("./res/forward-rendering/skyBox");
+	_skyBoxShader = SkyBoxShader::getInstance();
 	_mesh = OBJLoader::loadObj("./res/primitives/skyBox.obj");
 	genVAO();
 }

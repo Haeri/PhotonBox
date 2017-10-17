@@ -25,7 +25,8 @@ void Material::bindTextures() {
 	bindTextures(shader);
 }
 
-void Material::bindTextures(Shader* shader){
+
+void Material::bindTextures(Shader* shader) {
 	// Textures
 	for (std::unordered_map<std::string, Texture*>::const_iterator it = _textreMap.begin(); it != _textreMap.end(); ++it) {
 		if(shader->textures.find(it->first) != shader->textures.end())
