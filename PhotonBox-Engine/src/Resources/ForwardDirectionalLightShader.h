@@ -6,9 +6,11 @@
 #include "../Components/Transform.h"
 #include "../Components/Camera.h"
 
-class ForwardDirectionalLightShader : public Shader {
+class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader> {
 public:
-	ForwardDirectionalLightShader(const std::string& fileName) { init(fileName); }
+	std::string getFilePath() override {
+		return std::string("./res/forward-rendering/forward_directionallight");
+	}
 
 	//void update(Matrix4f& mvp, Matrix4f& modelMatrix, DirectionalLight& directionalLight, Vector4f& eyeTransformed) {
 	

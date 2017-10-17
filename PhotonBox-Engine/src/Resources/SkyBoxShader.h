@@ -4,10 +4,12 @@
 #include "Shader.h"
 #include "Vertex.h"
 
-class SkyBoxShader : public Shader {
+class SkyBoxShader : public InstancedShader<SkyBoxShader>{
 public:
-	SkyBoxShader(const std::string& fileName) { init(fileName); }
-
+	std::string getFilePath() override {
+		return std::string("./res/forward-rendering/skyBox");
+	}
+	
 	void update(Matrix4f& vp) {
 		glUniformMatrix4fv(uniforms["vp"], 1, GL_FALSE, &(vp(0, 0)));
 	}

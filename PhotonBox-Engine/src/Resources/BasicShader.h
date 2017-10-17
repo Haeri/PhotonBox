@@ -4,9 +4,11 @@
 #include "Shader.h"
 #include "Vertex.h"
 
-class BasicShader: public Shader {
+class BasicShader: public InstancedShader<BasicShader> {
 public:
-	BasicShader(const std::string& fileName) { init(fileName); }
+	std::string getFilePath() override {
+		return std::string("./res/basicShader");
+	}
 
 	void update(Transform* transform) {
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();

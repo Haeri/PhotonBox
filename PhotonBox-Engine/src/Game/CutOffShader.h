@@ -4,9 +4,11 @@
 #include "../Resources/Shader.h"
 #include "../Resources/Vertex.h"
 
-class CutOffShader : public Shader {
+class CutOffShader : public InstancedShader<CutOffShader>{
 public:
-	CutOffShader(const std::string& fileName) { init(fileName); }
+	std::string getFilePath() override {
+		return std::string("./res/post-processing/cutOff");
+	}
 
 	void addUniforms() override {
 		addUniform("threshold");

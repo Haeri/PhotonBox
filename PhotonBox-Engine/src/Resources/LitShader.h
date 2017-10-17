@@ -3,9 +3,9 @@
 
 #include "Shader.h"
 
-class LitShader : public Shader {
+class LitShader : public InstancedShader<LitShader>{
 public:
-	LitShader(const std::string& fileName) { init(fileName); }
+	std::string filePath = "./res/litShader";
 
 	void addUniforms() override {
 		addUniform("transform");

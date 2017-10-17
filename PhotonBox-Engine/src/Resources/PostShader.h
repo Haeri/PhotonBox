@@ -4,9 +4,9 @@
 #include "Shader.h"
 #include "Vertex.h"
 
-class PostShader : public Shader {
+class PostShader : public InstancedShader<PostShader>{
 public:
-	PostShader(const std::string& fileName) { init(fileName); }
+	std::string filePath = "";
 
 	void addUniforms() override {}
 

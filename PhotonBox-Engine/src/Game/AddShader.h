@@ -4,9 +4,11 @@
 #include "../Resources/Shader.h"
 #include "../Resources/Vertex.h"
 
-class AddShader : public Shader {
+class AddShader : public InstancedShader<AddShader> {
 public:
-	AddShader(const std::string& fileName) { init(fileName); }
+	std::string getFilePath() override {
+		return std::string("./res/post-processing/add");
+	}
 
 	void addUniforms() override {
 		addTexture("renderTexture");

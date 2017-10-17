@@ -3,9 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "STB/stb_image.h"
 
-Texture::Texture(const std::string & fileName) {
-	Texture(fileName, false);
-}
+Texture::Texture(const std::string & fileName) : Texture(fileName, false) {}
 
 Texture::Texture(const std::string & fileName, bool generateMipMaps)
 {
