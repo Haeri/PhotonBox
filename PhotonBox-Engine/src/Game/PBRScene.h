@@ -59,25 +59,11 @@ public:
 		};
 		Renderer::setSkyBox(new CubeMap(skyBoxLod));
 
-		// Post Processing
-		/*
-		BlurShader* blurShader = new BlurShader("./res/post-processing/blur");
-		Material* m_blur = new Material(blurShader);
-		m_blur->setProperty("aspectRatio", (float)(Display::getWidth() / Display::getHeight()));
-		m_blur->setProperty("offset", 0.001f);
-		MonochromProcessor* p_monochrom = new MonochromProcessor(1, m_blur);
-		*/
-
+	
+		// POST PROCESSING
 		BloomProcessor* p_bloom = new BloomProcessor(1);
-
 		//BlurProcessor* p_bloom = new BlurProcessor(1);
-
-		/*
-		PostShader* postShader = new PostShader("./res/post-processing/monochrom");
-		Material* m_monochrom = new Material(postShader);
-		MonochromProcessor* p_monochrom = new MonochromProcessor(2, m_monochrom);
-		*/
-
+		//MonochromProcessor* p_monochrom = new MonochromProcessor(2);
 
 
 
@@ -88,16 +74,10 @@ public:
 		// TEXTURES
 		Texture* grid = new Texture("./res/grid.png", true);
 		Texture* gradient = new Texture("./res/gradient.jpg");
-		
-		Texture* woodAlbedo = new Texture("./res/wood/albedo.jpg");
-		Texture* woodSpec = new Texture("./res/wood/specular.jpg");
-		Texture* woodNormal = new Texture("./res/wood/normal.jpg");
-		Texture* woodAo = new Texture("./res/wood/ao.jpg");
 
-		Texture* woodFloorAlbedo = new Texture("./res/materials/mahogfloor/mahogfloor_basecolor.png");
-		Texture* woodFloorSpec = new Texture("./res/materials/mahogfloor/");
-		Texture* woodFloorNormal = new Texture("./res/materials/mahogfloor/mahogfloor_normal.png");
-		Texture* woodFloorAo = new Texture("./res/materials/mahogfloor/mahogfloor_AO.png");
+		Texture* woodFloorAlbedo = new Texture("./res/materials/mahogfloor/mahogfloor_basecolor.png", true);
+		Texture* woodFloorNormal = new Texture("./res/materials/mahogfloor/mahogfloor_normal.png", true);
+		Texture* woodFloorAo = new Texture("./res/materials/mahogfloor/mahogfloor_AO.png", true);
 
 
 		Texture* default_normal = new Texture("./res/default_normal.png", false);
@@ -106,24 +86,22 @@ public:
 		Texture* default_ao = new Texture("./res/default_ao.png", false);
 
 		// SHADERS
-		BasicShader* basicShader = BasicShader::getInstance();
+
 
 		// MATERIALS
-		Material* probeMaterial = new Material(basicShader);
+		Material* probeMaterial = new Material();
 		probeMaterial->setTexture("albedoMap", grid);
 		probeMaterial->setTexture("normalMap", default_normal);
 		probeMaterial->setTexture("specularMap", default_specular);
 		probeMaterial->setTexture("aoMap", default_ao);
-		probeMaterial->setProperty("shininess", 300.0f);
-		Material* wood = new Material(basicShader);
-		wood->setTexture("albedoMap", grid);
-		wood->setTexture("normalMap", default_normal);
-		wood->setTexture("specularMap", default_specular);
-		wood->setTexture("aoMap", default_ao);
-		//wood->specularMap = woodSpec;
-		//wood->normalMap = woodNormal;
-		//wood->aoMap = woodAo;
+		probeMaterial->setProperty("shininess", 2000.0f);
 
+		Material* wood = new Material();
+		wood->setTexture("albedoMap", woodFloorAlbedo);
+		wood->setTexture("normalMap", woodFloorNormal);
+		wood->setTexture("specularMap", default_specular);
+		wood->setTexture("aoMap", woodFloorAo);
+		wood->setProperty("shininess", 1200.0f);
 
 		// CAMERA
 		GameObject* cam = instanciate("Camera");
@@ -169,13 +147,13 @@ public:
 
 		GameObject* pointLight = instanciate("Pointlight");
 		pointLight->addComponent<PointRenderer>();
-		pointLight->getComponent<Transform>()->setPosition(Vector3f(8, 1, 0));
+		pointLight->getComponent<Transform>()->setPosition(Vector3f(-3, 1, 0));
 		pointLight->addComponent<PointLight>();
-		pointLight->getComponent<PointLight>()->color = Vector3f(0.93f, 0.52f, 0.24f);
+		pointLight->getComponent<PointLight>()->color = Vector3f(245/255.0f, 249 / 255.0f, 165 / 255.0f);
 		pointLight->getComponent<PointLight>()->constant = 1;
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
-		pointLight->getComponent<PointLight>()->intensity = 10;
+		pointLight->getComponent<PointLight>()->intensity = 3;
 
 
 		GameObject* probe = instanciate("Sphere");
@@ -186,8 +164,8 @@ public:
 		probe->addComponent<MaterialScript>()->material = probeMaterial;
 
 		GameObject* quad = instanciate("Quad");
-		quad->getComponent<Transform>()->setPosition(Vector3f(0, -0.2f, 0));
-		quad->getComponent<Transform>()->setScale(Vector3f(1, 1, 1));
+		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		quad->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(plane);
 		quad->getComponent<MeshRenderer>()->setMaterial(wood);

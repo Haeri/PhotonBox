@@ -35,8 +35,7 @@ void Core::init()
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 1480, 900);
-	std::cout << "OpenGL Version " << glGetString(GL_VERSION) << std::endl << std::endl;
-	renderer->init(Renderer::RenderMode::FORWARD);
+	renderer->init();
 //	postPocessing->init();
 	inputManager->init();
 

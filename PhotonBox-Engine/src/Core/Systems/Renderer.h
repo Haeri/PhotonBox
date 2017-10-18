@@ -12,13 +12,6 @@ class CubeMap;
 
 class Renderer {
 public:
-	enum RenderMode
-	{
-		CUSTOM,
-		FORWARD,
-		DEFERRED
-	};
-	static RenderMode renderMode;
 	static bool isDebug() { return _isDebug; }
 	static void setDebug(bool debug);
 	static void addToRenderQueue(ObjectRenderer *behaviour);
@@ -27,7 +20,7 @@ public:
 	static SkyBox* getSkyBox() { return &_skyBox; }
 	static void printList();
 
-	void init(RenderMode);
+	void init();
 	void start();
 	void render();
 	void destroy();

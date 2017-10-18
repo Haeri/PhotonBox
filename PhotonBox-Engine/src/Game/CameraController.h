@@ -54,9 +54,6 @@ public:
 		if (InputManager::keyPressed(InputManager::KEY_ESCAPE))
 			toggleCursor();
 
-		if (InputManager::keyPressed(InputManager::KEY_R))
-			toggleRender();
-
 		if (InputManager::keyPressed(InputManager::KEY_V))
 			toggleVSync();
 
@@ -82,15 +79,6 @@ public:
 			InputManager::setCursorMode(InputManager::CursorMode::NORMAL);
 		}
 		toggleCursorMode = !toggleCursorMode;
-	}
-
-	void toggleRender() {
-		if (toggleRenderMode) {
-			Renderer::renderMode = Renderer::RenderMode::CUSTOM;
-		}else {
-			Renderer::renderMode = Renderer::RenderMode::FORWARD;
-		}
-		toggleRenderMode = !toggleRenderMode;
 	}
 
 	void toggleVSync() {

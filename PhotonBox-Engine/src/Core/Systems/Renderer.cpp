@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <string>
 #include <iostream>
 #include "Renderer.h"
 #include "../Display.h"
@@ -10,11 +11,11 @@
 #include "../src/Components/PointLight.h"
 #include "../src/Components/AmbientLight.h"
 #include "../src/Components/DirectionalLight.h"
+#include "../src/Components/MeshRenderer.h"
 
 bool Renderer::_isDebug;
 SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderQueue;
-Renderer::RenderMode Renderer::renderMode;
 
 ForwardAmbientLightShader* Renderer::_ambientLightShader;
 ForwardDirectionalLightShader* Renderer::_directionalLightShader;
@@ -32,16 +33,14 @@ void Renderer::setSkyBox(CubeMap* cubeMap){
 	_skyBox.setCubeMap(cubeMap);
 }
 
-void Renderer::init(RenderMode mode) {
+void Renderer::init() {
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 	
 	_ambientLightShader = ForwardAmbientLightShader::getInstance();
-	//_ambientLightShader->init();
 	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
 	_pointLightShader = ForwardPointLightShader::getInstance();
 
-	renderMode = mode;
 	_isDebug = false;
 }
 
@@ -60,10 +59,10 @@ void Renderer::render() {
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		if ((*it)->getEnable()) {
-			if (Renderer::renderMode == Renderer::RenderMode::CUSTOM) {
+			if (typeid((**it)) != typeid(MeshRenderer)) {
 				glEnable(GL_DEPTH_TEST);
 				(*it)->render();
-			}else if (Renderer::renderMode == Renderer::RenderMode::FORWARD) {
+			}else {
 				glEnable(GL_DEPTH_TEST);
 
 				if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
