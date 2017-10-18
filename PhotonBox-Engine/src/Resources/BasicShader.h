@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "Vertex.h"
 
-class BasicShader: public InstancedShader<BasicShader> {
+class BasicShader : public InstancedShader<BasicShader> {
 public:
 	std::string getFilePath() override {
 		return std::string("./res/basicShader");

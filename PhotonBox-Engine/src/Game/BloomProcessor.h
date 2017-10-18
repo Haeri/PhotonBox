@@ -28,14 +28,14 @@ public:
 		m_cutOff->setProperty("threshold", 1.0f);
 		
 		m_hBlur1 = new Material(BlurHShader::getInstance());
-		m_hBlur1->setProperty("offset", 0.005f);
+		m_hBlur1->setProperty("offset", 0.003f);
 		m_vBlur1 = new Material(BlurVShader::getInstance());
-		m_vBlur1->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
+		m_vBlur1->setProperty("offset", 0.003f * (Display::getWidth() / Display::getHeight()));
 
 		m_hBlur2 = new Material(BlurHShader::getInstance());
-		m_hBlur2->setProperty("offset", 0.005f);
+		m_hBlur2->setProperty("offset", 0.003f);
 		m_vBlur2 = new Material(BlurVShader::getInstance());
-		m_vBlur2->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
+		m_vBlur2->setProperty("offset", 0.003f * (Display::getWidth() / Display::getHeight()));
 
 				
 		m_add = new Material(AddShader::getInstance());

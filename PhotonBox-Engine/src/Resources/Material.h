@@ -10,6 +10,7 @@ class Material {
 public:
 	Shader* shader;
 
+	Material() {}
 	Material(Shader* shader): shader(shader) {}
 
 	template<typename T>

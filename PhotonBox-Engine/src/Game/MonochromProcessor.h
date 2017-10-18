@@ -2,14 +2,15 @@
 #define MONOCHROM_PROCESSOR_H
 
 #include "../Core/PostProcessor.h"
+#include "../Game/MonochromShader.h"
 
 class MonochromProcessor: public PostProcessor {
 public:
 	Material* material;
 	FrameBuffer* frameBuffer;
 
-	MonochromProcessor(int index, Material* material): PostProcessor(index) {
-		this->material = material;
+	MonochromProcessor(int index): PostProcessor(index) {
+		material = new Material(MonochromShader::getInstance());
 		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
 	}
 

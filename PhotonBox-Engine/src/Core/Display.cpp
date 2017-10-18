@@ -43,6 +43,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	setVSync(false);
 	_isRunning = true;
 
+	std::cout << "OpenGL Version " << glGetString(GL_VERSION) << std::endl << std::endl;
 
 	glfwSetWindowSizeCallback(_window, window_size_callback);
 }

@@ -314,5 +314,8 @@
     <ClInclude Include="src\Game\BlurVShader.h">
       <Filter>src\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\MonochromShader.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
