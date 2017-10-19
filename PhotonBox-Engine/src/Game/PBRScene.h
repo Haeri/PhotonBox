@@ -27,7 +27,7 @@ public:
 
 	void Load() {
 
-		// RESOURCES
+		/* --------------------------- RESOURCES --------------------------- */
 		std::vector<std::string> skyBoxLod = {
 			"./res/enviroment/lod0_right.jpg",
 			"./res/enviroment/lod0_left.jpg",
@@ -60,18 +60,20 @@ public:
 		Renderer::setSkyBox(new CubeMap(skyBoxLod));
 
 	
-		// POST PROCESSING
+		/* --------------------------- POST PROCESSING --------------------------- */
 		BloomProcessor* p_bloom = new BloomProcessor(1);
 		//BlurProcessor* p_bloom = new BlurProcessor(1);
 		//MonochromProcessor* p_monochrom = new MonochromProcessor(2);
 
 
 
-		// OBJ
+		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = OBJLoader::loadObj("./res/plane_big.obj");
 		Mesh* sphere = OBJLoader::loadObj("./res/sphere.obj");
 
-		// TEXTURES
+
+
+		/* --------------------------- TEXTURES --------------------------- */
 		Texture* grid = new Texture("./res/grid.png", true);
 		Texture* gradient = new Texture("./res/gradient.jpg");
 
@@ -85,10 +87,10 @@ public:
 		Texture* default_emission = new Texture("./res/default_emission.png", false);
 		Texture* default_ao = new Texture("./res/default_ao.png", false);
 
-		// SHADERS
+		/* --------------------------- SHADERS --------------------------- */
 
 
-		// MATERIALS
+		/* --------------------------- MATERIALS --------------------------- */
 		Material* probeMaterial = new Material();
 		probeMaterial->setTexture("albedoMap", grid);
 		probeMaterial->setTexture("normalMap", default_normal);
@@ -103,7 +105,8 @@ public:
 		wood->setTexture("aoMap", woodFloorAo);
 		wood->setProperty("shininess", 1200.0f);
 
-		// CAMERA
+
+		/* --------------------------- CAMERA --------------------------- */
 		GameObject* cam = instanciate("Camera");
 		cam->addComponent<Camera>();
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -10));
@@ -112,7 +115,7 @@ public:
 
 
 
-		// LIGHTS
+		/* --------------------------- LIGHTS --------------------------- */
 		GameObject* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.3f, 0.3f, 0.3f);
@@ -125,25 +128,6 @@ public:
 		sun->getComponent<DirectionalLight>()->intensity = 1.0f;
 		sun->setEnable(false);
 
-
-		// OBJECTS
-		/*
-		for (int i = 0; i < 1; ++i) {
-		for (int j = 0; j < 1; ++j) {
-
-		ForwardShader* forwardShader = new ForwardShader();
-		forwardShader->directionalLightShader->shininess = i + j * 4 + 1;
-		forwardShader->pointLightShader->shininess = i + j * 4 + 1;
-		material = new Material(forwardShader);
-		GameObject* probe = instanciate("Sphere" + i + j);
-		probe->getComponent<Transform>()->setPosition(Vector3f(i, 1, j));
-		probe->getComponent<Transform>()->setScale(Vector3f(0.3f, 0.3f, 0.3f));
-		probe->addComponent<MeshRenderer>();
-		probe->getComponent<MeshRenderer>()->setMesh(sphere);
-		probe->getComponent<MeshRenderer>()->setMaterial(material);
-		}
-		}
-		*/
 
 		GameObject* pointLight = instanciate("Pointlight");
 		pointLight->addComponent<PointRenderer>();

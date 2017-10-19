@@ -5,7 +5,7 @@ A modern OpenGL Game-Engine with focus on PBR
 - Forward Rendering
 - Point lights, Directional lights
 - SkyBox/Enviroment Mapping
-- Plinn-Phong BRDF shader with Fernel reflectance
+- Blinn-Phong BRDF shader with Fernel reflectance
   - Diffuse Map
   - Normal Map
   - Specular Map
