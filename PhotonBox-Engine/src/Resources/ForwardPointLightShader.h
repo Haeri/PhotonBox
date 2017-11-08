@@ -9,7 +9,7 @@
 class ForwardPointLightShader : public InstancedShader<ForwardPointLightShader>{
 public:
 	std::string getFilePath() override {
-		return std::string("./res/forward-rendering/forward_pointlight");
+		return std::string("./res/PBS/point_light");
 	}
 
 	//void update(Matrix4f& mvp, Matrix4f& modelMatrix, PointLight& pointLight, Vector4f& eyeTransformed) {
@@ -35,18 +35,18 @@ public:
 	void addUniforms() {
 		addUniform("mvp");
 		addUniform("modelMatrix");
+		addUniform("viewPos");
 		addUniform("light.position");
 		addUniform("light.color");
 		addUniform("light.intensity");
 		addUniform("light.constant");
 		addUniform("light.linear");
 		addUniform("light.quadratic");
-		addUniform("viewPos");
-		addUniform("shininess");
 
 		addTexture("albedoMap");
 		addTexture("normalMap");
-		addTexture("specularMap");
+		addTexture("roughnessMap");
+		addTexture("metallicMap");
 	}
 
 	void addAttributes() override {
