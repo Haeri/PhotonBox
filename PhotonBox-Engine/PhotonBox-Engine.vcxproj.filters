@@ -317,5 +317,6 @@
     <ClInclude Include="src\Game\MonochromShader.h">
       <Filter>src\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\FollowScript.h" />
   </ItemGroup>
 </Project>

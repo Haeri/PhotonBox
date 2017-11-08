@@ -9,7 +9,7 @@
 class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/forward-rendering/forward_directionallight");
+		return std::string("./res/PBS/directional_light");
 	}
 
 	//void update(Matrix4f& mvp, Matrix4f& modelMatrix, DirectionalLight& directionalLight, Vector4f& eyeTransformed) {
@@ -32,15 +32,15 @@ public:
 	void addUniforms() override {
 		addUniform("mvp");
 		addUniform("modelMatrix");
+		addUniform("viewPos");
 		addUniform("light.direction");
 		addUniform("light.color");
 		addUniform("light.intensity");
-		addUniform("viewPos");
-		addUniform("shininess");
 
 		addTexture("albedoMap");
 		addTexture("normalMap");
-		addTexture("specularMap");
+		addTexture("roughnessMap");
+		addTexture("metallicMap");
 	}
 
 	void addAttributes() override {

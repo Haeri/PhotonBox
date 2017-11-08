@@ -10,7 +10,7 @@
 class ForwardAmbientLightShader : public InstancedShader<ForwardAmbientLightShader>{
 public:
 	std::string getFilePath() override {
-		std::string s = "./res/forward-rendering/forward_ambientlight";
+		std::string s = "./res/PBS/base";
 		return s;
 	}
 
@@ -21,37 +21,25 @@ public:
 		AmbientLight* al = dynamic_cast<AmbientLight*>(light);
 
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
-		glUniformMatrix4fv(uniforms["modelMatrix"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
+		//glUniformMatrix4fv(uniforms["modelMatrix"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
 		glUniform1f(uniforms["light.intensity"], al->intensity);
 		glUniform3fv(uniforms["light.color"], 1, &(al->color.x()));
-		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
+		//glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
 	}
 
 	void addAttributes() override {
 		addAttribut("position", Vertex::AttibLocation::POSITION);
-		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
-		addAttribut("tangent", Vertex::AttibLocation::TANGENT);
 	}
 
 	void addUniforms() override{
 		addUniform("mvp");
-		addUniform("modelMatrix");
 		addUniform("light.intensity");
 		addUniform("light.color");
-		addUniform("viewPos");
-		addUniform("shininess");
 
 		addTexture("albedoMap");
-		addTexture("normalMap");
-		addTexture("specularMap");
 		addTexture("aoMap");
 		addTexture("emissionMap");
-
-		addTexture("skyBoxLod0");
-		addTexture("skyBoxLod1");
-		addTexture("skyBoxLod2");
-		addTexture("skyBoxLod3");
 	}
 };
 

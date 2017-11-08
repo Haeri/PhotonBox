@@ -91,6 +91,7 @@
     <ClInclude Include="src\Game\BlurVShader.h" />
     <ClInclude Include="src\Game\CameraController.h" />
     <ClInclude Include="src\Game\CutOffShader.h" />
+    <ClInclude Include="src\Game\FollowScript.h" />
     <ClInclude Include="src\Game\MaterialScript.h" />
     <ClInclude Include="src\Game\MonochromProcessor.h" />
     <ClInclude Include="src\Game\MonochromShader.h" />
@@ -122,7 +123,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F4FBA3E5-7430-4B45-B047-1CE9EDD7BAB5}</ProjectGuid>
     <RootNamespace>PhotonBoxEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

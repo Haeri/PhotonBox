@@ -65,12 +65,14 @@ void Renderer::render() {
 			}else {
 				glEnable(GL_DEPTH_TEST);
 
+/*
 				if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
 					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod0"].unit, 0);
 					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod1"].unit, 1);
 					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod2"].unit, 2);
 					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod3"].unit, 3);
 				}
+*/
 
 				// AMBIENT
 				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
