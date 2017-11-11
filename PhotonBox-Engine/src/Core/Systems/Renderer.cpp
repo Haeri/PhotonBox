@@ -30,7 +30,10 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *objectRenderer) {
 }
 
 void Renderer::setSkyBox(CubeMap* cubeMap){
-	_skyBox.setCubeMap(cubeMap);
+	_skyBox.setEnviromentMap(cubeMap);
+	CubeMap* irradiance = new CubeMap(32);
+	irradiance->generateIrradiance(cubeMap->getLocation());
+	_skyBox.setIrradienceMap(irradiance);
 }
 
 void Renderer::init() {
@@ -59,20 +62,13 @@ void Renderer::render() {
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueue.begin(); it != _renderQueue.end(); ++it) {
 		if ((*it)->getEnable()) {
-			if (typeid((**it)) != typeid(MeshRenderer)) {
+			if(typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr)) {
 				glEnable(GL_DEPTH_TEST);
 				(*it)->render();
 			}else {
 				glEnable(GL_DEPTH_TEST);
 
-/*
-				if (Renderer::getSkyBox()->getCubeMap() != nullptr) {
-					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod0"].unit, 0);
-					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod1"].unit, 1);
-					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod2"].unit, 2);
-					Renderer::getSkyBox()->getCubeMap()->bind(_ambientLightShader->textures["skyBoxLod3"].unit, 3);
-				}
-*/
+				_skyBox.getIrradienceMap()->bind(_ambientLightShader->textures["irradianceMap"].unit);
 
 				// AMBIENT
 				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];

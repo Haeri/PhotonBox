@@ -49,7 +49,7 @@
     <ClCompile Include="src\Math\Vector4f.cpp" />
     <ClCompile Include="src\Resources\CubeMap.cpp" />
     <ClCompile Include="src\Resources\Material.cpp" />
-    <ClCompile Include="src\Resources\Matrix4f.cpp" />
+    <ClCompile Include="src\Math\Matrix4f.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />
     <ClCompile Include="src\Resources\Scene.cpp" />
     <ClCompile Include="src\Resources\Shader.cpp" />
@@ -103,9 +103,11 @@
     <ClInclude Include="src\Math\Vector4f.h" />
     <ClInclude Include="src\Resources\BasicShader.h" />
     <ClInclude Include="src\Resources\CubeMap.h" />
+    <ClInclude Include="src\Resources\DefaultPostShader.h" />
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
+    <ClInclude Include="src\Resources\IrradianceShader.h" />
     <ClInclude Include="src\Resources\LitShader.h" />
     <ClInclude Include="src\Resources\Material.h" />
     <ClInclude Include="src\Resources\Mesh.h" />

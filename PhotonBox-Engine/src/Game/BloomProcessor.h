@@ -28,14 +28,14 @@ public:
 		m_cutOff->setProperty("threshold", 1.0f);
 		
 		m_hBlur1 = new Material(BlurHShader::getInstance());
-		m_hBlur1->setProperty("offset", 0.003f);
+		m_hBlur1->setProperty("offset", 0.01f);
 		m_vBlur1 = new Material(BlurVShader::getInstance());
-		m_vBlur1->setProperty("offset", 0.003f * (Display::getWidth() / Display::getHeight()));
+		m_vBlur1->setProperty("offset", 0.01f * (Display::getWidth() / Display::getHeight()));
 
 		m_hBlur2 = new Material(BlurHShader::getInstance());
-		m_hBlur2->setProperty("offset", 0.003f);
+		m_hBlur2->setProperty("offset", 0.03f);
 		m_vBlur2 = new Material(BlurVShader::getInstance());
-		m_vBlur2->setProperty("offset", 0.003f * (Display::getWidth() / Display::getHeight()));
+		m_vBlur2->setProperty("offset", 0.03f * (Display::getWidth() / Display::getHeight()));
 
 				
 		m_add = new Material(AddShader::getInstance());
@@ -55,18 +55,67 @@ public:
 	void preProcess() override{
 		fb_cutOff->enable();
 		fb_original->render(m_cutOff);
+
+		//FrameBuffer::resetDefaultBuffer();
+		//fb_cutOff->render();
+		//Display::swapBuffer();
+
 		fb_blur1->enable();
 		fb_cutOff->render(m_hBlur1);
+
+		//FrameBuffer::resetDefaultBuffer();
+		//fb_blur1->render();
+		//Display::swapBuffer();
+
 		fb_blur2->enable();
-		fb_blur1->render(m_hBlur1);
+		fb_blur1->render(m_vBlur1);
+		
+		//FrameBuffer::resetDefaultBuffer();
+		//fb_blur2->render();
+		//Display::swapBuffer();
+
 		fb_blur3->enable();
-		fb_blur2->render(m_vBlur1);
+		fb_blur2->render(m_hBlur2);
+		
+		//FrameBuffer::resetDefaultBuffer();
+		//fb_blur3->render();
+		//Display::swapBuffer();
+
 		fb_blur4->enable();
-		fb_blur3->render(m_hBlur2);
+		fb_blur3->render(m_vBlur2);
+
+		/*FrameBuffer::resetDefaultBuffer();
+		fb_blur4->render();
+		Display::swapBuffer();*/
+
+
+/*
+		FrameBuffer::resetDefaultBuffer();
+		fb_original->render();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_EQUAL);
+		fb_blur2->render();
+		fb_blur4->render();
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
+		glDisable(GL_BLEND);
+		Display::swapBuffer();
+*/
 	}
 
-	void render() override {	
-		fb_original->render(m_add, fb_blur4->getTextureID());
+	void render() override {
+		fb_original->render();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_EQUAL);
+		//fb_blur2->render();
+		fb_blur4->render();
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
+		glDisable(GL_BLEND);
 	}
 
 	void destroy() override {

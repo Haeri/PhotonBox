@@ -111,9 +111,6 @@
     <ClCompile Include="src\Math\Vector4f.cpp">
       <Filter>src\Math</Filter>
     </ClCompile>
-    <ClCompile Include="src\Resources\Matrix4f.cpp">
-      <Filter>src\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="src\Resources\OBJLoader.cpp">
       <Filter>src\Resources</Filter>
     </ClCompile>
@@ -133,6 +130,9 @@
       <Filter>src\Resources</Filter>
     </ClCompile>
     <ClCompile Include="src\Resources\Material.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math\Matrix4f.cpp">
       <Filter>src\Resources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -318,5 +318,7 @@
       <Filter>src\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\FollowScript.h" />
+    <ClInclude Include="src\Resources\IrradianceShader.h" />
+    <ClInclude Include="src\Resources\DefaultPostShader.h" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
 #include "./Display.h"
 #include "../Resources/Material.h"
 #include "../Resources/Vertex.h"
+#include "../Resources/DefaultPostShader.h"
 
 class FrameBuffer {
 public:
@@ -27,13 +28,13 @@ public:
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texColor, 0);
 
-		
+
 		// Create Renderbuffer Object to hold depth and stencil buffers
 		glGenRenderbuffers(1, &_rbDS);
 		glBindRenderbuffer(GL_RENDERBUFFER, _rbDS);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _rbDS);
-		
+
 
 
 		// Error check
@@ -46,8 +47,8 @@ public:
 		static const GLfloat _quadVertices[] = {
 			-1.0f,  1.0f,
 			-1.0f, -1.0f,
-			 1.0f,  1.0f,
-			 1.0f, -1.0f,
+			1.0f,  1.0f,
+			1.0f, -1.0f,
 		};
 
 		glGenVertexArrays(1, &_quadVAO);
@@ -57,7 +58,7 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(_quadVertices), _quadVertices, GL_STATIC_DRAW);
 
-		
+
 		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
 		glVertexAttribPointer(Vertex::AttibLocation::POSITION, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	}
@@ -65,49 +66,41 @@ public:
 	void enable() {
 		glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 		glViewport(0, 0, _width, _height);
-
-		//std::cout << "glBindFramebuffer(GL_FRAMEBUFFER, " << _fbo << ");" << std::endl;
-		//std::cout << "glViewport(0, 0, " << _width << ", " << _height << ");" << std::endl;
 	}
 
-	void render(Material* material){
-		render(material, 987654);
+	void render() {
+		render(nullptr);
 	}
 
-	void render(Material* material, GLuint second) {
+	void render(Material* material) {
 		glBindVertexArray(_quadVAO);
 
-		material->shader->bind();
+		Shader* shader;
+		if (material == nullptr) {
+			shader = DefaultPostShader::getInstance();
+		}
+		else {
+			shader = material->shader;
+		}
 
-		material->shader->update(nullptr);
-		material->updateUniforms();
+		shader->bind();
+
+		shader->update(nullptr);
+		if (material != nullptr)
+			material->updateUniforms();
 		//material->bindTextures();
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texColor);
-		if (second != 987654) {
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, second);
-		}
-		/*
-		glUniform1i(_texColor, 0);
-		if (second != 987654) {
-			glUniform1i(second, 1);
-		}
-		*/
-		material->shader->updateTextures();
 
-		material->shader->enableAttributes();
-
+		shader->updateTextures();
+		shader->enableAttributes();
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-		//std::cout << "glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);" << std::endl;
-
-		material->shader->disableAttributes();
+		shader->disableAttributes();
 
 		glBindVertexArray(0);
 	}
-	
+
 	void destroy() {
 		glDeleteFramebuffers(1, &_fbo);
 		glDeleteRenderbuffers(1, &_rbDS);
@@ -120,9 +113,6 @@ public:
 	static void resetDefaultBuffer() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, Display::getWidth(), Display::getHeight());
-
-		//std::cout << "glBindFramebuffer(GL_FRAMEBUFFER, 0);" << std::endl;
-		//std::cout << "glViewport(0, 0, " << Display::getWidth() << ", " << Display::getHeight() << ");" << std::endl;
 	}
 
 private:

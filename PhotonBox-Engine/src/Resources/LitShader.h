@@ -5,7 +5,9 @@
 
 class LitShader : public InstancedShader<LitShader>{
 public:
-	std::string filePath = "./res/litShader";
+	std::string getFilePath() override {
+		return std::string("./res/litShader");
+	}
 
 	void addUniforms() override {
 		addUniform("transform");
