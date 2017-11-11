@@ -28,10 +28,8 @@ void Core::init()
 	lighting = new Lighting();
 	inputManager = new InputManager();
 
-
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
-
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 1480, 900);

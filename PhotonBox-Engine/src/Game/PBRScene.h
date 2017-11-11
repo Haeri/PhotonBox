@@ -97,6 +97,7 @@ public:
 
 		/* --------------------------- SHADERS --------------------------- */
 		//IrradianceShader* shader = IrradianceShader::getInstance();
+		LitShader* litShader = LitShader::getInstance();
 
 
 
@@ -140,6 +141,10 @@ public:
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
+
+		Material* lit = new Material(litShader);
+		lit->setProperty("color", Vector3f(0.3, 0.3, 0.5));
+		
 
 		/* --------------------------- CAMERA --------------------------- */
 		GameObject* cam = instanciate("Camera");
@@ -209,6 +214,12 @@ public:
 		probe5->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe5->getComponent<MeshRenderer>()->setMaterial(def);
 
+		GameObject* probe6 = instanciate("Probe-6");
+		probe6->getComponent<Transform>()->setPosition(Vector3f(24, 1, 0));
+		probe6->addComponent<MeshRenderer>();
+		probe6->getComponent<MeshRenderer>()->setMesh(sphere);
+		probe6->getComponent<MeshRenderer>()->setMaterial(lit);
+
 
 		GameObject* quad = instanciate("Quad-1");
 		quad->getComponent<Transform>()->setPosition(Vector3f(-6, 0, -3));
@@ -244,6 +255,13 @@ public:
 		quad5->addComponent<MeshRenderer>();
 		quad5->getComponent<MeshRenderer>()->setMesh(plane);
 		quad5->getComponent<MeshRenderer>()->setMaterial(def);
+
+		GameObject* quad6 = instanciate("Quad-6");
+		quad6->getComponent<Transform>()->setPosition(Vector3f(24, 0, -3));
+		quad6->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
+		quad6->addComponent<MeshRenderer>();
+		quad6->getComponent<MeshRenderer>()->setMesh(plane);
+		quad6->getComponent<MeshRenderer>()->setMaterial(lit);
 	}
 
 	void OnUnload() {

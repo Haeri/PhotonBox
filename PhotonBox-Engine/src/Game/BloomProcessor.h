@@ -14,7 +14,7 @@ public:
 	Material* m_vBlur1;
 	Material* m_hBlur2;
 	Material* m_vBlur2;
-	Material* m_add;
+	//Material* m_add;
 
 	FrameBuffer* fb_original;
 	FrameBuffer* fb_cutOff;
@@ -38,7 +38,7 @@ public:
 		m_vBlur2->setProperty("offset", 0.03f * (Display::getWidth() / Display::getHeight()));
 
 				
-		m_add = new Material(AddShader::getInstance());
+		//m_add = new Material(AddShader::getInstance());
 
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		fb_cutOff = new FrameBuffer(Display::getWidth(), Display::getHeight());
@@ -120,7 +120,7 @@ public:
 
 	void destroy() override {
 		delete m_cutOff;
-		delete m_add;
+		//delete m_add;
 		delete m_hBlur1;
 		delete m_vBlur1;
 

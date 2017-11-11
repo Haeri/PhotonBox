@@ -1,4 +1,4 @@
-#version 120 core
+#version 120
 
 struct AmbientLight{
 	vec3 color;
@@ -39,7 +39,7 @@ void main(){
     vec3 F0 = vec3(F0_DEFAULT); 
     F0 = mix(F0, albedo, metallic);
 
-	vec3 kS = fresnelSchlickRoughness(max(dot(normalVarying, V), 0.0), F0, roughness); 
+	vec3 kS = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness); 
 	vec3 kD = 1.0 - kS;
 	vec3 diffuse    = irradiance * albedo;
 	vec3 ambient    = (kD * diffuse) * ao; 
@@ -47,7 +47,6 @@ void main(){
 	gl_FragColor = vec4(ambient + ambientLight + emission, 1);
 }
 
-vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
-{
+vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness){
     return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }  

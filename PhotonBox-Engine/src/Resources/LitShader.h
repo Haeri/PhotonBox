@@ -10,7 +10,7 @@ public:
 	}
 
 	void addUniforms() override {
-		addUniform("transform");
+		addUniform("mvp");
 		addUniform("color");
 	}
 
@@ -18,9 +18,9 @@ public:
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 
-	void update(Matrix4f& matrix, Vector3f color) {
-		glUniformMatrix4fv(uniforms["transform"], 1, GL_FALSE, &(matrix(0, 0)));
-		glUniform3fv(uniforms["color"], 1, &(color.x()));
+	void update(Transform* transform) override {
+		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
+		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
 	}
 };
 
