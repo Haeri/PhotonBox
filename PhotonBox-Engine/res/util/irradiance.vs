@@ -1,4 +1,4 @@
-#version 330
+#version 120
 
 attribute vec3 position;
 

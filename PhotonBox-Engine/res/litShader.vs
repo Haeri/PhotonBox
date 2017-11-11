@@ -2,8 +2,8 @@
 
 attribute vec3 position;
 
-uniform mat4 transform;
+uniform mat4 mvp;
 
 void main(){
-	gl_Position = transform * vec4(position, 1.0);
+	gl_Position = mvp * vec4(position, 1.0);
 }
