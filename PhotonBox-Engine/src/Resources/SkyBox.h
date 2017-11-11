@@ -7,12 +7,16 @@
 
 class SkyBox {
 public:
-	void setCubeMap(CubeMap* cubeMap);
-	CubeMap* getCubeMap() { return _cubeMap; }
+	void setEnviromentMap(CubeMap* cubeMap);
+	CubeMap* getEnviromentMap() { return _evMap; }
+	void setIrradienceMap(CubeMap* cubeMap);
+	CubeMap* getIrradienceMap() { return _irrMap; }
+
 	void init();
 	void render();
 private:
-	CubeMap* _cubeMap;
+	CubeMap* _evMap;
+	CubeMap* _irrMap;
 	SkyBoxShader* _skyBoxShader;
 	GLuint _vao, _vbo, _ebo;
 	Mesh* _mesh;

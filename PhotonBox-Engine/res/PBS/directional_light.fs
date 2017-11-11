@@ -50,6 +50,17 @@ void main(){
     float G   = GeometrySmith(N, V, L, roughness);      
     vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);       
     
+
+/*
+
+    vec3 kS = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness); 
+    vec3 kD = 1.0 - kS;
+    vec3 irradiance = texture(irradianceMap, N).rgb;
+    vec3 diffuse    = irradiance * albedo;
+    vec3 ambient    = (kD * diffuse) * ao; 
+
+*/
+
     vec3 kS = F;
     vec3 kD = vec3(1.0) - kS;
     kD *= 1.0 - metallic;     

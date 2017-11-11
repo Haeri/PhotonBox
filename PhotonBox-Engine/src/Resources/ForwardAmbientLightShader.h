@@ -10,8 +10,7 @@
 class ForwardAmbientLightShader : public InstancedShader<ForwardAmbientLightShader>{
 public:
 	std::string getFilePath() override {
-		std::string s = "./res/PBS/base";
-		return s;
+		return std::string("./res/PBS/base");
 	}
 
 	void update(Transform* transform, LightEmitter* light){ // Matrix4f& matrix, Matrix4f& modelMatrix, LightEmitter& ambient, Vector4f& eyeTransformed) {
@@ -21,25 +20,31 @@ public:
 		AmbientLight* al = dynamic_cast<AmbientLight*>(light);
 
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
-		//glUniformMatrix4fv(uniforms["modelMatrix"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
+		glUniformMatrix4fv(uniforms["modelMatrix"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
 		glUniform1f(uniforms["light.intensity"], al->intensity);
 		glUniform3fv(uniforms["light.color"], 1, &(al->color.x()));
-		//glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
+		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
 	}
 
 	void addAttributes() override {
 		addAttribut("position", Vertex::AttibLocation::POSITION);
+		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
 	}
 
 	void addUniforms() override{
 		addUniform("mvp");
+		addUniform("modelMatrix");
+		addUniform("viewPos");
 		addUniform("light.intensity");
 		addUniform("light.color");
 
+		addTexture("irradianceMap"); 
 		addTexture("albedoMap");
 		addTexture("aoMap");
 		addTexture("emissionMap");
+		addTexture("roughnessMap");
+		addTexture("metallicMap");
 	}
 };
 

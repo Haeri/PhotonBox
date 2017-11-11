@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
+#include "../Math/Vector3f.h"
 #include "../src/Core/Display.h"
+#include "Mesh.h"
 
 class CubeMap {
 public:
@@ -18,18 +20,25 @@ public:
 	};
 
 	CubeMap(const std::vector<std::string>& allFaces);
+	CubeMap(int resolution);
 	~CubeMap();
-	GLuint getLocation() { return _cubeMaps.at(0); }
-	GLuint getLocation(int lod) { return _cubeMaps.at(lod); }
+	void generateIrradiance(GLuint map);
+	GLuint getLocation() { return _cubeMap; }
 	void bind();
 	void bind(GLenum textureUnit);
-	void bind(GLenum textureUnit, int lod);
-	int getMaxLod() { return _maxLod; }
+	int getWidth() { return _width; }
+	int getHeight() { return _height; }
+
 private:
 	void loadCubeMap(const std::vector<std::string>& faces);
-	int _maxLod = 0;
-	std::vector<GLuint> _cubeMaps;
+	GLuint _cubeMap;
+	int _width, _height;
 
+	void genVAO();
+	void renderCube();
+	GLuint _vao, _vbo, _ebo;
+	GLuint _captureFBO, _captureRBO;
+	Mesh* _mesh;
 };
 
 #endif // CUBE_MAP_H
