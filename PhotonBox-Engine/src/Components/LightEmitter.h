@@ -9,7 +9,9 @@ public:
 	Vector3f color;
 	float intensity;
 
-	LightEmitter();
+	//LightEmitter();
+
+	//void destroy() override;
 };
 
 #endif // LIGHT_EMITTER_H

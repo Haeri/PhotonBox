@@ -66,6 +66,10 @@ public:
 		_main = this;
 	}
 
+	void OnDestroy() override{
+		if (_main == this) _main = nullptr;
+	}
+
 	static Camera* getMainCamera() {
 		return _main;
 	}

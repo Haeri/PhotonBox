@@ -11,24 +11,6 @@ class LightEmitter;
 #include "../Core/Display.h"
 #include "../Math/Matrix4f.h"
 
-template <class Instance>
-class InstancedShader: public Shader {
-public:
-	static Instance* getInstance() {
-		if (_instance == nullptr) {
-			_instance = new Instance;
-			_instance->init();
-		}
-		return _instance;
-	}
-protected:
-	static Instance* _instance;
-	InstancedShader<Instance>() {}
-};
-
-template <class Instance>
-Instance* InstancedShader<Instance>::_instance = nullptr;
-
 class Shader {
 public:
 	struct TexUniforUnit
@@ -103,5 +85,24 @@ protected:
 	GLuint createShader(const std::string& shaderSource, unsigned int shaderType);
 	int checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);	
 };
+
+
+template <class Instance>
+class InstancedShader : public Shader {
+public:
+	static Instance* getInstance() {
+		if (_instance == nullptr) {
+			_instance = new Instance;
+			_instance->init();
+		}
+		return _instance;
+	}
+protected:
+	static Instance* _instance;
+	InstancedShader<Instance>() {}
+};
+
+template <class Instance>
+Instance* InstancedShader<Instance>::_instance = nullptr;
 
 #endif /* defined(SHADER_H) */

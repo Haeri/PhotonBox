@@ -1,9 +1,6 @@
 #ifndef PBR_SCENE_H
 #define PBR_SCENE_H
 
-class BasicShader;
-class LitShader;
-
 #include "../Resources/Scene.h"
 #include "../Components/MeshRenderer.h"
 #include "../Components/Camera.h"
@@ -26,6 +23,47 @@ class LitShader;
 
 class PBRScene : public Scene {
 public:
+	CubeMap* sky;
+
+	Mesh* plane;
+	Mesh* sphere;
+
+	Texture* woodAlbedo;
+	Texture* woodRough;
+	Texture* woodNormal;
+	Texture* woodAo;
+	Texture* woodMetal;
+
+	Texture* bricksAlbedo;
+	Texture* bricksRough;
+	Texture* bricksNormal;
+	Texture* bricksAo;
+	Texture* bricksMetal;
+
+	Texture* rustAlbedo;
+	Texture* rustRough;
+	Texture* rustNormal;
+	Texture* rustMetal;
+
+	Texture* goldAlbedo;
+	Texture* goldRough;
+	Texture* goldNormal;
+	Texture* goldMetal;
+
+	Texture* default_normal;
+	Texture* default_specular;
+	Texture* default_emission;
+	Texture* default_ao;
+
+	Material* wood;
+	Material* rust;
+	Material* bricks;
+	Material* gold;
+	Material* def;
+	Material* lit;
+
+
+
 
 	void Load() {
 
@@ -39,12 +77,12 @@ public:
 			"./res/enviroment/lod0_front.jpg",
 		};
 		std::vector<std::string> skyBoxLod2 = {
-			"./res/skybox3/skybox3X+.png",
-			"./res/skybox3/skybox3X-.png",
-			"./res/skybox3/skybox3Y-.png",
-			"./res/skybox3/skybox3Y+.png",
-			"./res/skybox3/skybox3Z-.png",
-			"./res/skybox3/skybox3Z+.png",
+			"./res/dark/posx.jpg",
+			"./res/dark/negx.jpg",
+			"./res/dark/posy.jpg",
+			"./res/dark/negy.jpg",
+			"./res/dark/posz.jpg",
+			"./res/dark/negz.jpg",
 		};
 		std::vector<std::string> skyBoxLod3 = {
 			"./res/redGreenRoom/lod0_right.jpg",
@@ -54,55 +92,56 @@ public:
 			"./res/redGreenRoom/lod0_back.jpg",
 			"./res/redGreenRoom/lod0_front.jpg",
 		};
-		Renderer::setSkyBox(new CubeMap(skyBoxLod));
+
+		sky = new CubeMap(skyBoxLod2);
+		Renderer::setSkyBox(sky);
 
 	
 		/* --------------------------- POST PROCESSING --------------------------- */
-		BloomProcessor* p_bloom = new BloomProcessor(1);	
+		BloomProcessor* p_bloom = new BloomProcessor(1);
 
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* plane = OBJLoader::loadObj("./res/plane.obj");
-		Mesh* sphere = OBJLoader::loadObj("./res/sphere.obj");
+		plane = OBJLoader::loadObj("./res/plane.obj");
+		sphere = OBJLoader::loadObj("./res/sphere.obj");
 
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		Texture* woodAlbedo = new Texture("./res/materials/mahogfloor/mahogfloor_basecolor.png", true);
-		Texture* woodRough = new Texture("./res/materials/mahogfloor/mahogfloor_roughness.png", true);
-		Texture* woodNormal = new Texture("./res/materials/mahogfloor/mahogfloor_normal.png", true);
-		Texture* woodAo = new Texture("./res/materials/mahogfloor/mahogfloor_AO.png", true);
-		Texture* woodMetal = new Texture("./res/materials/mahogfloor/mahogfloor_metalness.png", true);
+		woodAlbedo = new Texture("./res/materials/mahogfloor/mahogfloor_basecolor.png", true);
+		woodRough = new Texture("./res/materials/mahogfloor/mahogfloor_roughness.png", true);
+		woodNormal = new Texture("./res/materials/mahogfloor/mahogfloor_normal.png", true);
+		woodAo = new Texture("./res/materials/mahogfloor/mahogfloor_AO.png", true);
+		woodMetal = new Texture("./res/materials/mahogfloor/mahogfloor_metalness.png", true);
 
-		Texture* bricksAlbedo = new Texture("./res/materials/harshbricks/harshbricks-albedo.png", true);
-		Texture* bricksRough = new Texture("./res/materials/harshbricks/harshbricks-roughness.png", true);
-		Texture* bricksNormal = new Texture("./res/materials/harshbricks/harshbricks-normal.png", true);
-		Texture* bricksAo = new Texture("./res/materials/harshbricks/harshbricks-ao.png", true);
-		Texture* bricksMetal = new Texture("./res/materials/harshbricks/harshbricks-metalness.png", true);
+		bricksAlbedo = new Texture("./res/materials/harshbricks/harshbricks-albedo.png", true);
+		bricksRough = new Texture("./res/materials/harshbricks/harshbricks-roughness.png", true);
+		bricksNormal = new Texture("./res/materials/harshbricks/harshbricks-normal.png", true);
+		bricksAo = new Texture("./res/materials/harshbricks/harshbricks-ao.png", true);
+		bricksMetal = new Texture("./res/materials/harshbricks/harshbricks-metalness.png", true);
 
-		Texture* rustAlbedo = new Texture("./res/materials/rust/rustediron2_basecolor.png", true);
-		Texture* rustRough = new Texture("./res/materials/rust/rustediron2_roughness.png", true);
-		Texture* rustNormal = new Texture("./res/materials/rust/rustediron2_normal.png", true);
-		Texture* rustMetal = new Texture("./res/materials/rust/rustediron2_metallic.png", true);
+		rustAlbedo = new Texture("./res/materials/rust/rustediron2_basecolor.png", true);
+		rustRough = new Texture("./res/materials/rust/rustediron2_roughness.png", true);
+		rustNormal = new Texture("./res/materials/rust/rustediron2_normal.png", true);
+		rustMetal = new Texture("./res/materials/rust/rustediron2_metallic.png", true);
 
-		Texture* goldAlbedo = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png", true);
-		Texture* goldRough = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png", true);
-		Texture* goldNormal = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-normal.png", true);
-		Texture* goldMetal = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-metal.png", true);
+		goldAlbedo = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png", true);
+		goldRough = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png", true);
+		goldNormal = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-normal.png", true);
+		goldMetal = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-metal.png", true);
 
-		Texture* default_normal = new Texture("./res/default_normal.png", false);
-		Texture* default_specular = new Texture("./res/default_specular.png", false);
-		Texture* default_emission = new Texture("./res/default_emission.png", false);
-		Texture* default_ao = new Texture("./res/default_ao.png", false);
+		default_normal = new Texture("./res/default_normal.png", false);
+		default_specular = new Texture("./res/default_specular.png", false);
+		default_emission = new Texture("./res/default_emission.png", false);
+		default_ao = new Texture("./res/default_ao.png", false);
 
 		/* --------------------------- SHADERS --------------------------- */
-		//IrradianceShader* shader = IrradianceShader::getInstance();
 		LitShader* litShader = LitShader::getInstance();
 
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		Material* wood = new Material();
+		wood = new Material();
 		wood->setTexture("albedoMap", woodAlbedo);
 		wood->setTexture("normalMap", woodNormal);
 		wood->setTexture("roughnessMap", woodRough);
@@ -110,7 +149,7 @@ public:
 		wood->setTexture("metallicMap", woodMetal);
 		wood->setTexture("emissionMap", default_emission);
 
-		Material* rust = new Material();
+		rust = new Material();
 		rust->setTexture("albedoMap", rustAlbedo);
 		rust->setTexture("normalMap", rustNormal);
 		rust->setTexture("roughnessMap", rustRough);
@@ -118,7 +157,7 @@ public:
 		rust->setTexture("metallicMap", rustMetal);
 		rust->setTexture("emissionMap", default_emission);
 
-		Material* bricks = new Material();
+		bricks = new Material();
 		bricks->setTexture("albedoMap", bricksAlbedo);
 		bricks->setTexture("normalMap", bricksNormal);
 		bricks->setTexture("roughnessMap", default_emission);
@@ -126,7 +165,7 @@ public:
 		bricks->setTexture("metallicMap", bricksMetal);
 		bricks->setTexture("emissionMap", default_emission);
 
-		Material* gold = new Material();
+		gold = new Material();
 		gold->setTexture("albedoMap", goldAlbedo);
 		gold->setTexture("normalMap", goldNormal);
 		gold->setTexture("roughnessMap", goldRough);
@@ -134,7 +173,7 @@ public:
 		gold->setTexture("metallicMap", goldMetal);
 		gold->setTexture("emissionMap", default_emission);
 
-		Material* def = new Material();
+		def = new Material();
 		def->setTexture("albedoMap", default_specular);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_ao);
@@ -142,7 +181,7 @@ public:
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
 
-		Material* lit = new Material(litShader);
+		lit = new Material(litShader);
 		lit->setProperty("color", Vector3f(0.3, 0.3, 0.5));
 		
 
@@ -265,7 +304,44 @@ public:
 	}
 
 	void OnUnload() {
+		delete sky;
 
+		delete plane;
+		delete sphere;
+
+		delete woodAlbedo;
+		delete woodRough;
+		delete woodNormal;
+		delete woodAo;
+		delete woodMetal;
+
+		delete bricksAlbedo;
+		delete bricksRough;
+		delete bricksNormal;
+		delete bricksAo;
+		delete bricksMetal;
+
+		delete rustAlbedo;
+		delete rustRough;
+		delete rustNormal;
+		delete rustMetal;
+
+		delete goldAlbedo;
+		delete goldRough;
+		delete goldNormal;
+		delete goldMetal;
+
+		delete default_normal;
+		delete default_specular;
+		delete default_emission;
+		delete default_ao;
+
+		delete wood;
+		delete rust;
+		delete bricks;
+		delete gold;
+		delete def;
+		delete lit;
 	}
 
 };

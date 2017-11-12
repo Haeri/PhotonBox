@@ -69,9 +69,6 @@
     <ClCompile Include="src\Core\InputManager.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\PostProcessing.cpp">
-      <Filter>src\Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\Core\Time.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
@@ -135,6 +132,10 @@
     <ClCompile Include="src\Math\Matrix4f.cpp">
       <Filter>src\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Systems\PostProcessing.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Systems\UIRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -180,9 +181,6 @@
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\InputManager.h">
-      <Filter>src\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\PostProcessing.h">
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Time.h">
@@ -320,5 +318,10 @@
     <ClInclude Include="src\Game\FollowScript.h" />
     <ClInclude Include="src\Resources\IrradianceShader.h" />
     <ClInclude Include="src\Resources\DefaultPostShader.h" />
+    <ClInclude Include="src\Core\Systems\PostProcessing.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Systems\UIRenderer.h" />
+    <ClInclude Include="src\Resources\TextShader.h" />
   </ItemGroup>
 </Project>

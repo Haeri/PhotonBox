@@ -337,7 +337,6 @@ public:
 	}
 
 	void TestScene::OnUnload() {
-		delete basicShader;
 		delete mesh;
 		delete mesh2;
 		delete material;

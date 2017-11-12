@@ -1,6 +1,6 @@
 #include "PostProcessing.h"
-#include "../Resources/PostShader.h"
-#include "PostProcessor.h"
+#include "../../Resources/PostShader.h"
+#include "../PostProcessor.h"
 
 std::map<int, PostProcessor*> PostProcessing::_processorMap;
 bool PostProcessing::_doPostProcessing;
@@ -48,5 +48,8 @@ void PostProcessing::postProcess() {
 void PostProcessing::destroy() {
 	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it) {
 		it->second->destroy();
+		delete it->second;
 	}
+
+	_processorMap.clear();
 }

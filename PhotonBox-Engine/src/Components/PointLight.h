@@ -13,5 +13,9 @@ public:
 	PointLight() {
 		Lighting::addLight(this);
 	}
+
+	void destroy() override {
+		Lighting::removeLight(this);
+	}
 };
 #endif // POINT_LIGHT_H

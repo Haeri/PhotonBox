@@ -31,13 +31,14 @@
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Core\InputManager.cpp" />
-    <ClCompile Include="src\Core\PostProcessing.cpp" />
+    <ClCompile Include="src\Core\Systems\PostProcessing.cpp" />
     <ClCompile Include="src\Core\Systems\Core.cpp" />
     <ClCompile Include="src\Core\Systems\Lighting.cpp" />
     <ClCompile Include="src\Core\Systems\Logic.cpp" />
     <ClCompile Include="src\Core\Systems\Physics.cpp" />
     <ClCompile Include="src\Core\Systems\Renderer.cpp" />
     <ClCompile Include="src\Core\Systems\SceneManager.cpp" />
+    <ClCompile Include="src\Core\Systems\UIRenderer.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\Util.cpp" />
     <ClCompile Include="src\Game\PrinterScript.cpp" />
@@ -73,7 +74,7 @@
     <ClInclude Include="src\Core\FrameBuffer.h" />
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\InputManager.h" />
-    <ClInclude Include="src\Core\PostProcessing.h" />
+    <ClInclude Include="src\Core\Systems\PostProcessing.h" />
     <ClInclude Include="src\Core\PostProcessor.h" />
     <ClInclude Include="src\Core\Systems\Core.h" />
     <ClInclude Include="src\Core\Systems\Lighting.h" />
@@ -81,6 +82,7 @@
     <ClInclude Include="src\Core\Systems\Physics.h" />
     <ClInclude Include="src\Core\Systems\Renderer.h" />
     <ClInclude Include="src\Core\Systems\SceneManager.h" />
+    <ClInclude Include="src\Core\Systems\UIRenderer.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\Util.h" />
     <ClInclude Include="src\Game\AddShader.h" />
@@ -117,6 +119,7 @@
     <ClInclude Include="src\Resources\Shader.h" />
     <ClInclude Include="src\Resources\SkyBox.h" />
     <ClInclude Include="src\Resources\SkyBoxShader.h" />
+    <ClInclude Include="src\Resources\TextShader.h" />
     <ClInclude Include="src\Resources\Texture.h" />
     <ClInclude Include="src\Resources\Vertex.h" />
     <ClInclude Include="src\Test\MathTest.h" />
@@ -204,7 +207,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

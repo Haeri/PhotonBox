@@ -6,6 +6,7 @@
 class Display;
 class SceneManager;
 class Renderer;
+class UIRenderer;
 class Time;
 class Logic;
 class Physics;
@@ -22,15 +23,17 @@ public:
 	void run();
 	void destroy();
 private:
+	Time* time;
+	Display* display;
+	InputManager* inputManager;
+	
+	UIRenderer* uiRenderer;
 	SceneManager* sceneManager;
 	Renderer* renderer;
-	Time* time;
 	Logic* logic;
 	Physics* physics;
 	PostProcessing* postPocessing;
-	Display* display;
 	Lighting* lighting;
-	InputManager* inputManager;
 
 	const double FIXED_TIME_INTERVAL = 30;
 	const double TARGET_FPS = 60;

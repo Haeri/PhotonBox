@@ -37,8 +37,10 @@ void Renderer::setSkyBox(CubeMap* cubeMap){
 }
 
 void Renderer::init() {
+	// OpenGL config
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	
 	_ambientLightShader = ForwardAmbientLightShader::getInstance();
 	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
@@ -56,7 +58,7 @@ void Renderer::start() {
 }
 
 void Renderer::render() {
-	Display::clearDisplay(0.1, 0.1, 0.1, 1);
+	Display::clearDisplay(0.3, 0.3, 0.3, 1);
 
 	_skyBox.render();
 
