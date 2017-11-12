@@ -122,7 +122,9 @@ void Core::run(){
 		// UI Rendering
 		uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0.9, 0.9, 0.9));
 		uiRenderer->renderText("Scene: " + sceneManager->getCurrentName(), 10, Display::getHeight() - 35, 0.32f, Vector3f(0.9, 0.9, 0.9));
-		uiRenderer->renderText("Bihaviour:\n" + Logic::getList(), 10, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
+		uiRenderer->renderText("GameObjects:\n" + SceneManager::getCurrentScene()->getGameObjects(), 10, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
+		uiRenderer->renderText("Bihaviour:\n" + Logic::getList(), 150, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
+
 
 		// Stop Rendering
 		

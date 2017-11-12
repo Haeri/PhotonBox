@@ -136,6 +136,7 @@
       <Filter>src\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Systems\UIRenderer.cpp" />
+    <ClCompile Include="src\Core\FrameBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
