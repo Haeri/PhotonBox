@@ -29,6 +29,7 @@
     <ClCompile Include="src\Components\Transform.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />
     <ClCompile Include="src\Core\Display.cpp" />
+    <ClCompile Include="src\Core\FrameBuffer.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\Systems\PostProcessing.cpp" />

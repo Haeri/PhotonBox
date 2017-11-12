@@ -2,6 +2,7 @@
 #define POST_PROCESSING_H
 
 class PostProcessor;
+#include <map>
 #include "../../Core/FrameBuffer.h"
 
 class PostProcessing {

@@ -46,7 +46,7 @@ void Scene::printGameObjects() {
 std::string Scene::getGameObjects() {	
 	std::string ret = "";
 	for (std::vector<GameObject*>::iterator it = gameObjectList.begin(); it != gameObjectList.end(); ++it) {
-		ret += (*it)->name + "\n";
+		ret += " + " + (*it)->name + "\n";
 	}
 
 	return ret;

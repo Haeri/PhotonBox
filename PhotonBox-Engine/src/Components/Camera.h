@@ -1,82 +1,33 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Behaviour.h"
+#include "../Core/Component.h"
 #include "Transform.h"
 #include "../Math/Matrix4f.h"
 #include "../Core/Display.h"
 #include "../Math/Vector2f.h"
 
-class Camera: public Behaviour{
+class Camera: public Component{
 public:
-	void Start() {
-		if (_main == nullptr) setMain();
+	Camera();
+	void updateAspect();
+	void updateProjection();
+	void setFOV(float fov);
+	void setProjection(float fov, float aspect, float zNear, float zFar);
+	void setMain();
 
-		float aspect = (float)Display::getWidth() / (float)Display::getHeight();
-		setProjection(70, aspect, 0.01f, 1000.0f);
-	}
-
-	void updateAspect() {
-		_aspect = (float)Display::getWidth() / (float)Display::getHeight();
-		updateProjection();
-	}
-
-	void setFOV(float fov) {
-		_fov = fov;
-		updateProjection();
-	}
-
-	void updateProjection() {
-		_projection = Matrix4f::createPerspective(_fov, _aspect, _zNear, _zFar);
-	}
-
-	void setProjection(float fov, float aspect, float zNear, float zFar) {
-		_fov = fov;
-		_aspect = aspect;
-		_zNear = zNear;
-		_zFar = zFar;
-		updateProjection();
-	}
-
-	Matrix4f getProjectionMatrix() {
-		return _projection;
-	}
-
-	Matrix4f getViewMatrix() {
-		return Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
-	}
-
-	//TODO: cache this matrix
-	Matrix4f getViewProjection() {
-		return _projection * Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
-	}
-
+	Matrix4f getProjectionMatrix() { return _projection; }
+	Matrix4f getViewMatrix();
+	Matrix4f getViewProjection();
 	float getFOV() { return _fov; }
 
-	static Vector2f worldToScreen(Vector3f point) {
-		Vector4f clipSpacePos = Camera::getMainCamera()->getViewProjection() * Vector4f(point, 1.0);
-		if (clipSpacePos.w() <= 0) {
-			clipSpacePos.w() = 0.0001;
-		}
+	void destroy() override;
 
-		return Vector2f(clipSpacePos.x() / clipSpacePos.w(), clipSpacePos.y() / clipSpacePos.w());
-	}
-
-	void setMain() {
-		_main = this;
-	}
-
-	void OnDestroy() override{
-		if (_main == this) _main = nullptr;
-	}
-
-	static Camera* getMainCamera() {
-		return _main;
-	}
-
+	static Vector2f worldToScreen(Vector3f point);
+	static Camera* getMainCamera() { return _main; }
 private:
 	static Camera* _main;
 	float _fov, _zNear, _zFar, _aspect;
 	Matrix4f _projection;
 };
-#endif /* defined(CAMERA_H) */
+#endif // CAMERA_H
