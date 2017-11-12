@@ -36,8 +36,6 @@ CubeMap::CubeMap(int resolutoon) {
 }
 
 void CubeMap::generateIrradiance(GLuint map) {
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-
 	Vector3f position = Vector3f::ZERO;
 	Matrix4f captureProjection = Matrix4f::createPerspective(90.0f, 1.0f, 0.01f, 10.0f);
 	Matrix4f captureViews[] =

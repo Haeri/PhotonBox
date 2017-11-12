@@ -1,8 +1,9 @@
 #include "SceneManager.h"
 #include "../../Resources/Scene.h"
 
+bool SceneManager::_inQueue = false;
 Scene* SceneManager::_currentScene;
-Scene* SceneManager::_toBeLoadedScene;
+std::string SceneManager::_newScene;
 std::map<std::string, Scene*> SceneManager::_sceneMap;
 std::string SceneManager::_currentSceneName;
 
@@ -10,14 +11,18 @@ void SceneManager::addScene(const std::string name, Scene* scene){
 	_sceneMap[name] = scene;
 }
 
+/*
 void SceneManager::loadScene(Scene * scene){
 	_toBeLoadedScene = scene;
 }
+*/
 
 void SceneManager::loadScene(const std::string & name){
-	loadScene(_sceneMap[name]);
+	_newScene = name;
+	_inQueue = true;
 }
 
+/*
 void SceneManager::loadSceneImediately(Scene* scene) {
 	unloadScene(_currentScene);
 	scene->Load();
@@ -25,15 +30,22 @@ void SceneManager::loadSceneImediately(Scene* scene) {
 	// TODO: save scene names correctly
 	//_currentSceneName = _sceneMap.->name;
 }
+*/
 
 void SceneManager::loadSceneImediately(const std::string& name) {
-	loadSceneImediately(_sceneMap[name]);
+	if (_sceneMap[name] == nullptr) return;
+	
+	unloadScene(_currentScene);
+	_currentScene = _sceneMap[name];
+	_currentSceneName = name;
+	_currentScene->Load();
+	_inQueue = false;
 }
 
 bool SceneManager::loadQueuedScene() {
-	if (_toBeLoadedScene == nullptr) return false;
-	loadSceneImediately(_toBeLoadedScene);
-	_toBeLoadedScene = nullptr;
+	if (!_inQueue) return false;
+	loadSceneImediately(_newScene);
+	_newScene = "";
 	return true;
 }
 
@@ -57,7 +69,6 @@ Scene* SceneManager::getCurrentScene() {
 }
 
 void SceneManager::destroy(){
-
 	for (auto const &scene : _sceneMap) {
 		scene.second->unload();
 		delete scene.second;

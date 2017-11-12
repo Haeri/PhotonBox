@@ -2,7 +2,7 @@
 #define POST_PROCESSING_H
 
 class PostProcessor;
-#include "FrameBuffer.h"
+#include "../../Core/FrameBuffer.h"
 
 class PostProcessing {
 public:

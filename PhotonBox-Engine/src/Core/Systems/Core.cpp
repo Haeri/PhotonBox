@@ -1,12 +1,13 @@
 #include "Core.h"
-#include "../Display.h"
 #include "SceneManager.h"
 #include "Renderer.h"
-#include "../Time.h"
 #include "Logic.h"
 #include "Physics.h"
-#include "../PostProcessing.h"
 #include "Lighting.h"
+#include "UIRenderer.h"
+#include "../Display.h"
+#include "../Time.h"
+#include "../Systems/PostProcessing.h"
 #include "../InputManager.h"
 
 #include "../../Game/TestScene.h"
@@ -16,50 +17,62 @@
 
 bool Core::_isRunning;
 
-void Core::init()
-{
+void Core::init(){
+	std::cout << "==================================================" << std::endl;
+	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
+
+	// Core Systems
+	display = new Display();
+	inputManager = new InputManager();
+	time = new Time();
+	
+	// Subsystems
+	uiRenderer = new UIRenderer();
 	sceneManager = new SceneManager();
 	renderer = new Renderer();
-	time = new Time();
 	logic = new Logic();
 	physics = new Physics();
 	postPocessing = new PostProcessing();
-	display = new Display();
 	lighting = new Lighting();
-	inputManager = new InputManager();
-
-	std::cout << "==================================================" << std::endl;
-	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 1480, 900);
 	renderer->init();
 //	postPocessing->init();
 	inputManager->init();
+	uiRenderer->init();
+
+	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
+	std::cout << "==================================================" << std::endl << std::endl;
 
 	// Load Scenes
 	sceneManager->addScene("TestScene", new TestScene());
 	sceneManager->addScene("PBRScene", new PBRScene());
-	sceneManager->loadSceneImediately("PBRScene");
 
 	// Start Subsystems
 	start();
-
-	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
-	std::cout << "==================================================" << std::endl << std::endl;
 }
 
 void Core::start() {
+	std::cout << "==================================================" << std::endl;
+	std::cout << "                  LOADING SCENE" << std::endl << std::endl;
+	
+	sceneManager->loadSceneImediately("PBRScene");
+	
 	logic->start();
 	renderer->start();
+	
+	std::cout << std::endl << "                   SCENE READY" << std::endl;
+	std::cout << "==================================================" << std::endl << std::endl;
 }
 
-void Core::run()
-{
+void Core::run(){
 	double lastTime = glfwGetTime();
 	int nbFrames = 0;
 	double lastSecond = 0;
 	_isRunning = true;
+
+	std::string statPrint;
 
 	while (_isRunning) {
 		/*
@@ -73,7 +86,8 @@ void Core::run()
 		lastSecond += Time::deltaTime;
 
 		if (lastSecond >= 1.0) {
-			printf("%i FPS - %f ms/frame\n", nbFrames, 1000.0 / double(nbFrames));
+			statPrint = std::to_string(nbFrames) + " FPS  -  " + std::to_string(1000.0f / double(nbFrames)).substr(0, 4) + "ms/Frame";
+			//printf("%i FPS - %f ms/frame\n", nbFrames, 1000.0 / double(nbFrames));
 			nbFrames = 0;
 			lastSecond = 0;
 		}
@@ -95,14 +109,24 @@ void Core::run()
 		// Update input
 		inputManager->update();
 
+
+		// Start Rendering
 		postPocessing->preProcess();
 
 		// Render Scene
 		renderer->render();
 		nbFrames++;
-		inputManager->pollEvents();
 
 		postPocessing->postProcess();
+
+		// UI Rendering
+		uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0.9, 0.9, 0.9));
+		uiRenderer->renderText("Scene: " + sceneManager->getCurrentName(), 10, Display::getHeight() - 35, 0.32f, Vector3f(0.9, 0.9, 0.9));
+		uiRenderer->renderText("Bihaviour:\n" + Logic::getList(), 10, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
+
+		// Stop Rendering
+		
+		inputManager->pollEvents();
 
 		// End of Frame
 		if (sceneManager->loadQueuedScene())
@@ -112,8 +136,7 @@ void Core::run()
 	}
 }
 
-void Core::destroy()
-{
+void Core::destroy(){
 	logic->destroy();
 	renderer->destroy();
 	physics->destroy();

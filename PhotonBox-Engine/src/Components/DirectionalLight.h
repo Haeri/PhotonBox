@@ -11,5 +11,9 @@ public:
 	DirectionalLight() {
 		Lighting::addLight(this);
 	}
+
+	void destroy() override {
+		Lighting::removeLight(this);
+	}
 };
 #endif // DIRECTIONAL_LIGHT_H

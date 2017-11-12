@@ -7,9 +7,9 @@ class Scene;
 class SceneManager {
 public:
 	static void addScene(const std::string name, Scene* scene);
-	static void loadScene(Scene* scene);
+	//static void loadScene(Scene* scene);
 	static void loadScene(const std::string &name);
-	static void loadSceneImediately(Scene* scene);
+	//static void loadSceneImediately(Scene* scene);
 	static void loadSceneImediately(const std::string &name);
 	static void unloadScene(Scene* scene);
 	static void unloadScene(const std::string &name);
@@ -19,7 +19,8 @@ public:
 	bool loadQueuedScene();
 	void destroy();
 private:
-	static Scene* _toBeLoadedScene;
+	static std::string _newScene;
+	static bool _inQueue;
 	static Scene* _currentScene;
 	static std::map<std::string, Scene*> _sceneMap;
 	static std::string _currentSceneName;

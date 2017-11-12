@@ -53,7 +53,7 @@ void Logic::printList(){
 std::string Logic::getList() {
 	std::string ret = "";
 	for (std::vector<Behaviour*>::iterator it = _behaviourList.begin(); it != _behaviourList.end(); ++it) {
-		ret += (*it)->getName() + "\n";
+		ret += " " + (*it)->getName() + "\n";
 	}
 	return ret;
 }

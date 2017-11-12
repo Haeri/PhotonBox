@@ -76,6 +76,24 @@ Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float 
 	return ret;
 }
 
+Matrix4f Matrix4f::createOrthographic(float left, float right, float bottom, float top) {
+	Matrix4f ret;
+	ret._matrix[0] = 2.0f / (right - left);	ret._matrix[4] = 0;							ret._matrix[8] = 0;		ret._matrix[12] = -(right + left) / (right - left);
+	ret._matrix[1] = 0;						ret._matrix[5] = 2.0f / (top - bottom);		ret._matrix[9] = 0;		ret._matrix[13] = -(top + bottom) / (top - bottom);
+	ret._matrix[2] = 0;						ret._matrix[6] = 0;							ret._matrix[10] = 1; 	ret._matrix[14] = 0;
+	ret._matrix[3] = 0;						ret._matrix[7] = 0;							ret._matrix[11] = 0;	ret._matrix[15] = 1;
+	return ret;
+}
+
+Matrix4f Matrix4f::createOrthographic(float left, float right, float bottom, float top, float near, float far) {
+	Matrix4f ret;
+	ret._matrix[0] = 2.0f / (right - left);	ret._matrix[4] = 0;							ret._matrix[8] = 0;							ret._matrix[12] = -(right + left) / (right - left);
+	ret._matrix[1] = 0;						ret._matrix[5] = 2.0f / (top - bottom);		ret._matrix[9] = 0;							ret._matrix[13] = -(top + bottom) / (top - bottom);
+	ret._matrix[2] = 0;						ret._matrix[6] = 0;							ret._matrix[10] = -2.0f / (far - near);		ret._matrix[14] = -(far + near) / (far - near);
+	ret._matrix[3] = 0;						ret._matrix[7] = 0;							ret._matrix[11] = 0;						ret._matrix[15] = 1;
+	return ret;
+}
+
 Matrix4f Matrix4f::lookAt(Vector3f pos, Vector3f up, Vector3f forward)
 {
 
