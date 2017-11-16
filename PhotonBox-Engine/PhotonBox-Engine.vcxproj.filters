@@ -137,6 +137,7 @@
     </ClCompile>
     <ClCompile Include="src\Core\Systems\UIRenderer.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
+    <ClCompile Include="src\Components\LightProbe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -324,5 +325,9 @@
     </ClInclude>
     <ClInclude Include="src\Core\Systems\UIRenderer.h" />
     <ClInclude Include="src\Resources\TextShader.h" />
+    <ClInclude Include="src\Resources\SpecularConvolutionShader.h" />
+    <ClInclude Include="src\Components\LightProbe.h" />
+    <ClInclude Include="src\Resources\ToneMappingProcessor.h" />
+    <ClInclude Include="src\Resources\ToneMappingShader.h" />
   </ItemGroup>
 </Project>

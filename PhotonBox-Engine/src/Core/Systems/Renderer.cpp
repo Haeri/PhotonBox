@@ -30,10 +30,7 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *objectRenderer) {
 }
 
 void Renderer::setSkyBox(CubeMap* cubeMap){
-	_skyBox.setEnviromentMap(cubeMap);
-	CubeMap* irradiance = new CubeMap(32);
-	irradiance->generateIrradiance(cubeMap->getLocation());
-	_skyBox.setIrradienceMap(irradiance);
+	_skyBox.setLightProbe(new LightProbe(cubeMap));
 }
 
 void Renderer::init() {
@@ -70,17 +67,20 @@ void Renderer::render() {
 			}else {
 				glEnable(GL_DEPTH_TEST);
 
-				_skyBox.getIrradienceMap()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+				// IBL
+				_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+				_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
 
 				// AMBIENT
 				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
 				(*it)->render(_ambientLightShader, ambient);
-				
+
 
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_ONE, GL_ONE);
 				glDepthMask(GL_FALSE);
 				glDepthFunc(GL_EQUAL);
+
 
 
 				// DIRECTIONAL LIGHTS
@@ -102,6 +102,7 @@ void Renderer::render() {
 				glDepthMask(GL_TRUE);
 				glDepthFunc(GL_LESS);
 				glDisable(GL_BLEND);
+
 			}
 		}
 	}

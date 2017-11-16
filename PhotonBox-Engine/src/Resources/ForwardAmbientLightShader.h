@@ -13,8 +13,7 @@ public:
 		return std::string("./res/PBS/base");
 	}
 
-	void update(Transform* transform, LightEmitter* light){ // Matrix4f& matrix, Matrix4f& modelMatrix, LightEmitter& ambient, Vector4f& eyeTransformed) {
-		
+	void update(Transform* transform, LightEmitter* light){
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
 		AmbientLight* al = dynamic_cast<AmbientLight*>(light);
@@ -30,6 +29,7 @@ public:
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
+		addAttribut("tangent", Vertex::AttibLocation::TANGENT);
 	}
 
 	void addUniforms() override{
@@ -40,7 +40,10 @@ public:
 		addUniform("light.color");
 
 		addTexture("irradianceMap"); 
+		addTexture("convolutedSpecularMap");
+		
 		addTexture("albedoMap");
+		addTexture("normalMap");
 		addTexture("aoMap");
 		addTexture("emissionMap");
 		addTexture("roughnessMap");
