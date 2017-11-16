@@ -1,13 +1,13 @@
-#ifndef IRRADIANCE_SHADER_H
-#define IRRADIANCE_SHADER_H
+#ifndef SPECULAR_CONVOLUTION_SHADER_H
+#define SPECULAR_CONVOLUTION_SHADER_H
 
 #include "Shader.h"
 #include "Vertex.h"
 
-class IrradianceShader : public InstancedShader<IrradianceShader> {
+class SpecularConvolutionShader : public InstancedShader<SpecularConvolutionShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/util/irradiance");
+		return std::string("./res/util/specular-convolution");
 	}
 
 	//void update(Matrix4f& vp) {
@@ -17,6 +17,7 @@ public:
 	void addUniforms() override {
 		addUniform("projection");
 		addUniform("view");
+		addUniform("roughness");
 
 		addTexture("environmentMap");
 	}
@@ -26,4 +27,4 @@ public:
 	}
 };
 
-#endif // IRRADIANCE_SHADER_H
+#endif // SPECULAR_CONVOLUTION_SHADER_H

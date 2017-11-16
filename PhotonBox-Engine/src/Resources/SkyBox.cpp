@@ -3,12 +3,17 @@
 #include "OBJLoader.h"
 
 
+void SkyBox::setLightProbe(LightProbe * lightProbe){
+	_lp = lightProbe;
+}
+
 void SkyBox::init(){
 	_skyBoxShader = SkyBoxShader::getInstance();
 	_mesh = OBJLoader::loadObj("./res/primitives/skyBox.obj");
 	genVAO();
 }
 
+/*
 void SkyBox::setEnviromentMap(CubeMap* cubeMap) {
 	_evMap = cubeMap;
 }
@@ -16,6 +21,7 @@ void SkyBox::setEnviromentMap(CubeMap* cubeMap) {
 void SkyBox::setIrradienceMap(CubeMap* cubeMap) {
 	_irrMap = cubeMap;
 }
+*/
 
 void SkyBox::genVAO() {
 	glGenVertexArrays(1, &_vao);
@@ -42,7 +48,7 @@ void SkyBox::genVAO() {
 }
 
 void SkyBox::render() {
-	if (_evMap == nullptr) return;
+	if (_lp == nullptr) return;
 
 	Matrix4f vp = Camera::getMainCamera()->getViewMatrix();
 	vp(3, 0) = 0;
@@ -55,7 +61,7 @@ void SkyBox::render() {
 	_skyBoxShader->bind();
 	_skyBoxShader->update(vp);
 	_skyBoxShader->enableAttributes();
-	_evMap->bind();
+	_lp->getEnviromentCube()->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	_skyBoxShader->disableAttributes();
 

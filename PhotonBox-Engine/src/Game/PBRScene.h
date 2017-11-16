@@ -18,7 +18,7 @@
 #include "../Game/BlurShader.h"
 #include "../Game/BloomProcessor.h"
 #include "../Game/BlurProcessor.h"
-
+#include "../Resources/ToneMappingProcessor.h"
 #include "../Resources/IrradianceShader.h"
 
 class PBRScene : public Scene {
@@ -54,6 +54,7 @@ public:
 	Texture* default_specular;
 	Texture* default_emission;
 	Texture* default_ao;
+	Texture* gradient;
 
 	Material* wood;
 	Material* rust;
@@ -92,13 +93,12 @@ public:
 			"./res/redGreenRoom/lod0_back.jpg",
 			"./res/redGreenRoom/lod0_front.jpg",
 		};
-
-		sky = new CubeMap(skyBoxLod2);
-		Renderer::setSkyBox(sky);
+		Renderer::setSkyBox(new CubeMap(skyBoxLod3));
 
 	
 		/* --------------------------- POST PROCESSING --------------------------- */
 		BloomProcessor* p_bloom = new BloomProcessor(1);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(2);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -134,6 +134,7 @@ public:
 		default_specular = new Texture("./res/default_specular.png", false);
 		default_emission = new Texture("./res/default_emission.png", false);
 		default_ao = new Texture("./res/default_ao.png", false);
+		gradient = new Texture("./res/gradient.png", false);
 
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
@@ -160,7 +161,7 @@ public:
 		bricks = new Material();
 		bricks->setTexture("albedoMap", bricksAlbedo);
 		bricks->setTexture("normalMap", bricksNormal);
-		bricks->setTexture("roughnessMap", default_emission);
+		bricks->setTexture("roughnessMap", bricksRough);
 		bricks->setTexture("aoMap", bricksAo);
 		bricks->setTexture("metallicMap", bricksMetal);
 		bricks->setTexture("emissionMap", default_emission);
@@ -176,7 +177,7 @@ public:
 		def = new Material();
 		def->setTexture("albedoMap", default_specular);
 		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_ao);
+		def->setTexture("roughnessMap", gradient);
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
@@ -191,6 +192,7 @@ public:
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -10));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraController>();
+		cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
 
 
 
@@ -335,6 +337,7 @@ public:
 		delete default_specular;
 		delete default_emission;
 		delete default_ao;
+		delete gradient;
 
 		delete wood;
 		delete rust;

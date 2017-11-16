@@ -13,7 +13,7 @@
 #include "../../Game/TestScene.h"
 #include "../../Game/PBRScene.h"
 
-#define DEBUG = false;
+//#define DEBUG = false;
 
 bool Core::_isRunning;
 
@@ -57,7 +57,7 @@ void Core::start() {
 	std::cout << "==================================================" << std::endl;
 	std::cout << "                  LOADING SCENE" << std::endl << std::endl;
 	
-	sceneManager->loadSceneImediately("PBRScene");
+	sceneManager->loadSceneImediately("TestScene");
 	
 	logic->start();
 	renderer->start();
@@ -127,7 +127,8 @@ void Core::run(){
 
 
 		// Stop Rendering
-		
+
+
 		inputManager->pollEvents();
 
 		// End of Frame

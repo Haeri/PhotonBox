@@ -7,6 +7,8 @@
 
 GLuint FrameBuffer::_currentFBO;
 
+//#define DEBUG
+
 FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height) {
 
 	// Create framebuffer

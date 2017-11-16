@@ -4,19 +4,18 @@
 #include "CubeMap.h"
 #include "SkyBoxShader.h"
 #include "Mesh.h"
+#include "../Components/LightProbe.h"
 
 class SkyBox {
 public:
-	void setEnviromentMap(CubeMap* cubeMap);
-	CubeMap* getEnviromentMap() { return _evMap; }
-	void setIrradienceMap(CubeMap* cubeMap);
-	CubeMap* getIrradienceMap() { return _irrMap; }
+	void setLightProbe(LightProbe* lightProbe);
 
+	LightProbe* getLightProbe() { return _lp; }
 	void init();
 	void render();
 private:
-	CubeMap* _evMap;
-	CubeMap* _irrMap;
+	LightProbe* _lp;
+	
 	SkyBoxShader* _skyBoxShader;
 	GLuint _vao, _vbo, _ebo;
 	Mesh* _mesh;

@@ -55,15 +55,15 @@ void main(){
     // cook-torrance brdf
     float NDF = DistributionGGX(N, H, roughness);        
     float G   = GeometrySmith(N, V, L, roughness);      
-    vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);       
-    
-    vec3 kS = F;
-    vec3 kD = vec3(1.0) - kS;
-    kD *= 1.0 - metallic;     
+    vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
     
     vec3 nominator    = NDF * G * F;
     float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001; 
     vec3 specular     = nominator / denominator;
+
+    vec3 kS = F;
+    vec3 kD = vec3(1.0) - kS;
+    kD *= 1.0 - metallic;     
         
     // add to outgoing radiance Lo
     float NdotL = max(dot(N, L), 0.0);                
@@ -71,8 +71,8 @@ void main(){
 
 
     // Temporary gamma correction
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/2.2));  
+    //color = color / (color + vec3(1.0));
+    //color = pow(color, vec3(1.0/2.2));  
    
     gl_FragColor = vec4(color, 1.0);
 }
