@@ -12,10 +12,15 @@ public:
 	
 	PointLight() {
 		Lighting::addLight(this);
+		_shader = ForwardPointLightShader::getInstance();
 	}
 
 	void destroy() override {
 		Lighting::removeLight(this);
 	}
+
+	Shader* getLightShader() { return _shader; }
+private:
+	ForwardPointLightShader* _shader;
 };
 #endif // POINT_LIGHT_H

@@ -18,8 +18,8 @@ SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderQueue;
 
 ForwardAmbientLightShader* Renderer::_ambientLightShader;
-ForwardDirectionalLightShader* Renderer::_directionalLightShader;
-ForwardPointLightShader* Renderer::_pointLightShader;
+//ForwardDirectionalLightShader* Renderer::_directionalLightShader;
+//ForwardPointLightShader* Renderer::_pointLightShader;
 
 void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer) {
 	_renderQueue.push_back(objectRenderer);
@@ -40,8 +40,8 @@ void Renderer::init() {
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	
 	_ambientLightShader = ForwardAmbientLightShader::getInstance();
-	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
-	_pointLightShader = ForwardPointLightShader::getInstance();
+	//_directionalLightShader = ForwardDirectionalLightShader::getInstance();
+	//_pointLightShader = ForwardPointLightShader::getInstance();
 
 	_isDebug = false;
 }
@@ -84,18 +84,26 @@ void Renderer::render() {
 
 
 				// DIRECTIONAL LIGHTS
-				std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
-				for (size_t i = 0; i < directionalLights.size(); ++i) {
-					if (!directionalLights[i]->getEnable()) continue;
-					(*it)->render(_directionalLightShader, directionalLights[i]);
+				std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+				for (auto const &lightvec : lights) {
+					for (auto const &light : lightvec.second) {
+						if (!light->getEnable()) continue;
+						(*it)->render(light->getLightShader(), light);
+					}
 				}
 
-				// POINT LIGHTS
-				std::vector<PointLight*> pointLights = Lighting::getLights<PointLight>();
-				for (size_t i = 0; i < pointLights.size(); ++i) {
-					if (!pointLights[i]->getEnable()) continue;
-					(*it)->render(_pointLightShader, pointLights[i]);
-				}
+
+	/*			for (size_t i = 0; i < directionalLights.size(); ++i) {
+					if (!directionalLights[i]->getEnable()) continue;
+					(*it)->render(directionalLights[i]->getLightShader(), directionalLights[i]);
+				}*/
+
+				//// POINT LIGHTS
+				//std::vector<PointLight*> pointLights = Lighting::getLights<PointLight>();
+				//for (size_t i = 0; i < pointLights.size(); ++i) {
+				//	if (!pointLights[i]->getEnable()) continue;
+				//	(*it)->render(_pointLightShader, pointLights[i]);
+				//}
 
 				// SPOT LIGHTS
 

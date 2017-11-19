@@ -92,7 +92,7 @@ public:
 			"./res/redGreenRoom/lod0_back.jpg",
 			"./res/redGreenRoom/lod0_front.jpg",
 		};
-		Renderer::setSkyBox(new CubeMap(skyBoxLod));
+		Renderer::setSkyBox(new CubeMap(skyBoxLod2));
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
@@ -106,7 +106,10 @@ public:
 		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
 		wallMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Walls/Room.obj");
 		floorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Floor/Floor.obj");
-
+		Mesh* doorsMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Doors/Doors.obj");
+		Mesh* tableMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Table/Table.obj");
+		Mesh* longCouchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/Long_Couch.obj");
+		Mesh* slidingDoorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/SlidingDoor/SlideDoor.obj");
 
 		/* --------------------------- TEXTURES --------------------------- */
 		xwingAlbedo = new Texture("./res/xwing/4k_diffuse.jpg", true);
@@ -122,10 +125,29 @@ public:
 		woodAo = new Texture("./res/materials/mahogfloor/mahogfloor_AO.png", true);
 		woodMetal = new Texture("./res/materials/mahogfloor/mahogfloor_metalness.png", true);
 
+		Texture* doorAlbedo = new Texture("./res/Realistic-Rendering/Doors/T_Door_D.tga", true);
+		Texture* doorRough = new Texture("./res/Realistic-Rendering/Doors/T_Door_R.tga", true);
+		Texture* doorNormal = new Texture("./res/Realistic-Rendering/Doors/T_Door_N.TGA", true);
+		Texture* doorAo = new Texture("./res/Realistic-Rendering/Doors/T_Door_AOMask.TGA", true);
+		Texture* doorMetal = new Texture("./res/Realistic-Rendering/Doors/T_Door_M.tga", true);
+
+		Texture* tableAlbedo = new Texture("./res/Realistic-Rendering/Table/T_Table_D.tga", true);
+		Texture* tableRough = new Texture("./res/Realistic-Rendering/Table/T_Table_R.tga", true);
+		Texture* tableNormal = new Texture("./res/Realistic-Rendering/Table/T_Table_N.TGA", true);
+		Texture* tableAo = new Texture("./res/Realistic-Rendering/Table/T_Table_AOMASK.TGA", true);
+		Texture* tableMetal = new Texture("./res/Realistic-Rendering/Table/T_Table_M.tga", true);
+
+		//Texture* slidingDoorAlbedo = new Texture("./res/Realistic-Rendering/SlidingDoor/T_Table_D.tga", true);
+		Texture* slidingDoorRough = new Texture("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_R.tga", true);
+		Texture* slidingDoorNormal = new Texture("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_N.TGA", true);
+		Texture* slidingDoorAo = new Texture("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_AOMask.TGA", true);
+		Texture* slidingDoorMetal = new Texture("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_M.TGA", true);
+
 		couchAlbedo = new Texture("./res/Realistic-Rendering/Couch/T_Couch_D.TGA", true);
 		couchNormal = new Texture("./res/Realistic-Rendering/Couch/T_Couch_N.TGA", true);
 		couchRoughness = new Texture("./res/Realistic-Rendering/Couch/T_Couch_R.tga", true);
 		couchAo = new Texture("./res/Realistic-Rendering/Couch/T_Couch_AO.TGA", true);
+		Texture* couchMetal = new Texture("./res/Realistic-Rendering/Couch/T_Couch_M.TGA", true);
 
 		wallAlbedo = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_D.TGA", true);
 		wallNormal = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_N.TGA", true);
@@ -157,7 +179,7 @@ public:
 		couchMaterial->setTexture("normalMap", couchNormal);
 		couchMaterial->setTexture("roughnessMap", couchRoughness);
 		couchMaterial->setTexture("aoMap", couchAo);
-		couchMaterial->setTexture("metallicMap", default_emission);
+		couchMaterial->setTexture("metallicMap", couchMetal);
 		couchMaterial->setTexture("emissionMap", default_emission);
 
 		wallMaterial = new Material();
@@ -175,6 +197,30 @@ public:
 		wood->setTexture("aoMap", woodAo);
 		wood->setTexture("metallicMap", woodMetal);
 		wood->setTexture("emissionMap", default_emission);
+
+		Material* doorMaterial = new Material();
+		doorMaterial->setTexture("albedoMap", doorAlbedo);
+		doorMaterial->setTexture("normalMap", doorNormal);
+		doorMaterial->setTexture("roughnessMap", doorRough);
+		doorMaterial->setTexture("aoMap", doorAo);
+		doorMaterial->setTexture("metallicMap", doorMetal);
+		doorMaterial->setTexture("emissionMap", default_emission);
+
+		Material* tableMaterial = new Material();
+		tableMaterial->setTexture("albedoMap", tableAlbedo);
+		tableMaterial->setTexture("normalMap", tableNormal);
+		tableMaterial->setTexture("roughnessMap", tableRough);
+		tableMaterial->setTexture("aoMap", tableAo);
+		tableMaterial->setTexture("metallicMap", tableMetal);
+		tableMaterial->setTexture("emissionMap", default_emission);
+
+		Material* slidingDoorMaterial = new Material();
+		slidingDoorMaterial->setTexture("albedoMap", default_ao);
+		slidingDoorMaterial->setTexture("normalMap", slidingDoorNormal);
+		slidingDoorMaterial->setTexture("roughnessMap", slidingDoorRough);
+		slidingDoorMaterial->setTexture("aoMap", slidingDoorAo);
+		slidingDoorMaterial->setTexture("metallicMap", slidingDoorMetal);
+		slidingDoorMaterial->setTexture("emissionMap", default_emission);
 
 		def = new Material();
 		def->setTexture("albedoMap", default_specular);
@@ -206,21 +252,21 @@ public:
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, -1, 1);
 		sun->getComponent<DirectionalLight>()->intensity = 2.0f;
-		sun->setEnable(false);
+		//sun->setEnable(false);
 
 		GameObject* rig = instanciate("Rig");
 		rig->addComponent<TransformerScript>();
 
 		GameObject* pointLight = instanciate("Pointlight");
 		pointLight->addComponent<PointRenderer>();
-		pointLight->getComponent<Transform>()->setPosition(Vector3f(-7, 2, 0));
+		pointLight->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
 		pointLight->addComponent<PointLight>();
-		pointLight->getComponent<PointLight>()->color = Vector3f(165 / 255.0f, 249 / 255.0f, 245 / 255.0f);
+		pointLight->getComponent<PointLight>()->color = Vector3f(255 / 255.0f, 249 / 255.0f, 225 / 255.0f);
 		pointLight->getComponent<PointLight>()->constant = 2;
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 3.0f;
-		pointLight->getComponent<Transform>()->setParent(rig);
+		//pointLight->getComponent<Transform>()->setParent(rig);
 		//pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight2");
@@ -235,36 +281,39 @@ public:
 		pointLight2->setEnable(false);
 
 		GameObject* couch = instanciate("Couch");
-		couch->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
-		//couch->getComponent<Transform>()->setScale(Vector3f(3, 3, 1));
-		//couch->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
 		couch->addComponent<MeshRenderer>();
 		couch->getComponent<MeshRenderer>()->setMesh(couchMesh);
 		couch->getComponent<MeshRenderer>()->setMaterial(couchMaterial);
 
-		/*
-		GameObject* xwing = instanciate("X-Wing");
-		xwing->getComponent<Transform>()->setPosition(Vector3f(0, 3, 0));
-		xwing->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
-		xwing->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
-		xwing->addComponent<MeshRenderer>();
-		xwing->getComponent<MeshRenderer>()->setMesh(xwingMesh);
-		xwing->getComponent<MeshRenderer>()->setMaterial(xwingMaterial);
+		GameObject* longCouch = instanciate("Long-Couch");
+		longCouch->addComponent<MeshRenderer>();
+		longCouch->getComponent<MeshRenderer>()->setMesh(longCouchMesh);
+		longCouch->getComponent<MeshRenderer>()->setMaterial(couchMaterial);
 
-		*/
+		GameObject* table = instanciate("Rable");
+		table->addComponent<MeshRenderer>();
+		table->getComponent<MeshRenderer>()->setMesh(tableMesh);
+		table->getComponent<MeshRenderer>()->setMaterial(tableMaterial);
 
 		GameObject* room = instanciate("Room");
-		//floor->getComponent<Transform>()->setScale(Vector3f(100, 100, 100));
 		room->addComponent<MeshRenderer>();
 		room->getComponent<MeshRenderer>()->setMesh(wallMesh);
 		room->getComponent<MeshRenderer>()->setMaterial(wallMaterial);
 
-
 		GameObject* floor = instanciate("Floor");
-		//floor->getComponent<Transform>()->setScale(Vector3f(100, 100, 100));
 		floor->addComponent<MeshRenderer>();
 		floor->getComponent<MeshRenderer>()->setMesh(floorMesh);
 		floor->getComponent<MeshRenderer>()->setMaterial(wood);
+
+		GameObject* doors = instanciate("Doors");
+		doors->addComponent<MeshRenderer>();
+		doors->getComponent<MeshRenderer>()->setMesh(doorsMesh);
+		doors->getComponent<MeshRenderer>()->setMaterial(doorMaterial);
+
+		GameObject* slidingDoor = instanciate("Sliding-Doors");
+		slidingDoor->addComponent<MeshRenderer>();
+		slidingDoor->getComponent<MeshRenderer>()->setMesh(slidingDoorMesh);
+		slidingDoor->getComponent<MeshRenderer>()->setMaterial(slidingDoorMaterial);
 	}
 
 	void OnUnload() {

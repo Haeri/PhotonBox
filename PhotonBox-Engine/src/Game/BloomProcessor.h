@@ -25,7 +25,7 @@ public:
 
 	BloomProcessor(int index) : PostProcessor(index) {
 		m_cutOff = new Material(CutOffShader::getInstance());
-		m_cutOff->setProperty("threshold", 1.0f);
+		m_cutOff->setProperty("threshold", 2.2f);
 		
 		m_hBlur1 = new Material(BlurHShader::getInstance());
 		m_hBlur1->setProperty("offset", 1.0f/ Display::getWidth() * 15);
