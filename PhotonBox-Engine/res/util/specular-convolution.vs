@@ -5,7 +5,7 @@ attribute vec3 position;
 uniform mat4 projection;
 uniform mat4 view;
 
-varying vec3 WorldPos;
+out vec3 WorldPos;
 
 void main()
 {

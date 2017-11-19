@@ -1,9 +1,11 @@
 #version 330
 
+out vec4 FragColor;
+
 uniform samplerCube environmentMap;
 uniform float roughness;
 
-varying vec3 WorldPos;
+in vec3 WorldPos;
 
 
 const float PI = 3.14159265359;
@@ -54,7 +56,7 @@ vec3 ImportanceSampleGGX(vec2 Xi, vec3 N, float roughness)
     H.z = cosTheta;
     
     // from tangent-space H vector to world-space sample vector
-    vec3 up          = abs(N.z) < 0.999 ? vec3(0.0, 0.0, 1.0) : vec3(1.0, 0.0, 0.0);
+    vec3 up        = abs(N.z) < 0.999 ? vec3(0.0, 0.0, 1.0) : vec3(1.0, 0.0, 0.0);
     vec3 tangent   = normalize(cross(up, N));
     vec3 bitangent = cross(N, tangent);
     
@@ -96,12 +98,12 @@ void main()
 
             float mipLevel = roughness == 0.0 ? 0.0 : 0.5 * log2(saSample / saTexel); 
             
-            prefilteredColor += textureCubeLod(environmentMap, L, mipLevel).rgb * NdotL;
+            prefilteredColor += textureLod(environmentMap, L, mipLevel).rgb * NdotL;
             totalWeight      += NdotL;
         }
     }
 
     prefilteredColor = prefilteredColor / totalWeight;
 
-    gl_FragColor = vec4(prefilteredColor, 1.0);
+    FragColor = vec4(prefilteredColor, 1.0);
 }
