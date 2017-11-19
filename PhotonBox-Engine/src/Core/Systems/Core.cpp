@@ -62,7 +62,8 @@ void Core::start() {
 	
 	logic->start();
 	renderer->start();
-	
+	lighting->start();
+
 	std::cout << std::endl << "                   SCENE READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
 }
@@ -115,7 +116,7 @@ void Core::run(){
 		postPocessing->preProcess();
 
 		// Render Scene
-		renderer->render();
+		Renderer::render();
 		nbFrames++;
 
 		postPocessing->postProcess();

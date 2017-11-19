@@ -1,27 +1,17 @@
 #ifndef DIRECTIONAL_LIGHT_H
 #define DIRECTIONAL_LIGHT_H
 
-#include "../Resources/ForwardDirectionalLightShader.h"
+class ForwardDirectionalLightShader;
 #include "LightEmitter.h"
-#include "../Core/Systems/Lighting.h"
 
 class DirectionalLight : public LightEmitter {
 public:
 	Vector3f direction;
 
-	DirectionalLight() {
-		Lighting::addLight(this);
-		_shader = ForwardDirectionalLightShader::getInstance();
-	}
-
-	void destroy() override {
-		Lighting::removeLight(this);
-	}
-
-	Shader* getLightShader() override { return _shader; }
-
+	DirectionalLight();
+	void destroy() override;
+	Shader* getLightShader() override { return (Shader*)_shader; }
 private: 
-
 	ForwardDirectionalLightShader* _shader;
 };
 #endif // DIRECTIONAL_LIGHT_H

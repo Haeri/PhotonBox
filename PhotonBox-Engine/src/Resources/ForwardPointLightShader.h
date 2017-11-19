@@ -5,14 +5,13 @@
 #include "../Components/PointLight.h"
 #include "../Components/Transform.h"
 #include "../Components/Camera.h"
+#include "../Resources/Vertex.h"
 
 class ForwardPointLightShader : public InstancedShader<ForwardPointLightShader>{
 public:
 	std::string getFilePath() override {
 		return std::string("./res/PBS/point_light");
 	}
-
-	//void update(Matrix4f& mvp, Matrix4f& modelMatrix, PointLight& pointLight, Vector4f& eyeTransformed) {
 	
 	void update(Transform* transform, LightEmitter* light) {
 

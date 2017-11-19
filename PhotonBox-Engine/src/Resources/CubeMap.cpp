@@ -7,6 +7,8 @@
 #include "../Resources/SpecularConvolutionShader.h"
 #include "../Resources/SkyBoxShader.h"
 #include "OBJLoader.h"
+#include "../Components/Camera.h"
+#include "../Core/Systems/Renderer.h"
 
 CubeMap::CubeMap(const std::vector<std::string>& allFaces){
 	for (size_t lod = 0; lod < allFaces.size(); lod+=6) {
@@ -119,7 +121,6 @@ void CubeMap::generateSpecularConvolution(GLuint map) {
 
 	_mesh = OBJLoader::loadObj("./res/primitives/skyBox.obj");
 	genVAO();
-
 
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);
@@ -256,6 +257,53 @@ CubeMap::~CubeMap() {
 	glDeleteTextures(1, &_cubeMap);
 }
 
+/*
+void CubeMap::captureScene(int resolution){
+	_width = resolution;
+	_height = resolution;
+
+	Camera* oldMain = Camera::getMainCamera();
+	Camera cam = Camera();
+	cam.setProjection(90.0f, 1.0f, 0.01f, 10.0f);
+	cam.setMain();
+
+	Vector3f position = Vector3f::ZERO;
+	Matrix4f captureProjection = Matrix4f::createPerspective(90.0f, 1.0f, 0.01f, 10.0f);
+	Matrix4f captureViews[] =
+	{
+		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(1.0f,  0.0f,  0.0f)),
+		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(-1.0f,  0.0f,  0.0f)),
+		Matrix4f::lookAt(position, Vector3f(0.0f,  0.0f,  1.0f), Vector3f(0.0f,  1.0f,  0.0f)),
+		Matrix4f::lookAt(position, Vector3f(0.0f,  0.0f, -1.0f), Vector3f(0.0f, -1.0f,  0.0f)),
+		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f,  1.0f)),
+		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
+	};
+
+	glGenFramebuffers(1, &_captureFBO);
+	glGenRenderbuffers(1, &_captureRBO);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, _captureRBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, resolution, resolution);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _captureRBO);
+
+
+	glViewport(0, 0, resolution, resolution);
+	glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);
+
+	for (unsigned int i = 0; i < 6; ++i) {
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, _cubeMap, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		cam.transform
+		Renderer::render();
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	oldMain->setMain();
+}
+*/
 void CubeMap::bind() {
 	bind(GL_TEXTURE0);
 }

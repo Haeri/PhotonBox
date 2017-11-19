@@ -92,7 +92,7 @@ public:
 			"./res/redGreenRoom/lod0_back.jpg",
 			"./res/redGreenRoom/lod0_front.jpg",
 		};
-		Renderer::setSkyBox(new CubeMap(skyBoxLod2));
+		Renderer::setSkyBox(new CubeMap(skyBoxLod));
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
@@ -234,10 +234,38 @@ public:
 		/* --------------------------- CAMERA --------------------------- */
 		GameObject* cam = instanciate("Camera");
 		cam->addComponent<Camera>();
-		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -10));
+		cam->getComponent<Transform>()->setPosition(Vector3f(0, 2, -2));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraController>();
 		cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
+
+
+		/* --------------------------- LIGHTS --------------------------- */
+		GameObject* lightProbe = instanciate("LightProbe");
+		lightProbe->addComponent<LightProbe>()->resolution = 512;
+		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
+
+
+		//GameObject* posMin = instanciate("PosMin");
+		//posMin->getComponent<Transform>()->setPosition(Vector3f(-2.1f, -0.1f, -3));
+		//posMin->addComponent<PointRenderer>();
+		//posMin->addComponent<PointLight>();
+		//posMin->getComponent<PointLight>()->color = Vector3f(255 / 255.0f, 249 / 255.0f, 225 / 255.0f);
+		//posMin->getComponent<PointLight>()->constant = 2;
+		//posMin->getComponent<PointLight>()->linear = 0.09f;
+		//posMin->getComponent<PointLight>()->quadratic = 0.032f;
+		//posMin->getComponent<PointLight>()->intensity = 3.0f;
+
+
+		//GameObject* posMax = instanciate("PosMax");
+		//posMax->getComponent<Transform>()->setPosition(Vector3f(2.1f, 3.2f, 6));
+		//posMax->addComponent<PointRenderer>();
+		//posMax->addComponent<PointLight>();
+		//posMax->getComponent<PointLight>()->color = Vector3f(255 / 255.0f, 249 / 255.0f, 225 / 255.0f);
+		//posMax->getComponent<PointLight>()->constant = 2;
+		//posMax->getComponent<PointLight>()->linear = 0.09f;
+		//posMax->getComponent<PointLight>()->quadratic = 0.032f;
+		//posMax->getComponent<PointLight>()->intensity = 3.0f;
 
 
 
@@ -279,6 +307,10 @@ public:
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 4.0f;
 		pointLight2->setEnable(false);
+
+
+
+		/* --------------------------- OBJECTSS --------------------------- */
 
 		GameObject* couch = instanciate("Couch");
 		couch->addComponent<MeshRenderer>();
