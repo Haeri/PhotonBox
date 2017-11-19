@@ -15,3 +15,8 @@ void LightEmitter::destroy(){
 	Lighting::removeLight(this);
 }
 */
+
+Shader * LightEmitter::getLightShader()
+{
+	return nullptr;
+}

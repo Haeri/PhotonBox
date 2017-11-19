@@ -1,8 +1,8 @@
 #ifndef POINT_LIGHT_H
 #define POINT_LIGHT_H
 
+class ForwardPointLightShader;
 #include "LightEmitter.h"
-#include "../Core/Systems/Lighting.h"
 
 class PointLight : public LightEmitter {
 public:
@@ -10,16 +10,9 @@ public:
 	float linear;
 	float quadratic;
 	
-	PointLight() {
-		Lighting::addLight(this);
-		_shader = ForwardPointLightShader::getInstance();
-	}
-
-	void destroy() override {
-		Lighting::removeLight(this);
-	}
-
-	Shader* getLightShader() { return _shader; }
+	PointLight();
+	void destroy() override;
+	Shader* getLightShader() { return (Shader*)_shader; }
 private:
 	ForwardPointLightShader* _shader;
 };

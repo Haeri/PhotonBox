@@ -138,6 +138,8 @@
     <ClCompile Include="src\Core\Systems\UIRenderer.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
     <ClCompile Include="src\Components\LightProbe.cpp" />
+    <ClCompile Include="src\Components\DirectionalLight.cpp" />
+    <ClCompile Include="src\Components\PointLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">

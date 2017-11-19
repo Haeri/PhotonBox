@@ -1,10 +1,12 @@
 #ifndef FORWARD_DIRECTIONAL_LIGHT_SHADER_H
 #define FORWARD_DIRECTIONAL_LIGHT_SHADER_H
 
+
 #include "Shader.h"
 #include "../Components/DirectionalLight.h"
 #include "../Components/Transform.h"
 #include "../Components/Camera.h"
+#include "../Resources/Vertex.h"
 
 class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader> {
 public:
@@ -12,10 +14,7 @@ public:
 		return std::string("./res/PBS/directional_light");
 	}
 
-	//void update(Matrix4f& mvp, Matrix4f& modelMatrix, DirectionalLight& directionalLight, Vector4f& eyeTransformed) {
-	
 	void update(Transform* transform, LightEmitter* light) {
-
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
 		DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);

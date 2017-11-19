@@ -22,7 +22,7 @@ public:
 
 	void init();
 	void start();
-	void render();
+	static void render();
 	void destroy();
 private:
 	static SkyBox _skyBox;

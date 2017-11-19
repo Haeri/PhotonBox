@@ -23,6 +23,7 @@ public:
 	CubeMap(int resolution);
 	CubeMap(int resolution, bool mipMaps);
 	~CubeMap();
+	//void captureScene(int resolution);
 	void generateIrradiance(GLuint map);
 	void generateSpecularConvolution(GLuint map);
 	GLuint getLocation() { return _cubeMap; }

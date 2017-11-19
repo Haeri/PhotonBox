@@ -2,6 +2,7 @@
 #define LIGHTING_H
 
 class LightEmitter;
+class LightProbe;
 #include <unordered_map>
 #include <vector>
 #include <typeindex>
@@ -46,9 +47,19 @@ public:
 	static std::unordered_map<std::type_index, std::vector<LightEmitter*>>& getAllLights() {
 		return _lights;
 	}
+
+	void start();
+
+	static void addLightProbe(LightProbe* lightProbe) {
+		_lightProbes.push_back(lightProbe);
+	}
+
+	static void removeFromLightProbeList(LightProbe* lightProbe) {
+		_lightProbes.erase(std::remove(_lightProbes.begin(), _lightProbes.end(), lightProbe), _lightProbes.end());
+	}
 private:
 	static std::unordered_map<std::type_index, std::vector<LightEmitter*>> _lights;
-	
+	static std::vector<LightProbe*> _lightProbes;
 };
 
 #endif // LIGHTING_H

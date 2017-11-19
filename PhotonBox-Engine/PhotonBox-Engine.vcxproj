@@ -22,10 +22,12 @@
     <ClCompile Include="src\Components\Behaviour.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
+    <ClCompile Include="src\Components\DirectionalLight.cpp" />
     <ClCompile Include="src\Components\LightEmitter.cpp" />
     <ClCompile Include="src\Components\LightProbe.cpp" />
     <ClCompile Include="src\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\ObjectRenderer.cpp" />
+    <ClCompile Include="src\Components\PointLight.cpp" />
     <ClCompile Include="src\Components\SphereCollider.cpp" />
     <ClCompile Include="src\Components\Transform.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />

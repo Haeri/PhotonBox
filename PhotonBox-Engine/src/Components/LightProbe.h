@@ -6,9 +6,12 @@
 
 class LightProbe : public Component {
 public:
-
+	int resolution;
+	LightProbe();
 	LightProbe(CubeMap* enviromentMap);
 
+	void capture();
+	void generateLightMaps();
 	CubeMap* getEnviromentCube() { return _envCube; }
 	CubeMap* getIrradianceCube() { return _irrCube; }
 	CubeMap* getSpecularCube() { return _specCube; }
