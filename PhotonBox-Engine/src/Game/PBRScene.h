@@ -93,7 +93,7 @@ public:
 			"./res/redGreenRoom/lod0_back.jpg",
 			"./res/redGreenRoom/lod0_front.jpg",
 		};
-		Renderer::setSkyBox(new CubeMap(skyBoxLod3));
+		Renderer::setSkyBox(new CubeMap(skyBoxLod2));
 
 	
 		/* --------------------------- POST PROCESSING --------------------------- */

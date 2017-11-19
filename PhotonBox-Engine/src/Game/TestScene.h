@@ -28,6 +28,9 @@ public:
 
 	Mesh* plane;
 	Mesh* xwingMesh;
+	Mesh* couchMesh;
+	Mesh* wallMesh;
+	Mesh* floorMesh;
 
 	Texture* xwingAlbedo;
 	Texture* xwingNormal;
@@ -36,15 +39,31 @@ public:
 	Texture* xwingMetallic;
 	Texture* xwingEmission;
 
+	Texture* woodAlbedo;
+	Texture* woodRough;
+	Texture* woodNormal;
+	Texture* woodAo;
+	Texture* woodMetal;
+
+	Texture* couchAlbedo;
+	Texture* couchNormal;
+	Texture* couchRoughness;
+	Texture* couchAo;
+
+	Texture* wallAlbedo;
+	Texture* wallNormal;
+
 	Texture* default_normal;
 	Texture* default_specular;
 	Texture* default_emission;
 	Texture* default_ao;
 	Texture* gradient;
 
+	Material* wood;
 	Material* def;
 	Material* xwingMaterial;
-
+	Material* couchMaterial;
+	Material* wallMaterial;
 
 	void Load() {
 
@@ -73,7 +92,7 @@ public:
 			"./res/redGreenRoom/lod0_back.jpg",
 			"./res/redGreenRoom/lod0_front.jpg",
 		};
-		Renderer::setSkyBox(new CubeMap(skyBoxLod2));
+		Renderer::setSkyBox(new CubeMap(skyBoxLod));
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
@@ -84,7 +103,9 @@ public:
 		/* --------------------------- OBJ --------------------------- */
 		plane = OBJLoader::loadObj("./res/plane.obj");
 		xwingMesh = OBJLoader::loadObj("./res/xwing/x-wing.obj");
-
+		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
+		wallMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Walls/Room.obj");
+		floorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Floor/Floor.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -95,11 +116,25 @@ public:
 		xwingMetallic = new Texture("./res/xwing/4k_emission.jpg", true);
 		xwingEmission = new Texture("./res/xwing/4k_emission.jpg", true);
 
+		woodAlbedo = new Texture("./res/materials/mahogfloor/mahogfloor_basecolor.png", true);
+		woodRough = new Texture("./res/materials/mahogfloor/mahogfloor_roughness.png", true);
+		woodNormal = new Texture("./res/materials/mahogfloor/mahogfloor_normal.png", true);
+		woodAo = new Texture("./res/materials/mahogfloor/mahogfloor_AO.png", true);
+		woodMetal = new Texture("./res/materials/mahogfloor/mahogfloor_metalness.png", true);
+
+		couchAlbedo = new Texture("./res/Realistic-Rendering/Couch/T_Couch_D.TGA", true);
+		couchNormal = new Texture("./res/Realistic-Rendering/Couch/T_Couch_N.TGA", true);
+		couchRoughness = new Texture("./res/Realistic-Rendering/Couch/T_Couch_R.tga", true);
+		couchAo = new Texture("./res/Realistic-Rendering/Couch/T_Couch_AO.TGA", true);
+
+		wallAlbedo = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_D.TGA", true);
+		wallNormal = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_N.TGA", true);
+
 		default_normal = new Texture("./res/default_normal.png", false);
 		default_specular = new Texture("./res/default_specular.png", false);
 		default_emission = new Texture("./res/default_emission.png", false);
 		default_ao = new Texture("./res/default_ao.png", false);
-		gradient = new Texture("./res/gradient.png", false);
+		gradient = new Texture("./res/gri1.png", false);
 
 
 
@@ -116,6 +151,30 @@ public:
 		xwingMaterial->setTexture("aoMap", xwingAo);
 		xwingMaterial->setTexture("metallicMap", default_emission);
 		xwingMaterial->setTexture("emissionMap", xwingEmission);
+
+		couchMaterial = new Material();
+		couchMaterial->setTexture("albedoMap", couchAlbedo);
+		couchMaterial->setTexture("normalMap", couchNormal);
+		couchMaterial->setTexture("roughnessMap", couchRoughness);
+		couchMaterial->setTexture("aoMap", couchAo);
+		couchMaterial->setTexture("metallicMap", default_emission);
+		couchMaterial->setTexture("emissionMap", default_emission);
+
+		wallMaterial = new Material();
+		wallMaterial->setTexture("albedoMap", wallAlbedo);
+		wallMaterial->setTexture("normalMap", wallNormal);
+		wallMaterial->setTexture("roughnessMap", default_ao);
+		wallMaterial->setTexture("aoMap", default_ao);
+		wallMaterial->setTexture("metallicMap", default_emission);
+		wallMaterial->setTexture("emissionMap", default_emission);
+
+		wood = new Material();
+		wood->setTexture("albedoMap", woodAlbedo);
+		wood->setTexture("normalMap", woodNormal);
+		wood->setTexture("roughnessMap", woodRough);
+		wood->setTexture("aoMap", woodAo);
+		wood->setTexture("metallicMap", woodMetal);
+		wood->setTexture("emissionMap", default_emission);
 
 		def = new Material();
 		def->setTexture("albedoMap", default_specular);
@@ -173,8 +232,17 @@ public:
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 4.0f;
+		pointLight2->setEnable(false);
 
+		GameObject* couch = instanciate("Couch");
+		couch->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		//couch->getComponent<Transform>()->setScale(Vector3f(3, 3, 1));
+		//couch->getComponent<Transform>()->setRotation(Vector3f(0, 3.1415, 0));
+		couch->addComponent<MeshRenderer>();
+		couch->getComponent<MeshRenderer>()->setMesh(couchMesh);
+		couch->getComponent<MeshRenderer>()->setMaterial(couchMaterial);
 
+		/*
 		GameObject* xwing = instanciate("X-Wing");
 		xwing->getComponent<Transform>()->setPosition(Vector3f(0, 3, 0));
 		xwing->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
@@ -183,11 +251,20 @@ public:
 		xwing->getComponent<MeshRenderer>()->setMesh(xwingMesh);
 		xwing->getComponent<MeshRenderer>()->setMaterial(xwingMaterial);
 
+		*/
+
+		GameObject* room = instanciate("Room");
+		//floor->getComponent<Transform>()->setScale(Vector3f(100, 100, 100));
+		room->addComponent<MeshRenderer>();
+		room->getComponent<MeshRenderer>()->setMesh(wallMesh);
+		room->getComponent<MeshRenderer>()->setMaterial(wallMaterial);
+
+
 		GameObject* floor = instanciate("Floor");
-		floor->getComponent<Transform>()->setScale(Vector3f(100, 100, 100));
+		//floor->getComponent<Transform>()->setScale(Vector3f(100, 100, 100));
 		floor->addComponent<MeshRenderer>();
-		floor->getComponent<MeshRenderer>()->setMesh(plane);
-		floor->getComponent<MeshRenderer>()->setMaterial(def);
+		floor->getComponent<MeshRenderer>()->setMesh(floorMesh);
+		floor->getComponent<MeshRenderer>()->setMaterial(wood);
 	}
 
 	void OnUnload() {
