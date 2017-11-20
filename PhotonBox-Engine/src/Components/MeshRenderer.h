@@ -18,6 +18,7 @@ public:
 private: 
 	Mesh* _mesh;
 
+	//AABB* _lightProbeVolume;
 	GLuint _vao, _vbo, _ebo;
 };
 

@@ -101,6 +101,7 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
+		Mesh* sphere = OBJLoader::loadObj("./res/sphere.obj");
 		plane = OBJLoader::loadObj("./res/plane.obj");
 		xwingMesh = OBJLoader::loadObj("./res/xwing/x-wing.obj");
 		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
@@ -110,6 +111,7 @@ public:
 		Mesh* tableMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Table/Table.obj");
 		Mesh* longCouchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/Long_Couch.obj");
 		Mesh* slidingDoorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/SlidingDoor/SlideDoor.obj");
+
 
 		/* --------------------------- TEXTURES --------------------------- */
 		xwingAlbedo = new Texture("./res/xwing/4k_diffuse.jpg", true);
@@ -223,11 +225,11 @@ public:
 		slidingDoorMaterial->setTexture("emissionMap", default_emission);
 
 		def = new Material();
-		def->setTexture("albedoMap", default_specular);
+		def->setTexture("albedoMap", default_ao);
 		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_specular);
+		def->setTexture("roughnessMap", default_emission);
 		def->setTexture("aoMap", default_ao);
-		def->setTexture("metallicMap", default_emission);
+		def->setTexture("metallicMap", default_ao);
 		def->setTexture("emissionMap", default_emission);
 
 
@@ -244,29 +246,8 @@ public:
 		GameObject* lightProbe = instanciate("LightProbe");
 		lightProbe->addComponent<LightProbe>()->resolution = 512;
 		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
-
-
-		//GameObject* posMin = instanciate("PosMin");
-		//posMin->getComponent<Transform>()->setPosition(Vector3f(-2.1f, -0.1f, -3));
-		//posMin->addComponent<PointRenderer>();
-		//posMin->addComponent<PointLight>();
-		//posMin->getComponent<PointLight>()->color = Vector3f(255 / 255.0f, 249 / 255.0f, 225 / 255.0f);
-		//posMin->getComponent<PointLight>()->constant = 2;
-		//posMin->getComponent<PointLight>()->linear = 0.09f;
-		//posMin->getComponent<PointLight>()->quadratic = 0.032f;
-		//posMin->getComponent<PointLight>()->intensity = 3.0f;
-
-
-		//GameObject* posMax = instanciate("PosMax");
-		//posMax->getComponent<Transform>()->setPosition(Vector3f(2.1f, 3.2f, 6));
-		//posMax->addComponent<PointRenderer>();
-		//posMax->addComponent<PointLight>();
-		//posMax->getComponent<PointLight>()->color = Vector3f(255 / 255.0f, 249 / 255.0f, 225 / 255.0f);
-		//posMax->getComponent<PointLight>()->constant = 2;
-		//posMax->getComponent<PointLight>()->linear = 0.09f;
-		//posMax->getComponent<PointLight>()->quadratic = 0.032f;
-		//posMax->getComponent<PointLight>()->intensity = 3.0f;
-
+		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3));
+		lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(2.1f, 2.0f, 6));
 
 
 		/* --------------------------- LIGHTS --------------------------- */
@@ -280,7 +261,7 @@ public:
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, -1, 1);
 		sun->getComponent<DirectionalLight>()->intensity = 2.0f;
-		//sun->setEnable(false);
+		sun->setEnable(false);
 
 		GameObject* rig = instanciate("Rig");
 		rig->addComponent<TransformerScript>();
@@ -346,6 +327,14 @@ public:
 		slidingDoor->addComponent<MeshRenderer>();
 		slidingDoor->getComponent<MeshRenderer>()->setMesh(slidingDoorMesh);
 		slidingDoor->getComponent<MeshRenderer>()->setMaterial(slidingDoorMaterial);
+
+		GameObject* probe = instanciate("Probe");
+		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2, 0));
+		probe->getComponent<Transform>()->setScale(Vector3f(0.14f, 0.14f, 0.14f));
+		//probe->getComponent<Transform>()->setParent(rig);
+		probe->addComponent<MeshRenderer>();
+		probe->getComponent<MeshRenderer>()->setMesh(sphere);
+		probe->getComponent<MeshRenderer>()->setMaterial(def);
 	}
 
 	void OnUnload() {

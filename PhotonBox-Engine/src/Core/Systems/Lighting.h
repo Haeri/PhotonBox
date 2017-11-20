@@ -1,6 +1,7 @@
 #ifndef LIGHTING_H
 #define LIGHTING_H
 
+class Transform;
 class LightEmitter;
 class LightProbe;
 #include <unordered_map>
@@ -44,19 +45,12 @@ public:
 		return (std::vector<T*>&)_lights[typeid(T)];
 	}
 
-	static std::unordered_map<std::type_index, std::vector<LightEmitter*>>& getAllLights() {
-		return _lights;
-	}
-
+	static std::unordered_map<std::type_index, std::vector<LightEmitter*>>& getAllLights() { return _lights; }
+	static void addLightProbe(LightProbe* lightProbe);
+	static void removeFromLightProbeList(LightProbe* lightProbe);
+	static LightProbe* findInLightProberVolume(Transform* transform);
+	
 	void start();
-
-	static void addLightProbe(LightProbe* lightProbe) {
-		_lightProbes.push_back(lightProbe);
-	}
-
-	static void removeFromLightProbeList(LightProbe* lightProbe) {
-		_lightProbes.erase(std::remove(_lightProbes.begin(), _lightProbes.end(), lightProbe), _lightProbes.end());
-	}
 private:
 	static std::unordered_map<std::type_index, std::vector<LightEmitter*>> _lights;
 	static std::vector<LightProbe*> _lightProbes;

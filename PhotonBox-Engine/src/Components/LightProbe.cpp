@@ -57,15 +57,13 @@ void LightProbe::capture() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		cam.transform->setRotation(rotations[i]);
-		Renderer::render();
+		Renderer::render(true);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	oldMain->setMain();
 
-	Renderer::setSkyBox(_envCube);
-
-	//generateLightMaps();
+	generateLightMaps();
 }
 
 void LightProbe::generateLightMaps(){

@@ -55,6 +55,10 @@ void Renderer::start() {
 }
 
 void Renderer::render() {
+	render(false);
+}
+
+void Renderer::render(bool captureMode) {
 	Display::clearDisplay(0.3, 0.3, 0.3, 1);
 
 	_skyBox.render();
@@ -67,9 +71,23 @@ void Renderer::render() {
 			}else {
 				glEnable(GL_DEPTH_TEST);
 
+
+				_ambientLightShader->bind();
 				// IBL
-				_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
-				_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
+				if (!captureMode && lp != nullptr) {
+					lp->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					lp->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+
+					_ambientLightShader->setUniform("minBound", lp->bounds.getMinBoundGlobal());
+					_ambientLightShader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
+					_ambientLightShader->setUniform("boundPos", lp->bounds.getBoundPosition());
+					_ambientLightShader->setUniform("useCorrection", true);
+				}else {
+					_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					_ambientLightShader->setUniform("useCorrection", false);
+				}
 
 				// AMBIENT
 				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];

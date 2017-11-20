@@ -18,16 +18,18 @@ uniform sampler2D emissionMap;
 uniform sampler2D roughnessMap;
 uniform sampler2D metallicMap;
 
+uniform vec3 minBound;
+uniform vec3 maxBound;
+uniform vec3 boundPos;
+
+uniform bool useCorrection = false;
+
 varying vec3 positionVarying;
 varying vec2 texCoordVarying;
 varying mat3 tbnVarying;
 
 const float F0_DEFAULT = 0.04;
 const float MAX_REFLECTION_LOD = 4.0;
-
-const vec3 EnvBoxMax = vec3(2.1, 3.2, 6);
-const vec3 EnvBoxMin = vec3(-2.1, -0.1, -3);
-const vec3 EnvBoxPos = vec3(0, 1.2, 0);
 
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness);
 vec3 correctedCubeMapDir(vec3 v, vec3 pos);
@@ -46,8 +48,9 @@ void main(){
 	
     vec3 irradiance	= textureCube(irradianceMap, N).rgb;
 
-    vec3 correctedR = correctedCubeMapDir(R, positionVarying);
-   	vec3 convolutedSpecular = textureCubeLod(convolutedSpecularMap, correctedR, roughness * MAX_REFLECTION_LOD).rgb;
+    if(useCorrection)
+        R = correctedCubeMapDir(R, positionVarying);
+   	vec3 convolutedSpecular = textureCubeLod(convolutedSpecularMap, R, roughness * MAX_REFLECTION_LOD).rgb;
 
     vec3 ambientLight = light.color * light.intensity;
 
@@ -78,8 +81,8 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness){
 
 vec3 correctedCubeMapDir(vec3 v, vec3 pos){
     vec3 nDir = normalize(v);
-    vec3 rbmax = (EnvBoxMax - pos)/nDir;
-	vec3 rbmin = (EnvBoxMin - pos)/nDir;
+    vec3 rbmax = (maxBound - pos)/nDir;
+	vec3 rbmin = (minBound - pos)/nDir;
 
     vec3 rbminmax;
     rbminmax.x = ( nDir.x > 0. )?rbmax.x:rbmin.x;
@@ -89,5 +92,5 @@ vec3 correctedCubeMapDir(vec3 v, vec3 pos){
     float correction = min(min(rbminmax.x, rbminmax.y), rbminmax.z);
     vec3 boxIntersection = pos + nDir * correction;
 
-    return boxIntersection - EnvBoxPos;
+    return boxIntersection - boundPos;
 }

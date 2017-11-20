@@ -3,10 +3,13 @@
 
 #include "../Core/Component.h"
 #include "../Resources/CubeMap.h"
+#include "../Core/AABB.h"
 
 class LightProbe : public Component {
 public:
 	int resolution;
+	AABB bounds;
+
 	LightProbe();
 	LightProbe(CubeMap* enviromentMap);
 
