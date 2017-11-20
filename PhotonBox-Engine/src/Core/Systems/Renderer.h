@@ -23,6 +23,7 @@ public:
 	void init();
 	void start();
 	static void render();
+	static void render(bool captureMode);
 	void destroy();
 private:
 	static SkyBox _skyBox;

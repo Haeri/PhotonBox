@@ -140,6 +140,7 @@
     <ClCompile Include="src\Components\LightProbe.cpp" />
     <ClCompile Include="src\Components\DirectionalLight.cpp" />
     <ClCompile Include="src\Components\PointLight.cpp" />
+    <ClCompile Include="src\Core\AABB.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -331,5 +332,6 @@
     <ClInclude Include="src\Components\LightProbe.h" />
     <ClInclude Include="src\Resources\ToneMappingProcessor.h" />
     <ClInclude Include="src\Resources\ToneMappingShader.h" />
+    <ClInclude Include="src\Core\AABB.h" />
   </ItemGroup>
 </Project>

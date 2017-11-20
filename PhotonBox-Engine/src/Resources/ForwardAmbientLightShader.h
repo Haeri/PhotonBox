@@ -39,6 +39,11 @@ public:
 		addUniform("light.intensity");
 		addUniform("light.color");
 
+		addUniform("minBound");
+		addUniform("maxBound");
+		addUniform("boundPos");
+		addUniform("useCorrection");
+
 		addTexture("irradianceMap"); 
 		addTexture("convolutedSpecularMap");
 		

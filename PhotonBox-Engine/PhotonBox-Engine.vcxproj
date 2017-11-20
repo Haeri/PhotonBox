@@ -30,6 +30,7 @@
     <ClCompile Include="src\Components\PointLight.cpp" />
     <ClCompile Include="src\Components\SphereCollider.cpp" />
     <ClCompile Include="src\Components\Transform.cpp" />
+    <ClCompile Include="src\Core\AABB.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="src\Components\PointLight.h" />
     <ClInclude Include="src\Components\PointRenderer.h" />
     <ClInclude Include="src\Components\Transform.h" />
+    <ClInclude Include="src\Core\AABB.h" />
     <ClInclude Include="src\Core\Component.h" />
     <ClInclude Include="src\Core\Display.h" />
     <ClInclude Include="src\Core\FrameBuffer.h" />
