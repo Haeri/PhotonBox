@@ -111,6 +111,9 @@ public:
 		Mesh* tableMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Table/Table.obj");
 		Mesh* longCouchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/Long_Couch.obj");
 		Mesh* slidingDoorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/SlidingDoor/SlideDoor.obj");
+		Mesh* floorEdgeMesh = OBJLoader::loadObj("./res/Realistic-Rendering/FloorEdge/FloorEdge.obj");
+		Mesh* shelveMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Shelving/Shelving.obj");
+		Mesh* carpetMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Carpet/Carpet.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -144,6 +147,16 @@ public:
 		Texture* slidingDoorNormal = new Texture("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_N.TGA", true);
 		Texture* slidingDoorAo = new Texture("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_AOMask.TGA", true);
 		Texture* slidingDoorMetal = new Texture("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_M.TGA", true);
+
+		Texture* shelveAlbedo = new Texture("./res/Realistic-Rendering/Shelving/T_Shelving_D.TGA", true);
+		Texture* shelveRough = new Texture("./res/Realistic-Rendering/Shelving/T_Shelving_R.TGA", true);
+		Texture* shelveNormal = new Texture("./res/Realistic-Rendering/Shelving/T_Shelving_N.TGA", true);
+		Texture* shelveAo = new Texture("./res/Realistic-Rendering/Shelving/T_Shelving_AO.TGA", true);
+
+		Texture* carpetAlbedo = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_D.TGA", true);
+		Texture* carpetNormal = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_N.TGA", true);
+		Texture* carpetAo = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_AO.TGA", true);
+		
 
 		couchAlbedo = new Texture("./res/Realistic-Rendering/Couch/T_Couch_D.TGA", true);
 		couchNormal = new Texture("./res/Realistic-Rendering/Couch/T_Couch_N.TGA", true);
@@ -216,6 +229,14 @@ public:
 		tableMaterial->setTexture("metallicMap", tableMetal);
 		tableMaterial->setTexture("emissionMap", default_emission);
 
+		Material* shelveMaterial = new Material();
+		shelveMaterial->setTexture("albedoMap", shelveAlbedo);
+		shelveMaterial->setTexture("normalMap", shelveNormal);
+		shelveMaterial->setTexture("roughnessMap", shelveRough);
+		shelveMaterial->setTexture("aoMap", shelveAo);
+		shelveMaterial->setTexture("metallicMap", default_emission);
+		shelveMaterial->setTexture("emissionMap", default_emission);
+
 		Material* slidingDoorMaterial = new Material();
 		slidingDoorMaterial->setTexture("albedoMap", default_ao);
 		slidingDoorMaterial->setTexture("normalMap", slidingDoorNormal);
@@ -223,6 +244,15 @@ public:
 		slidingDoorMaterial->setTexture("aoMap", slidingDoorAo);
 		slidingDoorMaterial->setTexture("metallicMap", slidingDoorMetal);
 		slidingDoorMaterial->setTexture("emissionMap", default_emission);
+
+		Material* carpetMaterial = new Material();
+		carpetMaterial->setTexture("albedoMap", carpetAlbedo);
+		carpetMaterial->setTexture("normalMap", carpetNormal);
+		carpetMaterial->setTexture("roughnessMap", default_ao);
+		carpetMaterial->setTexture("aoMap", carpetAo);
+		carpetMaterial->setTexture("metallicMap", default_emission);
+		carpetMaterial->setTexture("emissionMap", default_emission);
+
 
 		def = new Material();
 		def->setTexture("albedoMap", default_ao);
@@ -243,11 +273,11 @@ public:
 
 
 		/* --------------------------- LIGHTS --------------------------- */
-		GameObject* lightProbe = instanciate("LightProbe");
-		lightProbe->addComponent<LightProbe>()->resolution = 512;
-		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
-		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3));
-		lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(2.1f, 2.0f, 6));
+		//GameObject* lightProbe = instanciate("LightProbe");
+		//lightProbe->addComponent<LightProbe>()->resolution = 512;
+		//lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
+		//lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3));
+		//lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(2.1f, 2.0f, 6));
 
 
 		/* --------------------------- LIGHTS --------------------------- */
@@ -276,7 +306,7 @@ public:
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 3.0f;
 		//pointLight->getComponent<Transform>()->setParent(rig);
-		//pointLight->setEnable(false);
+		pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight2");
 		pointLight2->addComponent<PointRenderer>();
@@ -308,6 +338,11 @@ public:
 		table->getComponent<MeshRenderer>()->setMesh(tableMesh);
 		table->getComponent<MeshRenderer>()->setMaterial(tableMaterial);
 
+		GameObject* shelve = instanciate("Shelve");
+		shelve->addComponent<MeshRenderer>();
+		shelve->getComponent<MeshRenderer>()->setMesh(shelveMesh);
+		shelve->getComponent<MeshRenderer>()->setMaterial(shelveMaterial);
+
 		GameObject* room = instanciate("Room");
 		room->addComponent<MeshRenderer>();
 		room->getComponent<MeshRenderer>()->setMesh(wallMesh);
@@ -318,6 +353,11 @@ public:
 		floor->getComponent<MeshRenderer>()->setMesh(floorMesh);
 		floor->getComponent<MeshRenderer>()->setMaterial(wood);
 
+		GameObject* floorEdge = instanciate("FloorEdge");
+		floorEdge->addComponent<MeshRenderer>();
+		floorEdge->getComponent<MeshRenderer>()->setMesh(floorEdgeMesh);
+		floorEdge->getComponent<MeshRenderer>()->setMaterial(wood);
+
 		GameObject* doors = instanciate("Doors");
 		doors->addComponent<MeshRenderer>();
 		doors->getComponent<MeshRenderer>()->setMesh(doorsMesh);
@@ -327,6 +367,11 @@ public:
 		slidingDoor->addComponent<MeshRenderer>();
 		slidingDoor->getComponent<MeshRenderer>()->setMesh(slidingDoorMesh);
 		slidingDoor->getComponent<MeshRenderer>()->setMaterial(slidingDoorMaterial);
+
+		GameObject* carpet = instanciate("Carpet");
+		carpet->addComponent<MeshRenderer>();
+		carpet->getComponent<MeshRenderer>()->setMesh(carpetMesh);
+		carpet->getComponent<MeshRenderer>()->setMaterial(carpetMaterial);
 
 		GameObject* probe = instanciate("Probe");
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2, 0));
