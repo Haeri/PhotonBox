@@ -22,7 +22,7 @@ uniform vec3 minBound;
 uniform vec3 maxBound;
 uniform vec3 boundPos;
 
-uniform bool useCorrection = false;
+uniform int useCorrection = 0;
 
 varying vec3 positionVarying;
 varying vec2 texCoordVarying;
@@ -48,7 +48,7 @@ void main(){
 	
     vec3 irradiance	= textureCube(irradianceMap, N).rgb;
 
-    if(useCorrection)
+    if(useCorrection > 0.5)
         R = correctedCubeMapDir(R, positionVarying);
    	vec3 convolutedSpecular = textureCubeLod(convolutedSpecularMap, R, roughness * MAX_REFLECTION_LOD).rgb;
 
@@ -64,7 +64,7 @@ void main(){
 
 	vec3 diffuse  = irradiance * albedo;
 	vec3 specular = convolutedSpecular * (F); // * brdf.x + brdf.y);
-	vec3 ambient  = (kD * diffuse + specular) * ao; 
+	vec3 ambient  = (kD * diffuse + specular) * (ao * 2); 
 
 	vec3 color = ambient + ambientLight + emission;
 
