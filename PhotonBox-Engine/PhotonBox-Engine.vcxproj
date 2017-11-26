@@ -75,6 +75,7 @@
     <ClInclude Include="src\Components\PointLight.h" />
     <ClInclude Include="src\Components\PointRenderer.h" />
     <ClInclude Include="src\Components\Transform.h" />
+    <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
     <ClInclude Include="src\Core\AABB.h" />
     <ClInclude Include="src\Core\Component.h" />
     <ClInclude Include="src\Core\Display.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="src\Resources\BasicShader.h" />
     <ClInclude Include="src\Resources\CubeMap.h" />
     <ClInclude Include="src\Resources\DefaultPostShader.h" />
+    <ClInclude Include="src\Resources\DepthShader.h" />
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />

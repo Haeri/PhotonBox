@@ -12,7 +12,9 @@ public:
 	void render(Material* material);
 	void destroy();
 	GLuint getTextureID() { return _texColor; }
-	
+	int getWidth() { return _width; }
+	int getHeight() { return _height; }
+
 	static void resetDefaultBuffer();
 private:
 	// Buffers

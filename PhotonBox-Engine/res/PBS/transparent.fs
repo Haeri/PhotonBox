@@ -87,6 +87,7 @@ void main(){
 	kD *= 1.0 - metallic;
 
 	vec3 diffuse  = irradiance * albedo;
+    diffuse = vec3(0);
 	vec3 specular = convolutedSpecular * (F); // * brdf.x + brdf.y);
 	vec3 ambient  = (kD * diffuse + specular) * (ao * 2); 
 

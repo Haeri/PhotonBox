@@ -9,8 +9,8 @@ class PostProcessing {
 public:
 	static void addProcessor(PostProcessor* processor);
 	static void removeProcessor(PostProcessor* processor);
-	//void init();
-	void preProcess();
+	static bool isActive() { return _doPostProcessing; }
+	void start();
 	void postProcess();
 	void destroy();
 private:

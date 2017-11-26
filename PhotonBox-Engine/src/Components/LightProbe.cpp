@@ -48,10 +48,11 @@ void LightProbe::capture() {
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _captureRBO);
 
 
-	glViewport(0, 0, resolution, resolution);
-	glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);
-
 	for (unsigned int i = 0; i < 6; ++i) {
+		Renderer::renderShadows();
+
+		glViewport(0, 0, resolution, resolution);
+		glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, _envCube->getLocation(), 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

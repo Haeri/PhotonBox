@@ -53,11 +53,9 @@ void Display::destroy() {
 	glfwTerminate();
 }
 
-void Display::clearDisplay(float r, float b, float g, float a){
+void Display::clearBuffers(){
 	glfwGetFramebufferSize(_window, &_width, &_height);
-	//glViewport(0, 0, _width, _height);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(r, g, b, a);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void Display::setVSync(bool vsync) {

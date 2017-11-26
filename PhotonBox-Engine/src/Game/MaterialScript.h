@@ -18,17 +18,17 @@ public:
 	//float mip = 0.1f;
 
 	void Update() {
-		if (InputManager::keyDown(InputManager::KEY_UP)) {
+		if (InputManager::keyPressed(InputManager::KEY_UP)) {
 			float s = material->getProperty<float>("exposure");
-			material->setProperty<float>("exposure", s += 0.1f);
+			material->setProperty<float>("exposure", s += 0.01f);
 			//std::cout << mip << std::endl;
 			//shader->bind();
 			//shader->setUniform<float>("mip", mip += 0.1);
 		}
 
-		if (InputManager::keyDown(InputManager::KEY_DOWN)) {
+		if (InputManager::keyPressed(InputManager::KEY_DOWN)) {
 			float s = material->getProperty<float>("exposure");
-			material->setProperty<float>("exposure", s -= 0.1f);
+			material->setProperty<float>("exposure", s -= 0.01f);
 			
 			//float s = material->getProperty<float>("mip");
 			//shader->bind();

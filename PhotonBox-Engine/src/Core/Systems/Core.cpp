@@ -13,6 +13,8 @@
 #include "../../Game/TestScene.h"
 #include "../../Game/PBRScene.h"
 
+
+
 //#define DEBUG = false;
 
 bool Core::_isRunning;
@@ -38,7 +40,6 @@ void Core::init(){
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 1480, 900);
 	renderer->init();
-//	postPocessing->init();
 	inputManager->init();
 	uiRenderer->init();
 
@@ -62,6 +63,7 @@ void Core::start() {
 	logic->start();
 	renderer->start();
 	lighting->start();
+	postPocessing->start();
 
 	std::cout << std::endl << "                   SCENE READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
@@ -112,22 +114,26 @@ void Core::run(){
 
 
 		// Start Rendering
-		postPocessing->preProcess();
+		FrameBuffer::resetDefaultBuffer();
+		Display::clearBuffers();
 
 		// Render Scene
 		Renderer::render();
 		nbFrames++;
 
 		postPocessing->postProcess();
+		
+
 
 		// UI Rendering
 		uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0.9, 0.9, 0.9));
 		uiRenderer->renderText("Scene: " + sceneManager->getCurrentName(), 10, Display::getHeight() - 35, 0.32f, Vector3f(0.9, 0.9, 0.9));
 		uiRenderer->renderText("GameObjects:\n" + SceneManager::getCurrentScene()->getGameObjects(), 10, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
-		uiRenderer->renderText("Bihaviour:\n" + Logic::getList(), 150, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
+		uiRenderer->renderText("Behaviour:\n" + Logic::getList(), 150, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
 
 
 		// Stop Rendering
+		Display::swapBuffer();
 
 
 		inputManager->pollEvents();

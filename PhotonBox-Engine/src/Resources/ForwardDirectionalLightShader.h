@@ -19,19 +19,34 @@ public:
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
 		DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
 		Vector3f lvp = dl->direction;
+		
+		/*Matrix4f lightView = Matrix4f::lookAt(
+		Camera::getMainCamera()->transform->getPosition() + (dl->direction * -3),
+		Vector3f(0.0f, 1.0f, 0.0f),
+		dl->direction);*/
+		Matrix4f lightView = Matrix4f::lookAt(
+			(dl->direction * -5),
+			Vector3f(0.0f, 1.0f, 0.0f),
+			dl->direction);
+		Matrix4f lightSpaceMatrix = dl->lightProjection * lightView;
 
+		glUniformMatrix4fv(uniforms["lightSpaceMatrix"], 1, GL_FALSE, &(lightSpaceMatrix(0, 0)));
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
 		glUniformMatrix4fv(uniforms["modelMatrix"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
 		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
 		glUniform3fv(uniforms["light.direction"], 1, &(lvp.x()));
 		glUniform3fv(uniforms["light.color"], 1, &(dl->color.x()));
 		glUniform1f(uniforms["light.intensity"], dl->intensity);
+
+		glActiveTexture(textures["shadowMap"].unit);
+		glBindTexture(GL_TEXTURE_2D, dl->_depthMap);
 	}
 
 	void addUniforms() override {
 		addUniform("mvp");
 		addUniform("modelMatrix");
 		addUniform("viewPos");
+		addUniform("lightSpaceMatrix");
 		addUniform("light.direction");
 		addUniform("light.color");
 		addUniform("light.intensity");
@@ -40,6 +55,7 @@ public:
 		addTexture("normalMap");
 		addTexture("roughnessMap");
 		addTexture("metallicMap");
+		addTexture("shadowMap");
 	}
 
 	void addAttributes() override {

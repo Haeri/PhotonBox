@@ -1,4 +1,4 @@
-#version 130
+#version 120
 
 attribute vec3 position;
 attribute vec3 normal;
@@ -7,19 +7,15 @@ attribute vec3 tangent;
 
 uniform mat4 mvp;
 uniform mat4 modelMatrix;
-uniform mat4 lightSpaceMatrix;
 
-varying vec2 texCoordVarying;
 varying vec3 positionVarying;
+varying vec2 texCoordVarying;
 varying mat3 tbnVarying;
-varying vec4 fragPosLightSpace;
 
 void main(){
 	gl_Position = mvp * vec4(position, 1.0);
 	positionVarying = (modelMatrix * vec4(position, 1.0)).xyz;
 	texCoordVarying = uv;
-	//fragPosLightSpace = lightSpaceMatrix * modelMatrix * vec4(position, 1.0);
-	fragPosLightSpace = lightSpaceMatrix * vec4(vec3(modelMatrix * vec4(position, 1.0)), 1.0);
 
 	vec3 n = normalize((modelMatrix * vec4(normal, 0.0)).xyz);
     vec3 t = normalize((modelMatrix * vec4(tangent, 0.0)).xyz);
