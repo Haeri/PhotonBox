@@ -333,5 +333,7 @@
     <ClInclude Include="src\Resources\ToneMappingProcessor.h" />
     <ClInclude Include="src\Resources\ToneMappingShader.h" />
     <ClInclude Include="src\Core\AABB.h" />
+    <ClInclude Include="src\Resources\DepthShader.h" />
+    <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
   </ItemGroup>
 </Project>

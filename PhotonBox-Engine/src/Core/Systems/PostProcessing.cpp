@@ -1,6 +1,7 @@
 #include "PostProcessing.h"
 #include "../../Resources/PostShader.h"
 #include "../PostProcessor.h"
+#include "../../Core/Systems/Renderer.h"
 
 std::map<int, PostProcessor*> PostProcessing::_processorMap;
 bool PostProcessing::_doPostProcessing;
@@ -13,27 +14,18 @@ void PostProcessing::removeProcessor(PostProcessor* processor){
 	_processorMap.erase(processor->getIndex());
 }
 
-//TODO: Maybe delete this?
-
-/*void PostProcessing::init() {
-	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it){
-		it->second->init();
-	}
-}
-*/
-
-void PostProcessing::preProcess() {
+void PostProcessing::start() {
 	_doPostProcessing = (_processorMap.size() > 0);
-	if (!_doPostProcessing) return;
-
-	_processorMap.begin()->second->enable();
 }
 
 void PostProcessing::postProcess() {
 	if (!_doPostProcessing) return;
 
 	glDisable(GL_DEPTH_TEST);
-	
+	_processorMap.begin()->second->enable();
+	Renderer::getMainFrameBuffer()->render();
+
+
 	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != (--_processorMap.end()); ++it) {
 		it->second->preProcess();
 		(++it)->second->enable();

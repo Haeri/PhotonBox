@@ -15,7 +15,7 @@ public:
 		material = new Material(ToneMappingShader::getInstance());
 		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
 
-		material->setProperty<float>("exposure", 0.5);
+		material->setProperty<float>("exposure", 0.2f);
 	}
 
 	void enable() override {

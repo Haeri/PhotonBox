@@ -7,17 +7,20 @@
 
 class ObjectRenderer : public Component{
 public:
-	ObjectRenderer();
+	ObjectRenderer() : ObjectRenderer(true) {}
+	ObjectRenderer(bool isOpaque);
 	virtual void init();
 	virtual void render() = 0;
 	virtual void render(Shader* shader) {}
 	virtual void render(Shader* shader, LightEmitter* light) {}
 	virtual void onDestroy();
 	void destroy();
+	bool isOpaque() { return _isOpaque; }
 
 	void setMaterial(Material* material) { _material = material; }
 	Material* getMaterial() { return _material; }
 protected:
+	bool _isOpaque;
 	Material* _material;
 };
 

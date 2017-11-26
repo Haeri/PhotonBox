@@ -1,8 +1,9 @@
 #include "ObjectRenderer.h"
 #include "../Core/Systems/Renderer.h"
 
-ObjectRenderer::ObjectRenderer() {
-	Renderer::addToRenderQueue(this);
+ObjectRenderer::ObjectRenderer(bool isOpaque) {
+	_isOpaque = isOpaque;
+	Renderer::addToRenderQueue(this, isOpaque);
 }
 
 void ObjectRenderer::init() {}

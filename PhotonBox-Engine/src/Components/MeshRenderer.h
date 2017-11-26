@@ -8,6 +8,8 @@ class Texture;
 
 class MeshRenderer : public ObjectRenderer {
 public:
+	MeshRenderer(bool isOpaque) :ObjectRenderer(isOpaque) {}
+	MeshRenderer() : ObjectRenderer(true) {}
 	void init() override;
 	void render() override;
 	void render(Shader* shader) override;
