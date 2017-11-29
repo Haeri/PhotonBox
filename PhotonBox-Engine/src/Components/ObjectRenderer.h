@@ -14,6 +14,7 @@ public:
 	virtual void render(Shader* shader) {}
 	virtual void render(Shader* shader, LightEmitter* light) {}
 	virtual void onDestroy();
+	virtual float getBoundingSphereRadius() = 0;
 	void destroy();
 	bool isOpaque() { return _isOpaque; }
 

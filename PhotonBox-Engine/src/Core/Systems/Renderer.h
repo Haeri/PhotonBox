@@ -25,6 +25,7 @@ public:
 	static Vector3f getClearColor() { return _clearColor; }
 
 	void init();
+	void init(int superSampling);
 	void start();
 	static void render();
 	static void render(bool captureMode);

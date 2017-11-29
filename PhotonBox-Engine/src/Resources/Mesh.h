@@ -14,6 +14,8 @@ public:
 
 	std::vector< Vertex > vertices;
 	std::vector< unsigned int> indices;
+
+	float boundingSphereRadius;
 };
 
 #endif /* defined(MESCH_H) */

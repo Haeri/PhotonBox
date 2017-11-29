@@ -16,6 +16,7 @@ public:
 		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
 
 		material->setProperty<float>("exposure", 0.2f);
+		material->setTexture("renderTexture", frameBuffer);
 	}
 
 	void enable() override {

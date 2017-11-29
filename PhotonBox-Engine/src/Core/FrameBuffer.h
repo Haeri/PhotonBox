@@ -7,7 +7,10 @@ class Material;
 class FrameBuffer {
 public:
 	FrameBuffer(int width, int height);
+	FrameBuffer(int width, int height, bool mipmaps);
 	void enable();
+	void bind();
+	void bind(GLuint textureUnit);
 	void render();
 	void render(Material* material);
 	void destroy();
@@ -26,6 +29,8 @@ private:
 	// Mesh
 	GLuint _quadVAO;
 	GLuint _quadVBO;
+
+	int _maxMipMaps;
 
 	static GLuint _currentFBO;
 };

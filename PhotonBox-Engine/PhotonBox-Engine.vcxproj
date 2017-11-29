@@ -111,6 +111,8 @@
     <ClInclude Include="src\Math\Vector2f.h" />
     <ClInclude Include="src\Math\Vector3f.h" />
     <ClInclude Include="src\Math\Vector4f.h" />
+    <ClInclude Include="src\Resources\AutoExposureProcessor.h" />
+    <ClInclude Include="src\Resources\AutoExposureShader.h" />
     <ClInclude Include="src\Resources\BasicShader.h" />
     <ClInclude Include="src\Resources\CubeMap.h" />
     <ClInclude Include="src\Resources\DefaultPostShader.h" />

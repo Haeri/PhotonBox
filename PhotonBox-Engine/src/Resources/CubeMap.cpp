@@ -143,8 +143,6 @@ void CubeMap::generateSpecularConvolution(GLuint map) {
 	for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
 	{
 
-
-
 		// reisze framebuffer according to mip-level size.
 		unsigned int mipWidth = _width * std::pow(0.5, mip);
 		unsigned int mipHeight = _height * std::pow(0.5, mip);

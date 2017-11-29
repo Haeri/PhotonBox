@@ -11,8 +11,6 @@ public:
 	}
 
 	void addUniforms() override {
-		addUniform("exposure");
-
 		addTexture("renderTexture");
 	}
 

@@ -1,9 +1,14 @@
 #include "Material.h"
 #include "CubeMap.h"
 #include "Texture.h"
+#include "../Core/FrameBuffer.h"
 
 void Material::setTexture(const std::string & uniformName, Texture* texture){
 	_textreMap[uniformName] = texture;
+}
+
+void Material::setTexture(const std::string & uniformName, FrameBuffer * buffer){
+	_frameBufferMap[uniformName] = buffer;
 }
 
 void Material::setCubeMap(const std::string & uniformName, CubeMap* cubeMap){
@@ -30,6 +35,12 @@ void Material::bindTextures(Shader* shader) {
 	// Textures
 	for (std::unordered_map<std::string, Texture*>::const_iterator it = _textreMap.begin(); it != _textreMap.end(); ++it) {
 		if(shader->textures.find(it->first) != shader->textures.end())
+			it->second->bind(shader->textures[it->first].unit);
+	}
+
+	// Textures
+	for (std::unordered_map<std::string, FrameBuffer*>::const_iterator it = _frameBufferMap.begin(); it != _frameBufferMap.end(); ++it) {
+		if (shader->textures.find(it->first) != shader->textures.end())
 			it->second->bind(shader->textures[it->first].unit);
 	}
 

@@ -7,9 +7,11 @@
 
 GLuint FrameBuffer::_currentFBO;
 
-//#define DEBUG
+#define DEBUG
 
-FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height) {
+FrameBuffer::FrameBuffer(int width, int height) : FrameBuffer(width, height, false) {}
+
+FrameBuffer::FrameBuffer(int width, int height, bool mipmaps) : _width(width), _height(height) {
 
 	// Create framebuffer
 	glGenFramebuffers(1, &_fbo);
@@ -21,10 +23,21 @@ FrameBuffer::FrameBuffer(int width, int height) : _width(width), _height(height)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	if (mipmaps) {
+		_maxMipMaps = 1 + floor(log2(min(width, height)));
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		_maxMipMaps = 0;
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texColor, 0);
 
@@ -69,6 +82,17 @@ void FrameBuffer::enable() {
 	_currentFBO = _fbo;
 }
 
+void FrameBuffer::bind() {
+	bind(GL_TEXTURE0);
+}
+
+void FrameBuffer::bind(GLuint textureUnit) {
+	glActiveTexture(textureUnit);
+	glBindTexture(GL_TEXTURE_2D, _texColor);
+	if (_maxMipMaps >= 0)
+		glGenerateMipmap(GL_TEXTURE_2D);
+}
+
 void FrameBuffer::render() {
 	render(nullptr);
 }
@@ -79,20 +103,24 @@ void FrameBuffer::render(Material* material) {
 	Shader* shader;
 	if (material == nullptr) {
 		shader = DefaultPostShader::getInstance();
-	}
-	else {
+	}else {
 		shader = material->shader;
 	}
 
 	shader->bind();
-
 	shader->update(nullptr);
-	if (material != nullptr)
-		material->updateUniforms();
-	//material->bindTextures();
 
+	if (material != nullptr) {
+		material->updateUniforms();
+		material->bindTextures();
+	}else {
+		bind();
+	}
+
+	/*
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _texColor);
+	*/
 
 	shader->updateTextures();
 	shader->enableAttributes();

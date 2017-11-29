@@ -12,6 +12,7 @@ public:
 
 	void addUniforms() override {
 		addUniform("offset");
+		addTexture("renderTexture");
 	}
 
 	void addAttributes() override {

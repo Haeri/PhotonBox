@@ -15,6 +15,7 @@ public:
 	void render(Shader* shader) override;
 	void render(Shader* shader, LightEmitter* light) override;
 	void onDestroy() override;
+	float getBoundingSphereRadius();
 
 	MeshRenderer& setMesh(Mesh* mesh) { _mesh = mesh; return *this; }
 private: 

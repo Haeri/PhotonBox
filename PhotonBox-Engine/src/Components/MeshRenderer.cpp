@@ -70,3 +70,7 @@ void MeshRenderer::render(Shader* shader, LightEmitter* light){
 void MeshRenderer::onDestroy(){
 	glDeleteVertexArrays(1, &_vao);
 }
+
+float MeshRenderer::getBoundingSphereRadius(){
+	return _mesh->boundingSphereRadius;
+}

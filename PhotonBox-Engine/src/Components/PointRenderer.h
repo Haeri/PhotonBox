@@ -36,6 +36,8 @@ public:
 
 		glDepthFunc(GL_LESS);
 	}
+
+	float getBoundingSphereRadius() { return 1; }
 };
 
 #endif // POINT_RENDERER_H
