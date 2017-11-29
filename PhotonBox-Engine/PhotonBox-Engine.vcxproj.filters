@@ -335,5 +335,7 @@
     <ClInclude Include="src\Core\AABB.h" />
     <ClInclude Include="src\Resources\DepthShader.h" />
     <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
+    <ClInclude Include="src\Resources\AutoExposureProcessor.h" />
+    <ClInclude Include="src\Resources\AutoExposureShader.h" />
   </ItemGroup>
 </Project>

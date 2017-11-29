@@ -12,6 +12,7 @@ public:
 
 	void addUniforms() override {
 		addUniform("threshold");
+		addTexture("renderTexture");
 	}
 
 	void addAttributes() override {

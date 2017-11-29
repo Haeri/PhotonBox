@@ -50,6 +50,10 @@ void Renderer::setSkyBox(CubeMap* cubeMap){
 }
 
 void Renderer::init() {
+	init(1);
+}
+
+void Renderer::init(int superSampling) {
 	// OpenGL config
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
@@ -59,7 +63,7 @@ void Renderer::init() {
 	_ambientLightShader = ForwardAmbientLightShader::getInstance();
 	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
 	_pointLightShader = ForwardPointLightShader::getInstance();
-	_mainFrameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+	_mainFrameBuffer = new FrameBuffer(Display::getWidth()*superSampling, Display::getHeight()*superSampling);
 
 	_isDebug = false;
 }
@@ -97,7 +101,7 @@ void Renderer::render(bool captureMode) {
 
 	
 	for (std::vector<ObjectRenderer*>::iterator it = _renderQueueOpaque.begin(); it != _renderQueueOpaque.end(); ++it) {
-		if ((*it)->getEnable()) {
+		if ((*it)->getEnable()/* && Camera::getMainCamera()->frustumTest(*it)*/) {
 			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr)) {
 				glEnable(GL_DEPTH_TEST);
 				(*it)->render();

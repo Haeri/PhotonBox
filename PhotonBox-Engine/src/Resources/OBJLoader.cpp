@@ -103,6 +103,9 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 			pos.y() = std::stof(tokens[2]);
 			pos.z() = std::stof(tokens[3]);
 			positions.push_back(pos);
+
+			if (mesh->boundingSphereRadius < pos.lengthSqrd())
+				mesh->boundingSphereRadius = pos.lengthSqrd();
 		}
 		else if (tokens[0].compare("vt") == 0) {
 			Vector2f uv;
@@ -125,6 +128,8 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 			}	
 		}
 	}
+
+	mesh->boundingSphereRadius = sqrt(mesh->boundingSphereRadius);
 
 	// Create Indexed Model 
 	for (size_t i = 0; i <= indices.size() - 3; i += 3)

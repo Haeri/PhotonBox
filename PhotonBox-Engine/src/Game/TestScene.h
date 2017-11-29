@@ -21,6 +21,7 @@
 #include "../Resources/ToneMappingProcessor.h"
 #include "../Resources/IrradianceShader.h"
 #include "../Resources/Texture.h"
+#include "../Resources/AutoExposureProcessor.h"
 
 class TestScene : public Scene {
 public:
@@ -105,8 +106,9 @@ public:
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		//BloomProcessor* p_bloom = new BloomProcessor(1);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(2);
+		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
+		BloomProcessor* p_bloom = new BloomProcessor(2);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -291,7 +293,7 @@ public:
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 2, -2));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraController>();
-		cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
+		//cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
 
 
 		/* --------------------------- LIGHTS --------------------------- */

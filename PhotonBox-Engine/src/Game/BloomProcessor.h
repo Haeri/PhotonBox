@@ -24,28 +24,34 @@ public:
 	FrameBuffer* fb_blur4;
 
 	BloomProcessor(int index) : PostProcessor(index) {
-		m_cutOff = new Material(CutOffShader::getInstance());
-		m_cutOff->setProperty("threshold", 10.0f);
-		
-		m_hBlur1 = new Material(BlurHShader::getInstance());
-		m_hBlur1->setProperty("offset", 1.0f/ Display::getWidth() * 15);
-		m_vBlur1 = new Material(BlurVShader::getInstance());
-		m_vBlur1->setProperty("offset", 1.0f/ Display::getHeight() * 15);
-
-		m_hBlur2 = new Material(BlurHShader::getInstance());
-		m_hBlur2->setProperty("offset", 1.0f / Display::getWidth() * 5);
-		m_vBlur2 = new Material(BlurVShader::getInstance());
-		m_vBlur2->setProperty("offset", 1.0f / Display::getHeight() * 5);
-
-				
-		//m_add = new Material(AddShader::getInstance());
-
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		fb_cutOff = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		fb_blur1 = new FrameBuffer(Display::getWidth() / 2, Display::getHeight() / 2);
 		fb_blur2 = new FrameBuffer(Display::getWidth() / 2, Display::getHeight() / 2);
 		fb_blur3 = new FrameBuffer(Display::getWidth() / 8, Display::getHeight() / 8);
 		fb_blur4 = new FrameBuffer(Display::getWidth() / 8, Display::getHeight() / 8);
+
+
+		m_cutOff = new Material(CutOffShader::getInstance());
+		m_cutOff->setProperty("threshold", 0.01f);
+		m_cutOff->setTexture("renderTexture", fb_original);
+		
+		m_hBlur1 = new Material(BlurHShader::getInstance());
+		m_hBlur1->setProperty("offset", 1.0f/ Display::getWidth() * 15);
+		m_hBlur1->setTexture("renderTexture", fb_cutOff);
+		m_vBlur1 = new Material(BlurVShader::getInstance());
+		m_vBlur1->setProperty("offset", 1.0f/ Display::getHeight() * 15);
+		m_vBlur1->setTexture("renderTexture", fb_blur1);
+
+		m_hBlur2 = new Material(BlurHShader::getInstance());
+		m_hBlur2->setProperty("offset", 1.0f / Display::getWidth() * 5);
+		m_hBlur2->setTexture("renderTexture", fb_blur2);
+		m_vBlur2 = new Material(BlurVShader::getInstance());
+		m_vBlur2->setProperty("offset", 1.0f / Display::getHeight() * 5);
+		m_vBlur2->setTexture("renderTexture", fb_blur3);
+
+				
+		//m_add = new Material(AddShader::getInstance());
 	}
 
 	void enable() override {
