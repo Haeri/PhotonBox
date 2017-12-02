@@ -33,7 +33,7 @@ public:
 
 
 		m_cutOff = new Material(CutOffShader::getInstance());
-		m_cutOff->setProperty("threshold", 0.01f);
+		m_cutOff->setProperty<float>("threshold", 1.0f);
 		m_cutOff->setTexture("renderTexture", fb_original);
 		
 		m_hBlur1 = new Material(BlurHShader::getInstance());

@@ -10,11 +10,18 @@ public:
 		return std::string("./res/post-processing/autoexposure");
 	}
 
+	void update(Transform* t) override {
+		glUniform1f(uniforms["delteTime"], Time::deltaTime);
+	}
+
 	void addUniforms() override {
 		addUniform("maxMip");
+		addUniform("delteTime");
+		addUniform("adaptationSpeed");
 
 		addTexture("renderTexture");
-		addTexture("luminanceSample");
+		addTexture("luminanceSampleCurrent");
+		addTexture("luminanceSampleLast");
 	}
 
 	void addAttributes() override {

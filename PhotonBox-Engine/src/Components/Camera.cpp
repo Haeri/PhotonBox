@@ -8,7 +8,7 @@ Camera::Camera() {
 	if (_main == nullptr) setMain();
 
 	float aspect = (float)Display::getWidth() / (float)Display::getHeight();
-	setProjection(70, aspect, 0.01f, 1000.0f);
+	setProjection(70, aspect, 0.01f, 10000.0f);
 }
 
 void Camera::updateAspect() {
@@ -97,6 +97,7 @@ bool Camera::frustumTest(ObjectRenderer* object){
 
 	for (size_t i = 0; i < 6; ++i){
 		if (object->transform->getPositionWorld().dot(_frustum[i].normal) + _frustum[i].distance + maxScaleAxis * object->getBoundingSphereRadius() <= 0) {
+			std::cout << object->gameObject->name << std::endl;
 			return false;
 		}
 	}

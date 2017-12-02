@@ -11,7 +11,7 @@
 
 class CameraController : public Behaviour {
 public:
-	float speed = 3;
+	float speed = 1;
 	float mouseSensitivity = 0.6f;
 
 	bool toggleCursorMode = true;

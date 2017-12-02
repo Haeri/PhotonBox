@@ -20,6 +20,8 @@
 #include "../Game/BlurProcessor.h"
 #include "../Resources/ToneMappingProcessor.h"
 #include "../Resources/IrradianceShader.h"
+#include "../Components/TransparentMeshRenderer.h"
+#include "../Resources/TransparentShader.h"
 
 class PBRScene : public Scene {
 public:
@@ -97,9 +99,9 @@ public:
 
 	
 		/* --------------------------- POST PROCESSING --------------------------- */
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
+		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
 		//BloomProcessor* p_bloom = new BloomProcessor(2);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
+		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -136,9 +138,11 @@ public:
 		default_emission = new Texture("./res/default_emission.png", false);
 		default_ao = new Texture("./res/default_ao.png", false);
 		gradient = new Texture("./res/gradient.png", false);
+		Texture* default_roughness = new Texture("./res/default_roughness.png", false);
 
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
+		TransparentShader* transparentShader = TransparentShader::getInstance();
 
 
 
@@ -183,6 +187,24 @@ public:
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
 
+		Material* glassMaterial = new Material(transparentShader);
+		glassMaterial->setProperty("tint", Vector4f(0.3, 0.3, 1, 0.1));
+		glassMaterial->setTexture("albedoMap", default_specular);
+		glassMaterial->setTexture("normalMap", default_normal);
+		glassMaterial->setTexture("roughnessMap", default_roughness);
+		glassMaterial->setTexture("aoMap", default_ao);
+		glassMaterial->setTexture("metallicMap", default_emission);
+		glassMaterial->setTexture("emissionMap", default_emission);
+
+		/*
+		glassMaterial->setTexture("albedoMap", default_specular);
+		glassMaterial->setTexture("normalMap", default_normal);
+		glassMaterial->setTexture("roughnessMap", woodRough);
+		glassMaterial->setTexture("aoMap", default_ao);
+		glassMaterial->setTexture("metallicMap", default_emission);
+		glassMaterial->setTexture("emissionMap", default_emission);
+		*/
+
 		lit = new Material(litShader);
 		lit->setProperty("color", Vector3f(0.3, 0.3, 0.5));
 		
@@ -193,7 +215,7 @@ public:
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -10));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraController>();
-		cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
+		//cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
 
 
 
@@ -262,6 +284,31 @@ public:
 		probe6->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe6->getComponent<MeshRenderer>()->setMaterial(lit);
 
+		GameObject* probe7 = instanciate("Probe-7");
+		probe7->getComponent<Transform>()->setPosition(Vector3f(30, 1, 0));
+		probe7->addComponent<TransparentMeshRenderer>();
+		probe7->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
+		probe7->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+
+		GameObject* probe8 = instanciate("Probe-7");
+		probe8->getComponent<Transform>()->setPosition(Vector3f(36, 1, 0));
+		probe8->addComponent<TransparentMeshRenderer>();
+		probe8->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
+		probe8->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+
+		GameObject* probe9 = instanciate("Probe-7");
+		probe9->getComponent<Transform>()->setPosition(Vector3f(42, 1, 0));
+		probe9->addComponent<TransparentMeshRenderer>();
+		probe9->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
+		probe9->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+
+		GameObject* probe10= instanciate("Probe-7");
+		probe10->getComponent<Transform>()->setPosition(Vector3f(48, 1, 0));
+		probe10->addComponent<TransparentMeshRenderer>();
+		probe10->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
+		probe10->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+
+
 
 		GameObject* quad = instanciate("Quad-1");
 		quad->getComponent<Transform>()->setPosition(Vector3f(-6, 0, -3));
@@ -304,6 +351,13 @@ public:
 		quad6->addComponent<MeshRenderer>();
 		quad6->getComponent<MeshRenderer>()->setMesh(plane);
 		quad6->getComponent<MeshRenderer>()->setMaterial(lit);
+
+		GameObject* quad7 = instanciate("Quad-7");
+		quad7->getComponent<Transform>()->setPosition(Vector3f(30, 0, -3));
+		quad7->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
+		quad7->addComponent<TransparentMeshRenderer>();
+		quad7->getComponent<TransparentMeshRenderer>()->setMesh(plane);
+		quad7->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 	}
 
 	void OnUnload() {

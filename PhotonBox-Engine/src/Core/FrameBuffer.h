@@ -11,6 +11,7 @@ public:
 	void enable();
 	void bind();
 	void bind(GLuint textureUnit);
+	void clear();
 	void render();
 	void render(Material* material);
 	void destroy();

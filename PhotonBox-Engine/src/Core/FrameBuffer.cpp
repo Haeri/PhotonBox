@@ -7,7 +7,7 @@
 
 GLuint FrameBuffer::_currentFBO;
 
-#define DEBUG
+//#define DEBUG
 
 FrameBuffer::FrameBuffer(int width, int height) : FrameBuffer(width, height, false) {}
 
@@ -91,6 +91,12 @@ void FrameBuffer::bind(GLuint textureUnit) {
 	glBindTexture(GL_TEXTURE_2D, _texColor);
 	if (_maxMipMaps >= 0)
 		glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+// TODO: clear only necessary attachments
+void FrameBuffer::clear(){
+	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void FrameBuffer::render() {

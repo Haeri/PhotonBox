@@ -337,5 +337,6 @@
     <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
     <ClInclude Include="src\Resources\AutoExposureProcessor.h" />
     <ClInclude Include="src\Resources\AutoExposureShader.h" />
+    <ClInclude Include="src\Resources\TransparentShader.h" />
   </ItemGroup>
 </Project>
