@@ -20,7 +20,7 @@ public:
 			Vector3f(0.0f, 1.0f, 0.0f),
 			dl->direction);*/
 		Matrix4f lightView = Matrix4f::lookAt(
-			(dl->direction * -5),
+			(dl->direction * -3),
 			Vector3f(0.0f, 1.0f, 0.0f),
 			dl->direction);
 		Matrix4f lightSpaceMatrix = dl->lightProjection * lightView;

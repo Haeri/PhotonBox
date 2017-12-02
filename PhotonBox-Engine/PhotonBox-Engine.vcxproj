@@ -135,6 +135,7 @@
     <ClInclude Include="src\Resources\Texture.h" />
     <ClInclude Include="src\Resources\ToneMappingProcessor.h" />
     <ClInclude Include="src\Resources\ToneMappingShader.h" />
+    <ClInclude Include="src\Resources\TransparentShader.h" />
     <ClInclude Include="src\Resources\Vertex.h" />
     <ClInclude Include="src\Test\MathTest.h" />
   </ItemGroup>

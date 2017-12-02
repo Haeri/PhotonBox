@@ -33,8 +33,6 @@ void MeshRenderer::init(){
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(1, &_vbo);
-	glDeleteBuffers(1, &_ebo);
 }
 
 void MeshRenderer::render() {
@@ -60,14 +58,16 @@ void MeshRenderer::render(Shader* shader, LightEmitter* light){
 	_material->bindTextures(shader);
 	shader->updateTextures();
 	shader->enableAttributes();
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 	shader->disableAttributes();
-		
 		
 	glBindVertexArray(0);
 }
 
 void MeshRenderer::onDestroy(){
+	glDeleteBuffers(1, &_vbo);
+	glDeleteBuffers(1, &_ebo);
 	glDeleteVertexArrays(1, &_vao);
 }
 

@@ -4,6 +4,7 @@
 class ObjectRenderer;
 class CubeMap;
 class FrameBuffer;
+class TransparentShader;
 
 #include <vector>
 #include "../../Resources/SkyBox.h"
@@ -31,19 +32,24 @@ public:
 	static void render(bool captureMode);
 	static void render(Shader* customShader);
 	static void renderShadows();
+	void renderGizmos();
 	void destroy();
 private:
-	static void sortTransparents();
+	static void clearTransparentQueue();
+	static void updateTransparentQueue();
 	static SkyBox _skyBox;
 	static FrameBuffer* _mainFrameBuffer;
 	static bool _isDebug;
-	static std::vector<ObjectRenderer*> _renderQueueOpaque;
-	static std::map<ObjectRenderer*, float> _renderQueueTransparent;
+	static std::vector<ObjectRenderer*> _renderListOpaque;
+	static std::vector<ObjectRenderer*> _renderListTransparent;
 	static Vector3f _clearColor;
+
+	static std::map<float, ObjectRenderer*> _renderQueueTransparent;
 
 	static ForwardAmbientLightShader* _ambientLightShader;
 	static ForwardDirectionalLightShader* _directionalLightShader;
 	static ForwardPointLightShader* _pointLightShader;
+	static TransparentShader* _transparentBaseShader;
 };
 
 #endif // RENDERER_H

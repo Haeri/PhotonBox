@@ -22,6 +22,7 @@
 #include "../Resources/IrradianceShader.h"
 #include "../Resources/Texture.h"
 #include "../Resources/AutoExposureProcessor.h"
+#include "../Resources/TransparentShader.h"
 
 class TestScene : public Scene {
 public:
@@ -100,7 +101,7 @@ public:
 			"./res/Def_Indoor/rest.png",
 			"./res/Def_Indoor/rest.png",
 			"./res/Def_Indoor/rest.png",
-			"./res/Def_Indoor/-z.png",
+			"./res/Def_Indoor/lol.hdr",
 		};
 		Renderer::setSkyBox(new CubeMap(skyBoxLod4));
 
@@ -127,6 +128,7 @@ public:
 		Mesh* carpetMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Carpet/Carpet.obj");
 		Mesh* occluderMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Occluder/occluder.obj");
 		Mesh* windowMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Window/Window.obj");
+		Mesh* panoramaMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Panorama/Panorama.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -179,17 +181,23 @@ public:
 
 		wallAlbedo = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_D.TGA", true);
 		wallNormal = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_N.TGA", true);
+		Texture* wallRoughness = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_R.TGA", true);
 
 		default_normal = new Texture("./res/default_normal.png", false);
 		default_specular = new Texture("./res/default_specular.png", false);
 		default_emission = new Texture("./res/default_emission.png", false);
 		default_ao = new Texture("./res/default_ao.png", false);
+		Texture* default_roughness = new Texture("./res/default_roughness.png", false);
 		gradient = new Texture("./res/gri1.png", false);
 
+
+		
+		Texture* panoramaAlbedo = new Texture("./res/Realistic-Rendering/Panorama/T_Background_D.TGA", true);
 
 
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
+		TransparentShader* transparentShader = TransparentShader::getInstance();
 
 
 
@@ -213,7 +221,7 @@ public:
 		wallMaterial = new Material();
 		wallMaterial->setTexture("albedoMap", wallAlbedo);
 		wallMaterial->setTexture("normalMap", wallNormal);
-		wallMaterial->setTexture("roughnessMap", default_ao);
+		wallMaterial->setTexture("roughnessMap", wallRoughness);
 		wallMaterial->setTexture("aoMap", default_ao);
 		wallMaterial->setTexture("metallicMap", default_emission);
 		wallMaterial->setTexture("emissionMap", default_emission);
@@ -275,16 +283,21 @@ public:
 		def->setTexture("metallicMap", default_ao);
 		def->setTexture("emissionMap", default_emission);
 
-		Material* glassMaterial = new Material();
-		glassMaterial->setTexture("albedoMap", default_specular);
+		Material* glassMaterial = new Material(transparentShader);
+		glassMaterial->setProperty<Vector4f>("tint", Vector4f(0, 0, 1, 1));
+		glassMaterial->setTexture("albedoMap", default_emission);
 		glassMaterial->setTexture("normalMap", default_normal);
-		glassMaterial->setTexture("roughnessMap", woodRough);
+		glassMaterial->setTexture("roughnessMap", default_roughness);
 		glassMaterial->setTexture("aoMap", default_ao);
 		glassMaterial->setTexture("metallicMap", default_emission);
 		glassMaterial->setTexture("emissionMap", default_emission);
 
 
 		Material* occluderMaterial = new Material(litShader);
+		occluderMaterial->setProperty<Vector3f>("color", Vector3f(0, 0, 0));
+
+		Material* panoramaMaterial = new Material(litShader);
+		panoramaMaterial->setTexture("texture", panoramaAlbedo);
 
 
 		/* --------------------------- CAMERA --------------------------- */
@@ -300,8 +313,14 @@ public:
 		GameObject* lightProbe = instanciate("LightProbe");
 		lightProbe->addComponent<LightProbe>()->resolution = 512;
 		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
-		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3));
+		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3.4));
 		lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(2.1f, 2.0f, 6));
+
+		GameObject* min = instanciate("min");
+		min->getComponent<Transform>()->setPosition(Vector3f(-2.1f, -1.3f, -3.4));
+
+		GameObject* max = instanciate("max");
+		max->getComponent<Transform>()->setPosition(Vector3f(2.1f, 2.0f, 6));
 
 
 		/* --------------------------- LIGHTS --------------------------- */
@@ -312,9 +331,9 @@ public:
 
 		GameObject* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
-		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
+		sun->getComponent<DirectionalLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4, -0.6, 2);
-		sun->getComponent<DirectionalLight>()->intensity = 1000.0f;
+		sun->getComponent<DirectionalLight>()->intensity = 10000.0f;
 		//sun->setEnable(false);
 
 		GameObject* rig = instanciate("Rig");
@@ -322,15 +341,15 @@ public:
 
 		GameObject* pointLight = instanciate("Pointlight");
 		pointLight->addComponent<PointRenderer>();
-		pointLight->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
+		pointLight->getComponent<Transform>()->setPosition(Vector3f(1.3, 1.2f, 0));
 		pointLight->addComponent<PointLight>();
 		pointLight->getComponent<PointLight>()->color = Vector3f(255 / 255.0f, 249 / 255.0f, 225 / 255.0f);
 		pointLight->getComponent<PointLight>()->constant = 2;
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
-		pointLight->getComponent<PointLight>()->intensity = 3.0f;
-		//pointLight->getComponent<Transform>()->setParent(rig);
-		pointLight->setEnable(false);
+		pointLight->getComponent<PointLight>()->intensity = 80.0f;
+		pointLight->getComponent<Transform>()->setParent(rig);
+		//pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight2");
 		pointLight2->addComponent<PointRenderer>();
@@ -412,7 +431,15 @@ public:
 		GameObject* window = instanciate("Window");
 		window->addComponent<TransparentMeshRenderer>();
 		window->getComponent<TransparentMeshRenderer>()->setMesh(windowMesh);
-		window->getComponent<TransparentMeshRenderer>()->setMaterial(wood);
+		window->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+		//window->setEnable(false);
+
+		/*
+		GameObject* panorama = instanciate("Panorama");
+		panorama->addComponent<MeshRenderer>();
+		panorama->getComponent<MeshRenderer>()->setMesh(panoramaMesh);
+		panorama->getComponent<MeshRenderer>()->setMaterial(panoramaMaterial);
+		*/
 
 /*
 		for (int x = 0; x < 8; x++) {

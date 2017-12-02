@@ -12,10 +12,13 @@ public:
 	void addUniforms() override {
 		addUniform("mvp");
 		addUniform("color");
+
+		addTexture("texture");
 	}
 
 	void addAttributes() override {
 		addAttribut("position", Vertex::AttibLocation::POSITION);
+		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
 	}
 
 	void update(Transform* transform) override {
