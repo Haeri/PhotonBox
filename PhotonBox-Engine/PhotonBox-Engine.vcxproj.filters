@@ -338,5 +338,6 @@
     <ClInclude Include="src\Resources\AutoExposureProcessor.h" />
     <ClInclude Include="src\Resources\AutoExposureShader.h" />
     <ClInclude Include="src\Resources\TransparentShader.h" />
+    <ClInclude Include="src\Resources\Exposure.h" />
   </ItemGroup>
 </Project>

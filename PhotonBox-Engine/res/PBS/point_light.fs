@@ -1,4 +1,4 @@
-#version 120
+#version 120 core
 
 struct PointLight{
     vec3 position;

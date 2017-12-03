@@ -1,4 +1,4 @@
-#version 120
+#version 120 core
 
 uniform sampler2D texture;
 uniform vec3 color = vec3(-1, 0, 0);

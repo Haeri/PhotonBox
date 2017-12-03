@@ -1,4 +1,4 @@
-#version 120
+#version 120 core
 
 struct AmbientLight{
 	vec3 color;

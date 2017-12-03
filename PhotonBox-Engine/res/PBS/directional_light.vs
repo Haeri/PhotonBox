@@ -1,4 +1,4 @@
-#version 130
+#version 130 core
 
 attribute vec3 position;
 attribute vec3 normal;

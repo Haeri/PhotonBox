@@ -117,6 +117,7 @@
     <ClInclude Include="src\Resources\CubeMap.h" />
     <ClInclude Include="src\Resources\DefaultPostShader.h" />
     <ClInclude Include="src\Resources\DepthShader.h" />
+    <ClInclude Include="src\Resources\Exposure.h" />
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />

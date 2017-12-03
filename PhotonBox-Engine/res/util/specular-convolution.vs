@@ -1,4 +1,4 @@
-#version 330
+#version 330 core
 
 attribute vec3 position;
 

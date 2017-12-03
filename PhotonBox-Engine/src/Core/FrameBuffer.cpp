@@ -89,7 +89,7 @@ void FrameBuffer::bind() {
 void FrameBuffer::bind(GLuint textureUnit) {
 	glActiveTexture(textureUnit);
 	glBindTexture(GL_TEXTURE_2D, _texColor);
-	if (_maxMipMaps >= 0)
+	if (_maxMipMaps > 0)
 		glGenerateMipmap(GL_TEXTURE_2D);
 }
 

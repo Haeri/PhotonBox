@@ -1,4 +1,4 @@
-#version 120
+#version 120 core
 
 uniform vec3 viewPos;
 
