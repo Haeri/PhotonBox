@@ -13,13 +13,23 @@ A modern OpenGL Game-Engine with focus on PBR
   - Ambient Occclusion Map
   - Emission Map
 - Dynamic Irradiance Map generation
-
+- Dynamic Specular-Convolution Map generation
+- Post Processing List
+  - Eye adaptation
+  - Bloom
+  - Tone mapping
+- Transparent rendering
+- Shadow mapping
+- Text rendering
+- Parallax cubeMap correction
+  
 ## Systems
 - Component system
 - Scene loading
 - Transformation system
 - Generic Materials
 - Input
+- Lightprobe volumes
 
 ## Media
 
