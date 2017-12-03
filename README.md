@@ -23,5 +23,4 @@ A modern OpenGL Game-Engine with focus on PBR
 
 ## Media
 
-![Demo Video](http://monolith-code.net.tiberius.sui-inter.net/Upload/PhotonBox.gif)
-http://monolith-code.net.tiberius.sui-inter.net/Upload/PhotonBox.gif
+![screenshot_1](https://user-images.githubusercontent.com/7956606/33521625-d555c5d0-d7d7-11e7-8b8a-1248f277bb37.png)
