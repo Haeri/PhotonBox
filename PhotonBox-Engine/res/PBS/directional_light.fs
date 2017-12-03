@@ -1,4 +1,4 @@
-#version 130
+#version 130 core
 
 struct DirectionalLight{
     vec3 direction;

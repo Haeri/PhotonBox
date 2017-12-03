@@ -1,4 +1,4 @@
-#version 120
+#version 120 core
 
 attribute vec3 position;
 attribute vec3 normal;

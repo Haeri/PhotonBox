@@ -19,7 +19,6 @@ public:
 		addUniform("delteTime");
 		addUniform("adaptationSpeed");
 
-		addTexture("renderTexture");
 		addTexture("luminanceSampleCurrent");
 		addTexture("luminanceSampleLast");
 	}

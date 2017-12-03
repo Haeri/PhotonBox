@@ -1,4 +1,4 @@
-#version 120
+#version 120 core
 
 attribute vec2 position;
 

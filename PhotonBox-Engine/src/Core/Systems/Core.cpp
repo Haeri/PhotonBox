@@ -58,7 +58,7 @@ void Core::start() {
 	std::cout << "==================================================" << std::endl;
 	std::cout << "                  LOADING SCENE" << std::endl << std::endl;
 	
-	sceneManager->loadSceneImediately("PBRScene");
+	sceneManager->loadSceneImediately("TestScene");
 	
 	logic->start();
 	renderer->start();

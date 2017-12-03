@@ -7,27 +7,31 @@
 #include "ToneMappingShader.h"
 #include "AutoExposureShader.h"
 #include "Material.h"
+#include "Exposure.h"
 
 class AutoExposureProcessor : public PostProcessor {
 public:
-	Material* material;
-	FrameBuffer* mainBuffer, *luminancBufferA, *luminancBufferB;
+	Material* autoExpMaterial, *expMaterial;
+	FrameBuffer* mainBuffer, *currentLuminancBuffer, *luminancBufferA, *luminancBufferB;
 
 	AutoExposureProcessor(int index) : PostProcessor(index) {
 		int res = 64;
 		int numLevels = 1 + floor(log2(res));
 
-		//int numLevels = 1+floor(log2(min(Display::getWidth(), Display::getHeight())));
-		//float res = pow(2, numLevels-1);
+		autoExpMaterial = new Material(AutoExposureShader::getInstance());
+		expMaterial = new Material(ExposureShader::getInstance());
+		
+		currentLuminancBuffer = new FrameBuffer(res, res, true);
+		luminancBufferA = new FrameBuffer(1, 1);
+		luminancBufferB = new FrameBuffer(1, 1);
+		
+		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight(), false);
 
-		material = new Material(AutoExposureShader::getInstance());
-		luminancBufferA = new FrameBuffer(res, res, true);
-		luminancBufferB = new FrameBuffer(res, res, true);
-		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight(), true);
+		autoExpMaterial->setTexture("luminanceSampleCurrent", currentLuminancBuffer);
+		autoExpMaterial->setProperty<int>("maxMip", numLevels);
+		autoExpMaterial->setProperty<float>("adaptationSpeed", 0.4);
 
-		material->setTexture("renderTexture", mainBuffer);
-		material->setProperty<int>("maxMip", numLevels);
-		material->setProperty<float>("adaptationSpeed", 0.00001);
+		expMaterial->setTexture("renderTexture", mainBuffer);
 	}
 
 	void enable() override {
@@ -35,31 +39,36 @@ public:
 	}
 
 	void preProcess() override {
+		currentLuminancBuffer->enable();
+		mainBuffer->render();
+
 		if (flip) {
-			material->setTexture("luminanceSampleCurrent", luminancBufferA);
-			material->setTexture("luminanceSampleLast", luminancBufferB);
 			luminancBufferA->enable();
-			mainBuffer->render();
+			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB);
 		}else {
-			material->setTexture("luminanceSampleCurrent", luminancBufferB);
-			material->setTexture("luminanceSampleLast", luminancBufferA);
 			luminancBufferB->enable();
-			mainBuffer->render();
+			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB);
 		}
-		flip = !flip;
+		currentLuminancBuffer->render(autoExpMaterial);
 	}
 
 	void render() override {
-		mainBuffer->render(material);
+		if (flip) {
+			expMaterial->setTexture("exposureSample", luminancBufferA);
+		}else {
+			expMaterial->setTexture("exposureSample", luminancBufferB);
+		}
+		mainBuffer->render(expMaterial);
+		flip = !flip;
 	}
 
 	void destroy() override {
-		delete material;
+		delete autoExpMaterial;
 
 		mainBuffer->destroy();
-		luminancBufferA->destroy();
+		currentLuminancBuffer->destroy();
 		delete mainBuffer;
-		delete luminancBufferA;
+		delete currentLuminancBuffer;
 	}
 private:
 	bool flip;
