@@ -8,6 +8,7 @@ class FrameBuffer {
 public:
 	FrameBuffer(int width, int height);
 	FrameBuffer(int width, int height, bool mipmaps);
+	FrameBuffer(int width, int height, bool mipmaps, bool hdr);
 	void enable();
 	void bind();
 	void bind(GLuint textureUnit);
@@ -23,6 +24,7 @@ public:
 private:
 	// Buffers
 	int _width, _height;
+	GLint _isHDR;
 	GLuint _fbo;
 	GLuint _rbDS;
 	GLuint _texColor;
