@@ -10,48 +10,54 @@
 class BloomProcessor : public PostProcessor {
 public:
 	Material* m_cutOff;
-	Material* m_hBlur1;
-	Material* m_vBlur1;
-	Material* m_hBlur2;
-	Material* m_vBlur2;
-	//Material* m_add;
+
+	Material* m_blur_h;
+	Material* m_blur_v;
+
 
 	FrameBuffer* fb_original;
-	FrameBuffer* fb_cutOff;
-	FrameBuffer* fb_blur1;
-	FrameBuffer* fb_blur2;
-	FrameBuffer* fb_blur3;
-	FrameBuffer* fb_blur4;
+
+	FrameBuffer* fb_cutOff_2;
+	FrameBuffer* fb_cutOff_4;
+	FrameBuffer* fb_cutOff_8;
+	FrameBuffer* fb_cutOff_16;
+
+	FrameBuffer* fb_blur_h_2;
+	FrameBuffer* fb_blur_v_2;
+	FrameBuffer* fb_blur_h_4;
+	FrameBuffer* fb_blur_v_4;
+	FrameBuffer* fb_blur_h_8;
+	FrameBuffer* fb_blur_v_8;
+	FrameBuffer* fb_blur_h_16;
+	FrameBuffer* fb_blur_v_16;
+
+	bool debug = false;
+
 
 	BloomProcessor(int index) : PostProcessor(index) {
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		fb_cutOff = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		fb_blur1 = new FrameBuffer(Display::getWidth() / 2, Display::getHeight() / 2);
-		fb_blur2 = new FrameBuffer(Display::getWidth() / 2, Display::getHeight() / 2);
-		fb_blur3 = new FrameBuffer(Display::getWidth() / 8, Display::getHeight() / 8);
-		fb_blur4 = new FrameBuffer(Display::getWidth() / 8, Display::getHeight() / 8);
+
+		fb_cutOff_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f, false, false);
+		fb_cutOff_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f, false, false);
+		fb_cutOff_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f, false, false);
+		fb_cutOff_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f, false, false);
+
+		fb_blur_h_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_blur_v_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_blur_h_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_blur_v_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_blur_h_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_blur_v_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_blur_h_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
+		fb_blur_v_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
 
 
 		m_cutOff = new Material(CutOffShader::getInstance());
-		m_cutOff->setProperty<float>("threshold", 1.0f);
+		m_cutOff->setProperty<float>("threshold", 10.0f);
 		m_cutOff->setTexture("renderTexture", fb_original);
-		
-		m_hBlur1 = new Material(BlurHShader::getInstance());
-		m_hBlur1->setProperty("offset", 1.0f/ Display::getWidth() * 15);
-		m_hBlur1->setTexture("renderTexture", fb_cutOff);
-		m_vBlur1 = new Material(BlurVShader::getInstance());
-		m_vBlur1->setProperty("offset", 1.0f/ Display::getHeight() * 15);
-		m_vBlur1->setTexture("renderTexture", fb_blur1);
 
-		m_hBlur2 = new Material(BlurHShader::getInstance());
-		m_hBlur2->setProperty("offset", 1.0f / Display::getWidth() * 5);
-		m_hBlur2->setTexture("renderTexture", fb_blur2);
-		m_vBlur2 = new Material(BlurVShader::getInstance());
-		m_vBlur2->setProperty("offset", 1.0f / Display::getHeight() * 5);
-		m_vBlur2->setTexture("renderTexture", fb_blur3);
-
-				
-		//m_add = new Material(AddShader::getInstance());
+		m_blur_h = new Material(BlurHShader::getInstance());
+		m_blur_v = new Material(BlurVShader::getInstance());
 	}
 
 	void enable() override {
@@ -59,20 +65,117 @@ public:
 	}
 
 	void preProcess() override{
-		fb_cutOff->enable();
+		// Blur 16
+		fb_cutOff_16->enable();
 		fb_original->render(m_cutOff);
-
-		fb_blur1->enable();
-		fb_cutOff->render(m_hBlur1);
-
-		fb_blur2->enable();
-		fb_blur1->render(m_vBlur1);
 		
-		fb_blur3->enable();
-		fb_blur2->render(m_hBlur2);
-		
-		fb_blur4->enable();
-		fb_blur3->render(m_vBlur2);
+		m_blur_h->setProperty("offset", (1.0f/ fb_cutOff_16->getWidth()));
+		m_blur_h->setTexture("renderTexture", fb_cutOff_16);
+		fb_blur_h_16->enable();
+		fb_cutOff_16->render(m_blur_h);
+
+		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_16->getHeight()));
+		m_blur_v->setTexture("renderTexture", fb_blur_h_16);
+		fb_blur_v_16->enable();
+		fb_blur_h_16->render(m_blur_v);
+
+		if (debug) {
+			FrameBuffer::resetDefaultBuffer();
+			fb_blur_v_16->render();
+			Display::swapBuffer();
+			system("PAUSE");
+		}
+
+
+
+		// Blur 8
+		fb_cutOff_8->enable();
+		fb_original->render(m_cutOff);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_EQUAL);
+		fb_blur_v_16->render();
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
+		glDisable(GL_BLEND);
+
+		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_8->getWidth()));
+		m_blur_h->setTexture("renderTexture", fb_cutOff_8);
+		fb_blur_h_8->enable();
+		fb_cutOff_8->render(m_blur_h);
+
+		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_8->getHeight()));
+		m_blur_v->setTexture("renderTexture", fb_blur_h_8);
+		fb_blur_v_8->enable();
+		fb_blur_h_8->render(m_blur_v);
+
+		if (debug) {
+			FrameBuffer::resetDefaultBuffer();
+			fb_blur_v_8->render();
+			Display::swapBuffer();
+			system("PAUSE");
+		}
+
+
+		// Blur 4
+		fb_cutOff_4->enable();
+		fb_original->render(m_cutOff);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_EQUAL);
+		fb_blur_v_8->render();
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
+		glDisable(GL_BLEND);
+
+		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_4->getWidth()));
+		m_blur_h->setTexture("renderTexture", fb_cutOff_4);
+		fb_blur_h_4->enable();
+		fb_cutOff_4->render(m_blur_h);
+
+		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_4->getHeight()));
+		m_blur_v->setTexture("renderTexture", fb_blur_h_4);
+		fb_blur_v_4->enable();
+		fb_blur_h_4->render(m_blur_v);
+
+		if (debug) {
+			FrameBuffer::resetDefaultBuffer();
+			fb_blur_v_4->render();
+			Display::swapBuffer();
+			system("PAUSE");
+		}
+
+
+		// Blur 2
+		fb_cutOff_2->enable();
+		fb_original->render(m_cutOff);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_EQUAL);
+		fb_blur_v_4->render();
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
+		glDisable(GL_BLEND);
+
+		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_2->getWidth()));
+		m_blur_h->setTexture("renderTexture", fb_cutOff_2);
+		fb_blur_h_2->enable();
+		fb_cutOff_2->render(m_blur_h);
+
+		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_2->getHeight()));
+		m_blur_v->setTexture("renderTexture", fb_blur_h_2);
+		fb_blur_v_2->enable();
+		fb_blur_h_2->render(m_blur_v);
+
+		if (debug) {
+			FrameBuffer::resetDefaultBuffer();
+			fb_blur_v_2->render();
+			Display::swapBuffer();
+			system("PAUSE");
+		}
 	}
 
 	void render() override {
@@ -81,7 +184,7 @@ public:
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
-		fb_blur4->render();
+		fb_blur_v_2->render();
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
 		glDisable(GL_BLEND);
@@ -89,21 +192,41 @@ public:
 
 	void destroy() override {
 		delete m_cutOff;
-		//delete m_add;
-		delete m_hBlur1;
-		delete m_vBlur1;
+		delete m_blur_h;
+		delete m_blur_v;
 
 		fb_original->destroy();
-		fb_cutOff->destroy();
-		fb_blur1->destroy();
-		fb_blur2->destroy();
+
+		fb_cutOff_2->destroy();
+		fb_cutOff_4->destroy();
+		fb_cutOff_8->destroy();
+		fb_cutOff_16->destroy();
+
+		fb_blur_h_2->destroy();
+		fb_blur_v_2->destroy();
+		fb_blur_h_4->destroy();
+		fb_blur_v_4->destroy();
+		fb_blur_h_8->destroy();
+		fb_blur_v_8->destroy();
+		fb_blur_h_16->destroy();
+		fb_blur_v_16->destroy();
 
 		delete fb_original;
-		delete fb_cutOff;
-		delete fb_blur1;
-		delete fb_blur2;
+		
+		delete fb_cutOff_2;
+		delete fb_cutOff_4;
+		delete fb_cutOff_8;
+		delete fb_cutOff_16;
+		
+		delete fb_blur_h_2;
+		delete fb_blur_v_2;
+		delete fb_blur_h_4;
+		delete fb_blur_v_4;
+		delete fb_blur_h_8;
+		delete fb_blur_v_8;
+		delete fb_blur_h_16;
+		delete fb_blur_v_16;
 	}
-
 };
 
 #endif // BLOOM_PROCESSOR_H

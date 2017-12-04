@@ -10,8 +10,9 @@ GLuint FrameBuffer::_currentFBO;
 //#define DEBUG
 
 FrameBuffer::FrameBuffer(int width, int height) : FrameBuffer(width, height, false) {}
-
-FrameBuffer::FrameBuffer(int width, int height, bool mipmaps) : _width(width), _height(height) {
+FrameBuffer::FrameBuffer(int width, int height, bool mipmaps) : FrameBuffer(width, height, false, true) {}
+FrameBuffer::FrameBuffer(int width, int height, bool mipmaps, bool hdr) : _width(width), _height(height), _isHDR(hdr) {
+	GLint format = hdr ? GL_RGB16F : GL_RGBA;
 
 	// Create framebuffer
 	glGenFramebuffers(1, &_fbo);
@@ -21,7 +22,7 @@ FrameBuffer::FrameBuffer(int width, int height, bool mipmaps) : _width(width), _
 	glGenTextures(1, &_texColor);
 	glBindTexture(GL_TEXTURE_2D, _texColor);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

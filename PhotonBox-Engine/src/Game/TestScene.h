@@ -333,7 +333,7 @@ public:
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4, -0.6, 2);
-		sun->getComponent<DirectionalLight>()->intensity = 10000.0f;
+		sun->getComponent<DirectionalLight>()->intensity = 1000.0f;
 		//sun->setEnable(false);
 
 		GameObject* rig = instanciate("Rig");

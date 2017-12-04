@@ -15,8 +15,11 @@ float getLum(vec4 color){
 void main(){             
 	vec3 hdrColor = texture2D(renderTexture, texCoordVarying).rgb;
 	
-	float exposure = getLum(texture2D(exposureSample, texCoordVarying));
-	//gl_FragColor = vec4(hdrColor * vec3(pow(2, exposure)), 1);
+	//float exposure = sqrt(8.0 * (getLum(texture2D(exposureSample, texCoordVarying)) + 0.25));
+	float exposure = 0.18/getLum(texture2D(exposureSample, texCoordVarying));
 
-	gl_FragColor = vec4(vec3(1.0) - exp(-1 * hdrColor * (0.18/(min(max(exposure, minLum), maxLum)))), 1);
+	//gl_FragColor = vec4(hdrColor * vec3(pow(2, exposure)), 1);
+	//gl_FragColor = vec4(vec3(1) - exp(-hdrColor * exposure), 1);
+	gl_FragColor = vec4(hdrColor * exposure, 1);
+	//gl_FragColor = vec4(vec3(1.0) - exp(-1 * hdrColor * (0.18/(min(max(exposure, minLum), maxLum)))), 1);
 }
