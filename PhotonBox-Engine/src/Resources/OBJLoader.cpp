@@ -1,17 +1,48 @@
 #include "OBJLoader.h"
 #include <fstream>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include "../Core/Util.h"
+#include "../Core/MeshSerializer.h"
 
+#include <sys/stat.h>
+#include <cstdio>
+#include <cerrno>
 
 struct OBJIndex {
 	int position;
 	int uv;
 	int normal;
+
+	bool operator==(const OBJIndex &other) const
+	{
+		return (position == other.position
+			&& uv == other.uv
+			&& normal == other.normal);
+	}
 };
 
-void parseFace(const std::string& token, std::vector<OBJIndex>& indexList, std::map<OBJIndex, int>& faceIndexMap, int cnt) {
+namespace std {
+	template <>
+	struct hash<OBJIndex>
+	{
+		std::size_t operator()(const OBJIndex& k) const
+		{
+			const int BASE = 17;
+			const int MULTIPLIER = 31;
+
+			size_t res = BASE;
+
+			res = MULTIPLIER * res + k.position;
+			res = MULTIPLIER * res + k.uv;
+			res = MULTIPLIER * res + k.normal;
+
+			return res;
+		}
+	};
+}
+
+void parseFace(const std::string& token, std::vector<OBJIndex>& vertexList, std::unordered_map<OBJIndex, int>& vertexIndexMap, std::vector<unsigned int>& indices, int& cnt) {
 
 	int p = -1, u = -1, n = -1;
 	OBJIndex obj;
@@ -41,15 +72,16 @@ void parseFace(const std::string& token, std::vector<OBJIndex>& indexList, std::
 		}
 	}
 
-	/*
-	if (faceIndexMap.find(obj) != faceIndexMap.end()) {
-		 
-	}else {
 
+	if (vertexIndexMap.find(obj) != vertexIndexMap.end()) {
+		int index = vertexIndexMap[obj];
+		indices.push_back(index);
+	}else {
+		int index = cnt++;
+		vertexIndexMap[obj] = index;
+		vertexList.push_back(obj);
+		indices.push_back(index);
 	}
-	*/
-	
-	indexList.push_back(obj);
 }
 
 Vector3f calculateTangent(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f uv1, Vector2f uv2, Vector2f uv3, Vector3f normal) {	
@@ -76,8 +108,26 @@ Vector3f calculateTangent(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f uv1, V
 	return tangent;
 }
 
+Mesh* loadFromCache(const std::string& filename) {
+	return MeshSerializer::read(filename);
+}
+
+
 Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	std::ifstream file(filePath);
+
+	std::size_t found = filePath.find_last_of(".");
+	std::string cachePath = filePath.substr(0, found) + ".mesh";
+	struct stat buffer;
+
+	if (stat(cachePath.c_str(), &buffer) == 0) {
+		return loadFromCache(cachePath);
+	}
+
+
+
+
+
 	std::string line;
 	std::vector<std::string> tokens;
 
@@ -85,8 +135,9 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	std::vector<Vector3f> positions;
 	std::vector<Vector3f> normals;
 	std::vector<Vector2f> uvs;
-	std::vector<OBJIndex> indices;
-	std::map<OBJIndex, int> faceIndexMap;
+	std::vector<OBJIndex> vertexList;
+	std::vector<unsigned int> indices;
+	std::unordered_map<OBJIndex, int> vertexIndexMap;
 	int cnt = 0;
 
 	while (std::getline(file, line)) {
@@ -122,9 +173,9 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 		}
 		else if (tokens[0].compare("f") == 0) {
 			for (int i = 0; i < tokens.size()-3; ++i) {
-				parseFace(tokens[1 + i], indices, faceIndexMap, cnt++);
-				parseFace(tokens[2 + i], indices, faceIndexMap, cnt++);
-				parseFace(tokens[3 + i], indices, faceIndexMap, cnt++);
+				parseFace(tokens[1 + i], vertexList, vertexIndexMap, indices, cnt);
+				parseFace(tokens[2 + i], vertexList, vertexIndexMap, indices, cnt);
+				parseFace(tokens[3 + i], vertexList, vertexIndexMap, indices, cnt);
 			}	
 		}
 	}
@@ -135,28 +186,33 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	for (size_t i = 0; i <= indices.size() - 3; i += 3)
 	{
 		Vector3f tangent = calculateTangent(
-			positions[indices[i].position], positions[indices[i + 1].position], positions[indices[i + 2].position],
-			uvs[indices[i].uv], uvs[indices[i + 1].uv], uvs[indices[i + 2].uv], normals[indices[i].normal]);
+			positions[vertexList[indices[i]].position], 
+			positions[vertexList[indices[i + 1]].position],
+			positions[vertexList[indices[i + 2]].position],
+			uvs[vertexList[indices[i]].uv],
+			uvs[vertexList[indices[i + 1]].uv],
+			uvs[vertexList[indices[i + 2]].uv],
+			normals[vertexList[indices[i]].normal]);
 
 		mesh->vertices.push_back(Vertex(
-			positions[indices[i].position],
-			normals[indices[i].normal],
+			positions[vertexList[indices[i]].position],
+			normals[vertexList[indices[i]].normal],
 			Vector3f::ZERO,
-			uvs[indices[i].uv],
+			uvs[vertexList[indices[i]].uv],
 			tangent
 		));
 		mesh->vertices.push_back(Vertex(
-			positions[indices[i+1].position],
-			normals[indices[i+1].normal],
+			positions[vertexList[indices[i+1]].position],
+			normals[vertexList[indices[i+1]].normal],
 			Vector3f::ZERO,
-			uvs[indices[i+1].uv],
+			uvs[vertexList[indices[i+1]].uv],
 			tangent
 		));
 		mesh->vertices.push_back(Vertex(
-			positions[indices[i+2].position],
-			normals[indices[i+2].normal],
+			positions[vertexList[indices[i+2]].position],
+			normals[vertexList[indices[i+2]].normal],
 			Vector3f::ZERO,
-			uvs[indices[i+2].uv],
+			uvs[vertexList[indices[i+2]].uv],
 			tangent
 		));
 
@@ -164,6 +220,9 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 		mesh->indices.push_back(i+1);
 		mesh->indices.push_back(i+2);
 	}
+	//mesh->indices = indices;
+
+	MeshSerializer::write(cachePath, mesh);
 
 	return mesh;
 }

@@ -36,6 +36,7 @@
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Core\InputManager.cpp" />
+    <ClCompile Include="src\Core\MeshSerializer.cpp" />
     <ClCompile Include="src\Core\Systems\PostProcessing.cpp" />
     <ClCompile Include="src\Core\Systems\Core.cpp" />
     <ClCompile Include="src\Core\Systems\Lighting.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="src\Core\FrameBuffer.h" />
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\InputManager.h" />
+    <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Core\Systems\PostProcessing.h" />
     <ClInclude Include="src\Core\PostProcessor.h" />
     <ClInclude Include="src\Core\Systems\Core.h" />
