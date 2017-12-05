@@ -141,6 +141,7 @@
     <ClCompile Include="src\Components\DirectionalLight.cpp" />
     <ClCompile Include="src\Components\PointLight.cpp" />
     <ClCompile Include="src\Core\AABB.cpp" />
+    <ClCompile Include="src\Core\MeshSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -339,5 +340,6 @@
     <ClInclude Include="src\Resources\AutoExposureShader.h" />
     <ClInclude Include="src\Resources\TransparentShader.h" />
     <ClInclude Include="src\Resources\Exposure.h" />
+    <ClInclude Include="src\Core\MeshSerializer.h" />
   </ItemGroup>
 </Project>
