@@ -29,6 +29,7 @@
     <ClCompile Include="src\Components\ObjectRenderer.cpp" />
     <ClCompile Include="src\Components\PointLight.cpp" />
     <ClCompile Include="src\Components\SphereCollider.cpp" />
+    <ClCompile Include="src\Components\SpotLight.cpp" />
     <ClCompile Include="src\Components\Transform.cpp" />
     <ClCompile Include="src\Core\AABB.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="src\Components\ObjectRenderer.h" />
     <ClInclude Include="src\Components\PointLight.h" />
     <ClInclude Include="src\Components\PointRenderer.h" />
+    <ClInclude Include="src\Components\SpotLight.h" />
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
     <ClInclude Include="src\Core\AABB.h" />
@@ -123,6 +125,7 @@
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
+    <ClInclude Include="src\Resources\ForwardSpotLightShader.h" />
     <ClInclude Include="src\Resources\IrradianceShader.h" />
     <ClInclude Include="src\Resources\LitShader.h" />
     <ClInclude Include="src\Resources\Material.h" />

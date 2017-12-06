@@ -11,6 +11,7 @@ class TransparentShader;
 #include "../../Resources/ForwardAmbientLightShader.h"
 #include "../../Resources/ForwardDirectionalLightShader.h"
 #include "../../Resources/ForwardPointLightShader.h"
+#include "../../Resources/ForwardSpotLightShader.h"
 
 class Renderer {
 public:
@@ -49,6 +50,7 @@ private:
 	static ForwardAmbientLightShader* _ambientLightShader;
 	static ForwardDirectionalLightShader* _directionalLightShader;
 	static ForwardPointLightShader* _pointLightShader;
+	static ForwardSpotLightShader* _spotLightShader;
 	static TransparentShader* _transparentBaseShader;
 };
 

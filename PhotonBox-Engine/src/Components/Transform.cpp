@@ -8,13 +8,28 @@ Vector3f Transform::forward(){
 	return Vector3f(r(0, 2), r(1, 2), r(2, 2));
 }
 
-Vector3f Transform::up(){
+Vector3f Transform::forwardWorld() {
+	Matrix4f r = getTransformationMatrix();
+	return Vector3f(r(0, 2), r(1, 2), r(2, 2));
+}
+
+Vector3f Transform::up() {
 	Matrix4f r = getRotationMatrix();
+	return Vector3f(r(0, 1), r(1, 1), r(2, 1));
+}
+
+Vector3f Transform::upWorld(){
+	Matrix4f r = getTransformationMatrix();
 	return Vector3f(r(0, 1), r(1, 1), r(2, 1));
 }
 
 Vector3f Transform::right() {
 	Matrix4f r = getRotationMatrix();
+	return Vector3f(r(0, 0), r(1, 0), r(2, 0));
+}
+
+Vector3f Transform::rightWorld() {
+	Matrix4f r = getTransformationMatrix();
 	return Vector3f(r(0, 0), r(1, 0), r(2, 0));
 }
 

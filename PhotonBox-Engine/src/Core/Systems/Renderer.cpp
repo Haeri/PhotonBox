@@ -9,6 +9,7 @@
 #include "../src/Core/Systems/Lighting.h"
 #include "../src/Components/Camera.h"
 #include "../src/Components/PointLight.h"
+#include "../src/Components/SpotLight.h"
 #include "../src/Components/AmbientLight.h"
 #include "../src/Components/DirectionalLight.h"
 #include "../src/Components/MeshRenderer.h"
@@ -29,6 +30,7 @@ std::map<float, ObjectRenderer*> Renderer::_renderQueueTransparent;
 ForwardAmbientLightShader* Renderer::_ambientLightShader;
 ForwardDirectionalLightShader* Renderer::_directionalLightShader;
 ForwardPointLightShader* Renderer::_pointLightShader;
+ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
@@ -69,6 +71,7 @@ void Renderer::init(int superSampling) {
 	_ambientLightShader = ForwardAmbientLightShader::getInstance();
 	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
 	_pointLightShader = ForwardPointLightShader::getInstance();
+	_spotLightShader = ForwardSpotLightShader::getInstance();
 	_transparentBaseShader = TransparentShader::getInstance();
 	_mainFrameBuffer = new FrameBuffer(Display::getWidth()*superSampling, Display::getHeight()*superSampling);
 
@@ -175,8 +178,13 @@ void Renderer::render(bool captureMode) {
 					(*it)->render(_pointLightShader, pointLights[i]);
 				}
 
-
 				// SPOT LIGHTS
+				std::vector<SpotLight*> spotLights = Lighting::getLights<SpotLight>();
+				for (size_t i = 0; i < spotLights.size(); ++i) {
+					if (!spotLights[i]->getEnable()) continue;
+					(*it)->render(_spotLightShader, spotLights[i]);
+				}
+
 
 				glDepthMask(GL_TRUE);
 				glDepthFunc(GL_LESS);
@@ -237,7 +245,11 @@ void Renderer::render(bool captureMode) {
 				}
 
 				// SPOT LIGHTS
-				
+				std::vector<SpotLight*> spotLights = Lighting::getLights<SpotLight>();
+				for (size_t i = 0; i < spotLights.size(); ++i) {
+					if (!spotLights[i]->getEnable()) continue;
+					it->second->render(_spotLightShader, spotLights[i]);
+				}
 
 				glDepthMask(GL_TRUE);
 				glDepthFunc(GL_LESS);

@@ -24,8 +24,11 @@ public:
 	Matrix4f getLocalTransformationMatrix();
 	Matrix4f getLocalTransformationMatrix(bool, bool, bool);
 	Vector3f forward();
+	Vector3f forwardWorld();
 	Vector3f up();
+	Vector3f upWorld();
 	Vector3f right();
+	Vector3f rightWorld();
 	std::vector<Transform*> children;
 	Transform* getParent() { return _parent; }
 	void removeChild(Transform* child);

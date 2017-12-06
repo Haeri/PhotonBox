@@ -9,25 +9,25 @@
 #include <cstdio>
 #include <cerrno>
 
+const bool forceWrite = false;
+
 struct OBJIndex {
 	int position;
 	int uv;
 	int normal;
 
-	bool operator==(const OBJIndex &other) const
-	{
+
+	bool operator==(const OBJIndex &other) const{
 		return (position == other.position
-			&& uv == other.uv
-			&& normal == other.normal);
+				&& uv == other.uv
+				&& normal == other.normal);
 	}
 };
 
 namespace std {
 	template <>
-	struct hash<OBJIndex>
-	{
-		std::size_t operator()(const OBJIndex& k) const
-		{
+	struct hash<OBJIndex>{
+		std::size_t operator()(const OBJIndex& k) const{
 			const int BASE = 17;
 			const int MULTIPLIER = 31;
 
@@ -120,12 +120,9 @@ Mesh* OBJLoader::loadObj(const std::string & filePath) {
 	std::string cachePath = filePath.substr(0, found) + ".mesh";
 	struct stat buffer;
 
-	if (stat(cachePath.c_str(), &buffer) == 0) {
+	if (!forceWrite && stat(cachePath.c_str(), &buffer) == 0) {
 		return loadFromCache(cachePath);
 	}
-
-
-
 
 
 	std::string line;
