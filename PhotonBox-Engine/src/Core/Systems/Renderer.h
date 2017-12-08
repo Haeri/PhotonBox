@@ -32,7 +32,9 @@ public:
 	static void render();
 	static void render(bool captureMode);
 	static void render(Shader* customShader);
+	static void render(bool captureMode, LightMap* lightmap);
 	static void renderShadows();
+	static void renderAmbient(int pass, LightMap* lightMap, AABB* volume);
 	void renderGizmos();
 	void destroy();
 private:

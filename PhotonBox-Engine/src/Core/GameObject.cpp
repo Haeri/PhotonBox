@@ -14,7 +14,7 @@ GameObject::GameObject(Scene &_scene, std::string _name) {
 	name = _name;
 	_id = GameObject::_idCnt++;
 	_isEnabled = true;
-	_isStatic = false;
+	_isStatic = true;
 	transform = addComponent<Transform>();
 }
 

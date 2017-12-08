@@ -48,8 +48,7 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *objectRenderer) {
 	if (objectRenderer->isOpaque()) {
 		_renderListOpaque.erase(std::remove(_renderListOpaque.begin(), _renderListOpaque.end(), objectRenderer), _renderListOpaque.end());
 	}else {
-		// TODO: DO this
-		//_renderQueueTransparent.erase(std::remove(_renderQueueTransparent.begin(), _renderQueueTransparent.end(), objectRenderer), _renderQueueTransparent.end());
+		_renderListTransparent.erase(std::remove(_renderListTransparent.begin(), _renderListTransparent.end(), objectRenderer), _renderListTransparent.end());
 	}	
 }
 
@@ -104,6 +103,10 @@ void Renderer::renderShadows() {
 }
 
 void Renderer::render(bool captureMode) {
+	render(captureMode, nullptr);
+}
+
+void Renderer::render(bool captureMode, LightMap* lightmap) {
 	if (!captureMode) {
 		// Bind & clear Shadow FBO
 		renderShadows();
@@ -118,6 +121,9 @@ void Renderer::render(bool captureMode) {
 	
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it)) {
+			if (!(*it)->gameObject->getStatic() && captureMode) continue;
+			
+			
 			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr)) {
 				glEnable(GL_DEPTH_TEST);
 				(*it)->render();
@@ -136,8 +142,11 @@ void Renderer::render(bool captureMode) {
 					_ambientLightShader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
 					_ambientLightShader->setUniform("boundPos", lp->bounds.getBoundPosition());
 					_ambientLightShader->setUniform("useCorrection", true);
-				}
-				else {
+				}else if(lightmap != nullptr){
+					lightmap->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					lightmap->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					_ambientLightShader->setUniform("useCorrection", false);
+				}else {
 					_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
 					_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
 					_ambientLightShader->setUniform("useCorrection", false);
@@ -153,38 +162,13 @@ void Renderer::render(bool captureMode) {
 				glDepthMask(GL_FALSE);
 				glDepthFunc(GL_EQUAL);
 
-
-				/*
 				std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
 				for (auto const &lightvec : lights) {
 					for (auto const &light : lightvec.second) {
-						if (!light->getEnable()) continue;
+						if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
 						(*it)->render(light->getLightShader(), light);
 					}
 				}
-				*/
-
-				// DIRECTIONAL LIGHTS
-				std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
-				for (size_t i = 0; i < directionalLights.size(); ++i) {
-					if (!directionalLights[i]->getEnable()) continue;
-					(*it)->render(_directionalLightShader, directionalLights[i]);
-				}
-
-				// POINT LIGHTS
-				std::vector<PointLight*> pointLights = Lighting::getLights<PointLight>();
-				for (size_t i = 0; i < pointLights.size(); ++i) {
-					if (!pointLights[i]->getEnable()) continue;
-					(*it)->render(_pointLightShader, pointLights[i]);
-				}
-
-				// SPOT LIGHTS
-				std::vector<SpotLight*> spotLights = Lighting::getLights<SpotLight>();
-				for (size_t i = 0; i < spotLights.size(); ++i) {
-					if (!spotLights[i]->getEnable()) continue;
-					(*it)->render(_spotLightShader, spotLights[i]);
-				}
-
 
 				glDepthMask(GL_TRUE);
 				glDepthFunc(GL_LESS);
@@ -225,30 +209,15 @@ void Renderer::render(bool captureMode) {
 				it->second->render(_transparentBaseShader, ambient);
 
 
-				
-
 				glDepthMask(GL_FALSE);
 				glDepthFunc(GL_EQUAL);
 
-				// DIRECTIONAL LIGHTS
-				std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
-				for (size_t i = 0; i < directionalLights.size(); ++i) {
-					if (!directionalLights[i]->getEnable()) continue;
-					it->second->render(_directionalLightShader, directionalLights[i]);
-				}
-
-				// POINT LIGHTS
-				std::vector<PointLight*> pointLights = Lighting::getLights<PointLight>();
-				for (size_t i = 0; i < pointLights.size(); ++i) {
-					if (!pointLights[i]->getEnable()) continue;
-					it->second->render(_pointLightShader, pointLights[i]);
-				}
-
-				// SPOT LIGHTS
-				std::vector<SpotLight*> spotLights = Lighting::getLights<SpotLight>();
-				for (size_t i = 0; i < spotLights.size(); ++i) {
-					if (!spotLights[i]->getEnable()) continue;
-					it->second->render(_spotLightShader, spotLights[i]);
+				std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+				for (auto const &lightvec : lights) {
+					for (auto const &light : lightvec.second) {
+						if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+						it->second->render(light->getLightShader(), light);
+					}
 				}
 
 				glDepthMask(GL_TRUE);
@@ -266,9 +235,74 @@ void Renderer::render(bool captureMode) {
 	}
 }
 
+void Renderer::renderAmbient(int pass, LightMap* lightmap, AABB* volume) {
+	if (pass == 0) {
+		// Bind & clear Shadow FBO
+		renderShadows();
+	}
+
+	_skyBox.render();
+
+
+	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
+		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it)) {
+			if (!(*it)->gameObject->getStatic()) continue;
+
+
+			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr)) {
+				glEnable(GL_DEPTH_TEST);
+				(*it)->render();
+			}
+			else {
+				glEnable(GL_DEPTH_TEST);
+
+
+				// IBL
+				_ambientLightShader->bind();
+				lightmap->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
+				lightmap->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+
+				if(pass == 0){
+					_ambientLightShader->setUniform("useCorrection", false);
+				}else {
+					_ambientLightShader->setUniform("minBound", volume->getBoundPosition());
+					_ambientLightShader->setUniform("maxBound", volume->getMaxBoundGlobal());
+					_ambientLightShader->setUniform("boundPos", volume->getBoundPosition());
+					_ambientLightShader->setUniform("useCorrection", true);
+				}
+
+			
+				// AMBIENT
+				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+				(*it)->render(_ambientLightShader, ambient);
+
+
+				if (pass == 0) {
+					glEnable(GL_BLEND);
+					glBlendFunc(GL_ONE, GL_ONE);
+					glDepthMask(GL_FALSE);
+					glDepthFunc(GL_EQUAL);
+
+					std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+					for (auto const &lightvec : lights) {
+						for (auto const &light : lightvec.second) {
+							if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+							(*it)->render(light->getLightShader(), light);
+						}
+					}
+
+					glDepthMask(GL_TRUE);
+					glDepthFunc(GL_LESS);
+					glDisable(GL_BLEND);
+				}
+			}
+		}
+	}
+}
+
 void Renderer::render(Shader* customShader) {
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
-		if ((*it)->getEnable()) {
+		if ((*it)->getEnable() && (*it)->gameObject->getStatic()) {
 			glEnable(GL_DEPTH_TEST);
 			std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
 			for (size_t i = 0; i < directionalLights.size(); ++i) {
@@ -291,7 +325,8 @@ void Renderer::renderGizmos() {
 
 void Renderer::updateTransparentQueue() {
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it) {
-		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it)) {
+		if ((*it)->getEnable() && (*it)->gameObject->getStatic() && Camera::getMainCamera()->frustumTest(*it)) {
+			//if (!(*it)->captureVisible && captureMode) continue;
 			Vector3f camPos = Camera::getMainCamera()->transform->getPositionWorld();
 
 			float dist = (*it)->transform->getPositionWorld().distanceSqrd(camPos);

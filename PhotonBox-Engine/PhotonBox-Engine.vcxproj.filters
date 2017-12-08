@@ -143,6 +143,8 @@
     <ClCompile Include="src\Core\AABB.cpp" />
     <ClCompile Include="src\Core\MeshSerializer.cpp" />
     <ClCompile Include="src\Components\SpotLight.cpp" />
+    <ClCompile Include="src\Core\LightMap.cpp" />
+    <ClCompile Include="src\Components\AmbientLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -344,5 +346,6 @@
     <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Components\SpotLight.h" />
     <ClInclude Include="src\Resources\ForwardSpotLightShader.h" />
+    <ClInclude Include="src\Core\LightMap.h" />
   </ItemGroup>
 </Project>

@@ -100,7 +100,7 @@ public:
 	
 		/* --------------------------- POST PROCESSING --------------------------- */
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
-		//BloomProcessor* p_bloom = new BloomProcessor(2);
+		BloomProcessor* p_bloom = new BloomProcessor(2);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
 
 

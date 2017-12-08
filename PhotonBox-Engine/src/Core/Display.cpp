@@ -55,7 +55,7 @@ void Display::destroy() {
 }
 
 void Display::clearBuffers(){
-	glfwGetFramebufferSize(_window, &_width, &_height);
+	//glfwGetFramebufferSize(_window, &_width, &_height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
@@ -79,6 +79,8 @@ unsigned int Display::getHeight(){
 }
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
+	if (width == 0 || height == 0) return;
+
 	Display::setRect(width, height);
 	Camera::getMainCamera()->updateAspect();
 }

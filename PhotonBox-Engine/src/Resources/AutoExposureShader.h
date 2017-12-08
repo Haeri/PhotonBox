@@ -16,6 +16,8 @@ public:
 
 	void addUniforms() override {
 		addUniform("maxMip");
+		addUniform("minLum");
+		addUniform("maxLum");
 		addUniform("delteTime");
 		addUniform("adaptationSpeed");
 

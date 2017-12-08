@@ -1,6 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <string>

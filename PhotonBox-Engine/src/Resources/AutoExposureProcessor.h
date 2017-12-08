@@ -11,8 +11,9 @@
 
 class AutoExposureProcessor : public PostProcessor {
 public:
-	Material* autoExpMaterial, *expMaterial;
-	FrameBuffer* mainBuffer, *currentLuminancBuffer, *luminancBufferA, *luminancBufferB;
+	float minLuminance = 0.01;
+	float maxLuminance = 100;
+
 
 	AutoExposureProcessor(int index) : PostProcessor(index) {
 		int res = 64;
@@ -39,6 +40,9 @@ public:
 	}
 
 	void preProcess() override {
+		autoExpMaterial->setProperty<float>("minLum", minLuminance);
+		autoExpMaterial->setProperty<float>("maxLum", maxLuminance);
+
 		currentLuminancBuffer->enable();
 		mainBuffer->render();
 
@@ -71,6 +75,8 @@ public:
 		delete currentLuminancBuffer;
 	}
 private:
+	Material* autoExpMaterial, *expMaterial;
+	FrameBuffer* mainBuffer, *currentLuminancBuffer, *luminancBufferA, *luminancBufferB;
 	bool flip;
 };
 

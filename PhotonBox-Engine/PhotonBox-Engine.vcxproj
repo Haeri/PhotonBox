@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\AmbientLight.cpp" />
     <ClCompile Include="src\Components\Behaviour.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Core\InputManager.cpp" />
+    <ClCompile Include="src\Core\LightMap.cpp" />
     <ClCompile Include="src\Core\MeshSerializer.cpp" />
     <ClCompile Include="src\Core\Systems\PostProcessing.cpp" />
     <ClCompile Include="src\Core\Systems\Core.cpp" />
@@ -85,6 +87,7 @@
     <ClInclude Include="src\Core\FrameBuffer.h" />
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\InputManager.h" />
+    <ClInclude Include="src\Core\LightMap.h" />
     <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Core\Systems\PostProcessing.h" />
     <ClInclude Include="src\Core\PostProcessor.h" />

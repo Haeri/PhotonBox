@@ -25,6 +25,8 @@
 #include "../Resources/TransparentShader.h"
 #include "../Components/SpotLight.h"
 
+#define PI 3.14159265359
+
 class TestScene : public Scene {
 public:
 	CubeMap* sky;
@@ -102,9 +104,19 @@ public:
 			"./res/Def_Indoor/rest.png",
 			"./res/Def_Indoor/rest.png",
 			"./res/Def_Indoor/rest.png",
-			"./res/Def_Indoor/lol.hdr",
+			"./res/Def_Indoor/rest.png",
 		};
-		Renderer::setSkyBox(new CubeMap(skyBoxLod4));
+
+		std::vector<std::string> black = {
+			"./res/default_roughness.png",
+			"./res/default_roughness.png",
+			"./res/default_roughness.png",
+			"./res/default_roughness.png",
+			"./res/default_roughness.png",
+			"./res/default_roughness.png",
+		};
+
+		Renderer::setSkyBox(new CubeMap(black));
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
@@ -222,7 +234,7 @@ public:
 		wallMaterial = new Material();
 		wallMaterial->setTexture("albedoMap", wallAlbedo);
 		wallMaterial->setTexture("normalMap", wallNormal);
-		wallMaterial->setTexture("roughnessMap", wallRoughness);
+		wallMaterial->setTexture("roughnessMap", default_ao);
 		wallMaterial->setTexture("aoMap", default_ao);
 		wallMaterial->setTexture("metallicMap", default_emission);
 		wallMaterial->setTexture("emissionMap", default_emission);
@@ -285,7 +297,7 @@ public:
 		def->setTexture("emissionMap", default_emission);
 
 		Material* glassMaterial = new Material(transparentShader);
-		glassMaterial->setProperty<Vector4f>("tint", Vector4f(0, 0, 1, 1));
+		glassMaterial->setProperty<Vector4f>("tint", Vector4f(0, 0.001, 0.1, 0.1));
 		glassMaterial->setTexture("albedoMap", default_emission);
 		glassMaterial->setTexture("normalMap", default_normal);
 		glassMaterial->setTexture("roughnessMap", default_roughness);
@@ -334,11 +346,12 @@ public:
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4, -0.6, 2);
-		sun->getComponent<DirectionalLight>()->intensity = 1000.0f;
-		sun->setEnable(false);
+		sun->getComponent<DirectionalLight>()->intensity = 100.0f;
+		//sun->setEnable(false);
 
 		GameObject* spot = instanciate("Spot");
-		//spot->getComponent<Transform>()->setPosition(Vector3f(-1, 0.3, 0));
+		spot->getComponent<Transform>()->setPosition(Vector3f(1.7, 3, -1));
+		spot->getComponent<Transform>()->setRotation(Vector3f(-PI/2.0f, 0, 0));
 		spot->addComponent<SpotLight>();
 		spot->getComponent<SpotLight>()->coneAngle = 0.97;
 		spot->getComponent<SpotLight>()->coneAttenuation = 0.96 ;
@@ -346,8 +359,9 @@ public:
 		spot->getComponent<SpotLight>()->linear = 0.09f;
 		spot->getComponent<SpotLight>()->quadratic = 0.032f;
 		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
-		spot->getComponent<SpotLight>()->intensity = 10.0f;
-		spot->getComponent<Transform>()->setParent(cam);
+		spot->getComponent<SpotLight>()->intensity = 1.0f;
+		spot->setEnable(false);
+		//spot->getComponent<Transform>()->setParent(cam);
 
 
 		GameObject* rig = instanciate("Rig");
@@ -391,9 +405,11 @@ public:
 		longCouch->getComponent<MeshRenderer>()->setMaterial(couchMaterial);
 
 		GameObject* table = instanciate("Rable");
+		table->setStatic(false);
 		table->addComponent<MeshRenderer>();
 		table->getComponent<MeshRenderer>()->setMesh(tableMesh);
 		table->getComponent<MeshRenderer>()->setMaterial(tableMaterial);
+		//table->setEnable(false);
 
 		GameObject* shelve = instanciate("Shelve");
 		shelve->addComponent<MeshRenderer>();
@@ -434,6 +450,7 @@ public:
 		carpet->addComponent<MeshRenderer>();
 		carpet->getComponent<MeshRenderer>()->setMesh(carpetMesh);
 		carpet->getComponent<MeshRenderer>()->setMaterial(carpetMaterial);
+		//carpet->setEnable(false);
 
 		GameObject* probe = instanciate("Probe");
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2, 0));
