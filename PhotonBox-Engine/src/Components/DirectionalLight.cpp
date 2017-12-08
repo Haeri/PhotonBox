@@ -1,13 +1,12 @@
 #include "DirectionalLight.h"
 #include "../Core/Systems/Lighting.h"
-#include "../Resources/ForwardDirectionalLightShader.h"
 #include "../Resources/DepthShader.h"
 #include "../Core/Systems/Renderer.h"
 #include "../Resources/DefaultPostShader.h"
+#include "../Resources/ForwardDirectionalLightShader.h"
 
 DirectionalLight::DirectionalLight(){
 	Lighting::addLight(this);
-	_shader = ForwardDirectionalLightShader::getInstance();
 	_depthShader = DepthShader::getInstance();
 	_shadowMapResolution = 2048;
 	lightProjection = Matrix4f::createOrthographic(-10, 10, -10, 10, 0.1, 20);
@@ -34,6 +33,10 @@ void DirectionalLight::destroy(){
 	Lighting::removeLight(this);
 }
 
+Shader * DirectionalLight::getLightShader(){
+	return ForwardDirectionalLightShader::getInstance();
+}
+
 void DirectionalLight::renderShadowMap(){
 	glViewport(0, 0, _shadowMapResolution, _shadowMapResolution);
 	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
@@ -42,48 +45,4 @@ void DirectionalLight::renderShadowMap(){
 	Renderer::render(_depthShader);
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	/*
-	// Quad Mesh
-	static const GLfloat _quadVertices[] = {
-		-1.0f,  1.0f,
-		-1.0f, -1.0f,
-		1.0f,  1.0f,
-		1.0f, -1.0f,
-	};
-
-	unsigned int _quadVAO;
-	unsigned int _quadVBO;
-	glGenVertexArrays(1, &_quadVAO);
-	glBindVertexArray(_quadVAO);
-
-	glGenBuffers(1, &_quadVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(_quadVertices), _quadVertices, GL_STATIC_DRAW);
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
-	glVertexAttribPointer(Vertex::AttibLocation::POSITION, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-	glBindVertexArray(_quadVAO);
-
-
-	DefaultPostShader* shader = DefaultPostShader::getInstance();
-	shader->bind();
-
-	shader->update(nullptr);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _depthMap);
-
-	shader->updateTextures();
-	shader->enableAttributes();
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	shader->disableAttributes();
-
-	glBindVertexArray(0);
-	
-	Display::swapBuffer();
-
-	*/
 }

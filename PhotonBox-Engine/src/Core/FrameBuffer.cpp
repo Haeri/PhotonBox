@@ -1,11 +1,13 @@
 #include "FrameBuffer.h"
 
+#include <limits>
 #include <iostream>
 #include "../Resources/Material.h"
 #include "../Resources/Vertex.h"
 #include "../Resources/DefaultPostShader.h"
 
 GLuint FrameBuffer::_currentFBO;
+GLuint FrameBuffer::_quadVAO = -1;
 
 //#define DEBUG
 
@@ -57,24 +59,26 @@ FrameBuffer::FrameBuffer(int width, int height, bool mipmaps, bool hdr) : _width
 
 
 
-	// Quad Mesh
-	static const GLfloat _quadVertices[] = {
-		-1.0f,  1.0f,
-		-1.0f, -1.0f,
-		1.0f,  1.0f,
-		1.0f, -1.0f,
-	};
+	if (_quadVAO == -1){
+		// Quad Mesh
+		static const GLfloat _quadVertices[] = {
+			-1.0f,  1.0f,
+			-1.0f, -1.0f,
+			1.0f,  1.0f,
+			1.0f, -1.0f,
+		};
 
-	glGenVertexArrays(1, &_quadVAO);
-	glBindVertexArray(_quadVAO);
+		glGenVertexArrays(1, &_quadVAO);
+		glBindVertexArray(_quadVAO);
 
-	glGenBuffers(1, &_quadVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(_quadVertices), _quadVertices, GL_STATIC_DRAW);
+		glGenBuffers(1, &_quadVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(_quadVertices), _quadVertices, GL_STATIC_DRAW);
 
 
-	glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
-	glVertexAttribPointer(Vertex::AttibLocation::POSITION, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
+		glVertexAttribPointer(Vertex::AttibLocation::POSITION, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	}
 }
 
 void FrameBuffer::enable() {

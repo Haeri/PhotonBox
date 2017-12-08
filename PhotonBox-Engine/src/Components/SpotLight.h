@@ -1,7 +1,6 @@
 #ifndef SPOT_LIGHT_H
 #define SPOT_LIGHT_H
 
-class ForwardSpotLightShader;
 #include "LightEmitter.h"
 
 class SpotLight : public LightEmitter {
@@ -14,8 +13,6 @@ public:
 
 	SpotLight();
 	void destroy() override;
-	Shader* getLightShader() { return (Shader*)_shader; }
-private:
-	ForwardSpotLightShader* _shader;
+	Shader* getLightShader() override;
 };
 #endif // SPOT_LIGHT_H

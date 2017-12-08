@@ -1,7 +1,6 @@
 #ifndef POINT_LIGHT_H
 #define POINT_LIGHT_H
 
-class ForwardPointLightShader;
 #include "LightEmitter.h"
 
 class PointLight : public LightEmitter {
@@ -12,8 +11,6 @@ public:
 	
 	PointLight();
 	void destroy() override;
-	Shader* getLightShader() { return (Shader*)_shader; }
-private:
-	ForwardPointLightShader* _shader;
+	Shader* getLightShader() override;
 };
 #endif // POINT_LIGHT_H

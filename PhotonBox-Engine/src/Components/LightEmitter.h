@@ -10,11 +10,7 @@ public:
 	Vector3f color;
 	float intensity;
 
-	virtual Shader* getLightShader();
-
-	//LightEmitter();
-
-	//void destroy() override;
+	virtual Shader* getLightShader() = 0;
 };
 
 #endif // LIGHT_EMITTER_H

@@ -30,7 +30,7 @@ private:
 	GLuint _texColor;
 
 	// Mesh
-	GLuint _quadVAO;
+	static GLuint _quadVAO;
 	GLuint _quadVBO;
 
 	int _maxMipMaps;

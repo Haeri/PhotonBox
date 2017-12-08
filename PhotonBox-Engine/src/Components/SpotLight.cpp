@@ -4,9 +4,12 @@
 
 SpotLight::SpotLight(){
 	Lighting::addLight(this);
-	_shader = ForwardSpotLightShader::getInstance();
 }
 
 void SpotLight::destroy(){
 	Lighting::removeLight(this);
+}
+
+Shader * SpotLight::getLightShader(){
+	return ForwardSpotLightShader::getInstance();
 }

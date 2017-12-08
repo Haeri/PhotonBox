@@ -16,8 +16,7 @@ public:
 		
 		if (_lights.find(typeid(T)) != _lights.end()) {
 			_lights[typeid(T)].push_back(light);
-		}
-		else {
+		}else {
 			std::vector<LightEmitter*> vec;
 			vec.push_back(light);
 			_lights.insert(std::pair<std::type_index, std::vector<LightEmitter*>>(typeid(T), vec));
@@ -36,14 +35,16 @@ public:
 		}
 	}
 
+	
 	template<class T>
 	static std::vector<T*>& getLights() {
 		if (_lights.find(typeid(T)) == _lights.end()) {
 			std::cerr << "Lights not found!" << std::endl;
-//			return _lights.end();
+//			return *nullptr;
 		}
 		return (std::vector<T*>&)_lights[typeid(T)];
 	}
+	
 
 	static std::unordered_map<std::type_index, std::vector<LightEmitter*>>& getAllLights() { return _lights; }
 	static void addLightProbe(LightProbe* lightProbe);

@@ -2,16 +2,11 @@
 #define AMBIENT_LIGHT_H
 
 #include "LightEmitter.h"
-#include "../Core/Systems/Lighting.h"
 
 class AmbientLight : public LightEmitter {
 public:
-	AmbientLight() {
-		Lighting::addLight(this);
-	}
-
-	void destroy() override {
-		Lighting::removeLight(this);
-	}
+	AmbientLight();
+	void destroy() override;
+	Shader* getLightShader() override;
 };
 #endif // AMBIENT_LIGHT_H

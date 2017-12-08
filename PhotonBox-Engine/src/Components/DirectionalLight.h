@@ -1,7 +1,6 @@
 #ifndef DIRECTIONAL_LIGHT_H
 #define DIRECTIONAL_LIGHT_H
 
-class ForwardDirectionalLightShader;
 class DepthShader;
 #include "../Math/Matrix4f.h"
 #include "LightEmitter.h"
@@ -15,10 +14,9 @@ public:
 
 	DirectionalLight();
 	void destroy() override;
-	Shader* getLightShader() override { return (Shader*)_shader; }
+	Shader* getLightShader() override;
 	void renderShadowMap();
 private: 
-	ForwardDirectionalLightShader* _shader;
 	DepthShader* _depthShader;
 
 	GLuint _shadowMapResolution;
