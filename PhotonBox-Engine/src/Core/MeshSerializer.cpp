@@ -34,14 +34,15 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh){
 }
 
 Mesh * MeshSerializer::read(const std::string & pathName){
-	Mesh* mesh;
+	Mesh* mesh = new Mesh();
 
 	int indicesSize;
 	int verticesSize;
 	float boundingSphereRadius;
 
-	Vertex *vertices;
-	unsigned int *indices;
+//	Vertex *vertices;
+//	unsigned int *indices;
+
 
 	std::ifstream myfile;
 	myfile.open(pathName, std::ios::in | std::ios::binary);
@@ -56,21 +57,17 @@ Mesh * MeshSerializer::read(const std::string & pathName){
 		// read radius
 		myfile.read((char*)&boundingSphereRadius, sizeof(float));
 
-		vertices = new Vertex[verticesSize];
-		indices = new unsigned int[indicesSize];
+		mesh->vertices.resize(verticesSize);
+		mesh->indices.resize(indicesSize);
 
 		// read indices
-		myfile.read((char*)&vertices[0], sizeof(Vertex) * verticesSize);
+		myfile.read((char*)&(mesh->vertices[0]), sizeof(Vertex) * verticesSize);
 		// read vertices
-		myfile.read((char*)&indices[0], sizeof(unsigned int) * indicesSize);
+		myfile.read((char*)&(mesh->indices[0]), sizeof(unsigned int) * indicesSize);
 
 		myfile.close();
 
-
-		mesh = new Mesh();
 		mesh->boundingSphereRadius = boundingSphereRadius;
-		mesh->vertices.assign(vertices, vertices + verticesSize);
-		mesh->indices.assign(indices, indices + indicesSize);
 		return mesh;
 	}else {
 		std::cout << "Unable to open file" << std::endl;

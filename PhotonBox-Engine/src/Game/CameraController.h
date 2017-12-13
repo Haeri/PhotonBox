@@ -70,6 +70,26 @@ public:
 
 		if (InputManager::keyPressed(InputManager::KEY_T))
 			toggleDebug();
+
+
+		std::string sp = "pos: " + std::to_string(transform->getPositionWorld().x()) +
+			", " + std::to_string(transform->getPositionWorld().y()) +
+			", " + std::to_string(transform->getPositionWorld().z());
+
+		std::string sr = "rot: " + std::to_string(transform->getRotation().x()) +
+			", " + std::to_string(transform->getRotation().y()) +
+			", " + std::to_string(transform->getRotation().z());
+
+
+		if (InputManager::keyPressed(InputManager::KEY_ENTER)) {		
+			std::cout << sp << std::endl;
+			std::cout << sr << std::endl << std::endl;
+		}
+
+		/*
+		UIRenderer::renderText(sp, 10, Display::getHeight() - 30, 0.32f, Vector3f(0.9, 0.9, 0.9));
+		UIRenderer::renderText(sr, 10, Display::getHeight() - 40, 0.32f, Vector3f(0.9, 0.9, 0.9));
+		*/
 	}
 
 	void toggleCursor() {

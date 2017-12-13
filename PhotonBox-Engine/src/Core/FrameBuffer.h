@@ -6,6 +6,8 @@ class Material;
 
 class FrameBuffer {
 public:
+	static GLuint _quadVAO;
+
 	FrameBuffer(int width, int height);
 	FrameBuffer(int width, int height, bool mipmaps);
 	FrameBuffer(int width, int height, bool mipmaps, bool hdr);
@@ -30,7 +32,6 @@ private:
 	GLuint _texColor;
 
 	// Mesh
-	static GLuint _quadVAO;
 	GLuint _quadVBO;
 
 	int _maxMipMaps;

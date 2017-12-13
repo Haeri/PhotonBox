@@ -3,6 +3,10 @@
 struct AmbientLight{
 	vec3 color;
     float intensity;
+
+    float constant;
+    float linear;
+    float quadratic;
 };
 
 uniform AmbientLight light;
@@ -31,11 +35,11 @@ varying mat3 tbnVarying;
 const float F0_DEFAULT = 0.04;
 const float MAX_REFLECTION_LOD = 4.0;
 const float IRRADIANCE_BOOST = 0.01;
+const float AMBIENT_ATTENUATION = 0.1;
 
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness);
 vec3 correctedCubeMapDir(vec3 v, vec3 pos);
-//float correctedCubeMapWeight(vec3 v, vec3 pos);
-vec3 correctedCubeMapWeight(vec3 v, vec3 pos);
+float correctedCubeMapWeight(vec3 v, vec3 pos);
 
 
 void main(){
@@ -50,26 +54,14 @@ void main(){
     vec3 V = normalize(viewPos - positionVarying);
 	vec3 R = reflect(-V, N);
 
-
-
-//	vec3 irradiance;
-
-/*
-    if(useCorrection > 0.5)	
-    	irradiance = correctedCubeMapWeight(N, positionVarying) * textureCube(irradianceMap, N).rgb;
-    else
-    	irradiance = textureCube(irradianceMap, N).rgb;
-   
-*/
-//   irradiance = textureCube(irradianceMap, correctedCubeMapWeight(N, positionVarying)).rgb;
-
-
-
     vec3 cN = N;
-    if(useCorrection > 0.5)
+    float attenuation = 1;
+    if(useCorrection > 0.5){
+        float distance = correctedCubeMapWeight(N, positionVarying);
+        //attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));     
         cN = correctedCubeMapDir(N, positionVarying);
-   	vec3 irradiance = textureCube(irradianceMap, cN).rgb;
-
+    }
+   	vec3 irradiance = textureCube(irradianceMap, cN).rgb * attenuation;
 
     vec3 cR = R;
     if(useCorrection > 0.5)
@@ -91,10 +83,6 @@ void main(){
 	vec3 ambient  = (kD * diffuse + specular) * (ao * 2); 
 
 	vec3 color = ambient + ambientLight + emission;
-
-    // Temporary gamma correction
-    //color = color / (color + vec3(1.0));
-    //color = pow(color, vec3(1.0/2.2));  
    
     gl_FragColor = vec4(color, 1.0);
 }
@@ -104,7 +92,10 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness){
 }  
 
 vec3 correctedCubeMapDir(vec3 v, vec3 pos){
+    // Normalize directionvector
     vec3 nDir = normalize(v);
+
+    // Figure out the correction factor for every component
     vec3 rbmax = (maxBound - pos)/nDir;
 	vec3 rbmin = (minBound - pos)/nDir;
 
@@ -114,35 +105,25 @@ vec3 correctedCubeMapDir(vec3 v, vec3 pos){
     rbminmax.z = ( nDir.z > 0.0 )?rbmax.z:rbmin.z;
 
     float correction = min(min(rbminmax.x, rbminmax.y), rbminmax.z);
+
+    // apply the appropriate correction according to the quadrant to the resulting vector
     vec3 boxIntersection = pos + nDir * correction;
 
     return boxIntersection - boundPos;
 }
 
-vec3 correctedCubeMapWeight(vec3 v, vec3 pos){
+float correctedCubeMapWeight(vec3 v, vec3 pos){
+    // Normalize directionvector
     vec3 nDir = normalize(v);
-	vec3 projectedDir = (dot(pos-boundPos, nDir)/pow(length(nDir),2)) * nDir;
 
-  vec3 rbmax = (maxBound - pos)/nDir;
-	vec3 rbmin = (minBound - pos)/nDir;
+    // Figure out the correction factor for every component
+    vec3 rbmax = (maxBound - pos)/nDir;
+    vec3 rbmin = (minBound - pos)/nDir;
 
-	vec3 correctedDir;
-    correctedDir.x = ( nDir.x > 0.0 )?rbmax.x:rbmin.x;
-    correctedDir.y = ( nDir.y > 0.0 )?rbmax.y:rbmin.y;
-    correctedDir.z = ( nDir.z > 0.0 )?rbmax.z:rbmin.z;
-return correctedDir;
+    vec3 rbminmax;
+    rbminmax.x = ( nDir.x > 0.0 )?rbmax.x:rbmin.x;
+    rbminmax.y = ( nDir.y > 0.0 )?rbmax.y:rbmin.y;
+    rbminmax.z = ( nDir.z > 0.0 )?rbmax.z:rbmin.z;
 
-/*
-    //vec3 ret = vec3(1);
-	float ret = 0;
-    if(length(normalize(nDir) + normalize(projectedDir)) > 1.9999){
-		//ret = vec3(1, 0, 0);
-		ret = 1 + (length(correctedDir) / length(projectedDir) * IRRADIANCE_BOOST);
-    }else{
-    	//ret = vec3(0, 1, 0);
-    	ret = 1 - (length(correctedDir) / length(projectedDir) * IRRADIANCE_BOOST);
-    }
-
-    return ret; 
-    */
+    return min(min(rbminmax.x, rbminmax.y), rbminmax.z);
 }

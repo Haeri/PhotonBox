@@ -112,6 +112,7 @@
     <ClInclude Include="src\Game\MaterialScript.h" />
     <ClInclude Include="src\Game\MonochromProcessor.h" />
     <ClInclude Include="src\Game\MonochromShader.h" />
+    <ClInclude Include="src\Game\PathWalkerScript.h" />
     <ClInclude Include="src\Game\PBRScene.h" />
     <ClInclude Include="src\Game\TestScene.h" />
     <ClInclude Include="src\Math\Matrix4f.h" />

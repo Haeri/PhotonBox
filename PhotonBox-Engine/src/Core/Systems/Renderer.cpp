@@ -236,10 +236,13 @@ void Renderer::render(bool captureMode, LightMap* lightmap) {
 }
 
 void Renderer::renderAmbient(int pass, LightMap* lightmap, AABB* volume) {
-	if (pass == 0) {
-		// Bind & clear Shadow FBO
-		renderShadows();
+	
+	/// TEMPCODE ///
+	if (pass == 1) {
+		FrameBuffer::resetDefaultBuffer();
+		Display::clearBuffers();
 	}
+	/// TEMPCODE ///
 
 	_skyBox.render();
 
@@ -298,6 +301,12 @@ void Renderer::renderAmbient(int pass, LightMap* lightmap, AABB* volume) {
 			}
 		}
 	}
+
+	/// TEMPCODE ///
+	if (pass == 1) {
+		Display::swapBuffer();
+	}
+	/// TEMPCODE ///
 }
 
 void Renderer::render(Shader* customShader) {

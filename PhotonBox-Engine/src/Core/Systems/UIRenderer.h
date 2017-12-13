@@ -21,11 +21,11 @@ struct Character {
 class UIRenderer {
 public:
 	void init();
-	void renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color);
+	static void renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color);
 private:
-	TextShader* shader;
-	GLuint _VAO, _VBO;
-	std::map<GLchar, Character> _characters;
+	static TextShader* shader;
+	static GLuint _VAO, _VBO;
+	static std::map<GLchar, Character> _characters;
 };
 
 #endif // UI_RENDERER_H
