@@ -128,11 +128,6 @@ void FrameBuffer::render(Material* material) {
 		bind();
 	}
 
-	/*
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _texColor);
-	*/
-
 	shader->updateTextures();
 	shader->enableAttributes();
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

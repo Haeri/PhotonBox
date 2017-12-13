@@ -3,6 +3,7 @@
 #include "../Components/Camera.h"
 #include "../Core/Systems/Renderer.h"
 #include "../Core/FrameBuffer.h"
+#include "../Resources/DefaultPostShader.h"
 
 LightProbe::LightProbe(){
 	Lighting::addLightProbe(this);
@@ -33,18 +34,40 @@ void LightProbe::generateLightMap(){
 	for (size_t i= 0; i < stepSize-1; ++i){
 		//capture scene
 		lightMaps[i + 1] = captureAmbient(i, lightMaps[i]);
-
 	}
 
+	_lightMap = *lightMaps[3];
+
+	/*
 	for (size_t i = 0; i < 6; i++)
 	{
 		FrameBuffer::resetDefaultBuffer();
 		Display::clearBuffers();
 
 
-	}
+		/// TEMP CODE
+		glBindVertexArray(FrameBuffer::_quadVAO);
 
+		Shader* shader = DefaultPostShader::getInstance();
+		shader->bind();
+		shader->update(nullptr);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, lightMaps[i]->enviromentMap->getLocation());
+
+		shader->updateTextures();
+		shader->enableAttributes();
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		shader->disableAttributes();
+
+		glBindVertexArray(0);
+
+		Display::swapBuffer();
+	}
+	*/
+	
 	//combine all lightmaps
+	//Display::swapBuffer();
 }
 
 LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
@@ -74,6 +97,9 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
 
 	GLuint _captureFBO;
 	GLuint _captureRBO;
+	
+	if(pass == 0)
+		Renderer::renderShadows();
 
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);
@@ -85,7 +111,6 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
 
 
 	for (unsigned int i = 0; i < 6; ++i) {
-		//Renderer::renderShadows();
 
 		glViewport(0, 0, resolution, resolution);
 		glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);
@@ -106,7 +131,7 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
 }
 
 void LightProbe::capture() {
-	_lightMap = *captureRecursive(2);
+	_lightMap = *captureRecursive(3);
 }
 
 LightMap* LightProbe::captureRecursive(int step) {

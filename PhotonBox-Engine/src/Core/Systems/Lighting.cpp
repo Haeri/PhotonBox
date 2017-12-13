@@ -9,6 +9,7 @@ void Lighting::start(){
 	for (std::vector<LightProbe*>::iterator it = _lightProbes.begin(); it != _lightProbes.end(); ++it) {
 		(*it)->bounds.setTransform((*it)->transform);
 		(*it)->capture();
+		//(*it)->generateLightMap();
 	}
 }
 

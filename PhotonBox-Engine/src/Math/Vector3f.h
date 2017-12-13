@@ -22,6 +22,7 @@ public:
 	static const Vector3f FORWARD;
 	static const Vector3f BACK;
 
+	static Vector3f lerp(Vector3f start, Vector3f target, float percent);
 	Vector3f(): _x(0.0f), _y(0.0f), _z(0.0f) {}
 	Vector3f(float x, float y, float z): _x(x), _y(y), _z(z) {}
 

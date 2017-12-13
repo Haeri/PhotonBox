@@ -3,6 +3,10 @@
 #include "../Display.h"
 #include "../../Resources/TextShader.h"
 
+TextShader* UIRenderer::shader;
+GLuint UIRenderer::_VAO, UIRenderer::_VBO;
+std::map<GLchar, Character> UIRenderer::_characters;
+
 void UIRenderer::init(){
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
