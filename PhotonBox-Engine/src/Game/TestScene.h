@@ -324,12 +324,12 @@ public:
 		f1->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
 		
 		GameObject* s2 = instanciate("start");
-		s2->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4));
-		s2->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0));
+		s2->getComponent<Transform>()->setPosition(Vector3f(-1.853742, 0.198203, 0.147300));
+		s2->getComponent<Transform>()->setRotation(Vector3f(0.028000, -1.570249, 0.0));
 
 		GameObject* f2 = instanciate("fin");
-		f2->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9));
-		f2->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
+		f2->getComponent<Transform>()->setPosition(Vector3f(-0.697025, 0.615102, 0.058504));
+		f2->getComponent<Transform>()->setRotation(Vector3f(0.044000, -1.588899, 0.000000));
 
 		GameObject* s3 = instanciate("start");
 		s3->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
@@ -369,6 +369,7 @@ public:
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 2, -2));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		//cam->addComponent<CameraController>();
+		
 		cam->addComponent<PathWalkerScript>()->speed = 0.1f;
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(s1->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f1->transform));

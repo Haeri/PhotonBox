@@ -1,4 +1,4 @@
-#version 120 core
+#version 120
 
 uniform samplerCube environmentMap;
 
