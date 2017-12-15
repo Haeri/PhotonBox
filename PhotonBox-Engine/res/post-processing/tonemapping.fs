@@ -1,5 +1,5 @@
 /*
-#version 120 core
+#version 120
 
 uniform sampler2D renderTexture;
 
@@ -18,7 +18,7 @@ void main(){
 
 
 */
-#version 120 core
+#version 120
 
 uniform sampler2D renderTexture;
 
