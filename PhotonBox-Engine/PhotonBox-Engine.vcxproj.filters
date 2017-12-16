@@ -348,5 +348,7 @@
     <ClInclude Include="src\Resources\ForwardSpotLightShader.h" />
     <ClInclude Include="src\Core\LightMap.h" />
     <ClInclude Include="src\Game\PathWalkerScript.h" />
+    <ClInclude Include="src\Game\ControllerToggleScript.h" />
+    <ClInclude Include="src\Resources\SkyBoost.h" />
   </ItemGroup>
 </Project>

@@ -99,7 +99,7 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
 	GLuint _captureRBO;
 	
 	if(pass == 0)
-		Renderer::renderShadows();
+		Renderer::renderShadows(false);
 
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);
@@ -131,7 +131,7 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
 }
 
 void LightProbe::capture() {
-	_lightMap = *captureRecursive(3);
+	_lightMap = *captureRecursive(2);
 }
 
 LightMap* LightProbe::captureRecursive(int step) {
@@ -187,7 +187,7 @@ LightMap* LightProbe::captureRecursive(int step) {
 
 
 	for (unsigned int i = 0; i < 6; ++i) {
-		Renderer::renderShadows();
+		Renderer::renderShadows(true);
 
 		glViewport(0, 0, resolution, resolution);
 		glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);

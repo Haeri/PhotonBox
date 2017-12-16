@@ -87,7 +87,7 @@ void Core::run(){
 		lastSecond += Time::deltaTime;
 
 		if (lastSecond >= 1.0) {
-			statPrint = std::to_string(nbFrames) + " FPS  -  " + std::to_string(1000.0f / double(nbFrames)).substr(0, 4) + "ms/Frame";
+			statPrint = std::to_string(nbFrames) + " FPS  -  " + std::to_string(1000.0f / double(nbFrames)).substr(0, 4) + "ms";
 			//printf("%i FPS - %f ms/frame\n", nbFrames, 1000.0 / double(nbFrames));
 			nbFrames = 0;
 			lastSecond = 0;

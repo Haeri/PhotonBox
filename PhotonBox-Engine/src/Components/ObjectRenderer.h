@@ -7,6 +7,7 @@
 
 class ObjectRenderer : public Component{
 public:
+	bool captureble = true;
 	ObjectRenderer() : ObjectRenderer(true) {}
 	ObjectRenderer(bool isOpaque);
 	virtual void init();

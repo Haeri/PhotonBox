@@ -15,7 +15,7 @@ public:
 	DirectionalLight();
 	void destroy() override;
 	Shader* getLightShader() override;
-	void renderShadowMap();
+	void renderShadowMap(bool captureMode);
 private: 
 	DepthShader* _depthShader;
 
