@@ -37,12 +37,12 @@ Shader * DirectionalLight::getLightShader(){
 	return ForwardDirectionalLightShader::getInstance();
 }
 
-void DirectionalLight::renderShadowMap(){
+void DirectionalLight::renderShadowMap(bool captureMode){
 	glViewport(0, 0, _shadowMapResolution, _shadowMapResolution);
 	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	
-	Renderer::render(_depthShader);
+	Renderer::render(_depthShader, captureMode);
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

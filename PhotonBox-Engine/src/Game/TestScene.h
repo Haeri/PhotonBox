@@ -25,6 +25,8 @@
 #include "../Resources/TransparentShader.h"
 #include "../Components/SpotLight.h"
 #include "../Game/PathWalkerScript.h"
+#include "../Game/ControllerToggleScript.h"
+#include "../Resources/SkyBoost.h"
 
 #define PI 3.14159265359
 
@@ -117,7 +119,16 @@ public:
 			"./res/default_roughness.png",
 		};
 
-		Renderer::setSkyBox(new CubeMap(black));
+		std::vector<std::string> white = {
+			"./res/default_ao.png",
+			"./res/default_ao.png",
+			"./res/default_ao.png",
+			"./res/default_ao.png",
+			"./res/default_ao.png",
+			"./res/default_ao.png",
+		};
+
+		Renderer::setSkyBox(new CubeMap(white));
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
@@ -143,6 +154,13 @@ public:
 		Mesh* occluderMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Occluder/occluder.obj");
 		Mesh* windowMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Window/Window.obj");
 		Mesh* panoramaMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Panorama/Panorama.obj");
+		Mesh* lampMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Lamp/Lamp.obj");
+		Mesh* ceilingLightMesh = OBJLoader::loadObj("./res/Realistic-Rendering/CeilingLight/CeilingLight.obj");
+		Mesh* vaseMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Vase/Vase.obj");
+		Mesh* bookMesh1 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_1.obj");
+		Mesh* bookMesh2 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_2.obj");
+		Mesh* bookMesh3 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_3.obj");
+		Mesh* bookMesh4 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_4.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -186,6 +204,28 @@ public:
 		Texture* carpetNormal = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_N.TGA", true);
 		Texture* carpetAo = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_AO.TGA", true);
 		
+		Texture* lampAlbedo = new Texture("./res/Realistic-Rendering/Lamp/T_FloorLamp_Albedo.TGA", true);
+		Texture* lampRough = new Texture("./res/Realistic-Rendering/Lamp/T_FloorLamp_Roughness.TGA", true);
+		Texture* lampNormal = new Texture("./res/Realistic-Rendering/Lamp/T_FloorLamp_N.TGA", true);
+		Texture* lampAo = new Texture("./res/Realistic-Rendering/Lamp/T_FloorLamp_AO.TGA", true);
+		Texture* lampMetal = new Texture("./res/Realistic-Rendering/Lamp/T_FloorLamp_M.TGA", true);
+
+		Texture* ceilingAlbedo = new Texture("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Albedo.TGA", true);
+		Texture* ceilingRough = new Texture("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Roughness.TGA", true);
+		Texture* ceilingNormal = new Texture("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_N.TGA", true);
+		Texture* ceilingAo = new Texture("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_AO.TGA", true);
+		Texture* ceilingMetal = new Texture("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_M.TGA", true);
+
+		Texture* vaseAlbedo = new Texture("./res/Realistic-Rendering/Vase/Vase_Albedo.png", true);
+		Texture* vaseRough = new Texture("./res/Realistic-Rendering/Vase/Vase_Roughness.png", true);
+
+		Texture* bookAo = new Texture("./res/Realistic-Rendering/Books/book_occlusion.tga", true);
+		Texture* bookNormal = new Texture("./res/Realistic-Rendering/Books/book_normals.tga", true);
+		Texture* bookAlbedo1 = new Texture("./res/Realistic-Rendering/Books/book_albedo_1.tga", true);
+		Texture* bookAlbedo2 = new Texture("./res/Realistic-Rendering/Books/book_albedo_2.tga", true);
+		Texture* bookAlbedo3 = new Texture("./res/Realistic-Rendering/Books/book_albedo_3.tga", true);
+		Texture* bookAlbedo4 = new Texture("./res/Realistic-Rendering/Books/book_albedo_4.tga", true);
+
 
 		couchAlbedo = new Texture("./res/Realistic-Rendering/Couch/T_Couch_D.TGA", true);
 		couchNormal = new Texture("./res/Realistic-Rendering/Couch/T_Couch_N.TGA", true);
@@ -212,7 +252,7 @@ public:
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
 		TransparentShader* transparentShader = TransparentShader::getInstance();
-
+		SkyBoostShader* skyBoost = SkyBoostShader::getInstance();
 
 
 		/* --------------------------- MATERIALS --------------------------- */
@@ -288,6 +328,63 @@ public:
 		carpetMaterial->setTexture("metallicMap", default_emission);
 		carpetMaterial->setTexture("emissionMap", default_emission);
 
+		Material* lampMaterial = new Material();
+		lampMaterial->setTexture("albedoMap", lampAlbedo);
+		lampMaterial->setTexture("normalMap", lampNormal);
+		lampMaterial->setTexture("roughnessMap", lampRough);
+		lampMaterial->setTexture("aoMap", lampAo);
+		lampMaterial->setTexture("metallicMap", lampMetal);
+		lampMaterial->setTexture("emissionMap", default_emission);
+
+		Material* ceilingLightMaterial = new Material();
+		ceilingLightMaterial->setTexture("albedoMap", ceilingAlbedo);
+		ceilingLightMaterial->setTexture("normalMap", ceilingNormal);
+		ceilingLightMaterial->setTexture("roughnessMap", ceilingRough);
+		ceilingLightMaterial->setTexture("aoMap", ceilingAo);
+		ceilingLightMaterial->setTexture("metallicMap", ceilingMetal);
+		ceilingLightMaterial->setTexture("emissionMap", default_emission);
+
+		Material* vaseMaterial = new Material();
+		vaseMaterial->setTexture("albedoMap", vaseAlbedo);
+		vaseMaterial->setTexture("normalMap", default_normal);
+		vaseMaterial->setTexture("roughnessMap", vaseRough);
+		vaseMaterial->setTexture("aoMap", default_ao);
+		vaseMaterial->setTexture("metallicMap", default_emission);
+		vaseMaterial->setTexture("emissionMap", default_emission);
+
+		Material* bookMaterial1 = new Material();
+		bookMaterial1->setTexture("albedoMap", bookAlbedo1);
+		bookMaterial1->setTexture("normalMap", bookNormal);
+		bookMaterial1->setTexture("roughnessMap", default_ao);
+		bookMaterial1->setTexture("aoMap", bookAo);
+		bookMaterial1->setTexture("metallicMap", default_emission);
+		bookMaterial1->setTexture("emissionMap", default_emission);
+		Material* bookMaterial2 = new Material();
+		bookMaterial2->setTexture("albedoMap", bookAlbedo2);
+		bookMaterial2->setTexture("normalMap", bookNormal);
+		bookMaterial2->setTexture("roughnessMap", default_ao);
+		bookMaterial2->setTexture("aoMap", bookAo);
+		bookMaterial2->setTexture("metallicMap", default_emission);
+		bookMaterial2->setTexture("emissionMap", default_emission);
+		Material* bookMaterial3 = new Material();
+		bookMaterial3->setTexture("albedoMap", bookAlbedo3);
+		bookMaterial3->setTexture("normalMap", bookNormal);
+		bookMaterial3->setTexture("roughnessMap", default_ao);
+		bookMaterial3->setTexture("aoMap", bookAo);
+		bookMaterial3->setTexture("metallicMap", default_emission);
+		bookMaterial3->setTexture("emissionMap", default_emission);
+		Material* bookMaterial4 = new Material();
+		bookMaterial4->setTexture("albedoMap", bookAlbedo4);
+		bookMaterial4->setTexture("normalMap", bookNormal);
+		bookMaterial4->setTexture("roughnessMap", default_ao);
+		bookMaterial4->setTexture("aoMap", bookAo);
+		bookMaterial4->setTexture("metallicMap", default_emission);
+		bookMaterial4->setTexture("emissionMap", default_emission);
+
+
+
+
+
 
 		def = new Material();
 		def->setTexture("albedoMap", default_specular);
@@ -310,8 +407,9 @@ public:
 		Material* occluderMaterial = new Material(litShader);
 		occluderMaterial->setProperty<Vector3f>("color", Vector3f(0, 0, 0));
 
-		Material* panoramaMaterial = new Material(litShader);
-		panoramaMaterial->setTexture("texture", panoramaAlbedo);
+		Material* panoramaMaterial = new Material(skyBoost);
+		panoramaMaterial->setTexture("albedoMap", panoramaAlbedo);
+		panoramaMaterial->setProperty("boost", 10.0f);
 
 
 		/* --------------------------- CAMERA --------------------------- */
@@ -324,12 +422,12 @@ public:
 		f1->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
 		
 		GameObject* s2 = instanciate("start");
-		s2->getComponent<Transform>()->setPosition(Vector3f(-1.853742, 0.198203, 0.147300));
-		s2->getComponent<Transform>()->setRotation(Vector3f(0.028000, -1.570249, 0.0));
+		s2->getComponent<Transform>()->setPosition(Vector3f(-1.708001, 0.232390, 0.078278));
+		s2->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
 
 		GameObject* f2 = instanciate("fin");
-		f2->getComponent<Transform>()->setPosition(Vector3f(-0.697025, 0.615102, 0.058504));
-		f2->getComponent<Transform>()->setRotation(Vector3f(0.044000, -1.588899, 0.000000));
+		f2->getComponent<Transform>()->setPosition(Vector3f(-0.610981, 0.718269, 0.078073));
+		f2->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
 
 		GameObject* s3 = instanciate("start");
 		s3->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
@@ -363,12 +461,28 @@ public:
 		f6->getComponent<Transform>()->setPosition(Vector3f(-1.701402, 0.896463, 3.75409));
 		f6->getComponent<Transform>()->setRotation(Vector3f(0.070667, 2.363519, 0.00000));
 
+		GameObject* s7 = instanciate("start");
+		s7->getComponent<Transform>()->setPosition(Vector3f(1.269536, 2.121249, 4.091350));
+		s7->getComponent<Transform>()->setRotation(Vector3f(-0.606236, 2.979938, 0.000000));
+
+		GameObject* f7 = instanciate("start");
+		f7->getComponent<Transform>()->setPosition(Vector3f(0.237463, 1.906774, 3.826429));
+		f7->getComponent<Transform>()->setRotation(Vector3f(-0.576903, 3.178587, 0.000000));
+
+		GameObject* s8 = instanciate("start");
+		s8->getComponent<Transform>()->setPosition(Vector3f(1.469624, 0.217904, 1.738431));
+		s8->getComponent<Transform>()->setRotation(Vector3f(-0.024902, 5.696155, 0.000000));
+
+		GameObject* f8 = instanciate("start");
+		f8->getComponent<Transform>()->setPosition(Vector3f(1.428122, 1.054274, 1.739055));
+		f8->getComponent<Transform>()->setRotation(Vector3f(-0.024902, 5.696155, 0.000000));
+
 		
 		GameObject* cam = instanciate("Camera");
 		cam->addComponent<Camera>();
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 2, -2));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
-		//cam->addComponent<CameraController>();
+		cam->addComponent<CameraController>();
 		
 		cam->addComponent<PathWalkerScript>()->speed = 0.1f;
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(s1->transform));
@@ -383,6 +497,12 @@ public:
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f5->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(s6->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f6->transform));
+		cam->getComponent<PathWalkerScript>()->path.push_back(*(s7->transform));
+		cam->getComponent<PathWalkerScript>()->path.push_back(*(f7->transform));
+		cam->getComponent<PathWalkerScript>()->path.push_back(*(s8->transform));
+		cam->getComponent<PathWalkerScript>()->path.push_back(*(f8->transform));
+
+		cam->addComponent<ControllerToggleScript>();
 
 
 		//cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
@@ -471,8 +591,7 @@ public:
 		longCouch->getComponent<MeshRenderer>()->setMaterial(couchMaterial);
 
 		GameObject* table = instanciate("Rable");
-		table->setStatic(false);
-		table->addComponent<MeshRenderer>();
+		table->addComponent<MeshRenderer>()->captureble = false;
 		table->getComponent<MeshRenderer>()->setMesh(tableMesh);
 		table->getComponent<MeshRenderer>()->setMaterial(tableMaterial);
 		//table->setEnable(false);
@@ -516,7 +635,38 @@ public:
 		carpet->addComponent<MeshRenderer>();
 		carpet->getComponent<MeshRenderer>()->setMesh(carpetMesh);
 		carpet->getComponent<MeshRenderer>()->setMaterial(carpetMaterial);
-		//carpet->setEnable(false);
+
+		GameObject* lamp = instanciate("Lamp");
+		lamp->addComponent<MeshRenderer>();
+		lamp->getComponent<MeshRenderer>()->setMesh(lampMesh);
+		lamp->getComponent<MeshRenderer>()->setMaterial(lampMaterial);
+
+		GameObject* ceilingLight = instanciate("CeilingLight");
+		ceilingLight->addComponent<MeshRenderer>();
+		ceilingLight->getComponent<MeshRenderer>()->setMesh(ceilingLightMesh);
+		ceilingLight->getComponent<MeshRenderer>()->setMaterial(ceilingLightMaterial);
+
+		GameObject* vase = instanciate("Vase");
+		vase->addComponent<MeshRenderer>();
+		vase->getComponent<MeshRenderer>()->setMesh(vaseMesh);
+		vase->getComponent<MeshRenderer>()->setMaterial(vaseMaterial);
+
+		GameObject* book1 = instanciate("Book1");
+		book1->addComponent<MeshRenderer>();
+		book1->getComponent<MeshRenderer>()->setMesh(bookMesh1);
+		book1->getComponent<MeshRenderer>()->setMaterial(bookMaterial1);
+		GameObject* book2 = instanciate("Book2");
+		book2->addComponent<MeshRenderer>();
+		book2->getComponent<MeshRenderer>()->setMesh(bookMesh2);
+		book2->getComponent<MeshRenderer>()->setMaterial(bookMaterial2);
+		GameObject* book3 = instanciate("Book3");
+		book3->addComponent<MeshRenderer>();
+		book3->getComponent<MeshRenderer>()->setMesh(bookMesh3);
+		book3->getComponent<MeshRenderer>()->setMaterial(bookMaterial3);
+		GameObject* book4 = instanciate("Book4");
+		book4->addComponent<MeshRenderer>();
+		book4->getComponent<MeshRenderer>()->setMesh(bookMesh4);
+		book4->getComponent<MeshRenderer>()->setMaterial(bookMaterial4);
 
 		GameObject* probe = instanciate("Probe");
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2, 0));
@@ -531,12 +681,12 @@ public:
 		window->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 		//window->setEnable(false);
 
-		/*
+		
 		GameObject* panorama = instanciate("Panorama");
 		panorama->addComponent<MeshRenderer>();
 		panorama->getComponent<MeshRenderer>()->setMesh(panoramaMesh);
 		panorama->getComponent<MeshRenderer>()->setMaterial(panoramaMaterial);
-		*/
+		
 
 /*
 		for (int x = 0; x < 8; x++) {

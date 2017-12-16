@@ -31,9 +31,9 @@ public:
 	void start();
 	static void render();
 	static void render(bool captureMode);
-	static void render(Shader* customShader);
+	static void render(Shader* customShader, bool captureMode);
 	static void render(bool captureMode, LightMap* lightmap);
-	static void renderShadows();
+	static void renderShadows(bool captureMode);
 	static void renderAmbient(int pass, LightMap* lightMap, AABB* volume);
 	void renderGizmos();
 	void destroy();

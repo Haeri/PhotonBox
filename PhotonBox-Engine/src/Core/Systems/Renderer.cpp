@@ -92,12 +92,12 @@ void Renderer::render() {
 	render(false);
 }
 
-void Renderer::renderShadows() {
+void Renderer::renderShadows(bool captureMode) {
 	glCullFace(GL_FRONT);
 	std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
 	for (size_t i = 0; i < directionalLights.size(); ++i) {
 		if (!directionalLights[i]->getEnable()) continue;
-		directionalLights[i]->renderShadowMap();
+		directionalLights[i]->renderShadowMap(captureMode);
 	}
 	glCullFace(GL_BACK);
 }
@@ -109,7 +109,7 @@ void Renderer::render(bool captureMode) {
 void Renderer::render(bool captureMode, LightMap* lightmap) {
 	if (!captureMode) {
 		// Bind & clear Shadow FBO
-		renderShadows();
+		renderShadows(false);
 
 		// Bind & clear Main FBO
 		_mainFrameBuffer->enable();
@@ -121,7 +121,7 @@ void Renderer::render(bool captureMode, LightMap* lightmap) {
 	
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it)) {
-			if (!(*it)->gameObject->getStatic() && captureMode) continue;
+			if (!(*it)->captureble && captureMode) continue;
 			
 			
 			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr)) {
@@ -236,14 +236,6 @@ void Renderer::render(bool captureMode, LightMap* lightmap) {
 }
 
 void Renderer::renderAmbient(int pass, LightMap* lightmap, AABB* volume) {
-	
-	/// TEMPCODE ///
-	if (pass == 1) {
-		FrameBuffer::resetDefaultBuffer();
-		Display::clearBuffers();
-	}
-	/// TEMPCODE ///
-
 	_skyBox.render();
 
 
@@ -301,17 +293,11 @@ void Renderer::renderAmbient(int pass, LightMap* lightmap, AABB* volume) {
 			}
 		}
 	}
-
-	/// TEMPCODE ///
-	if (pass == 1) {
-		Display::swapBuffer();
-	}
-	/// TEMPCODE ///
 }
 
-void Renderer::render(Shader* customShader) {
+void Renderer::render(Shader* customShader, bool captureMode) {
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
-		if ((*it)->getEnable() && (*it)->gameObject->getStatic()) {
+		if ((*it)->getEnable() && (!(!(*it)->captureble && captureMode))) {
 			glEnable(GL_DEPTH_TEST);
 			std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
 			for (size_t i = 0; i < directionalLights.size(); ++i) {
