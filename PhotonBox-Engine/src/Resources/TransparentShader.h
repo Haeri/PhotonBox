@@ -18,7 +18,13 @@ public:
 
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
 		glUniformMatrix4fv(uniforms["modelMatrix"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
+		glUniform1f(uniforms["light.intensity"], al->intensity);
+		glUniform3fv(uniforms["light.color"], 1, &(al->color.x()));
 		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
+
+		glUniform1f(uniforms["light.constant"], 1.0f);
+		glUniform1f(uniforms["light.linear"], 0.09f);
+		glUniform1f(uniforms["light.quadratic"], 0.032f);
 	}
 
 	void addAttributes() override {
@@ -32,19 +38,26 @@ public:
 		addUniform("mvp");
 		addUniform("modelMatrix");
 		addUniform("viewPos");
+		addUniform("light.intensity");
+		addUniform("light.color");
+		addUniform("light.constant");
+		addUniform("light.linear");
+		addUniform("light.quadratic");
 
-		addUniform("tint");
 		addUniform("minBound");
 		addUniform("maxBound");
 		addUniform("boundPos");
 		addUniform("useCorrection");
 
+		addTexture("irradianceMap");
 		addTexture("convolutedSpecularMap");
 
 		addTexture("albedoMap");
 		addTexture("normalMap");
+		addTexture("aoMap");
 		addTexture("emissionMap");
 		addTexture("roughnessMap");
+		addTexture("metallicMap");
 	}
 };
 

@@ -1,4 +1,4 @@
-# Blender MTL File: 'untitled.blend'
+# Blender MTL File: 'None'
 # Material Count: 1
 
 newmtl MI_Carptet_Mat_Inst
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd C:\Users\Home\Desktop\room\Game\ArchVis\Textures\T_Carpet_D.TGA
+map_Kd T_Carpet_D.TGA

@@ -22,13 +22,14 @@
 #include "../../Resources/TransparentShader.h"
 #include "../../Core/DeferredBuffer.h"
 #include "../../Resources/GShader.h"
+#include "../../Components/TransparentMeshRenderer.h"
 
 DeferredBuffer Renderer::defBuffer;
 bool Renderer::_isDebug;
 SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderListOpaque;
 std::vector<ObjectRenderer*> Renderer::_renderListTransparent;
-std::map<float, ObjectRenderer*> Renderer::_renderQueueTransparent;
+std::map<float, TransparentMeshRenderer*> Renderer::_renderQueueTransparent;
 
 ForwardAmbientLightShader* Renderer::_ambientLightShader;
 ForwardDirectionalLightShader* Renderer::_directionalLightShader;
@@ -194,7 +195,7 @@ void Renderer::render(bool captureMode, LightMap* lightmap) {
 	
 	if(!captureMode){
 		updateTransparentQueue();
-		for (std::map<float, ObjectRenderer*>::reverse_iterator it = _renderQueueTransparent.rbegin(); it != _renderQueueTransparent.rend(); ++it) {
+		for (std::map<float, TransparentMeshRenderer*>::reverse_iterator it = _renderQueueTransparent.rbegin(); it != _renderQueueTransparent.rend(); ++it) {
 				glEnable(GL_DEPTH_TEST);
 
 				// IBL
@@ -218,10 +219,16 @@ void Renderer::render(bool captureMode, LightMap* lightmap) {
 				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
 
 				glEnable(GL_BLEND);
-				glBlendFunc(GL_ONE, GL_ONE);
+				if (it->second->cutout) {
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				}else {
+					glBlendFunc(GL_ONE, GL_ONE);				
+				}
+
 				it->second->render(_transparentBaseShader, ambient);
 
 
+				glBlendFunc(GL_ONE, GL_ONE);
 				glDepthMask(GL_FALSE);
 				glDepthFunc(GL_EQUAL);
 
@@ -331,14 +338,22 @@ void Renderer::renderGizmos() {
 }
 
 void Renderer::updateTransparentQueue() {
+	float bias = 0.0001f;
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it) {
 		if ((*it)->getEnable() && (*it)->gameObject->getStatic() && Camera::getMainCamera()->frustumTest(*it)) {
 			//if (!(*it)->captureVisible && captureMode) continue;
 			Vector3f camPos = Camera::getMainCamera()->transform->getPositionWorld();
 
-			float dist = (*it)->transform->getPositionWorld().distanceSqrd(camPos);
+			float dist = (*it)->transform->getPositionWorld().distanceSqrd(camPos) ;
 
-			_renderQueueTransparent[dist] = *it;
+			while (1) {
+				if (_renderQueueTransparent.find(dist) == _renderQueueTransparent.end())
+					break;
+				else
+					dist += bias;
+			}
+
+			_renderQueueTransparent[dist] = dynamic_cast<TransparentMeshRenderer*> (*it);
 		}
 	}
 }
