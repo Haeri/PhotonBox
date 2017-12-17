@@ -5,6 +5,7 @@
 
 class TransparentMeshRenderer : public MeshRenderer {
 public:
+	bool cutout = true;
 	TransparentMeshRenderer() : MeshRenderer(false) {}
 };
 

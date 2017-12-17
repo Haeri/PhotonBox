@@ -7,6 +7,7 @@ class FrameBuffer;
 class TransparentShader;
 class DeferredBuffer;
 class GShader;
+class TransparentMeshRenderer;
 
 #include <vector>
 #include "../../Resources/SkyBox.h"
@@ -51,7 +52,7 @@ private:
 	static std::vector<ObjectRenderer*> _renderListTransparent;
 	static Vector3f _clearColor;
 
-	static std::map<float, ObjectRenderer*> _renderQueueTransparent;
+	static std::map<float, TransparentMeshRenderer*> _renderQueueTransparent;
 
 	static ForwardAmbientLightShader* _ambientLightShader;
 	static ForwardDirectionalLightShader* _directionalLightShader;
