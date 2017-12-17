@@ -35,17 +35,9 @@ public:
 	CubeMap* sky;
 
 	Mesh* plane;
-	Mesh* xwingMesh;
 	Mesh* couchMesh;
 	Mesh* wallMesh;
 	Mesh* floorMesh;
-
-	Texture* xwingAlbedo;
-	Texture* xwingNormal;
-	Texture* xwingSpecular;
-	Texture* xwingAo;
-	Texture* xwingMetallic;
-	Texture* xwingEmission;
 
 	Texture* woodAlbedo;
 	Texture* woodRough;
@@ -69,7 +61,6 @@ public:
 
 	Material* wood;
 	Material* def;
-	Material* xwingMaterial;
 	Material* couchMaterial;
 	Material* wallMaterial;
 
@@ -140,7 +131,6 @@ public:
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* sphere = OBJLoader::loadObj("./res/sphere.obj");
 		plane = OBJLoader::loadObj("./res/plane.obj");
-		xwingMesh = OBJLoader::loadObj("./res/xwing/x-wing.obj");
 		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
 		wallMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Walls/Room.obj");
 		floorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Floor/Floor.obj");
@@ -161,16 +151,11 @@ public:
 		Mesh* bookMesh2 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_2.obj");
 		Mesh* bookMesh3 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_3.obj");
 		Mesh* bookMesh4 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_4.obj");
+		Mesh* balconyFloorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/BalconyFloor/Balcony_Floor.obj");
+		Mesh* balconyRailingMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Railing/Balcony_Railing.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		xwingAlbedo = new Texture("./res/xwing/4k_diffuse.jpg", true);
-		xwingNormal = new Texture("./res/xwing/4k_normal.jpg", true);
-		xwingSpecular = new Texture("./res/xwing/4k_roughness.jpg", true);
-		xwingAo = new Texture("./res/xwing/4k_ao.jpg", true);
-		xwingMetallic = new Texture("./res/xwing/4k_emission.jpg", true);
-		xwingEmission = new Texture("./res/xwing/4k_emission.jpg", true);
-
 		woodAlbedo = new Texture("./res/materials/mahogfloor/mahogfloor_basecolor.png", true);
 		woodRough = new Texture("./res/materials/mahogfloor/mahogfloor_roughness.png", true);
 		woodNormal = new Texture("./res/materials/mahogfloor/mahogfloor_normal.png", true);
@@ -200,7 +185,7 @@ public:
 		Texture* shelveNormal = new Texture("./res/Realistic-Rendering/Shelving/T_Shelving_N.TGA", true);
 		Texture* shelveAo = new Texture("./res/Realistic-Rendering/Shelving/T_Shelving_AO.TGA", true);
 
-		Texture* carpetAlbedo = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_D.TGA", true);
+		Texture* carpetAlbedo = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_D.png", true);
 		Texture* carpetNormal = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_N.TGA", true);
 		Texture* carpetAo = new Texture("./res/Realistic-Rendering/Carpet/T_Carpet_AO.TGA", true);
 		
@@ -226,6 +211,17 @@ public:
 		Texture* bookAlbedo3 = new Texture("./res/Realistic-Rendering/Books/book_albedo_3.tga", true);
 		Texture* bookAlbedo4 = new Texture("./res/Realistic-Rendering/Books/book_albedo_4.tga", true);
 
+		Texture* balconyFloorAlbedo = new Texture("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_D.tga", true);
+		Texture* balconyFloorNormal = new Texture("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_N.tga", true);
+		Texture* balconyFloorRoughness = new Texture("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_R.tga", true);
+
+		Texture* galvanizedAlbedo = new Texture("./res/Realistic-Rendering/Railing/T_Galvanized_D.tga", true);
+		Texture* galvanizedRough = new Texture("./res/Realistic-Rendering/Railing/T_Galvanized_Roughness.tga", true);
+		Texture* galvanizedNormal = new Texture("./res/Realistic-Rendering/Railing/T_Galvanized_N.tga", true);
+		Texture* railingAo = new Texture("./res/Realistic-Rendering/Railing/T_Railing_AOMASK.tga", true);
+		Texture* railingNormal = new Texture("./res/Realistic-Rendering/Railing/T_Railing_N.tga", true);
+
+		Texture* windowAlbedo = new Texture("./res/Realistic-Rendering/Window/albedo.png", true);
 
 		couchAlbedo = new Texture("./res/Realistic-Rendering/Couch/T_Couch_D.TGA", true);
 		couchNormal = new Texture("./res/Realistic-Rendering/Couch/T_Couch_N.TGA", true);
@@ -233,9 +229,8 @@ public:
 		couchAo = new Texture("./res/Realistic-Rendering/Couch/T_Couch_AO.TGA", true);
 		Texture* couchMetal = new Texture("./res/Realistic-Rendering/Couch/T_Couch_M.TGA", true);
 
-		wallAlbedo = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_D.TGA", true);
-		wallNormal = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_N.TGA", true);
-		Texture* wallRoughness = new Texture("./res/Realistic-Rendering/Walls/T_StoneMix_R.TGA", true);
+		wallNormal = new Texture("./res/Realistic-Rendering/Walls/T_PaintedWall_N.TGA", true);
+
 
 		default_normal = new Texture("./res/default_normal.png", false);
 		default_specular = new Texture("./res/default_specular.png", false);
@@ -256,13 +251,6 @@ public:
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		xwingMaterial = new Material();
-		xwingMaterial->setTexture("albedoMap", xwingAlbedo);
-		xwingMaterial->setTexture("normalMap", xwingNormal);
-		xwingMaterial->setTexture("roughnessMap", xwingSpecular);
-		xwingMaterial->setTexture("aoMap", xwingAo);
-		xwingMaterial->setTexture("metallicMap", default_emission);
-		xwingMaterial->setTexture("emissionMap", xwingEmission);
 
 		couchMaterial = new Material();
 		couchMaterial->setTexture("albedoMap", couchAlbedo);
@@ -273,7 +261,7 @@ public:
 		couchMaterial->setTexture("emissionMap", default_emission);
 
 		wallMaterial = new Material();
-		wallMaterial->setTexture("albedoMap", wallAlbedo);
+		wallMaterial->setTexture("albedoMap", default_ao);
 		wallMaterial->setTexture("normalMap", wallNormal);
 		wallMaterial->setTexture("roughnessMap", default_ao);
 		wallMaterial->setTexture("aoMap", default_ao);
@@ -381,8 +369,21 @@ public:
 		bookMaterial4->setTexture("metallicMap", default_emission);
 		bookMaterial4->setTexture("emissionMap", default_emission);
 
+		Material* railingMaterial = new Material();
+		railingMaterial->setTexture("albedoMap", galvanizedAlbedo);
+		railingMaterial->setTexture("normalMap", railingNormal);
+		railingMaterial->setTexture("roughnessMap", galvanizedRough);
+		railingMaterial->setTexture("aoMap", railingAo);
+		railingMaterial->setTexture("metallicMap", default_ao);
+		railingMaterial->setTexture("emissionMap", default_emission);
 
-
+		Material* balconyFloorMaterial = new Material();
+		balconyFloorMaterial->setTexture("albedoMap", balconyFloorAlbedo);
+		balconyFloorMaterial->setTexture("normalMap", balconyFloorNormal);
+		balconyFloorMaterial->setTexture("roughnessMap", balconyFloorRoughness);
+		balconyFloorMaterial->setTexture("aoMap", default_ao);
+		balconyFloorMaterial->setTexture("metallicMap", default_emission);
+		balconyFloorMaterial->setTexture("emissionMap", default_emission);
 
 
 
@@ -395,8 +396,8 @@ public:
 		def->setTexture("emissionMap", default_emission);
 
 		Material* glassMaterial = new Material(transparentShader);
-		glassMaterial->setProperty<Vector4f>("tint", Vector4f(0, 0.001, 0.1, 0.1));
-		glassMaterial->setTexture("albedoMap", default_emission);
+		//glassMaterial->setProperty<Vector4f>("tint", Vector4f(0, 0.001, 0.1, 0.1));
+		glassMaterial->setTexture("albedoMap", windowAlbedo);
 		glassMaterial->setTexture("normalMap", default_normal);
 		glassMaterial->setTexture("roughnessMap", default_roughness);
 		glassMaterial->setTexture("aoMap", default_ao);
@@ -632,9 +633,9 @@ public:
 		slidingDoor->getComponent<MeshRenderer>()->setMaterial(slidingDoorMaterial);
 
 		GameObject* carpet = instanciate("Carpet");
-		carpet->addComponent<MeshRenderer>();
-		carpet->getComponent<MeshRenderer>()->setMesh(carpetMesh);
-		carpet->getComponent<MeshRenderer>()->setMaterial(carpetMaterial);
+		carpet->addComponent<TransparentMeshRenderer>();
+		carpet->getComponent<TransparentMeshRenderer>()->setMesh(carpetMesh);
+		carpet->getComponent<TransparentMeshRenderer>()->setMaterial(carpetMaterial);
 
 		GameObject* lamp = instanciate("Lamp");
 		lamp->addComponent<MeshRenderer>();
@@ -668,6 +669,16 @@ public:
 		book4->getComponent<MeshRenderer>()->setMesh(bookMesh4);
 		book4->getComponent<MeshRenderer>()->setMaterial(bookMaterial4);
 
+		GameObject* balconyFloor = instanciate("Balcony Floor");
+		balconyFloor->addComponent<MeshRenderer>();
+		balconyFloor->getComponent<MeshRenderer>()->setMesh(balconyFloorMesh);
+		balconyFloor->getComponent<MeshRenderer>()->setMaterial(balconyFloorMaterial);
+
+		GameObject* balconyRailing = instanciate("Balcony Railing");
+		balconyRailing->addComponent<MeshRenderer>();
+		balconyRailing->getComponent<MeshRenderer>()->setMesh(balconyRailingMesh);
+		balconyRailing->getComponent<MeshRenderer>()->setMaterial(railingMaterial);
+
 		GameObject* probe = instanciate("Probe");
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2, 0));
 		probe->getComponent<Transform>()->setScale(Vector3f(0.1f, 0.1f, 0.1f));
@@ -676,7 +687,7 @@ public:
 		probe->getComponent<MeshRenderer>()->setMaterial(def);
 
 		GameObject* window = instanciate("Window");
-		window->addComponent<TransparentMeshRenderer>();
+		window->addComponent<TransparentMeshRenderer>()->cutout = false;
 		window->getComponent<TransparentMeshRenderer>()->setMesh(windowMesh);
 		window->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 		//window->setEnable(false);
@@ -708,14 +719,6 @@ public:
 		delete sky;
 
 		delete plane;
-		delete xwingMesh;
-
-		delete xwingAlbedo;
-		delete xwingNormal;
-		delete xwingSpecular;
-		delete xwingAo;
-		delete xwingMetallic;
-		delete xwingEmission;
 
 		delete default_normal;
 		delete default_specular;
@@ -724,7 +727,6 @@ public:
 		delete gradient;
 
 		delete def;
-		delete xwingMaterial;
 	}
 
 };

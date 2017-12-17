@@ -32,6 +32,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir);
 
 void main(){
     vec3 albedo     = pow(texture2D(albedoMap, texCoordVarying).rgb, vec3(2.2));
+    float alpha    = texture2D(albedoMap, texCoordVarying).w;
     vec3 normal     = tbnVarying * (255.0/128.0 * texture2D(normalMap, texCoordVarying).rgb - 1);
     float metallic  = texture2D(metallicMap, texCoordVarying).r;
     float roughness = texture2D(roughnessMap, texCoordVarying).r;
@@ -66,7 +67,7 @@ void main(){
         
     // add to outgoing radiance Lo
     float NdotL = max(dot(N, L), 0.0);                
-    vec3 color = (kD * albedo / PI + specular) * radiance * (1.0 - shadow) * NdotL;
+    vec3 color = ((kD * albedo * alpha) / PI + specular) * radiance * (1.0 - shadow) * NdotL;
 
 
 
