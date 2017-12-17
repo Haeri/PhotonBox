@@ -37,7 +37,7 @@ void Core::init(){
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 1480, 900);
-	renderer->init(1);
+	renderer->init(2);
 	inputManager->init();
 	uiRenderer->init();
 
