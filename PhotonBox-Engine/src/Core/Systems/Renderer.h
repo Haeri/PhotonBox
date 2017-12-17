@@ -5,6 +5,8 @@ class ObjectRenderer;
 class CubeMap;
 class FrameBuffer;
 class TransparentShader;
+class DeferredBuffer;
+class GShader;
 
 #include <vector>
 #include "../../Resources/SkyBox.h"
@@ -15,6 +17,7 @@ class TransparentShader;
 
 class Renderer {
 public:
+	static DeferredBuffer defBuffer;
 	static bool isDebug() { return _isDebug; }
 	static void setDebug(bool debug);
 	static void addToRenderQueue(ObjectRenderer *behaviour, bool isOpaque);
@@ -29,6 +32,7 @@ public:
 	void init();
 	void init(int superSampling);
 	void start();
+	static void prePass();
 	static void render();
 	static void render(bool captureMode);
 	static void render(Shader* customShader, bool captureMode);
@@ -54,6 +58,7 @@ private:
 	static ForwardPointLightShader* _pointLightShader;
 	static ForwardSpotLightShader* _spotLightShader;
 	static TransparentShader* _transparentBaseShader;
+	static GShader* _gShader;
 };
 
 #endif // RENDERER_H

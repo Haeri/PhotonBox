@@ -145,6 +145,7 @@
     <ClCompile Include="src\Components\SpotLight.cpp" />
     <ClCompile Include="src\Core\LightMap.cpp" />
     <ClCompile Include="src\Components\AmbientLight.cpp" />
+    <ClCompile Include="src\Core\DeferredBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -350,5 +351,7 @@
     <ClInclude Include="src\Game\PathWalkerScript.h" />
     <ClInclude Include="src\Game\ControllerToggleScript.h" />
     <ClInclude Include="src\Resources\SkyBoost.h" />
+    <ClInclude Include="src\Core\DeferredBuffer.h" />
+    <ClInclude Include="src\Resources\GShader.h" />
   </ItemGroup>
 </Project>
