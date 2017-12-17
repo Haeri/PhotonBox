@@ -20,7 +20,10 @@
 #include "../Systems/SceneManager.h"
 #include "../../Resources/Scene.h"
 #include "../../Resources/TransparentShader.h"
+#include "../../Core/DeferredBuffer.h"
+#include "../../Resources/GShader.h"
 
+DeferredBuffer Renderer::defBuffer;
 bool Renderer::_isDebug;
 SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderListOpaque;
@@ -32,6 +35,7 @@ ForwardDirectionalLightShader* Renderer::_directionalLightShader;
 ForwardPointLightShader* Renderer::_pointLightShader;
 ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
+GShader* Renderer::_gShader;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3, 0.3, 0.3);
@@ -72,7 +76,9 @@ void Renderer::init(int superSampling) {
 	_pointLightShader = ForwardPointLightShader::getInstance();
 	_spotLightShader = ForwardSpotLightShader::getInstance();
 	_transparentBaseShader = TransparentShader::getInstance();
+	_gShader = GShader::getInstance();
 	_mainFrameBuffer = new FrameBuffer(Display::getWidth()*superSampling, Display::getHeight()*superSampling);
+	defBuffer.init();
 
 	_isDebug = false;
 }
@@ -86,6 +92,13 @@ void Renderer::start() {
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it) {
 		(*it)->init();
 	}
+}
+
+void Renderer::prePass(){
+	glBindFramebuffer(GL_FRAMEBUFFER, defBuffer.gBuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	render(_gShader, false);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Renderer::render() {
@@ -237,7 +250,6 @@ void Renderer::render(bool captureMode, LightMap* lightmap) {
 
 void Renderer::renderAmbient(int pass, LightMap* lightmap, AABB* volume) {
 	_skyBox.render();
-
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it)) {

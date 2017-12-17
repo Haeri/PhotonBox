@@ -34,6 +34,7 @@
     <ClCompile Include="src\Components\Transform.cpp" />
     <ClCompile Include="src\Core\AABB.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />
+    <ClCompile Include="src\Core\DeferredBuffer.cpp" />
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
     <ClInclude Include="src\Core\AABB.h" />
     <ClInclude Include="src\Core\Component.h" />
+    <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Core\Display.h" />
     <ClInclude Include="src\Core\FrameBuffer.h" />
     <ClInclude Include="src\Core\GameObject.h" />
@@ -131,6 +133,7 @@
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
     <ClInclude Include="src\Resources\ForwardSpotLightShader.h" />
+    <ClInclude Include="src\Resources\GShader.h" />
     <ClInclude Include="src\Resources\IrradianceShader.h" />
     <ClInclude Include="src\Resources\LitShader.h" />
     <ClInclude Include="src\Resources\Material.h" />
