@@ -141,6 +141,7 @@ public:
 		Mesh* floorEdgeMesh = OBJLoader::loadObj("./res/Realistic-Rendering/FloorEdge/FloorEdge.obj");
 		Mesh* shelveMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Shelving/Shelving.obj");
 		Mesh* carpetMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Carpet/Carpet.obj");
+		Mesh* carpetFloorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Carpet/CarpetFloor.obj");
 		Mesh* occluderMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Occluder/occluder.obj");
 		Mesh* windowMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Window/Window.obj");
 		Mesh* panoramaMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Panorama/Panorama.obj");
@@ -315,6 +316,14 @@ public:
 		carpetMaterial->setTexture("aoMap", carpetAo);
 		carpetMaterial->setTexture("metallicMap", default_emission);
 		carpetMaterial->setTexture("emissionMap", default_emission);
+
+		Material* carpetFloorMaterial = new Material();
+		carpetFloorMaterial->setTexture("albedoMap", carpetAlbedo);
+		carpetFloorMaterial->setTexture("normalMap", default_normal);
+		carpetFloorMaterial->setTexture("roughnessMap", default_ao);
+		carpetFloorMaterial->setTexture("aoMap", carpetAo);
+		carpetFloorMaterial->setTexture("metallicMap", default_emission);
+		carpetFloorMaterial->setTexture("emissionMap", default_emission);
 
 		Material* lampMaterial = new Material();
 		lampMaterial->setTexture("albedoMap", lampAlbedo);
@@ -636,6 +645,11 @@ public:
 		carpet->addComponent<TransparentMeshRenderer>();
 		carpet->getComponent<TransparentMeshRenderer>()->setMesh(carpetMesh);
 		carpet->getComponent<TransparentMeshRenderer>()->setMaterial(carpetMaterial);
+
+		GameObject* carpetFloor = instanciate("CarpetFloor");
+		carpetFloor->addComponent<MeshRenderer>();
+		carpetFloor->getComponent<MeshRenderer>()->setMesh(carpetFloorMesh);
+		carpetFloor->getComponent<MeshRenderer>()->setMaterial(carpetFloorMaterial);
 
 		GameObject* lamp = instanciate("Lamp");
 		lamp->addComponent<MeshRenderer>();

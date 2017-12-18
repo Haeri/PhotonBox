@@ -353,5 +353,6 @@
     <ClInclude Include="src\Resources\SkyBoost.h" />
     <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Resources\GShader.h" />
+    <ClInclude Include="src\Resources\SSAOProcessor.h" />
   </ItemGroup>
 </Project>
