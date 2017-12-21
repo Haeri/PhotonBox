@@ -146,6 +146,27 @@ void FrameBuffer::render(Material* material) {
 #endif
 }
 
+void FrameBuffer::render(GLuint texId) {
+	glBindVertexArray(_quadVAO);
+
+	Shader* shader;
+	shader = DefaultPostShader::getInstance();
+	
+
+	shader->bind();
+	shader->update(nullptr);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texId);
+	
+	shader->updateTextures();
+	shader->enableAttributes();
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	shader->disableAttributes();
+
+	glBindVertexArray(0);
+}
+
 void FrameBuffer::destroy() {
 	glDeleteFramebuffers(1, &_fbo);
 	glDeleteRenderbuffers(1, &_rbDS);

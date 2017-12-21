@@ -354,5 +354,7 @@
     <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Resources\GShader.h" />
     <ClInclude Include="src\Resources\SSAOProcessor.h" />
+    <ClInclude Include="src\Resources\SSAOShader.h" />
+    <ClInclude Include="src\Math\Math.h" />
   </ItemGroup>
 </Project>

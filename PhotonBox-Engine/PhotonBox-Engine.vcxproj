@@ -118,6 +118,7 @@
     <ClInclude Include="src\Game\PathWalkerScript.h" />
     <ClInclude Include="src\Game\PBRScene.h" />
     <ClInclude Include="src\Game\TestScene.h" />
+    <ClInclude Include="src\Math\Math.h" />
     <ClInclude Include="src\Math\Matrix4f.h" />
     <ClInclude Include="src\Math\Vector2f.h" />
     <ClInclude Include="src\Math\Vector3f.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="src\Resources\SkyBoxShader.h" />
     <ClInclude Include="src\Resources\SpecularConvolutionShader.h" />
     <ClInclude Include="src\Resources\SSAOProcessor.h" />
+    <ClInclude Include="src\Resources\SSAOShader.h" />
     <ClInclude Include="src\Resources\TextShader.h" />
     <ClInclude Include="src\Resources\Texture.h" />
     <ClInclude Include="src\Resources\ToneMappingProcessor.h" />

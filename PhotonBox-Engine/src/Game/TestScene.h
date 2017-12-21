@@ -27,6 +27,7 @@
 #include "../Game/PathWalkerScript.h"
 #include "../Game/ControllerToggleScript.h"
 #include "../Resources/SkyBoost.h"
+#include "../Resources/SSAOProcessor.h"
 
 #define PI 3.14159265359
 
@@ -126,6 +127,7 @@ public:
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
 		BloomProcessor* p_bloom = new BloomProcessor(2);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
+		SSAOProcessor* p_ssao = new SSAOProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */

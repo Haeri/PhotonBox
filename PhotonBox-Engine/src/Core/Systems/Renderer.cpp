@@ -98,8 +98,29 @@ void Renderer::start() {
 void Renderer::prePass(){
 	glBindFramebuffer(GL_FRAMEBUFFER, defBuffer.gBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	render(_gShader, false);
+
+	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
+		if ((*it)->getEnable()) {
+			glEnable(GL_DEPTH_TEST);
+			(*it)->render(_gShader);
+		}
+	}
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	/*
+	FrameBuffer::resetDefaultBuffer();
+	FrameBuffer::render(defBuffer.gPosition);
+	Display::swapBuffer();
+
+	FrameBuffer::resetDefaultBuffer();
+	FrameBuffer::render(defBuffer.gNormal);
+	Display::swapBuffer();
+
+	FrameBuffer::resetDefaultBuffer();
+	FrameBuffer::render(defBuffer.rboDepth);
+	Display::swapBuffer();
+	*/
 }
 
 void Renderer::render() {
