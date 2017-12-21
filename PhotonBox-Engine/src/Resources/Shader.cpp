@@ -42,6 +42,7 @@ void Shader::init() {
 		std::cout << name << " location:" << location << std::endl;
 	}
 	*/
+
 	addUniforms();
 }
 

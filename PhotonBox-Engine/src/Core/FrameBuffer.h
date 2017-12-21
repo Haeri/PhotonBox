@@ -16,6 +16,7 @@ public:
 	void bind(GLuint textureUnit);
 	void clear();
 	void render();
+	static void render(GLuint texId);
 	void render(Material* material);
 	void destroy();
 	GLuint getTextureID() { return _texColor; }

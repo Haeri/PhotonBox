@@ -10,7 +10,7 @@ public:
 		return std::string("./res/basicShader");
 	}
 
-	void update(Transform* transform) {
+	void update(Transform* transform) override{
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
