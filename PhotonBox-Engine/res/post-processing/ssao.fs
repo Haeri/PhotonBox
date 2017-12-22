@@ -1,5 +1,5 @@
-#version 330 core
-out vec4 FragColor;
+#version 330
+out float FragColor;
 
 in vec2 TexCoords;
 
@@ -14,7 +14,7 @@ uniform float screenHeight;
 
 // parameters (you'd probably want to use them as uniforms to more easily tweak the effect)
 int kernelSize = 64;
-float radius = 0.5;
+float radius = 0.9;
 float bias = 0.025;
 
 // tile noise texture over screen based on screen dimensions divided by noise size
@@ -55,5 +55,5 @@ void main()
     }
     occlusion = 1.0 - (occlusion / kernelSize);
     
-    FragColor = vec4(vec3(occlusion), 1);
+    FragColor = occlusion;
 }

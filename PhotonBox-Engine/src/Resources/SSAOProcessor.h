@@ -13,6 +13,7 @@
 #include "../Resources/SSAOShader.h"
 #include "../Core/Systems/Renderer.h"
 #include "../Core/DeferredBuffer.h"
+#include "../Resources/SSAOBlurShader.h"
 
 class SSAOProcessor : public PostProcessor {
 public:
@@ -22,6 +23,9 @@ public:
 		ssaoBlurBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight(), false);
 
 		ssaoMaterial = new Material(SSAOShader::getInstance());
+		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
+		ssaoBlurMaterial->setTexture("original", mainBuffer);
+		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer);
 
 		generateNoise();
 	}
@@ -30,11 +34,9 @@ public:
 		mainBuffer->enable();
 	}
 
-	/* void preProcess() override {} */
-
-	void render() override {
-		mainBuffer->render();
-
+	void preProcess() override {
+		ssaoBlurBuffer->enable();
+		
 		ssaoMaterial->shader->bind();
 		glActiveTexture(SSAOShader::getInstance()->textures["gPosition"].unit);
 		glBindTexture(GL_TEXTURE_2D, Renderer::defBuffer.gPosition);
@@ -44,31 +46,32 @@ public:
 
 		glActiveTexture(SSAOShader::getInstance()->textures["texNoise"].unit);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
-		
+
 		for (unsigned int i = 0; i < 64; ++i) {
 			//ssaoMaterial->setProperty<Vector3f>();
 			ssaoMaterial->shader->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
 		}
-		
+		mainBuffer->render(ssaoMaterial);
+	}
 
-		
+	void render() override {
+		/*mainBuffer->render();
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_DST_COLOR, GL_ZERO);
 		glDepthMask(GL_FALSE);
-		glDepthFunc(GL_EQUAL);
-		mainBuffer->render(ssaoMaterial);
-		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_EQUAL);*/
+		ssaoBlurBuffer->render(ssaoBlurMaterial);
+		/*glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
-		glDisable(GL_BLEND);
-
-		
+		glDisable(GL_BLEND);*/
 	}
 
 	void destroy() override {
 
 	}
 private:
-	Material *ssaoMaterial;
+	Material *ssaoMaterial, *ssaoBlurMaterial;
 	FrameBuffer* mainBuffer, *ssaoBlurBuffer;
 
 	GLuint _noiseTexture;
