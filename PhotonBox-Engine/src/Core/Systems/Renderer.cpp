@@ -107,20 +107,6 @@ void Renderer::prePass(){
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	/*
-	FrameBuffer::resetDefaultBuffer();
-	FrameBuffer::render(defBuffer.gPosition);
-	Display::swapBuffer();
-
-	FrameBuffer::resetDefaultBuffer();
-	FrameBuffer::render(defBuffer.gNormal);
-	Display::swapBuffer();
-
-	FrameBuffer::resetDefaultBuffer();
-	FrameBuffer::render(defBuffer.rboDepth);
-	Display::swapBuffer();
-	*/
 }
 
 void Renderer::render() {
