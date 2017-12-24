@@ -7,7 +7,6 @@
 
 class Vector3f {
 public:
-
 	static const Vector3f ZERO;
 	static const Vector3f ONE;
 
@@ -22,7 +21,6 @@ public:
 	static const Vector3f FORWARD;
 	static const Vector3f BACK;
 
-	static Vector3f lerp(Vector3f start, Vector3f target, float percent);
 	Vector3f(): _x(0.0f), _y(0.0f), _z(0.0f) {}
 	Vector3f(float x, float y, float z): _x(x), _y(y), _z(z) {}
 
@@ -119,6 +117,8 @@ public:
 		else if (index == 2) return _z;
 	}
 
+	static Vector3f lerp(Vector3f start, Vector3f target, float percent);
+
 	friend std::ostream& operator<<(std::ostream& os, Vector3f m) {
 		return os << "(" << m.x() << ", " << m.y() << ", " << m.z() << ")";
 	}
@@ -127,4 +127,4 @@ private:
 	float _x, _y, _z;
 };
 
-#endif /* defined(VECTOR3F_H) */
+#endif // VECTOR3F_H

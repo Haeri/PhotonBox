@@ -11,26 +11,10 @@ void SceneManager::addScene(const std::string name, Scene* scene){
 	_sceneMap[name] = scene;
 }
 
-/*
-void SceneManager::loadScene(Scene * scene){
-	_toBeLoadedScene = scene;
-}
-*/
-
 void SceneManager::loadScene(const std::string & name){
 	_newScene = name;
 	_inQueue = true;
 }
-
-/*
-void SceneManager::loadSceneImediately(Scene* scene) {
-	unloadScene(_currentScene);
-	scene->Load();
-	_currentScene = scene;
-	// TODO: save scene names correctly
-	//_currentSceneName = _sceneMap.->name;
-}
-*/
 
 void SceneManager::loadSceneImediately(const std::string& name) {
 	if (_sceneMap[name] == nullptr) return;
@@ -69,8 +53,9 @@ Scene* SceneManager::getCurrentScene() {
 }
 
 void SceneManager::destroy(){
+	_currentScene->unload();
 	for (auto const &scene : _sceneMap) {
-		scene.second->unload();
 		delete scene.second;
 	}
+	_sceneMap.clear();
 }

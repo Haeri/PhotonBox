@@ -15,6 +15,7 @@
 
 //#define DEBUG = false;
 
+
 bool Core::_isRunning;
 
 void Core::init(){
@@ -48,6 +49,8 @@ void Core::init(){
 	sceneManager->addScene("TestScene", new TestScene());
 	sceneManager->addScene("PBRScene", new PBRScene());
 
+	sceneManager->loadSceneImediately("TestScene");
+
 	// Start Subsystems
 	start();
 }
@@ -56,7 +59,6 @@ void Core::start() {
 	std::cout << "==================================================" << std::endl;
 	std::cout << "                  LOADING SCENE" << std::endl << std::endl;
 	
-	sceneManager->loadSceneImediately("TestScene");
 	
 	logic->start();
 	renderer->start();
@@ -88,7 +90,6 @@ void Core::run(){
 
 		if (lastSecond >= 1.0) {
 			statPrint = std::to_string(nbFrames) + " FPS  -  " + std::to_string(1000.0f / double(nbFrames)).substr(0, 4) + "ms";
-			//printf("%i FPS - %f ms/frame\n", nbFrames, 1000.0 / double(nbFrames));
 			nbFrames = 0;
 			lastSecond = 0;
 		}
