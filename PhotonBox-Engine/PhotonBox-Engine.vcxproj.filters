@@ -357,5 +357,6 @@
     <ClInclude Include="src\Resources\SSAOShader.h" />
     <ClInclude Include="src\Math\Math.h" />
     <ClInclude Include="src\Resources\SSAOBlurShader.h" />
+    <ClInclude Include="src\Core\ManagedResource.h" />
   </ItemGroup>
 </Project>
