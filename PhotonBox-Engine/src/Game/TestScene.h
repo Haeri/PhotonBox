@@ -35,7 +35,6 @@ class TestScene : public Scene {
 public:
 	CubeMap* sky;
 
-	Mesh* plane;
 	Mesh* couchMesh;
 	Mesh* wallMesh;
 	Mesh* floorMesh;
@@ -68,49 +67,6 @@ public:
 	void Load() {
 
 		/* --------------------------- RESOURCES --------------------------- */
-		std::vector<std::string> skyBoxLod = {
-			"./res/enviroment/lod0_right.jpg",
-			"./res/enviroment/lod0_left.jpg",
-			"./res/enviroment/lod0_top.jpg",
-			"./res/enviroment/lod0_bottom.jpg",
-			"./res/enviroment/lod0_back.jpg",
-			"./res/enviroment/lod0_front.jpg",
-		};
-		std::vector<std::string> skyBoxLod2 = {
-			"./res/dark/posx.jpg",
-			"./res/dark/negx.jpg",
-			"./res/dark/posy.jpg",
-			"./res/dark/negy.jpg",
-			"./res/dark/posz.jpg",
-			"./res/dark/negz.jpg",
-		};
-		std::vector<std::string> skyBoxLod3 = {
-			"./res/redGreenRoom/lod0_right.jpg",
-			"./res/redGreenRoom/lod0_left.jpg",
-			"./res/redGreenRoom/lod0_top.jpg",
-			"./res/redGreenRoom/lod0_bottom.jpg",
-			"./res/redGreenRoom/lod0_back.jpg",
-			"./res/redGreenRoom/lod0_front.jpg",
-		};
-
-		std::vector<std::string> skyBoxLod4 = {
-			"./res/Def_Indoor/rest.png",
-			"./res/Def_Indoor/rest.png",
-			"./res/Def_Indoor/rest.png",
-			"./res/Def_Indoor/rest.png",
-			"./res/Def_Indoor/rest.png",
-			"./res/Def_Indoor/rest.png",
-		};
-
-		std::vector<std::string> black = {
-			"./res/default_roughness.png",
-			"./res/default_roughness.png",
-			"./res/default_roughness.png",
-			"./res/default_roughness.png",
-			"./res/default_roughness.png",
-			"./res/default_roughness.png",
-		};
-
 		std::vector<std::string> white = {
 			"./res/default_ao.png",
 			"./res/default_ao.png",
@@ -131,8 +87,7 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* sphere = OBJLoader::loadObj("./res/sphere.obj");
-		plane = OBJLoader::loadObj("./res/plane.obj");
+		Mesh* sphere = OBJLoader::loadObj("./res/primitives/sphere.obj");
 		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
 		wallMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Walls/Room.obj");
 		floorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Floor/Floor.obj");
@@ -240,7 +195,7 @@ public:
 		default_emission = new Texture("./res/default_emission.png", false);
 		default_ao = new Texture("./res/default_ao.png", false);
 		Texture* default_roughness = new Texture("./res/default_roughness.png", false);
-		gradient = new Texture("./res/gri1.png", false);
+		gradient = new Texture("./res/gradient.png", false);
 
 
 		
@@ -407,7 +362,6 @@ public:
 		def->setTexture("emissionMap", default_emission);
 
 		Material* glassMaterial = new Material(transparentShader);
-		//glassMaterial->setProperty<Vector4f>("tint", Vector4f(0, 0.001, 0.1, 0.1));
 		glassMaterial->setTexture("albedoMap", windowAlbedo);
 		glassMaterial->setTexture("normalMap", default_normal);
 		glassMaterial->setTexture("roughnessMap", default_roughness);
@@ -517,9 +471,6 @@ public:
 		cam->addComponent<ControllerToggleScript>();
 
 
-		//cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
-
-
 		/* --------------------------- LIGHT HELPER --------------------------- */
 		GameObject* lightProbe = instanciate("LightProbe");
 		lightProbe->addComponent<LightProbe>()->resolution = 512;
@@ -558,12 +509,9 @@ public:
 		spot->getComponent<SpotLight>()->quadratic = 0.032f;
 		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		spot->getComponent<SpotLight>()->intensity = 1.0f;
-		spot->setEnable(false);
+		//spot->setEnable(false);
 		//spot->getComponent<Transform>()->setParent(cam);
 
-
-		GameObject* rig = instanciate("Rig");
-		rig->addComponent<TransformerScript>();
 
 		GameObject* pointLight = instanciate("Pointlight");
 		pointLight->addComponent<PointRenderer>();
@@ -574,7 +522,6 @@ public:
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 80.0f;
-		pointLight->getComponent<Transform>()->setParent(rig);
 		pointLight->setEnable(false);
 
 		GameObject* pointLight2 = instanciate("Pointlight2");
@@ -734,8 +681,6 @@ public:
 
 	void OnUnload() {
 		delete sky;
-
-		delete plane;
 
 		delete default_normal;
 		delete default_specular;
