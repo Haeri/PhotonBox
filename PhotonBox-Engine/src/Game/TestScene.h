@@ -715,7 +715,7 @@ public:
 		panorama->getComponent<MeshRenderer>()->setMaterial(panoramaMaterial);
 		
 
-/*
+		/*
 		for (int x = 0; x < 8; x++) {
 			for (int z = 0; z < 10; z++) {
 				for (int y = 0; y < 4; y++) {
@@ -727,7 +727,8 @@ public:
 					probe->getComponent<MeshRenderer>()->setMaterial(def);
 				}
 			}
-		}*/
+		}
+		*/
 
 	}
 

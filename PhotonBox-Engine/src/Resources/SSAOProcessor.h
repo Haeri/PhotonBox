@@ -1,19 +1,12 @@
 #ifndef SSAO_PROCESSOR_H
 #define SSAO_PROCESSOR_H
 
-#include "../Core/PostProcessor.h"
-#include "../Game/MonochromShader.h"
-#include "../Core/FrameBuffer.h"
-#include "ToneMappingShader.h"
-#include "AutoExposureShader.h"
-#include "Material.h"
-#include "Exposure.h"
 #include <random>
+#include "../Core/PostProcessor.h"
 #include "../Math/Math.h"
 #include "../Resources/SSAOShader.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Core/DeferredBuffer.h"
 #include "../Resources/SSAOBlurShader.h"
+#include "../Core/DeferredBuffer.h"
 
 class SSAOProcessor : public PostProcessor {
 public:
@@ -48,23 +41,13 @@ public:
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 
 		for (unsigned int i = 0; i < 64; ++i) {
-			//ssaoMaterial->setProperty<Vector3f>();
 			ssaoMaterial->shader->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
 		}
 		mainBuffer->render(ssaoMaterial);
 	}
 
 	void render() override {
-		/*mainBuffer->render();
-
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_DST_COLOR, GL_ZERO);
-		glDepthMask(GL_FALSE);
-		glDepthFunc(GL_EQUAL);*/
 		ssaoBlurBuffer->render(ssaoBlurMaterial);
-		/*glDepthMask(GL_TRUE);
-		glDepthFunc(GL_LESS);
-		glDisable(GL_BLEND);*/
 	}
 
 	void destroy() override {
