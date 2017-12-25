@@ -20,6 +20,7 @@ public:
 
 	void init();
 	void start();
+	void reset();
 	void run();
 	void destroy();
 private:

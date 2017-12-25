@@ -38,7 +38,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 	// Set Icon
 	GLFWimage images[1];
-	images[0].pixels = Texture::loadIcon("./res/PhotonBox.png", images[0].width, images[0].height);
+	images[0].pixels = Texture::loadIcon("./res/logo.png", images[0].width, images[0].height);
 	glfwSetWindowIcon(_window, 1, images);
 
 	setVSync(false);
@@ -55,7 +55,6 @@ void Display::destroy() {
 }
 
 void Display::clearBuffers(){
-	//glfwGetFramebufferSize(_window, &_width, &_height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 

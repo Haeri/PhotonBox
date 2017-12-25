@@ -3,10 +3,6 @@
 
 class ManagedResource {
 public:
-	ManagedResource();
-	ManagedResource instanciate() {
-	
-	}
 };
 
 #endif // MANAGED_RESOURCE_H

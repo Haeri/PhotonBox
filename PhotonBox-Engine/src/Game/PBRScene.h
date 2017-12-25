@@ -57,6 +57,8 @@ public:
 	Texture* default_emission;
 	Texture* default_ao;
 	Texture* gradient;
+	Texture* default_roughness;
+	Texture* transparentAlbedo;
 
 	Material* wood;
 	Material* rust;
@@ -64,44 +66,35 @@ public:
 	Material* gold;
 	Material* def;
 	Material* lit;
+	Material* glassMaterial;
 
-
+	AutoExposureProcessor* p_autoExposure;
+	BloomProcessor* p_bloom;
+	ToneMappingProcessor* p_tonemapping;
+	SSAOProcessor* p_ssao;
 
 
 	void Load() {
 
 		/* --------------------------- RESOURCES --------------------------- */
-		std::vector<std::string> skyBoxLod = {
-			"./res/enviroment/lod0_right.jpg",
-			"./res/enviroment/lod0_left.jpg",
-			"./res/enviroment/lod0_top.jpg",
-			"./res/enviroment/lod0_bottom.jpg",
-			"./res/enviroment/lod0_back.jpg",
-			"./res/enviroment/lod0_front.jpg",
+		std::vector<std::string> nightSky = {
+			"./res/enviroment/dark/posx.jpg",
+			"./res/enviroment/dark/negx.jpg",
+			"./res/enviroment/dark/posy.jpg",
+			"./res/enviroment/dark/negy.jpg",
+			"./res/enviroment/dark/posz.jpg",
+			"./res/enviroment/dark/negz.jpg",
 		};
-		std::vector<std::string> skyBoxLod2 = {
-			"./res/dark/posx.jpg",
-			"./res/dark/negx.jpg",
-			"./res/dark/posy.jpg",
-			"./res/dark/negy.jpg",
-			"./res/dark/posz.jpg",
-			"./res/dark/negz.jpg",
-		};
-		std::vector<std::string> skyBoxLod3 = {
-			"./res/redGreenRoom/lod0_right.jpg",
-			"./res/redGreenRoom/lod0_left.jpg",
-			"./res/redGreenRoom/lod0_top.jpg",
-			"./res/redGreenRoom/lod0_bottom.jpg",
-			"./res/redGreenRoom/lod0_back.jpg",
-			"./res/redGreenRoom/lod0_front.jpg",
-		};
-		Renderer::setSkyBox(new CubeMap(skyBoxLod2));
+
+		sky = new CubeMap(nightSky);
+		Renderer::setSkyBox(sky);
 
 	
 		/* --------------------------- POST PROCESSING --------------------------- */
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
-		BloomProcessor* p_bloom = new BloomProcessor(2);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
+		p_ssao = new SSAOProcessor(0);
+		p_autoExposure = new AutoExposureProcessor(1);
+		p_bloom = new BloomProcessor(2);
+		p_tonemapping = new ToneMappingProcessor(3);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -133,12 +126,14 @@ public:
 		goldNormal = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-normal.png", true);
 		goldMetal = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-metal.png", true);
 
+
 		default_normal = new Texture("./res/default_normal.png", false);
 		default_specular = new Texture("./res/default_specular.png", false);
 		default_emission = new Texture("./res/default_emission.png", false);
 		default_ao = new Texture("./res/default_ao.png", false);
+		default_roughness = new Texture("./res/default_roughness.png", false);
 		gradient = new Texture("./res/gradient.png", false);
-		Texture* default_roughness = new Texture("./res/default_roughness.png", false);
+		transparentAlbedo = new Texture("./res/Realistic-Rendering/Window/albedo.png", true);
 
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
@@ -187,23 +182,13 @@ public:
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
 
-		Material* glassMaterial = new Material(transparentShader);
-		glassMaterial->setProperty("tint", Vector4f(0.3, 0.3, 1, 0.1));
-		glassMaterial->setTexture("albedoMap", default_specular);
+		glassMaterial = new Material(transparentShader);
+		glassMaterial->setTexture("albedoMap", transparentAlbedo);
 		glassMaterial->setTexture("normalMap", default_normal);
 		glassMaterial->setTexture("roughnessMap", default_roughness);
 		glassMaterial->setTexture("aoMap", default_ao);
 		glassMaterial->setTexture("metallicMap", default_emission);
 		glassMaterial->setTexture("emissionMap", default_emission);
-
-		/*
-		glassMaterial->setTexture("albedoMap", default_specular);
-		glassMaterial->setTexture("normalMap", default_normal);
-		glassMaterial->setTexture("roughnessMap", woodRough);
-		glassMaterial->setTexture("aoMap", default_ao);
-		glassMaterial->setTexture("metallicMap", default_emission);
-		glassMaterial->setTexture("emissionMap", default_emission);
-		*/
 
 		lit = new Material(litShader);
 		lit->setProperty("color", Vector3f(0.3, 0.3, 0.5));
@@ -215,7 +200,6 @@ public:
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -10));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraController>();
-		//cam->addComponent<MaterialScript>()->material = p_tonemapping->material;
 
 
 
@@ -393,6 +377,8 @@ public:
 		delete default_emission;
 		delete default_ao;
 		delete gradient;
+		delete default_roughness;
+		delete transparentAlbedo;
 
 		delete wood;
 		delete rust;
@@ -400,6 +386,12 @@ public:
 		delete gold;
 		delete def;
 		delete lit;
+		delete glassMaterial;
+
+		delete p_autoExposure;
+		delete p_bloom;
+		delete p_tonemapping;
+		delete p_ssao;
 	}
 
 };

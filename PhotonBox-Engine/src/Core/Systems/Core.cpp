@@ -144,11 +144,16 @@ void Core::run(){
 		inputManager->pollEvents();
 
 		// End of Frame
-		if (sceneManager->loadQueuedScene())
+		if (sceneManager->loadQueuedScene()) {
 			start();
+		}
 		
 		_isRunning = display->isRunning();
 	}
+}
+
+void Core::reset() {
+	postPocessing->reset();
 }
 
 void Core::destroy(){
@@ -157,7 +162,6 @@ void Core::destroy(){
 	physics->destroy();
 	sceneManager->destroy();
 	display->destroy();
-	postPocessing->destroy();
 
 	delete sceneManager;
 	delete renderer;
