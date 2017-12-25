@@ -37,7 +37,7 @@ void PostProcessing::postProcess() {
 	(--_processorMap.end())->second->render();
 }
 
-void PostProcessing::destroy() {
+void PostProcessing::reset() {
 	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it) {
 		it->second->destroy();
 		delete it->second;
