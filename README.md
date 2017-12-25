@@ -3,7 +3,7 @@ A modern OpenGL Game-Engine with focus on PBR
 
 ## Rendering 
 - Forward Rendering
-- Point lights, Directional lights
+- Point lights, Directional lights, Spot lights
 - SkyBox/Enviroment Mapping
 - Cook Torrance BRDF shader
   - Albedo Map
@@ -18,6 +18,7 @@ A modern OpenGL Game-Engine with focus on PBR
   - Eye adaptation
   - Bloom
   - Tone mapping
+  - SSAO
 - Transparent rendering
 - Shadow mapping
 - Text rendering
@@ -30,6 +31,7 @@ A modern OpenGL Game-Engine with focus on PBR
 - Generic Materials
 - Input
 - Lightprobe volumes
+- Mesh caching
 
 ## Media
 
