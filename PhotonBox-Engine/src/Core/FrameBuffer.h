@@ -2,6 +2,8 @@
 #define FRAME_BUFFER_H
 
 class Material;
+#include <unordered_map>
+#include <vector>
 #include "./Display.h"
 
 class FrameBuffer {
@@ -11,9 +13,16 @@ public:
 	FrameBuffer(int width, int height);
 	FrameBuffer(int width, int height, bool mipmaps);
 	FrameBuffer(int width, int height, bool mipmaps, bool hdr);
+	void addTextureAttachment(std::string name);
+	void addTextureAttachment(std::string name, bool hdr, bool drawBuffer);
+	void addDepthTextureAttachment(std::string name);
+	void addDepthTextureAttachment(std::string name, bool drawBuffer);
+	void addDepthBufferAttachment();
 	void enable();
 	void bind();
 	void bind(GLuint textureUnit);
+	void bind(GLuint textureUnit, std::string name);
+	void finish();
 	void clear();
 	void render();
 	static void render(GLuint texId);
@@ -25,12 +34,21 @@ public:
 
 	static void resetDefaultBuffer();
 private:
-	// Buffers
+	// config
 	int _width, _height;
-	GLint _isHDR;
+	bool _isHDR;
+
+	// Buffers
 	GLuint _fbo;
 	GLuint _rbDS;
 	GLuint _texColor;
+
+	std::unordered_map<std::string, GLuint> _colorAttachments;
+	GLuint _depthAttachment;
+
+	GLenum _colorAttachmentIndex = GL_COLOR_ATTACHMENT0;
+	std::vector<GLenum> _drawBuffers;
+
 
 	// Mesh
 	GLuint _quadVBO;

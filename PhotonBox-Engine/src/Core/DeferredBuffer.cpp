@@ -6,6 +6,14 @@ void DeferredBuffer::init()
 	int width = Display::getWidth();
 	int height = Display::getHeight();
 
+	gBuffer = new FrameBuffer(width, width);
+	gBuffer->addTextureAttachment("gPosition", true, true);
+	gBuffer->addTextureAttachment("gNormal", true, true);
+	gBuffer->addDepthBufferAttachment();
+	gBuffer->finish();
+
+	/*
+
 	glGenFramebuffers(1, &gBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
 	// position color buffer
@@ -33,6 +41,7 @@ void DeferredBuffer::init()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gAlbedoSpec, 0);
 	*/
 	// tell OpenGL which color attachments we'll use (of this framebuffer) for rendering 
+	/*
 	unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
 	glDrawBuffers(2, attachments);
 	// create and attach depth buffer (renderbuffer)
@@ -40,9 +49,14 @@ void DeferredBuffer::init()
 	glGenRenderbuffers(1, &rboDepth);
 	glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT , GL_RENDERBUFFER, rboDepth);
+	
 	// finally check if framebuffer is complete
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Framebuffer not complete!" << std::endl;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	*/
+
+
+
 }

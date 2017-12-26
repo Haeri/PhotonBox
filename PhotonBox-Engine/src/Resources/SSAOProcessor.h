@@ -31,12 +31,16 @@ public:
 		ssaoBlurBuffer->enable();
 		
 		ssaoMaterial->shader->bind();
-		glActiveTexture(SSAOShader::getInstance()->textures["gPosition"].unit);
-		glBindTexture(GL_TEXTURE_2D, Renderer::defBuffer.gPosition);
+
+		Renderer::defBuffer.gBuffer->bind(SSAOShader::getInstance()->textures["gPosition"].unit, "gPosition");
+		Renderer::defBuffer.gBuffer->bind(SSAOShader::getInstance()->textures["gNormal"].unit, "gNormal");
+
+/*		glActiveTexture(SSAOShader::getInstance()->textures["gPosition"].unit);
+		glBindTexture(GL_TEXTURE_2D, Renderer::defBuffer.gBuffer->);
 
 		glActiveTexture(SSAOShader::getInstance()->textures["gNormal"].unit);
 		glBindTexture(GL_TEXTURE_2D, Renderer::defBuffer.gNormal);
-
+*/
 		glActiveTexture(SSAOShader::getInstance()->textures["texNoise"].unit);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 
