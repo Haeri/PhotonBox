@@ -171,7 +171,6 @@ public:
 	SSAOProcessor* p_ssao;
 
 	void Load() {
-
 		/* --------------------------- ENVIROMENT --------------------------- */
 		std::vector<std::string> white = {
 			"./res/default_ao.png",
