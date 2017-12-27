@@ -12,7 +12,7 @@
 class AutoExposureProcessor : public PostProcessor {
 public:
 	float minLuminance = 0.01;
-	float maxLuminance = 100;
+	float maxLuminance = 20;
 
 
 	AutoExposureProcessor(int index) : PostProcessor(index) {
@@ -35,11 +35,11 @@ public:
 		mainBuffer->addTextureAttachment("color", true);
 		mainBuffer->ready();
 
-		autoExpMaterial->setTexture("luminanceSampleCurrent", currentLuminancBuffer);
+		autoExpMaterial->setTexture("luminanceSampleCurrent", currentLuminancBuffer, "color");
 		autoExpMaterial->setProperty<int>("maxMip", numLevels);
 		autoExpMaterial->setProperty<float>("adaptationSpeed", 0.4);
 
-		expMaterial->setTexture("renderTexture", mainBuffer);
+		expMaterial->setTexture("renderTexture", mainBuffer, "color");
 	}
 
 	void enable() override {
@@ -55,19 +55,19 @@ public:
 
 		if (flip) {
 			luminancBufferA->enable();
-			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB);
+			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB, "color");
 		}else {
 			luminancBufferB->enable();
-			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB);
+			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB, "color");
 		}
 		currentLuminancBuffer->render("color", autoExpMaterial);
 	}
 
 	void render() override {
 		if (flip) {
-			expMaterial->setTexture("exposureSample", luminancBufferA);
+			expMaterial->setTexture("exposureSample", luminancBufferA, "color");
 		}else {
-			expMaterial->setTexture("exposureSample", luminancBufferB);
+			expMaterial->setTexture("exposureSample", luminancBufferB, "color");
 		}
 		mainBuffer->render("color", expMaterial);
 		flip = !flip;
@@ -75,11 +75,10 @@ public:
 
 	void destroy() override {
 		delete autoExpMaterial;
-
-		mainBuffer->destroy();
-		currentLuminancBuffer->destroy();
 		delete mainBuffer;
 		delete currentLuminancBuffer;
+		delete luminancBufferA;
+		delete luminancBufferB;
 	}
 private:
 	Material* autoExpMaterial, *expMaterial;

@@ -5,7 +5,6 @@
 #include "../Resources/Material.h"
 #include "../Resources/Vertex.h"
 #include "../Resources/DefaultPostShader.h"
-#include "GLError.h"
 
 GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;
@@ -43,8 +42,13 @@ FrameBuffer::FrameBuffer(int width, int height)
 		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
 		glVertexAttribPointer(Vertex::AttibLocation::POSITION, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	}
+}
 
-	check_gl_error();
+FrameBuffer::~FrameBuffer()
+{
+	glDeleteFramebuffers(1, &_fbo);
+	glDeleteRenderbuffers(_colorAttachments.size(), &_colorAttachments[0]);
+	glDeleteRenderbuffers(1, &_depthAttachment);
 }
 
 void FrameBuffer::addTextureAttachment(std::string name) 
@@ -88,10 +92,6 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps)
 	_drawBuffers.push_back(_colorAttachmentIndex);
 
 	++_colorAttachmentIndex;
-
-
-	std::cout << "Adding Texture Attachment" << std::endl;
-	check_gl_error();
 }
 
 void FrameBuffer::addDepthTextureAttachment(std::string name)
@@ -106,10 +106,6 @@ void FrameBuffer::addDepthTextureAttachment(std::string name)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, *texture, 0);
-
-
-	std::cout << "Adding Depth Texture Attachment" << std::endl;
-	check_gl_error();
 }
 
 void FrameBuffer::addDepthBufferAttachment()
@@ -119,10 +115,6 @@ void FrameBuffer::addDepthBufferAttachment()
 	glBindRenderbuffer(GL_RENDERBUFFER, _depthAttachment);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, _width, _height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthAttachment);
-
-
-	std::cout << "Adding Depth Attachment" << std::endl;
-	check_gl_error();
 }
 
 
@@ -152,8 +144,6 @@ void FrameBuffer::ready()
 	auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
-
-	check_gl_error();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -207,34 +197,6 @@ void FrameBuffer::render(std::string name, Material* material)
 		Display::swapBuffer();
 		system("PAUSE");
 #endif
-}
-
-void FrameBuffer::render(GLuint texId) 
-{
-	glBindVertexArray(_quadVAO);
-
-	Shader* shader;
-	shader = DefaultPostShader::getInstance();
-	
-
-	shader->bind();
-	shader->update(nullptr);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texId);
-	
-	shader->updateTextures();
-	shader->enableAttributes();
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	shader->disableAttributes();
-
-	glBindVertexArray(0);
-}
-
-void FrameBuffer::destroy() 
-{
-	glDeleteFramebuffers(1, &_fbo);
-	glDeleteRenderbuffers(1, &_depthAttachment);
 }
 
 void FrameBuffer::resetDefaultBuffer() 

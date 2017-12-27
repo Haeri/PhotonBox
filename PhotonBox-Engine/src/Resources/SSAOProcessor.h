@@ -20,9 +20,11 @@ public:
 		ssaoBlurBuffer->ready();
 
 		ssaoMaterial = new Material(SSAOShader::getInstance());
+		ssaoMaterial->setTexture("gPosition", Renderer::defBuffer.gBuffer, "gPosition");
+		ssaoMaterial->setTexture("gNormal", Renderer::defBuffer.gBuffer, "gNormal");
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
-		ssaoBlurMaterial->setTexture("original", mainBuffer);
-		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer);
+		ssaoBlurMaterial->setTexture("original", mainBuffer, "color");
+		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer, "color");
 
 		generateNoise();
 	}
@@ -36,15 +38,6 @@ public:
 		
 		ssaoMaterial->shader->bind();
 
-		Renderer::defBuffer.gBuffer->bind(SSAOShader::getInstance()->textures["gPosition"].unit, "gPosition");
-		Renderer::defBuffer.gBuffer->bind(SSAOShader::getInstance()->textures["gNormal"].unit, "gNormal");
-
-/*		glActiveTexture(SSAOShader::getInstance()->textures["gPosition"].unit);
-		glBindTexture(GL_TEXTURE_2D, Renderer::defBuffer.gBuffer->);
-
-		glActiveTexture(SSAOShader::getInstance()->textures["gNormal"].unit);
-		glBindTexture(GL_TEXTURE_2D, Renderer::defBuffer.gNormal);
-*/
 		glActiveTexture(SSAOShader::getInstance()->textures["texNoise"].unit);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 
@@ -59,7 +52,11 @@ public:
 	}
 
 	void destroy() override {
+		delete ssaoMaterial;
+		delete ssaoBlurMaterial;
 
+		delete mainBuffer;
+		delete ssaoBlurBuffer;
 	}
 private:
 	Material *ssaoMaterial, *ssaoBlurMaterial;
