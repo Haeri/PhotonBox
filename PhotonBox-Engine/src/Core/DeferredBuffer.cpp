@@ -7,8 +7,8 @@ void DeferredBuffer::init()
 	int height = Display::getHeight();
 
 	gBuffer = new FrameBuffer(width, width);
-	gBuffer->addTextureAttachment("gPosition", true, true);
-	gBuffer->addTextureAttachment("gNormal", true, true);
+	gBuffer->addTextureAttachment("gPosition", true, true, false);
+	gBuffer->addTextureAttachment("gNormal", true, true, false);
 	gBuffer->addDepthBufferAttachment();
 	gBuffer->finish();
 

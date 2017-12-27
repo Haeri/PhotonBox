@@ -11,16 +11,17 @@ GLuint FrameBuffer::_quadVAO = -1;
 
 //#define DEBUG
 
-FrameBuffer::FrameBuffer(int width, int height) : FrameBuffer(width, height, false) {}
-FrameBuffer::FrameBuffer(int width, int height, bool mipmaps) : FrameBuffer(width, height, false, true) {}
-FrameBuffer::FrameBuffer(int width, int height, bool mipmaps, bool hdr) : _width(width), _height(height), _isHDR(hdr) {
-	GLint format = hdr ? GL_RGB16F : GL_RGBA;
+FrameBuffer::FrameBuffer(int width, int height)
+{
+//FrameBuffer::FrameBuffer(int width, int height, bool mipmaps) : FrameBuffer(width, height, false, true) {}
+//FrameBuffer::FrameBuffer(int width, int height, bool mipmaps, bool hdr) : _width(width), _height(height), _isHDR(hdr) {
+	//GLint format = hdr ? GL_RGB16F : GL_RGBA;
 
 	// Create framebuffer
 	glGenFramebuffers(1, &_fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 
-	
+	/*
 
 	// Create texture to hold color buffer
 	glGenTextures(1, &_texColor);
@@ -59,7 +60,7 @@ FrameBuffer::FrameBuffer(int width, int height, bool mipmaps, bool hdr) : _width
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cerr << "Error while createing framebuffer" << std::endl;
 
-	
+	*/
 
 	if (_quadVAO == -1){
 		// Quad Mesh
@@ -85,10 +86,15 @@ FrameBuffer::FrameBuffer(int width, int height, bool mipmaps, bool hdr) : _width
 
 void FrameBuffer::addTextureAttachment(std::string name) 
 {
-	addTextureAttachment(name, false, false);
+	addTextureAttachment(name, false, false, false);
 }
 
 void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool drawBuffer)
+{
+	addTextureAttachment(name, hdr, drawBuffer, false);
+}
+
+void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool drawBuffer, bool mipmaps)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 	GLint format = hdr ? GL_RGB16F : GL_RGBA;
@@ -97,10 +103,30 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool drawBuff
 
 	glGenTextures(1, texture);
 	glBindTexture(GL_TEXTURE_2D, *texture);
+
+	const GLenum err = glGetError();
+	if (GL_NO_ERROR == err)
+		std::cout << "GL Error: " << std::endl;
+
 	glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, GL_RGB, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	if (mipmaps) {
+		_maxMipMaps = 1 + floor(log2(min(_width, _height)));
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		_maxMipMaps = 0;
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+
+
 	glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, *texture, 0);
+
 
 	if (drawBuffer)
 		_drawBuffers.push_back(_colorAttachmentIndex);
@@ -146,6 +172,7 @@ void FrameBuffer::enable() {
 	_currentFBO = _fbo;
 }
 
+/*
 void FrameBuffer::bind() {
 	bind(GL_TEXTURE0);
 }
@@ -156,7 +183,7 @@ void FrameBuffer::bind(GLuint textureUnit) {
 	if (_maxMipMaps > 0)
 		glGenerateMipmap(GL_TEXTURE_2D);
 }
-
+*/
 void FrameBuffer::bind(GLuint textureUnit, std::string name) {
 	glActiveTexture(textureUnit);
 	glBindTexture(GL_TEXTURE_2D, _colorAttachments[name]);
@@ -169,8 +196,19 @@ void FrameBuffer::finish()
 	if (_drawBuffers.size() > 0)
 		glDrawBuffers(_drawBuffers.size(), &_drawBuffers[0]);
 
+	/*
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Error while createing framebuffer!" << std::endl;
+	*/
+	auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
+
+	
+		auto glstatus = glGetError();
+		if (glstatus != GL_NO_ERROR) {
+			std::cout << "Error in GL call:" << glstatus << std::endl;  
+		}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -181,11 +219,11 @@ void FrameBuffer::clear(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void FrameBuffer::render() {
-	render(nullptr);
+void FrameBuffer::render(std::string name) {
+	render(name, nullptr);
 }
 
-void FrameBuffer::render(Material* material) {
+void FrameBuffer::render(std::string name, Material* material) {
 	glBindVertexArray(_quadVAO);
 
 	Shader* shader;
@@ -202,7 +240,7 @@ void FrameBuffer::render(Material* material) {
 		material->updateUniforms();
 		material->bindTextures();
 	}else {
-		bind();
+		bind(GL_TEXTURE0, name);
 	}
 
 	shader->updateTextures();
@@ -246,7 +284,7 @@ void FrameBuffer::render(GLuint texId) {
 
 void FrameBuffer::destroy() {
 	glDeleteFramebuffers(1, &_fbo);
-	glDeleteRenderbuffers(1, &_rbDS);
+	glDeleteRenderbuffers(1, &_depthAttachment);
 }
 
 void FrameBuffer::resetDefaultBuffer() {
