@@ -1,5 +1,6 @@
 #include "DeferredBuffer.h"
 #include "../Core/Display.h"
+#include "../Core/FrameBuffer.h"
 
 void DeferredBuffer::init()
 {
@@ -7,10 +8,10 @@ void DeferredBuffer::init()
 	int height = Display::getHeight();
 
 	gBuffer = new FrameBuffer(width, width);
-	gBuffer->addTextureAttachment("gPosition", true, true, false);
-	gBuffer->addTextureAttachment("gNormal", true, true, false);
+	gBuffer->addTextureAttachment("gPosition", true);
+	gBuffer->addTextureAttachment("gNormal", true);
 	gBuffer->addDepthBufferAttachment();
-	gBuffer->finish();
+	gBuffer->ready();
 
 	/*
 

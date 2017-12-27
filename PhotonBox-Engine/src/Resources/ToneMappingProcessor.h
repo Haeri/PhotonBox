@@ -14,7 +14,8 @@ public:
 	ToneMappingProcessor(int index) : PostProcessor(index) {
 		material = new Material(ToneMappingShader::getInstance());
 		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		frameBuffer->addTextureAttachment("color", false, true);
+		frameBuffer->addTextureAttachment("color", true);
+		frameBuffer->ready();
 
 		material->setProperty<float>("exposure", 0.2f);
 		material->setTexture("renderTexture", frameBuffer);

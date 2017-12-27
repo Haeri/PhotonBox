@@ -8,53 +8,42 @@ class Material;
 
 class FrameBuffer {
 public:
-	static GLuint _quadVAO;
-
 	FrameBuffer(int width, int height);
-	//FrameBuffer(int width, int height, bool mipmaps);
-	//FrameBuffer(int width, int height, bool mipmaps, bool hdr);
 	void addTextureAttachment(std::string name);
-	void addTextureAttachment(std::string name, bool hdr, bool drawBuffer);
-	void addTextureAttachment(std::string name, bool hdr, bool drawBuffer, bool mipmaps);
+	void addTextureAttachment(std::string name, bool hdr);
+	void addTextureAttachment(std::string name, bool hdr, bool mipmaps);
 	void addDepthTextureAttachment(std::string name);
-	void addDepthTextureAttachment(std::string name, bool drawBuffer);
 	void addDepthBufferAttachment();
 	void enable();
-	//void bind();
-	//void bind(GLuint textureUnit);
 	void bind(GLuint textureUnit, std::string name);
-	void finish();
+	void ready();
 	void clear();
 	void render(std::string name);
 	void render(std::string name, Material* material);
-	static void render(GLuint texId);
 	void destroy();
+
 	GLuint getTextureID(std::string name) { return _colorAttachments[name]; }
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }
 
+	static void render(GLuint texId);
 	static void resetDefaultBuffer();
 private:
 	// config
 	int _width, _height;
-	//bool _isHDR;
+	int _maxMipMaps;
 
 	// Buffers
 	GLuint _fbo;
-	//GLuint _rbDS;
-	//GLuint _texColor;
-
-	std::unordered_map<std::string, GLuint> _colorAttachments;
 	GLuint _depthAttachment;
+	std::unordered_map<std::string, GLuint> _colorAttachments;
 
 	GLenum _colorAttachmentIndex = GL_COLOR_ATTACHMENT0;
 	std::vector<GLenum> _drawBuffers;
 
-
 	// Mesh
+	static GLuint _quadVAO;
 	GLuint _quadVBO;
-
-	int _maxMipMaps;
 
 	static GLuint _currentFBO;
 };

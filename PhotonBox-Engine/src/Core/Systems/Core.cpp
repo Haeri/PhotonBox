@@ -15,7 +15,6 @@
 
 //#define DEBUG = false;
 
-
 bool Core::_isRunning;
 
 void Core::init(){
@@ -38,7 +37,8 @@ void Core::init(){
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 1480, 900);
-	renderer->init(2);
+
+	renderer->init(1);
 	inputManager->init();
 	uiRenderer->init();
 
@@ -76,6 +76,7 @@ void Core::run(){
 	_isRunning = true;
 
 	std::string statPrint;
+
 
 	while (_isRunning) {
 		

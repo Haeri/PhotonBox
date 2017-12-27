@@ -79,9 +79,9 @@ void Renderer::init(int superSampling) {
 	_transparentBaseShader = TransparentShader::getInstance();
 	_gShader = GShader::getInstance();
 	_mainFrameBuffer = new FrameBuffer(Display::getWidth()*superSampling, Display::getHeight()*superSampling);
-	_mainFrameBuffer->addTextureAttachment("color", true, true, false);
+	_mainFrameBuffer->addTextureAttachment("color", true, false);
 	_mainFrameBuffer->addDepthBufferAttachment();
-	_mainFrameBuffer->finish();
+	_mainFrameBuffer->ready();
 	defBuffer.init();
 
 	_isDebug = false;
@@ -264,7 +264,7 @@ void Renderer::render(bool captureMode, LightMap* lightmap) {
 
 	if (!captureMode && !PostProcessing::isActive()) {
 		FrameBuffer::resetDefaultBuffer();
-		_mainFrameBuffer->render("colo");	
+		_mainFrameBuffer->render("color");	
 	}
 }
 
