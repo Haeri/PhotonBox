@@ -46,31 +46,38 @@ public:
 	void setUniform(const std::string& uniformName, T value) {}
 	template<>
 	void setUniform<int>(const std::string& uniformName, int value) {
-		glUniform1i(uniforms[uniformName], GLint(value));
+		if(checkUniform(uniformName))
+			glUniform1i(uniforms[uniformName], GLint(value));
 	}
 	template<>
 	void setUniform<float>(const std::string& uniformName, float value) {
-		glUniform1f(uniforms[uniformName], GLfloat(value));
+		if (checkUniform(uniformName))
+			glUniform1f(uniforms[uniformName], GLfloat(value));
 	}
 	template<>
 	void setUniform<bool>(const std::string& uniformName, bool value){ 
-		glUniform1i(uniforms[uniformName], GLint(value)); 
+		if (checkUniform(uniformName))
+			glUniform1i(uniforms[uniformName], GLint(value)); 
 	}
 	template<>
 	void setUniform<Vector2f>(const std::string& uniformName, Vector2f value) {
-		glUniform2fv(uniforms[uniformName], 1, &(value.x()));
+		if (checkUniform(uniformName))
+			glUniform2fv(uniforms[uniformName], 1, &(value.x()));
 	}
 	template<>
 	void setUniform<Vector3f>(const std::string& uniformName, Vector3f value) {
-		glUniform3fv(uniforms[uniformName], 1, &(value.x()));
+		if (checkUniform(uniformName))
+			glUniform3fv(uniforms[uniformName], 1, &(value.x()));
 	}
 	template<>
 	void setUniform<Vector4f>(const std::string& uniformName, Vector4f value) {
-		glUniform4fv(uniforms[uniformName], 1, &(value.x()));
+		if (checkUniform(uniformName))
+			glUniform4fv(uniforms[uniformName], 1, &(value.x()));
 	}
 	template<>
 	void setUniform<Matrix4f>(const std::string& uniformName, Matrix4f value) {
-		glUniformMatrix4fv(uniforms[uniformName], 1, GL_FALSE, &(value(0, 0))); 
+		if (checkUniform(uniformName))
+			glUniformMatrix4fv(uniforms[uniformName], 1, GL_FALSE, &(value(0, 0))); 
 	}
 	//void setUniform(const std::string& uniformName, Texture* texture);
 	//void setUniform(const std::string& uniformName, CubeMap* cubeMap);
@@ -83,7 +90,9 @@ protected:
 
 	std::string readShader(const std::string& fileName);
 	GLuint createShader(const std::string& shaderSource, unsigned int shaderType);
-	int checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);	
+	int checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
+private:
+	bool checkUniform(const std::string& name);
 };
 
 

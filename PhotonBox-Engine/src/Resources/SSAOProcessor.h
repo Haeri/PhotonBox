@@ -13,9 +13,11 @@ public:
 
 	SSAOProcessor(int index) : PostProcessor(index) {
 		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		mainBuffer->addTextureAttachment("color", false, true);
+		mainBuffer->addTextureAttachment("color", true);
+		mainBuffer->ready();
 		ssaoBlurBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		ssaoBlurBuffer->addTextureAttachment("color", false, true);
+		ssaoBlurBuffer->addTextureAttachment("color", true);
+		ssaoBlurBuffer->ready();
 
 		ssaoMaterial = new Material(SSAOShader::getInstance());
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());

@@ -188,7 +188,7 @@ public:
 		/* --------------------------- POST PROCESSING --------------------------- */
 		p_ssao = new SSAOProcessor(0);
 		p_autoExposure = new AutoExposureProcessor(1);
-		p_bloom = new BloomProcessor(2);
+		//p_bloom = new BloomProcessor(2);
 		p_tonemapping = new ToneMappingProcessor(3);
 
 

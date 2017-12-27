@@ -23,13 +23,17 @@ public:
 		expMaterial = new Material(ExposureShader::getInstance());
 		
 		currentLuminancBuffer = new FrameBuffer(res, res);
-		currentLuminancBuffer->addTextureAttachment("color", false, true, true);
+		currentLuminancBuffer->addTextureAttachment("color", false, true);
+		currentLuminancBuffer->ready();
 		luminancBufferA = new FrameBuffer(1, 1);
-		luminancBufferA->addTextureAttachment("color", false, true);
+		luminancBufferA->addTextureAttachment("color");
+		luminancBufferA->ready();
 		luminancBufferB = new FrameBuffer(1, 1);
-		luminancBufferB->addTextureAttachment("color", false, true);
+		luminancBufferB->addTextureAttachment("color");
+		luminancBufferB->ready();
 		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		mainBuffer->addTextureAttachment("collor", false, true);
+		mainBuffer->addTextureAttachment("color", true);
+		mainBuffer->ready();
 
 		autoExpMaterial->setTexture("luminanceSampleCurrent", currentLuminancBuffer);
 		autoExpMaterial->setProperty<int>("maxMip", numLevels);

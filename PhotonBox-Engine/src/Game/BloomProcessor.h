@@ -37,31 +37,43 @@ public:
 	BloomProcessor(int index) : PostProcessor(index) {
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
 
-		fb_cutOff_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
-		fb_cutOff_2->addTextureAttachment("color", false, true);
-		fb_cutOff_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
-		fb_cutOff_4->addTextureAttachment("color", false, true);
-		fb_cutOff_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
-		fb_cutOff_8->addTextureAttachment("color", false, true);
+		fb_cutOff_2 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_cutOff_2->addTextureAttachment("color");
+		fb_cutOff_2->ready();
+		fb_cutOff_4 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_cutOff_4->addTextureAttachment("color");
+		fb_cutOff_4->ready();
+		fb_cutOff_8 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_cutOff_8->addTextureAttachment("color");
+		fb_cutOff_8->ready();
 		fb_cutOff_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
-		fb_cutOff_16->addTextureAttachment("color", false, true);
+		fb_cutOff_16->addTextureAttachment("color");
+		fb_cutOff_16->ready();
 
-		fb_blur_h_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
-		fb_blur_h_2->addTextureAttachment("color", false, true);
-		fb_blur_v_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
-		fb_blur_v_2->addTextureAttachment("color", false, true);
-		fb_blur_h_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
-		fb_blur_h_4->addTextureAttachment("color", false, true);
-		fb_blur_v_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
-		fb_blur_v_4->addTextureAttachment("color", false, true);
-		fb_blur_h_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
-		fb_blur_h_8->addTextureAttachment("color", false, true);
-		fb_blur_v_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
-		fb_blur_v_8->addTextureAttachment("color", false, true);
+		fb_blur_h_2 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_blur_h_2->addTextureAttachment("color");
+		fb_blur_h_2->ready();
+		fb_blur_v_2 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_blur_v_2->addTextureAttachment("color");
+		fb_blur_v_2->ready();
+		fb_blur_h_4 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_blur_h_4->addTextureAttachment("color");
+		fb_blur_h_4->ready();
+		fb_blur_v_4 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_blur_v_4->addTextureAttachment("color");
+		fb_blur_v_4->ready();
+		fb_blur_h_8 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_blur_h_8->addTextureAttachment("color");
+		fb_blur_h_8->ready();
+		fb_blur_v_8 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_blur_v_8->addTextureAttachment("color");
+		fb_blur_v_8->ready();
 		fb_blur_h_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
-		fb_blur_h_16->addTextureAttachment("color", false, true);
+		fb_blur_h_16->addTextureAttachment("color");
+		fb_blur_h_16->ready();
 		fb_blur_v_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
-		fb_blur_v_16->addTextureAttachment("color", false, true);
+		fb_blur_v_16->addTextureAttachment("color");
+		fb_blur_v_16->ready();
 
 
 		m_cutOff = new Material(CutOffShader::getInstance());
