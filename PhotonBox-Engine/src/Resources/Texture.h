@@ -6,9 +6,11 @@
 
 class Texture {
 public:
-	Texture(const std::string & fileName);
-	Texture(const std::string& fileName, bool generateMipMaps);
-	Texture(const std::string& fileName, bool generateMipMaps, bool hdr);
+	Texture(bool generateMipMaps);
+	Texture(bool generateMipMaps, bool hdr);
+	Texture(std::string & fileName);
+	Texture(std::string& fileName, bool generateMipMaps);
+	Texture(std::string& fileName, bool generateMipMaps, bool hdr);
 	~Texture();
 	void bind();
 	void bind(GLuint textureUnit);
@@ -24,6 +26,9 @@ private:
 	GLuint _texture;
 	int _width, _height;
 	std::string _fileName;
+	static unsigned int _nameIndex;
+
+	void initializeTexture(unsigned char* data, bool generateMipMaps, bool hdr);
 };
 
 #endif // TEXTURE_H

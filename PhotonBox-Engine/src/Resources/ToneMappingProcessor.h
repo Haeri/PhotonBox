@@ -18,7 +18,7 @@ public:
 		frameBuffer->ready();
 
 		material->setProperty<float>("exposure", 0.2f);
-		material->setTexture("renderTexture", frameBuffer);
+		material->setTexture("renderTexture", frameBuffer, "color");
 	}
 
 	void enable() override {
@@ -31,8 +31,6 @@ public:
 
 	void destroy() override {
 		delete material;
-	
-		frameBuffer->destroy();
 		delete frameBuffer;
 	}
 

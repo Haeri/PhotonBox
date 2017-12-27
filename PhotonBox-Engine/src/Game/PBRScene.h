@@ -25,7 +25,7 @@
 
 class PBRScene : public Scene {
 public:
-	CubeMap* sky;
+	CubeMap * sky;
 
 	Mesh* plane;
 	Mesh* sphere;
@@ -89,7 +89,7 @@ public:
 		sky = new CubeMap(nightSky);
 		Renderer::setSkyBox(sky);
 
-	
+
 		/* --------------------------- POST PROCESSING --------------------------- */
 		p_ssao = new SSAOProcessor(0);
 		p_autoExposure = new AutoExposureProcessor(1);
@@ -104,36 +104,36 @@ public:
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		woodAlbedo = new Texture("./res/materials/mahogfloor/mahogfloor_basecolor.png", true);
-		woodRough = new Texture("./res/materials/mahogfloor/mahogfloor_roughness.png", true);
-		woodNormal = new Texture("./res/materials/mahogfloor/mahogfloor_normal.png", true);
-		woodAo = new Texture("./res/materials/mahogfloor/mahogfloor_AO.png", true);
-		woodMetal = new Texture("./res/materials/mahogfloor/mahogfloor_metalness.png", true);
+		woodAlbedo = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
+		woodRough = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
+		woodNormal = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), true);
+		woodAo = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), true);
+		woodMetal = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_metalness.png"), true);
 
-		bricksAlbedo = new Texture("./res/materials/harshbricks/harshbricks-albedo.png", true);
-		bricksRough = new Texture("./res/materials/harshbricks/harshbricks-roughness.png", true);
-		bricksNormal = new Texture("./res/materials/harshbricks/harshbricks-normal.png", true);
-		bricksAo = new Texture("./res/materials/harshbricks/harshbricks-ao.png", true);
-		bricksMetal = new Texture("./res/materials/harshbricks/harshbricks-metalness.png", true);
+		bricksAlbedo = new Texture(std::string("./res/materials/harshbricks/harshbricks-albedo.png"), true);
+		bricksRough = new Texture(std::string("./res/materials/harshbricks/harshbricks-roughness.png"), true);
+		bricksNormal = new Texture(std::string("./res/materials/harshbricks/harshbricks-normal.png"), true);
+		bricksAo = new Texture(std::string("./res/materials/harshbricks/harshbricks-ao.png"), true);
+		bricksMetal = new Texture(std::string("./res/materials/harshbricks/harshbricks-metalness.png"), true);
 
-		rustAlbedo = new Texture("./res/materials/rust/rustediron2_basecolor.png", true);
-		rustRough = new Texture("./res/materials/rust/rustediron2_roughness.png", true);
-		rustNormal = new Texture("./res/materials/rust/rustediron2_normal.png", true);
-		rustMetal = new Texture("./res/materials/rust/rustediron2_metallic.png", true);
+		rustAlbedo = new Texture(std::string("./res/materials/rust/rustediron2_basecolor.png"), true);
+		rustRough = new Texture(std::string("./res/materials/rust/rustediron2_roughness.png"), true);
+		rustNormal = new Texture(std::string("./res/materials/rust/rustediron2_normal.png"), true);
+		rustMetal = new Texture(std::string("./res/materials/rust/rustediron2_metallic.png"), true);
 
-		goldAlbedo = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png", true);
-		goldRough = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png", true);
-		goldNormal = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-normal.png", true);
-		goldMetal = new Texture("./res/materials/greasy-metal/greasy-metal-pan1-metal.png", true);
+		goldAlbedo = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), true);
+		goldRough = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png"), true);
+		goldNormal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), true);
+		goldMetal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
 
 
-		default_normal = new Texture("./res/default_normal.png", false);
-		default_specular = new Texture("./res/default_specular.png", false);
-		default_emission = new Texture("./res/default_emission.png", false);
-		default_ao = new Texture("./res/default_ao.png", false);
-		default_roughness = new Texture("./res/default_roughness.png", false);
-		gradient = new Texture("./res/gradient.png", false);
-		transparentAlbedo = new Texture("./res/Realistic-Rendering/Window/albedo.png", true);
+		default_normal = new Texture(std::string("./res/default_normal.png"), false);
+		default_specular = new Texture(std::string("./res/default_specular.png"), false);
+		default_emission = new Texture(std::string("./res/default_emission.png"), false);
+		default_ao = new Texture(std::string("./res/default_ao.png"), false);
+		default_roughness = new Texture(std::string("./res/default_roughness.png"), false);
+		gradient = new Texture(std::string("./res/gradient.png"), false);
+		transparentAlbedo = new Texture(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
 
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
@@ -192,7 +192,7 @@ public:
 
 		lit = new Material(litShader);
 		lit->setProperty("color", Vector3f(0.3, 0.3, 0.5));
-		
+
 
 		/* --------------------------- CAMERA --------------------------- */
 		GameObject* cam = instanciate("Camera");
@@ -249,7 +249,7 @@ public:
 		probe3->addComponent<MeshRenderer>();
 		probe3->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe3->getComponent<MeshRenderer>()->setMaterial(bricks);
-		
+
 		GameObject* probe4 = instanciate("Probe-4");
 		probe4->getComponent<Transform>()->setPosition(Vector3f(12, 1, 0));
 		probe4->addComponent<MeshRenderer>();
@@ -286,7 +286,7 @@ public:
 		probe9->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
 		probe9->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 
-		GameObject* probe10= instanciate("Probe-7");
+		GameObject* probe10 = instanciate("Probe-7");
 		probe10->getComponent<Transform>()->setPosition(Vector3f(48, 1, 0));
 		probe10->addComponent<TransparentMeshRenderer>();
 		probe10->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
@@ -320,7 +320,7 @@ public:
 		quad4->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad4->addComponent<MeshRenderer>();
 		quad4->getComponent<MeshRenderer>()->setMesh(plane);
-		quad4->getComponent<MeshRenderer>()->setMaterial(gold);	
+		quad4->getComponent<MeshRenderer>()->setMaterial(gold);
 
 		GameObject* quad5 = instanciate("Quad-5");
 		quad5->getComponent<Transform>()->setPosition(Vector3f(18, 0, -3));

@@ -9,6 +9,7 @@ class Material;
 class FrameBuffer {
 public:
 	FrameBuffer(int width, int height);
+	~FrameBuffer();
 	void addTextureAttachment(std::string name);
 	void addTextureAttachment(std::string name, bool hdr);
 	void addTextureAttachment(std::string name, bool hdr, bool mipmaps);
@@ -20,13 +21,11 @@ public:
 	void clear();
 	void render(std::string name);
 	void render(std::string name, Material* material);
-	void destroy();
 
 	GLuint getTextureID(std::string name) { return _colorAttachments[name]; }
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }
 
-	static void render(GLuint texId);
 	static void resetDefaultBuffer();
 private:
 	// config
