@@ -41,7 +41,7 @@ void Material::bindTextures(Shader* shader) {
 	// Textures
 	for (std::unordered_map<std::string, FrameBuffer*>::const_iterator it = _frameBufferMap.begin(); it != _frameBufferMap.end(); ++it) {
 		if (shader->textures.find(it->first) != shader->textures.end())
-			it->second->bind(shader->textures[it->first].unit);
+			it->second->bind(shader->textures[it->first].unit, "color");
 	}
 
 	// CubeMaps

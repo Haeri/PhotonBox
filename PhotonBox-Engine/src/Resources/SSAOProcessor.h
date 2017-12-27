@@ -12,8 +12,10 @@ class SSAOProcessor : public PostProcessor {
 public:
 
 	SSAOProcessor(int index) : PostProcessor(index) {
-		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight(), false);
-		ssaoBlurBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight(), false);
+		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		mainBuffer->addTextureAttachment("color", false, true);
+		ssaoBlurBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		ssaoBlurBuffer->addTextureAttachment("color", false, true);
 
 		ssaoMaterial = new Material(SSAOShader::getInstance());
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
@@ -47,11 +49,11 @@ public:
 		for (unsigned int i = 0; i < 64; ++i) {
 			ssaoMaterial->shader->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
 		}
-		mainBuffer->render(ssaoMaterial);
+		mainBuffer->render("color", ssaoMaterial);
 	}
 
 	void render() override {
-		ssaoBlurBuffer->render(ssaoBlurMaterial);
+		ssaoBlurBuffer->render("color", ssaoBlurMaterial);
 	}
 
 	void destroy() override {

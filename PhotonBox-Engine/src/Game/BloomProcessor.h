@@ -37,19 +37,31 @@ public:
 	BloomProcessor(int index) : PostProcessor(index) {
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
 
-		fb_cutOff_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f, false, false);
-		fb_cutOff_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f, false, false);
-		fb_cutOff_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f, false, false);
-		fb_cutOff_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f, false, false);
+		fb_cutOff_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_cutOff_2->addTextureAttachment("color", false, true);
+		fb_cutOff_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_cutOff_4->addTextureAttachment("color", false, true);
+		fb_cutOff_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_cutOff_8->addTextureAttachment("color", false, true);
+		fb_cutOff_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
+		fb_cutOff_16->addTextureAttachment("color", false, true);
 
 		fb_blur_h_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_blur_h_2->addTextureAttachment("color", false, true);
 		fb_blur_v_2	 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_blur_v_2->addTextureAttachment("color", false, true);
 		fb_blur_h_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_blur_h_4->addTextureAttachment("color", false, true);
 		fb_blur_v_4	 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_blur_v_4->addTextureAttachment("color", false, true);
 		fb_blur_h_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_blur_h_8->addTextureAttachment("color", false, true);
 		fb_blur_v_8	 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_blur_v_8->addTextureAttachment("color", false, true);
 		fb_blur_h_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
+		fb_blur_h_16->addTextureAttachment("color", false, true);
 		fb_blur_v_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
+		fb_blur_v_16->addTextureAttachment("color", false, true);
 
 
 		m_cutOff = new Material(CutOffShader::getInstance());
@@ -67,21 +79,21 @@ public:
 	void preProcess() override{
 		// Blur 16
 		fb_cutOff_16->enable();
-		fb_original->render(m_cutOff);
+		fb_original->render("color", m_cutOff);
 		
 		m_blur_h->setProperty("offset", (1.0f/ fb_cutOff_16->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_16);
 		fb_blur_h_16->enable();
-		fb_cutOff_16->render(m_blur_h);
+		fb_cutOff_16->render("color", m_blur_h);
 
 		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_16->getHeight()));
 		m_blur_v->setTexture("renderTexture", fb_blur_h_16);
 		fb_blur_v_16->enable();
-		fb_blur_h_16->render(m_blur_v);
+		fb_blur_h_16->render("color", m_blur_v);
 
 		if (debug) {
 			FrameBuffer::resetDefaultBuffer();
-			fb_blur_v_16->render();
+			fb_blur_v_16->render("color");
 			Display::swapBuffer();
 			system("PAUSE");
 		}
@@ -90,12 +102,12 @@ public:
 
 		// Blur 8
 		fb_cutOff_8->enable();
-		fb_original->render(m_cutOff);
+		fb_original->render("color", m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
-		fb_blur_v_16->render();
+		fb_blur_v_16->render("color");
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
 		glDisable(GL_BLEND);
@@ -103,16 +115,16 @@ public:
 		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_8->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_8);
 		fb_blur_h_8->enable();
-		fb_cutOff_8->render(m_blur_h);
+		fb_cutOff_8->render("color", m_blur_h);
 
 		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_8->getHeight()));
 		m_blur_v->setTexture("renderTexture", fb_blur_h_8);
 		fb_blur_v_8->enable();
-		fb_blur_h_8->render(m_blur_v);
+		fb_blur_h_8->render("color", m_blur_v);
 
 		if (debug) {
 			FrameBuffer::resetDefaultBuffer();
-			fb_blur_v_8->render();
+			fb_blur_v_8->render("color");
 			Display::swapBuffer();
 			system("PAUSE");
 		}
@@ -120,12 +132,12 @@ public:
 
 		// Blur 4
 		fb_cutOff_4->enable();
-		fb_original->render(m_cutOff);
+		fb_original->render("color", m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
-		fb_blur_v_8->render();
+		fb_blur_v_8->render("color");
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
 		glDisable(GL_BLEND);
@@ -133,16 +145,16 @@ public:
 		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_4->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_4);
 		fb_blur_h_4->enable();
-		fb_cutOff_4->render(m_blur_h);
+		fb_cutOff_4->render("color", m_blur_h);
 
 		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_4->getHeight()));
 		m_blur_v->setTexture("renderTexture", fb_blur_h_4);
 		fb_blur_v_4->enable();
-		fb_blur_h_4->render(m_blur_v);
+		fb_blur_h_4->render("color", m_blur_v);
 
 		if (debug) {
 			FrameBuffer::resetDefaultBuffer();
-			fb_blur_v_4->render();
+			fb_blur_v_4->render("color");
 			Display::swapBuffer();
 			system("PAUSE");
 		}
@@ -150,12 +162,12 @@ public:
 
 		// Blur 2
 		fb_cutOff_2->enable();
-		fb_original->render(m_cutOff);
+		fb_original->render("color", m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
-		fb_blur_v_4->render();
+		fb_blur_v_4->render("color");
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
 		glDisable(GL_BLEND);
@@ -163,28 +175,28 @@ public:
 		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_2->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_2);
 		fb_blur_h_2->enable();
-		fb_cutOff_2->render(m_blur_h);
+		fb_cutOff_2->render("color", m_blur_h);
 
 		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_2->getHeight()));
 		m_blur_v->setTexture("renderTexture", fb_blur_h_2);
 		fb_blur_v_2->enable();
-		fb_blur_h_2->render(m_blur_v);
+		fb_blur_h_2->render("color", m_blur_v);
 
 		if (debug) {
 			FrameBuffer::resetDefaultBuffer();
-			fb_blur_v_2->render();
+			fb_blur_v_2->render("color");
 			Display::swapBuffer();
 			system("PAUSE");
 		}
 	}
 
 	void render() override {
-		fb_original->render();
+		fb_original->render("color");
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
-		fb_blur_v_2->render();
+		fb_blur_v_2->render("color");
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
 		glDisable(GL_BLEND);

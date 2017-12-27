@@ -30,10 +30,14 @@ public:
 		m_vBlur2 = new Material(BlurVShader::getInstance());
 		m_vBlur2->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
 
-		fb_blur1 = new FrameBuffer(Display::getWidth()/2, Display::getHeight()/2);
-		fb_blur2 = new FrameBuffer(Display::getWidth()/2, Display::getHeight()/2);
+		fb_blur1 = new FrameBuffer(Display::getWidth() / 2, Display::getHeight() / 2);
+		fb_blur1->addTextureAttachment("color", false, true);
+		fb_blur2 = new FrameBuffer(Display::getWidth() / 2, Display::getHeight() / 2);
+		fb_blur2->addTextureAttachment("color", false, true);
 		fb_blur3 = new FrameBuffer(Display::getWidth() / 8, Display::getHeight() / 8);
+		fb_blur3->addTextureAttachment("color", false, true);
 		fb_blur4 = new FrameBuffer(Display::getWidth() / 8, Display::getHeight() / 8);
+		fb_blur4->addTextureAttachment("color", false, true);
 	}
 
 	void enable() override {
@@ -42,15 +46,15 @@ public:
 
 	void preProcess() override {
 		fb_blur2->enable();
-		fb_blur1->render(m_hBlur1);
+		fb_blur1->render("color", m_hBlur1);
 		fb_blur3->enable();
-		fb_blur2->render(m_vBlur1);
+		fb_blur2->render("color", m_vBlur1);
 		fb_blur4->enable();
-		fb_blur3->render(m_hBlur2);
+		fb_blur3->render("color", m_hBlur2);
 	}
 
 	void render() override {
-		fb_blur4->render(m_vBlur2);
+		fb_blur4->render("color", m_vBlur2);
 	}
 
 	void destroy() override {
