@@ -79,6 +79,9 @@ void Renderer::init(int superSampling) {
 	_transparentBaseShader = TransparentShader::getInstance();
 	_gShader = GShader::getInstance();
 	_mainFrameBuffer = new FrameBuffer(Display::getWidth()*superSampling, Display::getHeight()*superSampling);
+	_mainFrameBuffer->addTextureAttachment("color", true, false);
+	_mainFrameBuffer->addDepthBufferAttachment();
+	_mainFrameBuffer->ready();
 	defBuffer.init();
 
 	_isDebug = false;
@@ -96,8 +99,11 @@ void Renderer::start() {
 }
 
 void Renderer::prePass(){
-	glBindFramebuffer(GL_FRAMEBUFFER, defBuffer.gBuffer);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	defBuffer.gBuffer->enable();
+	defBuffer.gBuffer->clear();
+
+//	glBindFramebuffer(GL_FRAMEBUFFER, defBuffer.gBuffer);
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
 		if ((*it)->getEnable()) {
@@ -107,20 +113,6 @@ void Renderer::prePass(){
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	/*
-	FrameBuffer::resetDefaultBuffer();
-	FrameBuffer::render(defBuffer.gPosition);
-	Display::swapBuffer();
-
-	FrameBuffer::resetDefaultBuffer();
-	FrameBuffer::render(defBuffer.gNormal);
-	Display::swapBuffer();
-
-	FrameBuffer::resetDefaultBuffer();
-	FrameBuffer::render(defBuffer.rboDepth);
-	Display::swapBuffer();
-	*/
 }
 
 void Renderer::render() {
@@ -272,7 +264,7 @@ void Renderer::render(bool captureMode, LightMap* lightmap) {
 
 	if (!captureMode && !PostProcessing::isActive()) {
 		FrameBuffer::resetDefaultBuffer();
-		_mainFrameBuffer->render();	
+		_mainFrameBuffer->render("color");	
 	}
 }
 

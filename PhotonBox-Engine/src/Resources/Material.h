@@ -2,8 +2,10 @@
 #define MATERIAL_H
 
 class FrameBuffer;
+class Shader;
+class CubeMap;
+class Texture;
 #include <unordered_map>
-#include "Shader.h"
 
 class Material {
 public:
@@ -20,12 +22,9 @@ public:
 
 	// Texture
 	void setTexture(const std::string& uniformName, Texture* texture);
-	void setTexture(const std::string& uniformName, FrameBuffer* texture);
-	// CubeMap
+	void setTexture(const std::string & uniformName, FrameBuffer * buffer, std::string attachmentName);
 	void setCubeMap(const std::string& uniformName, CubeMap* cubeMap);
 	
-	
-
 	void updateUniforms();
 	void updateUniforms(Shader* shader);
 	void bindTextures();
@@ -38,7 +37,13 @@ public:
 	Texture* getTexture(const std::string& uniformName);
 	CubeMap* getCubeMap(const std::string& uniformName);
 private:
-	
+	struct BufferAttachment {
+		std::string name;
+		FrameBuffer* frameBuffer;
+		BufferAttachment() {}
+		BufferAttachment(std::string name, FrameBuffer* frameBuffer) : name(name), frameBuffer(frameBuffer) {}
+	};
+
 	struct SuperObject {
 		virtual void update(Shader* shader) = 0;
 	};
@@ -52,7 +57,7 @@ private:
 	};
 
 	std::unordered_map<std::string, Texture*> _textreMap;
-	std::unordered_map<std::string, FrameBuffer*> _frameBufferMap;
+	std::unordered_map<std::string, BufferAttachment> _frameBufferMap;
 	std::unordered_map<std::string, CubeMap*> _cubeMapMap;
 	std::unordered_map<std::string, SuperObject*> _uniformMap;
 };

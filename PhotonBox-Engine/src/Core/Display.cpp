@@ -18,8 +18,8 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	}
 
 	glfwDefaultWindowHints();
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RED_BITS, 8);
 	glfwWindowHint(GLFW_GREEN_BITS, 8);
@@ -38,7 +38,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 	// Set Icon
 	GLFWimage images[1];
-	images[0].pixels = Texture::loadIcon("./res/PhotonBox.png", images[0].width, images[0].height);
+	images[0].pixels = Texture::loadIcon("./res/logo.png", images[0].width, images[0].height);
 	glfwSetWindowIcon(_window, 1, images);
 
 	setVSync(false);
@@ -55,7 +55,6 @@ void Display::destroy() {
 }
 
 void Display::clearBuffers(){
-	//glfwGetFramebufferSize(_window, &_width, &_height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 

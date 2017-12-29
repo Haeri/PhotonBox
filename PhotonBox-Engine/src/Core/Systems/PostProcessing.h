@@ -12,7 +12,7 @@ public:
 	static bool isActive() { return _doPostProcessing; }
 	void start();
 	void postProcess();
-	void destroy();
+	void reset();
 private:
 	static bool _doPostProcessing;
 	static std::map<int, PostProcessor*> _processorMap;

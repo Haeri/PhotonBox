@@ -4,12 +4,13 @@
 #include "../Core/Systems/Renderer.h"
 #include "../Resources/DefaultPostShader.h"
 #include "../Resources/ForwardDirectionalLightShader.h"
+#include "../Core/FrameBuffer.h"
 
 DirectionalLight::DirectionalLight(){
 	Lighting::addLight(this);
 	_depthShader = DepthShader::getInstance();
 	_shadowMapResolution = 2048;
-	lightProjection = Matrix4f::createOrthographic(-10, 10, -10, 10, 0.1, 20);
+	lightProjection = Matrix4f::createOrthographic(-5, 5, -5, 5, 0.1, 100);
 
 	glGenFramebuffers(1, &_depthMapFBO);
 

@@ -1,11 +1,11 @@
 #ifndef DEFERRED_BUFFER_H
 #define DEFERRED_BUFFER_H
 
+class FrameBuffer;
+
 class DeferredBuffer {
 public:
-	unsigned int gBuffer;
-	unsigned int gPosition, gNormal, gAlbedoSpec;
-	unsigned int rboDepth;
+	FrameBuffer* gBuffer;
 
 	void init();
 };

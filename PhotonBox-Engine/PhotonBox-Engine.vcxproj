@@ -38,6 +38,7 @@
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
+    <ClCompile Include="src\Core\GLError.cpp" />
     <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\LightMap.cpp" />
     <ClCompile Include="src\Core\MeshSerializer.cpp" />
@@ -88,8 +89,10 @@
     <ClInclude Include="src\Core\Display.h" />
     <ClInclude Include="src\Core\FrameBuffer.h" />
     <ClInclude Include="src\Core\GameObject.h" />
+    <ClInclude Include="src\Core\GLError.h" />
     <ClInclude Include="src\Core\InputManager.h" />
     <ClInclude Include="src\Core\LightMap.h" />
+    <ClInclude Include="src\Core\ManagedResource.h" />
     <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Core\Systems\PostProcessing.h" />
     <ClInclude Include="src\Core\PostProcessor.h" />
@@ -264,10 +267,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
