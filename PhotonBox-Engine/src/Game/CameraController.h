@@ -85,11 +85,6 @@ public:
 			std::cout << sp << std::endl;
 			std::cout << sr << std::endl << std::endl;
 		}
-
-		/*
-		UIRenderer::renderText(sp, 10, Display::getHeight() - 30, 0.32f, Vector3f(0.9, 0.9, 0.9));
-		UIRenderer::renderText(sr, 10, Display::getHeight() - 40, 0.32f, Vector3f(0.9, 0.9, 0.9));
-		*/
 	}
 
 	void toggleCursor() {
@@ -112,4 +107,3 @@ public:
 };
 
 #endif // CAMERA_CONTROLLER_H
-

@@ -161,3 +161,8 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 		return 0;
 	}
 }
+
+bool Shader::checkUniform(const std::string & name)
+{
+	return uniforms.find(name) != uniforms.end();
+}

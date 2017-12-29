@@ -14,9 +14,11 @@ public:
 	ToneMappingProcessor(int index) : PostProcessor(index) {
 		material = new Material(ToneMappingShader::getInstance());
 		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		frameBuffer->addTextureAttachment("color", true);
+		frameBuffer->ready();
 
 		material->setProperty<float>("exposure", 0.2f);
-		material->setTexture("renderTexture", frameBuffer);
+		material->setTexture("renderTexture", frameBuffer, "color");
 	}
 
 	void enable() override {
@@ -24,13 +26,11 @@ public:
 	}
 
 	void render() override {
-		frameBuffer->render(material);
+		frameBuffer->render("color", material);
 	}
 
 	void destroy() override {
 		delete material;
-	
-		frameBuffer->destroy();
 		delete frameBuffer;
 	}
 

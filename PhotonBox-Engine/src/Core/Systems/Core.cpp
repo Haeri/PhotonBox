@@ -37,7 +37,8 @@ void Core::init(){
 
 	// Initialize OpenGL
 	display->init("PhotonBox Engine", 1480, 900);
-	renderer->init(2);
+
+	renderer->init(1);
 	inputManager->init();
 	uiRenderer->init();
 
@@ -48,6 +49,8 @@ void Core::init(){
 	sceneManager->addScene("TestScene", new TestScene());
 	sceneManager->addScene("PBRScene", new PBRScene());
 
+	sceneManager->loadSceneImediately("TestScene");
+
 	// Start Subsystems
 	start();
 }
@@ -56,7 +59,6 @@ void Core::start() {
 	std::cout << "==================================================" << std::endl;
 	std::cout << "                  LOADING SCENE" << std::endl << std::endl;
 	
-	sceneManager->loadSceneImediately("TestScene");
 	
 	logic->start();
 	renderer->start();
@@ -75,6 +77,7 @@ void Core::run(){
 
 	std::string statPrint;
 
+
 	while (_isRunning) {
 		
 		//std::cout << "------------------------------START NEW FRAME------------------------------" << std::endl;
@@ -88,7 +91,6 @@ void Core::run(){
 
 		if (lastSecond >= 1.0) {
 			statPrint = std::to_string(nbFrames) + " FPS  -  " + std::to_string(1000.0f / double(nbFrames)).substr(0, 4) + "ms";
-			//printf("%i FPS - %f ms/frame\n", nbFrames, 1000.0 / double(nbFrames));
 			nbFrames = 0;
 			lastSecond = 0;
 		}
@@ -143,11 +145,16 @@ void Core::run(){
 		inputManager->pollEvents();
 
 		// End of Frame
-		if (sceneManager->loadQueuedScene())
+		if (sceneManager->loadQueuedScene()) {
 			start();
+		}
 		
 		_isRunning = display->isRunning();
 	}
+}
+
+void Core::reset() {
+	postPocessing->reset();
 }
 
 void Core::destroy(){
@@ -156,7 +163,6 @@ void Core::destroy(){
 	physics->destroy();
 	sceneManager->destroy();
 	display->destroy();
-	postPocessing->destroy();
 
 	delete sceneManager;
 	delete renderer;

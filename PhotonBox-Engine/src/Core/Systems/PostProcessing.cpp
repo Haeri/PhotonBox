@@ -23,7 +23,7 @@ void PostProcessing::postProcess() {
 
 	glDisable(GL_DEPTH_TEST);
 	_processorMap.begin()->second->enable();
-	Renderer::getMainFrameBuffer()->render();
+	Renderer::getMainFrameBuffer()->render("color");
 
 
 	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != (--_processorMap.end()); ++it) {
@@ -37,7 +37,7 @@ void PostProcessing::postProcess() {
 	(--_processorMap.end())->second->render();
 }
 
-void PostProcessing::destroy() {
+void PostProcessing::reset() {
 	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it) {
 		it->second->destroy();
 		delete it->second;
