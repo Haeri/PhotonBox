@@ -549,7 +549,7 @@ public:
 
 
 		GameObject* cam = instanciate("Camera");
-		cam->addComponent<Camera>();
+		cam->addComponent<Camera>()->setFOV(60);
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 2, -2));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraController>();
@@ -902,11 +902,11 @@ public:
 		delete occluderMaterial;
 		delete panoramaMaterial;
 
-		delete p_autoExposure;
-		delete p_bloom;
-		delete p_tonemapping;
-		delete p_ssao;
-		delete p_ssreflection;
+		//delete p_autoExposure;
+		//delete p_bloom;
+		//delete p_tonemapping;
+		//delete p_ssao;
+		//delete p_ssreflection;
 	}
 
 };

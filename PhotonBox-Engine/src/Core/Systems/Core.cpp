@@ -36,9 +36,9 @@ void Core::init(){
 	lighting = new Lighting();
 
 	// Initialize OpenGL
-	display->init("PhotonBox Engine", 1480, 900);
+	display->init("PhotonBox Engine", 1920, 1080);
 
-	renderer->init(1);
+	renderer->init(2);
 	inputManager->init();
 	uiRenderer->init();
 
@@ -145,7 +145,10 @@ void Core::run(){
 		inputManager->pollEvents();
 
 		// End of Frame
-		if (sceneManager->loadQueuedScene()) {
+		if (sceneManager->sceneQueued()) {
+			sceneManager->unloadScene(SceneManager::getCurrentScene());
+			reset();
+			sceneManager->loadQueuedScene();
 			start();
 		}
 		

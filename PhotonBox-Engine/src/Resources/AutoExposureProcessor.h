@@ -12,7 +12,7 @@
 class AutoExposureProcessor : public PostProcessor {
 public:
 	float minLuminance = 0.01;
-	float maxLuminance = 100;
+	float maxLuminance = 20;
 
 
 	AutoExposureProcessor(int index) : PostProcessor(index) {
@@ -23,7 +23,7 @@ public:
 		expMaterial = new Material(ExposureShader::getInstance());
 		
 		currentLuminancBuffer = new FrameBuffer(res, res);
-		currentLuminancBuffer->addTextureAttachment("color", true, true);
+		currentLuminancBuffer->addTextureAttachment("color", false, true);
 		currentLuminancBuffer->ready();
 		luminancBufferA = new FrameBuffer(1, 1);
 		luminancBufferA->addTextureAttachment("color", true);

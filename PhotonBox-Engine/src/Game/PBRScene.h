@@ -93,7 +93,7 @@ public:
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		//p_ssao = new SSAOProcessor(0);
-		//p_ssreflection = new SSReflectionProcessor(0);
+		p_ssreflection = new SSReflectionProcessor(0);
 		p_autoExposure = new AutoExposureProcessor(1);
 		p_bloom = new BloomProcessor(2);
 		p_tonemapping = new ToneMappingProcessor(3);
@@ -390,11 +390,11 @@ public:
 		delete lit;
 		delete glassMaterial;
 
-		delete p_autoExposure;
-		delete p_bloom;
-		delete p_tonemapping;
-		delete p_ssao;
-		delete p_ssreflection;
+		//delete p_autoExposure;
+		//delete p_bloom;
+		//delete p_tonemapping;
+		//delete p_ssao;
+		//delete p_ssreflection;
 	}
 
 };
