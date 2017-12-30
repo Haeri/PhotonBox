@@ -48,7 +48,7 @@ void main()
 
     vec3 F0 = vec3(0.04); 
     F0      = mix(F0, albedo, Metallic);
-    vec3 Fresnel = fresnelSchlick(max(dot(normalize(viewNormal), normalize(viewPos)), 0.0), F0);
+    vec3 Fresnel = fresnelSchlickRoughness(max(dot(normalize(viewNormal), normalize(viewPos)), 0.0), F0, roughness);
 
     // Reflection vector
     vec3 reflected = normalize(reflect(normalize(viewPos), normalize(viewNormal)));

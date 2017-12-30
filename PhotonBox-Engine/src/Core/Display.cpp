@@ -2,6 +2,8 @@
 #include "../Components/Camera.h"
 #include "../Resources/Texture.h"
 
+#define FULLSCREEN 1
+
 bool Display::_isRunning;
 int Display::_width, Display::_height;
 GLFWwindow* Display::_window;
@@ -27,8 +29,13 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	glfwWindowHint(GLFW_ALPHA_BITS, 8);
 	glfwWindowHint(GLFW_DEPTH_BITS, 32);
 
+	const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+#if FULLSCREEN
+		_window = glfwCreateWindow(1920, 1080, title.c_str(), glfwGetPrimaryMonitor(), NULL);
+#else
+		_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+#endif
 
-	_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if (!_window) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);

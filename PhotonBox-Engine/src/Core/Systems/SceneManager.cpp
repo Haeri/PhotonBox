@@ -27,11 +27,9 @@ void SceneManager::loadSceneImediately(const std::string& name) {
 	_inQueue = false;
 }
 
-bool SceneManager::loadQueuedScene() {
-	if (!_inQueue) return false;
+void SceneManager::loadQueuedScene() {
 	loadSceneImediately(_newScene);
 	_newScene = "";
-	return true;
 }
 
 void SceneManager::unloadScene(Scene * scene){
