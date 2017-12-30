@@ -12,7 +12,7 @@
 class AutoExposureProcessor : public PostProcessor {
 public:
 	float minLuminance = 0.01;
-	float maxLuminance = 20;
+	float maxLuminance = 100;
 
 
 	AutoExposureProcessor(int index) : PostProcessor(index) {
@@ -23,13 +23,13 @@ public:
 		expMaterial = new Material(ExposureShader::getInstance());
 		
 		currentLuminancBuffer = new FrameBuffer(res, res);
-		currentLuminancBuffer->addTextureAttachment("color", false, true);
+		currentLuminancBuffer->addTextureAttachment("color", true, true);
 		currentLuminancBuffer->ready();
 		luminancBufferA = new FrameBuffer(1, 1);
-		luminancBufferA->addTextureAttachment("color");
+		luminancBufferA->addTextureAttachment("color", true);
 		luminancBufferA->ready();
 		luminancBufferB = new FrameBuffer(1, 1);
-		luminancBufferB->addTextureAttachment("color");
+		luminancBufferB->addTextureAttachment("color", true);
 		luminancBufferB->ready();
 		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		mainBuffer->addTextureAttachment("color", true);
@@ -60,7 +60,7 @@ public:
 			luminancBufferB->enable();
 			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB, "color");
 		}
-		currentLuminancBuffer->render("color", autoExpMaterial);
+		currentLuminancBuffer->render(autoExpMaterial);
 	}
 
 	void render() override {
@@ -69,7 +69,7 @@ public:
 		}else {
 			expMaterial->setTexture("exposureSample", luminancBufferB, "color");
 		}
-		mainBuffer->render("color", expMaterial);
+		mainBuffer->render(expMaterial);
 		flip = !flip;
 	}
 

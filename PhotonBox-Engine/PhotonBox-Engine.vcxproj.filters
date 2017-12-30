@@ -360,5 +360,7 @@
     <ClInclude Include="src\Resources\SSAOBlurShader.h" />
     <ClInclude Include="src\Core\ManagedResource.h" />
     <ClInclude Include="src\Core\GLError.h" />
+    <ClInclude Include="src\Resources\SSReflectionProcessor.h" />
+    <ClInclude Include="src\Resources\SSReflectionShader.h" />
   </ItemGroup>
 </Project>

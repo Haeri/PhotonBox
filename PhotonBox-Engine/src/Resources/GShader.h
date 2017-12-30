@@ -20,12 +20,18 @@ public:
 		addUniform("model");
 		addUniform("view");
 		addUniform("projection");
+
+		addTexture("albedoMap");
+		addTexture("normalMap");
+		addTexture("roughnessMap");
+		addTexture("metallicMap");
 	}
 
 	void addAttributes() override {
 		addAttribut("aPos", Vertex::AttibLocation::POSITION);
 		addAttribut("aNormal", Vertex::AttibLocation::NORMAL);
 		addAttribut("aTexCoords", Vertex::AttibLocation::TEXTURECOORD);
+		addAttribut("tangent", Vertex::AttibLocation::TANGENT);
 	}
 };
 

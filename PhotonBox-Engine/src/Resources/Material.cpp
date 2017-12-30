@@ -11,7 +11,7 @@ void Material::setTexture(const std::string & uniformName, Texture* texture)
 
 void Material::setTexture(const std::string & uniformName, FrameBuffer * buffer, std::string attachmentName)
 {
-	_frameBufferMap[uniformName] = BufferAttachment(attachmentName, buffer);
+	_frameBufferMap[uniformName] = buffer->getAttachment(attachmentName);
 }
 
 void Material::setCubeMap(const std::string & uniformName, CubeMap* cubeMap)
@@ -45,9 +45,9 @@ void Material::bindTextures(Shader* shader)
 	}
 
 	// Textures
-	for (std::unordered_map<std::string, BufferAttachment>::const_iterator it = _frameBufferMap.begin(); it != _frameBufferMap.end(); ++it) {
+	for (std::unordered_map<std::string, FrameBuffer::BufferAttachment*>::const_iterator it = _frameBufferMap.begin(); it != _frameBufferMap.end(); ++it) {
 		if (shader->textures.find(it->first) != shader->textures.end())
-			it->second.frameBuffer->bind(shader->textures[it->first].unit, it->second.name);
+			it->second->frameBuffer->bind(shader->textures[it->first].unit, it->second->name);
 	}
 
 	// CubeMaps
