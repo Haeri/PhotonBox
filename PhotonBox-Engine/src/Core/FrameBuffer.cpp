@@ -47,7 +47,10 @@ FrameBuffer::FrameBuffer(int width, int height)
 FrameBuffer::~FrameBuffer()
 {
 	glDeleteFramebuffers(1, &_fbo);
-	glDeleteRenderbuffers(_colorAttachments.size(), &_colorAttachments[0]);
+	for (auto const &ent1 : _colorAttachments)
+	{
+		glDeleteRenderbuffers(1, &ent1.second.id);
+	}
 	glDeleteRenderbuffers(1, &_depthAttachment);
 }
 
@@ -65,47 +68,50 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 	GLint format = hdr ? GL_RGB16F : GL_RGBA;
-	_colorAttachments[name] = 0;
-	GLuint* texture = &(_colorAttachments[name]);
+	BufferAttachment temp(this, name, hdr);
 
-	glGenTextures(1, texture);
-	glBindTexture(GL_TEXTURE_2D, *texture);
+	glGenTextures(1, &temp.id);
+	glBindTexture(GL_TEXTURE_2D, temp.id);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	if (mipmaps) {
-		_maxMipMaps = 1 + floor(log2(min(_width, _height)));
+		temp.mipmaps = 1 + floor(log2(min(_width, _height)));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else {
-		_maxMipMaps = 0;
+		temp.mipmaps = 0;
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, *texture, 0);
-
+	glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, temp.id, 0);
+	temp.attachmentIndex = _colorAttachmentIndex;
 	_drawBuffers.push_back(_colorAttachmentIndex);
 
+	_colorAttachments[name] = temp;
 	++_colorAttachmentIndex;
 }
 
 void FrameBuffer::addDepthTextureAttachment(std::string name)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-	_colorAttachments[name] = 0;
-	GLuint* texture = &(_colorAttachments[name]);
+	BufferAttachment temp(this, name, false);
 
-	glGenTextures(1, texture);
-	glBindTexture(GL_TEXTURE_2D, *texture);
+	glGenTextures(1, &temp.id);
+	glBindTexture(GL_TEXTURE_2D, temp.id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, _width, _height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, *texture, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, temp.id, 0);
+
+	temp.mipmaps = 0;
+	temp.attachmentIndex = GL_DEPTH_ATTACHMENT;
+	_colorAttachments[name] = temp;
 }
 
 void FrameBuffer::addDepthBufferAttachment()
@@ -128,8 +134,8 @@ void FrameBuffer::enable()
 void FrameBuffer::bind(GLuint textureUnit, std::string name) 
 {
 	glActiveTexture(textureUnit);
-	glBindTexture(GL_TEXTURE_2D, _colorAttachments[name]);
-	if (_maxMipMaps > 0)
+	glBindTexture(GL_TEXTURE_2D, _colorAttachments[name].id);
+	if (_colorAttachments[name].mipmaps > 0)
 		glGenerateMipmap(GL_TEXTURE_2D);
 }
 
@@ -158,6 +164,15 @@ void FrameBuffer::clear()
 void FrameBuffer::render(std::string name) 
 {
 	render(name, nullptr);
+}
+
+void FrameBuffer::render(Material* material) {
+	render("", material);
+}
+
+FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name)
+{
+	return &_colorAttachments[name];
 }
 
 void FrameBuffer::render(std::string name, Material* material) 

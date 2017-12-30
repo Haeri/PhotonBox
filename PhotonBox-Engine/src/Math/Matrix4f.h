@@ -21,6 +21,7 @@ public:
 	float at(unsigned int  x, unsigned int  y) const;
 	void set(unsigned int x, unsigned int  y, float val);
 	Matrix4f transpose();
+	Matrix4f inverse();
 
 	inline Matrix4f operator* (const Matrix4f& other) const {
 		Matrix4f ret;

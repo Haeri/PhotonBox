@@ -36,15 +36,15 @@ void Core::init(){
 	lighting = new Lighting();
 
 	// Initialize OpenGL
-	display->init("PhotonBox Engine", 1480, 900);
+	display->init("PhotonBox Engine", 1920, 1080);
 
-	renderer->init(1);
+	renderer->init(2);
 	inputManager->init();
 	uiRenderer->init();
 
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
-
+	
 	// Load Scenes
 	sceneManager->addScene("TestScene", new TestScene());
 	sceneManager->addScene("PBRScene", new PBRScene());
@@ -126,9 +126,9 @@ void Core::run(){
 		postPocessing->postProcess();
 		
 
+
 		// Gizmos
 		renderer->renderGizmos();
-
 
 		// UI Rendering
 		uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0.9, 0.9, 0.9));
@@ -145,7 +145,10 @@ void Core::run(){
 		inputManager->pollEvents();
 
 		// End of Frame
-		if (sceneManager->loadQueuedScene()) {
+		if (sceneManager->sceneQueued()) {
+			sceneManager->unloadScene(SceneManager::getCurrentScene());
+			reset();
+			sceneManager->loadQueuedScene();
 			start();
 		}
 		
