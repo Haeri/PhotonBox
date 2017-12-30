@@ -1,11 +1,11 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-class FrameBuffer;
 class Shader;
 class CubeMap;
 class Texture;
 #include <unordered_map>
+#include "../Core/FrameBuffer.h"
 
 class Material {
 public:
@@ -37,13 +37,6 @@ public:
 	Texture* getTexture(const std::string& uniformName);
 	CubeMap* getCubeMap(const std::string& uniformName);
 private:
-	struct BufferAttachment {
-		std::string name;
-		FrameBuffer* frameBuffer;
-		BufferAttachment() {}
-		BufferAttachment(std::string name, FrameBuffer* frameBuffer) : name(name), frameBuffer(frameBuffer) {}
-	};
-
 	struct SuperObject {
 		virtual void update(Shader* shader) = 0;
 	};
@@ -57,7 +50,7 @@ private:
 	};
 
 	std::unordered_map<std::string, Texture*> _textreMap;
-	std::unordered_map<std::string, BufferAttachment> _frameBufferMap;
+	std::unordered_map<std::string, FrameBuffer::BufferAttachment*> _frameBufferMap;
 	std::unordered_map<std::string, CubeMap*> _cubeMapMap;
 	std::unordered_map<std::string, SuperObject*> _uniformMap;
 };

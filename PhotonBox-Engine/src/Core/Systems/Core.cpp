@@ -44,7 +44,7 @@ void Core::init(){
 
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
-
+	
 	// Load Scenes
 	sceneManager->addScene("TestScene", new TestScene());
 	sceneManager->addScene("PBRScene", new PBRScene());
@@ -126,9 +126,9 @@ void Core::run(){
 		postPocessing->postProcess();
 		
 
+
 		// Gizmos
 		renderer->renderGizmos();
-
 
 		// UI Rendering
 		uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0.9, 0.9, 0.9));

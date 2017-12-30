@@ -153,6 +153,8 @@
     <ClInclude Include="src\Resources\SSAOBlurShader.h" />
     <ClInclude Include="src\Resources\SSAOProcessor.h" />
     <ClInclude Include="src\Resources\SSAOShader.h" />
+    <ClInclude Include="src\Resources\SSReflectionShader.h" />
+    <ClInclude Include="src\Resources\SSReflectionProcessor.h" />
     <ClInclude Include="src\Resources\TextShader.h" />
     <ClInclude Include="src\Resources\Texture.h" />
     <ClInclude Include="src\Resources\ToneMappingProcessor.h" />

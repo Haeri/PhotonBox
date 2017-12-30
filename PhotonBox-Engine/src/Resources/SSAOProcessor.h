@@ -35,7 +35,8 @@ public:
 
 	void preProcess() override {
 		ssaoBlurBuffer->enable();
-		
+
+		// TODO: Clean up this block
 		ssaoMaterial->shader->bind();
 
 		glActiveTexture(SSAOShader::getInstance()->textures["texNoise"].unit);
@@ -44,11 +45,11 @@ public:
 		for (unsigned int i = 0; i < 64; ++i) {
 			ssaoMaterial->shader->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
 		}
-		mainBuffer->render("color", ssaoMaterial);
+		mainBuffer->render(ssaoMaterial);
 	}
 
 	void render() override {
-		ssaoBlurBuffer->render("color", ssaoBlurMaterial);
+		ssaoBlurBuffer->render(ssaoBlurMaterial);
 	}
 
 	void destroy() override {

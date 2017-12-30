@@ -22,6 +22,7 @@
 #include "../Resources/IrradianceShader.h"
 #include "../Components/TransparentMeshRenderer.h"
 #include "../Resources/TransparentShader.h"
+#include "../Resources/SSReflectionProcessor.h"
 
 class PBRScene : public Scene {
 public:
@@ -72,7 +73,7 @@ public:
 	BloomProcessor* p_bloom;
 	ToneMappingProcessor* p_tonemapping;
 	SSAOProcessor* p_ssao;
-
+	SSReflectionProcessor* p_ssreflection;
 
 	void Load() {
 
@@ -91,15 +92,16 @@ public:
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		p_ssao = new SSAOProcessor(0);
+		//p_ssao = new SSAOProcessor(0);
+		//p_ssreflection = new SSReflectionProcessor(0);
 		p_autoExposure = new AutoExposureProcessor(1);
 		p_bloom = new BloomProcessor(2);
 		p_tonemapping = new ToneMappingProcessor(3);
 
 
 		/* --------------------------- OBJ --------------------------- */
-		plane = OBJLoader::loadObj("./res/plane.obj");
-		sphere = OBJLoader::loadObj("./res/sphere.obj");
+		plane = OBJLoader::loadObj("./res/primitives/plane.obj");
+		sphere = OBJLoader::loadObj("./res/primitives/sphere.obj");
 
 
 
@@ -392,6 +394,7 @@ public:
 		delete p_bloom;
 		delete p_tonemapping;
 		delete p_ssao;
+		delete p_ssreflection;
 	}
 
 };
