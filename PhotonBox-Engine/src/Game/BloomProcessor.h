@@ -92,17 +92,17 @@ public:
 	void preProcess() override{
 		// Blur 16
 		fb_cutOff_16->enable();
-		fb_original->render("color", m_cutOff);
+		fb_original->render(m_cutOff);
 		
 		m_blur_h->setProperty("offset", (1.0f/ fb_cutOff_16->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_16, "color");
 		fb_blur_h_16->enable();
-		fb_cutOff_16->render("color", m_blur_h);
+		fb_cutOff_16->render(m_blur_h);
 
 		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_16->getHeight()));
 		m_blur_v->setTexture("renderTexture", fb_blur_h_16, "color");
 		fb_blur_v_16->enable();
-		fb_blur_h_16->render("color", m_blur_v);
+		fb_blur_h_16->render(m_blur_v);
 
 		if (debug) {
 			FrameBuffer::resetDefaultBuffer();
@@ -115,7 +115,7 @@ public:
 
 		// Blur 8
 		fb_cutOff_8->enable();
-		fb_original->render("color", m_cutOff);
+		fb_original->render(m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -128,12 +128,12 @@ public:
 		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_8->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_8, "color");
 		fb_blur_h_8->enable();
-		fb_cutOff_8->render("color", m_blur_h);
+		fb_cutOff_8->render(m_blur_h);
 
 		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_8->getHeight()));
 		m_blur_v->setTexture("renderTexture", fb_blur_h_8, "color");
 		fb_blur_v_8->enable();
-		fb_blur_h_8->render("color", m_blur_v);
+		fb_blur_h_8->render(m_blur_v);
 
 		if (debug) {
 			FrameBuffer::resetDefaultBuffer();
@@ -145,7 +145,7 @@ public:
 
 		// Blur 4
 		fb_cutOff_4->enable();
-		fb_original->render("color", m_cutOff);
+		fb_original->render(m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -158,12 +158,12 @@ public:
 		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_4->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_4, "color");
 		fb_blur_h_4->enable();
-		fb_cutOff_4->render("color", m_blur_h);
+		fb_cutOff_4->render(m_blur_h);
 
 		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_4->getHeight()));
 		m_blur_v->setTexture("renderTexture", fb_blur_h_4, "color");
 		fb_blur_v_4->enable();
-		fb_blur_h_4->render("color", m_blur_v);
+		fb_blur_h_4->render(m_blur_v);
 
 		if (debug) {
 			FrameBuffer::resetDefaultBuffer();
@@ -175,7 +175,7 @@ public:
 
 		// Blur 2
 		fb_cutOff_2->enable();
-		fb_original->render("color", m_cutOff);
+		fb_original->render(m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -188,12 +188,12 @@ public:
 		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_2->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_2, "color");
 		fb_blur_h_2->enable();
-		fb_cutOff_2->render("color", m_blur_h);
+		fb_cutOff_2->render(m_blur_h);
 
 		m_blur_v->setProperty("offset", (1.0f / fb_blur_h_2->getHeight()));
 		m_blur_v->setTexture("renderTexture", fb_blur_h_2, "color");
 		fb_blur_v_2->enable();
-		fb_blur_h_2->render("color", m_blur_v);
+		fb_blur_h_2->render(m_blur_v);
 
 		if (debug) {
 			FrameBuffer::resetDefaultBuffer();

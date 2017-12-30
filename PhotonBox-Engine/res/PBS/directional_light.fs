@@ -118,7 +118,7 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0){
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){
 
     //float bias = max(0.01 * (1.0 - dot(normal, lightDir)), 0.001); 
-    float bias = 0.001;
+    float bias = 0.0001;
 
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;

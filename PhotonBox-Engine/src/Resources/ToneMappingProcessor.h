@@ -26,7 +26,7 @@ public:
 	}
 
 	void render() override {
-		frameBuffer->render("color", material);
+		frameBuffer->render(material);
 	}
 
 	void destroy() override {

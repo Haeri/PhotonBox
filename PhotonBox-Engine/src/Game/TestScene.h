@@ -19,6 +19,7 @@
 #include "../Resources/TransparentShader.h"
 #include "../Resources/SkyBoost.h"
 #include "../Resources/SSAOProcessor.h"
+#include "../Resources/SSReflectionProcessor.h"
 #include "../Game/PrinterScript.cpp"
 #include "../Game/MaterialScript.h"
 #include "../Game/BlurShader.h"
@@ -169,6 +170,7 @@ public:
 	BloomProcessor* p_bloom;
 	ToneMappingProcessor* p_tonemapping;
 	SSAOProcessor* p_ssao;
+	SSReflectionProcessor* p_ssreflection;
 
 	void Load() {
 		/* --------------------------- ENVIROMENT --------------------------- */
@@ -187,9 +189,10 @@ public:
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		p_ssao = new SSAOProcessor(0);
-		p_autoExposure = new AutoExposureProcessor(1);
-		p_bloom = new BloomProcessor(2);
-		p_tonemapping = new ToneMappingProcessor(3);
+		p_ssreflection = new SSReflectionProcessor(1);
+		p_autoExposure = new AutoExposureProcessor(2);
+		p_bloom = new BloomProcessor(3);
+		p_tonemapping = new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -546,7 +549,7 @@ public:
 
 
 		GameObject* cam = instanciate("Camera");
-		cam->addComponent<Camera>();
+		cam->addComponent<Camera>()->setFOV(60);
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 2, -2));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraController>();
@@ -899,10 +902,11 @@ public:
 		delete occluderMaterial;
 		delete panoramaMaterial;
 
-		delete p_autoExposure;
-		delete p_bloom;
-		delete p_tonemapping;
-		delete p_ssao;
+		//delete p_autoExposure;
+		//delete p_bloom;
+		//delete p_tonemapping;
+		//delete p_ssao;
+		//delete p_ssreflection;
 	}
 
 };
