@@ -75,16 +75,16 @@ public:
 			Core::stop();
 
 
-		std::string sp = "pos: " + std::to_string(transform->getPositionWorld().x()) +
+		if (InputManager::keyPressed(InputManager::KEY_ENTER)) {		
+			std::string sp = "pos: " + std::to_string(transform->getPositionWorld().x()) +
 			", " + std::to_string(transform->getPositionWorld().y()) +
 			", " + std::to_string(transform->getPositionWorld().z());
 
-		std::string sr = "rot: " + std::to_string(transform->getRotation().x()) +
+			std::string sr = "rot: " + std::to_string(transform->getRotation().x()) +
 			", " + std::to_string(transform->getRotation().y()) +
 			", " + std::to_string(transform->getRotation().z());
 
 
-		if (InputManager::keyPressed(InputManager::KEY_ENTER)) {		
 			std::cout << sp << std::endl;
 			std::cout << sr << std::endl << std::endl;
 		}
