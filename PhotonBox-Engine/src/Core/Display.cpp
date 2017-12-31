@@ -42,7 +42,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	images[0].pixels = Texture::loadIcon("./res/logo.png", images[0].width, images[0].height);
 	glfwSetWindowIcon(_window, 1, images);
 
-	setVSync(false);
+	setVSync(vsync);
 	_isRunning = true;
 
 	std::cout << "OpenGL Version " << glGetString(GL_VERSION) << std::endl << std::endl;
