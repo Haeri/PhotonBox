@@ -51,7 +51,7 @@ public:
 		float z = transform->getRotation().z();
 		transform->setRotation(Vector3f(x, y, z));
 
-		if (InputManager::keyPressed(InputManager::KEY_ESCAPE))
+		if (InputManager::keyPressed(InputManager::KEY_C))
 			toggleCursor();
 
 		if (InputManager::keyPressed(InputManager::KEY_V))
@@ -64,12 +64,15 @@ public:
 
 
 		if (InputManager::keyPressed(InputManager::KEY_1))
-			SceneManager::loadScene("TestScene");
+			SceneManager::loadScene("Realistic Rendering");
 		if (InputManager::keyPressed(InputManager::KEY_2))
-			SceneManager::loadScene("PBRScene");
+			SceneManager::loadScene("Material Test");
 
 		if (InputManager::keyPressed(InputManager::KEY_T))
 			toggleDebug();
+
+		if (InputManager::keyPressed(InputManager::KEY_ESCAPE))
+			Core::stop();
 
 
 		std::string sp = "pos: " + std::to_string(transform->getPositionWorld().x()) +

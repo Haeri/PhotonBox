@@ -147,6 +147,7 @@
     <ClCompile Include="src\Components\AmbientLight.cpp" />
     <ClCompile Include="src\Core\DeferredBuffer.cpp" />
     <ClCompile Include="src\Core\GLError.cpp" />
+    <ClCompile Include="src\Resources\Config.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -362,5 +363,6 @@
     <ClInclude Include="src\Core\GLError.h" />
     <ClInclude Include="src\Resources\SSReflectionProcessor.h" />
     <ClInclude Include="src\Resources\SSReflectionShader.h" />
+    <ClInclude Include="src\Resources\Config.h" />
   </ItemGroup>
 </Project>

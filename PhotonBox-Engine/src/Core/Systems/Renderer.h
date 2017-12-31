@@ -33,7 +33,7 @@ public:
 	void init();
 	void init(int superSampling);
 	void start();
-	static void prePass();
+	void prePass();
 	static void render();
 	static void render(bool captureMode);
 	static void render(Shader* customShader, bool captureMode);

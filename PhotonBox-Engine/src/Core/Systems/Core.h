@@ -13,6 +13,7 @@ class Physics;
 class PostProcessing;
 class Lighting;
 class InputManager;
+class Config;
 
 class Core{
 public:
@@ -23,6 +24,7 @@ public:
 	void reset();
 	void run();
 	void destroy();
+	static void stop();
 private:
 	Time* time;
 	Display* display;
@@ -35,6 +37,8 @@ private:
 	Physics* physics;
 	PostProcessing* postPocessing;
 	Lighting* lighting;
+
+	Config* config;
 
 	const double FIXED_TIME_INTERVAL = 30;
 	const double TARGET_FPS = 60;

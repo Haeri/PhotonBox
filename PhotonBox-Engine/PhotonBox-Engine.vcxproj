@@ -59,6 +59,7 @@
     <ClCompile Include="src\Math\Vector2f.cpp" />
     <ClCompile Include="src\Math\Vector3f.cpp" />
     <ClCompile Include="src\Math\Vector4f.cpp" />
+    <ClCompile Include="src\Resources\Config.cpp" />
     <ClCompile Include="src\Resources\CubeMap.cpp" />
     <ClCompile Include="src\Resources\Material.cpp" />
     <ClCompile Include="src\Math\Matrix4f.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="src\Resources\AutoExposureProcessor.h" />
     <ClInclude Include="src\Resources\AutoExposureShader.h" />
     <ClInclude Include="src\Resources\BasicShader.h" />
+    <ClInclude Include="src\Resources\Config.h" />
     <ClInclude Include="src\Resources\CubeMap.h" />
     <ClInclude Include="src\Resources\DefaultPostShader.h" />
     <ClInclude Include="src\Resources\DepthShader.h" />

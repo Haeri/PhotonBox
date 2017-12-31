@@ -20,7 +20,7 @@ public:
 	static unsigned int getWidth();
 	static unsigned int getHeight();
 
-	void init(const std::string& title, unsigned int width, unsigned int height);
+	void init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen, bool vsync);
 	void destroy();
 private:
 	static bool _isRunning;
