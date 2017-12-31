@@ -9,7 +9,7 @@
 DirectionalLight::DirectionalLight(){
 	Lighting::addLight(this);
 	_depthShader = DepthShader::getInstance();
-	_shadowMapResolution = 2048;
+	_shadowMapResolution = 4096;
 	lightProjection = Matrix4f::createOrthographic(-5, 5, -5, 5, 0.1, 100);
 
 	glGenFramebuffers(1, &_depthMapFBO);

@@ -12,7 +12,7 @@
 class AutoExposureProcessor : public PostProcessor {
 public:
 	float minLuminance = 0.01;
-	float maxLuminance = 20;
+	float maxLuminance = 100;
 
 
 	AutoExposureProcessor(int index) : PostProcessor(index) {

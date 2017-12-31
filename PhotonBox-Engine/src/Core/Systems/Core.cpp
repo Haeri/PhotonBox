@@ -9,6 +9,7 @@
 #include "../Time.h"
 #include "../Systems/PostProcessing.h"
 #include "../InputManager.h"
+#include "../../Resources/Config.h"
 
 #include "../../Game/TestScene.h"
 #include "../../Game/PBRScene.h"
@@ -21,11 +22,15 @@ void Core::init(){
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
 
+	// Load Config
+	config = new Config();
+	config->readConfig();
+
 	// Core Systems
 	display = new Display();
 	inputManager = new InputManager();
 	time = new Time();
-	
+
 	// Subsystems
 	uiRenderer = new UIRenderer();
 	sceneManager = new SceneManager();
@@ -36,9 +41,9 @@ void Core::init(){
 	lighting = new Lighting();
 
 	// Initialize OpenGL
-	display->init("PhotonBox Engine", 1920, 1080);
+	display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
 
-	renderer->init(2);
+	renderer->init(Config::profile.supersampling ? 2 : 1);
 	inputManager->init();
 	uiRenderer->init();
 
@@ -46,10 +51,10 @@ void Core::init(){
 	std::cout << "==================================================" << std::endl << std::endl;
 	
 	// Load Scenes
-	sceneManager->addScene("TestScene", new TestScene());
-	sceneManager->addScene("PBRScene", new PBRScene());
+	sceneManager->addScene("Realistic Rendering", new TestScene());
+	sceneManager->addScene("Material Test", new PBRScene());
 
-	sceneManager->loadSceneImediately("TestScene");
+	sceneManager->loadSceneImediately("Realistic Rendering");
 
 	// Start Subsystems
 	start();
@@ -57,8 +62,7 @@ void Core::init(){
 
 void Core::start() {
 	std::cout << "==================================================" << std::endl;
-	std::cout << "                  LOADING SCENE" << std::endl << std::endl;
-	
+	std::cout << "                  LOADING SCENE " << SceneManager::getCurrentName() << std::endl << std::endl;
 	
 	logic->start();
 	renderer->start();
@@ -77,11 +81,7 @@ void Core::run(){
 
 	std::string statPrint;
 
-
-	while (_isRunning) {
-		
-		//std::cout << "------------------------------START NEW FRAME------------------------------" << std::endl;
-		
+	while (_isRunning && display->isRunning()) {
 
 		// Measure time
 		double currentTime = glfwGetTime();
@@ -117,7 +117,8 @@ void Core::run(){
 		FrameBuffer::resetDefaultBuffer();
 		Display::clearBuffers();
 
-		Renderer::prePass();
+		// Render gBuffers
+		renderer->prePass();
 
 		// Render Scene
 		Renderer::render();
@@ -131,7 +132,7 @@ void Core::run(){
 		renderer->renderGizmos();
 
 		// UI Rendering
-		uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0.9, 0.9, 0.9));
+		uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0, 1, 0));
 		if (Renderer::isDebug) {
 	//		uiRenderer->renderText("Scene: " + sceneManager->getCurrentName(), 10, Display::getHeight() - 35, 0.32f, Vector3f(0.9, 0.9, 0.9));
 	//		uiRenderer->renderText("GameObjects:\n" + SceneManager::getCurrentScene()->getGameObjects(), 10, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
@@ -151,9 +152,12 @@ void Core::run(){
 			sceneManager->loadQueuedScene();
 			start();
 		}
-		
-		_isRunning = display->isRunning();
 	}
+}
+
+void Core::stop()
+{
+	_isRunning = false;
 }
 
 void Core::reset() {
@@ -175,4 +179,5 @@ void Core::destroy(){
 	delete postPocessing;
 	delete display;
 	delete lighting;
+	delete config;
 }
