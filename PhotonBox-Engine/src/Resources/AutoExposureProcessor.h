@@ -11,8 +11,8 @@
 
 class AutoExposureProcessor : public PostProcessor {
 public:
-	float minLuminance = 0.01;
-	float maxLuminance = 100;
+	float minLuminance = 0.5;
+	float maxLuminance = 10;
 
 
 	AutoExposureProcessor(int index) : PostProcessor(index) {
@@ -23,7 +23,7 @@ public:
 		expMaterial = new Material(ExposureShader::getInstance());
 		
 		currentLuminancBuffer = new FrameBuffer(res, res);
-		currentLuminancBuffer->addTextureAttachment("color", false, true);
+		currentLuminancBuffer->addTextureAttachment("color", true, true);
 		currentLuminancBuffer->ready();
 		luminancBufferA = new FrameBuffer(1, 1);
 		luminancBufferA->addTextureAttachment("color", true);
@@ -38,6 +38,8 @@ public:
 		autoExpMaterial->setTexture("luminanceSampleCurrent", currentLuminancBuffer, "color");
 		autoExpMaterial->setProperty<int>("maxMip", numLevels);
 		autoExpMaterial->setProperty<float>("adaptationSpeed", 0.4);
+		autoExpMaterial->setProperty<float>("minLum", minLuminance);
+		autoExpMaterial->setProperty<float>("maxLum", maxLuminance);
 
 		expMaterial->setTexture("renderTexture", mainBuffer, "color");
 	}
@@ -47,9 +49,6 @@ public:
 	}
 
 	void preProcess() override {
-		autoExpMaterial->setProperty<float>("minLum", minLuminance);
-		autoExpMaterial->setProperty<float>("maxLum", maxLuminance);
-
 		currentLuminancBuffer->enable();
 		mainBuffer->render("color");
 

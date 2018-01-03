@@ -19,6 +19,13 @@ float getLum(vec4 color){
 void main(){             
 	float lumC = getLum(texture2DLod(luminanceSampleCurrent, texCoordVarying, maxMip));
 	float lumL = getLum(texture2D(luminanceSampleLast, texCoordVarying));
+
+	if(lumC - lumL > 0.1){
+		lumC = lumL + 0.1;
+	}else if(lumL - lumC > 0.1){
+		lumC = lumL - 0.1;
+	}
+
 	float lum = mix(lumL, lumC, adaptationSpeed * delteTime * 5);
 	float clampLum = min(max(lum, minLum), maxLum);
 
