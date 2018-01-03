@@ -58,6 +58,11 @@ public:
 	Mesh* bookMesh4;
 	Mesh* balconyFloorMesh;
 	Mesh* balconyRailingMesh;
+	Mesh* frameMesh;
+	Mesh* frameGlassMesh;
+	Mesh* painting1Mesh;
+	Mesh* painting2Mesh;
+	Mesh* painting3Mesh;
 
 	Texture* woodAlbedo;
 	Texture* woodRough;
@@ -133,6 +138,14 @@ public:
 	Texture* balconyFloorNormal;
 	Texture* balconyFloorRoughness;
 
+	Texture* frameAlbedo;
+	Texture* frameNormal;
+	Texture* frameRoughness;
+
+	Texture* painting1D;
+	Texture* painting2D;
+	Texture* painting3D;
+
 	Texture* galvanizedAlbedo;
 	Texture* galvanizedRough;
 	Texture* galvanizedNormal;
@@ -165,6 +178,10 @@ public:
 	Material* glassMaterial;
 	Material* occluderMaterial;
 	Material* panoramaMaterial;
+	Material* frameMaterial;
+	Material* painting1Material;
+	Material* painting2Material;
+	Material* painting3Material;
 
 	AutoExposureProcessor* p_autoExposure;
 	BloomProcessor* p_bloom;
@@ -220,6 +237,11 @@ public:
 		bookMesh4 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_4.obj");
 		balconyFloorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/BalconyFloor/Balcony_Floor.obj");
 		balconyRailingMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Railing/Balcony_Railing.obj");
+		frameMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Frame.obj");
+		frameGlassMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/GlassPane.obj");
+		painting1Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting1.obj");
+		painting2Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting2.obj");
+		painting3Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting3.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -269,6 +291,14 @@ public:
 
 		vaseAlbedo = new Texture(std::string("./res/Realistic-Rendering/Vase/Vase_Albedo.png"), true);
 		vaseRough = new Texture(std::string("./res/Realistic-Rendering/Vase/Vase_Roughness.png"), true);
+
+		frameAlbedo = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_Albedo.tga"), true);
+		frameNormal = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_N.tga"), true);
+		frameRoughness = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_Roughness.tga"), true);
+
+		painting1D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting4_D.tga"), true);
+		painting2D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting2_D.tga"), true);
+		painting3D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting3_D.tga"), true);
 
 		bookAo = new Texture(std::string("./res/Realistic-Rendering/Books/book_occlusion.tga"), true);
 		bookNormal = new Texture(std::string("./res/Realistic-Rendering/Books/book_normals.tga"), true);
@@ -410,6 +440,37 @@ public:
 		vaseMaterial->setTexture("aoMap", default_ao);
 		vaseMaterial->setTexture("metallicMap", default_emission);
 		vaseMaterial->setTexture("emissionMap", default_emission);
+
+		frameMaterial = new Material();
+		frameMaterial->setTexture("albedoMap", frameAlbedo);
+		frameMaterial->setTexture("normalMap", frameNormal);
+		frameMaterial->setTexture("roughnessMap", frameRoughness);
+		frameMaterial->setTexture("aoMap", default_ao);
+		frameMaterial->setTexture("metallicMap", default_emission);
+		frameMaterial->setTexture("emissionMap", default_emission);
+
+		painting1Material = new Material();
+		painting1Material->setTexture("albedoMap", painting1D);
+		painting1Material->setTexture("normalMap", default_normal);
+		painting1Material->setTexture("roughnessMap", default_ao);
+		painting1Material->setTexture("aoMap", default_ao);
+		painting1Material->setTexture("metallicMap", default_emission);
+		painting1Material->setTexture("emissionMap", default_emission);
+		painting2Material = new Material();
+		painting2Material->setTexture("albedoMap", painting2D);
+		painting2Material->setTexture("normalMap", default_normal);
+		painting2Material->setTexture("roughnessMap", default_ao);
+		painting2Material->setTexture("aoMap", default_ao);
+		painting2Material->setTexture("metallicMap", default_emission);
+		painting2Material->setTexture("emissionMap", default_emission);
+		painting3Material = new Material();
+		painting3Material->setTexture("albedoMap", painting3D);
+		painting3Material->setTexture("normalMap", default_normal);
+		painting3Material->setTexture("roughnessMap", default_ao);
+		painting3Material->setTexture("aoMap", default_ao);
+		painting3Material->setTexture("metallicMap", default_emission);
+		painting3Material->setTexture("emissionMap", default_emission);
+
 
 		bookMaterial1 = new Material();
 		bookMaterial1->setTexture("albedoMap", bookAlbedo1);
@@ -719,6 +780,32 @@ public:
 		vase->getComponent<MeshRenderer>()->setMesh(vaseMesh);
 		vase->getComponent<MeshRenderer>()->setMaterial(vaseMaterial);
 
+		GameObject* frame = instanciate("Frame");
+		frame->addComponent<MeshRenderer>();
+		frame->getComponent<MeshRenderer>()->setMesh(frameMesh);
+		frame->getComponent<MeshRenderer>()->setMaterial(frameMaterial);
+
+		GameObject* frameGlass = instanciate("FrameGlass");
+		frameGlass->addComponent<TransparentMeshRenderer>();
+		frameGlass->getComponent<TransparentMeshRenderer>()->setMesh(frameGlassMesh);
+		frameGlass->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+
+		GameObject* painting1 = instanciate("Painting1");
+		painting1->addComponent<MeshRenderer>();
+		painting1->getComponent<MeshRenderer>()->setMesh(painting1Mesh);
+		painting1->getComponent<MeshRenderer>()->setMaterial(painting1Material);
+
+		GameObject* painting2 = instanciate("Painting2");
+		painting2->addComponent<MeshRenderer>();
+		painting2->getComponent<MeshRenderer>()->setMesh(painting2Mesh);
+		painting2->getComponent<MeshRenderer>()->setMaterial(painting2Material);
+
+		GameObject* painting3 = instanciate("Painting3");
+		painting3->addComponent<MeshRenderer>();
+		painting3->getComponent<MeshRenderer>()->setMesh(painting3Mesh);
+		painting3->getComponent<MeshRenderer>()->setMaterial(painting3Material);
+
+
 		GameObject* book1 = instanciate("Book1");
 		book1->addComponent<MeshRenderer>();
 		book1->getComponent<MeshRenderer>()->setMesh(bookMesh1);
@@ -810,6 +897,12 @@ public:
 		delete bookMesh4;
 		delete balconyFloorMesh;
 		delete balconyRailingMesh;
+		delete frameMesh;
+		delete frameGlassMesh;
+		delete painting1Mesh;
+		delete painting2Mesh;
+		delete painting3Mesh;
+
 		delete woodAlbedo;
 		delete woodRough;
 		delete woodNormal;
@@ -877,7 +970,12 @@ public:
 		delete railingNormal;
 		delete windowAlbedo;
 		delete panoramaAlbedo;
-
+		delete frameAlbedo;
+		delete frameNormal;
+		delete frameRoughness;
+		delete painting1D;
+		delete painting2D;
+		delete painting3D;
 
 		delete wood;
 		delete def;
@@ -901,6 +999,10 @@ public:
 		delete glassMaterial;
 		delete occluderMaterial;
 		delete panoramaMaterial;
+		delete frameMaterial;
+		delete painting1Material;
+		delete painting2Material;
+		delete painting3Material;
 
 		//delete p_autoExposure;
 		//delete p_bloom;
