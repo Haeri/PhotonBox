@@ -19,14 +19,20 @@ float getLum(vec4 color){
 void main(){             
 	float lumC = getLum(texture2DLod(luminanceSampleCurrent, texCoordVarying, maxMip));
 	float lumL = getLum(texture2D(luminanceSampleLast, texCoordVarying));
-
-	if(lumC - lumL > 0.1){
-		lumC = lumL + 0.1;
-	}else if(lumL - lumC > 0.1){
-		lumC = lumL - 0.1;
+	float delta = 0;
+	
+	if(abs(lumC - lumL) > 0.4){
+		if(lumC - lumL > 0)	{
+			delta = lumL + 0.4;
+		}else{
+			delta = lumL - 0.4;
+		}
+	}else{
+		delta = lumC;
 	}
+	
 
-	float lum = mix(lumL, lumC, adaptationSpeed * delteTime * 5);
+	float lum = mix(lumL, delta, adaptationSpeed * delteTime);
 	float clampLum = min(max(lum, minLum), maxLum);
 
 	gl_FragColor = vec4(vec3(clampLum), 1);

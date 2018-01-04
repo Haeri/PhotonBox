@@ -60,6 +60,7 @@ void SkyBox::render() {
 
 	_skyBoxShader->bind();
 	_skyBoxShader->update(vp);
+	_skyBoxShader->setUniform("intensity", intensity);
 	_skyBoxShader->enableAttributes();
 	_lp->getEnviromentCube()->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 36);

@@ -8,6 +8,7 @@
 
 class SkyBox {
 public:
+	float intensity = 1;
 	void setLightProbe(LightProbe* lightProbe);
 
 	LightProbe* getLightProbe() { return _lp; }

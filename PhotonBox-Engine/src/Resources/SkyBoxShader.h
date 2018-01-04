@@ -17,6 +17,7 @@ public:
 	void addUniforms() override {
 		addUniform("vp");
 		addUniform("mip");
+		addUniform("intensity");
 	}
 
 	void addAttributes() override {

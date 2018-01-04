@@ -202,6 +202,7 @@ public:
 
 		whiteCube = new CubeMap(white);
 		Renderer::setSkyBox(whiteCube);
+		Renderer::getSkyBox()->intensity = 10;
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
@@ -544,69 +545,78 @@ public:
 		panoramaMaterial->setProperty("boost", 10.0f);
 
 		/* --------------------------- CAMERA --------------------------- */
-		GameObject* s1 = instanciate("start");
-		s1->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4));
-		s1->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0));
 
-		GameObject* f1 = instanciate("fin");
-		f1->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9));
-		f1->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
+		GameObject* s1 = instanciate("start");
+		s1->getComponent<Transform>()->setPosition(Vector3f(-1.275343, 0.609712, 3.92936));
+		s1->getComponent<Transform>()->setRotation(Vector3f(-0.406666, 2.218385, 0.00000));
+
+		GameObject* f1 = instanciate("¨fin");
+		f1->getComponent<Transform>()->setPosition(Vector3f(-1.701402, 0.896463, 3.75409));
+		f1->getComponent<Transform>()->setRotation(Vector3f(0.070667, 2.363519, 0.00000));
 
 		GameObject* s2 = instanciate("start");
-		s2->getComponent<Transform>()->setPosition(Vector3f(-1.708001, 0.232390, 0.078278));
-		s2->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
+		s2->getComponent<Transform>()->setPosition(Vector3f(0.042963, 0.564167, 0.744266));
+		s2->getComponent<Transform>()->setRotation(Vector3f(-0.441667, -4.278056, 0.000000));
 
 		GameObject* f2 = instanciate("fin");
-		f2->getComponent<Transform>()->setPosition(Vector3f(-0.610981, 0.718269, 0.078073));
-		f2->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
+		f2->getComponent<Transform>()->setPosition(Vector3f(0.325749, 0.647959, 0.665603));
+		f2->getComponent<Transform>()->setRotation(Vector3f(-0.323334, -4.136055, 0.000000));
 
 		GameObject* s3 = instanciate("start");
-		s3->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
-		s3->getComponent<Transform>()->setRotation(Vector3f(-0.910666, 0.317027, 0.00000));
+		s3->getComponent<Transform>()->setPosition(Vector3f(1.849994, 1.612600, 0.045660));
+		s3->getComponent<Transform>()->setRotation(Vector3f(-0.133326, 3.428171, 0.000000));
 
-		GameObject* f3 = instanciate("start");
-		f3->getComponent<Transform>()->setPosition(Vector3f(-1.254720, 0.108683, -0.22882));
-		f3->getComponent<Transform>()->setRotation(Vector3f(0.086667, 0.071351, 0.00000));
-
+		GameObject* f3 = instanciate("fin");
+		f3->getComponent<Transform>()->setPosition(Vector3f(1.719618, 1.658098, 1.163731));
+		f3->getComponent<Transform>()->setRotation(Vector3f(-0.098326, 3.107171, 0.000000));
+	
 		GameObject* s4 = instanciate("start");
-		s4->getComponent<Transform>()->setPosition(Vector3f(0.568587, 0.651397, 0.84028));
-		s4->getComponent<Transform>()->setRotation(Vector3f(-0.613333, 3.154054, 0.00000));
+		s4->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
+		s4->getComponent<Transform>()->setRotation(Vector3f(-0.910666, 0.317027, 0.00000));
 
-		GameObject* f4 = instanciate("start");
-		f4->getComponent<Transform>()->setPosition(Vector3f(-0.214201, 0.652349, 0.81502));
-		f4->getComponent<Transform>()->setRotation(Vector3f(-0.402666, 3.269999, 0.00000));
+		GameObject* f4 = instanciate("fin");
+		f4->getComponent<Transform>()->setPosition(Vector3f(-1.254720, 0.108683, -0.22882));
+		f4->getComponent<Transform>()->setRotation(Vector3f(0.086667, 0.071351, 0.00000));
 
 		GameObject* s5 = instanciate("start");
-		s5->getComponent<Transform>()->setPosition(Vector3f(1.163253, 2.849120, -0.82634));
-		s5->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
+		s5->getComponent<Transform>()->setPosition(Vector3f(1.497587, 1.648782, 2.544615));
+		s5->getComponent<Transform>()->setRotation(Vector3f(-0.126667, -2.622055, 0.000000));
 
-		GameObject* f5 = instanciate("start");
-		f5->getComponent<Transform>()->setPosition(Vector3f(1.112261, 2.849120, 1.64630));
-		f5->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
+		GameObject* f5 = instanciate("fin");
+		f5->getComponent<Transform>()->setPosition(Vector3f(1.335855, 0.571176, 2.610204));
+		f5->getComponent<Transform>()->setRotation(Vector3f(-0.126667, -2.622055, 0.000000));
 
 		GameObject* s6 = instanciate("start");
-		s6->getComponent<Transform>()->setPosition(Vector3f(-1.275343, 0.609712, 3.92936));
-		s6->getComponent<Transform>()->setRotation(Vector3f(-0.406666, 2.218385, 0.00000));
+		s6->getComponent<Transform>()->setPosition(Vector3f(-1.708001, 0.232390, 0.078278));
+		s6->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
 
-		GameObject* f6 = instanciate("start");
-		f6->getComponent<Transform>()->setPosition(Vector3f(-1.701402, 0.896463, 3.75409));
-		f6->getComponent<Transform>()->setRotation(Vector3f(0.070667, 2.363519, 0.00000));
+		GameObject* f6 = instanciate("fin");
+		f6->getComponent<Transform>()->setPosition(Vector3f(-0.610981, 0.718269, 0.078073));
+		f6->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
 
 		GameObject* s7 = instanciate("start");
-		s7->getComponent<Transform>()->setPosition(Vector3f(1.269536, 2.121249, 4.091350));
-		s7->getComponent<Transform>()->setRotation(Vector3f(-0.606236, 2.979938, 0.000000));
+		s7->getComponent<Transform>()->setPosition(Vector3f(1.163253, 2.849120, -0.82634));
+		s7->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
 
-		GameObject* f7 = instanciate("start");
-		f7->getComponent<Transform>()->setPosition(Vector3f(0.237463, 1.906774, 3.826429));
-		f7->getComponent<Transform>()->setRotation(Vector3f(-0.576903, 3.178587, 0.000000));
+		GameObject* f7 = instanciate("fin");
+		f7->getComponent<Transform>()->setPosition(Vector3f(1.112261, 2.849120, 1.64630));
+		f7->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
 
 		GameObject* s8 = instanciate("start");
-		s8->getComponent<Transform>()->setPosition(Vector3f(1.469624, 0.217904, 1.738431));
-		s8->getComponent<Transform>()->setRotation(Vector3f(-0.024902, 5.696155, 0.000000));
+		s8->getComponent<Transform>()->setPosition(Vector3f(1.269536, 2.121249, 4.091350));
+		s8->getComponent<Transform>()->setRotation(Vector3f(-0.606236, 2.979938, 0.000000));
 
-		GameObject* f8 = instanciate("start");
-		f8->getComponent<Transform>()->setPosition(Vector3f(1.428122, 1.054274, 1.739055));
-		f8->getComponent<Transform>()->setRotation(Vector3f(-0.024902, 5.696155, 0.000000));
+		GameObject* f8 = instanciate("fin");
+		f8->getComponent<Transform>()->setPosition(Vector3f(0.237463, 1.906774, 3.826429));
+		f8->getComponent<Transform>()->setRotation(Vector3f(-0.576903, 3.178587, 0.000000));
+
+		GameObject* s9 = instanciate("start");
+		s9->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4));
+		s9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0));
+
+		GameObject* f9 = instanciate("fin");
+		f9->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9));
+		f9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
 
 
 		GameObject* cam = instanciate("Camera");
@@ -632,6 +642,8 @@ public:
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f7->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(s8->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f8->transform));
+		cam->getComponent<PathWalkerScript>()->path.push_back(*(s9->transform));
+		cam->getComponent<PathWalkerScript>()->path.push_back(*(f9->transform));
 
 		cam->addComponent<ControllerToggleScript>();
 

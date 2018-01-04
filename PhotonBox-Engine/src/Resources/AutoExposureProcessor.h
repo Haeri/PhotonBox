@@ -13,7 +13,7 @@ class AutoExposureProcessor : public PostProcessor {
 public:
 	float minLuminance = 0.5;
 	float maxLuminance = 10;
-
+	float adaptationSpeed = 3;
 
 	AutoExposureProcessor(int index) : PostProcessor(index) {
 		int res = 64;
@@ -37,7 +37,7 @@ public:
 
 		autoExpMaterial->setTexture("luminanceSampleCurrent", currentLuminancBuffer, "color");
 		autoExpMaterial->setProperty<int>("maxMip", numLevels);
-		autoExpMaterial->setProperty<float>("adaptationSpeed", 0.4);
+		autoExpMaterial->setProperty<float>("adaptationSpeed", adaptationSpeed);
 		autoExpMaterial->setProperty<float>("minLum", minLuminance);
 		autoExpMaterial->setProperty<float>("maxLum", maxLuminance);
 
