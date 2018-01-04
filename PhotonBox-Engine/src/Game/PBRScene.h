@@ -89,11 +89,12 @@ public:
 
 		sky = new CubeMap(nightSky);
 		Renderer::setSkyBox(sky);
+		Renderer::getSkyBox()->intensity = 1;
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		//p_ssao = new SSAOProcessor(0);
-		p_ssreflection = new SSReflectionProcessor(0);
+		p_ssao = new SSAOProcessor(0);
+		//p_ssreflection = new SSReflectionProcessor(0);
 		p_autoExposure = new AutoExposureProcessor(1);
 		p_bloom = new BloomProcessor(2);
 		p_tonemapping = new ToneMappingProcessor(3);

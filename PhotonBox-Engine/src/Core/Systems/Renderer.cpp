@@ -102,9 +102,6 @@ void Renderer::prePass(){
 	defBuffer.gBuffer->enable();
 	defBuffer.gBuffer->clear();
 
-//	glBindFramebuffer(GL_FRAMEBUFFER, defBuffer.gBuffer);
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it) {
 		if ((*it)->getEnable()) {
 			glEnable(GL_DEPTH_TEST);
