@@ -7,12 +7,8 @@
 class SpecularConvolutionShader : public InstancedShader<SpecularConvolutionShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/util/specular-convolution");
+		return std::string("./res/shaders/util/specular-convolution");
 	}
-
-	//void update(Matrix4f& vp) {
-	//	glUniformMatrix4fv(uniforms["vp"], 1, GL_FALSE, &(vp(0, 0)));
-	//}
 
 	void addUniforms() override {
 		addUniform("projection");

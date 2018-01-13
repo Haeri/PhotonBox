@@ -7,7 +7,7 @@
 class GShader : public InstancedShader<GShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/deferre-rendering/gShader");
+		return std::string("./res/shaders/deferre-rendering/gShader");
 	}
 
 	void update(Transform* transform) {

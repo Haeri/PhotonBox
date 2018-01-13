@@ -1,6 +1,7 @@
 #include "Display.h"
 #include "../Components/Camera.h"
 #include "../Resources/Texture.h"
+#include "../Core/FrameBuffer.h"
 
 bool Display::_isRunning;
 int Display::_width, Display::_height;
@@ -55,10 +56,6 @@ void Display::destroy() {
 	glfwTerminate();
 }
 
-void Display::clearBuffers(){
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-}
-
 void Display::setVSync(bool vsync) {
 	glfwSwapInterval((int)vsync);
 	_isVSync = vsync;
@@ -83,4 +80,5 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 
 	Display::setRect(width, height);
 	Camera::getMainCamera()->updateAspect();
+	FrameBuffer::resizeAll();
 }

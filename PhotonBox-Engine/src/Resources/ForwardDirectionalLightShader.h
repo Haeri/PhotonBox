@@ -11,7 +11,7 @@
 class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/PBS/directional_light");
+		return std::string("./res/shaders/forward-rendering/directional_light");
 	}
 
 	void update(Transform* transform, LightEmitter* light) {

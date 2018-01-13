@@ -8,7 +8,7 @@
 class SSAOShader : public InstancedShader<SSAOShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/ssao");
+		return std::string("./res/shaders/post-processing/ssao");
 	}
 
 	void update(Transform* transform) override {

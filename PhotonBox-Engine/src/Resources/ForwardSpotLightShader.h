@@ -10,7 +10,7 @@
 class ForwardSpotLightShader : public InstancedShader<ForwardSpotLightShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/PBS/spot_light");
+		return std::string("./res/shaders/forward-rendering/spot_light");
 	}
 
 	void update(Transform* transform, LightEmitter* light) {

@@ -87,6 +87,7 @@ void CubeMap::generateIrradiance(GLuint map) {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, map);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+		Renderer::addDrawCall();
 		shader->disableAttributes();
 
 		glDepthMask(GL_TRUE);
@@ -160,6 +161,7 @@ void CubeMap::generateSpecularConvolution(GLuint map) {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, map);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
+			Renderer::addDrawCall();
 			shader->disableAttributes();
 
 			glDepthMask(GL_TRUE);
@@ -236,6 +238,7 @@ void CubeMap::renderCube() {
 	glDepthMask(GL_FALSE);
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+	Renderer::addDrawCall();
 	
 	glDepthMask(GL_TRUE);
 	glBindVertexArray(0);

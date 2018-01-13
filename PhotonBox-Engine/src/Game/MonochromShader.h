@@ -7,7 +7,7 @@
 class MonochromShader : public InstancedShader<MonochromShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/monochrom");
+		return std::string("./res/shaders/post-processing/monochrom");
 	}
 
 	void addUniforms() override {

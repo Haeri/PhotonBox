@@ -8,7 +8,7 @@
 class TransparentShader : public InstancedShader<TransparentShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/PBS/transparent");
+		return std::string("./res/shaders/forward-rendering/transparent");
 	}
 
 	void update(Transform* transform, LightEmitter* light) {
@@ -21,10 +21,6 @@ public:
 		glUniform1f(uniforms["light.intensity"], al->intensity);
 		glUniform3fv(uniforms["light.color"], 1, &(al->color.x()));
 		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
-
-		//glUniform1f(uniforms["light.constant"], 1.0f);
-		//glUniform1f(uniforms["light.linear"], 0.09f);
-		//glUniform1f(uniforms["light.quadratic"], 0.032f);
 	}
 
 	void addAttributes() override {

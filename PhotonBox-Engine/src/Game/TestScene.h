@@ -17,7 +17,7 @@
 #include "../Resources/Texture.h"
 #include "../Resources/AutoExposureProcessor.h"
 #include "../Resources/TransparentShader.h"
-#include "../Resources/SkyBoost.h"
+#include "../Resources/SkyBoostShader.h"
 #include "../Resources/SSAOProcessor.h"
 #include "../Resources/SSReflectionProcessor.h"
 #include "../Game/PrinterScript.cpp"

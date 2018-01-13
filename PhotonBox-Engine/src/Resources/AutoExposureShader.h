@@ -7,7 +7,7 @@
 class AutoExposureShader : public InstancedShader<AutoExposureShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/autoexposure");
+		return std::string("./res/shaders/post-processing/autoexposure");
 	}
 
 	void update(Transform* t) override {

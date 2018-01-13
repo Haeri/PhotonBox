@@ -7,7 +7,7 @@
 class ToneMappingShader : public InstancedShader<ToneMappingShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/tonemapping");
+		return std::string("./res/shaders/post-processing/tonemapping");
 	}
 
 	void addUniforms() override {

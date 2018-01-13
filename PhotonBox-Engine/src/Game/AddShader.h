@@ -7,7 +7,7 @@
 class AddShader : public InstancedShader<AddShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/add");
+		return std::string("./res/shaders/post-processing/add");
 	}
 
 	void addUniforms() override {

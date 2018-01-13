@@ -7,7 +7,7 @@
 class BlurVShader : public InstancedShader<BlurVShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/blur-v");
+		return std::string("./res/shaders/post-processing/blur-v");
 	}
 
 	void addUniforms() override {

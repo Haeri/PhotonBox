@@ -7,7 +7,7 @@
 class CutOffShader : public InstancedShader<CutOffShader>{
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/cutOff");
+		return std::string("./res/shaders/post-processing/cutOff");
 	}
 
 	void addUniforms() override {

@@ -294,9 +294,6 @@
     <ClInclude Include="src\Core\FrameBuffer.h">
       <Filter>src\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Resources\PostShader.h">
-      <Filter>src\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="src\Core\PostProcessor.h">
       <Filter>src\Core</Filter>
     </ClInclude>
@@ -345,14 +342,12 @@
     <ClInclude Include="src\Resources\AutoExposureProcessor.h" />
     <ClInclude Include="src\Resources\AutoExposureShader.h" />
     <ClInclude Include="src\Resources\TransparentShader.h" />
-    <ClInclude Include="src\Resources\Exposure.h" />
     <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Components\SpotLight.h" />
     <ClInclude Include="src\Resources\ForwardSpotLightShader.h" />
     <ClInclude Include="src\Core\LightMap.h" />
     <ClInclude Include="src\Game\PathWalkerScript.h" />
     <ClInclude Include="src\Game\ControllerToggleScript.h" />
-    <ClInclude Include="src\Resources\SkyBoost.h" />
     <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Resources\GShader.h" />
     <ClInclude Include="src\Resources\SSAOProcessor.h" />
@@ -364,5 +359,7 @@
     <ClInclude Include="src\Resources\SSReflectionProcessor.h" />
     <ClInclude Include="src\Resources\SSReflectionShader.h" />
     <ClInclude Include="src\Resources\Config.h" />
+    <ClInclude Include="src\Resources\ExposureShader.h" />
+    <ClInclude Include="src\Resources\SkyBoostShader.h" />
   </ItemGroup>
 </Project>

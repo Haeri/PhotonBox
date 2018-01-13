@@ -1,6 +1,7 @@
 #include "SkyBox.h"
 #include "../Components/Camera.h"
 #include "OBJLoader.h"
+#include "../Core/Systems/Renderer.h"
 
 
 void SkyBox::setLightProbe(LightProbe * lightProbe){
@@ -64,6 +65,7 @@ void SkyBox::render() {
 	_skyBoxShader->enableAttributes();
 	_lp->getEnviromentCube()->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+	Renderer::addDrawCall();
 	_skyBoxShader->disableAttributes();
 
 	glDepthMask(GL_TRUE);

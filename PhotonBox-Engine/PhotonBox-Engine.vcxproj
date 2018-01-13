@@ -134,7 +134,7 @@
     <ClInclude Include="src\Resources\CubeMap.h" />
     <ClInclude Include="src\Resources\DefaultPostShader.h" />
     <ClInclude Include="src\Resources\DepthShader.h" />
-    <ClInclude Include="src\Resources\Exposure.h" />
+    <ClInclude Include="src\Resources\ExposureShader.h" />
     <ClInclude Include="src\Resources\ForwardAmbientLightShader.h" />
     <ClInclude Include="src\Resources\ForwardDirectionalLightShader.h" />
     <ClInclude Include="src\Resources\ForwardPointLightShader.h" />
@@ -145,10 +145,9 @@
     <ClInclude Include="src\Resources\Material.h" />
     <ClInclude Include="src\Resources\Mesh.h" />
     <ClInclude Include="src\Resources\OBJLoader.h" />
-    <ClInclude Include="src\Resources\PostShader.h" />
     <ClInclude Include="src\Resources\Scene.h" />
     <ClInclude Include="src\Resources\Shader.h" />
-    <ClInclude Include="src\Resources\SkyBoost.h" />
+    <ClInclude Include="src\Resources\SkyBoostShader.h" />
     <ClInclude Include="src\Resources\SkyBox.h" />
     <ClInclude Include="src\Resources\SkyBoxShader.h" />
     <ClInclude Include="src\Resources\SpecularConvolutionShader.h" />

@@ -9,7 +9,7 @@
 class DepthShader : public InstancedShader<DepthShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/util/depth");
+		return std::string("./res/shaders/util/depth");
 	}
 
 	void update(Transform* transform, LightEmitter* light) {
