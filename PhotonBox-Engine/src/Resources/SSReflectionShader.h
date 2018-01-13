@@ -8,7 +8,7 @@
 class SSReflectionShader : public InstancedShader<SSReflectionShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/ssReflection");
+		return std::string("./res/shaders/post-processing/ssReflection");
 	}
 
 	void update(Transform* transform) override {

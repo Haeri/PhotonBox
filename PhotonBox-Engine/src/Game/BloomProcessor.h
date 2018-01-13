@@ -38,41 +38,41 @@ public:
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		fb_original->addTextureAttachment("color", true);
 		fb_original->ready();
-		fb_cutOff_2 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_cutOff_2 = new FrameBuffer(0.5f);
 		fb_cutOff_2->addTextureAttachment("color");
 		fb_cutOff_2->ready();
-		fb_cutOff_4 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_cutOff_4 = new FrameBuffer(0.24f);
 		fb_cutOff_4->addTextureAttachment("color");
 		fb_cutOff_4->ready();
-		fb_cutOff_8 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_cutOff_8 = new FrameBuffer(0.125f);
 		fb_cutOff_8->addTextureAttachment("color");
 		fb_cutOff_8->ready();
-		fb_cutOff_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
+		fb_cutOff_16 = new FrameBuffer(0.0625f);
 		fb_cutOff_16->addTextureAttachment("color");
 		fb_cutOff_16->ready();
 
-		fb_blur_h_2 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_blur_h_2 = new FrameBuffer(0.5f);
 		fb_blur_h_2->addTextureAttachment("color");
 		fb_blur_h_2->ready();
-		fb_blur_v_2 = new FrameBuffer(Display::getWidth() / 2.0f, Display::getHeight() / 2.0f);
+		fb_blur_v_2 = new FrameBuffer(0.5f);
 		fb_blur_v_2->addTextureAttachment("color");
 		fb_blur_v_2->ready();
-		fb_blur_h_4 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_blur_h_4 = new FrameBuffer(0.25f);
 		fb_blur_h_4->addTextureAttachment("color");
 		fb_blur_h_4->ready();
-		fb_blur_v_4 = new FrameBuffer(Display::getWidth() / 4.0f, Display::getHeight() / 4.0f);
+		fb_blur_v_4 = new FrameBuffer(0.25f);
 		fb_blur_v_4->addTextureAttachment("color");
 		fb_blur_v_4->ready();
-		fb_blur_h_8 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_blur_h_8 = new FrameBuffer(0.125f);
 		fb_blur_h_8->addTextureAttachment("color");
 		fb_blur_h_8->ready();
-		fb_blur_v_8 = new FrameBuffer(Display::getWidth() / 8.0f, Display::getHeight() / 8.0f);
+		fb_blur_v_8 = new FrameBuffer(0.125f);
 		fb_blur_v_8->addTextureAttachment("color");
 		fb_blur_v_8->ready();
-		fb_blur_h_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
+		fb_blur_h_16 = new FrameBuffer(0.0625f);
 		fb_blur_h_16->addTextureAttachment("color");
 		fb_blur_h_16->ready();
-		fb_blur_v_16 = new FrameBuffer(Display::getWidth() / 16.0f, Display::getHeight() / 16.0f);
+		fb_blur_v_16 = new FrameBuffer(0.0625f);
 		fb_blur_v_16->addTextureAttachment("color");
 		fb_blur_v_16->ready();
 
@@ -104,13 +104,15 @@ public:
 		fb_blur_v_16->enable();
 		fb_blur_h_16->render(m_blur_v);
 
-		if (debug) {
-			FrameBuffer::resetDefaultBuffer();
-			fb_blur_v_16->render("color");
-			Display::swapBuffer();
-			system("PAUSE");
-		}
+		int cols = 4;
+		int widthX = 0;
 
+		if (debug) {
+			Renderer::_debugFrameBuffer->enable();
+			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+			fb_blur_v_16->render("color");
+			widthX += Display::getWidth() / cols;
+		}
 
 
 		// Blur 8
@@ -136,10 +138,10 @@ public:
 		fb_blur_h_8->render(m_blur_v);
 
 		if (debug) {
-			FrameBuffer::resetDefaultBuffer();
+			Renderer::_debugFrameBuffer->enable();
+			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_8->render("color");
-			Display::swapBuffer();
-			system("PAUSE");
+			widthX += Display::getWidth() / cols;
 		}
 
 
@@ -166,10 +168,10 @@ public:
 		fb_blur_h_4->render(m_blur_v);
 
 		if (debug) {
-			FrameBuffer::resetDefaultBuffer();
+			Renderer::_debugFrameBuffer->enable();
+			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_4->render("color");
-			Display::swapBuffer();
-			system("PAUSE");
+			widthX += Display::getWidth() / cols;
 		}
 
 
@@ -196,10 +198,10 @@ public:
 		fb_blur_h_2->render(m_blur_v);
 
 		if (debug) {
-			FrameBuffer::resetDefaultBuffer();
+			Renderer::_debugFrameBuffer->enable();
+			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_2->render("color");
-			Display::swapBuffer();
-			system("PAUSE");
+			widthX += Display::getWidth() / cols;
 		}
 	}
 

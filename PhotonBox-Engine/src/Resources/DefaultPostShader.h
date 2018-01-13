@@ -7,7 +7,7 @@
 class DefaultPostShader : public InstancedShader<DefaultPostShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/util/default-post");
+		return std::string("./res/shaders/util/default-post");
 	}
 
 	void addUniforms() override {

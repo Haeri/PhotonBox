@@ -7,7 +7,7 @@
 #include "ToneMappingShader.h"
 #include "AutoExposureShader.h"
 #include "Material.h"
-#include "Exposure.h"
+#include "ExposureShader.h"
 
 class AutoExposureProcessor : public PostProcessor {
 public:

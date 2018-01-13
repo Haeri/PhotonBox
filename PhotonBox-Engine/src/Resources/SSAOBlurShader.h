@@ -7,7 +7,7 @@
 class SSAOBlurShader : public InstancedShader<SSAOBlurShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/post-processing/ssaoBlur");
+		return std::string("./res/shaders/post-processing/ssaoBlur");
 	}
 
 	void update(Transform* transform) override {

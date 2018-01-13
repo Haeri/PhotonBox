@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../Display.h"
 #include "../../Resources/TextShader.h"
+#include "../../Core/Systems/Renderer.h"
 
 TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;
@@ -139,6 +140,7 @@ void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scal
 
 		shader->enableAttributes();
 		glDrawArrays(GL_TRIANGLES, 0, 6);
+		Renderer::addDrawCall();
 		shader->disableAttributes();
 		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 		x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))

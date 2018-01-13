@@ -7,12 +7,8 @@
 class IrradianceShader : public InstancedShader<IrradianceShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/util/irradiance");
+		return std::string("./res/shaders/util/irradiance");
 	}
-
-	//void update(Matrix4f& vp) {
-	//	glUniformMatrix4fv(uniforms["vp"], 1, GL_FALSE, &(vp(0, 0)));
-	//}
 
 	void addUniforms() override {
 		addUniform("projection");

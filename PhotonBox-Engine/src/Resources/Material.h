@@ -16,8 +16,13 @@ public:
 
 	template<typename T>
 	void setProperty(std::string name, T value) {
-		//TODO: Fix memory leak
-		_uniformMap[name] = new BaseObject<T>(value, name);
+		if (_uniformMap.find(name) != _uniformMap.end()) {
+			((BaseObject<T>*)(_uniformMap[name]))->_value = value;
+		}
+		else
+		{
+			_uniformMap[name] = new BaseObject<T>(value, name);
+		}
 	}
 
 	// Texture

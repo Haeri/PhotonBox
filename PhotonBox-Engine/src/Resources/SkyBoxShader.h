@@ -7,7 +7,7 @@
 class SkyBoxShader : public InstancedShader<SkyBoxShader>{
 public:
 	std::string getFilePath() override {
-		return std::string("./res/forward-rendering/skyBox");
+		return std::string("./res/shaders/util/skyBox");
 	}
 	
 	void update(Matrix4f& vp) {

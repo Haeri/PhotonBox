@@ -7,7 +7,7 @@
 class TextShader : public InstancedShader<TextShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/UI/text");
+		return std::string("./res/shaders/ui/text");
 	}
 	
 	void update() {

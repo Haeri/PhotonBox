@@ -29,11 +29,14 @@ public:
 	static FrameBuffer* getMainFrameBuffer() { return _mainFrameBuffer; }
 	static void setClearColor(Vector3f color);
 	static Vector3f getClearColor() { return _clearColor; }
+	static void addDrawCall();
+	static int getDrawCalls() { return _drawCalls; }
 
 	void init();
-	void init(int superSampling);
+	void init(float superSampling);
 	void start();
 	void prePass();
+	void clearDrawCalls();
 	static void render();
 	static void render(bool captureMode);
 	static void render(Shader* customShader, bool captureMode);
@@ -42,7 +45,9 @@ public:
 	static void renderAmbient(int pass, LightMap* lightMap, AABB* volume);
 	void renderGizmos();
 	void destroy();
+	static FrameBuffer*	_debugFrameBuffer;
 private:
+	static int _drawCalls;
 	static void clearTransparentQueue();
 	static void updateTransparentQueue();
 	static SkyBox _skyBox;

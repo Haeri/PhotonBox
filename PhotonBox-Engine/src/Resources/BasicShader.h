@@ -7,7 +7,7 @@
 class BasicShader : public InstancedShader<BasicShader> {
 public:
 	std::string getFilePath() override {
-		return std::string("./res/basicShader");
+		return std::string("./res/shaders/util/basicShader");
 	}
 
 	void update(Transform* transform) override{

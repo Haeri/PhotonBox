@@ -30,6 +30,7 @@ SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderListOpaque;
 std::vector<ObjectRenderer*> Renderer::_renderListTransparent;
 std::map<float, TransparentMeshRenderer*> Renderer::_renderQueueTransparent;
+int Renderer::_drawCalls;
 
 ForwardAmbientLightShader* Renderer::_ambientLightShader;
 ForwardDirectionalLightShader* Renderer::_directionalLightShader;
@@ -39,6 +40,7 @@ TransparentShader* Renderer::_transparentBaseShader;
 GShader* Renderer::_gShader;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
+FrameBuffer* Renderer::_debugFrameBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3, 0.3, 0.3);
 
 void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer, bool isOpaque) {
@@ -65,12 +67,12 @@ void Renderer::init() {
 	init(1);
 }
 
-void Renderer::init(int superSampling) {
+void Renderer::init(float superSampling) {
 	// OpenGL config
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	glClearColor(_clearColor.x(), _clearColor.y(), _clearColor.z(), 1);
+	glClearColor(_clearColor.x(), _clearColor.y(), _clearColor.z(), 0);
 	
 	_ambientLightShader = ForwardAmbientLightShader::getInstance();
 	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
@@ -78,12 +80,14 @@ void Renderer::init(int superSampling) {
 	_spotLightShader = ForwardSpotLightShader::getInstance();
 	_transparentBaseShader = TransparentShader::getInstance();
 	_gShader = GShader::getInstance();
-	_mainFrameBuffer = new FrameBuffer(Display::getWidth()*superSampling, Display::getHeight()*superSampling);
+	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
 	_mainFrameBuffer->addDepthBufferAttachment();
 	_mainFrameBuffer->ready();
+	_debugFrameBuffer = new FrameBuffer(1);
+	_debugFrameBuffer->addTextureAttachment("color", false, false);
+	_debugFrameBuffer->ready();
 	defBuffer.init();
-
 	_isDebug = false;
 }
 
@@ -110,6 +114,11 @@ void Renderer::prePass(){
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void Renderer::clearDrawCalls()
+{
+	_drawCalls = 0;
 }
 
 void Renderer::render() {
@@ -345,6 +354,41 @@ void Renderer::renderGizmos() {
 			}
 		}
 	}
+
+	/*
+	int cols = 4;
+	int widthX = 0;
+	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+	defBuffer.gBuffer->render("gPosition");
+	widthX += Display::getWidth() / cols;
+
+	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+	defBuffer.gBuffer->render("gNormal");
+	widthX += Display::getWidth() / cols;
+
+	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+	defBuffer.gBuffer->render("gMetallic");
+	widthX += Display::getWidth() / cols;
+
+	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+	defBuffer.gBuffer->render("gRoughness");
+	widthX += Display::getWidth() / cols;
+
+
+	FrameBuffer::resetDefaultBuffer();
+
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	_debugFrameBuffer->render("color");
+
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
+	_debugFrameBuffer->enable();
+	_debugFrameBuffer->clear();
+
+	*/
 }
 
 void Renderer::updateTransparentQueue() {
@@ -388,4 +432,9 @@ void Renderer::printList(){
 
 void Renderer::setClearColor(Vector3f color){
 	_clearColor = color;
+}
+
+void Renderer::addDrawCall()
+{
+	++_drawCalls;
 }
