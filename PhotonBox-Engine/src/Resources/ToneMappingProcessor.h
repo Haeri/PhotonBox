@@ -8,32 +8,31 @@
 
 class ToneMappingProcessor : public PostProcessor {
 public:
-	Material* material;
-	FrameBuffer* frameBuffer;
-
 	ToneMappingProcessor(int index) : PostProcessor(index) {
-		material = new Material(ToneMappingShader::getInstance());
-		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		frameBuffer->addTextureAttachment("color", true);
-		frameBuffer->ready();
+		_material = new Material(ToneMappingShader::getInstance());
+		_frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		_frameBuffer->addTextureAttachment("color", true);
+		_frameBuffer->ready();
 
-		material->setProperty<float>("exposure", 0.2f);
-		material->setTexture("renderTexture", frameBuffer, "color");
+		_material->setProperty<float>("exposure", 0.2f);
+		_material->setTexture("renderTexture", _frameBuffer, "color");
 	}
 
 	void enable() override {
-		frameBuffer->enable();
+		_frameBuffer->enable();
 	}
 
 	void render() override {
-		frameBuffer->render(material);
+		_frameBuffer->render(_material);
 	}
 
 	void destroy() override {
-		delete material;
-		delete frameBuffer;
+		delete _material;
+		delete _frameBuffer;
 	}
-
+private:
+	Material* _material;
+	FrameBuffer* _frameBuffer;
 };
 
 #endif // TONE_MAPPING_PROCESSOR_H

@@ -127,12 +127,7 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 
 
 	
-	if (checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!") == 0)
-		//std::cout << "\t- " << (shaderType == GL_FRAGMENT_SHADER ? "Fragment" : "Vertex") << " Shader successfuly created" << std::endl;
-		//<< "---------------------------------------------" << std::endl
-		//<< shaderSource << std::endl
-		//<< "---------------------------------------------" << std::endl << std::endl;
-
+	checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!");
 
 	return shader;
 }

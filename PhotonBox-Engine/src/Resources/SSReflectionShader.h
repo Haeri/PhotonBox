@@ -18,11 +18,11 @@ public:
 	void addUniforms() override {
 		addUniform("projection");
 
-		addTexture("gFinalImage");
+		addTexture("mainBuffer");
 		addTexture("gPosition");
 		addTexture("gNormal");
-		addTexture("gExtraComponents");
-		addTexture("ColorBuffer");
+		addTexture("gMetallic");
+		addTexture("gRoughness");
 	}
 
 	void addAttributes() override {

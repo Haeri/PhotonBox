@@ -5,16 +5,14 @@
 #include "Physics.h"
 #include "Lighting.h"
 #include "UIRenderer.h"
-#include "../Display.h"
-#include "../Time.h"
+#include "Time.h"
+#include "../../Core/Display.h"
 #include "../Systems/PostProcessing.h"
 #include "../InputManager.h"
 #include "../../Resources/Config.h"
 
 #include "../../Game/TestScene.h"
 #include "../../Game/PBRScene.h"
-
-//#define DEBUG = false;
 
 bool Core::_isRunning;
 
@@ -23,38 +21,38 @@ void Core::init(){
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
 
 	// Load Config
-	config = new Config();
-	config->readConfig();
+	_config = new Config();
+	_config->readConfig();
 
 	// Core Systems
-	display = new Display();
-	inputManager = new InputManager();
-	time = new Time();
+	_display = new Display();
+	_inputManager = new InputManager();
+	_time = new Time();
 
 	// Subsystems
-	uiRenderer = new UIRenderer();
-	sceneManager = new SceneManager();
-	renderer = new Renderer();
-	logic = new Logic();
-	physics = new Physics();
-	postPocessing = new PostProcessing();
-	lighting = new Lighting();
+	_uiRenderer = new UIRenderer();
+	_sceneManager = new SceneManager();
+	_renderer = new Renderer();
+	_logic = new Logic();
+	_physics = new Physics();
+	_postPocessing = new PostProcessing();
+	_lighting = new Lighting();
 
 	// Initialize OpenGL
-	display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
+	_display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
 
-	renderer->init(Config::profile.supersampling ? 2 : 1);
-	inputManager->init();
-	uiRenderer->init();
+	_renderer->init(Config::profile.supersampling ? 2 : 1);
+	_inputManager->init();
+	_uiRenderer->init();
 
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
 	
 	// Load Scenes
-	sceneManager->addScene("Realistic Rendering", new TestScene());
-	sceneManager->addScene("Material Test", new PBRScene());
+	_sceneManager->addScene("Realistic Rendering", new TestScene());
+	_sceneManager->addScene("Material Test", new PBRScene());
 
-	sceneManager->loadSceneImediately("Realistic Rendering");
+	_sceneManager->loadSceneImediately("Realistic Rendering");
 
 	// Start Subsystems
 	start();
@@ -64,10 +62,10 @@ void Core::start() {
 	std::cout << "==================================================" << std::endl;
 	std::cout << "            LOADING SCENE " << SceneManager::getCurrentName() << std::endl << std::endl;
 	
-	logic->start();
-	renderer->start();
-	lighting->start();
-	postPocessing->start();
+	_logic->start();
+	_renderer->start();
+	_lighting->start();
+	_postPocessing->start();
 
 	std::cout << std::endl << "                   SCENE READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
@@ -81,11 +79,11 @@ void Core::run(){
 
 	std::string statPrint;
 
-	while (_isRunning && display->isRunning()) {
+	while (_isRunning && _display->isRunning()) {
 
 		// Measure time
 		double currentTime = glfwGetTime();
-		time->setDeltaTime(currentTime - lastTime);
+		_time->setDeltaTime(currentTime - lastTime);
 		lastTime = currentTime;
 		lastSecond += Time::deltaTime;
 
@@ -96,63 +94,55 @@ void Core::run(){
 		}
 
 		// Update Logic
-		logic->update();
+		_logic->update();
 
 		// Late update Logic
-		logic->lateUpdate();
+		_logic->lateUpdate();
 
 		// Update Physics
 		_accumulatedTime += Time::deltaTime;
 		if (_accumulatedTime > FIXED_TIME_INTERVAL) {
-			physics->update();
-			logic->fixedUpdate();
+			_physics->update();
+			_logic->fixedUpdate();
 			_accumulatedTime = 0;
 		}
 
 		// Update input
-		inputManager->update();
+		_inputManager->update();
 
 
 		// Start Rendering
 		FrameBuffer::resetDefaultBuffer();
 
 		// Render gBuffers
-		renderer->prePass();
+		_renderer->prePass();
 
 		// Render Scene
 		Renderer::render();
 		nbFrames++;
 
-		postPocessing->postProcess();
+		_postPocessing->postProcess();
 		
 
 
 		// Gizmos
-		renderer->renderGizmos();
+		_renderer->renderGizmos();
 
 		// UI Rendering
-		uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0, 1, 0));
-		uiRenderer->renderText(std::to_string(Renderer::getDrawCalls()) + " Drawcalls", 10, Display::getHeight() - 35, 0.32f, Vector3f(0, 1, 0));
-		if (Renderer::isDebug) {
-			/*	
-			uiRenderer->renderText("Scene: " + sceneManager->getCurrentName(), 10, Display::getHeight() - 35, 0.32f, Vector3f(0.9, 0.9, 0.9));
-			uiRenderer->renderText("GameObjects:\n" + SceneManager::getCurrentScene()->getGameObjects(), 10, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
-			uiRenderer->renderText("Behaviour:\n" + Logic::getList(), 150, Display::getHeight() - 50, 0.32f, Vector3f(0.9, 0.9, 0.9));
-			*/
-		}
+		_uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0, 1, 0));
 
 		// Stop Rendering
 		Display::swapBuffer();
-		renderer->clearDrawCalls();
+		_renderer->clearDrawCalls();
 
 
-		inputManager->pollEvents();
+		_inputManager->pollEvents();
 
 		// End of Frame
-		if (sceneManager->sceneQueued()) {
-			sceneManager->unloadScene(SceneManager::getCurrentScene());
+		if (_sceneManager->sceneQueued()) {
+			_sceneManager->unloadScene(SceneManager::getCurrentScene());
 			reset();
-			sceneManager->loadQueuedScene();
+			_sceneManager->loadQueuedScene();
 			start();
 		}
 	}
@@ -164,23 +154,23 @@ void Core::stop()
 }
 
 void Core::reset() {
-	postPocessing->reset();
+	_postPocessing->reset();
 }
 
 void Core::destroy(){
-	logic->destroy();
-	renderer->destroy();
-	physics->destroy();
-	sceneManager->destroy();
-	display->destroy();
+	_logic->destroy();
+	_renderer->destroy();
+	_physics->destroy();
+	_sceneManager->destroy();
+	_display->destroy();
 
-	delete sceneManager;
-	delete renderer;
-	delete time;
-	delete logic;
-	delete physics;
-	delete postPocessing;
-	delete display;
-	delete lighting;
-	delete config;
+	delete _sceneManager;
+	delete _renderer;
+	delete _time;
+	delete _logic;
+	delete _physics;
+	delete _postPocessing;
+	delete _display;
+	delete _lighting;
+	delete _config;
 }

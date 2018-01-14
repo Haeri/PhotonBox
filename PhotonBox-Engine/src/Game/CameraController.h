@@ -44,7 +44,6 @@ public:
 			* Time::deltaTime * speed * shift);
 
 		Vector2f mouse = InputManager::getMouseDelta();
-		//std:: cout << mouse << std::endl;
 
 		float x = transform->getRotation().x() + mouse.y() * Time::deltaTime * mouseSensitivity;
 		float y = transform->getRotation().y() + mouse.x() * Time::deltaTime * mouseSensitivity;

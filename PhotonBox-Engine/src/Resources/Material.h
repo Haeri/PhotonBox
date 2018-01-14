@@ -4,6 +4,7 @@
 class Shader;
 class CubeMap;
 class Texture;
+
 #include <unordered_map>
 #include "../Core/FrameBuffer.h"
 
@@ -16,7 +17,8 @@ public:
 
 	template<typename T>
 	void setProperty(std::string name, T value) {
-		if (_uniformMap.find(name) != _uniformMap.end()) {
+		if (_uniformMap.find(name) != _uniformMap.end())
+		{
 			((BaseObject<T>*)(_uniformMap[name]))->_value = value;
 		}
 		else
@@ -60,4 +62,4 @@ private:
 	std::unordered_map<std::string, SuperObject*> _uniformMap;
 };
 
-#endif /* defined(MATERIAL_H) */
+#endif // MATERIAL_H

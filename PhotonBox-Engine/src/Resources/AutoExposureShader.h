@@ -1,8 +1,7 @@
 #ifndef AUTO_EXPOSURE_SHADER_H
 #define AUTO_EXPOSURE_SHADER_H
 
-#include "Shader.h"
-#include "Vertex.h"
+#include "../Core/Time.h"
 
 class AutoExposureShader : public InstancedShader<AutoExposureShader> {
 public:
