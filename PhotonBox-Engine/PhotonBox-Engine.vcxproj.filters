@@ -361,5 +361,6 @@
     <ClInclude Include="src\Resources\Config.h" />
     <ClInclude Include="src\Resources\ExposureShader.h" />
     <ClInclude Include="src\Resources\SkyBoostShader.h" />
+    <ClInclude Include="src\Core\OpenGL.h" />
   </ItemGroup>
 </Project>

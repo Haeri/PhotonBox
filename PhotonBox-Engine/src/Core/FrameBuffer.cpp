@@ -11,8 +11,6 @@ GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;
 std::vector<FrameBuffer*> FrameBuffer::_bufferList;
 
-#define DEBUG 0
-
 FrameBuffer::FrameBuffer(float screenFactor)
 {
 	_screenFactor = screenFactor;
@@ -159,7 +157,7 @@ void FrameBuffer::render(Material* material) {
 
 void FrameBuffer::resize()
 {
-	// Only recrate nonstatic buffers
+	// Only recreate nonstatic buffers
 	if (_screenFactor == -1) return;
 
 	glDeleteFramebuffers(1, &_fbo);
@@ -172,7 +170,7 @@ void FrameBuffer::resize()
 		addDepthBufferAttachment();
 	}
 
-
+	_drawBuffers.clear();
 	for (auto &attachment : _colorAttachments)
 	{
 		glDeleteRenderbuffers(1, &attachment.second.id);
@@ -222,16 +220,6 @@ void FrameBuffer::render(std::string name, Material* material)
 	shader->disableAttributes();
 
 	glBindVertexArray(0);
-
-
-#if DEBUG
-	if (_currentFBO == 0) return;
-
-		FrameBuffer::resetDefaultBuffer();
-		this->render("color");
-		Display::swapBuffer();
-		system("PAUSE");
-#endif
 }
 
 void FrameBuffer::initialize()

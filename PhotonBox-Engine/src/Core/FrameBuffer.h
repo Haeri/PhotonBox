@@ -2,9 +2,10 @@
 #define FRAME_BUFFER_H
 
 class Material;
+
 #include <unordered_map>
 #include <vector>
-#include "./Display.h"
+#include "OpenGL.h"
 
 class FrameBuffer {
 public:

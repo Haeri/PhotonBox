@@ -1,13 +1,12 @@
+#include <iostream>
 #include "GLError.h"
-#include "Display.h"
-
-using namespace std;
+#include "OpenGL.h"
 
 void _check_gl_error(const char *file, int line) {
 	GLenum err(glGetError());
 
 	while (err != GL_NO_ERROR) {
-		string error;
+		std::string error;
 
 		switch (err) {
 		case GL_INVALID_OPERATION:      error = "INVALID_OPERATION";      break;
@@ -17,7 +16,7 @@ void _check_gl_error(const char *file, int line) {
 		case GL_INVALID_FRAMEBUFFER_OPERATION:  error = "INVALID_FRAMEBUFFER_OPERATION";  break;
 		}
 
-		cerr << "GL_" << error.c_str() << " - " << file << ":" << line << endl;
+		std::cerr << "GL_" << error.c_str() << " - " << file << ":" << line << std::endl;
 		err = glGetError();
 	}
 }

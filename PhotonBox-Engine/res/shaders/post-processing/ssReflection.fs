@@ -1,10 +1,10 @@
 #version 400
 
-uniform sampler2D gFinalImage;
+uniform sampler2D mainBuffer;
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
-uniform sampler2D gExtraComponents;
-uniform sampler2D ColorBuffer; 
+uniform sampler2D gMetallic;
+uniform sampler2D gRoughness; 
 
 uniform mat4 invView;
 uniform mat4 projection;
@@ -33,16 +33,16 @@ vec3 hash(vec3 a);
 
 void main()
 {
-   vec2 MetallicEmmissive = texture2D(gExtraComponents, TexCoords).rg;
+   vec2 MetallicEmmissive = texture2D(gMetallic, TexCoords).rg;
     Metallic = MetallicEmmissive.r;
-    float roughness = texture(ColorBuffer, TexCoords).r;
+    float roughness = texture(gRoughness, TexCoords).r;
     
     if(1 - roughness < 0.1)
         discard;
  
     vec3 viewNormal = vec3(texture2D(gNormal, TexCoords));
     vec3 viewPos = textureLod(gPosition, TexCoords, 2).xyz;
-    vec3 albedo = texture(gFinalImage, TexCoords).rgb;
+    vec3 albedo = texture(mainBuffer, TexCoords).rgb;
 
     
 
@@ -72,7 +72,7 @@ void main()
                 -reflected.z;
  
     // Get color
-    vec4 SSR = vec4(textureLod(gFinalImage, coords.xy, 0).rgb,  clamp(ReflectionMultiplier, 0.0, 0.9) * Fresnel * strength);  
+    vec4 SSR = vec4(textureLod(mainBuffer, coords.xy, 0).rgb,  clamp(ReflectionMultiplier, 0.0, 0.9) * Fresnel * strength);  
 
     outColor = vec4(SSR);
 }
@@ -111,9 +111,7 @@ vec3 BinarySearch(inout vec3 dir, inout vec3 hitCoord, inout float dDepth)
 
 vec4 RayMarch(vec3 dir, inout vec3 hitCoord, out float dDepth)
 {
-
     dir *= step;
- 
  
     float depth;
     int steps;

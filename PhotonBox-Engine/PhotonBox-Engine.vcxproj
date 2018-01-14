@@ -95,6 +95,7 @@
     <ClInclude Include="src\Core\LightMap.h" />
     <ClInclude Include="src\Core\ManagedResource.h" />
     <ClInclude Include="src\Core\MeshSerializer.h" />
+    <ClInclude Include="src\Core\OpenGL.h" />
     <ClInclude Include="src\Core\Systems\PostProcessing.h" />
     <ClInclude Include="src\Core\PostProcessor.h" />
     <ClInclude Include="src\Core\Systems\Core.h" />
