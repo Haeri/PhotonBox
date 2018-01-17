@@ -23,4 +23,4 @@ public:
 private:
 	bool isEnabled = true;
 };
-#endif /* defined(COMPONENT_H) */
+#endif // COMPONENT_H

@@ -1,6 +1,6 @@
 #include "UIRenderer.h"
 #include <iostream>
-#include "../Display.h"
+#include "../OpenGL.h"
 #include "../../Resources/TextShader.h"
 #include "../../Core/Systems/Renderer.h"
 

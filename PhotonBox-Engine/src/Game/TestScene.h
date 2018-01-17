@@ -411,7 +411,7 @@ public:
 		carpetMaterial->setTexture("emissionMap", default_emission);
 
 		carpetFloorMaterial = new Material();
-		carpetFloorMaterial->setTexture("albedoMap", carpetAlbedo);
+		carpetFloorMaterial->setTexture("albedoMap", default_ao);
 		carpetFloorMaterial->setTexture("normalMap", default_normal);
 		carpetFloorMaterial->setTexture("roughnessMap", default_ao);
 		carpetFloorMaterial->setTexture("aoMap", carpetAo);

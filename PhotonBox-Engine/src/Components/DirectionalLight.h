@@ -4,7 +4,7 @@
 class DepthShader;
 #include "../Math/Matrix4f.h"
 #include "LightEmitter.h"
-#include "../Core/Display.h"
+#include "../Core/OpenGL.h"
 
 class DirectionalLight : public LightEmitter {
 public:
