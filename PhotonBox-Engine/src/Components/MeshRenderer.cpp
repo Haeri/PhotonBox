@@ -1,5 +1,5 @@
 #include "MeshRenderer.h"
-#include "../Core/Display.h"
+#include "../Core/OpenGL.h"
 #include "Transform.h"
 #include "Camera.h"
 #include "../Core/Systems/Renderer.h"

@@ -8,7 +8,7 @@ class LightEmitter;
 
 #include <string>
 #include <map>
-#include "../Core/Display.h"
+#include "../Core/OpenGL.h"
 #include "../Math/Matrix4f.h"
 
 class Shader {

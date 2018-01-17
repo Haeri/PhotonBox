@@ -9,7 +9,7 @@ class TextShader;
 #include <map>
 #include "../../Math/Vector2f.h"
 #include "../../Math/Vector3f.h"
-#include "../../Core/Display.h"
+#include "../../Core/OpenGL.h"
 
 struct Character {
 	GLuint TextureID;   // ID handle of the glyph texture
