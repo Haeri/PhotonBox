@@ -10,11 +10,13 @@ bool Display::_isVSync;
 
 void window_size_callback(GLFWwindow*, int, int);
 
-void Display::init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen, bool vsync) {
+void Display::init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen, bool vsync)
+{
 	_width = width;
 	_height = height;
-	
-	if (!glfwInit()) {
+
+	if (!glfwInit())
+	{
 		exit(EXIT_FAILURE);
 	}
 
@@ -31,7 +33,8 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	_window = glfwCreateWindow(width, height, title.c_str(), fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
 
-	if (!_window) {
+	if (!_window)
+	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
@@ -51,31 +54,37 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	glfwSetWindowSizeCallback(_window, window_size_callback);
 }
 
-void Display::destroy() {
+void Display::destroy()
+{
 	glfwDestroyWindow(_window);
 	glfwTerminate();
 }
 
-void Display::setVSync(bool vsync) {
+void Display::setVSync(bool vsync)
+{
 	glfwSwapInterval((int)vsync);
 	_isVSync = vsync;
 }
 
-void Display::swapBuffer() {
+void Display::swapBuffer()
+{
 	glfwSwapBuffers(_window);
 
 	_isRunning = !glfwWindowShouldClose(_window);
 }
 
-unsigned int Display::getWidth(){
+unsigned int Display::getWidth()
+{
 	return _width;
 }
 
-unsigned int Display::getHeight(){
+unsigned int Display::getHeight()
+{
 	return _height;
 }
 
-void window_size_callback(GLFWwindow* window, int width, int height) {
+void window_size_callback(GLFWwindow* window, int width, int height)
+{
 	if (width == 0 || height == 0) return;
 
 	Display::setRect(width, height);

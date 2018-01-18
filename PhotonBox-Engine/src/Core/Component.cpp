@@ -1,14 +1,17 @@
 #include "Component.h"
 
-void Component::setGameObject(GameObject* _go) {
+void Component::setGameObject(GameObject* _go)
+{
 	gameObject = _go;
 }
 
-void Component::setTransform(Transform* _t) {
+void Component::setTransform(Transform* _t)
+{
 	transform = _t;
 }
 
-void Component::setEnable(bool enable) {
+void Component::setEnable(bool enable)
+{
 	if (enable)
 		OnEnable();
 	else
@@ -16,7 +19,8 @@ void Component::setEnable(bool enable) {
 	isEnabled = enable;
 }
 
-std::string Component::getName() {
+std::string Component::getName()
+{
 	std::string s = typeid(*this).name();
 	return s.substr(6);
 }

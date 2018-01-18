@@ -3,9 +3,10 @@
 
 class FrameBuffer;
 
-class DeferredBuffer {
+class DeferredBuffer
+{
 public:
-	FrameBuffer* gBuffer;
+	FrameBuffer * gBuffer;
 
 	void init();
 };

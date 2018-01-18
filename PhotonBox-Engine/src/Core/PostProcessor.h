@@ -4,13 +4,15 @@
 class Material;
 #include "PostProcessing.h"
 
-class PostProcessor {
+class PostProcessor
+{
 public:
-	PostProcessor(int index) {
+	PostProcessor(int index)
+	{
 		_index = index;
 		PostProcessing::addProcessor(this);
 	}
-	
+
 	int getIndex() { return _index; }
 
 	virtual void onResize() {}

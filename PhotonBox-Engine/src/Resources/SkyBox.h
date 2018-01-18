@@ -6,7 +6,8 @@
 #include "Mesh.h"
 #include "../Components/LightProbe.h"
 
-class SkyBox {
+class SkyBox
+{
 public:
 	float intensity = 1;
 	void setLightProbe(LightProbe* lightProbe);
@@ -15,13 +16,13 @@ public:
 	void init();
 	void render();
 private:
-	LightProbe* _lp;
-	
+	LightProbe * _lp;
+
 	SkyBoxShader* _skyBoxShader;
 	GLuint _vao, _vbo, _ebo;
 	Mesh* _mesh;
 
-	void genVAO();	
+	void genVAO();
 };
 
 #endif // SKY_BOX_H

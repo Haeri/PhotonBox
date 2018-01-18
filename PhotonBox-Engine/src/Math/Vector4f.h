@@ -5,7 +5,8 @@
 #include <math.h>
 #include "Vector3f.h"
 
-class Vector4f {
+class Vector4f
+{
 public:
 
 	static const Vector4f ZERO;
@@ -37,74 +38,90 @@ public:
 	void setZ(float value) { _z = value; }
 	void setW(float value) { _w = value; }
 
-	bool equals(const Vector4f& other) {
+	bool equals(const Vector4f& other)
+	{
 		return (_x == other._x && _y == other._y && _z == other._z);
 	}
 
-	float length() {
+	float length()
+	{
 		return sqrt(_x * _x + _y * _y + _z * _z + _w * _w);
 	}
 
-	float lengthSqrd() {
+	float lengthSqrd()
+	{
 		return _x * _x + _y * _y + _z * _z + _w * _w;
 	}
 
-	float distance(const Vector4f& other) {
+	float distance(const Vector4f& other)
+	{
 		return (*this - other).length();
 	}
 
-	float distanceSqrd(const Vector4f& other) {
+	float distanceSqrd(const Vector4f& other)
+	{
 		return (*this - other).lengthSqrd();
 	}
 
-	inline float dot(const Vector4f& other) const {
+	inline float dot(const Vector4f& other) const
+	{
 		return _x * other._z + _y * other._y + _z * other._z + _w * other._w;
 	}
 
-	inline Vector3f xyz() const {
+	inline Vector3f xyz() const
+	{
 		return Vector3f(_x, _y, _z);
 	}
 
-	inline Vector4f normalize() const {
+	inline Vector4f normalize() const
+	{
 		Vector4f ret = *this;
 		return ret / ret.length();
 	}
 
-	inline bool operator== (const Vector4f& other) const {
+	inline bool operator== (const Vector4f& other) const
+	{
 		return (_x == other._x && _y == other._y && _z == other._z && _w == other._w);
 	}
 
-	inline Vector4f operator/ (const float& scalar) const {
+	inline Vector4f operator/ (const float& scalar) const
+	{
 		return Vector4f(_x / scalar, _y / scalar, _z / scalar, _w / scalar);
 	}
 
-	inline Vector4f operator* (const float& scalar) const {
+	inline Vector4f operator* (const float& scalar) const
+	{
 		return Vector4f(_x * scalar, _y * scalar, _z * scalar, _w * scalar);
 	}
 
-	inline Vector4f operator- (const Vector4f& other) const {
+	inline Vector4f operator- (const Vector4f& other) const
+	{
 		return Vector4f(_x - other._x, _y - other._y, _z - other._z, _w - other._w);
 	}
 
-	inline Vector4f operator+ (const Vector4f& other) const {
+	inline Vector4f operator+ (const Vector4f& other) const
+	{
 		return Vector4f(_x + other._x, _y + other._y, _z + other._z, _w + other._w);
 	}
 
-	float& operator [](int index) {
+	float& operator [](int index)
+	{
 		if (index == 0) return _x;
 		else if (index == 1) return _y;
 		else if (index == 2) return _z;
 		else if (index == 3) return _w;
 	}
 
-	float operator [](int index) const {
+	float operator [](int index) const
+	{
 		if (index == 0) return _x;
 		else if (index == 1) return _y;
 		else if (index == 2) return _z;
 		else if (index == 3) return _w;
 	}
 
-	friend std::ostream& operator<<(std::ostream& os, Vector4f m) {
+	friend std::ostream& operator<<(std::ostream& os, Vector4f m)
+	{
 		return os << "(" << m.x() << ", " << m.y() << ", " << m.z() << ", " << m.w() << ")";
 	}
 

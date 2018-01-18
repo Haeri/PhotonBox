@@ -4,18 +4,22 @@
 #include "Shader.h"
 #include "Vertex.h"
 
-class ExposureShader : public InstancedShader<ExposureShader> {
+class ExposureShader : public InstancedShader<ExposureShader>
+{
 public:
-	std::string getFilePath() override {
+	std::string getFilePath() override
+	{
 		return std::string("./res/shaders/post-processing/exposure");
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addTexture("renderTexture");
 		addTexture("exposureSample");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

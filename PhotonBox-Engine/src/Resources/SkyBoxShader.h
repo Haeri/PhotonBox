@@ -4,23 +4,28 @@
 #include "Shader.h"
 #include "Vertex.h"
 
-class SkyBoxShader : public InstancedShader<SkyBoxShader>{
+class SkyBoxShader : public InstancedShader<SkyBoxShader>
+{
 public:
-	std::string getFilePath() override {
+	std::string getFilePath() override
+	{
 		return std::string("./res/shaders/util/skyBox");
 	}
-	
-	void update(Matrix4f& vp) {
+
+	void update(Matrix4f& vp)
+	{
 		glUniformMatrix4fv(uniforms["vp"], 1, GL_FALSE, &(vp(0, 0)));
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addUniform("vp");
 		addUniform("mip");
 		addUniform("intensity");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

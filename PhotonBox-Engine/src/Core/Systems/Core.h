@@ -15,7 +15,8 @@ class Lighting;
 class InputManager;
 class Config;
 
-class Core{
+class Core
+{
 public:
 	void init();
 	void start();
@@ -26,7 +27,7 @@ public:
 	static bool isRunning() { return _isRunning; }
 	static void stop();
 private:
-	Time* _time;
+	Time * _time;
 	Display* _display;
 	InputManager* _inputManager;
 	UIRenderer* _uiRenderer;

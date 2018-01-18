@@ -9,14 +9,19 @@ class LightProbe;
 #include <typeindex>
 #include <algorithm>
 
-class Lighting {
+class Lighting
+{
 public:
 	template<class T>
-	static void addLight(T* light) {
-		
-		if (_lights.find(typeid(T)) != _lights.end()) {
+	static void addLight(T* light)
+	{
+
+		if (_lights.find(typeid(T)) != _lights.end())
+		{
 			_lights[typeid(T)].push_back(light);
-		}else {
+		}
+		else
+		{
 			std::vector<LightEmitter*> vec;
 			vec.push_back(light);
 			_lights.insert(std::pair<std::type_index, std::vector<LightEmitter*>>(typeid(T), vec));
@@ -24,9 +29,11 @@ public:
 	}
 
 	template<class T>
-	static void removeLight(T* light) {
+	static void removeLight(T* light)
+	{
 		auto it = _lights.find(typeid(T));
-		if (it != _lights.end()) {
+		if (it != _lights.end())
+		{
 			auto& vec = (_lights[typeid(T)]);
 			vec.erase(std::remove(vec.begin(), vec.end(), light), vec.end());
 
@@ -35,22 +42,24 @@ public:
 		}
 	}
 
-	
+
 	template<class T>
-	static std::vector<T*>& getLights() {
-		if (_lights.find(typeid(T)) == _lights.end()) {
+	static std::vector<T*>& getLights()
+	{
+		if (_lights.find(typeid(T)) == _lights.end())
+		{
 			std::cerr << "Lights not found!" << std::endl;
-//			return *nullptr;
+			//			return *nullptr;
 		}
 		return (std::vector<T*>&)_lights[typeid(T)];
 	}
-	
+
 
 	static std::unordered_map<std::type_index, std::vector<LightEmitter*>>& getAllLights() { return _lights; }
 	static void addLightProbe(LightProbe* lightProbe);
 	static void removeFromLightProbeList(LightProbe* lightProbe);
 	static LightProbe* findInLightProberVolume(Transform* transform);
-	
+
 	void start();
 private:
 	static std::unordered_map<std::type_index, std::vector<LightEmitter*>> _lights;

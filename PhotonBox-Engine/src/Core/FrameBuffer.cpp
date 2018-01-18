@@ -39,7 +39,7 @@ FrameBuffer::~FrameBuffer()
 	glDeleteRenderbuffers(1, &_depthAttachment);
 }
 
-void FrameBuffer::addTextureAttachment(std::string name) 
+void FrameBuffer::addTextureAttachment(std::string name)
 {
 	addTextureAttachment(name, false, false);
 }
@@ -62,13 +62,15 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	if (mipmaps) {
+	if (mipmaps)
+	{
 		temp.mipmaps = 1 + floor(log2(min(_width, _height)));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
-	else {
+	else
+	{
 		temp.mipmaps = 0;
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -127,7 +129,7 @@ void FrameBuffer::bind(GLuint textureUnit, std::string name)
 void FrameBuffer::ready()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-	
+
 	if (_drawBuffers.size() > 0)
 		glDrawBuffers(_drawBuffers.size(), &_drawBuffers[0]);
 
@@ -146,12 +148,13 @@ void FrameBuffer::clear()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void FrameBuffer::render(std::string name) 
+void FrameBuffer::render(std::string name)
 {
 	render(name, nullptr);
 }
 
-void FrameBuffer::render(Material* material) {
+void FrameBuffer::render(Material* material)
+{
 	render("", material);
 }
 
@@ -165,7 +168,8 @@ void FrameBuffer::resize()
 	_height = Display::getHeight() * _screenFactor;
 	initialize();
 
-	if (_depthAttachment != -1) {
+	if (_depthAttachment != -1)
+	{
 		glDeleteRenderbuffers(1, &_depthAttachment);
 		addDepthBufferAttachment();
 	}
@@ -192,24 +196,30 @@ FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name)
 	return &_colorAttachments[name];
 }
 
-void FrameBuffer::render(std::string name, Material* material) 
+void FrameBuffer::render(std::string name, Material* material)
 {
 	glBindVertexArray(_quadVAO);
 
 	Shader* shader;
-	if (material == nullptr) {
+	if (material == nullptr)
+	{
 		shader = DefaultPostShader::getInstance();
-	}else {
+	}
+	else
+	{
 		shader = material->shader;
 	}
 
 	shader->bind();
 	shader->update(nullptr);
 
-	if (material != nullptr) {
+	if (material != nullptr)
+	{
 		material->updateUniforms();
 		material->bindTextures();
-	}else {
+	}
+	else
+	{
 		bind(GL_TEXTURE0, name);
 	}
 
@@ -230,7 +240,8 @@ void FrameBuffer::initialize()
 
 
 	// Create mesh
-	if (_quadVAO == -1) {
+	if (_quadVAO == -1)
+	{
 		// Quad Mesh
 		static const GLfloat _quadVertices[] = {
 			-1.0f,  1.0f,
@@ -254,12 +265,13 @@ void FrameBuffer::initialize()
 
 void FrameBuffer::resizeAll()
 {
-	for (FrameBuffer* fbo : _bufferList) {
+	for (FrameBuffer* fbo : _bufferList)
+	{
 		fbo->resize();
 	}
 }
 
-void FrameBuffer::resetDefaultBuffer() 
+void FrameBuffer::resetDefaultBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, Display::getWidth(), Display::getHeight());

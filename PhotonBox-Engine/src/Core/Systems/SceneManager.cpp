@@ -8,18 +8,21 @@ std::string SceneManager::_newScene;
 std::map<std::string, Scene*> SceneManager::_sceneMap;
 std::string SceneManager::_currentSceneName;
 
-void SceneManager::addScene(const std::string name, Scene* scene){
+void SceneManager::addScene(const std::string name, Scene* scene)
+{
 	_sceneMap[name] = scene;
 }
 
-void SceneManager::loadScene(const std::string & name){
+void SceneManager::loadScene(const std::string & name)
+{
 	_newScene = name;
 	_inQueue = true;
 }
 
-void SceneManager::loadSceneImediately(const std::string& name) {
+void SceneManager::loadSceneImediately(const std::string& name)
+{
 	if (_sceneMap[name] == nullptr) return;
-	
+
 	unloadScene(_currentScene);
 	_currentScene = _sceneMap[name];
 	_currentSceneName = name;
@@ -27,33 +30,40 @@ void SceneManager::loadSceneImediately(const std::string& name) {
 	_inQueue = false;
 }
 
-void SceneManager::loadQueuedScene() {
+void SceneManager::loadQueuedScene()
+{
 	loadSceneImediately(_newScene);
 	_newScene = "";
 }
 
-void SceneManager::unloadScene(Scene * scene){
+void SceneManager::unloadScene(Scene * scene)
+{
 	if (_currentScene == nullptr) return;
 
 	scene->unload();
 	_currentScene = nullptr;
 }
 
-void SceneManager::unloadScene(const std::string & name){
+void SceneManager::unloadScene(const std::string & name)
+{
 	unloadScene(_sceneMap[name]);
 }
 
-std::string SceneManager::getCurrentName() {
+std::string SceneManager::getCurrentName()
+{
 	return _currentSceneName;
 }
 
-Scene* SceneManager::getCurrentScene() {
+Scene* SceneManager::getCurrentScene()
+{
 	return _currentScene;
 }
 
-void SceneManager::destroy(){
+void SceneManager::destroy()
+{
 	_currentScene->unload();
-	for (auto const &scene : _sceneMap) {
+	for (auto const &scene : _sceneMap)
+	{
 		delete scene.second;
 	}
 	_sceneMap.clear();

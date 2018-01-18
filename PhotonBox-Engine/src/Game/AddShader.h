@@ -4,18 +4,22 @@
 #include "../Resources/Shader.h"
 #include "../Resources/Vertex.h"
 
-class AddShader : public InstancedShader<AddShader> {
+class AddShader : public InstancedShader<AddShader>
+{
 public:
-	std::string getFilePath() override {
+	std::string getFilePath() override
+	{
 		return std::string("./res/shaders/post-processing/add");
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addTexture("renderTexture");
 		addTexture("renderTexture2");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

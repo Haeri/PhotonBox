@@ -2,14 +2,17 @@
 #include "../Core/Systems/Lighting.h"
 #include "../Resources/ForwardAmbientLightShader.h"
 
-AmbientLight::AmbientLight(){
+AmbientLight::AmbientLight()
+{
 	Lighting::addLight(this);
 }
 
-void AmbientLight::destroy(){
+void AmbientLight::destroy()
+{
 	Lighting::removeLight(this);
 }
 
-Shader * AmbientLight::getLightShader(){
+Shader * AmbientLight::getLightShader()
+{
 	return ForwardAmbientLightShader::getInstance();
 }

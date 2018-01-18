@@ -30,7 +30,8 @@
 #include "../Game/PathWalkerScript.h"
 #include "../Game/ControllerToggleScript.h"
 
-class TestScene : public Scene {
+class TestScene : public Scene
+{
 public:
 	CubeMap * whiteCube;
 
@@ -189,7 +190,8 @@ public:
 	SSAOProcessor* p_ssao;
 	SSReflectionProcessor* p_ssreflection;
 
-	void Load() {
+	void Load()
+	{
 		/* --------------------------- ENVIROMENT --------------------------- */
 		std::vector<std::string> white = {
 			"./res/default_ao.png",
@@ -569,7 +571,7 @@ public:
 		GameObject* f3 = instanciate("fin");
 		f3->getComponent<Transform>()->setPosition(Vector3f(1.719618, 1.658098, 1.163731));
 		f3->getComponent<Transform>()->setRotation(Vector3f(-0.098326, 3.107171, 0.000000));
-	
+
 		GameObject* s4 = instanciate("start");
 		s4->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
 		s4->getComponent<Transform>()->setRotation(Vector3f(-0.910666, 0.317027, 0.00000));
@@ -882,7 +884,8 @@ public:
 
 	}
 
-	void OnUnload() {
+	void OnUnload()
+	{
 		delete whiteCube;
 
 		delete couchMesh;

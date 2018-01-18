@@ -7,9 +7,10 @@
 #include "../Game/CutOffShader.h"
 #include "../Game/AddShader.h"
 
-class BloomProcessor : public PostProcessor {
+class BloomProcessor : public PostProcessor
+{
 public:
-	Material* m_cutOff;
+	Material * m_cutOff;
 
 	Material* m_blur_h;
 	Material* m_blur_v;
@@ -34,7 +35,8 @@ public:
 	bool debug = false;
 
 
-	BloomProcessor(int index) : PostProcessor(index) {
+	BloomProcessor(int index) : PostProcessor(index)
+	{
 		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		fb_original->addTextureAttachment("color", true);
 		fb_original->ready();
@@ -85,16 +87,18 @@ public:
 		m_blur_v = new Material(BlurVShader::getInstance());
 	}
 
-	void enable() override {
+	void enable() override
+	{
 		fb_original->enable();
 	}
 
-	void preProcess() override{
+	void preProcess() override
+	{
 		// Blur 16
 		fb_cutOff_16->enable();
 		fb_original->render(m_cutOff);
-		
-		m_blur_h->setProperty("offset", (1.0f/ fb_cutOff_16->getWidth()));
+
+		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_16->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_16, "color");
 		fb_blur_h_16->enable();
 		fb_cutOff_16->render(m_blur_h);
@@ -107,7 +111,8 @@ public:
 		int cols = 4;
 		int widthX = 0;
 
-		if (debug) {
+		if (debug)
+		{
 			Renderer::_debugFrameBuffer->enable();
 			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_16->render("color");
@@ -137,7 +142,8 @@ public:
 		fb_blur_v_8->enable();
 		fb_blur_h_8->render(m_blur_v);
 
-		if (debug) {
+		if (debug)
+		{
 			Renderer::_debugFrameBuffer->enable();
 			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_8->render("color");
@@ -167,7 +173,8 @@ public:
 		fb_blur_v_4->enable();
 		fb_blur_h_4->render(m_blur_v);
 
-		if (debug) {
+		if (debug)
+		{
 			Renderer::_debugFrameBuffer->enable();
 			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_4->render("color");
@@ -197,7 +204,8 @@ public:
 		fb_blur_v_2->enable();
 		fb_blur_h_2->render(m_blur_v);
 
-		if (debug) {
+		if (debug)
+		{
 			Renderer::_debugFrameBuffer->enable();
 			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_2->render("color");
@@ -205,7 +213,8 @@ public:
 		}
 	}
 
-	void render() override {
+	void render() override
+	{
 		fb_original->render("color");
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
@@ -217,18 +226,19 @@ public:
 		glDisable(GL_BLEND);
 	}
 
-	void destroy() override {
+	void destroy() override
+	{
 		delete m_cutOff;
 		delete m_blur_h;
 		delete m_blur_v;
 
 		delete fb_original;
-		
+
 		delete fb_cutOff_2;
 		delete fb_cutOff_4;
 		delete fb_cutOff_8;
 		delete fb_cutOff_16;
-		
+
 		delete fb_blur_h_2;
 		delete fb_blur_v_2;
 		delete fb_blur_h_4;

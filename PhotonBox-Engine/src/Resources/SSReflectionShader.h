@@ -5,17 +5,21 @@
 #include "../Resources/Vertex.h"
 #include "../Components/Camera.h"
 
-class SSReflectionShader : public InstancedShader<SSReflectionShader> {
+class SSReflectionShader : public InstancedShader<SSReflectionShader>
+{
 public:
-	std::string getFilePath() override {
+	std::string getFilePath() override
+	{
 		return std::string("./res/shaders/post-processing/ssReflection");
 	}
 
-	void update(Transform* transform) override {
+	void update(Transform* transform) override
+	{
 		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addUniform("projection");
 
 		addTexture("mainBuffer");
@@ -25,7 +29,8 @@ public:
 		addTexture("gRoughness");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

@@ -8,10 +8,12 @@
 #include "../Resources/SSAOBlurShader.h"
 #include "../Core/DeferredBuffer.h"
 
-class SSAOProcessor : public PostProcessor {
+class SSAOProcessor : public PostProcessor
+{
 public:
 
-	SSAOProcessor(int index) : PostProcessor(index) {
+	SSAOProcessor(int index) : PostProcessor(index)
+	{
 		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		mainBuffer->addTextureAttachment("color", true);
 		mainBuffer->ready();
@@ -29,11 +31,13 @@ public:
 		generateNoise();
 	}
 
-	void enable() override {
+	void enable() override
+	{
 		mainBuffer->enable();
 	}
 
-	void preProcess() override {
+	void preProcess() override
+	{
 		ssaoBlurBuffer->enable();
 
 		// TODO: Clean up this block
@@ -42,17 +46,20 @@ public:
 		glActiveTexture(SSAOShader::getInstance()->textures["texNoise"].unit);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 
-		for (unsigned int i = 0; i < 64; ++i) {
+		for (unsigned int i = 0; i < 64; ++i)
+		{
 			ssaoMaterial->shader->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
 		}
 		mainBuffer->render(ssaoMaterial);
 	}
 
-	void render() override {
+	void render() override
+	{
 		ssaoBlurBuffer->render(ssaoBlurMaterial);
 	}
 
-	void destroy() override {
+	void destroy() override
+	{
 		delete ssaoMaterial;
 		delete ssaoBlurMaterial;
 
@@ -60,14 +67,15 @@ public:
 		delete ssaoBlurBuffer;
 	}
 private:
-	Material *ssaoMaterial, *ssaoBlurMaterial;
+	Material * ssaoMaterial, *ssaoBlurMaterial;
 	FrameBuffer* mainBuffer, *ssaoBlurBuffer;
 
 	GLuint _noiseTexture;
 	std::vector<Vector3f> _ssaoKernel;
 
-	void generateNoise() {
-	
+	void generateNoise()
+	{
+
 		// generate sample kernel
 		// ----------------------
 		std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
@@ -92,7 +100,7 @@ private:
 		{
 			Vector3f noise(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, 0.0f); // rotate around z-axis (in tangent space)
 			ssaoNoise.push_back(noise);
-		} 
+		}
 		glGenTextures(1, &_noiseTexture);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);

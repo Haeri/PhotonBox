@@ -8,9 +8,11 @@ class ObjectRenderer;
 #include "../Core/Display.h"
 #include "../Math/Vector2f.h"
 
-class Camera: public Component{
+class Camera : public Component
+{
 public:
-	struct Plane {
+	struct Plane
+	{
 		Vector3f normal;
 		float distance;
 	};

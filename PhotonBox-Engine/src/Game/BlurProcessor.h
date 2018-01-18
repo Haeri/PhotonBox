@@ -7,9 +7,10 @@
 #include "../Game/CutOffShader.h"
 #include "../Game/AddShader.h"
 
-class BlurProcessor : public PostProcessor {
+class BlurProcessor : public PostProcessor
+{
 public:
-	Material* m_hBlur1;
+	Material * m_hBlur1;
 	Material* m_vBlur1;
 	Material* m_hBlur2;
 	Material* m_vBlur2;
@@ -19,7 +20,8 @@ public:
 	FrameBuffer* fb_blur3;
 	FrameBuffer* fb_blur4;
 
-	BlurProcessor(int index) : PostProcessor(index) {
+	BlurProcessor(int index) : PostProcessor(index)
+	{
 		m_hBlur1 = new Material(BlurHShader::getInstance());
 		m_hBlur1->setProperty("offset", 0.005f);
 		m_vBlur1 = new Material(BlurVShader::getInstance());
@@ -44,11 +46,13 @@ public:
 		fb_blur4->ready();
 	}
 
-	void enable() override {
+	void enable() override
+	{
 		fb_blur1->enable();
 	}
 
-	void preProcess() override {
+	void preProcess() override
+	{
 		fb_blur2->enable();
 		fb_blur1->render(m_hBlur1);
 		fb_blur3->enable();
@@ -57,11 +61,13 @@ public:
 		fb_blur3->render(m_hBlur2);
 	}
 
-	void render() override {
+	void render() override
+	{
 		fb_blur4->render(m_vBlur2);
 	}
 
-	void destroy() override {
+	void destroy() override
+	{
 		delete m_hBlur1;
 		delete m_vBlur1;
 		delete m_hBlur2;

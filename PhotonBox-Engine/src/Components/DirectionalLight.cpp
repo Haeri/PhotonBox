@@ -6,7 +6,8 @@
 #include "../Resources/ForwardDirectionalLightShader.h"
 #include "../Core/FrameBuffer.h"
 
-DirectionalLight::DirectionalLight(){
+DirectionalLight::DirectionalLight()
+{
 	Lighting::addLight(this);
 	_depthShader = DepthShader::getInstance();
 	_shadowMapResolution = 4096;
@@ -30,20 +31,23 @@ DirectionalLight::DirectionalLight(){
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void DirectionalLight::destroy(){
+void DirectionalLight::destroy()
+{
 	Lighting::removeLight(this);
 }
 
-Shader * DirectionalLight::getLightShader(){
+Shader * DirectionalLight::getLightShader()
+{
 	return ForwardDirectionalLightShader::getInstance();
 }
 
-void DirectionalLight::renderShadowMap(bool captureMode){
+void DirectionalLight::renderShadowMap(bool captureMode)
+{
 	glViewport(0, 0, _shadowMapResolution, _shadowMapResolution);
 	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	
+
 	Renderer::render(_depthShader, captureMode);
-	
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

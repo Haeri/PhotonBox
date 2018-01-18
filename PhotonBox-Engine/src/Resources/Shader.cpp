@@ -5,7 +5,8 @@
 #include "Texture.h"
 #include "CubeMap.h"
 
-void Shader::init() {
+void Shader::init()
+{
 	std::vector<std::string> path;
 
 	std::string filePath = getFilePath();
@@ -46,28 +47,33 @@ void Shader::init() {
 	addUniforms();
 }
 
-void Shader::destroy() {
+void Shader::destroy()
+{
 	glDetachShader(_program, _shaders[0]);
 	glDetachShader(_program, _shaders[1]);
 	glDeleteProgram(_program);
 }
 
-void Shader::bind() {
+void Shader::bind()
+{
 	glUseProgram(_program);
 }
 
-void Shader::addAttribut(std::string attribute, GLint index) {
+void Shader::addAttribut(std::string attribute, GLint index)
+{
 	attributes[attribute] = index;
 	glBindAttribLocation(_program, index, attribute.c_str());
 }
 
-void Shader::addUniform(std::string uniform) {
+void Shader::addUniform(std::string uniform)
+{
 	GLint pos = glGetUniformLocation(_program, uniform.c_str());
 	if (pos == -1) std::cout << "\t\tcould not find uniform '" << uniform << "' in shader " << _fileName << std::endl;
 	uniforms[uniform] = pos;
 }
 
-void Shader::addTexture(std::string uniform) {
+void Shader::addTexture(std::string uniform)
+{
 	TexUniforUnit texUnit;
 	texUnit.uniformLocation = glGetUniformLocation(_program, uniform.c_str());
 	if (texUnit.uniformLocation == -1) std::cout << "\t\tcould not find uniform '" << uniform << "' in shader " << _fileName << std::endl;
@@ -75,44 +81,57 @@ void Shader::addTexture(std::string uniform) {
 	textures[uniform] = texUnit;
 }
 
-void Shader::enableAttributes() {
-	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it){
+void Shader::enableAttributes()
+{
+	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
+	{
 		glEnableVertexAttribArray(it->second);
 	}
 }
 
-void Shader::disableAttributes() {
-	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it){
+void Shader::disableAttributes()
+{
+	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
+	{
 		glDisableVertexAttribArray(it->second);
 	}
 }
 
-void Shader::updateTextures(){
-	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it) {
+void Shader::updateTextures()
+{
+	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it)
+	{
 		glUniform1i(it->second.uniformLocation, it->second.unit - GL_TEXTURE0);
 	}
 }
 
-std::string Shader::readShader(const std::string& fileName) {
-		std::string line, text;
-		std::ifstream myfile(fileName);
+std::string Shader::readShader(const std::string& fileName)
+{
+	std::string line, text;
+	std::ifstream myfile(fileName);
 
-		if (myfile.is_open()){
-			while (getline(myfile, line)){
-				text += line + "\n";
-			}
-			myfile.close();
-		}else {
-			std::cerr << "Unable to open file " << fileName << std::endl;
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			text += line + "\n";
 		}
+		myfile.close();
+	}
+	else
+	{
+		std::cerr << "Unable to open file " << fileName << std::endl;
+	}
 
-		return text;
+	return text;
 }
 
-GLuint Shader::createShader(const std::string& shaderSource, unsigned int shaderType) {
+GLuint Shader::createShader(const std::string& shaderSource, unsigned int shaderType)
+{
 	GLuint shader = glCreateShader(shaderType);
 
-	if (shader == 0){
+	if (shader == 0)
+	{
 		std::cerr << "ERROR: Failed creating shader type " << shaderType << std::endl;
 		return 0;
 	}
@@ -120,13 +139,13 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 	const GLchar* shaderSourceArray[1];
 	shaderSourceArray[0] = shaderSource.c_str();
 	GLint lengths[1];
-	lengths[0] = (GLuint) shaderSource.length();
+	lengths[0] = (GLuint)shaderSource.length();
 
 	glShaderSource(shader, 1, shaderSourceArray, lengths);
 	glCompileShader(shader);
 
 
-	
+
 	checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!");
 
 	return shader;
@@ -150,9 +169,11 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
 		std::cerr << errorMessage << ": '" << error << "'" << std::endl;
-		
+
 		return 1;
-	}else {
+	}
+	else
+	{
 		return 0;
 	}
 }

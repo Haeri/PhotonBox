@@ -8,15 +8,17 @@ class Texture;
 #include <unordered_map>
 #include "../Core/FrameBuffer.h"
 
-class Material {
+class Material
+{
 public:
-	Shader* shader;
+	Shader * shader;
 
 	Material() {}
-	Material(Shader* shader): shader(shader) {}
+	Material(Shader* shader) : shader(shader) {}
 
 	template<typename T>
-	void setProperty(std::string name, T value) {
+	void setProperty(std::string name, T value)
+	{
 		if (_uniformMap.find(name) != _uniformMap.end())
 		{
 			((BaseObject<T>*)(_uniformMap[name]))->_value = value;
@@ -31,25 +33,28 @@ public:
 	void setTexture(const std::string& uniformName, Texture* texture);
 	void setTexture(const std::string & uniformName, FrameBuffer * buffer, std::string attachmentName);
 	void setCubeMap(const std::string& uniformName, CubeMap* cubeMap);
-	
+
 	void updateUniforms();
 	void updateUniforms(Shader* shader);
 	void bindTextures();
 	void bindTextures(Shader* customShader);
 
 	template <typename T>
-	T getProperty(const std::string& uniformName) {
+	T getProperty(const std::string& uniformName)
+	{
 		return ((BaseObject<T>*)(_uniformMap[uniformName]))->_value;
 	}
 	Texture* getTexture(const std::string& uniformName);
 	CubeMap* getCubeMap(const std::string& uniformName);
 private:
-	struct SuperObject {
+	struct SuperObject
+	{
 		virtual void update(Shader* shader) = 0;
 	};
 
 	template<class T>
-	struct BaseObject: SuperObject {
+	struct BaseObject : SuperObject
+	{
 		std::string _name;
 		T _value;
 		BaseObject(T value, std::string name) : _value(value), _name(name) {}

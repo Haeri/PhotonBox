@@ -4,7 +4,8 @@
 class Behaviour;
 #include <vector>
 
-class Logic {
+class Logic
+{
 public:
 	static void addToUpdateList(Behaviour *behaviour);
 	static void removeFromList(Behaviour *behaviour);

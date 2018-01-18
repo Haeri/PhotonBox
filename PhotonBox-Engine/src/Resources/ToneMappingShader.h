@@ -4,17 +4,21 @@
 #include "Shader.h"
 #include "Vertex.h"
 
-class ToneMappingShader : public InstancedShader<ToneMappingShader> {
+class ToneMappingShader : public InstancedShader<ToneMappingShader>
+{
 public:
-	std::string getFilePath() override {
+	std::string getFilePath() override
+	{
 		return std::string("./res/shaders/post-processing/tonemapping");
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addTexture("renderTexture");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

@@ -3,7 +3,8 @@
 
 #include "MeshRenderer.h"
 
-class TransparentMeshRenderer : public MeshRenderer {
+class TransparentMeshRenderer : public MeshRenderer
+{
 public:
 	bool cutout = true;
 	TransparentMeshRenderer() : MeshRenderer(false) {}

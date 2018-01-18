@@ -2,14 +2,17 @@
 #include "../Core/Systems/Lighting.h"
 #include "../Resources/ForwardSpotLightShader.h"
 
-SpotLight::SpotLight(){
+SpotLight::SpotLight()
+{
 	Lighting::addLight(this);
 }
 
-void SpotLight::destroy(){
+void SpotLight::destroy()
+{
 	Lighting::removeLight(this);
 }
 
-Shader * SpotLight::getLightShader(){
+Shader * SpotLight::getLightShader()
+{
 	return ForwardSpotLightShader::getInstance();
 }

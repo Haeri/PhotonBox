@@ -7,7 +7,8 @@
 #include "../src/Core/Display.h"
 #include "Mesh.h"
 
-class CubeMap {
+class CubeMap
+{
 public:
 	enum Face
 	{

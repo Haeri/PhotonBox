@@ -6,9 +6,11 @@
 #include "../Core/FrameBuffer.h"
 #include "ToneMappingShader.h"
 
-class ToneMappingProcessor : public PostProcessor {
+class ToneMappingProcessor : public PostProcessor
+{
 public:
-	ToneMappingProcessor(int index) : PostProcessor(index) {
+	ToneMappingProcessor(int index) : PostProcessor(index)
+	{
 		_material = new Material(ToneMappingShader::getInstance());
 		_frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		_frameBuffer->addTextureAttachment("color", true);
@@ -18,20 +20,23 @@ public:
 		_material->setTexture("renderTexture", _frameBuffer, "color");
 	}
 
-	void enable() override {
+	void enable() override
+	{
 		_frameBuffer->enable();
 	}
 
-	void render() override {
+	void render() override
+	{
 		_frameBuffer->render(_material);
 	}
 
-	void destroy() override {
+	void destroy() override
+	{
 		delete _material;
 		delete _frameBuffer;
 	}
 private:
-	Material* _material;
+	Material * _material;
 	FrameBuffer* _frameBuffer;
 };
 
