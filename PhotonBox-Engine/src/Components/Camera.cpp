@@ -4,28 +4,33 @@
 
 Camera* Camera::_main;
 
-Camera::Camera() {
+Camera::Camera()
+{
 	if (_main == nullptr) setMain();
 
 	float aspect = (float)Display::getWidth() / (float)Display::getHeight();
 	setProjection(70, aspect, 0.01f, 10000.0f);
 }
 
-void Camera::updateAspect() {
+void Camera::updateAspect()
+{
 	_aspect = (float)Display::getWidth() / (float)Display::getHeight();
 	updateProjection();
 }
 
-void Camera::setFOV(float fov) {
+void Camera::setFOV(float fov)
+{
 	_fov = fov;
 	updateProjection();
 }
 
-void Camera::updateProjection() {
+void Camera::updateProjection()
+{
 	_projection = Matrix4f::createPerspective(_fov, _aspect, _zNear, _zFar);
 }
 
-void Camera::setProjection(float fov, float aspect, float zNear, float zFar) {
+void Camera::setProjection(float fov, float aspect, float zNear, float zFar)
+{
 	_fov = fov;
 	_aspect = aspect;
 	_zNear = zNear;
@@ -33,25 +38,30 @@ void Camera::setProjection(float fov, float aspect, float zNear, float zFar) {
 	updateProjection();
 }
 
-Matrix4f Camera::getViewMatrix() {
+Matrix4f Camera::getViewMatrix()
+{
 	return Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
 }
 
 //TODO: cache this matrix
-Matrix4f Camera::getViewProjection() {
+Matrix4f Camera::getViewProjection()
+{
 	return _projection * Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
 }
 
-Vector2f Camera::worldToScreen(Vector3f point) {
+Vector2f Camera::worldToScreen(Vector3f point)
+{
 	Vector4f clipSpacePos = Camera::getMainCamera()->getViewProjection() * Vector4f(point, 1.0);
-	if (clipSpacePos.w() <= 0) {
+	if (clipSpacePos.w() <= 0)
+	{
 		clipSpacePos.w() = 0.0001;
 	}
 
 	return Vector2f(clipSpacePos.x() / clipSpacePos.w(), clipSpacePos.y() / clipSpacePos.w());
 }
 
-void Camera::updateFrustum(){
+void Camera::updateFrustum()
+{
 	Matrix4f m = getViewProjection();
 	_frustum[0].normal.x() = m(0, 3) - m(0, 0);
 	_frustum[0].normal.y() = m(1, 3) - m(1, 0);
@@ -88,23 +98,28 @@ void Camera::updateFrustum(){
 		_frustum[i].normal.normalize();
 }
 
-void Camera::setMain() {
+void Camera::setMain()
+{
 	_main = this;
 }
 
-bool Camera::frustumTest(ObjectRenderer* object){
+bool Camera::frustumTest(ObjectRenderer* object)
+{
 	float maxScaleAxis = max(max(object->transform->getScale().x(), object->transform->getScale().y()), object->transform->getScale().z());
 
-	for (size_t i = 0; i < 6; ++i){
-		if (object->transform->getPositionWorld().dot(_frustum[i].normal) + _frustum[i].distance + maxScaleAxis * object->getBoundingSphereRadius() <= 0) {
+	for (size_t i = 0; i < 6; ++i)
+	{
+		if (object->transform->getPositionWorld().dot(_frustum[i].normal) + _frustum[i].distance + maxScaleAxis * object->getBoundingSphereRadius() <= 0)
+		{
 			std::cout << object->gameObject->name << std::endl;
 			return false;
 		}
 	}
-	
+
 	return true;
 }
 
-void Camera::destroy() {
+void Camera::destroy()
+{
 	if (_main == this) _main = nullptr;
 }

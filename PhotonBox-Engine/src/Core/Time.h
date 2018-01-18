@@ -1,7 +1,8 @@
 #ifndef TIME_H
 #define TIME_H
 
-class Time {
+class Time
+{
 public:
 	static double deltaTime;
 	static double time;

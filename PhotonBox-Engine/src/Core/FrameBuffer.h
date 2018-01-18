@@ -7,9 +7,11 @@ class Material;
 #include <vector>
 #include "OpenGL.h"
 
-class FrameBuffer {
+class FrameBuffer
+{
 public:
-	struct BufferAttachment {
+	struct BufferAttachment
+	{
 		std::string name;
 		bool hdr;
 		int mipmaps;
@@ -18,17 +20,18 @@ public:
 		FrameBuffer* frameBuffer;
 
 		BufferAttachment() {}
-		BufferAttachment(FrameBuffer* frameBuffer, std::string name, bool hdr) : frameBuffer(frameBuffer), name(name), hdr(hdr) {
+		BufferAttachment(FrameBuffer* frameBuffer, std::string name, bool hdr) : frameBuffer(frameBuffer), name(name), hdr(hdr)
+		{
 			id = 0;
 			attachmentIndex = 0;
 			mipmaps = 0;
 		}
-	};	
+	};
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FrameBuffer"/> class.
 	/// </summary>
 	/// <param name="screenFactor">The resolutiin factor bound to the screen.</param>
-	FrameBuffer(float screenFactor);	
+	FrameBuffer(float screenFactor);
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FrameBuffer"/> class.
 	/// </summary>

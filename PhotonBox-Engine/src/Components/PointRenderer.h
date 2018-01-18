@@ -7,10 +7,10 @@
 #include "Camera.h"
 #include "../Core/GameObject.h"
 
-class PointRenderer : public ObjectRenderer 
+class PointRenderer : public ObjectRenderer
 {
 public:
-	void render() override 
+	void render() override
 	{
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();

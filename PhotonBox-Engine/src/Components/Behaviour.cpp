@@ -1,11 +1,13 @@
 #include "Behaviour.h"
 #include "../Core/Systems/Logic.h"
 
-Behaviour::Behaviour(){
+Behaviour::Behaviour()
+{
 	Logic::addToUpdateList(this);
 }
 
-void Behaviour::destroy(){
+void Behaviour::destroy()
+{
 	OnDestroy();
 	Logic::removeFromList(this);
 }

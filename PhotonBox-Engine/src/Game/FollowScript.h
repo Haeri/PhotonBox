@@ -6,11 +6,13 @@
 #include "../Core/InputManager.h"
 #include "../Resources/Material.h"
 
-class FollowScript : public Behaviour {
+class FollowScript : public Behaviour
+{
 public:
-	Transform* target;
+	Transform * target;
 
-	void Update() {
+	void Update()
+	{
 		target->setPosition(transform->getPosition());
 	}
 };

@@ -24,7 +24,8 @@
 #include "../Resources/TransparentShader.h"
 #include "../Resources/SSReflectionProcessor.h"
 
-class PBRScene : public Scene {
+class PBRScene : public Scene
+{
 public:
 	CubeMap * sky;
 
@@ -75,7 +76,8 @@ public:
 	SSAOProcessor* p_ssao;
 	SSReflectionProcessor* p_ssreflection;
 
-	void Load() {
+	void Load()
+	{
 
 		/* --------------------------- RESOURCES --------------------------- */
 		std::vector<std::string> nightSky = {
@@ -347,7 +349,8 @@ public:
 		quad7->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 	}
 
-	void OnUnload() {
+	void OnUnload()
+	{
 		delete sky;
 
 		delete plane;

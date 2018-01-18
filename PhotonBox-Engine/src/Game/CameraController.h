@@ -9,7 +9,8 @@
 #include "../Components/Camera.h"
 #include "../Core/Systems/SceneManager.h"
 
-class CameraController : public Behaviour {
+class CameraController : public Behaviour
+{
 public:
 	float speed = 1;
 	float mouseSensitivity = 0.6f;
@@ -20,11 +21,13 @@ public:
 
 	Material* blur;
 
-	void Start() {
+	void Start()
+	{
 		toggleCursor();
 	}
 
-	void Update() {
+	void Update()
+	{
 		Vector3f direction = Vector3f::ZERO;
 		float shift = 1;
 		if (InputManager::keyDown(InputManager::KEY_W)) direction.z() = 1;
@@ -33,14 +36,14 @@ public:
 		if (InputManager::keyDown(InputManager::KEY_A)) direction.x() = 1;
 		if (InputManager::keyDown(InputManager::KEY_SPACE)) direction.y() = 1;
 		if (InputManager::keyDown(InputManager::KEY_LEFT_CONTROL)) direction.y() = -1;
-		
+
 		if (InputManager::keyDown(InputManager::KEY_LEFT_SHIFT)) shift = 2.5f;
 
 		transform->setPosition(transform->getPosition() +
 			(transform->forward() * direction.z() +
-			transform->up() * direction.y() +
-			transform->right() * direction.x())
-			
+				transform->up() * direction.y() +
+				transform->right() * direction.x())
+
 			* Time::deltaTime * speed * shift);
 
 		Vector2f mouse = InputManager::getMouseDelta();
@@ -74,14 +77,15 @@ public:
 			Core::stop();
 
 
-		if (InputManager::keyPressed(InputManager::KEY_ENTER)) {		
+		if (InputManager::keyPressed(InputManager::KEY_ENTER))
+		{
 			std::string sp = "pos: " + std::to_string(transform->getPositionWorld().x()) +
-			", " + std::to_string(transform->getPositionWorld().y()) +
-			", " + std::to_string(transform->getPositionWorld().z());
+				", " + std::to_string(transform->getPositionWorld().y()) +
+				", " + std::to_string(transform->getPositionWorld().z());
 
 			std::string sr = "rot: " + std::to_string(transform->getRotation().x()) +
-			", " + std::to_string(transform->getRotation().y()) +
-			", " + std::to_string(transform->getRotation().z());
+				", " + std::to_string(transform->getRotation().y()) +
+				", " + std::to_string(transform->getRotation().z());
 
 
 			std::cout << sp << std::endl;
@@ -89,21 +93,27 @@ public:
 		}
 	}
 
-	void toggleCursor() {
-		if (toggleCursorMode) {
+	void toggleCursor()
+	{
+		if (toggleCursorMode)
+		{
 			InputManager::setCursorMode(InputManager::CursorMode::DISABLED);
-		}else {
+		}
+		else
+		{
 			InputManager::setCursorMode(InputManager::CursorMode::NORMAL);
 		}
 		toggleCursorMode = !toggleCursorMode;
 	}
 
-	void toggleVSync() {
+	void toggleVSync()
+	{
 		Display::setVSync(toggleVsyncMode);
 		toggleVsyncMode = !toggleVsyncMode;
 	}
 
-	void toggleDebug() {
+	void toggleDebug()
+	{
 		Renderer::setDebug(!Renderer::isDebug());
 	}
 };

@@ -8,18 +8,21 @@
 #include "../Components/Camera.h"
 #include "../Resources/Vertex.h"
 
-class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader> {
+class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader>
+{
 public:
-	std::string getFilePath() override {
+	std::string getFilePath() override
+	{
 		return std::string("./res/shaders/forward-rendering/directional_light");
 	}
 
-	void update(Transform* transform, LightEmitter* light) {
+	void update(Transform* transform, LightEmitter* light)
+	{
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
 		DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
 		Vector3f lvp = dl->direction;
-		
+
 		/*Matrix4f lightView = Matrix4f::lookAt(
 		Camera::getMainCamera()->transform->getPosition() + (dl->direction * -3),
 		Vector3f(0.0f, 1.0f, 0.0f),
@@ -42,7 +45,8 @@ public:
 		glBindTexture(GL_TEXTURE_2D, dl->_depthMap);
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addUniform("mvp");
 		addUniform("modelMatrix");
 		addUniform("viewPos");
@@ -58,7 +62,8 @@ public:
 		addTexture("shadowMap");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);

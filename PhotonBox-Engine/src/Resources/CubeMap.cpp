@@ -10,13 +10,15 @@
 #include "../Components/Camera.h"
 #include "../Core/Systems/Renderer.h"
 
-CubeMap::CubeMap(const std::vector<std::string>& allFaces){
+CubeMap::CubeMap(const std::vector<std::string>& allFaces)
+{
 	loadCubeMap(allFaces);
 }
 
-CubeMap::CubeMap(int resolutoon): CubeMap(resolutoon, false) {}
+CubeMap::CubeMap(int resolutoon) : CubeMap(resolutoon, false) {}
 
-CubeMap::CubeMap(int resolutoon, bool mipMaps) {
+CubeMap::CubeMap(int resolutoon, bool mipMaps)
+{
 	_width = resolutoon;
 	_height = resolutoon;
 	_isMip = mipMaps;
@@ -33,15 +35,19 @@ CubeMap::CubeMap(int resolutoon, bool mipMaps) {
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	if (mipMaps){
+	if (mipMaps)
+	{
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); // be sure to set minifcation filter to mip_linear 
 		glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
-	}else {
+	}
+	else
+	{
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
 }
 
-void CubeMap::generateIrradiance(GLuint map) {
+void CubeMap::generateIrradiance(GLuint map)
+{
 	Vector3f position = Vector3f::ZERO;
 	Matrix4f captureProjection = Matrix4f::createPerspective(90.0f, 1.0f, 0.01f, 10.0f);
 	Matrix4f captureViews[] =
@@ -75,11 +81,12 @@ void CubeMap::generateIrradiance(GLuint map) {
 	shader->updateTextures();
 	shader->setUniform<Matrix4f>("projection", captureProjection);
 
-	for (unsigned int i = 0; i < 6; ++i){
+	for (unsigned int i = 0; i < 6; ++i)
+	{
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, _cubeMap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
 		glBindVertexArray(_vao);
 		glDepthMask(GL_FALSE);
 		shader->setUniform<Matrix4f>("view", captureViews[i]);
@@ -97,8 +104,10 @@ void CubeMap::generateIrradiance(GLuint map) {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void CubeMap::generateSpecularConvolution(GLuint map) {
-	if (!_isMip) {
+void CubeMap::generateSpecularConvolution(GLuint map)
+{
+	if (!_isMip)
+	{
 		std::cerr << "ERROR: Cubemap must have mipmaps to generate Specular convolution" << std::endl;
 	}
 
@@ -133,7 +142,7 @@ void CubeMap::generateSpecularConvolution(GLuint map) {
 	shader->bind();
 	shader->updateTextures();
 	shader->setUniform<Matrix4f>("projection", captureProjection);
-	
+
 	unsigned int maxMipLevels = 5;
 	for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
 	{
@@ -171,20 +180,24 @@ void CubeMap::generateSpecularConvolution(GLuint map) {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void CubeMap::loadCubeMap(const std::vector<std::string>& faces) {
+void CubeMap::loadCubeMap(const std::vector<std::string>& faces)
+{
 	glGenTextures(1, &_cubeMap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap);
 
 	int nrChannels;
-	for (unsigned int i = 0; i < faces.size(); i++) {
+	for (unsigned int i = 0; i < faces.size(); i++)
+	{
 		unsigned char* data = stbi_load(faces[i].c_str(), &_width, &_height, &nrChannels, 0);
-		if (data) {
+		if (data)
+		{
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 				0, GL_RGB16F, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
 			);
 			stbi_image_free(data);
 		}
-		else {
+		else
+		{
 			std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
 			stbi_image_free(data);
 		}
@@ -196,20 +209,24 @@ void CubeMap::loadCubeMap(const std::vector<std::string>& faces) {
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
 
-CubeMap::~CubeMap() {
+CubeMap::~CubeMap()
+{
 	glDeleteTextures(1, &_cubeMap);
 }
 
-void CubeMap::bind() {
+void CubeMap::bind()
+{
 	bind(GL_TEXTURE0);
 }
 
-void CubeMap::bind(GLenum textureUnit) {
+void CubeMap::bind(GLenum textureUnit)
+{
 	glActiveTexture(textureUnit);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap);
 }
 
-void CubeMap::genVAO() {
+void CubeMap::genVAO()
+{
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
 	glGenBuffers(1, &_ebo);
@@ -233,13 +250,14 @@ void CubeMap::genVAO() {
 	glDeleteBuffers(1, &_ebo);
 }
 
-void CubeMap::renderCube() {
+void CubeMap::renderCube()
+{
 	glBindVertexArray(_vao);
 	glDepthMask(GL_FALSE);
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	Renderer::addDrawCall();
-	
+
 	glDepthMask(GL_TRUE);
 	glBindVertexArray(0);
 }

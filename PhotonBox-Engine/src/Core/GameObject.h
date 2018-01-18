@@ -9,18 +9,21 @@ class Scene;
 #include "Component.h"
 #include "../Components/Transform.h"
 
-class GameObject {
+class GameObject
+{
 public:
-	Scene* parentScene;
+	Scene * parentScene;
 	Transform* transform;
 	std::string name;
 
 	GameObject(Scene &_scene);
 	GameObject(Scene &_scene, std::string _name);
-	
+
 	template <class T>
-	T* addComponent() {
-		if (_componentMap.find(typeid(T)) != _componentMap.end()) {
+	T* addComponent()
+	{
+		if (_componentMap.find(typeid(T)) != _componentMap.end())
+		{
 			std::cerr << name << " GameObject already contains Component " << std::endl;
 			return nullptr;
 		}
@@ -32,8 +35,10 @@ public:
 	}
 
 	template<class T>
-	T* getComponent(){
-		if (_componentMap.find(typeid(T)) == _componentMap.end()) {
+	T* getComponent()
+	{
+		if (_componentMap.find(typeid(T)) == _componentMap.end())
+		{
 			std::cerr << "Component was not found!" << std::endl;
 			return nullptr;
 		}
@@ -41,13 +46,15 @@ public:
 	}
 
 	template <class T>
-	void removeComponent() {
+	void removeComponent()
+	{
 		T* c = getComponent<T>();
 		_componentMap.erase(typeid(T));
 		delete c;
 	}
 
-	void removeComponent(std::type_index ti) {
+	void removeComponent(std::type_index ti)
+	{
 		Component *c = _componentMap[ti];
 		c->destroy();
 		_componentMap.erase(ti);

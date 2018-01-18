@@ -5,33 +5,37 @@
 #include "../Core/FrameBuffer.h"
 #include "../Resources/DefaultPostShader.h"
 
-LightProbe::LightProbe(){
+LightProbe::LightProbe()
+{
 	Lighting::addLightProbe(this);
 }
 
-LightProbe::LightProbe(CubeMap* enviromentMap){
+LightProbe::LightProbe(CubeMap* enviromentMap)
+{
 	_lightMap.enviromentMap = enviromentMap;
 	_lightMap.generate();
 }
 
-void LightProbe::generateLightMap(){
+void LightProbe::generateLightMap()
+{
 	// create a vector of LightMaps
 	const int stepSize = 4;
 	LightMap* lightMaps[stepSize];
 
 	lightMaps[0] = new LightMap(new CubeMap(std::vector<std::string> {
-						"./res/default_emission.png",
-						"./res/default_emission.png",
-						"./res/default_emission.png",
-						"./res/default_emission.png",
-						"./res/default_emission.png",
-						"./res/default_emission.png",
-					}));
+		"./res/default_emission.png",
+			"./res/default_emission.png",
+			"./res/default_emission.png",
+			"./res/default_emission.png",
+			"./res/default_emission.png",
+			"./res/default_emission.png",
+	}));
 
 
 
 	//loop cnt times
-	for (size_t i= 0; i < stepSize-1; ++i){
+	for (size_t i = 0; i < stepSize - 1; ++i)
+	{
 		//capture scene
 		lightMaps[i + 1] = captureAmbient(i, lightMaps[i]);
 	}
@@ -65,12 +69,13 @@ void LightProbe::generateLightMap(){
 		Display::swapBuffer();
 	}
 	*/
-	
+
 	//combine all lightmaps
 	//Display::swapBuffer();
 }
 
-LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
+LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap)
+{
 	LightMap* lightMap = new LightMap();
 	lightMap->enviromentMap = new CubeMap(resolution);
 
@@ -97,8 +102,8 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
 
 	GLuint _captureFBO;
 	GLuint _captureRBO;
-	
-	if(pass == 0)
+
+	if (pass == 0)
 		Renderer::renderShadows(false);
 
 	glGenFramebuffers(1, &_captureFBO);
@@ -110,7 +115,8 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _captureRBO);
 
 
-	for (unsigned int i = 0; i < 6; ++i) {
+	for (unsigned int i = 0; i < 6; ++i)
+	{
 
 		glViewport(0, 0, resolution, resolution);
 		glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);
@@ -130,21 +136,24 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap) {
 	return lightMap;
 }
 
-void LightProbe::capture() {
+void LightProbe::capture()
+{
 	_lightMap = *captureRecursive(2);
 }
 
-LightMap* LightProbe::captureRecursive(int step) {
-	if (step == 0) {
+LightMap* LightProbe::captureRecursive(int step)
+{
+	if (step == 0)
+	{
 		LightMap* DEF = new LightMap(new CubeMap(
 			std::vector<std::string> {
+			"./res/default_emission.png",
 				"./res/default_emission.png",
 				"./res/default_emission.png",
 				"./res/default_emission.png",
 				"./res/default_emission.png",
 				"./res/default_emission.png",
-				"./res/default_emission.png",
-			}));
+		}));
 		return DEF;
 	}
 
@@ -186,7 +195,8 @@ LightMap* LightProbe::captureRecursive(int step) {
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _captureRBO);
 
 
-	for (unsigned int i = 0; i < 6; ++i) {
+	for (unsigned int i = 0; i < 6; ++i)
+	{
 		Renderer::renderShadows(true);
 
 		glViewport(0, 0, resolution, resolution);
@@ -208,6 +218,7 @@ LightMap* LightProbe::captureRecursive(int step) {
 	return lightMap;
 }
 
-void LightProbe::destroy(){
+void LightProbe::destroy()
+{
 	Lighting::removeFromLightProbeList(this);
 }

@@ -5,7 +5,8 @@
 #include "../Math/Vector2f.h"
 #include <vector>
 
-class InputManager {
+class InputManager
+{
 public:
 	enum CursorMode
 	{

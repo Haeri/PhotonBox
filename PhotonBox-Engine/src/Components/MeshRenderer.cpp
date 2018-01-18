@@ -11,7 +11,8 @@
 #include "../Resources/SkyBox.h"
 #include "../Resources/Texture.h"
 
-void MeshRenderer::init(){
+void MeshRenderer::init()
+{
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
 	glGenBuffers(1, &_ebo);
@@ -35,44 +36,49 @@ void MeshRenderer::init(){
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void MeshRenderer::render() {
+void MeshRenderer::render()
+{
 	render(nullptr, nullptr);
 }
 
-void MeshRenderer::render(Shader* shader) {
+void MeshRenderer::render(Shader* shader)
+{
 	render(shader, nullptr);
 }
 
-void MeshRenderer::render(Shader* shader, LightEmitter* light){
+void MeshRenderer::render(Shader* shader, LightEmitter* light)
+{
 	if (shader == nullptr) shader = _material->shader;
 
 	glBindVertexArray(_vao);
 	shader->bind();
 
-	if(light == nullptr)
+	if (light == nullptr)
 		shader->update(transform);
 	else
 		shader->update(transform, light);
 
 	_material->updateUniforms(shader);
 	_material->bindTextures(shader);
-	
+
 	shader->updateTextures();
 	shader->enableAttributes();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
 	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
 	Renderer::addDrawCall();
 	shader->disableAttributes();
-		
+
 	glBindVertexArray(0);
 }
 
-void MeshRenderer::onDestroy(){
+void MeshRenderer::onDestroy()
+{
 	glDeleteBuffers(1, &_vbo);
 	glDeleteBuffers(1, &_ebo);
 	glDeleteVertexArrays(1, &_vao);
 }
 
-float MeshRenderer::getBoundingSphereRadius(){
+float MeshRenderer::getBoundingSphereRadius()
+{
 	return _mesh->boundingSphereRadius;
 }

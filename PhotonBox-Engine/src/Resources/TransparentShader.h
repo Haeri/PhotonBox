@@ -5,13 +5,16 @@
 #include "Vertex.h"
 #include "../Components/Camera.h"
 
-class TransparentShader : public InstancedShader<TransparentShader> {
+class TransparentShader : public InstancedShader<TransparentShader>
+{
 public:
-	std::string getFilePath() override {
+	std::string getFilePath() override
+	{
 		return std::string("./res/shaders/forward-rendering/transparent");
 	}
 
-	void update(Transform* transform, LightEmitter* light) {
+	void update(Transform* transform, LightEmitter* light)
+	{
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
 		AmbientLight* al = dynamic_cast<AmbientLight*>(light);
@@ -23,14 +26,16 @@ public:
 		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
 		addAttribut("tangent", Vertex::AttibLocation::TANGENT);
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addUniform("mvp");
 		addUniform("modelMatrix");
 		addUniform("viewPos");

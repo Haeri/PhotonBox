@@ -8,7 +8,8 @@ TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;
 std::map<GLchar, Character> UIRenderer::_characters;
 
-void UIRenderer::init(){
+void UIRenderer::init()
+{
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
@@ -83,7 +84,8 @@ void UIRenderer::init(){
 	shader = TextShader::getInstance();
 }
 
-void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color){
+void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color)
+{
 	GLfloat initialX = x;
 	// Activate corresponding render state	
 	shader->bind();
@@ -101,7 +103,8 @@ void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scal
 	{
 		Character ch = _characters[*c];
 
-		if (*c == '\n') {
+		if (*c == '\n')
+		{
 			y -= 48 * scale;
 			x = initialX;
 			continue;

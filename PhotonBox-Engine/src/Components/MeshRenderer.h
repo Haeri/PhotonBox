@@ -6,7 +6,8 @@ class Texture;
 #include "../Resources/Mesh.h"
 #include "../Resources/Material.h"
 
-class MeshRenderer : public ObjectRenderer {
+class MeshRenderer : public ObjectRenderer
+{
 public:
 	MeshRenderer(bool isOpaque) :ObjectRenderer(isOpaque) {}
 	MeshRenderer() : ObjectRenderer(true) {}
@@ -18,8 +19,8 @@ public:
 	float getBoundingSphereRadius();
 
 	MeshRenderer& setMesh(Mesh* mesh) { _mesh = mesh; return *this; }
-private: 
-	Mesh* _mesh;
+private:
+	Mesh * _mesh;
 
 	//AABB* _lightProbeVolume;
 	GLuint _vao, _vbo, _ebo;

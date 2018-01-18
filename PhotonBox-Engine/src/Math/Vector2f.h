@@ -4,7 +4,8 @@
 #include <iostream>
 #include <math.h>
 
-class Vector2f {
+class Vector2f
+{
 public:
 
 	static const Vector2f ZERO;
@@ -18,7 +19,7 @@ public:
 	static const Vector2f LEFT;
 	static const Vector2f RIGHT;
 
-	Vector2f(): _x(0.0f), _y(0.0f) {}
+	Vector2f() : _x(0.0f), _y(0.0f) {}
 	Vector2f(float x, float y) : _x(x), _y(y) {}
 
 	float& x() { return _x; }
@@ -30,62 +31,76 @@ public:
 	void setX(float value) { _x = value; }
 	void setY(float value) { _y = value; }
 
-	bool equals(const Vector2f& other) {
+	bool equals(const Vector2f& other)
+	{
 		return (_x == other._x && _y == other._y);
 	}
 
-	float length() {
+	float length()
+	{
 		return sqrt(_x * _x + _y * _y);
 	}
 
-	float lengthSqrd() {
+	float lengthSqrd()
+	{
 		return _x * _x + _y * _y;
 	}
 
-	float distance(const Vector2f& other) {
+	float distance(const Vector2f& other)
+	{
 		return (*this - other).length();
 	}
 
-	float distanceSqrd(const Vector2f& other) {
+	float distanceSqrd(const Vector2f& other)
+	{
 		return (*this - other).lengthSqrd();
 	}
 
-	inline Vector2f normalize() const {
+	inline Vector2f normalize() const
+	{
 		Vector2f ret = *this;
 		return ret / ret.length();
 	}
 
-	inline bool operator== (const Vector2f& other) const {
+	inline bool operator== (const Vector2f& other) const
+	{
 		return (_x == other._x && _y == other._y);
 	}
 
-	inline Vector2f operator/ (const float& scalar) const {
+	inline Vector2f operator/ (const float& scalar) const
+	{
 		return Vector2f(_x / scalar, _y / scalar);
 	}
 
-	inline Vector2f operator* (const float& scalar) const {
+	inline Vector2f operator* (const float& scalar) const
+	{
 		return Vector2f(_x * scalar, _y * scalar);
 	}
 
-	inline Vector2f operator- (const Vector2f& other) const {
+	inline Vector2f operator- (const Vector2f& other) const
+	{
 		return Vector2f(_x - other._x, _y - other._y);
 	}
 
-	inline Vector2f operator+ (const Vector2f& other) const {
+	inline Vector2f operator+ (const Vector2f& other) const
+	{
 		return Vector2f(_x + other._x, _y + other._y);
 	}
 
-	float& operator [](int index) {
+	float& operator [](int index)
+	{
 		if (index == 0) return _x;
 		else if (index == 1) return _y;
 	}
 
-	float operator [](int index) const {
+	float operator [](int index) const
+	{
 		if (index == 0) return _x;
 		else if (index == 1) return _y;
 	}
 
-	friend std::ostream& operator<<(std::ostream& os, Vector2f m) {
+	friend std::ostream& operator<<(std::ostream& os, Vector2f m)
+	{
 		return os << "(" << m.x() << ", " << m.y() << ")";
 	}
 

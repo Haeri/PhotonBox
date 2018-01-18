@@ -4,13 +4,15 @@
 #include <string>
 #include "OpenGL.h"
 
-class Display {
+class Display
+{
 public:
 	static bool isRunning() { return _isRunning; }
 	static GLFWwindow* getWindow() { return _window; }
 	static void setVSync(bool vsync);
 	static void swapBuffer();
-	static void setRect(int width, int height) {
+	static void setRect(int width, int height)
+	{
 		_width = width;
 		_height = height;
 	}

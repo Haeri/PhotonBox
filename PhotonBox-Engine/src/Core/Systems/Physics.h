@@ -4,7 +4,8 @@
 class Collider;
 #include <vector>
 
-class Physics {
+class Physics
+{
 public:
 	static void addToPhysicsList(Collider *collider);
 	static void removeFromPhysicsList(Collider* collider);

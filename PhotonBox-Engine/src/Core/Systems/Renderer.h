@@ -16,7 +16,8 @@ class TransparentMeshRenderer;
 #include "../../Resources/ForwardPointLightShader.h"
 #include "../../Resources/ForwardSpotLightShader.h"
 
-class Renderer {
+class Renderer
+{
 public:
 	static DeferredBuffer defBuffer;
 	static bool isDebug() { return _isDebug; }

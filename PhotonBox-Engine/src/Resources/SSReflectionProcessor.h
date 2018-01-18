@@ -12,9 +12,11 @@
 #include "../Resources/Material.h"
 #include "../Resources/SSReflectionShader.h"
 
-class SSReflectionProcessor : public PostProcessor {
+class SSReflectionProcessor : public PostProcessor
+{
 public:
-	SSReflectionProcessor(int index) : PostProcessor(index) {
+	SSReflectionProcessor(int index) : PostProcessor(index)
+	{
 		_mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
 		_mainBuffer->addTextureAttachment("color", true);
 		_mainBuffer->ready();
@@ -27,11 +29,13 @@ public:
 		_ssreflection->setTexture("gRoughness", Renderer::defBuffer.gBuffer, "gRoughness");
 	}
 
-	void enable() override {
+	void enable() override
+	{
 		_mainBuffer->enable();
 	}
 
-	void render() override {
+	void render() override
+	{
 		_mainBuffer->render("color");
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -43,13 +47,14 @@ public:
 		glDisable(GL_BLEND);
 	}
 
-	void destroy() override {
+	void destroy() override
+	{
 		delete _ssreflection;
 		delete _mainBuffer;
 	}
 
 private:
-	Material *_ssreflection;
+	Material * _ssreflection;
 	FrameBuffer* _mainBuffer;
 };
 

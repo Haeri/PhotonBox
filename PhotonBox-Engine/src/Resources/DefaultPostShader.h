@@ -4,17 +4,21 @@
 #include "../Resources/Shader.h"
 #include "../Resources/Vertex.h"
 
-class DefaultPostShader : public InstancedShader<DefaultPostShader> {
+class DefaultPostShader : public InstancedShader<DefaultPostShader>
+{
 public:
-	std::string getFilePath() override {
+	std::string getFilePath() override
+	{
 		return std::string("./res/shaders/util/default-post");
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addTexture("renderTexture");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

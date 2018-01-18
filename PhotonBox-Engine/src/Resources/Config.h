@@ -3,9 +3,11 @@
 
 #include <string>
 
-class Config {
+class Config
+{
 public:
-	struct Profile {
+	struct Profile
+	{
 		int width;
 		int height;
 		bool fullscreen;
