@@ -36,4 +36,4 @@ A modern OpenGL Game-Engine with focus on PBR
 
 ## Media
 
-![screenshot_1](https://user-images.githubusercontent.com/7956606/34455137-cb7f1b0e-ed78-11e7-909e-d3317e8dc71c.png)
+![screenshot_1](https://user-images.githubusercontent.com/7956606/35122763-2d3a2934-fca0-11e7-8f38-552fcc106b7e.png)
