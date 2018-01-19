@@ -6,7 +6,8 @@
 #include "../Math/Matrix4f.h"
 #include "../Core/Component.h"
 
-class Transform : public Component{
+class Transform : public Component
+{
 public:
 	void setPosition(Vector3f position);
 	void setRotation(Vector3f rotation);

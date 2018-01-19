@@ -6,10 +6,11 @@
 #include "../Resources/ForwardDirectionalLightShader.h"
 #include "../Core/FrameBuffer.h"
 
-DirectionalLight::DirectionalLight(){
+DirectionalLight::DirectionalLight()
+{
 	Lighting::addLight(this);
 	_depthShader = DepthShader::getInstance();
-	_shadowMapResolution = 2048;
+	_shadowMapResolution = 4096;
 	lightProjection = Matrix4f::createOrthographic(-5, 5, -5, 5, 0.1, 100);
 
 	glGenFramebuffers(1, &_depthMapFBO);
@@ -20,8 +21,8 @@ DirectionalLight::DirectionalLight(){
 		_shadowMapResolution, _shadowMapResolution, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, _depthMap, 0);
@@ -30,20 +31,23 @@ DirectionalLight::DirectionalLight(){
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void DirectionalLight::destroy(){
+void DirectionalLight::destroy()
+{
 	Lighting::removeLight(this);
 }
 
-Shader * DirectionalLight::getLightShader(){
+Shader * DirectionalLight::getLightShader()
+{
 	return ForwardDirectionalLightShader::getInstance();
 }
 
-void DirectionalLight::renderShadowMap(bool captureMode){
+void DirectionalLight::renderShadowMap(bool captureMode)
+{
 	glViewport(0, 0, _shadowMapResolution, _shadowMapResolution);
 	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	
+
 	Renderer::render(_depthShader, captureMode);
-	
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

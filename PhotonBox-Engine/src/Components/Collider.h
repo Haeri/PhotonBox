@@ -3,12 +3,13 @@
 
 #include "../Core/Component.h"
 
-class Collider : public Component {
+class Collider : public Component
+{
 public:
 	Collider();
 	void destroy();
 
-	virtual bool collide(Collider* other) =0;
+	virtual bool collide(Collider* other) = 0;
 };
 
 #endif /* defined(COLLIDER_H) */

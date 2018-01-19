@@ -3,7 +3,8 @@
 
 #include "Mesh.h"
 
-class OBJLoader {
+class OBJLoader
+{
 public:
 	static Mesh* loadObj(const std::string& filePath);
 };

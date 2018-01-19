@@ -5,7 +5,8 @@ class Shader;
 #include "../Core/Component.h"
 #include "../Math/Vector3f.h"
 
-class LightEmitter : public Component {
+class LightEmitter : public Component
+{
 public:
 	Vector3f color;
 	float intensity;

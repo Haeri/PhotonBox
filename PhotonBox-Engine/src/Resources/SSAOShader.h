@@ -5,23 +5,27 @@
 #include "Vertex.h"
 #include "../Components/Camera.h"
 
-class SSAOShader : public InstancedShader<SSAOShader> {
+class SSAOShader : public InstancedShader<SSAOShader>
+{
 public:
-	std::string getFilePath() override {
-		return std::string("./res/post-processing/ssao");
+	std::string getFilePath() override
+	{
+		return std::string("./res/shaders/post-processing/ssao");
 	}
 
-	void update(Transform* transform) override {
+	void update(Transform* transform) override
+	{
 		glUniform1f(uniforms["screenWidth"], GLfloat(Display::getWidth()));
 		glUniform1f(uniforms["screenHeight"], GLfloat(Display::getHeight()));
 		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addUniform("projection");
 		addUniform("screenWidth");
 		addUniform("screenHeight");
-		
+
 		for (size_t i = 0; i < 64; i++)
 		{
 			addUniform("samples[" + std::to_string(i) + "]");
@@ -32,7 +36,8 @@ public:
 		addTexture("texNoise");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

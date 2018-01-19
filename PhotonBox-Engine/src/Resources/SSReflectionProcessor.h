@@ -12,46 +12,50 @@
 #include "../Resources/Material.h"
 #include "../Resources/SSReflectionShader.h"
 
-class SSReflectionProcessor : public PostProcessor {
+class SSReflectionProcessor : public PostProcessor
+{
 public:
-	SSReflectionProcessor(int index) : PostProcessor(index) {
-		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		mainBuffer->addTextureAttachment("color", true);
-		mainBuffer->ready();
+	SSReflectionProcessor(int index) : PostProcessor(index)
+	{
+		_mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		_mainBuffer->addTextureAttachment("color", true);
+		_mainBuffer->ready();
 
-		ssreflection = new Material(SSReflectionShader::getInstance());
-		ssreflection->setTexture("gFinalImage", mainBuffer, "color");
-		ssreflection->setTexture("gPosition", Renderer::defBuffer.gBuffer, "gPosition");
-		ssreflection->setTexture("gNormal", Renderer::defBuffer.gBuffer, "gNormal");
-		ssreflection->setTexture("gExtraComponents", Renderer::defBuffer.gBuffer, "gMetallic");
-		ssreflection->setTexture("ColorBuffer", Renderer::defBuffer.gBuffer, "gRoughness");
+		_ssreflection = new Material(SSReflectionShader::getInstance());
+		_ssreflection->setTexture("mainBuffer", _mainBuffer, "color");
+		_ssreflection->setTexture("gPosition", Renderer::defBuffer.gBuffer, "gPosition");
+		_ssreflection->setTexture("gNormal", Renderer::defBuffer.gBuffer, "gNormal");
+		_ssreflection->setTexture("gMetallic", Renderer::defBuffer.gBuffer, "gMetallic");
+		_ssreflection->setTexture("gRoughness", Renderer::defBuffer.gBuffer, "gRoughness");
 	}
 
-	void enable() override {
-		mainBuffer->enable();
+	void enable() override
+	{
+		_mainBuffer->enable();
 	}
 
-	void render() override {
-		mainBuffer->render("color");
+	void render() override
+	{
+		_mainBuffer->render("color");
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
-		mainBuffer->render(ssreflection);
+		_mainBuffer->render(_ssreflection);
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
 		glDisable(GL_BLEND);
 	}
 
-	void destroy() override {
-		delete ssreflection;
-
-		delete mainBuffer;
+	void destroy() override
+	{
+		delete _ssreflection;
+		delete _mainBuffer;
 	}
 
 private:
-	Material *ssreflection;
-	FrameBuffer* mainBuffer;
+	Material * _ssreflection;
+	FrameBuffer* _mainBuffer;
 };
 
 #endif // SSREFLECTION_PROCESSOR_H

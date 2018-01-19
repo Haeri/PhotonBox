@@ -4,7 +4,8 @@
 #include <string>
 #include "../src/Core/Display.h"
 
-class Texture {
+class Texture
+{
 public:
 	Texture(bool generateMipMaps);
 	Texture(bool generateMipMaps, bool hdr);

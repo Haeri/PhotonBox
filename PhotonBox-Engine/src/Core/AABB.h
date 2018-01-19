@@ -4,7 +4,8 @@
 class Transform;
 #include "../Math/Vector3f.h"
 
-class AABB {
+class AABB
+{
 public:
 	AABB() {}
 	//AABB(Vector3f minBound, Vector3f maxBound) : _minBound(minBound), _maxBound(maxBound) {}

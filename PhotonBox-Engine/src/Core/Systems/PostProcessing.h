@@ -5,7 +5,8 @@ class PostProcessor;
 #include <map>
 #include "../../Core/FrameBuffer.h"
 
-class PostProcessing {
+class PostProcessing
+{
 public:
 	static void addProcessor(PostProcessor* processor);
 	static void removeProcessor(PostProcessor* processor);

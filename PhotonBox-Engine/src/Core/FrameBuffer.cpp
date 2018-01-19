@@ -5,43 +5,28 @@
 #include "../Resources/Material.h"
 #include "../Resources/Vertex.h"
 #include "../Resources/DefaultPostShader.h"
+#include "../Core/Systems/Renderer.h"
 
 GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;
+std::vector<FrameBuffer*> FrameBuffer::_bufferList;
 
-#define DEBUG 0
+FrameBuffer::FrameBuffer(float screenFactor)
+{
+	_screenFactor = screenFactor;
+	_width = Display::getWidth() * screenFactor;
+	_height = Display::getHeight() * screenFactor;
+	initialize();
+	_bufferList.push_back(this);
+}
 
 FrameBuffer::FrameBuffer(int width, int height)
 {
+	_screenFactor = -1;
 	_width = width;
 	_height = height;
-
-	// Create framebuffer
-	glGenFramebuffers(1, &_fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-
-	
-	// Create mesh
-	if (_quadVAO == -1){
-		// Quad Mesh
-		static const GLfloat _quadVertices[] = {
-			-1.0f,  1.0f,
-			-1.0f, -1.0f,
-			1.0f,  1.0f,
-			1.0f, -1.0f,
-		};
-
-		glGenVertexArrays(1, &_quadVAO);
-		glBindVertexArray(_quadVAO);
-
-		glGenBuffers(1, &_quadVBO);
-		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(_quadVertices), _quadVertices, GL_STATIC_DRAW);
-
-
-		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
-		glVertexAttribPointer(Vertex::AttibLocation::POSITION, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	}
+	initialize();
+	_bufferList.push_back(this);
 }
 
 FrameBuffer::~FrameBuffer()
@@ -54,7 +39,7 @@ FrameBuffer::~FrameBuffer()
 	glDeleteRenderbuffers(1, &_depthAttachment);
 }
 
-void FrameBuffer::addTextureAttachment(std::string name) 
+void FrameBuffer::addTextureAttachment(std::string name)
 {
 	addTextureAttachment(name, false, false);
 }
@@ -77,13 +62,15 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	if (mipmaps) {
+	if (mipmaps)
+	{
 		temp.mipmaps = 1 + floor(log2(min(_width, _height)));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
-	else {
+	else
+	{
 		temp.mipmaps = 0;
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -124,14 +111,14 @@ void FrameBuffer::addDepthBufferAttachment()
 }
 
 
-void FrameBuffer::enable() 
+void FrameBuffer::enable()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 	glViewport(0, 0, _width, _height);
 	_currentFBO = _fbo;
 }
 
-void FrameBuffer::bind(GLuint textureUnit, std::string name) 
+void FrameBuffer::bind(GLuint textureUnit, std::string name)
 {
 	glActiveTexture(textureUnit);
 	glBindTexture(GL_TEXTURE_2D, _colorAttachments[name].id);
@@ -142,7 +129,7 @@ void FrameBuffer::bind(GLuint textureUnit, std::string name)
 void FrameBuffer::ready()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-	
+
 	if (_drawBuffers.size() > 0)
 		glDrawBuffers(_drawBuffers.size(), &_drawBuffers[0]);
 
@@ -154,20 +141,54 @@ void FrameBuffer::ready()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-// TODO: clear only necessary attachments
+
 void FrameBuffer::clear()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void FrameBuffer::render(std::string name) 
+void FrameBuffer::render(std::string name)
 {
 	render(name, nullptr);
 }
 
-void FrameBuffer::render(Material* material) {
+void FrameBuffer::render(Material* material)
+{
 	render("", material);
+}
+
+void FrameBuffer::resize()
+{
+	// Only recreate nonstatic buffers
+	if (_screenFactor == -1) return;
+
+	glDeleteFramebuffers(1, &_fbo);
+	_width = Display::getWidth() * _screenFactor;
+	_height = Display::getHeight() * _screenFactor;
+	initialize();
+
+	if (_depthAttachment != -1)
+	{
+		glDeleteRenderbuffers(1, &_depthAttachment);
+		addDepthBufferAttachment();
+	}
+
+	_drawBuffers.clear();
+	for (auto &attachment : _colorAttachments)
+	{
+		glDeleteRenderbuffers(1, &attachment.second.id);
+		if (attachment.second.attachmentIndex == GL_DEPTH_ATTACHMENT)
+		{
+			addDepthTextureAttachment(attachment.second.name);
+		}
+		else
+		{
+			addTextureAttachment(attachment.second.name, attachment.second.hdr, attachment.second.mipmaps);
+		}
+	}
+
+	ready();
 }
 
 FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name)
@@ -175,46 +196,82 @@ FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name)
 	return &_colorAttachments[name];
 }
 
-void FrameBuffer::render(std::string name, Material* material) 
+void FrameBuffer::render(std::string name, Material* material)
 {
 	glBindVertexArray(_quadVAO);
 
 	Shader* shader;
-	if (material == nullptr) {
+	if (material == nullptr)
+	{
 		shader = DefaultPostShader::getInstance();
-	}else {
+	}
+	else
+	{
 		shader = material->shader;
 	}
 
 	shader->bind();
 	shader->update(nullptr);
 
-	if (material != nullptr) {
+	if (material != nullptr)
+	{
 		material->updateUniforms();
 		material->bindTextures();
-	}else {
+	}
+	else
+	{
 		bind(GL_TEXTURE0, name);
 	}
 
 	shader->updateTextures();
 	shader->enableAttributes();
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	Renderer::addDrawCall();
 	shader->disableAttributes();
 
 	glBindVertexArray(0);
-
-
-#if DEBUG
-	if (_currentFBO == 0) return;
-
-		FrameBuffer::resetDefaultBuffer();
-		this->render("color");
-		Display::swapBuffer();
-		system("PAUSE");
-#endif
 }
 
-void FrameBuffer::resetDefaultBuffer() 
+void FrameBuffer::initialize()
+{
+	// Create framebuffer
+	glGenFramebuffers(1, &_fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+
+
+	// Create mesh
+	if (_quadVAO == -1)
+	{
+		// Quad Mesh
+		static const GLfloat _quadVertices[] = {
+			-1.0f,  1.0f,
+			-1.0f, -1.0f,
+			1.0f,  1.0f,
+			1.0f, -1.0f,
+		};
+
+		glGenVertexArrays(1, &_quadVAO);
+		glBindVertexArray(_quadVAO);
+
+		glGenBuffers(1, &_quadVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(_quadVertices), _quadVertices, GL_STATIC_DRAW);
+
+
+		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
+		glVertexAttribPointer(Vertex::AttibLocation::POSITION, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	}
+}
+
+void FrameBuffer::resizeAll()
+{
+	for (FrameBuffer* fbo : _bufferList)
+	{
+		fbo->resize();
+	}
+}
+
+void FrameBuffer::resetDefaultBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, Display::getWidth(), Display::getHeight());

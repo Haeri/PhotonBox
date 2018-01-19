@@ -8,10 +8,11 @@ class LightEmitter;
 
 #include <string>
 #include <map>
-#include "../Core/Display.h"
+#include "../Core/OpenGL.h"
 #include "../Math/Matrix4f.h"
 
-class Shader {
+class Shader
+{
 public:
 	struct TexUniforUnit
 	{
@@ -39,45 +40,52 @@ public:
 	void enableAttributes();
 	void disableAttributes();
 	void updateTextures();
-	
+
 	std::string& getName() { return _fileName; }
 
 	template<typename T>
 	void setUniform(const std::string& uniformName, T value) {}
 	template<>
-	void setUniform<int>(const std::string& uniformName, int value) {
-		if(checkUniform(uniformName))
+	void setUniform<int>(const std::string& uniformName, int value)
+	{
+		if (checkUniform(uniformName))
 			glUniform1i(uniforms[uniformName], GLint(value));
 	}
 	template<>
-	void setUniform<float>(const std::string& uniformName, float value) {
+	void setUniform<float>(const std::string& uniformName, float value)
+	{
 		if (checkUniform(uniformName))
 			glUniform1f(uniforms[uniformName], GLfloat(value));
 	}
 	template<>
-	void setUniform<bool>(const std::string& uniformName, bool value){ 
+	void setUniform<bool>(const std::string& uniformName, bool value)
+	{
 		if (checkUniform(uniformName))
-			glUniform1i(uniforms[uniformName], GLint(value)); 
+			glUniform1i(uniforms[uniformName], GLint(value));
 	}
 	template<>
-	void setUniform<Vector2f>(const std::string& uniformName, Vector2f value) {
+	void setUniform<Vector2f>(const std::string& uniformName, Vector2f value)
+	{
 		if (checkUniform(uniformName))
 			glUniform2fv(uniforms[uniformName], 1, &(value.x()));
 	}
 	template<>
-	void setUniform<Vector3f>(const std::string& uniformName, Vector3f value) {
+	void setUniform<Vector3f>(const std::string& uniformName, Vector3f value)
+	{
 		if (checkUniform(uniformName))
 			glUniform3fv(uniforms[uniformName], 1, &(value.x()));
 	}
 	template<>
-	void setUniform<Vector4f>(const std::string& uniformName, Vector4f value) {
+	void setUniform<Vector4f>(const std::string& uniformName, Vector4f value)
+	{
 		if (checkUniform(uniformName))
 			glUniform4fv(uniforms[uniformName], 1, &(value.x()));
 	}
 	template<>
-	void setUniform<Matrix4f>(const std::string& uniformName, Matrix4f value) {
+	void setUniform<Matrix4f>(const std::string& uniformName, Matrix4f value)
+	{
 		if (checkUniform(uniformName))
-			glUniformMatrix4fv(uniforms[uniformName], 1, GL_FALSE, &(value(0, 0))); 
+			glUniformMatrix4fv(uniforms[uniformName], 1, GL_FALSE, &(value(0, 0)));
 	}
 	//void setUniform(const std::string& uniformName, Texture* texture);
 	//void setUniform(const std::string& uniformName, CubeMap* cubeMap);
@@ -97,10 +105,13 @@ private:
 
 
 template <class Instance>
-class InstancedShader : public Shader {
+class InstancedShader : public Shader
+{
 public:
-	static Instance* getInstance() {
-		if (_instance == nullptr) {
+	static Instance* getInstance()
+	{
+		if (_instance == nullptr)
+		{
 			_instance = new Instance;
 			_instance->init();
 		}

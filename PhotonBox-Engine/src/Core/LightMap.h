@@ -3,14 +3,15 @@
 
 #include "../Resources/CubeMap.h"
 
-class LightMap {
+class LightMap
+{
 public:
-	CubeMap* enviromentMap;
+	CubeMap * enviromentMap;
 	CubeMap* irradianceMap;
 	CubeMap* specularMap;
 
 	LightMap();
-	LightMap(CubeMap* enviromentMap): enviromentMap(enviromentMap) { generate(); }
+	LightMap(CubeMap* enviromentMap) : enviromentMap(enviromentMap) { generate(); }
 	~LightMap();
 
 	void generate();

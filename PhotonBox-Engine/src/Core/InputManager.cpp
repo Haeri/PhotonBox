@@ -14,11 +14,13 @@ double InputManager::_yPosLast = 0;
 void key_callback(GLFWwindow*, int, int, int, int);
 void cursor_position_callback(GLFWwindow*, double, double);
 
-void InputManager::pollEvents() {
+void InputManager::pollEvents()
+{
 	glfwPollEvents();
 }
 
-void InputManager::init() {
+void InputManager::init()
+{
 	_xPos = 0;
 	_yPos = 0;
 	_xPosLast = 0;
@@ -28,73 +30,90 @@ void InputManager::init() {
 	glfwSetCursorPosCallback(Display::getWindow(), cursor_position_callback);
 }
 
-bool InputManager::keyPressed(int key) {
-	for (size_t i = 0; i < _keyPress.size(); ++i) {
+bool InputManager::keyPressed(int key)
+{
+	for (size_t i = 0; i < _keyPress.size(); ++i)
+	{
 		if (_keyPress[i] == key) return true;
 	}
 	return false;
 }
 
-bool InputManager::keyDown(int key) {
-	for (size_t i = 0; i < _keyDown.size(); ++i) {
+bool InputManager::keyDown(int key)
+{
+	for (size_t i = 0; i < _keyDown.size(); ++i)
+	{
 		if (_keyDown[i] == key) return true;
 	}
 	return false;
 }
 
-bool InputManager::keyReleased(int key) {
-	for (size_t i = 0; i < _keyRelease.size(); ++i) {
+bool InputManager::keyReleased(int key)
+{
+	for (size_t i = 0; i < _keyRelease.size(); ++i)
+	{
 		if (_keyRelease[i] == key) return true;
 	}
 	return false;
 }
 
-Vector2f InputManager::getMouse(){
+Vector2f InputManager::getMouse()
+{
 	float x = (_xPos - Display::getWidth() / 2.0f) / Display::getWidth() * 2.0f;
 	float y = (_yPos - Display::getHeight() / 2.0f) / Display::getHeight() * -2.0f;
 	return Vector2f(x, y);
 }
 
-Vector2f InputManager::getMouseDelta() {
+Vector2f InputManager::getMouseDelta()
+{
 	float xl = (_xPosLast - Display::getWidth() / 2.0f) / Display::getWidth() * 2.0f;
 	float yl = (_yPosLast - Display::getHeight() / 2.0f) / Display::getHeight() * -2.0f;
 	float x = (_xPos - Display::getWidth() / 2.0f) / Display::getWidth() * 2.0f;
 	float y = (_yPos - Display::getHeight() / 2.0f) / Display::getHeight() * -2.0f;
-	float xres = (x - xl) / (Time::deltaTime == 0? 0.001 : Time::deltaTime);
+	float xres = (x - xl) / (Time::deltaTime == 0 ? 0.001 : Time::deltaTime);
 	float yres = (y - yl) / (Time::deltaTime == 0 ? 0.001 : Time::deltaTime);
 	return Vector2f(xres, yres);
 }
 
-void InputManager::setCursorMode(CursorMode mode){
+void InputManager::setCursorMode(CursorMode mode)
+{
 	glfwSetInputMode(Display::getWindow(), GLFW_CURSOR, (int)mode);
 }
 
-void InputManager::handleKey(int key, int action) {
-	if (action == GLFW_PRESS) {
+void InputManager::handleKey(int key, int action)
+{
+	if (action == GLFW_PRESS)
+	{
 		_keyPress.push_back(key);
 		_keyDown.push_back(key);
-	}else if (action == GLFW_RELEASE) {
+	}
+	else if (action == GLFW_RELEASE)
+	{
 		_keyDown.erase(std::remove(_keyDown.begin(), _keyDown.end(), key), _keyDown.end());
 		_keyRelease.push_back(key);
 	}
 }
 
-void InputManager::handleMouse(double x, double y) {
+void InputManager::handleMouse(double x, double y)
+{
 	_xPos = x;
 	_yPos = y;
 }
 
-void InputManager::update() {
+void InputManager::update()
+{
 	_xPosLast = _xPos;
 	_yPosLast = _yPos;
 	_keyPress.clear();
 	_keyRelease.clear();
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
 	InputManager::handleKey(key, action);
 }
 
-void cursor_position_callback(GLFWwindow* window, double xpos, double ypos){
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
 	InputManager::handleMouse(xpos, ypos);
 }

@@ -4,7 +4,8 @@
 class Scene;
 #include <map>
 
-class SceneManager {
+class SceneManager
+{
 public:
 	static void addScene(const std::string name, Scene* scene);
 	static void loadScene(const std::string &name);

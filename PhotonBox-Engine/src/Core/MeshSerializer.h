@@ -4,7 +4,8 @@
 class Mesh;
 #include "../Resources/Vertex.h"
 
-class MeshSerializer {
+class MeshSerializer
+{
 public:
 	static void write(const std::string& pathName, Mesh* mesh);
 	static Mesh* read(const std::string&  pathName);

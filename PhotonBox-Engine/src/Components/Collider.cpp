@@ -1,10 +1,12 @@
 #include "Collider.h"
 #include "../Core/Systems/Physics.h"
 
-Collider::Collider() {
+Collider::Collider()
+{
 	Physics::addToPhysicsList(this);
 }
 
-void Collider::destroy(){
+void Collider::destroy()
+{
 	Physics::removeFromPhysicsList(this);
 }

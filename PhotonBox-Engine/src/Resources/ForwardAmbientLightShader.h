@@ -7,13 +7,16 @@
 #include "../Components/Camera.h"
 #include "../Components/AmbientLight.h"
 
-class ForwardAmbientLightShader : public InstancedShader<ForwardAmbientLightShader>{
+class ForwardAmbientLightShader : public InstancedShader<ForwardAmbientLightShader>
+{
 public:
-	std::string getFilePath() override {
-		return std::string("./res/PBS/base");
+	std::string getFilePath() override
+	{
+		return std::string("./res/shaders/forward-rendering/base");
 	}
 
-	void update(Transform* transform, LightEmitter* light){
+	void update(Transform* transform, LightEmitter* light)
+	{
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
 		AmbientLight* al = dynamic_cast<AmbientLight*>(light);
@@ -23,22 +26,18 @@ public:
 		glUniform1f(uniforms["light.intensity"], al->intensity);
 		glUniform3fv(uniforms["light.color"], 1, &(al->color.x()));
 		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
-
-		/*
-		glUniform1f(uniforms["light.constant"], 1.0f);
-		glUniform1f(uniforms["light.linear"], 0.09f);
-		glUniform1f(uniforms["light.quadratic"], 0.032f);
-		*/
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
 		addAttribut("tangent", Vertex::AttibLocation::TANGENT);
 	}
 
-	void addUniforms() override{
+	void addUniforms() override
+	{
 		addUniform("mvp");
 		addUniform("modelMatrix");
 		addUniform("viewPos");
@@ -53,9 +52,9 @@ public:
 		addUniform("boundPos");
 		addUniform("useCorrection");
 
-		addTexture("irradianceMap"); 
+		addTexture("irradianceMap");
 		addTexture("convolutedSpecularMap");
-		
+
 		addTexture("albedoMap");
 		addTexture("normalMap");
 		addTexture("aoMap");

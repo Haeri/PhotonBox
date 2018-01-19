@@ -5,7 +5,8 @@
 #include "../Core/Systems/Renderer.h"
 #include "../Resources/Material.h"
 
-class ObjectRenderer : public Component{
+class ObjectRenderer : public Component
+{
 public:
 	bool captureble = true;
 	ObjectRenderer() : ObjectRenderer(true) {}

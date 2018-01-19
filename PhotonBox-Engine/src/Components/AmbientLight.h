@@ -3,7 +3,8 @@
 
 #include "LightEmitter.h"
 
-class AmbientLight : public LightEmitter {
+class AmbientLight : public LightEmitter
+{
 public:
 	AmbientLight();
 	void destroy() override;

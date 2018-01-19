@@ -1,12 +1,9 @@
 #include "DeferredBuffer.h"
-#include "../Core/FrameBuffer.h"
+#include "FrameBuffer.h"
 
 void DeferredBuffer::init()
 {
-	int width = Display::getWidth();
-	int height = Display::getHeight();
-
-	gBuffer = new FrameBuffer(width, height);
+	gBuffer = new FrameBuffer(1);
 	gBuffer->addTextureAttachment("gPosition", true);
 	gBuffer->addTextureAttachment("gNormal", true);
 	gBuffer->addTextureAttachment("gMetallic");

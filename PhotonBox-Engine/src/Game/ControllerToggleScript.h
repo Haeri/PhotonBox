@@ -3,13 +3,15 @@
 
 #include "../Components/Behaviour.h"
 
-class ControllerToggleScript : public Behaviour {
+class ControllerToggleScript : public Behaviour
+{
 public:
 	CameraController * cameraController;
 	PathWalkerScript* pathWalkerScript;
 
 
-	void Start() {
+	void Start()
+	{
 		cameraController = gameObject->getComponent<CameraController>();
 		pathWalkerScript = gameObject->getComponent<PathWalkerScript>();
 
@@ -17,12 +19,14 @@ public:
 		pathWalkerScript->setEnable(true);
 	}
 
-	void Update(){
+	void Update()
+	{
 		if (InputManager::keyPressed(InputManager::KEY_BACKSPACE))
 			switchState();
 	}
 
-	void switchState() {
+	void switchState()
+	{
 		cameraController->setEnable(!cameraController->getEnable());
 		pathWalkerScript->setEnable(!pathWalkerScript->getEnable());
 	}

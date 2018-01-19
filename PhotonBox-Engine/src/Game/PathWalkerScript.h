@@ -5,26 +5,35 @@
 #include "../Components/Transform.h"
 #include "../Core/Time.h"
 
-class PathWalkerScript : public Behaviour {
+class PathWalkerScript : public Behaviour
+{
 public:
 	int index = 0;
 	float speed = 1;
 	std::vector<Transform> path;
 
-	void Start() {
+	void Start()
+	{
 		transform->setPosition(path[0].getPosition());
 		transform->setRotation(path[0].getRotation());
 	}
 
-	void Update() {
+	void Update()
+	{
 
-		if (progress < 1) {
+		if (progress < 1)
+		{
 			progress += Time::deltaTime * speed;
-		}else {
+		}
+		else
+		{
 			progress = 0;
-			if (index + 2 >= path.size()) {
+			if (index + 2 >= path.size())
+			{
 				index = 0;
-			}else {
+			}
+			else
+			{
 				index += 2;
 			}
 		}

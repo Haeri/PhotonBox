@@ -17,7 +17,7 @@
 #include "../Resources/Texture.h"
 #include "../Resources/AutoExposureProcessor.h"
 #include "../Resources/TransparentShader.h"
-#include "../Resources/SkyBoost.h"
+#include "../Resources/SkyBoostShader.h"
 #include "../Resources/SSAOProcessor.h"
 #include "../Resources/SSReflectionProcessor.h"
 #include "../Game/PrinterScript.cpp"
@@ -30,7 +30,8 @@
 #include "../Game/PathWalkerScript.h"
 #include "../Game/ControllerToggleScript.h"
 
-class TestScene : public Scene {
+class TestScene : public Scene
+{
 public:
 	CubeMap * whiteCube;
 
@@ -58,6 +59,11 @@ public:
 	Mesh* bookMesh4;
 	Mesh* balconyFloorMesh;
 	Mesh* balconyRailingMesh;
+	Mesh* frameMesh;
+	Mesh* frameGlassMesh;
+	Mesh* painting1Mesh;
+	Mesh* painting2Mesh;
+	Mesh* painting3Mesh;
 
 	Texture* woodAlbedo;
 	Texture* woodRough;
@@ -133,6 +139,14 @@ public:
 	Texture* balconyFloorNormal;
 	Texture* balconyFloorRoughness;
 
+	Texture* frameAlbedo;
+	Texture* frameNormal;
+	Texture* frameRoughness;
+
+	Texture* painting1D;
+	Texture* painting2D;
+	Texture* painting3D;
+
 	Texture* galvanizedAlbedo;
 	Texture* galvanizedRough;
 	Texture* galvanizedNormal;
@@ -165,6 +179,10 @@ public:
 	Material* glassMaterial;
 	Material* occluderMaterial;
 	Material* panoramaMaterial;
+	Material* frameMaterial;
+	Material* painting1Material;
+	Material* painting2Material;
+	Material* painting3Material;
 
 	AutoExposureProcessor* p_autoExposure;
 	BloomProcessor* p_bloom;
@@ -172,7 +190,8 @@ public:
 	SSAOProcessor* p_ssao;
 	SSReflectionProcessor* p_ssreflection;
 
-	void Load() {
+	void Load()
+	{
 		/* --------------------------- ENVIROMENT --------------------------- */
 		std::vector<std::string> white = {
 			"./res/default_ao.png",
@@ -185,6 +204,7 @@ public:
 
 		whiteCube = new CubeMap(white);
 		Renderer::setSkyBox(whiteCube);
+		Renderer::getSkyBox()->intensity = 10;
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
@@ -220,6 +240,11 @@ public:
 		bookMesh4 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_4.obj");
 		balconyFloorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/BalconyFloor/Balcony_Floor.obj");
 		balconyRailingMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Railing/Balcony_Railing.obj");
+		frameMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Frame.obj");
+		frameGlassMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/GlassPane.obj");
+		painting1Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting1.obj");
+		painting2Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting2.obj");
+		painting3Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting3.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -269,6 +294,14 @@ public:
 
 		vaseAlbedo = new Texture(std::string("./res/Realistic-Rendering/Vase/Vase_Albedo.png"), true);
 		vaseRough = new Texture(std::string("./res/Realistic-Rendering/Vase/Vase_Roughness.png"), true);
+
+		frameAlbedo = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_Albedo.tga"), true);
+		frameNormal = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_N.tga"), true);
+		frameRoughness = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_Roughness.tga"), true);
+
+		painting1D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting4_D.tga"), true);
+		painting2D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting2_D.tga"), true);
+		painting3D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting3_D.tga"), true);
 
 		bookAo = new Texture(std::string("./res/Realistic-Rendering/Books/book_occlusion.tga"), true);
 		bookNormal = new Texture(std::string("./res/Realistic-Rendering/Books/book_normals.tga"), true);
@@ -411,6 +444,37 @@ public:
 		vaseMaterial->setTexture("metallicMap", default_emission);
 		vaseMaterial->setTexture("emissionMap", default_emission);
 
+		frameMaterial = new Material();
+		frameMaterial->setTexture("albedoMap", frameAlbedo);
+		frameMaterial->setTexture("normalMap", frameNormal);
+		frameMaterial->setTexture("roughnessMap", frameRoughness);
+		frameMaterial->setTexture("aoMap", default_ao);
+		frameMaterial->setTexture("metallicMap", default_emission);
+		frameMaterial->setTexture("emissionMap", default_emission);
+
+		painting1Material = new Material();
+		painting1Material->setTexture("albedoMap", painting1D);
+		painting1Material->setTexture("normalMap", default_normal);
+		painting1Material->setTexture("roughnessMap", default_ao);
+		painting1Material->setTexture("aoMap", default_ao);
+		painting1Material->setTexture("metallicMap", default_emission);
+		painting1Material->setTexture("emissionMap", default_emission);
+		painting2Material = new Material();
+		painting2Material->setTexture("albedoMap", painting2D);
+		painting2Material->setTexture("normalMap", default_normal);
+		painting2Material->setTexture("roughnessMap", default_ao);
+		painting2Material->setTexture("aoMap", default_ao);
+		painting2Material->setTexture("metallicMap", default_emission);
+		painting2Material->setTexture("emissionMap", default_emission);
+		painting3Material = new Material();
+		painting3Material->setTexture("albedoMap", painting3D);
+		painting3Material->setTexture("normalMap", default_normal);
+		painting3Material->setTexture("roughnessMap", default_ao);
+		painting3Material->setTexture("aoMap", default_ao);
+		painting3Material->setTexture("metallicMap", default_emission);
+		painting3Material->setTexture("emissionMap", default_emission);
+
+
 		bookMaterial1 = new Material();
 		bookMaterial1->setTexture("albedoMap", bookAlbedo1);
 		bookMaterial1->setTexture("normalMap", bookNormal);
@@ -483,69 +547,78 @@ public:
 		panoramaMaterial->setProperty("boost", 10.0f);
 
 		/* --------------------------- CAMERA --------------------------- */
-		GameObject* s1 = instanciate("start");
-		s1->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4));
-		s1->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0));
 
-		GameObject* f1 = instanciate("fin");
-		f1->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9));
-		f1->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
+		GameObject* s1 = instanciate("start");
+		s1->getComponent<Transform>()->setPosition(Vector3f(-1.275343, 0.609712, 3.92936));
+		s1->getComponent<Transform>()->setRotation(Vector3f(-0.406666, 2.218385, 0.00000));
+
+		GameObject* f1 = instanciate("¨fin");
+		f1->getComponent<Transform>()->setPosition(Vector3f(-1.701402, 0.896463, 3.75409));
+		f1->getComponent<Transform>()->setRotation(Vector3f(0.070667, 2.363519, 0.00000));
 
 		GameObject* s2 = instanciate("start");
-		s2->getComponent<Transform>()->setPosition(Vector3f(-1.708001, 0.232390, 0.078278));
-		s2->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
+		s2->getComponent<Transform>()->setPosition(Vector3f(0.042963, 0.564167, 0.744266));
+		s2->getComponent<Transform>()->setRotation(Vector3f(-0.441667, -4.278056, 0.000000));
 
 		GameObject* f2 = instanciate("fin");
-		f2->getComponent<Transform>()->setPosition(Vector3f(-0.610981, 0.718269, 0.078073));
-		f2->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
+		f2->getComponent<Transform>()->setPosition(Vector3f(0.325749, 0.647959, 0.665603));
+		f2->getComponent<Transform>()->setRotation(Vector3f(-0.323334, -4.136055, 0.000000));
 
 		GameObject* s3 = instanciate("start");
-		s3->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
-		s3->getComponent<Transform>()->setRotation(Vector3f(-0.910666, 0.317027, 0.00000));
+		s3->getComponent<Transform>()->setPosition(Vector3f(1.849994, 1.612600, 0.045660));
+		s3->getComponent<Transform>()->setRotation(Vector3f(-0.133326, 3.428171, 0.000000));
 
-		GameObject* f3 = instanciate("start");
-		f3->getComponent<Transform>()->setPosition(Vector3f(-1.254720, 0.108683, -0.22882));
-		f3->getComponent<Transform>()->setRotation(Vector3f(0.086667, 0.071351, 0.00000));
+		GameObject* f3 = instanciate("fin");
+		f3->getComponent<Transform>()->setPosition(Vector3f(1.719618, 1.658098, 1.163731));
+		f3->getComponent<Transform>()->setRotation(Vector3f(-0.098326, 3.107171, 0.000000));
 
 		GameObject* s4 = instanciate("start");
-		s4->getComponent<Transform>()->setPosition(Vector3f(0.568587, 0.651397, 0.84028));
-		s4->getComponent<Transform>()->setRotation(Vector3f(-0.613333, 3.154054, 0.00000));
+		s4->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
+		s4->getComponent<Transform>()->setRotation(Vector3f(-0.910666, 0.317027, 0.00000));
 
-		GameObject* f4 = instanciate("start");
-		f4->getComponent<Transform>()->setPosition(Vector3f(-0.214201, 0.652349, 0.81502));
-		f4->getComponent<Transform>()->setRotation(Vector3f(-0.402666, 3.269999, 0.00000));
+		GameObject* f4 = instanciate("fin");
+		f4->getComponent<Transform>()->setPosition(Vector3f(-1.254720, 0.108683, -0.22882));
+		f4->getComponent<Transform>()->setRotation(Vector3f(0.086667, 0.071351, 0.00000));
 
 		GameObject* s5 = instanciate("start");
-		s5->getComponent<Transform>()->setPosition(Vector3f(1.163253, 2.849120, -0.82634));
-		s5->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
+		s5->getComponent<Transform>()->setPosition(Vector3f(1.497587, 1.648782, 2.544615));
+		s5->getComponent<Transform>()->setRotation(Vector3f(-0.126667, -2.622055, 0.000000));
 
-		GameObject* f5 = instanciate("start");
-		f5->getComponent<Transform>()->setPosition(Vector3f(1.112261, 2.849120, 1.64630));
-		f5->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
+		GameObject* f5 = instanciate("fin");
+		f5->getComponent<Transform>()->setPosition(Vector3f(1.335855, 0.571176, 2.610204));
+		f5->getComponent<Transform>()->setRotation(Vector3f(-0.126667, -2.622055, 0.000000));
 
 		GameObject* s6 = instanciate("start");
-		s6->getComponent<Transform>()->setPosition(Vector3f(-1.275343, 0.609712, 3.92936));
-		s6->getComponent<Transform>()->setRotation(Vector3f(-0.406666, 2.218385, 0.00000));
+		s6->getComponent<Transform>()->setPosition(Vector3f(-1.708001, 0.232390, 0.078278));
+		s6->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
 
-		GameObject* f6 = instanciate("start");
-		f6->getComponent<Transform>()->setPosition(Vector3f(-1.701402, 0.896463, 3.75409));
-		f6->getComponent<Transform>()->setRotation(Vector3f(0.070667, 2.363519, 0.00000));
+		GameObject* f6 = instanciate("fin");
+		f6->getComponent<Transform>()->setPosition(Vector3f(-0.610981, 0.718269, 0.078073));
+		f6->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
 
 		GameObject* s7 = instanciate("start");
-		s7->getComponent<Transform>()->setPosition(Vector3f(1.269536, 2.121249, 4.091350));
-		s7->getComponent<Transform>()->setRotation(Vector3f(-0.606236, 2.979938, 0.000000));
+		s7->getComponent<Transform>()->setPosition(Vector3f(1.163253, 2.849120, -0.82634));
+		s7->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
 
-		GameObject* f7 = instanciate("start");
-		f7->getComponent<Transform>()->setPosition(Vector3f(0.237463, 1.906774, 3.826429));
-		f7->getComponent<Transform>()->setRotation(Vector3f(-0.576903, 3.178587, 0.000000));
+		GameObject* f7 = instanciate("fin");
+		f7->getComponent<Transform>()->setPosition(Vector3f(1.112261, 2.849120, 1.64630));
+		f7->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
 
 		GameObject* s8 = instanciate("start");
-		s8->getComponent<Transform>()->setPosition(Vector3f(1.469624, 0.217904, 1.738431));
-		s8->getComponent<Transform>()->setRotation(Vector3f(-0.024902, 5.696155, 0.000000));
+		s8->getComponent<Transform>()->setPosition(Vector3f(1.269536, 2.121249, 4.091350));
+		s8->getComponent<Transform>()->setRotation(Vector3f(-0.606236, 2.979938, 0.000000));
 
-		GameObject* f8 = instanciate("start");
-		f8->getComponent<Transform>()->setPosition(Vector3f(1.428122, 1.054274, 1.739055));
-		f8->getComponent<Transform>()->setRotation(Vector3f(-0.024902, 5.696155, 0.000000));
+		GameObject* f8 = instanciate("fin");
+		f8->getComponent<Transform>()->setPosition(Vector3f(0.237463, 1.906774, 3.826429));
+		f8->getComponent<Transform>()->setRotation(Vector3f(-0.576903, 3.178587, 0.000000));
+
+		GameObject* s9 = instanciate("start");
+		s9->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4));
+		s9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0));
+
+		GameObject* f9 = instanciate("fin");
+		f9->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9));
+		f9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
 
 
 		GameObject* cam = instanciate("Camera");
@@ -571,6 +644,8 @@ public:
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f7->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(s8->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f8->transform));
+		cam->getComponent<PathWalkerScript>()->path.push_back(*(s9->transform));
+		cam->getComponent<PathWalkerScript>()->path.push_back(*(f9->transform));
 
 		cam->addComponent<ControllerToggleScript>();
 
@@ -613,7 +688,7 @@ public:
 		spot->getComponent<SpotLight>()->quadratic = 0.032f;
 		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		spot->getComponent<SpotLight>()->intensity = 1.0f;
-		//spot->setEnable(false);
+		spot->setEnable(false);
 		//spot->getComponent<Transform>()->setParent(cam);
 
 
@@ -719,6 +794,32 @@ public:
 		vase->getComponent<MeshRenderer>()->setMesh(vaseMesh);
 		vase->getComponent<MeshRenderer>()->setMaterial(vaseMaterial);
 
+		GameObject* frame = instanciate("Frame");
+		frame->addComponent<MeshRenderer>();
+		frame->getComponent<MeshRenderer>()->setMesh(frameMesh);
+		frame->getComponent<MeshRenderer>()->setMaterial(frameMaterial);
+
+		GameObject* frameGlass = instanciate("FrameGlass");
+		frameGlass->addComponent<TransparentMeshRenderer>();
+		frameGlass->getComponent<TransparentMeshRenderer>()->setMesh(frameGlassMesh);
+		frameGlass->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+
+		GameObject* painting1 = instanciate("Painting1");
+		painting1->addComponent<MeshRenderer>();
+		painting1->getComponent<MeshRenderer>()->setMesh(painting1Mesh);
+		painting1->getComponent<MeshRenderer>()->setMaterial(painting1Material);
+
+		GameObject* painting2 = instanciate("Painting2");
+		painting2->addComponent<MeshRenderer>();
+		painting2->getComponent<MeshRenderer>()->setMesh(painting2Mesh);
+		painting2->getComponent<MeshRenderer>()->setMaterial(painting2Material);
+
+		GameObject* painting3 = instanciate("Painting3");
+		painting3->addComponent<MeshRenderer>();
+		painting3->getComponent<MeshRenderer>()->setMesh(painting3Mesh);
+		painting3->getComponent<MeshRenderer>()->setMaterial(painting3Material);
+
+
 		GameObject* book1 = instanciate("Book1");
 		book1->addComponent<MeshRenderer>();
 		book1->getComponent<MeshRenderer>()->setMesh(bookMesh1);
@@ -783,7 +884,8 @@ public:
 
 	}
 
-	void OnUnload() {
+	void OnUnload()
+	{
 		delete whiteCube;
 
 		delete couchMesh;
@@ -810,6 +912,12 @@ public:
 		delete bookMesh4;
 		delete balconyFloorMesh;
 		delete balconyRailingMesh;
+		delete frameMesh;
+		delete frameGlassMesh;
+		delete painting1Mesh;
+		delete painting2Mesh;
+		delete painting3Mesh;
+
 		delete woodAlbedo;
 		delete woodRough;
 		delete woodNormal;
@@ -877,7 +985,12 @@ public:
 		delete railingNormal;
 		delete windowAlbedo;
 		delete panoramaAlbedo;
-
+		delete frameAlbedo;
+		delete frameNormal;
+		delete frameRoughness;
+		delete painting1D;
+		delete painting2D;
+		delete painting3D;
 
 		delete wood;
 		delete def;
@@ -901,6 +1014,10 @@ public:
 		delete glassMaterial;
 		delete occluderMaterial;
 		delete panoramaMaterial;
+		delete frameMaterial;
+		delete painting1Material;
+		delete painting2Material;
+		delete painting3Material;
 
 		//delete p_autoExposure;
 		//delete p_bloom;
