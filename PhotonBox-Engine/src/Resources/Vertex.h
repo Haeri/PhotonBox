@@ -4,7 +4,8 @@
 #include "../Math/Vector3f.h"
 #include "../Math/Vector2f.h"
 
-class Vertex {
+class Vertex
+{
 public:
 	enum AttibLocation
 	{
@@ -27,14 +28,16 @@ public:
 		normal(normal),
 		color(col),
 		uv(uv)
-	{}
+	{
+	}
 	Vertex(Vector3f pos, Vector3f normal, Vector3f col, Vector2f uv, Vector3f tangent) :
-		position(pos), 
-		normal(normal), 
+		position(pos),
+		normal(normal),
 		color(col),
 		uv(uv),
 		tangent(tangent)
-	{}
+	{
+	}
 };
 
 #endif /* defined(VERTEX_H) */

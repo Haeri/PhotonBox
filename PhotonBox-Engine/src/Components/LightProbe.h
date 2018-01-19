@@ -6,7 +6,8 @@
 #include "../Core/AABB.h"
 #include "../Core/LightMap.h"
 
-class LightProbe : public Component {
+class LightProbe : public Component
+{
 public:
 	int resolution;
 	AABB bounds;

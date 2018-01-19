@@ -4,7 +4,8 @@
 #include <vector>
 #include "../Core/GameObject.h"
 
-class Scene {
+class Scene
+{
 public:
 	std::vector<GameObject*> gameObjectList;
 
@@ -17,7 +18,7 @@ public:
 	void printGameObjects();
 	std::string getGameObjects();
 	void removeFromList(GameObject* go);
-    GameObject* getObjectByName(std::string name);
+	GameObject* getObjectByName(std::string name);
 private:
 	void addToList(GameObject* go);
 };

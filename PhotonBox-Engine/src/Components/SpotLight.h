@@ -3,7 +3,8 @@
 
 #include "LightEmitter.h"
 
-class SpotLight : public LightEmitter {
+class SpotLight : public LightEmitter
+{
 public:
 	float constant;
 	float linear;

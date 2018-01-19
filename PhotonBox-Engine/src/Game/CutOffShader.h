@@ -4,18 +4,22 @@
 #include "../Resources/Shader.h"
 #include "../Resources/Vertex.h"
 
-class CutOffShader : public InstancedShader<CutOffShader>{
+class CutOffShader : public InstancedShader<CutOffShader>
+{
 public:
-	std::string getFilePath() override {
-		return std::string("./res/post-processing/cutOff");
+	std::string getFilePath() override
+	{
+		return std::string("./res/shaders/post-processing/cutOff");
 	}
 
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addUniform("threshold");
 		addTexture("renderTexture");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

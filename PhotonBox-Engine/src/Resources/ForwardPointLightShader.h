@@ -7,13 +7,16 @@
 #include "../Components/Camera.h"
 #include "../Resources/Vertex.h"
 
-class ForwardPointLightShader : public InstancedShader<ForwardPointLightShader>{
+class ForwardPointLightShader : public InstancedShader<ForwardPointLightShader>
+{
 public:
-	std::string getFilePath() override {
-		return std::string("./res/PBS/point_light");
+	std::string getFilePath() override
+	{
+		return std::string("./res/shaders/forward-rendering/point_light");
 	}
-	
-	void update(Transform* transform, LightEmitter* light) {
+
+	void update(Transform* transform, LightEmitter* light)
+	{
 
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
@@ -31,7 +34,8 @@ public:
 		glUniform1f(uniforms["light.quadratic"], pointLight->quadratic);
 	}
 
-	void addUniforms() {
+	void addUniforms()
+	{
 		addUniform("mvp");
 		addUniform("modelMatrix");
 		addUniform("viewPos");
@@ -48,7 +52,8 @@ public:
 		addTexture("metallicMap");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);

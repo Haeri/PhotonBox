@@ -3,7 +3,8 @@
 
 #include "../Core/Component.h"
 
-class Behaviour: public Component {
+class Behaviour : public Component
+{
 public:
 	Behaviour();
 	void destroy();

@@ -4,25 +4,30 @@
 #include "../Core/PostProcessor.h"
 #include "../Game/MonochromShader.h"
 
-class MonochromProcessor: public PostProcessor {
+class MonochromProcessor : public PostProcessor
+{
 public:
-	Material* material;
+	Material * material;
 	FrameBuffer* frameBuffer;
 
-	MonochromProcessor(int index): PostProcessor(index) {
+	MonochromProcessor(int index) : PostProcessor(index)
+	{
 		material = new Material(MonochromShader::getInstance());
 		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
 	}
 
-	void enable() override {
+	void enable() override
+	{
 		frameBuffer->enable();
 	}
 
-	void render() override {
+	void render() override
+	{
 		frameBuffer->render(material);
 	}
 
-	void destroy() override {
+	void destroy() override
+	{
 		delete material;
 		delete frameBuffer;
 	}

@@ -5,8 +5,9 @@
 #include "MeshSerializer.h"
 #include "../Resources/Mesh.h"
 
-void MeshSerializer::write(const std::string & pathName, Mesh* mesh){
-	
+void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
+{
+
 	int indicesSize = mesh->indices.size();
 	int verticesSize = mesh->vertices.size();
 	float boundingSphereRadius = mesh->boundingSphereRadius;
@@ -14,7 +15,8 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh){
 	std::ofstream myfile;
 	myfile.open(pathName, std::ios::out | std::ios::binary);
 
-	if (myfile.is_open()) {
+	if (myfile.is_open())
+	{
 		myfile.seekp(0);
 		// write vertices size
 		myfile.write((char*)&verticesSize, sizeof(int));
@@ -28,26 +30,30 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh){
 		myfile.write((char*)&mesh->indices[0], sizeof(unsigned int) * indicesSize);
 
 		myfile.close();
-	}else {
+	}
+	else
+	{
 		std::cout << "Unable to write to file" << std::endl;
 	}
 }
 
-Mesh * MeshSerializer::read(const std::string & pathName){
+Mesh * MeshSerializer::read(const std::string & pathName)
+{
 	Mesh* mesh = new Mesh();
 
 	int indicesSize;
 	int verticesSize;
 	float boundingSphereRadius;
 
-//	Vertex *vertices;
-//	unsigned int *indices;
+	//	Vertex *vertices;
+	//	unsigned int *indices;
 
 
 	std::ifstream myfile;
 	myfile.open(pathName, std::ios::in | std::ios::binary);
 
-	if (myfile.is_open()) {
+	if (myfile.is_open())
+	{
 		myfile.seekg(0);
 
 		// read vertices size
@@ -69,7 +75,9 @@ Mesh * MeshSerializer::read(const std::string & pathName){
 
 		mesh->boundingSphereRadius = boundingSphereRadius;
 		return mesh;
-	}else {
+	}
+	else
+	{
 		std::cout << "Unable to open file" << std::endl;
 		return nullptr;
 	}

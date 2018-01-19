@@ -4,17 +4,16 @@
 #include "Shader.h"
 #include "Vertex.h"
 
-class SpecularConvolutionShader : public InstancedShader<SpecularConvolutionShader> {
+class SpecularConvolutionShader : public InstancedShader<SpecularConvolutionShader>
+{
 public:
-	std::string getFilePath() override {
-		return std::string("./res/util/specular-convolution");
+	std::string getFilePath() override
+	{
+		return std::string("./res/shaders/util/specular-convolution");
 	}
 
-	//void update(Matrix4f& vp) {
-	//	glUniformMatrix4fv(uniforms["vp"], 1, GL_FALSE, &(vp(0, 0)));
-	//}
-
-	void addUniforms() override {
+	void addUniforms() override
+	{
 		addUniform("projection");
 		addUniform("view");
 		addUniform("roughness");
@@ -22,7 +21,8 @@ public:
 		addTexture("environmentMap");
 	}
 
-	void addAttributes() override {
+	void addAttributes() override
+	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
 };

@@ -5,9 +5,10 @@ class GameObject;
 class Transform;
 #include <string>
 
-class Component {
+class Component
+{
 public:
-	GameObject *gameObject;
+	GameObject * gameObject;
 	Transform *transform;
 
 	void setGameObject(GameObject* _go);
@@ -23,4 +24,4 @@ public:
 private:
 	bool isEnabled = true;
 };
-#endif /* defined(COMPONENT_H) */
+#endif // COMPONENT_H

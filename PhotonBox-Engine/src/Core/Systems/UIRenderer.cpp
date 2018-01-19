@@ -1,13 +1,15 @@
 #include "UIRenderer.h"
 #include <iostream>
-#include "../Display.h"
+#include "../OpenGL.h"
 #include "../../Resources/TextShader.h"
+#include "../../Core/Systems/Renderer.h"
 
 TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;
 std::map<GLchar, Character> UIRenderer::_characters;
 
-void UIRenderer::init(){
+void UIRenderer::init()
+{
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
@@ -82,7 +84,8 @@ void UIRenderer::init(){
 	shader = TextShader::getInstance();
 }
 
-void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color){
+void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color)
+{
 	GLfloat initialX = x;
 	// Activate corresponding render state	
 	shader->bind();
@@ -100,7 +103,8 @@ void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scal
 	{
 		Character ch = _characters[*c];
 
-		if (*c == '\n') {
+		if (*c == '\n')
+		{
 			y -= 48 * scale;
 			x = initialX;
 			continue;
@@ -139,6 +143,7 @@ void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scal
 
 		shader->enableAttributes();
 		glDrawArrays(GL_TRIANGLES, 0, 6);
+		Renderer::addDrawCall();
 		shader->disableAttributes();
 		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 		x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))

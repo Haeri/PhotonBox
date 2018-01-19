@@ -9,7 +9,8 @@
 #include "../Components/Camera.h"
 #include "../Core/Systems/SceneManager.h"
 
-class CameraController : public Behaviour {
+class CameraController : public Behaviour
+{
 public:
 	float speed = 1;
 	float mouseSensitivity = 0.6f;
@@ -20,11 +21,13 @@ public:
 
 	Material* blur;
 
-	void Start() {
+	void Start()
+	{
 		toggleCursor();
 	}
 
-	void Update() {
+	void Update()
+	{
 		Vector3f direction = Vector3f::ZERO;
 		float shift = 1;
 		if (InputManager::keyDown(InputManager::KEY_W)) direction.z() = 1;
@@ -33,25 +36,24 @@ public:
 		if (InputManager::keyDown(InputManager::KEY_A)) direction.x() = 1;
 		if (InputManager::keyDown(InputManager::KEY_SPACE)) direction.y() = 1;
 		if (InputManager::keyDown(InputManager::KEY_LEFT_CONTROL)) direction.y() = -1;
-		
+
 		if (InputManager::keyDown(InputManager::KEY_LEFT_SHIFT)) shift = 2.5f;
 
 		transform->setPosition(transform->getPosition() +
 			(transform->forward() * direction.z() +
-			transform->up() * direction.y() +
-			transform->right() * direction.x())
-			
+				transform->up() * direction.y() +
+				transform->right() * direction.x())
+
 			* Time::deltaTime * speed * shift);
 
 		Vector2f mouse = InputManager::getMouseDelta();
-		//std:: cout << mouse << std::endl;
 
 		float x = transform->getRotation().x() + mouse.y() * Time::deltaTime * mouseSensitivity;
 		float y = transform->getRotation().y() + mouse.x() * Time::deltaTime * mouseSensitivity;
 		float z = transform->getRotation().z();
 		transform->setRotation(Vector3f(x, y, z));
 
-		if (InputManager::keyPressed(InputManager::KEY_ESCAPE))
+		if (InputManager::keyPressed(InputManager::KEY_C))
 			toggleCursor();
 
 		if (InputManager::keyPressed(InputManager::KEY_V))
@@ -64,44 +66,54 @@ public:
 
 
 		if (InputManager::keyPressed(InputManager::KEY_1))
-			SceneManager::loadScene("TestScene");
+			SceneManager::loadScene("Realistic Rendering");
 		if (InputManager::keyPressed(InputManager::KEY_2))
-			SceneManager::loadScene("PBRScene");
+			SceneManager::loadScene("Material Test");
 
 		if (InputManager::keyPressed(InputManager::KEY_T))
 			toggleDebug();
 
-
-		std::string sp = "pos: " + std::to_string(transform->getPositionWorld().x()) +
-			", " + std::to_string(transform->getPositionWorld().y()) +
-			", " + std::to_string(transform->getPositionWorld().z());
-
-		std::string sr = "rot: " + std::to_string(transform->getRotation().x()) +
-			", " + std::to_string(transform->getRotation().y()) +
-			", " + std::to_string(transform->getRotation().z());
+		if (InputManager::keyPressed(InputManager::KEY_ESCAPE))
+			Core::stop();
 
 
-		if (InputManager::keyPressed(InputManager::KEY_ENTER)) {		
+		if (InputManager::keyPressed(InputManager::KEY_ENTER))
+		{
+			std::string sp = "pos: " + std::to_string(transform->getPositionWorld().x()) +
+				", " + std::to_string(transform->getPositionWorld().y()) +
+				", " + std::to_string(transform->getPositionWorld().z());
+
+			std::string sr = "rot: " + std::to_string(transform->getRotation().x()) +
+				", " + std::to_string(transform->getRotation().y()) +
+				", " + std::to_string(transform->getRotation().z());
+
+
 			std::cout << sp << std::endl;
 			std::cout << sr << std::endl << std::endl;
 		}
 	}
 
-	void toggleCursor() {
-		if (toggleCursorMode) {
+	void toggleCursor()
+	{
+		if (toggleCursorMode)
+		{
 			InputManager::setCursorMode(InputManager::CursorMode::DISABLED);
-		}else {
+		}
+		else
+		{
 			InputManager::setCursorMode(InputManager::CursorMode::NORMAL);
 		}
 		toggleCursorMode = !toggleCursorMode;
 	}
 
-	void toggleVSync() {
+	void toggleVSync()
+	{
 		Display::setVSync(toggleVsyncMode);
 		toggleVsyncMode = !toggleVsyncMode;
 	}
 
-	void toggleDebug() {
+	void toggleDebug()
+	{
 		Renderer::setDebug(!Renderer::isDebug());
 	}
 };

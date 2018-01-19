@@ -1,13 +1,16 @@
 #include "SkyBox.h"
 #include "../Components/Camera.h"
 #include "OBJLoader.h"
+#include "../Core/Systems/Renderer.h"
 
 
-void SkyBox::setLightProbe(LightProbe * lightProbe){
+void SkyBox::setLightProbe(LightProbe * lightProbe)
+{
 	_lp = lightProbe;
 }
 
-void SkyBox::init(){
+void SkyBox::init()
+{
 	_skyBoxShader = SkyBoxShader::getInstance();
 	_mesh = OBJLoader::loadObj("./res/primitives/skyBox.obj");
 	genVAO();
@@ -23,7 +26,8 @@ void SkyBox::setIrradienceMap(CubeMap* cubeMap) {
 }
 */
 
-void SkyBox::genVAO() {
+void SkyBox::genVAO()
+{
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
 	glGenBuffers(1, &_ebo);
@@ -47,7 +51,8 @@ void SkyBox::genVAO() {
 	glDeleteBuffers(1, &_ebo);
 }
 
-void SkyBox::render() {
+void SkyBox::render()
+{
 	if (_lp == nullptr) return;
 
 	Matrix4f vp = Camera::getMainCamera()->getViewMatrix();
@@ -60,9 +65,11 @@ void SkyBox::render() {
 
 	_skyBoxShader->bind();
 	_skyBoxShader->update(vp);
+	_skyBoxShader->setUniform("intensity", intensity);
 	_skyBoxShader->enableAttributes();
 	_lp->getEnviromentCube()->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+	Renderer::addDrawCall();
 	_skyBoxShader->disableAttributes();
 
 	glDepthMask(GL_TRUE);

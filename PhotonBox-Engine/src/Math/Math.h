@@ -5,7 +5,8 @@
 
 namespace Math
 {
-	float lerp(float a, float b, float percent) {
+	float lerp(float a, float b, float percent)
+	{
 		return a + percent * (b - a);
 	}
 }

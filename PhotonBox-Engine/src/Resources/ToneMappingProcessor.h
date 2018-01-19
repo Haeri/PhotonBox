@@ -6,34 +6,38 @@
 #include "../Core/FrameBuffer.h"
 #include "ToneMappingShader.h"
 
-class ToneMappingProcessor : public PostProcessor {
+class ToneMappingProcessor : public PostProcessor
+{
 public:
-	Material* material;
-	FrameBuffer* frameBuffer;
+	ToneMappingProcessor(int index) : PostProcessor(index)
+	{
+		_material = new Material(ToneMappingShader::getInstance());
+		_frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		_frameBuffer->addTextureAttachment("color", true);
+		_frameBuffer->ready();
 
-	ToneMappingProcessor(int index) : PostProcessor(index) {
-		material = new Material(ToneMappingShader::getInstance());
-		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
-		frameBuffer->addTextureAttachment("color", true);
-		frameBuffer->ready();
-
-		material->setProperty<float>("exposure", 0.2f);
-		material->setTexture("renderTexture", frameBuffer, "color");
+		_material->setProperty<float>("exposure", 0.2f);
+		_material->setTexture("renderTexture", _frameBuffer, "color");
 	}
 
-	void enable() override {
-		frameBuffer->enable();
+	void enable() override
+	{
+		_frameBuffer->enable();
 	}
 
-	void render() override {
-		frameBuffer->render(material);
+	void render() override
+	{
+		_frameBuffer->render(_material);
 	}
 
-	void destroy() override {
-		delete material;
-		delete frameBuffer;
+	void destroy() override
+	{
+		delete _material;
+		delete _frameBuffer;
 	}
-
+private:
+	Material * _material;
+	FrameBuffer* _frameBuffer;
 };
 
 #endif // TONE_MAPPING_PROCESSOR_H

@@ -13,31 +13,34 @@ class Physics;
 class PostProcessing;
 class Lighting;
 class InputManager;
+class Config;
 
-class Core{
+class Core
+{
 public:
-	static bool isRunning() { return _isRunning; }
-
 	void init();
 	void start();
 	void reset();
 	void run();
 	void destroy();
+
+	static bool isRunning() { return _isRunning; }
+	static void stop();
 private:
-	Time* time;
-	Display* display;
-	InputManager* inputManager;
-	
-	UIRenderer* uiRenderer;
-	SceneManager* sceneManager;
-	Renderer* renderer;
-	Logic* logic;
-	Physics* physics;
-	PostProcessing* postPocessing;
-	Lighting* lighting;
+	Time * _time;
+	Display* _display;
+	InputManager* _inputManager;
+	UIRenderer* _uiRenderer;
+	SceneManager* _sceneManager;
+	Renderer* _renderer;
+	Logic* _logic;
+	Physics* _physics;
+	PostProcessing* _postPocessing;
+	Lighting* _lighting;
+
+	Config* _config;
 
 	const double FIXED_TIME_INTERVAL = 30;
-	const double TARGET_FPS = 60;
 
 	double _accumulatedTime, _newTime, _lastTime;
 	int _fps = 0;
