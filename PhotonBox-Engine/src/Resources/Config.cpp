@@ -1,5 +1,6 @@
 #include "Config.h"
 
+#include <algorithm>
 #include <fstream>
 #include <vector>
 #include <iostream>
@@ -16,9 +17,14 @@ void Config::readConfig()
 	while (std::getline(file, line))
 	{
 		tokens.clear();
+		line.erase(remove(line.begin(), line.end(), ' '), line.end());
 		Util::split(line, "=", tokens);
 
-		if (tokens[0].compare("width") == 0)
+		if (tokens[0].at(0) == '#')
+		{
+			continue;
+		}
+		else if (tokens[0].compare("width") == 0)
 		{
 			profile.width = std::stoi(tokens[1]);
 		}
@@ -37,6 +43,10 @@ void Config::readConfig()
 		else if (tokens[0].compare("supersampling") == 0)
 		{
 			profile.supersampling = (bool)std::stoi(tokens[1]);
+		}
+		else if (tokens[0].compare("show_fps") == 0)
+		{
+			profile.showFPS = (bool)std::stoi(tokens[1]);
 		}
 		else
 		{

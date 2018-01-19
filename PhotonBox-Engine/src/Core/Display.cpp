@@ -89,5 +89,5 @@ void window_size_callback(GLFWwindow* window, int width, int height)
 
 	Display::setRect(width, height);
 	Camera::getMainCamera()->updateAspect();
-	FrameBuffer::resizeAll();
+	//FrameBuffer::resizeAll();
 }

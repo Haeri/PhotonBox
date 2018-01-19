@@ -8,7 +8,7 @@ void DeferredBuffer::init()
 	gBuffer->addTextureAttachment("gNormal", true);
 	gBuffer->addTextureAttachment("gMetallic");
 	gBuffer->addTextureAttachment("gRoughness");
-	//gBuffer->addTextureAttachment("gAlbedo");
+	gBuffer->addTextureAttachment("gAlbedo");
 	gBuffer->addDepthBufferAttachment();
 	gBuffer->ready();
 }

@@ -116,6 +116,7 @@
     <ClInclude Include="src\Game\CameraController.h" />
     <ClInclude Include="src\Game\ControllerToggleScript.h" />
     <ClInclude Include="src\Game\CutOffShader.h" />
+    <ClInclude Include="src\Game\DemoScene.h" />
     <ClInclude Include="src\Game\FollowScript.h" />
     <ClInclude Include="src\Game\MaterialScript.h" />
     <ClInclude Include="src\Game\MonochromProcessor.h" />

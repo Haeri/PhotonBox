@@ -11,6 +11,7 @@
 #include "../InputManager.h"
 #include "../../Resources/Config.h"
 
+#include "../../Game/DemoScene.h"
 #include "../../Game/TestScene.h"
 #include "../../Game/PBRScene.h"
 
@@ -52,6 +53,7 @@ void Core::init()
 	// Load Scenes
 	_sceneManager->addScene("Realistic Rendering", new TestScene());
 	_sceneManager->addScene("Material Test", new PBRScene());
+	_sceneManager->addScene("Demo Scene", new DemoScene());
 
 	_sceneManager->loadSceneImediately("Realistic Rendering");
 
@@ -135,7 +137,9 @@ void Core::run()
 		_renderer->renderGizmos();
 
 		// UI Rendering
-		_uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0, 1, 0));
+		
+		if(Config::profile.showFPS)
+			_uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0, 1, 0));
 
 		// Stop Rendering
 		Display::swapBuffer();
