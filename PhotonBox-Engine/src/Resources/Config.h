@@ -13,6 +13,7 @@ public:
 		bool fullscreen;
 		bool vsync;
 		bool supersampling;
+		bool showFPS;
 	};
 
 	static Profile profile;

@@ -413,7 +413,7 @@ public:
 		carpetMaterial->setTexture("emissionMap", default_emission);
 
 		carpetFloorMaterial = new Material();
-		carpetFloorMaterial->setTexture("albedoMap", default_ao);
+		carpetFloorMaterial->setTexture("albedoMap", carpetAlbedo);
 		carpetFloorMaterial->setTexture("normalMap", default_normal);
 		carpetFloorMaterial->setTexture("roughnessMap", default_ao);
 		carpetFloorMaterial->setTexture("aoMap", carpetAo);
@@ -688,7 +688,7 @@ public:
 		spot->getComponent<SpotLight>()->quadratic = 0.032f;
 		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		spot->getComponent<SpotLight>()->intensity = 1.0f;
-		//spot->setEnable(false);
+		spot->setEnable(false);
 		//spot->getComponent<Transform>()->setParent(cam);
 
 

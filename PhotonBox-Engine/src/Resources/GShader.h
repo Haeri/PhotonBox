@@ -25,7 +25,7 @@ public:
 		addUniform("view");
 		addUniform("projection");
 
-		//addTexture("albedoMap");
+		addTexture("albedoMap");
 		addTexture("normalMap");
 		addTexture("roughnessMap");
 		addTexture("metallicMap");

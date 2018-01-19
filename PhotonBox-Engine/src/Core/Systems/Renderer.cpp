@@ -419,10 +419,14 @@ void Renderer::renderGizmos()
 		}
 	}
 
-	
 	/*
 	int cols = 4;
 	int widthX = 0;
+
+	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+	defBuffer.gBuffer->render("gAlbedo");
+	widthX += Display::getWidth() / cols;
+
 	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 	defBuffer.gBuffer->render("gPosition");
 	widthX += Display::getWidth() / cols;
@@ -435,10 +439,11 @@ void Renderer::renderGizmos()
 	defBuffer.gBuffer->render("gMetallic");
 	widthX += Display::getWidth() / cols;
 
+	
 	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 	defBuffer.gBuffer->render("gRoughness");
 	widthX += Display::getWidth() / cols;
-
+	*/
 
 	FrameBuffer::resetDefaultBuffer();
 
@@ -452,7 +457,7 @@ void Renderer::renderGizmos()
 
 	_debugFrameBuffer->enable();
 	_debugFrameBuffer->clear();
-	*/
+	
 	
 }
 
