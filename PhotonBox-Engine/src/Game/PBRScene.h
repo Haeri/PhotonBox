@@ -23,6 +23,7 @@
 #include "../Components/TransparentMeshRenderer.h"
 #include "../Resources/TransparentShader.h"
 #include "../Resources/SSReflectionProcessor.h"
+#include "../Resources/StateController.h"
 
 class PBRScene : public Scene
 {
@@ -204,8 +205,8 @@ public:
 		cam->addComponent<Camera>();
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -10));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
+		cam->addComponent<StateController>();
 		cam->addComponent<CameraController>();
-
 
 
 		/* --------------------------- LIGHTS --------------------------- */

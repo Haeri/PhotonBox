@@ -363,5 +363,6 @@
     <ClInclude Include="src\Resources\SkyBoostShader.h" />
     <ClInclude Include="src\Core\OpenGL.h" />
     <ClInclude Include="src\Game\DemoScene.h" />
+    <ClInclude Include="src\Resources\StateController.h" />
   </ItemGroup>
 </Project>
