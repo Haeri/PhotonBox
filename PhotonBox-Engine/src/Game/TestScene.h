@@ -15,6 +15,7 @@
 #include "../Resources/ToneMappingProcessor.h"
 #include "../Resources/IrradianceShader.h"
 #include "../Resources/Texture.h"
+#include "../Resources/StateController.h"
 #include "../Resources/AutoExposureProcessor.h"
 #include "../Resources/TransparentShader.h"
 #include "../Resources/SkyBoostShader.h"
@@ -625,6 +626,7 @@ public:
 		cam->addComponent<Camera>()->setFOV(60);
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 2, -2));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
+		cam->addComponent<StateController>();
 		cam->addComponent<CameraController>();
 
 		cam->addComponent<PathWalkerScript>()->speed = 0.1f;
@@ -675,44 +677,6 @@ public:
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4, -0.6, 2);
 		sun->getComponent<DirectionalLight>()->intensity = 100.0f;
-		//sun->setEnable(false);
-
-		GameObject* spot = instanciate("Spot");
-		spot->getComponent<Transform>()->setPosition(Vector3f(1.7, 3, -1));
-		spot->getComponent<Transform>()->setRotation(Vector3f(-PI / 2.0f, 0, 0));
-		spot->addComponent<SpotLight>();
-		spot->getComponent<SpotLight>()->coneAngle = 0.97;
-		spot->getComponent<SpotLight>()->coneAttenuation = 0.96;
-		spot->getComponent<SpotLight>()->constant = 2;
-		spot->getComponent<SpotLight>()->linear = 0.09f;
-		spot->getComponent<SpotLight>()->quadratic = 0.032f;
-		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
-		spot->getComponent<SpotLight>()->intensity = 1.0f;
-		spot->setEnable(false);
-		//spot->getComponent<Transform>()->setParent(cam);
-
-
-		GameObject* pointLight = instanciate("Pointlight");
-		pointLight->addComponent<PointRenderer>();
-		pointLight->getComponent<Transform>()->setPosition(Vector3f(1.3, 1.2f, 0));
-		pointLight->addComponent<PointLight>();
-		pointLight->getComponent<PointLight>()->color = Vector3f(255 / 255.0f, 249 / 255.0f, 225 / 255.0f);
-		pointLight->getComponent<PointLight>()->constant = 2;
-		pointLight->getComponent<PointLight>()->linear = 0.09f;
-		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
-		pointLight->getComponent<PointLight>()->intensity = 80.0f;
-		pointLight->setEnable(false);
-
-		GameObject* pointLight2 = instanciate("Pointlight2");
-		pointLight2->addComponent<PointRenderer>();
-		pointLight2->getComponent<Transform>()->setPosition(Vector3f(0, 3, 9));
-		pointLight2->addComponent<PointLight>();
-		pointLight2->getComponent<PointLight>()->color = Vector3f(255 / 255.0f, 30 / 255.0f, 50 / 255.0f);
-		pointLight2->getComponent<PointLight>()->constant = 2;
-		pointLight2->getComponent<PointLight>()->linear = 0.09f;
-		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
-		pointLight2->getComponent<PointLight>()->intensity = 4.0f;
-		pointLight2->setEnable(false);
 
 
 
