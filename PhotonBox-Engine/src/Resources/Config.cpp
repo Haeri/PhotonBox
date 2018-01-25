@@ -48,6 +48,10 @@ void Config::readConfig()
 		{
 			profile.showFPS = (bool)std::stoi(tokens[1]);
 		}
+		else if (tokens[0].compare("fps_profiling") == 0)
+		{
+			profile.fpsProfiling = (bool)std::stoi(tokens[1]);
+		}
 		else
 		{
 			std::cout << "Unknown token: " << tokens[0] << std::endl;

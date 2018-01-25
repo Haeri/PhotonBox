@@ -3,6 +3,8 @@
 
 #include "../Core/PostProcessor.h"
 #include "../Game/MonochromShader.h"
+#include "../Core/FrameBuffer.h"
+#include "../Resources/Material.h"
 
 class MonochromProcessor : public PostProcessor
 {
@@ -13,7 +15,7 @@ public:
 	MonochromProcessor(int index) : PostProcessor(index)
 	{
 		material = new Material(MonochromShader::getInstance());
-		frameBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		frameBuffer = new FrameBuffer(1);
 	}
 
 	void enable() override

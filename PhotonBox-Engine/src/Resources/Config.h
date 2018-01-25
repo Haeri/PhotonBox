@@ -14,6 +14,7 @@ public:
 		bool vsync;
 		bool supersampling;
 		bool showFPS;
+		bool fpsProfiling;
 	};
 
 	static Profile profile;
