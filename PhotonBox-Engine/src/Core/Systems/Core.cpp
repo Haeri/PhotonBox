@@ -10,6 +10,7 @@
 #include "../Systems/PostProcessing.h"
 #include "../InputManager.h"
 #include "../../Resources/Config.h"
+#include "../Profiler.h"
 
 #include "../../Game/DemoScene.h"
 #include "../../Game/TestScene.h"
@@ -39,6 +40,7 @@ void Core::init()
 	_physics = new Physics();
 	_postPocessing = new PostProcessing();
 	_lighting = new Lighting();
+	_profiler = new Profiler();
 
 	// Initialize OpenGL
 	_display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
@@ -96,6 +98,7 @@ void Core::run()
 		if (lastSecond >= 1.0)
 		{
 			statPrint = std::to_string(nbFrames) + " FPS  -  " + std::to_string(1000.0f / double(nbFrames)).substr(0, 4) + "ms";
+			Profiler::addFps(nbFrames);
 			nbFrames = 0;
 			lastSecond = 0;
 		}
@@ -140,6 +143,12 @@ void Core::run()
 		
 		if(Config::profile.showFPS)
 			_uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0, 1, 0));
+		if (Config::profile.fpsProfiling)
+		{
+			_uiRenderer->renderText("min: " + std::to_string(Profiler::getMinFps()) , 10, Display::getHeight() - 35, 0.32f, Vector3f(1, 0, 0));
+			_uiRenderer->renderText("max: " + std::to_string(Profiler::getMaxFps()), 10, Display::getHeight() - 50, 0.32f, Vector3f(0, 1, 0));
+			_uiRenderer->renderText("avg: " + std::to_string(Profiler::getAvgFps()), 10, Display::getHeight() - 65, 0.32f, Vector3f(0, 0, 1));
+		}
 
 		// Stop Rendering
 		Display::swapBuffer();
@@ -167,6 +176,7 @@ void Core::stop()
 void Core::reset()
 {
 	_postPocessing->reset();
+	_profiler->reset();
 }
 
 void Core::destroy()

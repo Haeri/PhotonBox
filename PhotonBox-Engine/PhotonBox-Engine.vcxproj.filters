@@ -148,6 +148,7 @@
     <ClCompile Include="src\Core\DeferredBuffer.cpp" />
     <ClCompile Include="src\Core\GLError.cpp" />
     <ClCompile Include="src\Resources\Config.cpp" />
+    <ClCompile Include="src\Core\Profiler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -364,5 +365,6 @@
     <ClInclude Include="src\Core\OpenGL.h" />
     <ClInclude Include="src\Game\DemoScene.h" />
     <ClInclude Include="src\Resources\StateController.h" />
+    <ClInclude Include="src\Core\Profiler.h" />
   </ItemGroup>
 </Project>

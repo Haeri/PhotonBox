@@ -42,6 +42,7 @@
     <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\LightMap.cpp" />
     <ClCompile Include="src\Core\MeshSerializer.cpp" />
+    <ClCompile Include="src\Core\Profiler.cpp" />
     <ClCompile Include="src\Core\Systems\PostProcessing.cpp" />
     <ClCompile Include="src\Core\Systems\Core.cpp" />
     <ClCompile Include="src\Core\Systems\Lighting.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="src\Core\ManagedResource.h" />
     <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Core\OpenGL.h" />
+    <ClInclude Include="src\Core\Profiler.h" />
     <ClInclude Include="src\Core\Systems\PostProcessing.h" />
     <ClInclude Include="src\Core\PostProcessor.h" />
     <ClInclude Include="src\Core\Systems\Core.h" />

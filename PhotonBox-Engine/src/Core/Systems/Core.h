@@ -14,6 +14,7 @@ class PostProcessing;
 class Lighting;
 class InputManager;
 class Config;
+class Profiler;
 
 class Core
 {
@@ -38,6 +39,7 @@ private:
 	PostProcessing* _postPocessing;
 	Lighting* _lighting;
 
+	Profiler* _profiler;
 	Config* _config;
 
 	const double FIXED_TIME_INTERVAL = 30;
