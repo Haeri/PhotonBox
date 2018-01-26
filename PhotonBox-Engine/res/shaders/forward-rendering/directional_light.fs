@@ -1,3 +1,7 @@
+/*
+Based on the pbr shader from https://github.com/JoeyDeVries/LearnOpenGL
+*/
+
 #version 130
 
 struct DirectionalLight{
