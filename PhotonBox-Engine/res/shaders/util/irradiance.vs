@@ -1,3 +1,7 @@
+/*
+Based on the irradiance_convolution shader from https://github.com/JoeyDeVries/LearnOpenGL
+*/
+
 #version 120
 
 attribute vec3 position;
@@ -11,6 +15,4 @@ void main()
 {
     WorldPos = position;  
     gl_Position =  projection * view * vec4(WorldPos, 1.0);
-
-    //gl_Position = vec4(position, 1);
 }

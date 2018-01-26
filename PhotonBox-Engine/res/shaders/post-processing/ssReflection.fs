@@ -1,3 +1,7 @@
+/*
+Based on the ssreflections shader from http://imanolfotia.com/blog/update/2017/03/11/ScreenSpaceReflections.html
+*/
+
 #version 400
 
 uniform sampler2D mainBuffer;

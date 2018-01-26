@@ -1,3 +1,8 @@
+/*
+Based on the pbr shader from https://github.com/JoeyDeVries/LearnOpenGL
+*/
+
+
 #version 120
 
 struct SpotLight{

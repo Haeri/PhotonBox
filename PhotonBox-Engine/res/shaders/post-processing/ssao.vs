@@ -1,3 +1,7 @@
+/*
+Based on the ssao shader from https://github.com/JoeyDeVries/LearnOpenGL
+*/
+
 #version 330
 layout (location = 0) in vec3 position;
 
