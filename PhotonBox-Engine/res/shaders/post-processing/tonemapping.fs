@@ -1,23 +1,7 @@
 /*
-#version 120
-
-uniform sampler2D renderTexture;
-
-varying vec2 texCoordVarying;
-    
-const float gamma = 2.2;
-
-void main(){             
-    vec3 hdrColor = texture2D(renderTexture, texCoordVarying).rgb;
-    // tone mapping
-    //vec3 result = vec3(1.0) - exp(-1 * hdrColor * exposure);
-    // also gamma correct while we're at it       
-    vec3 result = pow(hdrColor, vec3(1.0 / gamma));
-    gl_FragColor = vec4(result, 1.0);
-}  
-
-
+Based on ACES curve from https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
 */
+
 #version 120
 
 uniform sampler2D renderTexture;
