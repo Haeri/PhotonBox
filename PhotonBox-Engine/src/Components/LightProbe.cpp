@@ -81,7 +81,7 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap)
 
 	Camera* oldMain = Camera::getMainCamera();
 	Camera cam = Camera();
-	cam.setProjection(90.0f, 1.0f, 0.01f, 10.0f);
+	cam.setPerspectiveProjection(90.0f, 1.0f, 0.01f, 10.0f);
 	cam.setMain();
 
 	Matrix4f captureProjection = Matrix4f::createPerspective(90.0f, 1.0f, 0.01f, 10.0f);
@@ -164,7 +164,7 @@ LightMap* LightProbe::captureRecursive(int step)
 
 	Camera* oldMain = Camera::getMainCamera();
 	Camera cam = Camera();
-	cam.setProjection(90.0f, 1.0f, 0.01f, 10.0f);
+	cam.setPerspectiveProjection(90.0f, 1.0f, 0.01f, 10.0f);
 	cam.setMain();
 
 	Matrix4f captureProjection = Matrix4f::createPerspective(90.0f, 1.0f, 0.01f, 10.0f);

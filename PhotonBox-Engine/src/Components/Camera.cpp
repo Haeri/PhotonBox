@@ -9,7 +9,7 @@ Camera::Camera()
 	if (_main == nullptr) setMain();
 
 	float aspect = (float)Display::getWidth() / (float)Display::getHeight();
-	setProjection(70, aspect, 0.01f, 10000.0f);
+	setPerspectiveProjection(70, aspect, 0.01f, 10000.0f);
 }
 
 void Camera::updateAspect()
@@ -26,11 +26,24 @@ void Camera::setFOV(float fov)
 
 void Camera::updateProjection()
 {
-	_projection = Matrix4f::createPerspective(_fov, _aspect, _zNear, _zFar);
+	if(_isPerspective)
+		_projection = Matrix4f::createPerspective(_fov, _aspect, _zNear, _zFar);
+	else
+		_projection = Matrix4f::createOrthographic(-_radius * _aspect, _radius * _aspect, -_radius, _radius, _zNear, _zFar);
 }
 
-void Camera::setProjection(float fov, float aspect, float zNear, float zFar)
+void Camera::setOrhographicProjection(float radius, float zNear, float zFar)
 {
+	_isPerspective = false;
+	_radius = radius;
+	_zNear = zNear;
+	_zFar = zFar;
+	updateProjection();
+}
+
+void Camera::setPerspectiveProjection(float fov, float aspect, float zNear, float zFar)
+{
+	_isPerspective = true;
 	_fov = fov;
 	_aspect = aspect;
 	_zNear = zNear;
