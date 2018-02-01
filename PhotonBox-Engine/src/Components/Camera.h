@@ -21,7 +21,8 @@ public:
 	void updateAspect();
 	void updateProjection();
 	void setFOV(float fov);
-	void setProjection(float fov, float aspect, float zNear, float zFar);
+	void setOrhographicProjection(float radius, float zNear, float zFar);
+	void setPerspectiveProjection(float fov, float aspect, float zNear, float zFar);
 	void setMain();
 	bool frustumTest(ObjectRenderer* object);
 
@@ -36,7 +37,8 @@ public:
 	static Camera* getMainCamera() { return _main; }
 private:
 	static Camera* _main;
-	float _fov, _zNear, _zFar, _aspect;
+	float _fov, _zNear, _zFar, _aspect, _radius;
+	bool _isPerspective;
 	Matrix4f _projection;
 	Plane _frustum[6];
 
