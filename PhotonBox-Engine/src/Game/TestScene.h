@@ -545,7 +545,7 @@ public:
 
 		panoramaMaterial = new Material(skyBoost);
 		panoramaMaterial->setTexture("albedoMap", panoramaAlbedo);
-		panoramaMaterial->setProperty("boost", 10.0f);
+		panoramaMaterial->setProperty("boost", 30.0f);
 
 		/* --------------------------- CAMERA --------------------------- */
 
@@ -676,7 +676,7 @@ public:
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4, -0.6, 2);
-		sun->getComponent<DirectionalLight>()->intensity = 100.0f;
+		sun->getComponent<DirectionalLight>()->intensity = 300.0f;
 
 
 

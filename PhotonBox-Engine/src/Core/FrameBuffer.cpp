@@ -234,6 +234,8 @@ void FrameBuffer::render(std::string name, Material* material)
 
 void FrameBuffer::initialize()
 {
+	_colorAttachmentIndex = GL_COLOR_ATTACHMENT0;
+
 	// Create framebuffer
 	glGenFramebuffers(1, &_fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);

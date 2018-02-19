@@ -81,6 +81,27 @@ public:
 		}
 		mainBuffer->render(expMaterial);
 		flip = !flip;
+
+		/*
+		Renderer::_debugFrameBuffer->enable();
+
+		int cols = 4;
+		int widthX = 0;
+
+		glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+		if (flip)
+			luminancBufferA->render("color");
+		else
+			luminancBufferB->render("color");
+		widthX += Display::getWidth() / cols;
+
+		glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+		if (flip)
+			luminancBufferB->render("color");
+		else
+			luminancBufferA->render("color");
+		widthX += Display::getWidth() / cols;
+		*/
 	}
 
 	void destroy() override
