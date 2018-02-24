@@ -1,8 +1,8 @@
-#include "Material.h"
-#include "CubeMap.h"
-#include "Texture.h"
-#include "Shader.h"
 #include "../Core/FrameBuffer.h"
+#include "CubeMap.h"
+#include "Material.h"
+#include "Shader.h"
+#include "Texture.h"
 
 void Material::setTexture(const std::string & uniformName, Texture* texture)
 {

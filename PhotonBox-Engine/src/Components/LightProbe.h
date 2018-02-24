@@ -1,10 +1,10 @@
 #ifndef LIGHT_PROBE_H
 #define LIGHT_PROBE_H
 
-#include "../Core/Component.h"
-#include "../Resources/CubeMap.h"
 #include "../Core/AABB.h"
+#include "../Core/Component.h"
 #include "../Core/LightMap.h"
+#include "../Resources/CubeMap.h"
 
 class LightProbe : public Component
 {

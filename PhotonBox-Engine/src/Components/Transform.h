@@ -2,9 +2,9 @@
 #define TRANSFORM_H
 
 #include <vector>
-#include "../Math/Vector3f.h"
-#include "../Math/Matrix4f.h"
 #include "../Core/Component.h"
+#include "../Math/Matrix4f.h"
+#include "../Math/Vector3f.h"
 
 class Transform : public Component
 {

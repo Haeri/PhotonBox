@@ -1,10 +1,10 @@
 #ifndef SPHERE_COLLIDER_H
 #define SPHERE_COLLIDER_H
 
-#include "Collider.h"
-#include "Behaviour.h"
-#include "../Math/Vector3f.h"
 #include "../Core/GameObject.h"
+#include "../Math/Vector3f.h"
+#include "Behaviour.h"
+#include "Collider.h"
 
 class SphereCollider : public Collider
 {

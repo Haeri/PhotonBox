@@ -1,7 +1,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "../Math/Matrix4f.h"
+#include "Matrix4f.h"
 
 const Matrix4f Matrix4f::IDENTITY = createIdentity();
 

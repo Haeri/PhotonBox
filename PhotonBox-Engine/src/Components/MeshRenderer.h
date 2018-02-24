@@ -2,9 +2,9 @@
 #define MESH_RENDERER_H
 
 class Texture;
-#include "ObjectRenderer.h"
-#include "../Resources/Mesh.h"
 #include "../Resources/Material.h"
+#include "../Resources/Mesh.h"
+#include "ObjectRenderer.h"
 
 class MeshRenderer : public ObjectRenderer
 {

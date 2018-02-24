@@ -1,8 +1,8 @@
 #include <iostream>
 #include <algorithm>
-#include "Scene.h"
-#include "../Core/Systems/SceneManager.h"
 #include "../Core/Systems/Core.h"
+#include "../Core/Systems/SceneManager.h"
+#include "Scene.h"
 
 void Scene::unload()
 {

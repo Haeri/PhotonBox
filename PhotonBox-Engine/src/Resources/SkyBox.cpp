@@ -1,7 +1,7 @@
-#include "SkyBox.h"
 #include "../Components/Camera.h"
-#include "OBJLoader.h"
 #include "../Core/Systems/Renderer.h"
+#include "OBJLoader.h"
+#include "SkyBox.h"
 
 
 void SkyBox::setLightProbe(LightProbe * lightProbe)

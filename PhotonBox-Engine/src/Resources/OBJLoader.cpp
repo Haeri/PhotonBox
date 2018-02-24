@@ -1,9 +1,9 @@
+#include "../Core/MeshSerializer.h"
+#include "../Core/Util.h"
 #include "OBJLoader.h"
 #include <fstream>
 #include <string>
 #include <unordered_map>
-#include "../Core/Util.h"
-#include "../Core/MeshSerializer.h"
 
 #include <sys/stat.h>
 #include <cstdio>

@@ -2,11 +2,11 @@
 #define SSAO_PROCESSOR_H
 
 #include <random>
+#include "../Core/DeferredBuffer.h"
 #include "../Core/PostProcessor.h"
 #include "../Math/Math.h"
-#include "../Resources/SSAOShader.h"
-#include "../Resources/SSAOBlurShader.h"
-#include "../Core/DeferredBuffer.h"
+#include "SSAOBlurShader.h"
+#include "SSAOShader.h"
 
 class SSAOProcessor : public PostProcessor
 {

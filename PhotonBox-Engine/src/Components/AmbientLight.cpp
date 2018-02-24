@@ -1,6 +1,6 @@
-#include "AmbientLight.h"
 #include "../Core/Systems/Lighting.h"
 #include "../Resources/ForwardAmbientLightShader.h"
+#include "AmbientLight.h"
 
 AmbientLight::AmbientLight()
 {

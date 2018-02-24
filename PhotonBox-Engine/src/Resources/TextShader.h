@@ -1,9 +1,9 @@
 #ifndef TEXT_SHADER_H
 #define TEXT_SHADER_H
 
+#include "../Core/Display.h"
 #include "Shader.h"
 #include "Vertex.h"
-#include "../Core/Display.h"
 
 class TextShader : public InstancedShader<TextShader>
 {

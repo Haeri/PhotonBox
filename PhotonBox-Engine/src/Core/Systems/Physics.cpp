@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <iostream>
-#include "Physics.h"
 #include "../../Components/Collider.h"
+#include "Physics.h"
 
 std::vector<Collider*> Physics::_physicsList;
 

@@ -2,9 +2,9 @@
 #define DIRECTIONAL_LIGHT_H
 
 class DepthShader;
+#include "../Core/OpenGL.h"
 #include "../Math/Matrix4f.h"
 #include "LightEmitter.h"
-#include "../Core/OpenGL.h"
 
 class DirectionalLight : public LightEmitter
 {

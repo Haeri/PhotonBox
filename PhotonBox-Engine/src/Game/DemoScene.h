@@ -1,29 +1,18 @@
 #ifndef DEMO_SCENE_H
 #define DEMO_SCENE_H
 
-#include "../Resources/Scene.h"
-//#include "../Components/MeshRenderer.h"
-//#include "../Components/Camera.h"
-#include "../Resources/OBJLoader.h"
 #include "../Components/MeshRenderer.h"
 #include "../Components/PointRenderer.h"
-//#include "../Components/AmbientLight.h"
-//#include "../Components/TransparentMeshRenderer.h"
-//#include "../Components/PointLight.h"
-//#include "../Resources/BasicShader.h"
-//#include "../Resources/LitShader.h"
-//#include "../Resources/IrradianceShader.h"
-//#include "../Resources/TransparentShader.h"
-#include "../Resources/ToneMappingProcessor.h"
-#include "../Resources/SSReflectionProcessor.h"
 #include "../Resources/AutoExposureProcessor.h"
+#include "../Resources/OBJLoader.h"
 #include "../Resources/SSAOProcessor.h"
+#include "../Resources/SSReflectionProcessor.h"
+#include "../Resources/Scene.h"
 #include "../Resources/Texture.h"
-#include "../Game/MaterialScript.h"
-//#include "../Game/BlurShader.h"
-#include "../Game/BloomProcessor.h"
-//#include "PrinterScript.cpp"
+#include "../Resources/ToneMappingProcessor.h"
+#include "BloomProcessor.h"
 #include "CameraController.h"
+#include "MaterialScript.h"
 
 class DemoScene : public Scene
 {

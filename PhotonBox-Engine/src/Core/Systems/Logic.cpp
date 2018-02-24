@@ -1,7 +1,7 @@
 #include <iostream>
 #include <algorithm>
-#include "Logic.h"
 #include "../../Components/Behaviour.h"
+#include "Logic.h"
 
 std::vector<Behaviour*> Logic::_behaviourList;
 

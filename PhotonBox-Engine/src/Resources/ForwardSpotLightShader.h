@@ -1,11 +1,11 @@
 #ifndef FORWARD_SPOT_LIGHT_SHADER_H
 #define FORWARD_SPOT_LIGHT_SHADER_H
 
-#include "Shader.h"
+#include "../Components/Camera.h"
 #include "../Components/SpotLight.h"
 #include "../Components/Transform.h"
-#include "../Components/Camera.h"
-#include "../Resources/Vertex.h"
+#include "Shader.h"
+#include "Vertex.h"
 
 class ForwardSpotLightShader : public InstancedShader<ForwardSpotLightShader>
 {

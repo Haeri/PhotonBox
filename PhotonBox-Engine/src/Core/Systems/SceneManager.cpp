@@ -1,6 +1,6 @@
-#include "SceneManager.h"
 #include "../../Resources/Scene.h"
-#include "../../Core/Systems/Core.h"
+#include "Core.h"
+#include "SceneManager.h"
 
 bool SceneManager::_inQueue = false;
 Scene* SceneManager::_currentScene;

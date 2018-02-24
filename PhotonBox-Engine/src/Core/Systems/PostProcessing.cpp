@@ -1,6 +1,6 @@
-#include "PostProcessing.h"
 #include "../PostProcessor.h"
-#include "../../Core/Systems/Renderer.h"
+#include "PostProcessing.h"
+#include "Renderer.h"
 
 std::map<int, PostProcessor*> PostProcessing::_processorMap;
 bool PostProcessing::_doPostProcessing;

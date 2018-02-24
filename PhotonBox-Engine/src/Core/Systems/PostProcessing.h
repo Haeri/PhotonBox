@@ -3,7 +3,7 @@
 
 class PostProcessor;
 #include <map>
-#include "../../Core/FrameBuffer.h"
+#include "../FrameBuffer.h"
 
 class PostProcessing
 {

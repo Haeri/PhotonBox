@@ -1,5 +1,5 @@
-#include "Behaviour.h"
 #include "../Core/Systems/Logic.h"
+#include "Behaviour.h"
 
 Behaviour::Behaviour()
 {

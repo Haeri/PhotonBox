@@ -2,11 +2,11 @@
 #define FORWARD_DIRECTIONAL_LIGHT_SHADER_H
 
 
-#include "Shader.h"
+#include "../Components/Camera.h"
 #include "../Components/DirectionalLight.h"
 #include "../Components/Transform.h"
-#include "../Components/Camera.h"
-#include "../Resources/Vertex.h"
+#include "Shader.h"
+#include "Vertex.h"
 
 class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader>
 {

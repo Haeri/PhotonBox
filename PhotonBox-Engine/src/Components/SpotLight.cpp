@@ -1,6 +1,6 @@
-#include "SpotLight.h"
 #include "../Core/Systems/Lighting.h"
 #include "../Resources/ForwardSpotLightShader.h"
+#include "SpotLight.h"
 
 SpotLight::SpotLight()
 {

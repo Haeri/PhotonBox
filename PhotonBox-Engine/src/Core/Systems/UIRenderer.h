@@ -9,7 +9,7 @@ class TextShader;
 #include <map>
 #include "../../Math/Vector2f.h"
 #include "../../Math/Vector3f.h"
-#include "../../Core/OpenGL.h"
+#include "../OpenGL.h"
 
 struct Character
 {

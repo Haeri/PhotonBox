@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Core/Systems/Core.h"
-#include "Test\MathTest.h"
+#include "Test/MathTest.h"
 
 int main(void)
 {

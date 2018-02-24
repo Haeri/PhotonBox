@@ -1,10 +1,10 @@
 #ifndef SKY_BOX_H
 #define SKY_BOX_H
 
-#include "CubeMap.h"
-#include "SkyBoxShader.h"
-#include "Mesh.h"
 #include "../Components/LightProbe.h"
+#include "CubeMap.h"
+#include "Mesh.h"
+#include "SkyBoxShader.h"
 
 class SkyBox
 {

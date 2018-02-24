@@ -1,13 +1,13 @@
 #ifndef AUTO_EXPOSURE_PROCESSOR_H
 #define AUTO_EXPOSURE_PROCESSOR_H
 
+#include "../Core/FrameBuffer.h"
 #include "../Core/PostProcessor.h"
 #include "../Game/MonochromShader.h"
-#include "../Core/FrameBuffer.h"
-#include "ToneMappingShader.h"
 #include "AutoExposureShader.h"
-#include "Material.h"
 #include "ExposureShader.h"
+#include "Material.h"
+#include "ToneMappingShader.h"
 
 class AutoExposureProcessor : public PostProcessor
 {

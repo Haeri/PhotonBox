@@ -1,7 +1,7 @@
 #include "InputManager.h"
+#include "Time.h"
 #include <iostream>
 #include <algorithm>
-#include "Time.h"
 
 std::vector<int> InputManager::_keyPress;
 std::vector<int> InputManager::_keyDown;

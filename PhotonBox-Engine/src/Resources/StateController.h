@@ -4,9 +4,9 @@
 #include "../Components/Behaviour.h"
 #include "../Components/Transform.h"
 #include "../Core/InputManager.h"
+#include "../Core/Systems/Core.h"
 #include "../Core/Systems/Renderer.h"
 #include "../Core/Systems/SceneManager.h"
-#include "../Core/Systems/Core.h"
 
 class StateController : public Behaviour
 {
