@@ -138,7 +138,7 @@ LightMap* LightProbe::captureAmbient(int pass, LightMap* lastLightMap)
 
 void LightProbe::capture()
 {
-	_lightMap = *captureRecursive(2);
+	_lightMap = *captureRecursive(3);
 }
 
 LightMap* LightProbe::captureRecursive(int step)
