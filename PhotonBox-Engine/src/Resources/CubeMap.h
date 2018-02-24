@@ -3,8 +3,8 @@
 
 #include <string>
 #include <vector>
+#include "../Core/Display.h"
 #include "../Math/Vector3f.h"
-#include "../src/Core/Display.h"
 #include "Mesh.h"
 
 class CubeMap

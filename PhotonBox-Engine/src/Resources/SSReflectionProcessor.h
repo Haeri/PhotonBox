@@ -2,15 +2,15 @@
 #define SSREFLECTION_PROCESSOR_H
 
 #include <random>
-#include "../Core/PostProcessor.h"
-#include "../Math/Math.h"
-#include "../Resources/SSAOShader.h"
-#include "../Resources/SSAOBlurShader.h"
 #include "../Core/DeferredBuffer.h"
 #include "../Core/FrameBuffer.h"
+#include "../Core/PostProcessor.h"
 #include "../Core/Systems/Renderer.h"
-#include "../Resources/Material.h"
-#include "../Resources/SSReflectionShader.h"
+#include "../Math/Math.h"
+#include "Material.h"
+#include "SSAOBlurShader.h"
+#include "SSAOShader.h"
+#include "SSReflectionShader.h"
 
 class SSReflectionProcessor : public PostProcessor
 {

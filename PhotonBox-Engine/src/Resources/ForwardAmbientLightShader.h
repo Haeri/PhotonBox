@@ -1,11 +1,11 @@
 #ifndef FORWARD_AMBIENT_LIGHT_SHADER_H
 #define FORWARD_AMBIENT_LIGHT_SHADER_H
 
-#include "Shader.h"
-#include "../Components/LightEmitter.h"
-#include "Vertex.h"
-#include "../Components/Camera.h"
 #include "../Components/AmbientLight.h"
+#include "../Components/Camera.h"
+#include "../Components/LightEmitter.h"
+#include "Shader.h"
+#include "Vertex.h"
 
 class ForwardAmbientLightShader : public InstancedShader<ForwardAmbientLightShader>
 {

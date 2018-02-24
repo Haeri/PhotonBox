@@ -1,14 +1,16 @@
-#include "CubeMap.h"
 #include <vector>
 #include <iostream>
 #include "STB/stb_image.h"
-#include "../Math/Matrix4f.h"
-#include "../Resources/IrradianceShader.h"
-#include "../Resources/SpecularConvolutionShader.h"
-#include "../Resources/SkyBoxShader.h"
-#include "OBJLoader.h"
+
 #include "../Components/Camera.h"
 #include "../Core/Systems/Renderer.h"
+#include "../Math/Matrix4f.h"
+#include "CubeMap.h"
+#include "IrradianceShader.h"
+#include "OBJLoader.h"
+#include "SkyBoxShader.h"
+#include "SpecularConvolutionShader.h"
+
 
 CubeMap::CubeMap(const std::vector<std::string>& allFaces)
 {

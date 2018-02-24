@@ -1,8 +1,8 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
-#include "Display.h"
 #include "../Math/Vector2f.h"
+#include "Display.h"
 #include <vector>
 
 class InputManager

@@ -1,10 +1,10 @@
+#include "../Core/Util.h"
 #include "Config.h"
 
 #include <algorithm>
 #include <fstream>
 #include <vector>
 #include <iostream>
-#include "../Core/Util.h"
 
 Config::Profile Config::profile;
 

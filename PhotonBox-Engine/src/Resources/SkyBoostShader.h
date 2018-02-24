@@ -1,9 +1,9 @@
 #ifndef SKY_BOOST_SHADER_H
 #define SKY_BOOST_SHADER_H
 
+#include "../Components/Camera.h"
 #include "Shader.h"
 #include "Vertex.h"
-#include "../Components/Camera.h"
 
 class SkyBoostShader : public InstancedShader<SkyBoostShader>
 {

@@ -1,10 +1,10 @@
-#include "DirectionalLight.h"
+#include "../Core/FrameBuffer.h"
 #include "../Core/Systems/Lighting.h"
-#include "../Resources/DepthShader.h"
 #include "../Core/Systems/Renderer.h"
 #include "../Resources/DefaultPostShader.h"
+#include "../Resources/DepthShader.h"
 #include "../Resources/ForwardDirectionalLightShader.h"
-#include "../Core/FrameBuffer.h"
+#include "DirectionalLight.h"
 
 DirectionalLight::DirectionalLight()
 {

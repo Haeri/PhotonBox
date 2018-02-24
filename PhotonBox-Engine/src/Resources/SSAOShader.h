@@ -1,9 +1,9 @@
 #ifndef SSAO_SHADER_H
 #define SSAO_SHADER_H
 
+#include "../Components/Camera.h"
 #include "Shader.h"
 #include "Vertex.h"
-#include "../Components/Camera.h"
 
 class SSAOShader : public InstancedShader<SSAOShader>
 {

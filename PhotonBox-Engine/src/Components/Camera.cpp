@@ -1,6 +1,6 @@
+#include "../Core/GameObject.h"
 #include "Camera.h"
 #include "ObjectRenderer.h"
-#include "../Core/GameObject.h"
 
 Camera* Camera::_main;
 

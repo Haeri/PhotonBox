@@ -2,10 +2,10 @@
 #define BLOOM_PROCESSOR_H
 
 #include "../Core/PostProcessor.h"
-#include "../Game/BlurHShader.h"
-#include "../Game/BlurVShader.h"
-#include "../Game/CutOffShader.h"
-#include "../Game/AddShader.h"
+#include "AddShader.h"
+#include "BlurHShader.h"
+#include "BlurVShader.h"
+#include "CutOffShader.h"
 
 class BloomProcessor : public PostProcessor
 {

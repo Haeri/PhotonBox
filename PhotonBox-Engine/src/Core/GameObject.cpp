@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "GameObject.h"
 #include "../Resources/Scene.h"
+#include "GameObject.h"
 
 int GameObject::_idCnt = 0;
 

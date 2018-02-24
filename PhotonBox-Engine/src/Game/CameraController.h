@@ -2,10 +2,10 @@
 #define CAMERA_CONTROLLER_H
 
 #include "../Components/Behaviour.h"
-#include "../Components/Transform.h"
-#include "../Core/Time.h"
-#include "../Core/InputManager.h"
 #include "../Components/Camera.h"
+#include "../Components/Transform.h"
+#include "../Core/InputManager.h"
+#include "../Core/Time.h"
 
 class CameraController : public Behaviour
 {

@@ -1,11 +1,11 @@
 #ifndef POINT_RENDERER_H
 #define POINT_RENDERER_H
 
-#include "ObjectRenderer.h"
-#include "../Core/OpenGL.h"
-#include "Transform.h"
-#include "Camera.h"
 #include "../Core/GameObject.h"
+#include "../Core/OpenGL.h"
+#include "Camera.h"
+#include "ObjectRenderer.h"
+#include "Transform.h"
 
 class PointRenderer : public ObjectRenderer
 {

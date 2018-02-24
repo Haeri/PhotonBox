@@ -1,5 +1,5 @@
-#include "AABB.h"
 #include "../Components/Transform.h"
+#include "AABB.h"
 
 void AABB::setTransform(Transform * transform)
 {

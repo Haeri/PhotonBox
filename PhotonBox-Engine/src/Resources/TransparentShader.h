@@ -1,9 +1,9 @@
 #ifndef TRANSPARENT_SHADER_H
 #define TRANSPARENT_SHADER_H
 
+#include "../Components/Camera.h"
 #include "Shader.h"
 #include "Vertex.h"
-#include "../Components/Camera.h"
 
 class TransparentShader : public InstancedShader<TransparentShader>
 {

@@ -1,9 +1,9 @@
-#include "LightProbe.h"
-#include "../Core/Systems/Lighting.h"
-#include "../Components/Camera.h"
-#include "../Core/Systems/Renderer.h"
 #include "../Core/FrameBuffer.h"
+#include "../Core/Systems/Lighting.h"
+#include "../Core/Systems/Renderer.h"
 #include "../Resources/DefaultPostShader.h"
+#include "Camera.h"
+#include "LightProbe.h"
 
 LightProbe::LightProbe()
 {

@@ -1,9 +1,9 @@
 #ifndef TONE_MAPPING_PROCESSOR_H
 #define TONE_MAPPING_PROCESSOR_H
 
+#include "../Core/FrameBuffer.h"
 #include "../Core/PostProcessor.h"
 #include "../Game/MonochromShader.h"
-#include "../Core/FrameBuffer.h"
 #include "ToneMappingShader.h"
 
 class ToneMappingProcessor : public PostProcessor

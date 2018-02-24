@@ -1,6 +1,6 @@
-#include "PointLight.h"
 #include "../Core/Systems/Lighting.h"
 #include "../Resources/ForwardPointLightShader.h"
+#include "PointLight.h"
 
 PointLight::PointLight()
 {

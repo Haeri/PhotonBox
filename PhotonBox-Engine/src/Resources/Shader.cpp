@@ -1,9 +1,9 @@
+#include "../Core/Util.h"
+#include "CubeMap.h"
 #include "Shader.h"
+#include "Texture.h"
 #include <iostream>
 #include <fstream>
-#include "../Core/Util.h"
-#include "Texture.h"
-#include "CubeMap.h"
 
 void Shader::init()
 {

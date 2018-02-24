@@ -2,7 +2,7 @@
 #define POST_PROCESSOR_H
 
 class Material;
-#include "PostProcessing.h"
+#include "Systems/PostProcessing.h"
 
 class PostProcessor
 {

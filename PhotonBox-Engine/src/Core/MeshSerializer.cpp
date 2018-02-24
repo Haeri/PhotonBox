@@ -1,9 +1,9 @@
 #include <fstream>
 #include <iostream>
 
+#include "../Resources/Mesh.h"
 #include "../Resources/Vertex.h"
 #include "MeshSerializer.h"
-#include "../Resources/Mesh.h"
 
 void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 {

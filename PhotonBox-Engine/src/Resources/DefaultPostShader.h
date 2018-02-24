@@ -1,8 +1,8 @@
 #ifndef DEFAULT_POST_SHADER_H
 #define DEFAULT_POST_SHADER_H
 
-#include "../Resources/Shader.h"
-#include "../Resources/Vertex.h"
+#include "Shader.h"
+#include "Vertex.h"
 
 class DefaultPostShader : public InstancedShader<DefaultPostShader>
 {

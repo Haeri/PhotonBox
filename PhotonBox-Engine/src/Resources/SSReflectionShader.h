@@ -1,9 +1,9 @@
 #ifndef SSREFLECTION_SHADER_H
 #define SSREFLECTION_SHADER_H
 
-#include "../Resources/Shader.h"
-#include "../Resources/Vertex.h"
 #include "../Components/Camera.h"
+#include "Shader.h"
+#include "Vertex.h"
 
 class SSReflectionShader : public InstancedShader<SSReflectionShader>
 {

@@ -1,8 +1,8 @@
+#include "../../Resources/TextShader.h"
+#include "../OpenGL.h"
+#include "Renderer.h"
 #include "UIRenderer.h"
 #include <iostream>
-#include "../OpenGL.h"
-#include "../../Resources/TextShader.h"
-#include "../../Core/Systems/Renderer.h"
 
 TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;

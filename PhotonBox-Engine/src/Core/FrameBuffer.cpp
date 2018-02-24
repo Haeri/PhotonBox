@@ -1,11 +1,11 @@
+#include "../Resources/DefaultPostShader.h"
+#include "../Resources/Material.h"
+#include "../Resources/Vertex.h"
 #include "FrameBuffer.h"
+#include "Systems/Renderer.h"
 
 #include <limits>
 #include <iostream>
-#include "../Resources/Material.h"
-#include "../Resources/Vertex.h"
-#include "../Resources/DefaultPostShader.h"
-#include "../Core/Systems/Renderer.h"
 
 GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;

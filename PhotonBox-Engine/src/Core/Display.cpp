@@ -1,7 +1,7 @@
-#include "Display.h"
 #include "../Components/Camera.h"
 #include "../Resources/Texture.h"
-#include "../Core/FrameBuffer.h"
+#include "Display.h"
+#include "FrameBuffer.h"
 
 bool Display::_isRunning;
 int Display::_width, Display::_height;

@@ -2,7 +2,7 @@
 #define TEXTURE_H
 
 #include <string>
-#include "../src/Core/Display.h"
+#include "../Core/Display.h"
 
 class Texture
 {

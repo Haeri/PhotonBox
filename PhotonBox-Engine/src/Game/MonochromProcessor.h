@@ -1,10 +1,10 @@
 #ifndef MONOCHROM_PROCESSOR_H
 #define MONOCHROM_PROCESSOR_H
 
-#include "../Core/PostProcessor.h"
-#include "../Game/MonochromShader.h"
 #include "../Core/FrameBuffer.h"
+#include "../Core/PostProcessor.h"
 #include "../Resources/Material.h"
+#include "MonochromShader.h"
 
 class MonochromProcessor : public PostProcessor
 {

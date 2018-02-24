@@ -6,8 +6,8 @@ class Scene;
 #include <unordered_map>
 #include <typeindex>
 #include <iostream>
-#include "Component.h"
 #include "../Components/Transform.h"
+#include "Component.h"
 
 class GameObject
 {

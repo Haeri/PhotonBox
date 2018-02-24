@@ -10,11 +10,11 @@ class GShader;
 class TransparentMeshRenderer;
 
 #include <vector>
-#include "../../Resources/SkyBox.h"
 #include "../../Resources/ForwardAmbientLightShader.h"
 #include "../../Resources/ForwardDirectionalLightShader.h"
 #include "../../Resources/ForwardPointLightShader.h"
 #include "../../Resources/ForwardSpotLightShader.h"
+#include "../../Resources/SkyBox.h"
 
 class Renderer
 {

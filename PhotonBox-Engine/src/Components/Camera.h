@@ -3,10 +3,10 @@
 
 class ObjectRenderer;
 #include "../Core/Component.h"
-#include "Transform.h"
-#include "../Math/Matrix4f.h"
 #include "../Core/Display.h"
+#include "../Math/Matrix4f.h"
 #include "../Math/Vector2f.h"
+#include "Transform.h"
 
 class Camera : public Component
 {

@@ -1,10 +1,10 @@
 #ifndef DEPTH_SHADER_H
 #define DEPTH_SHADER_H
 
+#include "../Components/DirectionalLight.h"
+#include "../Components/Transform.h"
 #include "Shader.h"
 #include "Vertex.h"
-#include "../Components/Transform.h"
-#include "../Components/DirectionalLight.h"
 
 class DepthShader : public InstancedShader<DepthShader>
 {

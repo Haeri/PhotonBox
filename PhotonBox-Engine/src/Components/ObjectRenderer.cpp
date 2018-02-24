@@ -1,5 +1,5 @@
-#include "ObjectRenderer.h"
 #include "../Core/Systems/Renderer.h"
+#include "ObjectRenderer.h"
 
 ObjectRenderer::ObjectRenderer(bool isOpaque)
 {

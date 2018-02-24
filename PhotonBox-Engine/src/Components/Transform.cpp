@@ -1,7 +1,7 @@
 #include <algorithm>
-#include "Transform.h"
 #include "../Core/GameObject.h"
-#include "../Components/Camera.h"
+#include "Camera.h"
+#include "Transform.h"
 
 Vector3f Transform::forward()
 {

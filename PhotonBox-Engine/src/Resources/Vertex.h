@@ -1,8 +1,8 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "../Math/Vector3f.h"
 #include "../Math/Vector2f.h"
+#include "../Math/Vector3f.h"
 
 class Vertex
 {
