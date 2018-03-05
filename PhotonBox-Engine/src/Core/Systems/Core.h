@@ -1,8 +1,6 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include <string>
-
 class Display;
 class SceneManager;
 class Renderer;
@@ -15,11 +13,13 @@ class Lighting;
 class InputManager;
 class Config;
 class Profiler;
+class Scene;
+#include <map>
 
 class Core
 {
 public:
-	void init();
+	void init(std::map<std::string, Scene*>& sceneMap);
 	void start();
 	void reset();
 	void run();

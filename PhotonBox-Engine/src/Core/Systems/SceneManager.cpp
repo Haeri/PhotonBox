@@ -8,6 +8,11 @@ std::string SceneManager::_newScene;
 std::map<std::string, Scene*> SceneManager::_sceneMap;
 std::string SceneManager::_currentSceneName;
 
+void SceneManager::addScenes(std::map<std::string, Scene*>& sceneMap)
+{
+	_sceneMap = sceneMap;
+}
+
 void SceneManager::addScene(const std::string name, Scene* scene)
 {
 	_sceneMap[name] = scene;

@@ -7,6 +7,7 @@ class Scene;
 class SceneManager
 {
 public:
+	static void addScenes(std::map<std::string, Scene*>& sceneMap);
 	static void addScene(const std::string name, Scene* scene);
 	static void loadScene(const std::string &name);
 	static void unloadScene(Scene* scene);

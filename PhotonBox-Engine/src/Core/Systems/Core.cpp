@@ -1,12 +1,9 @@
-#include "../../Game/DemoScene.h"
-#include "../../Game/PBRScene.h"
-#include "../../Game/TestScene.h"
+#include "Core.h"
 #include "../../Resources/Config.h"
 #include "../Display.h"
 #include "../InputManager.h"
 #include "../Profiler.h"
 #include "../Time.h"
-#include "Core.h"
 #include "Lighting.h"
 #include "Logic.h"
 #include "Physics.h"
@@ -18,7 +15,7 @@
 
 bool Core::_isRunning;
 
-void Core::init()
+void Core::init(std::map<std::string, Scene*>& sceneMap)
 {
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
@@ -53,9 +50,10 @@ void Core::init()
 	std::cout << "==================================================" << std::endl << std::endl;
 
 	// Load Scenes
-	_sceneManager->addScene("Realistic Rendering", new TestScene());
-	_sceneManager->addScene("Material Test", new PBRScene());
-	_sceneManager->addScene("Demo Scene", new DemoScene());
+	_sceneManager->addScenes(sceneMap);
+	//_sceneManager->addScene("Realistic Rendering", new TestScene());
+	//_sceneManager->addScene("Material Test", new PBRScene());
+	//_sceneManager->addScene("Demo Scene", new DemoScene());
 
 	_sceneManager->loadSceneImediately("Realistic Rendering");
 
