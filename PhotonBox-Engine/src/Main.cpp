@@ -1,6 +1,11 @@
 #include <iostream>
+#include <map>
 #include "Core/Systems/Core.h"
 #include "Test/MathTest.h"
+#include "Resources/Scene.h"
+#include "Game/DemoScene.h"
+#include "Game/PBRScene.h"
+#include "Game/TestScene.h"
 
 int main(void)
 {
@@ -10,9 +15,14 @@ int main(void)
 	MathTest::startTest();
 #endif
 
+	std::map<std::string, Scene*> sceneMap;
+	sceneMap["Realistic Rendering"] = new TestScene();
+	sceneMap["Material Test"] = new PBRScene();
+	sceneMap["Demo Scene"] = new DemoScene();
+
 	// Create and initialize the RenderProject
 	Core core;
-	core.init();
+	core.init(sceneMap);
 	core.run();
 	core.destroy();
 
