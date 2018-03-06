@@ -289,13 +289,9 @@
     <ClInclude Include="src\Resources\TextShader.h" />
     <ClInclude Include="src\Resources\SpecularConvolutionShader.h" />
     <ClInclude Include="src\Components\LightProbe.h" />
-    <ClInclude Include="src\Resources\ToneMappingProcessor.h" />
-    <ClInclude Include="src\Resources\ToneMappingShader.h" />
     <ClInclude Include="src\Core\AABB.h" />
     <ClInclude Include="src\Resources\DepthShader.h" />
     <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
-    <ClInclude Include="src\Resources\AutoExposureProcessor.h" />
-    <ClInclude Include="src\Resources\AutoExposureShader.h" />
     <ClInclude Include="src\Resources\TransparentShader.h" />
     <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Components\SpotLight.h" />
@@ -303,20 +299,13 @@
     <ClInclude Include="src\Core\LightMap.h" />
     <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Resources\GShader.h" />
-    <ClInclude Include="src\Resources\SSAOProcessor.h" />
-    <ClInclude Include="src\Resources\SSAOShader.h" />
     <ClInclude Include="src\Math\Math.h" />
-    <ClInclude Include="src\Resources\SSAOBlurShader.h" />
     <ClInclude Include="src\Core\ManagedResource.h" />
     <ClInclude Include="src\Core\GLError.h" />
-    <ClInclude Include="src\Resources\SSReflectionProcessor.h" />
-    <ClInclude Include="src\Resources\SSReflectionShader.h" />
     <ClInclude Include="src\Resources\Config.h" />
-    <ClInclude Include="src\Resources\ExposureShader.h" />
     <ClInclude Include="src\Resources\SkyBoostShader.h" />
     <ClInclude Include="src\Core\OpenGL.h" />
     <ClInclude Include="src\Game\DemoScene.h" />
-    <ClInclude Include="src\Resources\StateController.h" />
     <ClInclude Include="src\Core\Profiler.h" />
   </ItemGroup>
 </Project>

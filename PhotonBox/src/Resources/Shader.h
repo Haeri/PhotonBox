@@ -10,6 +10,7 @@ class LightEmitter;
 #include <map>
 #include "../Core/OpenGL.h"
 #include "../Math/Matrix4f.h"
+#include "../Resources/Vertex.h"
 
 class Shader
 {
