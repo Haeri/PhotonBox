@@ -1,11 +1,13 @@
 #include <iostream>
 #include <map>
-#include "Core/Systems/Core.h"
-#include "Test/MathTest.h"
-#include "Resources/Scene.h"
-#include "Game/DemoScene.h"
-#include "Game/PBRScene.h"
-#include "Game/TestScene.h"
+
+#include <Core/Systems/Core.h>
+#include <Test/MathTest.h>
+#include <Resources/Scene.h>
+
+#include "Scenes/DemoScene.h"
+#include "Scenes/PBRScene.h"
+#include "Scenes/TestScene.h"
 
 int main(void)
 {
@@ -13,6 +15,8 @@ int main(void)
 #ifdef _DEBUG
 	// Tests
 	MathTest::startTest();
+#else
+	FreeConsole();
 #endif
 
 	// Create Scenes
@@ -23,7 +27,7 @@ int main(void)
 
 	// Create and initialize the RenderProject
 	Core core;
-	core.init(sceneMap);
+	core.init(sceneMap, "Demo Scene");
 	core.run();
 	core.destroy();
 

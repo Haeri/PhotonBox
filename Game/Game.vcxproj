@@ -132,27 +132,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game\AddShader.h" />
-    <ClInclude Include="src\Game\BloomProcessor.h" />
-    <ClInclude Include="src\Game\BlurHShader.h" />
-    <ClInclude Include="src\Game\BlurProcessor.h" />
-    <ClInclude Include="src\Game\BlurShader.h" />
-    <ClInclude Include="src\Game\BlurVShader.h" />
-    <ClInclude Include="src\Game\CameraController.h" />
-    <ClInclude Include="src\Game\ControllerToggleScript.h" />
-    <ClInclude Include="src\Game\CutOffShader.h" />
-    <ClInclude Include="src\Game\DemoScene.h" />
-    <ClInclude Include="src\Game\FollowScript.h" />
-    <ClInclude Include="src\Game\MaterialScript.h" />
-    <ClInclude Include="src\Game\MonochromProcessor.h" />
-    <ClInclude Include="src\Game\MonochromShader.h" />
-    <ClInclude Include="src\Game\PathWalkerScript.h" />
-    <ClInclude Include="src\Game\PBRScene.h" />
-    <ClInclude Include="src\Game\TestScene.h" />
+    <ClInclude Include="src\PostProcessors\AutoExposureProcessor.cpp" />
+    <ClInclude Include="src\PostProcessors\SSAOProcessor.cpp" />
+    <ClInclude Include="src\PostProcessors\SSReflectionProcessor.cpp" />
+    <ClInclude Include="src\PostProcessors\ToneMappingProcessor.cpp" />
+    <ClInclude Include="src\Scripts\StateControllerScript.cpp" />
+    <ClInclude Include="src\Shader\AddShader.cpp" />
+    <ClInclude Include="src\PostProcessors\BloomProcessor.cpp" />
+    <ClInclude Include="src\Shader\AutoExposureShader.cpp" />
+    <ClInclude Include="src\Shader\BlurHShader.cpp" />
+    <ClInclude Include="src\PostProcessors\BlurProcessor.cpp" />
+    <ClInclude Include="src\Shader\BlurShader.cpp" />
+    <ClInclude Include="src\Shader\BlurVShader.cpp" />
+    <ClInclude Include="src\Scripts\CameraControllerScript.cpp" />
+    <ClInclude Include="src\Scripts\ControllerToggleScript.cpp" />
+    <ClInclude Include="src\Shader\CutOffShader.cpp" />
+    <ClInclude Include="src\Scenes\DemoScene.h" />
+    <ClInclude Include="src\Scripts\FollowScript.cpp" />
+    <ClInclude Include="src\Scripts\MaterialScript.cpp" />
+    <ClInclude Include="src\PostProcessors\MonochromProcessor.cpp" />
+    <ClInclude Include="src\Shader\ExposureShader.cpp" />
+    <ClInclude Include="src\Shader\MonochromShader.cpp" />
+    <ClInclude Include="src\Scripts\PathWalkerScript.cpp" />
+    <ClInclude Include="src\Scenes\PBRScene.h" />
+    <ClInclude Include="src\Scenes\TestScene.h" />
+    <ClInclude Include="src\Shader\SSAOBlurShader.cpp" />
+    <ClInclude Include="src\Shader\SSAOShader.cpp" />
+    <ClInclude Include="src\Shader\SSReflectionShader.cpp" />
+    <ClInclude Include="src\Shader\ToneMappingShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Game\PrinterScript.cpp" />
-    <ClCompile Include="src\Game\TransformerScript.cpp" />
+    <ClCompile Include="src\Scripts\PrinterScript.cpp" />
+    <ClCompile Include="src\Scripts\TransformerScript.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -16,10 +16,11 @@ class Profiler;
 class Scene;
 #include <map>
 
+//namespace PBEngine{
 class Core
 {
 public:
-	void init(std::map<std::string, Scene*>& sceneMap);
+	void init(std::map<std::string, Scene*>& sceneMap, std::string firstScene);
 	void start();
 	void reset();
 	void run();
@@ -49,5 +50,5 @@ private:
 
 	static bool _isRunning;
 };
-
+//}
 #endif // CORE_H

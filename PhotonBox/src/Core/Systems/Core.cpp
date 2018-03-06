@@ -15,7 +15,7 @@
 
 bool Core::_isRunning;
 
-void Core::init(std::map<std::string, Scene*>& sceneMap)
+void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 {
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
@@ -51,11 +51,7 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 
 	// Load Scenes
 	_sceneManager->addScenes(sceneMap);
-	//_sceneManager->addScene("Realistic Rendering", new TestScene());
-	//_sceneManager->addScene("Material Test", new PBRScene());
-	//_sceneManager->addScene("Demo Scene", new DemoScene());
-
-	_sceneManager->loadSceneImediately("Realistic Rendering");
+	_sceneManager->loadSceneImediately(firstScene);
 
 	// Start Subsystems
 	start();
