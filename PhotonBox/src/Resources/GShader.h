@@ -3,13 +3,14 @@
 
 #include "Shader.h"
 #include "Vertex.h"
+#include "Resources.h"
 
 class GShader : public InstancedShader<GShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/deferre-rendering/gShader");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/deferre-rendering/gShader");
 	}
 
 	void update(Transform* transform)

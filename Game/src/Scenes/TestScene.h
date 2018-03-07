@@ -196,12 +196,12 @@ public:
 	{
 		/* --------------------------- ENVIROMENT --------------------------- */
 		std::vector<std::string> white = {
-			"./res/default_ao.png",
-			"./res/default_ao.png",
-			"./res/default_ao.png",
-			"./res/default_ao.png",
-			"./res/default_ao.png",
-			"./res/default_ao.png",
+			Resources::ENGINE_RESOURCES + "/default_ao.png",
+			Resources::ENGINE_RESOURCES + "/default_ao.png",
+			Resources::ENGINE_RESOURCES + "/default_ao.png",
+			Resources::ENGINE_RESOURCES + "/default_ao.png",
+			Resources::ENGINE_RESOURCES + "/default_ao.png",
+			Resources::ENGINE_RESOURCES + "/default_ao.png",
 		};
 
 		whiteCube = new CubeMap(white);
@@ -218,7 +218,7 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		sphere = OBJLoader::loadObj("./res/primitives/sphere.obj");
+		sphere = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
 		wallMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Walls/Room.obj");
 		floorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Floor/Floor.obj");
@@ -332,12 +332,12 @@ public:
 
 		wallNormal = new Texture(std::string("./res/Realistic-Rendering/Walls/T_PaintedWall_N.TGA"), true);
 
-		default_normal = new Texture(std::string("./res/default_normal.png"), false);
-		default_specular = new Texture(std::string("./res/default_specular.png"), false);
-		default_emission = new Texture(std::string("./res/default_emission.png"), false);
-		default_ao = new Texture(std::string("./res/default_ao.png"), false);
-		default_roughness = new Texture(std::string("./res/default_roughness.png"), false);
-		gradient = new Texture(std::string("./res/gradient.png"), false);
+		default_normal = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
+		default_specular = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
+		default_emission = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
+		default_ao = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
+		default_roughness = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		gradient = new Texture(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 
 		panoramaAlbedo = new Texture(std::string("./res/Realistic-Rendering/Panorama/T_Background_D.TGA"), true);
 

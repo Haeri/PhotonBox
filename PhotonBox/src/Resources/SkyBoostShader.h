@@ -10,7 +10,7 @@ class SkyBoostShader : public InstancedShader<SkyBoostShader>
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/util/skyBoost");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/skyBoost");
 	}
 
 	void update(Transform* transform)

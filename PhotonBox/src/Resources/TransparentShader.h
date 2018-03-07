@@ -3,14 +3,13 @@
 
 #include "../Components/Camera.h"
 #include "Shader.h"
-#include "Vertex.h"
 
 class TransparentShader : public InstancedShader<TransparentShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/forward-rendering/transparent");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/forward-rendering/transparent");
 	}
 
 	void update(Transform* transform, LightEmitter* light)

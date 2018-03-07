@@ -1,5 +1,6 @@
 #include "../Components/Camera.h"
 #include "../Resources/Texture.h"
+#include "../Resources/Resources.h"
 #include "Display.h"
 #include "FrameBuffer.h"
 
@@ -44,7 +45,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 	// Set Icon
 	GLFWimage images[1];
-	images[0].pixels = Texture::loadIcon("./res/logo.png", images[0].width, images[0].height);
+	images[0].pixels = Texture::loadIcon(Resources::ENGINE_RESOURCES + "/logo.png", images[0].width, images[0].height);
 	glfwSetWindowIcon(_window, 1, images);
 
 	setVSync(vsync);

@@ -128,6 +128,7 @@
     <ClInclude Include="src\Resources\Material.h" />
     <ClInclude Include="src\Resources\Mesh.h" />
     <ClInclude Include="src\Resources\OBJLoader.h" />
+    <ClInclude Include="src\Resources\Resources.h" />
     <ClInclude Include="src\Resources\Scene.h" />
     <ClInclude Include="src\Resources\Shader.h" />
     <ClInclude Include="src\Resources\SkyBoostShader.h" />

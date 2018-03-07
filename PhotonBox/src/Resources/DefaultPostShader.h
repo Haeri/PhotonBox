@@ -3,13 +3,14 @@
 
 #include "Shader.h"
 #include "Vertex.h"
+#include "Resources.h"
 
 class DefaultPostShader : public InstancedShader<DefaultPostShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/util/default-post");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/default-post");
 	}
 
 	void addUniforms() override

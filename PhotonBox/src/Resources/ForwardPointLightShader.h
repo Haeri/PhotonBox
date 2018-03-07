@@ -5,14 +5,14 @@
 #include "../Components/PointLight.h"
 #include "../Components/Transform.h"
 #include "Shader.h"
-#include "Vertex.h"
+#include "Resources.h"
 
 class ForwardPointLightShader : public InstancedShader<ForwardPointLightShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/forward-rendering/point_light");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/forward-rendering/point_light");
 	}
 
 	void update(Transform* transform, LightEmitter* light)

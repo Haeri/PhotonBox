@@ -11,7 +11,7 @@ class DepthShader : public InstancedShader<DepthShader>
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/util/depth");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/depth");
 	}
 
 	void update(Transform* transform, LightEmitter* light)

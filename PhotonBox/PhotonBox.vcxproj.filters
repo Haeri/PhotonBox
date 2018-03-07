@@ -307,5 +307,6 @@
     <ClInclude Include="src\Core\OpenGL.h" />
     <ClInclude Include="src\Game\DemoScene.h" />
     <ClInclude Include="src\Core\Profiler.h" />
+    <ClInclude Include="src\Resources\Resources.h" />
   </ItemGroup>
 </Project>

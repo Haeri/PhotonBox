@@ -5,14 +5,14 @@
 #include "../Components/Camera.h"
 #include "../Components/LightEmitter.h"
 #include "Shader.h"
-#include "Vertex.h"
+#include "Resources.h"
 
 class ForwardAmbientLightShader : public InstancedShader<ForwardAmbientLightShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/forward-rendering/base");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/forward-rendering/base");
 	}
 
 	void update(Transform* transform, LightEmitter* light)
