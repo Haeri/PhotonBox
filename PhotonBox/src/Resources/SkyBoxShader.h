@@ -2,14 +2,14 @@
 #define SKY_BOX_SHADER_H
 
 #include "Shader.h"
-#include "Vertex.h"
+#include "Resources.h"
 
 class SkyBoxShader : public InstancedShader<SkyBoxShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/util/skyBox");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/skyBox");
 	}
 
 	void update(Matrix4f& vp)

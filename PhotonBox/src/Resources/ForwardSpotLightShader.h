@@ -5,14 +5,14 @@
 #include "../Components/SpotLight.h"
 #include "../Components/Transform.h"
 #include "Shader.h"
-#include "Vertex.h"
+#include "Resources.h"
 
 class ForwardSpotLightShader : public InstancedShader<ForwardSpotLightShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/forward-rendering/spot_light");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/forward-rendering/spot_light");
 	}
 
 	void update(Transform* transform, LightEmitter* light)

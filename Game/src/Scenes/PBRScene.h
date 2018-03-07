@@ -105,8 +105,8 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		plane = OBJLoader::loadObj("./res/primitives/plane.obj");
-		sphere = OBJLoader::loadObj("./res/primitives/sphere.obj");
+		plane = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
+		sphere = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 
 
 
@@ -134,12 +134,12 @@ public:
 		goldMetal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
 
 
-		default_normal = new Texture(std::string("./res/default_normal.png"), false);
-		default_specular = new Texture(std::string("./res/default_specular.png"), false);
-		default_emission = new Texture(std::string("./res/default_emission.png"), false);
-		default_ao = new Texture(std::string("./res/default_ao.png"), false);
-		default_roughness = new Texture(std::string("./res/default_roughness.png"), false);
-		gradient = new Texture(std::string("./res/gradient.png"), false);
+		default_normal = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
+		default_specular = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
+		default_emission = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
+		default_ao = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
+		default_roughness = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		gradient = new Texture(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 		transparentAlbedo = new Texture(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
 
 		/* --------------------------- SHADERS --------------------------- */

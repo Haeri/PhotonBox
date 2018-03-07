@@ -5,6 +5,7 @@
 #include "../Components/Camera.h"
 #include "../Core/Systems/Renderer.h"
 #include "../Math/Matrix4f.h"
+#include "Resources.h"
 #include "CubeMap.h"
 #include "IrradianceShader.h"
 #include "OBJLoader.h"
@@ -62,7 +63,7 @@ void CubeMap::generateIrradiance(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	_mesh = OBJLoader::loadObj("./res/primitives/skyBox.obj");
+	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 
 
@@ -125,7 +126,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	_mesh = OBJLoader::loadObj("./res/primitives/skyBox.obj");
+	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 
 	glGenFramebuffers(1, &_captureFBO);

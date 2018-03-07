@@ -3,13 +3,14 @@
 
 #include "Shader.h"
 #include "Vertex.h"
+#include "Resources.h"
 
 class BasicShader : public InstancedShader<BasicShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/util/basicShader");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/basicShader");
 	}
 
 	void update(Transform* transform) override

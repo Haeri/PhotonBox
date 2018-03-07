@@ -2,6 +2,7 @@
 #include "../Core/Systems/Lighting.h"
 #include "../Core/Systems/Renderer.h"
 #include "../Resources/DefaultPostShader.h"
+#include "../Resources/Resources.h"
 #include "Camera.h"
 #include "LightProbe.h"
 
@@ -23,12 +24,12 @@ void LightProbe::generateLightMap()
 	LightMap* lightMaps[stepSize];
 
 	lightMaps[0] = new LightMap(new CubeMap(std::vector<std::string> {
-		"./res/default_emission.png",
-			"./res/default_emission.png",
-			"./res/default_emission.png",
-			"./res/default_emission.png",
-			"./res/default_emission.png",
-			"./res/default_emission.png",
+		Resources::ENGINE_RESOURCES + "/default_emission.png",
+		Resources::ENGINE_RESOURCES + "/default_emission.png",
+		Resources::ENGINE_RESOURCES + "/default_emission.png",
+		Resources::ENGINE_RESOURCES + "/default_emission.png",
+		Resources::ENGINE_RESOURCES + "/default_emission.png",
+		Resources::ENGINE_RESOURCES + "/default_emission.png",
 	}));
 
 
@@ -147,13 +148,13 @@ LightMap* LightProbe::captureRecursive(int step)
 	{
 		LightMap* DEF = new LightMap(new CubeMap(
 			std::vector<std::string> {
-			"./res/default_emission.png",
-				"./res/default_emission.png",
-				"./res/default_emission.png",
-				"./res/default_emission.png",
-				"./res/default_emission.png",
-				"./res/default_emission.png",
-		}));
+				Resources::ENGINE_RESOURCES + "/default_emission.png",
+				Resources::ENGINE_RESOURCES + "/default_emission.png",
+				Resources::ENGINE_RESOURCES + "/default_emission.png",
+				Resources::ENGINE_RESOURCES + "/default_emission.png",
+				Resources::ENGINE_RESOURCES + "/default_emission.png",
+				Resources::ENGINE_RESOURCES + "/default_emission.png",
+			}));
 		return DEF;
 	}
 

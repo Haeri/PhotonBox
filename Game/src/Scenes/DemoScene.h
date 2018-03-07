@@ -6,6 +6,7 @@
 #include <Resources/OBJLoader.h>
 #include <Resources/Scene.h>
 #include <Resources/Texture.h>
+#include <Resources/Resources.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -44,12 +45,12 @@ public:
 		/* --------------------------- RESOURCES --------------------------- */
 		
 		std::vector<std::string> nightSky = {
-			"./res/default_emission.png",
-			"./res/default_emission.png",
-			"./res/default_emission.png",
-			"./res/default_emission.png",
-			"./res/default_emission.png",
-			"./res/default_emission.png",
+			Resources::ENGINE_RESOURCES + "/default_emission.png",
+			Resources::ENGINE_RESOURCES + "/default_emission.png",
+			Resources::ENGINE_RESOURCES + "/default_emission.png",
+			Resources::ENGINE_RESOURCES + "/default_emission.png",
+			Resources::ENGINE_RESOURCES + "/default_emission.png",
+			Resources::ENGINE_RESOURCES + "/default_emission.png",
 		};
 
 		sky = new CubeMap(nightSky);
@@ -66,18 +67,18 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		plane = OBJLoader::loadObj("./res/primitives/plane.obj");
-		sphere = OBJLoader::loadObj("./res/primitives/sphere.obj");
+		plane = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
+		sphere = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		default_normal = new Texture(std::string("./res/default_normal.png"), false);
-		default_specular = new Texture(std::string("./res/default_specular.png"), false);
-		default_emission = new Texture(std::string("./res/default_emission.png"), false);
-		default_ao = new Texture(std::string("./res/default_ao.png"), false);
-		default_roughness = new Texture(std::string("./res/default_roughness.png"), false);
-		gradient = new Texture(std::string("./res/gradient.png"), false);
+		default_normal = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
+		default_specular = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
+		default_emission = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
+		default_ao = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
+		default_roughness = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		gradient = new Texture(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 
 		/* --------------------------- SHADERS --------------------------- */
 

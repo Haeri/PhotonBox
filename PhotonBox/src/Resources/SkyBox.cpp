@@ -1,7 +1,9 @@
+#include "SkyBox.h"
+
 #include "../Components/Camera.h"
 #include "../Core/Systems/Renderer.h"
+#include "Resources.h"
 #include "OBJLoader.h"
-#include "SkyBox.h"
 
 
 void SkyBox::setLightProbe(LightProbe * lightProbe)
@@ -12,7 +14,7 @@ void SkyBox::setLightProbe(LightProbe * lightProbe)
 void SkyBox::init()
 {
 	_skyBoxShader = SkyBoxShader::getInstance();
-	_mesh = OBJLoader::loadObj("./res/primitives/skyBox.obj");
+	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 }
 

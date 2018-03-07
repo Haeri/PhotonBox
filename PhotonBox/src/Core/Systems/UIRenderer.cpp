@@ -1,8 +1,11 @@
+#include "UIRenderer.h"
+
+#include <iostream>
+
 #include "../../Resources/TextShader.h"
+#include "../../Resources/Resources.h"
 #include "../OpenGL.h"
 #include "Renderer.h"
-#include "UIRenderer.h"
-#include <iostream>
 
 TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;
@@ -15,7 +18,7 @@ void UIRenderer::init()
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
 
 	FT_Face face;
-	if (FT_New_Face(ft, "./res/fonts/OpenSans.ttf", 0, &face))
+	if (FT_New_Face(ft, (Resources::ENGINE_RESOURCES + "/fonts/OpenSans.ttf").c_str(), 0, &face))
 		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
 
 

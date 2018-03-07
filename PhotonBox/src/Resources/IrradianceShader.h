@@ -9,7 +9,7 @@ class IrradianceShader : public InstancedShader<IrradianceShader>
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/util/irradiance");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/irradiance");
 	}
 
 	void addUniforms() override

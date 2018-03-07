@@ -3,14 +3,14 @@
 
 #include "../Core/Display.h"
 #include "Shader.h"
-#include "Vertex.h"
+#include "Resources.h"
 
 class TextShader : public InstancedShader<TextShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/ui/text");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/ui/text");
 	}
 
 	void update()
