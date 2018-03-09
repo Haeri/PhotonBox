@@ -15,6 +15,7 @@
 #include "../../Resources/LitShader.h"
 #include "../../Resources/Scene.h"
 #include "../../Resources/TransparentShader.h"
+#include "../../Resources/DeferredShader.cpp"
 #include "../DeferredBuffer.h"
 #include "../Display.h"
 #include "../FrameBuffer.h"
@@ -37,6 +38,8 @@ ForwardPointLightShader* Renderer::_pointLightShader;
 ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
 GShader* Renderer::_gShader;
+DeferredShader* Renderer::_deferredShader;
+Material* Renderer::_deferredMaterial;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_debugFrameBuffer;
@@ -90,6 +93,7 @@ void Renderer::init(float superSampling)
 	_spotLightShader = ForwardSpotLightShader::getInstance();
 	_transparentBaseShader = TransparentShader::getInstance();
 	_gShader = GShader::getInstance();
+	_deferredShader = DeferredShader::getInstance();
 	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
 	_mainFrameBuffer->addDepthBufferAttachment();
@@ -99,6 +103,12 @@ void Renderer::init(float superSampling)
 	_debugFrameBuffer->ready();
 	defBuffer.init();
 	_isDebug = false;
+	_deferredMaterial = new Material(_deferredShader);
+	_deferredMaterial->setTexture("gPosition", defBuffer.gBuffer, "gPosition");
+	_deferredMaterial->setTexture("gNormal", defBuffer.gBuffer, "gNormal");
+	_deferredMaterial->setTexture("gRoughness", defBuffer.gBuffer, "gRoughness");
+	_deferredMaterial->setTexture("gMetallic", defBuffer.gBuffer, "gMetallic");
+	_deferredMaterial->setTexture("gAlbedo", defBuffer.gBuffer, "gAlbedo");
 }
 
 void Renderer::start()
@@ -154,6 +164,51 @@ void Renderer::renderShadows(bool captureMode)
 	glCullFace(GL_BACK);
 }
 
+void Renderer::renderDeferred() {
+	_mainFrameBuffer->enable();
+	_mainFrameBuffer->clear();
+	
+	_skyBox.render();
+
+	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+
+	_deferredShader->bind();
+
+	int i = -1;
+	for (auto const &lightvec : lights)
+	{
+
+		for (auto const &light : lightvec.second)
+		{
+			if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+
+			if ((typeid(*(light->getLightShader())) == typeid(*(ForwardPointLightShader::getInstance()))))
+			{
+				Vector3f lightViewPos = (Camera::getMainCamera()->getViewMatrix() * Vector4f(light->transform->getPositionWorld(), 1.0f)).xyz();
+				++i;
+				_deferredShader->setUniform("lights[" + std::to_string(i) + "].Position", lightViewPos);
+				_deferredShader->setUniform("lights[" + std::to_string(i) + "].Color", light->color);
+				_deferredShader->setUniform("lights[" + std::to_string(i) + "].Linear", 0.7f);
+				_deferredShader->setUniform("lights[" + std::to_string(i) + "].Quadratic", 1.8f);
+			}
+		}
+	}
+	
+
+	defBuffer.gBuffer->render(_deferredMaterial);
+
+	/*
+	int cols = 2;
+	int widthX = 0;
+
+	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
+	//defBuffer.gBuffer->render("gAlbedo");
+	defBuffer.gBuffer->render(_deferredMaterial);
+
+	widthX += Display::getWidth() / cols;
+	*/
+}
+
 void Renderer::render(bool captureMode)
 {
 	render(captureMode, nullptr);
@@ -167,13 +222,13 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 		renderShadows(false);
 
 		// Bind & clear Main FBO
-		_mainFrameBuffer->enable();
-		_mainFrameBuffer->clear();
+		//_mainFrameBuffer->enable();
+		//_mainFrameBuffer->clear();
 	}
 
-	_skyBox.render();
+	//_skyBox.render();
 
-
+	/*
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
@@ -244,7 +299,7 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 			}
 		}
 	}
-
+	*/
 
 	if (!captureMode)
 	{

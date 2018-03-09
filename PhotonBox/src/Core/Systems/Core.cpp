@@ -123,8 +123,10 @@ void Core::run()
 		_renderer->prePass();
 
 		// Render Scene
+		Renderer::renderDeferred();
 		Renderer::render();
 		nbFrames++;
+
 
 		_postPocessing->postProcess();
 

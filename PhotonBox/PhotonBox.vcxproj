@@ -59,6 +59,7 @@
     <ClCompile Include="src\Math\Vector4f.cpp" />
     <ClCompile Include="src\Resources\Config.cpp" />
     <ClCompile Include="src\Resources\CubeMap.cpp" />
+    <ClCompile Include="src\Resources\DeferredShader.cpp" />
     <ClCompile Include="src\Resources\Material.cpp" />
     <ClCompile Include="src\Math\Matrix4f.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />

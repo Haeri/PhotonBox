@@ -140,6 +140,7 @@
     <ClCompile Include="src\Core\GLError.cpp" />
     <ClCompile Include="src\Resources\Config.cpp" />
     <ClCompile Include="src\Core\Profiler.cpp" />
+    <ClCompile Include="src\Resources\DeferredShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">

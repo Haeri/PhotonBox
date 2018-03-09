@@ -8,6 +8,8 @@ class TransparentShader;
 class DeferredBuffer;
 class GShader;
 class TransparentMeshRenderer;
+class DeferredShader;
+class Material;
 
 #include <vector>
 #include "../../Resources/ForwardAmbientLightShader.h"
@@ -38,6 +40,7 @@ public:
 	void start();
 	void prePass();
 	void clearDrawCalls();
+	static void renderDeferred();
 	static void render();
 	static void render(bool captureMode);
 	static void render(Shader* customShader, bool captureMode);
@@ -66,6 +69,8 @@ private:
 	static ForwardSpotLightShader* _spotLightShader;
 	static TransparentShader* _transparentBaseShader;
 	static GShader* _gShader;
+	static DeferredShader* _deferredShader;
+	static Material* _deferredMaterial;
 };
 
 #endif // RENDERER_H
