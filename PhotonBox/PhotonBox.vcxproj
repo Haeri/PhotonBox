@@ -37,7 +37,7 @@
     <ClCompile Include="src\Core\DeferredBuffer.cpp" />
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
-    <ClCompile Include="src\Core\GameObject.cpp" />
+    <ClCompile Include="src\Core\Entity.cpp" />
     <ClCompile Include="src\Core\GLError.cpp" />
     <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\LightMap.cpp" />
@@ -88,7 +88,7 @@
     <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Core\Display.h" />
     <ClInclude Include="src\Core\FrameBuffer.h" />
-    <ClInclude Include="src\Core\GameObject.h" />
+    <ClInclude Include="src\Core\Entity.h" />
     <ClInclude Include="src\Core\GLError.h" />
     <ClInclude Include="src\Core\InputManager.h" />
     <ClInclude Include="src\Core\LightMap.h" />

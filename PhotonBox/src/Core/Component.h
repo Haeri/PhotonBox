@@ -1,17 +1,17 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-class GameObject;
+class Entity;
 class Transform;
 #include <string>
 
 class Component
 {
 public:
-	GameObject * gameObject;
+	Entity * entity;
 	Transform *transform;
 
-	void setGameObject(GameObject* _go);
+	void setEntity(Entity* _go);
 	void setTransform(Transform* _t);
 	void setEnable(bool enable);
 	std::string getName();

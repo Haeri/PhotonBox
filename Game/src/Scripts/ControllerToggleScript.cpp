@@ -12,8 +12,8 @@ public:
 
 	void Start()
 	{
-		cameraController = gameObject->getComponent<CameraControllerScript>();
-		pathWalkerScript = gameObject->getComponent<PathWalkerScript>();
+		cameraController = entity->getComponent<CameraControllerScript>();
+		pathWalkerScript = entity->getComponent<PathWalkerScript>();
 
 		cameraController->setEnable(false);
 		pathWalkerScript->setEnable(true);

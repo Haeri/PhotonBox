@@ -13,7 +13,7 @@ public:
 	void setRotation(Vector3f rotation);
 	void setScale(Vector3f scale);
 	void setParent(Transform *_parent);
-	void setParent(GameObject *_gameObject);
+	void setParent(Entity *_entity);
 	Matrix4f getRotationMatrix();
 	Vector3f getRotation();
 	Vector3f getPosition();

@@ -2,25 +2,25 @@
 #define SCENE_H
 
 #include <vector>
-#include "../Core/GameObject.h"
+#include "../Core/Entity.h"
 
 class Scene
 {
 public:
-	std::vector<GameObject*> gameObjectList;
+	std::vector<Entity*> entityList;
 
 	virtual void Load() = 0;
 	virtual void OnUnload();
 	void unload();
 
-	GameObject* instanciate(std::string name);
-	void destroy(GameObject* go);
-	void printGameObjects();
-	std::string getGameObjects();
-	void removeFromList(GameObject* go);
-	GameObject* getObjectByName(std::string name);
+	Entity* instanciate(std::string name);
+	void destroy(Entity* go);
+	void printEntitys();
+	std::string getEntitys();
+	void removeFromList(Entity* go);
+	Entity* getObjectByName(std::string name);
 private:
-	void addToList(GameObject* go);
+	void addToList(Entity* go);
 };
 
 #endif /* defined(SCENE_H) */

@@ -95,7 +95,7 @@ public:
 
 
 		/* --------------------------- CAMERA --------------------------- */
-		GameObject* cam = instanciate("Camera");
+		Entity* cam = instanciate("Camera");
 		cam->addComponent<Camera>();
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -6));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
@@ -104,14 +104,14 @@ public:
 
 
 		/* --------------------------- LIGHTS --------------------------- */
-		GameObject* ambient = instanciate("Ambient");
+		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.17f, 0.17f, 0.17f);
 		ambient->getComponent<AmbientLight>()->intensity = 0.4;
 		//ambient->getComponent<AmbientLight>()->intensity = 0;
 
 
-		GameObject* sun = instanciate("Sun");
+		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
@@ -119,7 +119,7 @@ public:
 		sun->setEnable(false);
 
 
-		GameObject* pointLight = instanciate("Pointlight");
+		Entity* pointLight = instanciate("Pointlight");
 		pointLight->addComponent<PointRenderer>();
 		pointLight->getComponent<Transform>()->setPosition(Vector3f(0, 2, -1));
 		pointLight->addComponent<PointLight>();
@@ -131,7 +131,7 @@ public:
 		//pointLight->setEnable(false);
 
 
-		GameObject* pointLight2 = instanciate("Pointlight2");
+		Entity* pointLight2 = instanciate("Pointlight2");
 		pointLight2->addComponent<PointRenderer>();
 		pointLight2->getComponent<Transform>()->setPosition(Vector3f(1.7, 2, -1));
 		pointLight2->addComponent<PointLight>();
@@ -142,7 +142,7 @@ public:
 		pointLight2->getComponent<PointLight>()->intensity = 3.6f;
 		//pointLight2->setEnable(false);
 
-		GameObject* pointLight3 = instanciate("Pointlight3");
+		Entity* pointLight3 = instanciate("Pointlight3");
 		pointLight3->addComponent<PointRenderer>();
 		pointLight3->getComponent<Transform>()->setPosition(Vector3f(-1.7, 2, -1));
 		pointLight3->addComponent<PointLight>();
@@ -153,7 +153,7 @@ public:
 		pointLight3->getComponent<PointLight>()->intensity = 3.6f;
 		//pointLight3->setEnable(false);
 
-		GameObject* spot = instanciate("Spot");
+		Entity* spot = instanciate("Spot");
 		spot->getComponent<Transform>()->setPosition(Vector3f(1, 7, -1));
 		spot->getComponent<Transform>()->setRotation(Vector3f(-PI / 2.0f, 0, -0.3f));
 		spot->addComponent<SpotLight>();
@@ -167,13 +167,13 @@ public:
 		spot->setEnable(false);
 
 
-		GameObject* probe = instanciate("Probe-1");
+		Entity* probe = instanciate("Probe-1");
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(def);
 
-		GameObject* quad = instanciate("Quad-1");
+		Entity* quad = instanciate("Quad-1");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
 		quad->getComponent<Transform>()->setScale(Vector3f(20, 20, 20));
 		quad->addComponent<MeshRenderer>();

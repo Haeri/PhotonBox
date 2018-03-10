@@ -1,8 +1,8 @@
 #include "Component.h"
 
-void Component::setGameObject(GameObject* _go)
+void Component::setEntity(Entity* _go)
 {
-	gameObject = _go;
+	entity = _go;
 }
 
 void Component::setTransform(Transform* _t)

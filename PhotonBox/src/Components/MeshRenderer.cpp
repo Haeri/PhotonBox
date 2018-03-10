@@ -1,4 +1,4 @@
-#include "../Core/GameObject.h"
+#include "../Core/Entity.h"
 #include "../Core/OpenGL.h"
 #include "../Core/Systems/Lighting.h"
 #include "../Core/Systems/Renderer.h"
