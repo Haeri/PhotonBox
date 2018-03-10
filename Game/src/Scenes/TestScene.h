@@ -550,80 +550,80 @@ public:
 
 		/* --------------------------- CAMERA --------------------------- */
 
-		GameObject* s1 = instanciate("start");
+		Entity* s1 = instanciate("start");
 		s1->getComponent<Transform>()->setPosition(Vector3f(-1.275343, 0.609712, 3.92936));
 		s1->getComponent<Transform>()->setRotation(Vector3f(-0.406666, 2.218385, 0.00000));
 
-		GameObject* f1 = instanciate("¨fin");
+		Entity* f1 = instanciate("¨fin");
 		f1->getComponent<Transform>()->setPosition(Vector3f(-1.701402, 0.896463, 3.75409));
 		f1->getComponent<Transform>()->setRotation(Vector3f(0.070667, 2.363519, 0.00000));
 
-		GameObject* s2 = instanciate("start");
+		Entity* s2 = instanciate("start");
 		s2->getComponent<Transform>()->setPosition(Vector3f(0.042963, 0.564167, 0.744266));
 		s2->getComponent<Transform>()->setRotation(Vector3f(-0.441667, -4.278056, 0.000000));
 
-		GameObject* f2 = instanciate("fin");
+		Entity* f2 = instanciate("fin");
 		f2->getComponent<Transform>()->setPosition(Vector3f(0.325749, 0.647959, 0.665603));
 		f2->getComponent<Transform>()->setRotation(Vector3f(-0.323334, -4.136055, 0.000000));
 
-		GameObject* s3 = instanciate("start");
+		Entity* s3 = instanciate("start");
 		s3->getComponent<Transform>()->setPosition(Vector3f(1.849994, 1.612600, 0.045660));
 		s3->getComponent<Transform>()->setRotation(Vector3f(-0.133326, 3.428171, 0.000000));
 
-		GameObject* f3 = instanciate("fin");
+		Entity* f3 = instanciate("fin");
 		f3->getComponent<Transform>()->setPosition(Vector3f(1.719618, 1.658098, 1.163731));
 		f3->getComponent<Transform>()->setRotation(Vector3f(-0.098326, 3.107171, 0.000000));
 
-		GameObject* s4 = instanciate("start");
+		Entity* s4 = instanciate("start");
 		s4->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
 		s4->getComponent<Transform>()->setRotation(Vector3f(-0.910666, 0.317027, 0.00000));
 
-		GameObject* f4 = instanciate("fin");
+		Entity* f4 = instanciate("fin");
 		f4->getComponent<Transform>()->setPosition(Vector3f(-1.254720, 0.108683, -0.22882));
 		f4->getComponent<Transform>()->setRotation(Vector3f(0.086667, 0.071351, 0.00000));
 
-		GameObject* s5 = instanciate("start");
+		Entity* s5 = instanciate("start");
 		s5->getComponent<Transform>()->setPosition(Vector3f(1.497587, 1.648782, 2.544615));
 		s5->getComponent<Transform>()->setRotation(Vector3f(-0.126667, -2.622055, 0.000000));
 
-		GameObject* f5 = instanciate("fin");
+		Entity* f5 = instanciate("fin");
 		f5->getComponent<Transform>()->setPosition(Vector3f(1.335855, 0.571176, 2.610204));
 		f5->getComponent<Transform>()->setRotation(Vector3f(-0.126667, -2.622055, 0.000000));
 
-		GameObject* s6 = instanciate("start");
+		Entity* s6 = instanciate("start");
 		s6->getComponent<Transform>()->setPosition(Vector3f(-1.708001, 0.232390, 0.078278));
 		s6->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
 
-		GameObject* f6 = instanciate("fin");
+		Entity* f6 = instanciate("fin");
 		f6->getComponent<Transform>()->setPosition(Vector3f(-0.610981, 0.718269, 0.078073));
 		f6->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
 
-		GameObject* s7 = instanciate("start");
+		Entity* s7 = instanciate("start");
 		s7->getComponent<Transform>()->setPosition(Vector3f(1.163253, 2.849120, -0.82634));
 		s7->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
 
-		GameObject* f7 = instanciate("fin");
+		Entity* f7 = instanciate("fin");
 		f7->getComponent<Transform>()->setPosition(Vector3f(1.112261, 2.849120, 1.64630));
 		f7->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
 
-		GameObject* s8 = instanciate("start");
+		Entity* s8 = instanciate("start");
 		s8->getComponent<Transform>()->setPosition(Vector3f(1.269536, 2.121249, 4.091350));
 		s8->getComponent<Transform>()->setRotation(Vector3f(-0.606236, 2.979938, 0.000000));
 
-		GameObject* f8 = instanciate("fin");
+		Entity* f8 = instanciate("fin");
 		f8->getComponent<Transform>()->setPosition(Vector3f(0.237463, 1.906774, 3.826429));
 		f8->getComponent<Transform>()->setRotation(Vector3f(-0.576903, 3.178587, 0.000000));
 
-		GameObject* s9 = instanciate("start");
+		Entity* s9 = instanciate("start");
 		s9->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4));
 		s9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0));
 
-		GameObject* f9 = instanciate("fin");
+		Entity* f9 = instanciate("fin");
 		f9->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9));
 		f9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
 
 
-		GameObject* cam = instanciate("Camera");
+		Entity* cam = instanciate("Camera");
 		cam->addComponent<Camera>()->setFOV(60);
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 2, -2));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
@@ -654,26 +654,26 @@ public:
 
 
 		/* --------------------------- LIGHT HELPER --------------------------- */
-		GameObject* lightProbe = instanciate("LightProbe");
+		Entity* lightProbe = instanciate("LightProbe");
 		lightProbe->addComponent<LightProbe>()->resolution = 512;
 		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
 		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3.4));
 		lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(2.1f, 2.0f, 6));
 
-		GameObject* min = instanciate("min");
+		Entity* min = instanciate("min");
 		min->getComponent<Transform>()->setPosition(Vector3f(-2.1f, -1.3f, -3.4));
 
-		GameObject* max = instanciate("max");
+		Entity* max = instanciate("max");
 		max->getComponent<Transform>()->setPosition(Vector3f(2.1f, 2.0f, 6));
 
 
 		/* --------------------------- LIGHTS --------------------------- */
-		GameObject* ambient = instanciate("Ambient");
+		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.3f, 0.3f, 0.3f);
 		ambient->getComponent<AmbientLight>()->intensity = 0;
 
-		GameObject* sun = instanciate("Sun");
+		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(253.0f/255.0f, 248.0f / 255.0f, 230.0f / 255.0f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4, -0.6, 2);
@@ -683,150 +683,150 @@ public:
 
 		/* --------------------------- OBJECTSS --------------------------- */
 
-		GameObject* couch = instanciate("Couch");
+		Entity* couch = instanciate("Couch");
 		couch->addComponent<MeshRenderer>();
 		couch->getComponent<MeshRenderer>()->setMesh(couchMesh);
 		couch->getComponent<MeshRenderer>()->setMaterial(couchMaterial);
 
-		GameObject* longCouch = instanciate("Long-Couch");
+		Entity* longCouch = instanciate("Long-Couch");
 		longCouch->addComponent<MeshRenderer>();
 		longCouch->getComponent<MeshRenderer>()->setMesh(longCouchMesh);
 		longCouch->getComponent<MeshRenderer>()->setMaterial(couchMaterial);
 
-		GameObject* table = instanciate("Rable");
+		Entity* table = instanciate("Rable");
 		table->addComponent<MeshRenderer>()->captureble = false;
 		table->getComponent<MeshRenderer>()->setMesh(tableMesh);
 		table->getComponent<MeshRenderer>()->setMaterial(tableMaterial);
 		//table->setEnable(false);
 
-		GameObject* shelve = instanciate("Shelve");
+		Entity* shelve = instanciate("Shelve");
 		shelve->addComponent<MeshRenderer>();
 		shelve->getComponent<MeshRenderer>()->setMesh(shelveMesh);
 		shelve->getComponent<MeshRenderer>()->setMaterial(shelveMaterial);
 
-		GameObject* room = instanciate("Room");
+		Entity* room = instanciate("Room");
 		room->addComponent<MeshRenderer>();
 		room->getComponent<MeshRenderer>()->setMesh(wallMesh);
 		room->getComponent<MeshRenderer>()->setMaterial(wallMaterial);
 
-		GameObject* occluder = instanciate("Occluder");
+		Entity* occluder = instanciate("Occluder");
 		occluder->addComponent<MeshRenderer>();
 		occluder->getComponent<MeshRenderer>()->setMesh(occluderMesh);
 		occluder->getComponent<MeshRenderer>()->setMaterial(occluderMaterial);
 
-		GameObject* floor = instanciate("Floor");
+		Entity* floor = instanciate("Floor");
 		floor->addComponent<MeshRenderer>();
 		floor->getComponent<MeshRenderer>()->setMesh(floorMesh);
 		floor->getComponent<MeshRenderer>()->setMaterial(wood);
 
-		GameObject* floorEdge = instanciate("FloorEdge");
+		Entity* floorEdge = instanciate("FloorEdge");
 		floorEdge->addComponent<MeshRenderer>();
 		floorEdge->getComponent<MeshRenderer>()->setMesh(floorEdgeMesh);
 		floorEdge->getComponent<MeshRenderer>()->setMaterial(wood);
 
-		GameObject* doors = instanciate("Doors");
+		Entity* doors = instanciate("Doors");
 		doors->addComponent<MeshRenderer>();
 		doors->getComponent<MeshRenderer>()->setMesh(doorsMesh);
 		doors->getComponent<MeshRenderer>()->setMaterial(doorMaterial);
 
-		GameObject* slidingDoor = instanciate("Sliding-Doors");
+		Entity* slidingDoor = instanciate("Sliding-Doors");
 		slidingDoor->addComponent<MeshRenderer>();
 		slidingDoor->getComponent<MeshRenderer>()->setMesh(slidingDoorMesh);
 		slidingDoor->getComponent<MeshRenderer>()->setMaterial(slidingDoorMaterial);
 
-		GameObject* carpet = instanciate("Carpet");
+		Entity* carpet = instanciate("Carpet");
 		carpet->addComponent<TransparentMeshRenderer>();
 		carpet->getComponent<TransparentMeshRenderer>()->setMesh(carpetMesh);
 		carpet->getComponent<TransparentMeshRenderer>()->setMaterial(carpetMaterial);
 
-		GameObject* carpetFloor = instanciate("CarpetFloor");
+		Entity* carpetFloor = instanciate("CarpetFloor");
 		carpetFloor->addComponent<MeshRenderer>();
 		carpetFloor->getComponent<MeshRenderer>()->setMesh(carpetFloorMesh);
 		carpetFloor->getComponent<MeshRenderer>()->setMaterial(carpetFloorMaterial);
 
-		GameObject* lamp = instanciate("Lamp");
+		Entity* lamp = instanciate("Lamp");
 		lamp->addComponent<MeshRenderer>();
 		lamp->getComponent<MeshRenderer>()->setMesh(lampMesh);
 		lamp->getComponent<MeshRenderer>()->setMaterial(lampMaterial);
 
-		GameObject* ceilingLight = instanciate("CeilingLight");
+		Entity* ceilingLight = instanciate("CeilingLight");
 		ceilingLight->addComponent<MeshRenderer>();
 		ceilingLight->getComponent<MeshRenderer>()->setMesh(ceilingLightMesh);
 		ceilingLight->getComponent<MeshRenderer>()->setMaterial(ceilingLightMaterial);
 
-		GameObject* vase = instanciate("Vase");
+		Entity* vase = instanciate("Vase");
 		vase->addComponent<MeshRenderer>();
 		vase->getComponent<MeshRenderer>()->setMesh(vaseMesh);
 		vase->getComponent<MeshRenderer>()->setMaterial(vaseMaterial);
 
-		GameObject* frame = instanciate("Frame");
+		Entity* frame = instanciate("Frame");
 		frame->addComponent<MeshRenderer>();
 		frame->getComponent<MeshRenderer>()->setMesh(frameMesh);
 		frame->getComponent<MeshRenderer>()->setMaterial(frameMaterial);
 
-		GameObject* frameGlass = instanciate("FrameGlass");
+		Entity* frameGlass = instanciate("FrameGlass");
 		frameGlass->addComponent<TransparentMeshRenderer>();
 		frameGlass->getComponent<TransparentMeshRenderer>()->setMesh(frameGlassMesh);
 		frameGlass->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 
-		GameObject* painting1 = instanciate("Painting1");
+		Entity* painting1 = instanciate("Painting1");
 		painting1->addComponent<MeshRenderer>();
 		painting1->getComponent<MeshRenderer>()->setMesh(painting1Mesh);
 		painting1->getComponent<MeshRenderer>()->setMaterial(painting1Material);
 
-		GameObject* painting2 = instanciate("Painting2");
+		Entity* painting2 = instanciate("Painting2");
 		painting2->addComponent<MeshRenderer>();
 		painting2->getComponent<MeshRenderer>()->setMesh(painting2Mesh);
 		painting2->getComponent<MeshRenderer>()->setMaterial(painting2Material);
 
-		GameObject* painting3 = instanciate("Painting3");
+		Entity* painting3 = instanciate("Painting3");
 		painting3->addComponent<MeshRenderer>();
 		painting3->getComponent<MeshRenderer>()->setMesh(painting3Mesh);
 		painting3->getComponent<MeshRenderer>()->setMaterial(painting3Material);
 
 
-		GameObject* book1 = instanciate("Book1");
+		Entity* book1 = instanciate("Book1");
 		book1->addComponent<MeshRenderer>();
 		book1->getComponent<MeshRenderer>()->setMesh(bookMesh1);
 		book1->getComponent<MeshRenderer>()->setMaterial(bookMaterial1);
-		GameObject* book2 = instanciate("Book2");
+		Entity* book2 = instanciate("Book2");
 		book2->addComponent<MeshRenderer>();
 		book2->getComponent<MeshRenderer>()->setMesh(bookMesh2);
 		book2->getComponent<MeshRenderer>()->setMaterial(bookMaterial2);
-		GameObject* book3 = instanciate("Book3");
+		Entity* book3 = instanciate("Book3");
 		book3->addComponent<MeshRenderer>();
 		book3->getComponent<MeshRenderer>()->setMesh(bookMesh3);
 		book3->getComponent<MeshRenderer>()->setMaterial(bookMaterial3);
-		GameObject* book4 = instanciate("Book4");
+		Entity* book4 = instanciate("Book4");
 		book4->addComponent<MeshRenderer>();
 		book4->getComponent<MeshRenderer>()->setMesh(bookMesh4);
 		book4->getComponent<MeshRenderer>()->setMaterial(bookMaterial4);
 
-		GameObject* balconyFloor = instanciate("Balcony Floor");
+		Entity* balconyFloor = instanciate("Balcony Floor");
 		balconyFloor->addComponent<MeshRenderer>();
 		balconyFloor->getComponent<MeshRenderer>()->setMesh(balconyFloorMesh);
 		balconyFloor->getComponent<MeshRenderer>()->setMaterial(balconyFloorMaterial);
 
-		GameObject* balconyRailing = instanciate("Balcony Railing");
+		Entity* balconyRailing = instanciate("Balcony Railing");
 		balconyRailing->addComponent<MeshRenderer>();
 		balconyRailing->getComponent<MeshRenderer>()->setMesh(balconyRailingMesh);
 		balconyRailing->getComponent<MeshRenderer>()->setMaterial(railingMaterial);
 
-		GameObject* probe = instanciate("Probe");
+		Entity* probe = instanciate("Probe");
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2, 0));
 		probe->getComponent<Transform>()->setScale(Vector3f(0.1f, 0.1f, 0.1f));
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(def);
 
-		GameObject* window = instanciate("Window");
+		Entity* window = instanciate("Window");
 		window->addComponent<TransparentMeshRenderer>()->cutout = false;
 		window->getComponent<TransparentMeshRenderer>()->setMesh(windowMesh);
 		window->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 		//window->setEnable(false);
 
 
-		GameObject* panorama = instanciate("Panorama");
+		Entity* panorama = instanciate("Panorama");
 		panorama->addComponent<MeshRenderer>();
 		panorama->getComponent<MeshRenderer>()->setMesh(panoramaMesh);
 		panorama->getComponent<MeshRenderer>()->setMaterial(panoramaMaterial);
@@ -836,7 +836,7 @@ public:
 		for (int x = 0; x < 8; x++) {
 		for (int z = 0; z < 10; z++) {
 		for (int y = 0; y < 4; y++) {
-		GameObject* probe = instanciate("Probe" + x + y + z);
+		Entity* probe = instanciate("Probe" + x + y + z);
 		probe->getComponent<Transform>()->setPosition(Vector3f(x-4, y, z-5));
 		probe->getComponent<Transform>()->setScale(Vector3f(0.1f, 0.1f, 0.1f));
 		probe->addComponent<MeshRenderer>();

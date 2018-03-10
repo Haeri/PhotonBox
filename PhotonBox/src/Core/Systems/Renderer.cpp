@@ -381,7 +381,7 @@ void Renderer::renderAmbient(int pass, LightMap* lightmap, AABB* volume)
 	{
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 		{
-			if (!(*it)->gameObject->getStatic()) continue;
+			if (!(*it)->entity->getStatic()) continue;
 
 
 			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
@@ -464,7 +464,7 @@ void Renderer::renderGizmos()
 {
 	if (_isDebug)
 	{
-		for (std::vector<GameObject*>::iterator it = SceneManager::getCurrentScene()->gameObjectList.begin(); it != SceneManager::getCurrentScene()->gameObjectList.end(); ++it)
+		for (std::vector<Entity*>::iterator it = SceneManager::getCurrentScene()->entityList.begin(); it != SceneManager::getCurrentScene()->entityList.end(); ++it)
 		{
 			if ((*it)->getEnable())
 			{
@@ -520,7 +520,7 @@ void Renderer::updateTransparentQueue()
 	float bias = 0.0001f;
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it)
 	{
-		if ((*it)->getEnable() && (*it)->gameObject->getStatic() && Camera::getMainCamera()->frustumTest(*it))
+		if ((*it)->getEnable() && (*it)->entity->getStatic() && Camera::getMainCamera()->frustumTest(*it))
 		{
 			//if (!(*it)->captureVisible && captureMode) continue;
 			Vector3f camPos = Camera::getMainCamera()->transform->getPositionWorld();

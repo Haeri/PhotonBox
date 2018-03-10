@@ -1,7 +1,7 @@
 #ifndef POINT_RENDERER_H
 #define POINT_RENDERER_H
 
-#include "../Core/GameObject.h"
+#include "../Core/Entity.h"
 #include "../Core/OpenGL.h"
 #include "Camera.h"
 #include "ObjectRenderer.h"
@@ -25,7 +25,7 @@ public:
 		glUseProgram(0);
 		glBegin(GL_POINTS);
 
-		Vector3f col = gameObject->getComponent<PointLight>()->color;
+		Vector3f col = entity->getComponent<PointLight>()->color;
 		glColor4f(col.x(), col.y(), col.z(), 1);
 
 		Vector2f pos2D = Camera::worldToScreen(transform->getPositionWorld());

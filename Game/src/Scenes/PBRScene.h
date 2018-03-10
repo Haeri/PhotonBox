@@ -202,7 +202,7 @@ public:
 
 
 		/* --------------------------- CAMERA --------------------------- */
-		GameObject* cam = instanciate("Camera");
+		Entity* cam = instanciate("Camera");
 		cam->addComponent<Camera>();
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -10));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
@@ -211,22 +211,22 @@ public:
 
 
 		/* --------------------------- LIGHTS --------------------------- */
-		GameObject* ambient = instanciate("Ambient");
+		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.3f, 0.3f, 0.3f);
 		ambient->getComponent<AmbientLight>()->intensity = 0;
 
-		GameObject* sun = instanciate("Sun");
+		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, -1, 1);
 		sun->getComponent<DirectionalLight>()->intensity = 2.0f;
 		//sun->setEnable(false);
 
-		GameObject* rig = instanciate("Rig");
+		Entity* rig = instanciate("Rig");
 		rig->addComponent<TransformerScript>();
 
-		GameObject* pointLight = instanciate("Pointlight");
+		Entity* pointLight = instanciate("Pointlight");
 		pointLight->addComponent<PointRenderer>();
 		pointLight->getComponent<Transform>()->setPosition(Vector3f(-7, 2, 0));
 		pointLight->addComponent<PointLight>();
@@ -239,61 +239,61 @@ public:
 		//pointLight->setEnable(false);
 
 
-		GameObject* probe = instanciate("Probe-1");
+		Entity* probe = instanciate("Probe-1");
 		probe->getComponent<Transform>()->setPosition(Vector3f(-6, 1, 0));
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(wood);
 
-		GameObject* probe2 = instanciate("Probe-2");
+		Entity* probe2 = instanciate("Probe-2");
 		probe2->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
 		probe2->addComponent<MeshRenderer>();
 		probe2->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe2->getComponent<MeshRenderer>()->setMaterial(rust);
 
-		GameObject* probe3 = instanciate("Probe-3");
+		Entity* probe3 = instanciate("Probe-3");
 		probe3->getComponent<Transform>()->setPosition(Vector3f(6, 1, 0));
 		probe3->addComponent<MeshRenderer>();
 		probe3->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe3->getComponent<MeshRenderer>()->setMaterial(bricks);
 
-		GameObject* probe4 = instanciate("Probe-4");
+		Entity* probe4 = instanciate("Probe-4");
 		probe4->getComponent<Transform>()->setPosition(Vector3f(12, 1, 0));
 		probe4->addComponent<MeshRenderer>();
 		probe4->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe4->getComponent<MeshRenderer>()->setMaterial(gold);
 
-		GameObject* probe5 = instanciate("Probe-5");
+		Entity* probe5 = instanciate("Probe-5");
 		probe5->getComponent<Transform>()->setPosition(Vector3f(18, 1, 0));
 		probe5->addComponent<MeshRenderer>();
 		probe5->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe5->getComponent<MeshRenderer>()->setMaterial(def);
 
-		GameObject* probe6 = instanciate("Probe-6");
+		Entity* probe6 = instanciate("Probe-6");
 		probe6->getComponent<Transform>()->setPosition(Vector3f(24, 1, 0));
 		probe6->addComponent<MeshRenderer>();
 		probe6->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe6->getComponent<MeshRenderer>()->setMaterial(lit);
 
-		GameObject* probe7 = instanciate("Probe-7");
+		Entity* probe7 = instanciate("Probe-7");
 		probe7->getComponent<Transform>()->setPosition(Vector3f(30, 1, 0));
 		probe7->addComponent<TransparentMeshRenderer>();
 		probe7->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
 		probe7->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 
-		GameObject* probe8 = instanciate("Probe-7");
+		Entity* probe8 = instanciate("Probe-7");
 		probe8->getComponent<Transform>()->setPosition(Vector3f(36, 1, 0));
 		probe8->addComponent<TransparentMeshRenderer>();
 		probe8->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
 		probe8->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 
-		GameObject* probe9 = instanciate("Probe-7");
+		Entity* probe9 = instanciate("Probe-7");
 		probe9->getComponent<Transform>()->setPosition(Vector3f(42, 1, 0));
 		probe9->addComponent<TransparentMeshRenderer>();
 		probe9->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
 		probe9->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 
-		GameObject* probe10 = instanciate("Probe-7");
+		Entity* probe10 = instanciate("Probe-7");
 		probe10->getComponent<Transform>()->setPosition(Vector3f(48, 1, 0));
 		probe10->addComponent<TransparentMeshRenderer>();
 		probe10->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
@@ -301,49 +301,49 @@ public:
 
 
 
-		GameObject* quad = instanciate("Quad-1");
+		Entity* quad = instanciate("Quad-1");
 		quad->getComponent<Transform>()->setPosition(Vector3f(-6, 0, -3));
 		quad->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(plane);
 		quad->getComponent<MeshRenderer>()->setMaterial(wood);
 
-		GameObject* quad2 = instanciate("Quad-2");
+		Entity* quad2 = instanciate("Quad-2");
 		quad2->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
 		quad2->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad2->addComponent<MeshRenderer>();
 		quad2->getComponent<MeshRenderer>()->setMesh(plane);
 		quad2->getComponent<MeshRenderer>()->setMaterial(rust);
 
-		GameObject* quad3 = instanciate("Quad-3");
+		Entity* quad3 = instanciate("Quad-3");
 		quad3->getComponent<Transform>()->setPosition(Vector3f(6, 0, -3));
 		quad3->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad3->addComponent<MeshRenderer>();
 		quad3->getComponent<MeshRenderer>()->setMesh(plane);
 		quad3->getComponent<MeshRenderer>()->setMaterial(bricks);
 
-		GameObject* quad4 = instanciate("Quad-4");
+		Entity* quad4 = instanciate("Quad-4");
 		quad4->getComponent<Transform>()->setPosition(Vector3f(12, 0, -3));
 		quad4->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad4->addComponent<MeshRenderer>();
 		quad4->getComponent<MeshRenderer>()->setMesh(plane);
 		quad4->getComponent<MeshRenderer>()->setMaterial(gold);
 
-		GameObject* quad5 = instanciate("Quad-5");
+		Entity* quad5 = instanciate("Quad-5");
 		quad5->getComponent<Transform>()->setPosition(Vector3f(18, 0, -3));
 		quad5->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad5->addComponent<MeshRenderer>();
 		quad5->getComponent<MeshRenderer>()->setMesh(plane);
 		quad5->getComponent<MeshRenderer>()->setMaterial(def);
 
-		GameObject* quad6 = instanciate("Quad-6");
+		Entity* quad6 = instanciate("Quad-6");
 		quad6->getComponent<Transform>()->setPosition(Vector3f(24, 0, -3));
 		quad6->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad6->addComponent<MeshRenderer>();
 		quad6->getComponent<MeshRenderer>()->setMesh(plane);
 		quad6->getComponent<MeshRenderer>()->setMaterial(lit);
 
-		GameObject* quad7 = instanciate("Quad-7");
+		Entity* quad7 = instanciate("Quad-7");
 		quad7->getComponent<Transform>()->setPosition(Vector3f(30, 0, -3));
 		quad7->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
 		quad7->addComponent<TransparentMeshRenderer>();

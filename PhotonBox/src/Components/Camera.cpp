@@ -1,4 +1,4 @@
-#include "../Core/GameObject.h"
+#include "../Core/Entity.h"
 #include "Camera.h"
 #include "ObjectRenderer.h"
 
@@ -124,7 +124,7 @@ bool Camera::frustumTest(ObjectRenderer* object)
 	{
 		if (object->transform->getPositionWorld().dot(_frustum[i].normal) + _frustum[i].distance + maxScaleAxis * object->getBoundingSphereRadius() <= 0)
 		{
-			std::cout << object->gameObject->name << std::endl;
+			std::cout << object->entity->name << std::endl;
 			return false;
 		}
 	}

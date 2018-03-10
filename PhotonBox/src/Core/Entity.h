@@ -1,5 +1,5 @@
-#ifndef GAME_OBJECT_H
-#define GAME_OBJECT_H
+#ifndef ENTITY_H
+#define ENTITY_H
 
 class Scene;
 
@@ -9,26 +9,26 @@ class Scene;
 #include "../Components/Transform.h"
 #include "Component.h"
 
-class GameObject
+class Entity
 {
 public:
 	Scene * parentScene;
 	Transform* transform;
 	std::string name;
 
-	GameObject(Scene &_scene);
-	GameObject(Scene &_scene, std::string _name);
+	Entity(Scene &_scene);
+	Entity(Scene &_scene, std::string _name);
 
 	template <class T>
 	T* addComponent()
 	{
 		if (_componentMap.find(typeid(T)) != _componentMap.end())
 		{
-			std::cerr << name << " GameObject already contains Component " << std::endl;
+			std::cerr << name << " Entity already contains Component " << std::endl;
 			return nullptr;
 		}
 		T* c = new T();
-		c->setGameObject(this);
+		c->setEntity(this);
 		c->setTransform(transform);
 		_componentMap.insert(std::pair<std::type_index, Component*>(typeid(T), c));
 		return c;
@@ -76,4 +76,4 @@ private:
 	int _id;
 	std::unordered_map<std::type_index, Component*> _componentMap;
 };
-#endif /* defined(GAME_OBJECT_H) */
+#endif // ENTITY_H

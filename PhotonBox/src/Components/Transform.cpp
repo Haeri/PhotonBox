@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "../Core/GameObject.h"
+#include "../Core/Entity.h"
 #include "Camera.h"
 #include "Transform.h"
 
@@ -82,7 +82,7 @@ void Transform::renderHandels()
 
 void Transform::print()
 {
-	std::cout << gameObject->name << std::endl;
+	std::cout << entity->name << std::endl;
 	std::cout << "Position: " << getPosition() << std::endl;
 	std::cout << "World Position: " << getPositionWorld() << std::endl;
 	std::cout << "Rotation: " << getRotation() << std::endl;
@@ -154,9 +154,9 @@ void Transform::setParent(Transform *parent)
 		parent->children.push_back(this);
 }
 
-void Transform::setParent(GameObject *_gameObject)
+void Transform::setParent(Entity *_entity)
 {
-	setParent(_gameObject->transform);
+	setParent(_entity->transform);
 }
 
 Matrix4f Transform::getTransformationMatrix()

@@ -60,9 +60,6 @@
     <ClCompile Include="src\Core\Display.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\GameObject.cpp">
-      <Filter>src\Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\Core\InputManager.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
@@ -141,6 +138,9 @@
     <ClCompile Include="src\Resources\Config.cpp" />
     <ClCompile Include="src\Core\Profiler.cpp" />
     <ClCompile Include="src\Resources\DeferredShader.cpp" />
+    <ClCompile Include="src\Core\Entity.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -180,9 +180,6 @@
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Display.h">
-      <Filter>src\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\GameObject.h">
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\InputManager.h">
@@ -309,5 +306,8 @@
     <ClInclude Include="src\Game\DemoScene.h" />
     <ClInclude Include="src\Core\Profiler.h" />
     <ClInclude Include="src\Resources\Resources.h" />
+    <ClInclude Include="src\Core\Entity.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
