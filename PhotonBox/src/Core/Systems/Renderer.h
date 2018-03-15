@@ -40,6 +40,8 @@ public:
 	void start();
 	void prePass();
 	void clearDrawCalls();
+	static void renderBase();
+	static void renderTransparents();
 	static void renderDeferred();
 	static void render();
 	static void render(bool captureMode);

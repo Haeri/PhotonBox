@@ -15,19 +15,21 @@ public:
 
 	void update(Transform* transform) override
 	{
-		glUniform3fv(uniforms["viewPos"], 1, &(Camera::getMainCamera()->transform->getPositionWorld().x()));
+		//glUniform3fv(uniforms["viewPos"], 1, &(Camera::getMainCamera()->getViewMatrix() * Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1.0f)).x());
+		glUniformMatrix4fv(uniforms["viewMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix().inverse()(0, 0)));
 	}
 
 	void addUniforms() override
 	{
-		addUniform("viewPos");
-		
+		//addUniform("viewPos");
+		addUniform("viewMatrixInv");
+
 		for (size_t i = 0; i < 3; i++)
 		{
-			addUniform("lights[" + std::to_string(i) + "].Position");
-			addUniform("lights[" + std::to_string(i) + "].Color");
-			addUniform("lights[" + std::to_string(i) + "].Linear");
-			addUniform("lights[" + std::to_string(i) + "].Quadratic");
+			addUniform("directionalLights[" + std::to_string(i) + "].direction");
+			addUniform("directionalLights[" + std::to_string(i) + "].color");
+			addUniform("directionalLights[" + std::to_string(i) + "].lightSpaceMatrix");
+			addUniform("directionalLights[" + std::to_string(i) + "].intensity");
 		}
 
 		addTexture("gPosition");
@@ -35,6 +37,8 @@ public:
 		addTexture("gRoughness");
 		addTexture("gMetallic");
 		addTexture("gAlbedo");
+
+		addTexture("shadowMap");
 	}
 
 	void addAttributes() override

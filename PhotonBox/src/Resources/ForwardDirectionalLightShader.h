@@ -20,6 +20,7 @@ public:
 	{
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
+		// MEM_LEAK
 		DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
 		Vector3f lvp = dl->direction;
 

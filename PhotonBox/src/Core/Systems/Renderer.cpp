@@ -165,14 +165,21 @@ void Renderer::renderShadows(bool captureMode)
 }
 
 void Renderer::renderDeferred() {
+	renderShadows(false);
+
+	_skyBox.render();
+
 	_mainFrameBuffer->enable();
 	_mainFrameBuffer->clear();
-	
-	_skyBox.render();
+
+	renderBase();
+
+
 
 	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
 
 	_deferredShader->bind();
+	
 
 	int i = -1;
 	for (auto const &lightvec : lights)
@@ -182,20 +189,45 @@ void Renderer::renderDeferred() {
 		{
 			if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
 
-			if ((typeid(*(light->getLightShader())) == typeid(*(ForwardPointLightShader::getInstance()))))
+			if ((typeid(*(light->getLightShader())) == typeid(*(ForwardDirectionalLightShader::getInstance()))))
 			{
-				Vector3f lightViewPos = (Camera::getMainCamera()->getViewMatrix() * Vector4f(light->transform->getPositionWorld(), 1.0f)).xyz();
+				DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
+				Vector3f lightViewDirection = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->direction, 0.0f)).xyz();
+
+				Matrix4f lightView = Matrix4f::lookAt(
+					(dl->direction * -3),
+					Vector3f(0.0f, 1.0f, 0.0f),
+					dl->direction);
+				Matrix4f lightSpaceMatrix = dl->lightProjection * lightView;
+
 				++i;
-				_deferredShader->setUniform("lights[" + std::to_string(i) + "].Position", lightViewPos);
-				_deferredShader->setUniform("lights[" + std::to_string(i) + "].Color", light->color);
-				_deferredShader->setUniform("lights[" + std::to_string(i) + "].Linear", 0.7f);
-				_deferredShader->setUniform("lights[" + std::to_string(i) + "].Quadratic", 1.8f);
+				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].lightSpaceMatrix", lightSpaceMatrix);
+				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].direction", lightViewDirection);
+				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
+				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
+
+
+				glActiveTexture(_deferredShader->textures["shadowMap"].unit);
+				glBindTexture(GL_TEXTURE_2D, dl->_depthMap);
+				//_deferredMaterial->setTexture("shadowMap", dl->_depthMap, "shadowMap");
 			}
 		}
 	}
 	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+	glDepthMask(GL_FALSE);
+	glDepthFunc(GL_EQUAL);
 
 	defBuffer.gBuffer->render(_deferredMaterial);
+
+	renderTransparents();
+
+	glDepthMask(GL_TRUE);
+	glDepthFunc(GL_LESS);
+	glDisable(GL_BLEND);
+
+
 
 	/*
 	int cols = 2;
@@ -207,6 +239,12 @@ void Renderer::renderDeferred() {
 
 	widthX += Display::getWidth() / cols;
 	*/
+
+	if (!PostProcessing::isActive())
+	{
+		FrameBuffer::resetDefaultBuffer();
+		_mainFrameBuffer->render("color");
+	}
 }
 
 void Renderer::render(bool captureMode)
@@ -222,84 +260,86 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 		renderShadows(false);
 
 		// Bind & clear Main FBO
-		//_mainFrameBuffer->enable();
-		//_mainFrameBuffer->clear();
+		_mainFrameBuffer->enable();
+		_mainFrameBuffer->clear();
 	}
 
-	//_skyBox.render();
-
-	/*
-	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
+	_skyBox.render();
+	
+	if (captureMode)
 	{
-		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
+		for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 		{
-			if (!(*it)->captureble && captureMode) continue;
-
-
-			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
+			if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 			{
-				glEnable(GL_DEPTH_TEST);
-				(*it)->render();
-			}
-			else
-			{
-				glEnable(GL_DEPTH_TEST);
+				if (!(*it)->captureble && captureMode) continue;
 
 
-				// IBL
-				_ambientLightShader->bind();
-				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
-				if (!captureMode && lp != nullptr)
+				if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
 				{
-					lp->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
-					lp->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
-
-					_ambientLightShader->setUniform("minBound", lp->bounds.getMinBoundGlobal());
-					_ambientLightShader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
-					_ambientLightShader->setUniform("boundPos", lp->bounds.getBoundPosition());
-					_ambientLightShader->setUniform("useCorrection", true);
-				}
-				else if (lightmap != nullptr)
-				{
-					lightmap->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
-					lightmap->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
-					_ambientLightShader->setUniform("useCorrection", false);
+					glEnable(GL_DEPTH_TEST);
+					(*it)->render();
 				}
 				else
 				{
-					_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
-					_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
-					_ambientLightShader->setUniform("useCorrection", false);
-				}
-
-				// AMBIENT
-				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
-				(*it)->render(_ambientLightShader, ambient);
+					glEnable(GL_DEPTH_TEST);
 
 
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_ONE, GL_ONE);
-				glDepthMask(GL_FALSE);
-				glDepthFunc(GL_EQUAL);
-
-				std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
-				for (auto const &lightvec : lights)
-				{
-					for (auto const &light : lightvec.second)
+					// IBL
+					_ambientLightShader->bind();
+					LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
+					if (!captureMode && lp != nullptr)
 					{
-						if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
-						(*it)->render(light->getLightShader(), light);
+						lp->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+						lp->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+
+						_ambientLightShader->setUniform("minBound", lp->bounds.getMinBoundGlobal());
+						_ambientLightShader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
+						_ambientLightShader->setUniform("boundPos", lp->bounds.getBoundPosition());
+						_ambientLightShader->setUniform("useCorrection", true);
 					}
+					else if (lightmap != nullptr)
+					{
+						lightmap->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
+						lightmap->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+						_ambientLightShader->setUniform("useCorrection", false);
+					}
+					else
+					{
+						_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+						_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+						_ambientLightShader->setUniform("useCorrection", false);
+					}
+
+					// AMBIENT
+					AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+					(*it)->render(_ambientLightShader, ambient);
+
+
+					glEnable(GL_BLEND);
+					glBlendFunc(GL_ONE, GL_ONE);
+					glDepthMask(GL_FALSE);
+					glDepthFunc(GL_EQUAL);
+
+					std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+					for (auto const &lightvec : lights)
+					{
+						for (auto const &light : lightvec.second)
+						{
+							if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+							(*it)->render(light->getLightShader(), light);
+						}
+					}
+
+					glDepthMask(GL_TRUE);
+					glDepthFunc(GL_LESS);
+					glDisable(GL_BLEND);
+
 				}
-
-				glDepthMask(GL_TRUE);
-				glDepthFunc(GL_LESS);
-				glDisable(GL_BLEND);
-
 			}
 		}
 	}
-	*/
+	
 
 	if (!captureMode)
 	{
@@ -372,6 +412,138 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 		_mainFrameBuffer->render("color");
 	}
 }
+
+
+void Renderer::renderBase()
+{
+	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
+	{
+		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
+		{
+			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
+			{
+				glEnable(GL_DEPTH_TEST);
+				(*it)->render();
+			}
+			else
+			{
+				glEnable(GL_DEPTH_TEST);
+
+
+				// IBL
+				_ambientLightShader->bind();
+				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
+				if (lp != nullptr)
+				{
+					lp->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					lp->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+
+					_ambientLightShader->setUniform("minBound", lp->bounds.getMinBoundGlobal());
+					_ambientLightShader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
+					_ambientLightShader->setUniform("boundPos", lp->bounds.getBoundPosition());
+					_ambientLightShader->setUniform("useCorrection", true);
+				}
+				else
+				{
+					_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					_ambientLightShader->setUniform("useCorrection", false);
+				}
+
+				// AMBIENT
+				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+				(*it)->render(_ambientLightShader, ambient);
+
+
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_ONE, GL_ONE);
+				glDepthMask(GL_FALSE);
+				glDepthFunc(GL_EQUAL);
+
+				std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+				for (auto const &lightvec : lights)
+				{
+					for (auto const &light : lightvec.second)
+					{
+						if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+						(*it)->render(light->getLightShader(), light);
+					}
+				}
+
+				glDepthMask(GL_TRUE);
+				glDepthFunc(GL_LESS);
+				glDisable(GL_BLEND);
+
+			}
+		}
+	}
+
+}
+
+void Renderer::renderTransparents()
+{
+	updateTransparentQueue();
+	for (std::map<float, TransparentMeshRenderer*>::reverse_iterator it = _renderQueueTransparent.rbegin(); it != _renderQueueTransparent.rend(); ++it)
+	{
+		glEnable(GL_DEPTH_TEST);
+
+		// IBL
+		_transparentBaseShader->bind();
+		LightProbe* lp = Lighting::findInLightProberVolume(it->second->transform);
+		if (lp != nullptr)
+		{
+			lp->getSpecularCube()->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
+
+			_transparentBaseShader->setUniform("minBound", lp->bounds.getMinBoundGlobal());
+			_transparentBaseShader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
+			_transparentBaseShader->setUniform("boundPos", lp->bounds.getBoundPosition());
+			_transparentBaseShader->setUniform("useCorrection", true);
+		}
+		else
+		{
+			_skyBox.getLightProbe()->getSpecularCube()->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
+			_transparentBaseShader->setUniform("useCorrection", false);
+		}
+
+
+		// AMBIENT
+		AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+
+		glEnable(GL_BLEND);
+		if (it->second->cutout)
+		{
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+		else
+		{
+			glBlendFunc(GL_ONE, GL_ONE);
+		}
+
+		it->second->render(_transparentBaseShader, ambient);
+
+
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_EQUAL);
+
+		std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+		for (auto const &lightvec : lights)
+		{
+			for (auto const &light : lightvec.second)
+			{
+				if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+				it->second->render(light->getLightShader(), light);
+			}
+		}
+
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
+		glDisable(GL_BLEND);
+
+	}
+	clearTransparentQueue();
+}
+
 
 void Renderer::renderAmbient(int pass, LightMap* lightmap, AABB* volume)
 {
