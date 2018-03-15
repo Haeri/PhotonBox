@@ -124,7 +124,7 @@ void Core::run()
 
 		// Render Scene
 		Renderer::renderDeferred();
-		Renderer::render();
+		//Renderer::render();
 		nbFrames++;
 
 

@@ -66,6 +66,7 @@ public:
 	/// Clears this instance.
 	/// </summary>
 	void clear();
+	void clear(int r, int g, int b, int a);
 	void render(std::string name);
 	void render(Material* material);
 	void resize();
