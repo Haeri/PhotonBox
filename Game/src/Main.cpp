@@ -27,7 +27,7 @@ int main(void)
 
 	// Create and initialize the RenderProject
 	Core core;
-	core.init(sceneMap, "Realistic Rendering");
+	core.init(sceneMap, "Material Test");
 	core.run();
 	core.destroy();
 

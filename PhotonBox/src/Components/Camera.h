@@ -40,7 +40,9 @@ private:
 	float _fov, _zNear, _zFar, _aspect, _radius;
 	bool _isPerspective;
 	Matrix4f _projection;
+	Matrix4f _viewCache;
 	Plane _frustum[6];
+	Transform _lastTransform;
 
 	void updateFrustum();
 };

@@ -45,6 +45,9 @@ FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_debugFrameBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3, 0.3, 0.3);
 
+
+void draw_bbox(Mesh* mesh, Matrix4f modelMatrix);
+
 void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer, bool isOpaque)
 {
 	if (isOpaque)
@@ -132,7 +135,7 @@ void Renderer::prePass()
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
-		if ((*it)->getEnable())
+		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 		{
 			glEnable(GL_DEPTH_TEST);
 			(*it)->render(_gShader);
@@ -174,8 +177,6 @@ void Renderer::renderDeferred() {
 
 	renderBase();
 
-
-
 	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
 
 	_deferredShader->bind();
@@ -214,19 +215,20 @@ void Renderer::renderDeferred() {
 		}
 	}
 	
+	
+	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
-	glDepthMask(GL_FALSE);
-	glDepthFunc(GL_EQUAL);
+	glDisable(GL_DEPTH_TEST);
 
 	defBuffer.gBuffer->render(_deferredMaterial);
 
 	renderTransparents();
 
-	glDepthMask(GL_TRUE);
-	glDepthFunc(GL_LESS);
-	glDisable(GL_BLEND);
 
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	
 
 
 	/*
@@ -453,27 +455,6 @@ void Renderer::renderBase()
 				// AMBIENT
 				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
 				(*it)->render(_ambientLightShader, ambient);
-
-
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_ONE, GL_ONE);
-				glDepthMask(GL_FALSE);
-				glDepthFunc(GL_EQUAL);
-
-				std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
-				for (auto const &lightvec : lights)
-				{
-					for (auto const &light : lightvec.second)
-					{
-						if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
-						(*it)->render(light->getLightShader(), light);
-					}
-				}
-
-				glDepthMask(GL_TRUE);
-				glDepthFunc(GL_LESS);
-				glDisable(GL_BLEND);
-
 			}
 		}
 	}
@@ -645,6 +626,78 @@ void Renderer::renderGizmos()
 		}
 	}
 
+	//if (_isDebug)
+	{
+	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
+	{
+		if ((*it)->getEnable())
+		{
+			MeshRenderer* mr = (MeshRenderer*)(*it);
+			//draw_bbox(mr->getMesh(), mr->transform->getTransformationMatrix());
+			
+			/*
+			Matrix4f projectionMatrix = Camera::getMainCamera()->getProjectionMatrix();
+			//glMatrixMode(GL_PROJECTION);
+			//glLoadMatrixf((const GLfloat*)&projectionMatrix(0, 0));
+			//glMatrixMode(GL_MODELVIEW);
+			Matrix4f MVP = Camera::getMainCamera()->getViewProjection() * mr->transform->getTransformationMatrix();
+			//glLoadMatrixf((const GLfloat*)&MV(0, 0));
+
+			Vector3f min = (MVP * Vector4f(mr->getMesh()->min, 1.0f)).xyz();
+			Vector3f max = (MVP * Vector4f(mr->getMesh()->max, 1.0f)).xyz();
+
+			Vector3f x = min + Vector3f::UNIT_X;
+			Vector3f z = min + Vector3f::UNIT_Z;
+			Vector3f y = min + Vector3f::UNIT_Y;
+
+			Vector3f negx = (min + Vector3f::UNIT_X) * -1;
+			Vector3f negz = (min + Vector3f::UNIT_Z) * -1;
+			Vector3f negy = (min + Vector3f::UNIT_Y) * -1;
+			*/
+			Vector2f min = Camera::getMainCamera()->worldToScreen(mr->getAABB().getMinBoundGlobal());
+			Vector2f max = Camera::getMainCamera()->worldToScreen(mr->getAABB().getMaxBoundGlobal());
+
+			glDepthFunc(GL_ALWAYS);
+
+			glUseProgram(0);
+
+			glPointSize(10.0);
+			glBegin(GL_POINTS);
+
+			
+			glColor3f(0, 0, 1);
+			
+
+			glVertex2fv(&min.x());
+			//glVertex3fv(&x.x());
+
+			//glVertex3fv(&min.x());
+			//glVertex3fv(&z.x());
+
+			//glVertex3fv(&min.x());
+			//glVertex3fv(&y.x());
+
+			glColor3f(1, 0, 0);
+			glVertex2fv(&max.x());
+			//glVertex3fv(&negx.x());
+
+			//glVertex3fv(&max.x());
+			//glVertex3fv(&negz.x());
+
+			//glVertex3fv(&max.x());
+			//glVertex3fv(&negy.x());
+
+			glEnd();
+			glFinish();
+
+			glDepthFunc(GL_LESS);
+			
+		}
+	}
+	}
+
+
+
 	/*
 	int cols = 4;
 	int widthX = 0;
@@ -743,4 +796,89 @@ void Renderer::setClearColor(Vector3f color)
 void Renderer::addDrawCall()
 {
 	++_drawCalls;
+}
+
+
+
+
+
+
+
+
+
+
+
+void draw_bbox(Mesh* mesh, Matrix4f modelMatrix)
+{
+	LitShader* litShader = LitShader::getInstance();
+
+	// Cube 1x1x1, centered on origin
+	GLfloat vertices[] = {
+		-0.5, -0.5, -0.5, 1.0,
+		0.5, -0.5, -0.5, 1.0,
+		0.5,  0.5, -0.5, 1.0,
+		-0.5,  0.5, -0.5, 1.0,
+		-0.5, -0.5,  0.5, 1.0,
+		0.5, -0.5,  0.5, 1.0,
+		0.5,  0.5,  0.5, 1.0,
+		-0.5,  0.5,  0.5, 1.0,
+	};
+	GLuint vbo_vertices;
+	glGenBuffers(1, &vbo_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	GLushort elements[] = {
+		0, 1, 2, 3,
+		4, 5, 6, 7,
+		0, 4, 1, 5, 2, 6, 3, 7
+	};
+	GLuint ibo_elements;
+	glGenBuffers(1, &ibo_elements);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+
+	Vector3f size = Vector3f(mesh->max.x() - mesh->min.x(), mesh->max.y() - mesh->min.y(), mesh->max.z() - mesh->min.z());
+	Vector3f center = Vector3f((mesh->min.x() + mesh->max.x()) / 2, (mesh->min.y() + mesh->max.y()) / 2, (mesh->min.z() + mesh->max.z()) / 2);
+	Matrix4f transform = Matrix4f::createTranslation(center) * Matrix4f::createScaling(size);
+
+
+	litShader->bind();
+
+	
+	/* Apply object's transformation matrix */
+	Matrix4f m = modelMatrix * transform;
+	litShader->setUniform("mvp", m);
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+
+	litShader->enableAttributes();
+
+	/*
+	glVertexAttribPointer(
+		attribute_v_coord,  // attribute
+		4,                  // number of elements per vertex, here (x,y,z,w)
+		GL_FLOAT,           // the type of each element
+		GL_FALSE,           // take our values as-is
+		0,                  // no extra data between each position
+		0                   // offset of first element
+	);
+	*/
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
+	glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_SHORT, (GLvoid*)(4 * sizeof(GLushort)));
+	glDrawElements(GL_LINES, 8, GL_UNSIGNED_SHORT, (GLvoid*)(8 * sizeof(GLushort)));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	litShader->disableAttributes();
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glDeleteBuffers(1, &vbo_vertices);
+	glDeleteBuffers(1, &ibo_elements);
 }

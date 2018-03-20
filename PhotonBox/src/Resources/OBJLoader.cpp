@@ -9,7 +9,7 @@
 #include <cstdio>
 #include <cerrno>
 
-const bool forceWrite = false;
+#define FORECE_GENERATE false
 
 struct OBJIndex
 {
@@ -139,11 +139,14 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 	std::string cachePath = filePath.substr(0, found) + ".mesh";
 	struct stat buffer;
 
-	if (!forceWrite && stat(cachePath.c_str(), &buffer) == 0)
+#if FORECE_GENERATE
+	loadFromCache(cachePath);
+#else
+	if (stat(cachePath.c_str(), &buffer) == 0)
 	{
 		return loadFromCache(cachePath);
 	}
-
+#endif
 
 	std::string line;
 	std::vector<std::string> tokens;
@@ -174,6 +177,21 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 			pos.y() = std::stof(tokens[2]);
 			pos.z() = std::stof(tokens[3]);
 			positions.push_back(pos);
+
+			if (pos.x() < mesh->min.x())
+				mesh->min.x() = pos.x();
+			if (pos.y() < mesh->min.y())
+				mesh->min.y() = pos.y();
+			if (pos.z() < mesh->min.z())
+				mesh->min.z() = pos.z();
+
+			if (pos.x() > mesh->max.x())
+				mesh->max.x() = pos.x();
+			if (pos.y() > mesh->max.y())
+				mesh->max.y() = pos.y();
+			if (pos.z() > mesh->max.z())
+				mesh->max.z() = pos.z();
+
 
 			if (mesh->boundingSphereRadius < pos.lengthSqrd())
 				mesh->boundingSphereRadius = pos.lengthSqrd();

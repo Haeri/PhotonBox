@@ -7,9 +7,9 @@ struct GData{
     vec3 Position;
     vec3 Normal;
     vec3 Albedo;
+    vec3 Emission;
     float Roughness;
     float Metallic;
-    vec3 Emission;
     float Occlusion;
 };
 

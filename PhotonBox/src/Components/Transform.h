@@ -30,6 +30,7 @@ public:
 	Vector3f upWorld();
 	Vector3f right();
 	Vector3f rightWorld();
+	bool hasChanged();
 	std::vector<Transform*> children;
 	Transform* getParent() { return _parent; }
 	void removeChild(Transform* child);
@@ -38,6 +39,7 @@ public:
 
 private:
 	bool _hasChanged = true;
+	bool _hasChangedLastFrame = true;
 	Vector3f _position = Vector3f::ZERO;
 	Vector3f _rotation = Vector3f::ZERO;
 	Vector3f _scale = Vector3f::ONE;

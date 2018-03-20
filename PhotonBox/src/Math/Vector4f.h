@@ -19,6 +19,7 @@ public:
 
 
 	Vector4f() : _x(0.0f), _y(0.0f), _z(0.0f), _w(0.0f) {}
+	Vector4f(float val) : _x(val), _y(val), _z(val), _w(val) {}
 	Vector4f(float x, float y, float z, float w) : _x(x), _y(y), _z(z), _w(w) {}
 	Vector4f(Vector3f vec, float w) : _x(vec.x()), _y(vec.y()), _z(vec.z()), _w(w) {}
 	Vector4f(float x, Vector3f vec) : _x(x), _y(vec.x()), _z(vec.y()), _w(vec.z()) {}
@@ -82,6 +83,11 @@ public:
 	inline bool operator== (const Vector4f& other) const
 	{
 		return (_x == other._x && _y == other._y && _z == other._z && _w == other._w);
+	}
+
+	inline bool operator!= (const Vector4f& other) const
+	{
+		return (_x != other._x && _y != other._y && _z != other._z && _w != other._w);
 	}
 
 	inline Vector4f operator/ (const float& scalar) const

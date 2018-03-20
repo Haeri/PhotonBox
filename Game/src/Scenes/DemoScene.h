@@ -120,7 +120,7 @@ public:
 
 
 		Entity* pointLight = instanciate("Pointlight");
-		pointLight->addComponent<PointRenderer>();
+		//pointLight->addComponent<PointRenderer>();
 		pointLight->getComponent<Transform>()->setPosition(Vector3f(0, 2, -1));
 		pointLight->addComponent<PointLight>();
 		pointLight->getComponent<PointLight>()->color = Vector3f(0.1f, 0.92f, 0.1f);

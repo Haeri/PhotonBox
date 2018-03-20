@@ -23,6 +23,7 @@ public:
 	static const Vector3f BACK;
 
 	Vector3f() : _x(0.0f), _y(0.0f), _z(0.0f) {}
+	Vector3f(float val) : _x(val), _y(val), _z(val) {}
 	Vector3f(float x, float y, float z) : _x(x), _y(y), _z(z) {}
 
 	float& x() { return _x; }
@@ -99,6 +100,11 @@ public:
 	inline bool operator== (const Vector3f& other) const
 	{
 		return (_x == other._x && _y == other._y && _z == other._z);
+	}
+
+	inline bool operator!= (const Vector3f& other) const
+	{
+		return (_x != other._x && _y != other._y && _z != other._z);
 	}
 
 	inline Vector3f operator/ (const float& scalar) const
