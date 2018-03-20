@@ -227,7 +227,7 @@ public:
 		rig->addComponent<TransformerScript>();
 
 		Entity* pointLight = instanciate("Pointlight");
-		pointLight->addComponent<PointRenderer>();
+		//pointLight->addComponent<PointRenderer>();
 		pointLight->getComponent<Transform>()->setPosition(Vector3f(-7, 2, 0));
 		pointLight->addComponent<PointLight>();
 		pointLight->getComponent<PointLight>()->color = Vector3f(165 / 255.0f, 249 / 255.0f, 245 / 255.0f);
@@ -245,6 +245,7 @@ public:
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(wood);
 
+		/*
 		Entity* probe2 = instanciate("Probe-2");
 		probe2->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
 		probe2->addComponent<MeshRenderer>();
@@ -349,6 +350,7 @@ public:
 		quad7->addComponent<TransparentMeshRenderer>();
 		quad7->getComponent<TransparentMeshRenderer>()->setMesh(plane);
 		quad7->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+		*/
 	}
 
 	void OnUnload()

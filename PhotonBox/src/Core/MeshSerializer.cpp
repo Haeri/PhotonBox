@@ -11,6 +11,8 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 	int indicesSize = mesh->indices.size();
 	int verticesSize = mesh->vertices.size();
 	float boundingSphereRadius = mesh->boundingSphereRadius;
+	Vector3f min = mesh->min;
+	Vector3f max = mesh->max;
 
 	std::ofstream myfile;
 	myfile.open(pathName, std::ios::out | std::ios::binary);
@@ -24,6 +26,10 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 		myfile.write((char*)&indicesSize, sizeof(int));
 		// write radius
 		myfile.write((char*)&boundingSphereRadius, sizeof(float));
+		// write min
+		myfile.write((char*)&min, sizeof(Vector3f));
+		// write max
+		myfile.write((char*)&max, sizeof(Vector3f));
 		// write indices
 		myfile.write((char*)&mesh->vertices[0], sizeof(Vertex) * verticesSize);
 		// write vertices
@@ -44,9 +50,8 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 	int indicesSize;
 	int verticesSize;
 	float boundingSphereRadius;
-
-	//	Vertex *vertices;
-	//	unsigned int *indices;
+	Vector3f min;
+	Vector3f max;
 
 
 	std::ifstream myfile;
@@ -62,6 +67,10 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 		myfile.read((char*)&indicesSize, sizeof(int));
 		// read radius
 		myfile.read((char*)&boundingSphereRadius, sizeof(float));
+		// read min
+		myfile.read((char*)&min, sizeof(Vector3f));
+		// read max
+		myfile.read((char*)&max, sizeof(Vector3f));
 
 		mesh->vertices.resize(verticesSize);
 		mesh->indices.resize(indicesSize);
@@ -74,6 +83,9 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 		myfile.close();
 
 		mesh->boundingSphereRadius = boundingSphereRadius;
+		mesh->min = min;
+		mesh->max = max;
+
 		return mesh;
 	}
 	else

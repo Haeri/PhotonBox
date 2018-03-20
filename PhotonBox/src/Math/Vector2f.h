@@ -67,6 +67,11 @@ public:
 		return (_x == other._x && _y == other._y);
 	}
 
+	inline bool operator!= (const Vector2f& other) const
+	{
+		return (_x != other._x && _y != other._y);
+	}
+
 	inline Vector2f operator/ (const float& scalar) const
 	{
 		return Vector2f(_x / scalar, _y / scalar);

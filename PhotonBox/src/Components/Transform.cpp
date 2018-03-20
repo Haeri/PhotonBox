@@ -39,6 +39,13 @@ Vector3f Transform::rightWorld()
 	return Vector3f(r(0, 0), r(1, 0), r(2, 0));
 }
 
+bool Transform::hasChanged()
+{
+	bool temp = _hasChanged;
+	_hasChanged = false;
+	return temp;
+}
+
 void Transform::removeChild(Transform * child)
 {
 	children.erase(std::remove(children.begin(), children.end(), child), children.end());
@@ -122,6 +129,7 @@ void Transform::setPosition(Vector3f position)
 	if (!position.equals(_position))
 	{
 		_position = position;
+		_hasChangedLastFrame = true;
 		_hasChanged = true;
 	}
 }
@@ -129,6 +137,7 @@ void Transform::setPosition(Vector3f position)
 void Transform::setRotation(Vector3f rotation)
 {
 	_rotation = rotation;
+	_hasChangedLastFrame = true;
 	_hasChanged = true;
 }
 
@@ -137,6 +146,7 @@ void Transform::setScale(Vector3f scale)
 	if (!scale.equals(_scale))
 	{
 		_scale = scale;
+		_hasChangedLastFrame = true;
 		_hasChanged = true;
 	}
 }
@@ -152,6 +162,8 @@ void Transform::setParent(Transform *parent)
 
 	if (parent != nullptr)
 		parent->children.push_back(this);
+
+	_hasChanged = true;
 }
 
 void Transform::setParent(Entity *_entity)
@@ -174,7 +186,7 @@ Matrix4f Transform::getTransformationMatrix(bool rot, bool scale, bool trans)
 
 Matrix4f Transform::getLocalTransformationMatrix()
 {
-	if (_hasChanged)
+	if (_hasChangedLastFrame)
 	{
 		_modelMatrixCached = Matrix4f::IDENTITY;
 
@@ -184,7 +196,7 @@ Matrix4f Transform::getLocalTransformationMatrix()
 		_modelMatrixCached(3, 1) = _position.y();
 		_modelMatrixCached(3, 2) = _position.z();
 
-		_hasChanged = false;
+		_hasChangedLastFrame = false;
 	}
 
 	return _modelMatrixCached;
@@ -210,7 +222,7 @@ Matrix4f Transform::getLocalTransformationMatrix(bool rot, bool scale, bool tran
 		_modelMatrixCached(3, 2) = _position.z();
 	}
 
-	_hasChanged = true;
+	_hasChangedLastFrame = true;
 
 	return _modelMatrixCached;
 }

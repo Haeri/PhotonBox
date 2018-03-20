@@ -82,3 +82,18 @@ float MeshRenderer::getBoundingSphereRadius()
 {
 	return _mesh->boundingSphereRadius;
 }
+
+AABB MeshRenderer::getAABB()
+{
+	return _aabb;
+}
+
+MeshRenderer & MeshRenderer::setMesh(Mesh * mesh)
+{
+	_mesh = mesh;
+	_aabb = AABB();
+	_aabb.setMaxBound(_mesh->max);
+	_aabb.setMinBound(_mesh->min);
+	_aabb.setTransform(transform);
+	return *this;
+}
