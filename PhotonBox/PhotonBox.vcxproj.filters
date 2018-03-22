@@ -309,5 +309,6 @@
     <ClInclude Include="src\Core\Entity.h">
       <Filter>src\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\BoundingSphere.h" />
   </ItemGroup>
 </Project>

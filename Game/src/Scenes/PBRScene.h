@@ -33,6 +33,7 @@ public:
 
 	Mesh* plane;
 	Mesh* sphere;
+	Mesh* cube;
 
 	Texture* woodAlbedo;
 	Texture* woodRough;
@@ -107,6 +108,7 @@ public:
 		/* --------------------------- OBJ --------------------------- */
 		plane = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
 		sphere = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		cube = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
 
 
 
@@ -240,9 +242,10 @@ public:
 
 
 		Entity* probe = instanciate("Probe-1");
+		//probe->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
 		probe->getComponent<Transform>()->setPosition(Vector3f(-6, 1, 0));
 		probe->addComponent<MeshRenderer>();
-		probe->getComponent<MeshRenderer>()->setMesh(sphere);
+		probe->getComponent<MeshRenderer>()->setMesh(cube);
 		probe->getComponent<MeshRenderer>()->setMaterial(wood);
 
 		/*
@@ -252,6 +255,14 @@ public:
 		probe2->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe2->getComponent<MeshRenderer>()->setMaterial(rust);
 
+		Entity* quad = instanciate("Quad-1");
+		quad->getComponent<Transform>()->setPosition(Vector3f(-6, 0, -3));
+		quad->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
+		quad->addComponent<MeshRenderer>();
+		quad->getComponent<MeshRenderer>()->setMesh(plane);
+		quad->getComponent<MeshRenderer>()->setMaterial(wood);
+		*/
+		/*
 		Entity* probe3 = instanciate("Probe-3");
 		probe3->getComponent<Transform>()->setPosition(Vector3f(6, 1, 0));
 		probe3->addComponent<MeshRenderer>();
@@ -359,6 +370,7 @@ public:
 
 		delete plane;
 		delete sphere;
+		delete cube;
 
 		delete woodAlbedo;
 		delete woodRough;

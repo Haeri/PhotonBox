@@ -86,10 +86,15 @@ public:
 		return _x * other.getX() + _y * other.getY() + _z * other.getZ();
 	}
 
-	inline Vector3f normalize() const
+	inline Vector3f normalize()
 	{
-		Vector3f ret = *this;
-		return ret / ret.length();
+		*this = *this / (*this).length();
+		return *this;
+	}
+
+	static inline Vector3f normalize(Vector3f& other)
+	{
+		return other / other.length();
 	}
 
 	inline Vector2f xy() const

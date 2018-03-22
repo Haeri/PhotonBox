@@ -158,7 +158,11 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 	std::vector<OBJIndex> vertexList;
 	std::vector<unsigned int> indices;
 	std::unordered_map<OBJIndex, int> vertexIndexMap;
+	Vector3f min = Vector3f((std::numeric_limits<float>::max)());
+	Vector3f max = Vector3f((std::numeric_limits<float>::min)());
 	int cnt = 0;
+
+
 
 	while (std::getline(file, line))
 	{
@@ -178,23 +182,20 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 			pos.z() = std::stof(tokens[3]);
 			positions.push_back(pos);
 
-			if (pos.x() < mesh->min.x())
-				mesh->min.x() = pos.x();
-			if (pos.y() < mesh->min.y())
-				mesh->min.y() = pos.y();
-			if (pos.z() < mesh->min.z())
-				mesh->min.z() = pos.z();
+			if (pos.x() < min.x())
+				min.x() = pos.x();
+			if (pos.y() < min.y())
+				min.y() = pos.y();
+			if (pos.z() < min.z())
+				min.z() = pos.z();
 
-			if (pos.x() > mesh->max.x())
-				mesh->max.x() = pos.x();
-			if (pos.y() > mesh->max.y())
-				mesh->max.y() = pos.y();
-			if (pos.z() > mesh->max.z())
-				mesh->max.z() = pos.z();
+			if (pos.x() > max.x())
+				max.x() = pos.x();
+			if (pos.y() > max.y())
+				max.y() = pos.y();
+			if (pos.z() > max.z())
+				max.z() = pos.z();
 
-
-			if (mesh->boundingSphereRadius < pos.lengthSqrd())
-				mesh->boundingSphereRadius = pos.lengthSqrd();
 		}
 		else if (tokens[0].compare("vt") == 0)
 		{
@@ -222,7 +223,9 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 		}
 	}
 
-	mesh->boundingSphereRadius = sqrt(mesh->boundingSphereRadius);
+	Vector3f center = ((min + max) / 2.0f);
+	BoundingSphere bs(center, (center - min).length());
+	mesh->boundingSphere = bs;
 
 	// Create Indexed Model 
 	for (size_t i = 0; i <= indices.size() - 3; i += 3)

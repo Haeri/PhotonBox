@@ -45,9 +45,6 @@ FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_debugFrameBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3, 0.3, 0.3);
 
-
-void draw_bbox(Mesh* mesh, Matrix4f modelMatrix);
-
 void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer, bool isOpaque)
 {
 	if (isOpaque)
@@ -632,7 +629,7 @@ void Renderer::renderGizmos()
 	{
 		if ((*it)->getEnable())
 		{
-			MeshRenderer* mr = (MeshRenderer*)(*it);
+			//MeshRenderer* mr = (MeshRenderer*)(*it);
 			//draw_bbox(mr->getMesh(), mr->transform->getTransformationMatrix());
 			
 			/*
@@ -654,8 +651,7 @@ void Renderer::renderGizmos()
 			Vector3f negz = (min + Vector3f::UNIT_Z) * -1;
 			Vector3f negy = (min + Vector3f::UNIT_Y) * -1;
 			*/
-			Vector2f min = Camera::getMainCamera()->worldToScreen(mr->getAABB().getMinBoundGlobal());
-			Vector2f max = Camera::getMainCamera()->worldToScreen(mr->getAABB().getMaxBoundGlobal());
+			Vector2f min = Camera::getMainCamera()->worldToScreen(((*it)->transform->getTransformationMatrix() * Vector4f((*it)->getBoundingSphere().getCenter(), 1)).xyz());
 
 			glDepthFunc(GL_ALWAYS);
 
@@ -677,8 +673,6 @@ void Renderer::renderGizmos()
 			//glVertex3fv(&min.x());
 			//glVertex3fv(&y.x());
 
-			glColor3f(1, 0, 0);
-			glVertex2fv(&max.x());
 			//glVertex3fv(&negx.x());
 
 			//glVertex3fv(&max.x());
@@ -796,89 +790,4 @@ void Renderer::setClearColor(Vector3f color)
 void Renderer::addDrawCall()
 {
 	++_drawCalls;
-}
-
-
-
-
-
-
-
-
-
-
-
-void draw_bbox(Mesh* mesh, Matrix4f modelMatrix)
-{
-	LitShader* litShader = LitShader::getInstance();
-
-	// Cube 1x1x1, centered on origin
-	GLfloat vertices[] = {
-		-0.5, -0.5, -0.5, 1.0,
-		0.5, -0.5, -0.5, 1.0,
-		0.5,  0.5, -0.5, 1.0,
-		-0.5,  0.5, -0.5, 1.0,
-		-0.5, -0.5,  0.5, 1.0,
-		0.5, -0.5,  0.5, 1.0,
-		0.5,  0.5,  0.5, 1.0,
-		-0.5,  0.5,  0.5, 1.0,
-	};
-	GLuint vbo_vertices;
-	glGenBuffers(1, &vbo_vertices);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	GLushort elements[] = {
-		0, 1, 2, 3,
-		4, 5, 6, 7,
-		0, 4, 1, 5, 2, 6, 3, 7
-	};
-	GLuint ibo_elements;
-	glGenBuffers(1, &ibo_elements);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-
-	Vector3f size = Vector3f(mesh->max.x() - mesh->min.x(), mesh->max.y() - mesh->min.y(), mesh->max.z() - mesh->min.z());
-	Vector3f center = Vector3f((mesh->min.x() + mesh->max.x()) / 2, (mesh->min.y() + mesh->max.y()) / 2, (mesh->min.z() + mesh->max.z()) / 2);
-	Matrix4f transform = Matrix4f::createTranslation(center) * Matrix4f::createScaling(size);
-
-
-	litShader->bind();
-
-	
-	/* Apply object's transformation matrix */
-	Matrix4f m = modelMatrix * transform;
-	litShader->setUniform("mvp", m);
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-
-	litShader->enableAttributes();
-
-	/*
-	glVertexAttribPointer(
-		attribute_v_coord,  // attribute
-		4,                  // number of elements per vertex, here (x,y,z,w)
-		GL_FLOAT,           // the type of each element
-		GL_FALSE,           // take our values as-is
-		0,                  // no extra data between each position
-		0                   // offset of first element
-	);
-	*/
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elements);
-	glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_SHORT, 0);
-	glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_SHORT, (GLvoid*)(4 * sizeof(GLushort)));
-	glDrawElements(GL_LINES, 8, GL_UNSIGNED_SHORT, (GLvoid*)(8 * sizeof(GLushort)));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	litShader->disableAttributes();
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glDeleteBuffers(1, &vbo_vertices);
-	glDeleteBuffers(1, &ibo_elements);
 }

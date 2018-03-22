@@ -4,6 +4,7 @@
 #include "../Core/Component.h"
 #include "../Core/Systems/Renderer.h"
 #include "../Resources/Material.h"
+#include "../Core/BoundingSphere.h"
 
 class ObjectRenderer : public Component
 {
@@ -16,8 +17,7 @@ public:
 	virtual void render(Shader* shader) {}
 	virtual void render(Shader* shader, LightEmitter* light) {}
 	virtual void onDestroy();
-	virtual float getBoundingSphereRadius() = 0;
-	virtual AABB getAABB() = 0;
+	virtual BoundingSphere getBoundingSphere();
 	void destroy();
 	bool isOpaque() { return _isOpaque; }
 

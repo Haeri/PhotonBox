@@ -16,14 +16,12 @@ public:
 	void render(Shader* shader) override;
 	void render(Shader* shader, LightEmitter* light) override;
 	void onDestroy() override;
-	float getBoundingSphereRadius();
-	AABB getAABB();
+	BoundingSphere getBoundingSphere();
 
 	MeshRenderer& setMesh(Mesh* mesh);
 	Mesh* getMesh() { return _mesh; }
 private:
 	Mesh * _mesh;
-	AABB _aabb;
 
 	//AABB* _lightProbeVolume;
 	GLuint _vao, _vbo, _ebo;
