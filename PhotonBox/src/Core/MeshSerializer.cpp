@@ -10,9 +10,7 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 
 	int indicesSize = mesh->indices.size();
 	int verticesSize = mesh->vertices.size();
-	float boundingSphereRadius = mesh->boundingSphereRadius;
-	Vector3f min = mesh->min;
-	Vector3f max = mesh->max;
+	BoundingSphere bs = mesh->boundingSphere;
 
 	std::ofstream myfile;
 	myfile.open(pathName, std::ios::out | std::ios::binary);
@@ -24,12 +22,8 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 		myfile.write((char*)&verticesSize, sizeof(int));
 		// write indices size
 		myfile.write((char*)&indicesSize, sizeof(int));
-		// write radius
-		myfile.write((char*)&boundingSphereRadius, sizeof(float));
-		// write min
-		myfile.write((char*)&min, sizeof(Vector3f));
-		// write max
-		myfile.write((char*)&max, sizeof(Vector3f));
+		// write Bounding Sphere
+		myfile.write((char*)&bs, sizeof(BoundingSphere));
 		// write indices
 		myfile.write((char*)&mesh->vertices[0], sizeof(Vertex) * verticesSize);
 		// write vertices
@@ -48,10 +42,8 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 	Mesh* mesh = new Mesh();
 
 	int indicesSize;
-	int verticesSize;
-	float boundingSphereRadius;
-	Vector3f min;
-	Vector3f max;
+	int verticesSize; 
+	BoundingSphere bs;
 
 
 	std::ifstream myfile;
@@ -65,12 +57,8 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 		myfile.read((char*)&verticesSize, sizeof(int));
 		// read indices size
 		myfile.read((char*)&indicesSize, sizeof(int));
-		// read radius
-		myfile.read((char*)&boundingSphereRadius, sizeof(float));
-		// read min
-		myfile.read((char*)&min, sizeof(Vector3f));
-		// read max
-		myfile.read((char*)&max, sizeof(Vector3f));
+		// read Bounding Sphere
+		myfile.read((char*)&bs, sizeof(BoundingSphere));
 
 		mesh->vertices.resize(verticesSize);
 		mesh->indices.resize(indicesSize);
@@ -82,9 +70,7 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 
 		myfile.close();
 
-		mesh->boundingSphereRadius = boundingSphereRadius;
-		mesh->min = min;
-		mesh->max = max;
+		mesh->boundingSphere = bs;
 
 		return mesh;
 	}

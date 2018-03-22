@@ -84,6 +84,7 @@
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
     <ClInclude Include="src\Core\AABB.h" />
+    <ClInclude Include="src\Core\BoundingSphere.h" />
     <ClInclude Include="src\Core\Component.h" />
     <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Core\Display.h" />
