@@ -160,12 +160,12 @@ Matrix4f Matrix4f::inverse()
 
 	float det;
 
-	temp._matrix[0] = _matrix[5] * _matrix[10] * _matrix[15] -
-		_matrix[5] * _matrix[11] * _matrix[14] -
-		_matrix[9] * _matrix[6] * _matrix[15] +
-		_matrix[9] * _matrix[7] * _matrix[14] +
-		_matrix[13] * _matrix[6] * _matrix[11] -
-		_matrix[13] * _matrix[7] * _matrix[10];
+	temp._matrix[0] =	_matrix[5] * _matrix[10] * _matrix[15] -
+						_matrix[5] * _matrix[11] * _matrix[14] -
+						_matrix[9] * _matrix[6] * _matrix[15] +
+						_matrix[9] * _matrix[7] * _matrix[14] +
+						_matrix[13] * _matrix[6] * _matrix[11] -
+						_matrix[13] * _matrix[7] * _matrix[10];
 
 	temp._matrix[4] = -_matrix[4] * _matrix[10] * _matrix[15] +
 		_matrix[4] * _matrix[11] * _matrix[14] +

@@ -34,6 +34,8 @@ public:
 	Mesh* plane;
 	Mesh* sphere;
 	Mesh* cube;
+	Mesh* couchMesh;
+	Mesh* car;
 
 	Texture* woodAlbedo;
 	Texture* woodRough;
@@ -99,16 +101,18 @@ public:
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		p_ssao = new SSAOProcessor(0);
-		//p_ssreflection = new SSReflectionProcessor(0);
-		p_autoExposure = new AutoExposureProcessor(1);
-		p_bloom = new BloomProcessor(2);
-		p_tonemapping = new ToneMappingProcessor(3);
+		p_ssreflection = new SSReflectionProcessor(1);
+		p_autoExposure = new AutoExposureProcessor(2);
+		p_bloom = new BloomProcessor(3);
+		p_tonemapping = new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
 		plane = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
 		sphere = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 		cube = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
+		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
+		car = OBJLoader::loadObj("./res/meshes/car.obj");
 
 
 
@@ -240,13 +244,26 @@ public:
 		pointLight->getComponent<Transform>()->setParent(rig);
 		//pointLight->setEnable(false);
 
-
+		
 		Entity* probe = instanciate("Probe-1");
 		//probe->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
-		probe->getComponent<Transform>()->setPosition(Vector3f(-6, 1, 0));
+		probe->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		probe->addComponent<MeshRenderer>();
-		probe->getComponent<MeshRenderer>()->setMesh(cube);
-		probe->getComponent<MeshRenderer>()->setMaterial(wood);
+		probe->getComponent<MeshRenderer>()->setMesh(car);
+		probe->getComponent<MeshRenderer>()->setMaterial(rust);
+
+		Entity* floor = instanciate("Floor");
+		floor->getComponent<Transform>()->setScale(Vector3f(10, 10, 10));
+		floor->addComponent<MeshRenderer>();
+		floor->getComponent<MeshRenderer>()->setMesh(plane);
+		floor->getComponent<MeshRenderer>()->setMaterial(gold);
+
+		
+			/*
+		Entity* couch = instanciate("Couch");
+		couch->addComponent<MeshRenderer>();
+		couch->getComponent<MeshRenderer>()->setMesh(couchMesh);
+		couch->getComponent<MeshRenderer>()->setMaterial(wood);
 
 		/*
 		Entity* probe2 = instanciate("Probe-2");

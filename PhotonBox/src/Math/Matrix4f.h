@@ -4,6 +4,18 @@
 #include "Vector3f.h"
 #include "Vector4f.h"
 
+/// <summary>
+/// Column Major Matrix
+///
+/// |0	4	8	12|	
+/// |1	5	9	13|
+/// |2	6	10	14|
+/// |3	7	11	15|
+/// 
+/// x is for horizontal access
+/// y is for vertical access
+/// 0,0 is top left
+/// </summary>
 class Matrix4f
 {
 public:

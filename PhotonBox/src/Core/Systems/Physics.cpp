@@ -5,8 +5,31 @@
 
 std::vector<Collider*> Physics::_physicsList;
 
+void Physics::init()
+{
+	gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, gAllocator, gErrorCallback);
+	if (!gFoundation)
+		std::cerr << "PxCreateFoundation failed!";
+
+	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true);
+
+	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
+	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	gDispatcher = PxDefaultCpuDispatcherCreate(2);
+	sceneDesc.cpuDispatcher = gDispatcher;
+	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	gScene = gPhysics->createScene(sceneDesc);
+	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+
+	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gMaterial);
+	gScene->addActor(*groundPlane);
+}
+
 void Physics::update()
 {
+	gScene->simulate(1.0f / 60.0f);
+	gScene->fetchResults(true);
+
 	if (_physicsList.size() == 0) return;
 	for (int i = 0; i < _physicsList.size() - 1; ++i)
 	{
@@ -31,6 +54,12 @@ void Physics::removeFromPhysicsList(Collider * collider)
 
 void Physics::destroy()
 {
+	// PHYSX
+	gScene->release();
+	gDispatcher->release();
+	gPhysics->release();
+	gFoundation->release();
+
 	_physicsList.clear();
 }
 

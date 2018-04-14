@@ -294,7 +294,12 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-
-!**/PhotonBox-Engine/res/
-Photon Box
+# Photon Box
 *.mesh
+PhotonBox/include/PhysX/
+PhotonBox/lib/PxTaskDEBUG_x64.lib
+PhotonBox/lib/PxFoundationDEBUG_x64.lib
+PhotonBox/lib/PhysX3CommonDEBUG_x64.lib
+PhotonBox/lib/PhysX3DEBUG_x64.lib
+PhotonBox/lib/PhysX3ExtensionsDEBUG.lib
+PhotonBox/lib/PxPvdSDKDEBUG_x64.lib
