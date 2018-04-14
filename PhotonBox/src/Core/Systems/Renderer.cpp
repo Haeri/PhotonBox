@@ -167,10 +167,10 @@ void Renderer::renderShadows(bool captureMode)
 void Renderer::renderDeferred() {
 	renderShadows(false);
 
-	_skyBox.render();
-
 	_mainFrameBuffer->enable();
 	_mainFrameBuffer->clear();
+
+	_skyBox.render();
 
 	renderBase();
 

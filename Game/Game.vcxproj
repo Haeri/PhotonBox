@@ -83,11 +83,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;./include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;./lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PxTaskDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -96,8 +97,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox-Engine/src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PxTaskDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -107,11 +113,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox-Engine/src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PhysX3Extensions.lib;PxTask_x64.lib;PxFoundation_x64.lib;PsFastXml_x64.lib;PxPvdSDK_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,13 +130,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;./include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;./lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PhysX3Extensions.lib;PxTask_x64.lib;PxFoundation_x64.lib;PsFastXml_x64.lib;PxPvdSDK_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
