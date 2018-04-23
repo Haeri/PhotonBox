@@ -10,8 +10,8 @@ class ObjectRenderer : public Component
 {
 public:
 	bool captureble = true;
-	ObjectRenderer() : ObjectRenderer(true) {}
-	ObjectRenderer(bool isOpaque);
+	ObjectRenderer() : ObjectRenderer(RenderType::opaque) {}
+	ObjectRenderer(RenderType type);
 	virtual void init();
 	virtual void render() = 0;
 	virtual void render(Shader* shader) {}
@@ -19,12 +19,13 @@ public:
 	virtual void onDestroy();
 	virtual BoundingSphere getBoundingSphere();
 	void destroy();
-	bool isOpaque() { return _isOpaque; }
+	RenderType getType() { return _type; }
+	void setRenderType(RenderType type);
 
 	void setMaterial(Material* material) { _material = material; }
 	Material* getMaterial() { return _material; }
 protected:
-	bool _isOpaque;
+	RenderType _type;
 	Material* _material;
 };
 

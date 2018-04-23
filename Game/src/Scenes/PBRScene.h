@@ -139,6 +139,8 @@ public:
 		goldNormal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), true);
 		goldMetal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
 
+		Texture* carpetAlbedo = new Texture(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_D.png"), true);
+
 
 		default_normal = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
 		default_specular = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
@@ -180,7 +182,7 @@ public:
 		bricks->setTexture("emissionMap", default_emission);
 
 		gold = new Material();
-		gold->setTexture("albedoMap", goldAlbedo);
+		gold->setTexture("albedoMap", carpetAlbedo);
 		gold->setTexture("normalMap", goldNormal);
 		gold->setTexture("roughnessMap", goldRough);
 		gold->setTexture("aoMap", default_ao);
@@ -247,18 +249,19 @@ public:
 		
 		Entity* probe = instanciate("Probe-1");
 		//probe->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
-		probe->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		probe->getComponent<Transform>()->setPosition(Vector3f(0, -3, 0));
 		probe->addComponent<MeshRenderer>();
-		probe->getComponent<MeshRenderer>()->setMesh(car);
-		probe->getComponent<MeshRenderer>()->setMaterial(rust);
+		probe->getComponent<MeshRenderer>()->setMesh(sphere);
+		probe->getComponent<MeshRenderer>()->setMaterial(def);
 
+		
 		Entity* floor = instanciate("Floor");
 		floor->getComponent<Transform>()->setScale(Vector3f(10, 10, 10));
 		floor->addComponent<MeshRenderer>();
 		floor->getComponent<MeshRenderer>()->setMesh(plane);
 		floor->getComponent<MeshRenderer>()->setMaterial(gold);
-
 		
+
 			/*
 		Entity* couch = instanciate("Couch");
 		couch->addComponent<MeshRenderer>();

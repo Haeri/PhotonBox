@@ -139,14 +139,14 @@ bool Camera::frustumTest(ObjectRenderer* object)
 	Vector3f center = (object->transform->getTransformationMatrix() * Vector4f(object->getBoundingSphere().getCenter(), 1.0f)).xyz();
 	
 	
-	std::cout << "LEFT:  " << std::to_string(center.dot(_frustum[0].normal) + _frustum[0].distance/* + maxScaleAxis * object->getBoundingSphere().getRadius()*/ ) << " " << std::to_string(_frustum[0].distance) << "\n";
-	std::cout << "RIGHT: " << std::to_string(center.dot(_frustum[1].normal) + _frustum[1].distance/* + maxScaleAxis * object->getBoundingSphere().getRadius()*/ ) << " " << std::to_string(_frustum[1].distance) << "\n";
-	std::cout << "TOP:   " << std::to_string(center.dot(_frustum[2].normal) + _frustum[2].distance/* + maxScaleAxis * object->getBoundingSphere().getRadius()*/ ) << " " << std::to_string(_frustum[2].distance) << "\n";
-	std::cout << "BOTTOM:" << std::to_string(center.dot(_frustum[3].normal) + _frustum[3].distance/* + maxScaleAxis * object->getBoundingSphere().getRadius()*/ ) << " " << std::to_string(_frustum[3].distance) << "\n";
-	std::cout << "NEAR:  " << std::to_string(center.dot(_frustum[4].normal) + _frustum[4].distance/* + maxScaleAxis * object->getBoundingSphere().getRadius()*/ ) << " " << std::to_string(_frustum[4].distance) << "\n";
-	std::cout << "FAR:   " << std::to_string(center.dot(_frustum[5].normal) + _frustum[5].distance/* + maxScaleAxis * object->getBoundingSphere().getRadius()*/ ) << " " << std::to_string(_frustum[5].distance) << "\n";
+	std::cout << "LEFT:  " << _frustum[0].normal << "\n";
+	std::cout << "RIGHT: " << _frustum[1].normal << "\n";
+	std::cout << "TOP:   " << _frustum[2].normal << "\n";
+	std::cout << "BOTTOM:" << _frustum[3].normal << "\n";
+	std::cout << "NEAR:  " << _frustum[4].normal << "\n";
+	std::cout << "FAR:   " << _frustum[5].normal << "\n";
 	std::cout << std::endl;
-	
+
 
 	for (size_t i = 0; i < 5; ++i)
 	{

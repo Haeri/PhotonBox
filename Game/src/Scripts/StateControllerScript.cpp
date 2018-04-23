@@ -77,7 +77,7 @@ public:
 
 	void toggleDebug()
 	{
-		Renderer::setDebug(!Renderer::isDebug());
+		Renderer::setDebug((Renderer::getDebugMode() + 1) % Renderer::MAX_DEBUG);
 	}
 };
 

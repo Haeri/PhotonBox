@@ -3,7 +3,6 @@
 
 #include <random>
 
-#include <Core/DeferredBuffer.h>
 #include <Core/PostProcessor.h>
 #include <Math/Math.h>
 
@@ -24,8 +23,8 @@ public:
 		ssaoBlurBuffer->ready();
 
 		ssaoMaterial = new Material(SSAOShader::getInstance());
-		ssaoMaterial->setTexture("gPosition", Renderer::defBuffer.gBuffer, "gPosition");
-		ssaoMaterial->setTexture("gNormal", Renderer::defBuffer.gBuffer, "gNormal");
+		ssaoMaterial->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
+		ssaoMaterial->setTexture("gNormal", Renderer::getGBuffer(), "gNormal");
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
 		ssaoBlurMaterial->setTexture("original", mainBuffer, "color");
 		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer, "color");

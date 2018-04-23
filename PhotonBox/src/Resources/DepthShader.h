@@ -36,6 +36,8 @@ public:
 	{
 		addUniform("lightSpaceMatrix");
 		addUniform("model");
+
+		addTexture("albedoMap");
 	}
 
 	void addAttributes() override

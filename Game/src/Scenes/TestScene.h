@@ -158,6 +158,7 @@ public:
 	Texture* windowAlbedo;
 
 	Texture* panoramaAlbedo;
+	Texture* blinds;
 
 	Material* wood;
 	Material* def;
@@ -185,6 +186,7 @@ public:
 	Material* painting1Material;
 	Material* painting2Material;
 	Material* painting3Material;
+	Material* blindsMaterial;
 
 	AutoExposureProcessor* p_autoExposure;
 	BloomProcessor* p_bloom;
@@ -340,6 +342,7 @@ public:
 		gradient = new Texture(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 
 		panoramaAlbedo = new Texture(std::string("./res/Realistic-Rendering/Panorama/T_Background_D.TGA"), true);
+		blinds = new Texture(std::string("./res/textures/blinds.png"), true);
 
 
 		/* --------------------------- SHADERS --------------------------- */
@@ -408,7 +411,7 @@ public:
 
 		carpetMaterial = new Material();
 		carpetMaterial->setTexture("albedoMap", carpetAlbedo);
-		carpetMaterial->setTexture("normalMap", carpetNormal);
+		carpetMaterial->setTexture("normalMap", default_normal);
 		carpetMaterial->setTexture("roughnessMap", default_ao);
 		carpetMaterial->setTexture("aoMap", carpetAo);
 		carpetMaterial->setTexture("metallicMap", default_emission);
@@ -522,6 +525,13 @@ public:
 		balconyFloorMaterial->setTexture("metallicMap", default_emission);
 		balconyFloorMaterial->setTexture("emissionMap", default_emission);
 
+		blindsMaterial = new Material();
+		blindsMaterial->setTexture("albedoMap", blinds);
+		blindsMaterial->setTexture("normalMap", default_normal);
+		blindsMaterial->setTexture("roughnessMap", default_emission);
+		blindsMaterial->setTexture("aoMap", default_ao);
+		blindsMaterial->setTexture("metallicMap", default_ao);
+		blindsMaterial->setTexture("emissionMap", default_emission);
 
 
 		def = new Material();
@@ -735,9 +745,9 @@ public:
 		slidingDoor->getComponent<MeshRenderer>()->setMaterial(slidingDoorMaterial);
 
 		Entity* carpet = instanciate("Carpet");
-		carpet->addComponent<TransparentMeshRenderer>();
-		carpet->getComponent<TransparentMeshRenderer>()->setMesh(carpetMesh);
-		carpet->getComponent<TransparentMeshRenderer>()->setMaterial(carpetMaterial);
+		carpet->addComponent<MeshRenderer>()->setRenderType(RenderType::cutout);
+		carpet->getComponent<MeshRenderer>()->setMesh(carpetMesh);
+		carpet->getComponent<MeshRenderer>()->setMaterial(carpetMaterial);
 
 		Entity* carpetFloor = instanciate("CarpetFloor");
 		carpetFloor->addComponent<MeshRenderer>();
@@ -819,11 +829,18 @@ public:
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(def);
 
+		/*
 		Entity* window = instanciate("Window");
-		window->addComponent<TransparentMeshRenderer>()->cutout = false;
+		window->addComponent<TransparentMeshRenderer>();
 		window->getComponent<TransparentMeshRenderer>()->setMesh(windowMesh);
 		window->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 		//window->setEnable(false);
+		*/
+
+		Entity* window = instanciate("Window");
+		window->addComponent<MeshRenderer>();
+		window->getComponent<MeshRenderer>()->setMesh(windowMesh);
+		window->getComponent<MeshRenderer>()->setMaterial(blindsMaterial);
 
 
 		Entity* panorama = instanciate("Panorama");
