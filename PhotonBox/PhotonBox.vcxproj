@@ -34,7 +34,6 @@
     <ClCompile Include="src\Components\Transform.cpp" />
     <ClCompile Include="src\Core\AABB.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />
-    <ClCompile Include="src\Core\DeferredBuffer.cpp" />
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
     <ClCompile Include="src\Core\Entity.cpp" />
@@ -86,7 +85,6 @@
     <ClInclude Include="src\Core\AABB.h" />
     <ClInclude Include="src\Core\BoundingSphere.h" />
     <ClInclude Include="src\Core\Component.h" />
-    <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Core\Display.h" />
     <ClInclude Include="src\Core\FrameBuffer.h" />
     <ClInclude Include="src\Core\Entity.h" />

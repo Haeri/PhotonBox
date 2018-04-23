@@ -3,7 +3,6 @@
 
 #include <random>
 
-#include <Core/DeferredBuffer.h>
 #include <Core/FrameBuffer.h>
 #include <Core/PostProcessor.h>
 #include <Core/Systems/Renderer.h>
@@ -25,10 +24,10 @@ public:
 
 		_ssreflection = new Material(SSReflectionShader::getInstance());
 		_ssreflection->setTexture("mainBuffer", _mainBuffer, "color");
-		_ssreflection->setTexture("gPosition", Renderer::defBuffer.gBuffer, "gPosition");
-		_ssreflection->setTexture("gNormal", Renderer::defBuffer.gBuffer, "gNormal");
-		_ssreflection->setTexture("gMetallic", Renderer::defBuffer.gBuffer, "gMetallic");
-		_ssreflection->setTexture("gRoughness", Renderer::defBuffer.gBuffer, "gRoughness");
+		_ssreflection->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
+		_ssreflection->setTexture("gNormal", Renderer::getGBuffer(), "gNormal");
+		_ssreflection->setTexture("gMetallic", Renderer::getGBuffer(), "gMetallic");
+		_ssreflection->setTexture("gRoughness", Renderer::getGBuffer(), "gRoughness");
 	}
 
 	void enable() override

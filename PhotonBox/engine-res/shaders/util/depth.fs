@@ -1,6 +1,9 @@
 #version 120
 
+uniform sampler2D albedoMap;
+varying vec2 TexCoords;
+
 void main()
-{             
-    // gl_FragDepth = gl_FragCoord.z;
+{          
+	if(texture2D(albedoMap, TexCoords).a < 0.1) discard;
 }  

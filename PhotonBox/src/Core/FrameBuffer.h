@@ -65,8 +65,7 @@ public:
 	/// <summary>
 	/// Clears this instance.
 	/// </summary>
-	void clear();
-	void clear(int r, int g, int b, int a);
+	void clear(int r = 0, int g = 0, int b = 0, int a = 0);
 	void render(std::string name);
 	void render(Material* material);
 	void resize();
@@ -78,13 +77,13 @@ public:
 
 	static void resetDefaultBuffer();
 	static void resizeAll();
+	GLuint _fbo;
 private:
 	// config
 	int _width, _height;
 	float _screenFactor;
 
 	// Buffers
-	GLuint _fbo;
 	GLuint _depthAttachment = -1;
 	std::unordered_map<std::string, BufferAttachment> _colorAttachments;
 

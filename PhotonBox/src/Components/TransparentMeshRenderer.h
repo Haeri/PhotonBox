@@ -6,8 +6,7 @@
 class TransparentMeshRenderer : public MeshRenderer
 {
 public:
-	bool cutout = true;
-	TransparentMeshRenderer() : MeshRenderer(false) {}
+	TransparentMeshRenderer() : MeshRenderer(RenderType::transparent) {}
 };
 
 #endif // TRANSPARENT_MESH_RENDERER_H

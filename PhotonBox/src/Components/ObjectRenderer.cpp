@@ -1,10 +1,10 @@
 #include "../Core/Systems/Renderer.h"
 #include "ObjectRenderer.h"
 
-ObjectRenderer::ObjectRenderer(bool isOpaque)
+ObjectRenderer::ObjectRenderer(RenderType type)
 {
-	_isOpaque = isOpaque;
-	Renderer::addToRenderQueue(this, isOpaque);
+	_type = type;
+	Renderer::addToRenderQueue(this, type);
 }
 
 void ObjectRenderer::init() {}
@@ -19,4 +19,11 @@ void ObjectRenderer::destroy()
 {
 	onDestroy();
 	Renderer::removeFromRenderQueue(this);
+}
+
+void ObjectRenderer::setRenderType(RenderType type)
+{
+	Renderer::removeFromRenderQueue(this);
+	Renderer::addToRenderQueue(this, type);
+	_type = type;
 }

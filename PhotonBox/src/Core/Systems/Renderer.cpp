@@ -1,11 +1,14 @@
 #include <algorithm>
 #include <string>
 #include <iostream>
+
+#include "Renderer.h"
+
 #include "../../Components/AmbientLight.h"
 #include "../../Components/Camera.h"
 #include "../../Components/DirectionalLight.h"
-#include "../../Components/MeshRenderer.h"
 #include "../../Components/ObjectRenderer.h"
+#include "../../Components/MeshRenderer.h"
 #include "../../Components/PointLight.h"
 #include "../../Components/SpotLight.h"
 #include "../../Components/Transform.h"
@@ -16,16 +19,13 @@
 #include "../../Resources/Scene.h"
 #include "../../Resources/TransparentShader.h"
 #include "../../Resources/DeferredShader.cpp"
-#include "../DeferredBuffer.h"
 #include "../Display.h"
 #include "../FrameBuffer.h"
 #include "../PostProcessor.h"
 #include "Lighting.h"
-#include "Renderer.h"
 #include "SceneManager.h"
 
-DeferredBuffer Renderer::defBuffer;
-bool Renderer::_isDebug;
+int Renderer::_debugMode;
 SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderListOpaque;
 std::vector<ObjectRenderer*> Renderer::_renderListTransparent;
@@ -42,30 +42,31 @@ DeferredShader* Renderer::_deferredShader;
 Material* Renderer::_deferredMaterial;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
+FrameBuffer* Renderer::_gBuffer;
 FrameBuffer* Renderer::_debugFrameBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3, 0.3, 0.3);
 
-void Renderer::addToRenderQueue(ObjectRenderer *objectRenderer, bool isOpaque)
+void Renderer::addToRenderQueue(ObjectRenderer * renderer, RenderType type)
 {
-	if (isOpaque)
+	if (type == RenderType::transparent)
 	{
-		_renderListOpaque.push_back(objectRenderer);
+		_renderListTransparent.push_back(renderer);
 	}
 	else
 	{
-		_renderListTransparent.push_back(objectRenderer);
+		_renderListOpaque.push_back(renderer);
 	}
 }
 
-void Renderer::removeFromRenderQueue(ObjectRenderer *objectRenderer)
+void Renderer::removeFromRenderQueue(ObjectRenderer *renderer)
 {
-	if (objectRenderer->isOpaque())
+	if (renderer->getType() == RenderType::transparent)
 	{
-		_renderListOpaque.erase(std::remove(_renderListOpaque.begin(), _renderListOpaque.end(), objectRenderer), _renderListOpaque.end());
+		_renderListTransparent.erase(std::remove(_renderListTransparent.begin(), _renderListTransparent.end(), renderer), _renderListTransparent.end());
 	}
 	else
 	{
-		_renderListTransparent.erase(std::remove(_renderListTransparent.begin(), _renderListTransparent.end(), objectRenderer), _renderListTransparent.end());
+		_renderListOpaque.erase(std::remove(_renderListOpaque.begin(), _renderListOpaque.end(), renderer), _renderListOpaque.end());
 	}
 }
 
@@ -94,21 +95,33 @@ void Renderer::init(float superSampling)
 	_transparentBaseShader = TransparentShader::getInstance();
 	_gShader = GShader::getInstance();
 	_deferredShader = DeferredShader::getInstance();
+	
 	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
 	_mainFrameBuffer->addDepthBufferAttachment();
 	_mainFrameBuffer->ready();
+
+	_gBuffer = new FrameBuffer(1);
+	_gBuffer->addTextureAttachment("gPosition", true);
+	_gBuffer->addTextureAttachment("gNormal", true);
+	_gBuffer->addTextureAttachment("gMetallic");
+	_gBuffer->addTextureAttachment("gRoughness");
+	_gBuffer->addTextureAttachment("gAlbedo");
+	_gBuffer->addDepthBufferAttachment();
+	_gBuffer->ready();
+
 	_debugFrameBuffer = new FrameBuffer(1);
 	_debugFrameBuffer->addTextureAttachment("color", false, false);
 	_debugFrameBuffer->ready();
-	defBuffer.init();
-	_isDebug = false;
+	
 	_deferredMaterial = new Material(_deferredShader);
-	_deferredMaterial->setTexture("gPosition", defBuffer.gBuffer, "gPosition");
-	_deferredMaterial->setTexture("gNormal", defBuffer.gBuffer, "gNormal");
-	_deferredMaterial->setTexture("gRoughness", defBuffer.gBuffer, "gRoughness");
-	_deferredMaterial->setTexture("gMetallic", defBuffer.gBuffer, "gMetallic");
-	_deferredMaterial->setTexture("gAlbedo", defBuffer.gBuffer, "gAlbedo");
+	_deferredMaterial->setTexture("gPosition", _gBuffer, "gPosition");
+	_deferredMaterial->setTexture("gNormal", _gBuffer, "gNormal");
+	_deferredMaterial->setTexture("gRoughness", _gBuffer, "gRoughness");
+	_deferredMaterial->setTexture("gMetallic", _gBuffer, "gMetallic");
+	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
+	
+	_debugMode = 0;
 }
 
 void Renderer::start()
@@ -127,15 +140,26 @@ void Renderer::start()
 
 void Renderer::prePass()
 {
-	defBuffer.gBuffer->enable();
-	defBuffer.gBuffer->clear();
+	_gBuffer->enable();
+	_gBuffer->clear();
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 		{
 			glEnable(GL_DEPTH_TEST);
+
+			if ((*it)->getType() == RenderType::cutout) {		
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			}
+
 			(*it)->render(_gShader);
+
+			if ((*it)->getType() == RenderType::cutout)
+			{
+				glDisable(GL_BLEND);
+			}
 		}
 	}
 
@@ -213,19 +237,16 @@ void Renderer::renderDeferred() {
 	}
 	
 	
-	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
 	glDisable(GL_DEPTH_TEST);
 
-	defBuffer.gBuffer->render(_deferredMaterial);
+	_gBuffer->render(_deferredMaterial); 
 
 	renderTransparents();
 
-
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
-	
 
 
 	/*
@@ -370,11 +391,13 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 			AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
 
 			glEnable(GL_BLEND);
+			/*
 			if (it->second->cutout)
 			{
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
 			else
+				*/
 			{
 				glBlendFunc(GL_ONE, GL_ONE);
 			}
@@ -488,21 +511,12 @@ void Renderer::renderTransparents()
 		AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
 
 		glEnable(GL_BLEND);
-		if (it->second->cutout)
-		{
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		}
-		else
-		{
-			glBlendFunc(GL_ONE, GL_ONE);
-		}
-
-		it->second->render(_transparentBaseShader, ambient);
-
-
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
+
+		
+		it->second->render(_transparentBaseShader, ambient);
 
 		std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
 		for (auto const &lightvec : lights)
@@ -612,7 +626,9 @@ void Renderer::render(Shader* customShader, bool captureMode)
 
 void Renderer::renderGizmos()
 {
-	if (_isDebug)
+	_debugFrameBuffer->enable();
+
+	if (_debugMode >= 1)
 	{
 		for (std::vector<Entity*>::iterator it = SceneManager::getCurrentScene()->entityList.begin(); it != SceneManager::getCurrentScene()->entityList.end(); ++it)
 		{
@@ -623,98 +639,117 @@ void Renderer::renderGizmos()
 		}
 	}
 
-	//if (_isDebug)
+	if (_debugMode >= 2)
 	{
-	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
-	{
-		if ((*it)->getEnable())
+		for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 		{
-			//MeshRenderer* mr = (MeshRenderer*)(*it);
-			//draw_bbox(mr->getMesh(), mr->transform->getTransformationMatrix());
+			if ((*it)->getEnable())
+			{
+				//MeshRenderer* mr = (MeshRenderer*)(*it);
+				//draw_bbox(mr->getMesh(), mr->transform->getTransformationMatrix());
 			
-			/*
-			Matrix4f projectionMatrix = Camera::getMainCamera()->getProjectionMatrix();
-			//glMatrixMode(GL_PROJECTION);
-			//glLoadMatrixf((const GLfloat*)&projectionMatrix(0, 0));
-			//glMatrixMode(GL_MODELVIEW);
-			Matrix4f MVP = Camera::getMainCamera()->getViewProjection() * mr->transform->getTransformationMatrix();
-			//glLoadMatrixf((const GLfloat*)&MV(0, 0));
+				/*
+				Matrix4f projectionMatrix = Camera::getMainCamera()->getProjectionMatrix();
+				//glMatrixMode(GL_PROJECTION);
+				//glLoadMatrixf((const GLfloat*)&projectionMatrix(0, 0));
+				//glMatrixMode(GL_MODELVIEW);
+				Matrix4f MVP = Camera::getMainCamera()->getViewProjection() * mr->transform->getTransformationMatrix();
+				//glLoadMatrixf((const GLfloat*)&MV(0, 0));
 
-			Vector3f min = (MVP * Vector4f(mr->getMesh()->min, 1.0f)).xyz();
-			Vector3f max = (MVP * Vector4f(mr->getMesh()->max, 1.0f)).xyz();
+				Vector3f min = (MVP * Vector4f(mr->getMesh()->min, 1.0f)).xyz();
+				Vector3f max = (MVP * Vector4f(mr->getMesh()->max, 1.0f)).xyz();
 
-			Vector3f x = min + Vector3f::UNIT_X;
-			Vector3f z = min + Vector3f::UNIT_Z;
-			Vector3f y = min + Vector3f::UNIT_Y;
+				Vector3f x = min + Vector3f::UNIT_X;
+				Vector3f z = min + Vector3f::UNIT_Z;
+				Vector3f y = min + Vector3f::UNIT_Y;
 
-			Vector3f negx = (min + Vector3f::UNIT_X) * -1;
-			Vector3f negz = (min + Vector3f::UNIT_Z) * -1;
-			Vector3f negy = (min + Vector3f::UNIT_Y) * -1;
-			*/
-			Vector2f min = Camera::getMainCamera()->worldToScreen(((*it)->transform->getTransformationMatrix() * Vector4f((*it)->getBoundingSphere().getCenter(), 1)).xyz());
+				Vector3f negx = (min + Vector3f::UNIT_X) * -1;
+				Vector3f negz = (min + Vector3f::UNIT_Z) * -1;
+				Vector3f negy = (min + Vector3f::UNIT_Y) * -1;
+				*/
+				Vector2f min = Camera::getMainCamera()->worldToScreen(((*it)->transform->getTransformationMatrix() * Vector4f((*it)->getBoundingSphere().getCenter(), 1)).xyz());
 
-			glDepthFunc(GL_ALWAYS);
+				glDepthFunc(GL_ALWAYS);
 
-			glUseProgram(0);
+				glUseProgram(0);
 
-			glPointSize(10.0);
-			glBegin(GL_POINTS);
+				glPointSize(10.0);
+				glBegin(GL_POINTS);
 
 			
-			glColor3f(0, 0, 1);
+				glColor3f(0, 0, 1);
 			
 
-			glVertex2fv(&min.x());
-			//glVertex3fv(&x.x());
+				glVertex2fv(&min.x());
+				//glVertex3fv(&x.x());
 
-			//glVertex3fv(&min.x());
-			//glVertex3fv(&z.x());
+				//glVertex3fv(&min.x());
+				//glVertex3fv(&z.x());
 
-			//glVertex3fv(&min.x());
-			//glVertex3fv(&y.x());
+				//glVertex3fv(&min.x());
+				//glVertex3fv(&y.x());
 
-			//glVertex3fv(&negx.x());
+				//glVertex3fv(&negx.x());
 
-			//glVertex3fv(&max.x());
-			//glVertex3fv(&negz.x());
+				//glVertex3fv(&max.x());
+				//glVertex3fv(&negz.x());
 
-			//glVertex3fv(&max.x());
-			//glVertex3fv(&negy.x());
+				//glVertex3fv(&max.x());
+				//glVertex3fv(&negy.x());
 
-			glEnd();
-			glFinish();
+				glEnd();
+				glFinish();
 
-			glDepthFunc(GL_LESS);
+				glDepthFunc(GL_LESS);
 			
+			}
 		}
 	}
+
+
+	if (_debugMode >= 3)
+	{
+		int cols = 4;
+		int widthX = 0;
+
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, _gBuffer->_fbo);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _debugFrameBuffer->_fbo);
+
+		glReadBuffer(_gBuffer->getAttachment("gAlbedo")->attachmentIndex);
+		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+		widthX += Display::getWidth() / cols;
+		glReadBuffer(_gBuffer->getAttachment("gPosition")->attachmentIndex);
+		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+		widthX += Display::getWidth() / cols;
+		glReadBuffer(_gBuffer->getAttachment("gNormal")->attachmentIndex);
+		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+		widthX += Display::getWidth() / cols;
+		glReadBuffer(_gBuffer->getAttachment("gMetallic")->attachmentIndex);
+		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	}
-
-
-
 	/*
-	int cols = 4;
-	int widthX = 0;
-
 	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	defBuffer.gBuffer->render("gAlbedo");
+	_gBuffer->render("gAlbedo");
 	widthX += Display::getWidth() / cols;
 
 	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	defBuffer.gBuffer->render("gPosition");
+	_gBuffer->render("gPosition");
 	widthX += Display::getWidth() / cols;
 
 	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	defBuffer.gBuffer->render("gNormal");
+	_gBuffer->render("gNormal");
 	widthX += Display::getWidth() / cols;
 
 	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	defBuffer.gBuffer->render("gMetallic");
+	_gBuffer->render("gMetallic");
 	widthX += Display::getWidth() / cols;
 
 	
 	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	defBuffer.gBuffer->render("gRoughness");
+	_gBuffer->render("gRoughness");
 	widthX += Display::getWidth() / cols;
 	*/
 
@@ -764,9 +799,9 @@ void Renderer::clearTransparentQueue()
 	_renderQueueTransparent.clear();
 }
 
-void Renderer::setDebug(bool debug)
+void Renderer::setDebug(int debugMode)
 {
-	_isDebug = debug;
+	_debugMode = debugMode;
 }
 
 void Renderer::destroy()

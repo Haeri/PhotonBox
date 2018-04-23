@@ -89,7 +89,7 @@ void main()
         finalColor += DirectionalLightBRDF(directionalLights[i]);
     }
   
-    FragColor = vec4(finalColor, 1);
+    FragColor = vec4(finalColor, texture(gAlbedo, TexCoords).a);
 }
 
 

@@ -114,7 +114,7 @@ public:
 
 		if (debug)
 		{
-			Renderer::_debugFrameBuffer->enable();
+			Renderer::getDebugBuffer()->enable();
 			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_16->render("color");
 			widthX += Display::getWidth() / cols;
@@ -145,7 +145,7 @@ public:
 
 		if (debug)
 		{
-			Renderer::_debugFrameBuffer->enable();
+			Renderer::getDebugBuffer()->enable();
 			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_8->render("color");
 			widthX += Display::getWidth() / cols;
@@ -176,7 +176,7 @@ public:
 
 		if (debug)
 		{
-			Renderer::_debugFrameBuffer->enable();
+			Renderer::getDebugBuffer()->enable();
 			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_4->render("color");
 			widthX += Display::getWidth() / cols;
@@ -207,7 +207,7 @@ public:
 
 		if (debug)
 		{
-			Renderer::_debugFrameBuffer->enable();
+			Renderer::getDebugBuffer()->enable();
 			glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
 			fb_blur_v_2->render("color");
 			widthX += Display::getWidth() / cols;

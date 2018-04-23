@@ -141,12 +141,6 @@ void FrameBuffer::ready()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-
-void FrameBuffer::clear()
-{
-	clear(0, 0, 0, 0);
-}
-
 void FrameBuffer::clear(int r, int g, int b, int a)
 {
 	glClearColor(r, g, b, a);

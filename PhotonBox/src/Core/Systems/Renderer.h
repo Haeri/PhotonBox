@@ -1,39 +1,46 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-class ObjectRenderer;
 class CubeMap;
 class FrameBuffer;
 class TransparentShader;
-class DeferredBuffer;
 class GShader;
 class TransparentMeshRenderer;
 class DeferredShader;
 class Material;
 
 #include <vector>
+
 #include "../../Resources/ForwardAmbientLightShader.h"
 #include "../../Resources/ForwardDirectionalLightShader.h"
 #include "../../Resources/ForwardPointLightShader.h"
 #include "../../Resources/ForwardSpotLightShader.h"
 #include "../../Resources/SkyBox.h"
 
+enum RenderType
+{
+	opaque, cutout, transparent
+};
+
 class Renderer
 {
 public:
-	static DeferredBuffer defBuffer;
-	static bool isDebug() { return _isDebug; }
-	static void setDebug(bool debug);
-	static void addToRenderQueue(ObjectRenderer *behaviour, bool isOpaque);
-	static void removeFromRenderQueue(ObjectRenderer *behaviour);
+	static const int MAX_DEBUG = 4;
+
+	static int getDebugMode() { return _debugMode; }
+	static void setDebug(int debugMode);
+	static void addToRenderQueue(ObjectRenderer *renderer, RenderType type);
+	static void removeFromRenderQueue(ObjectRenderer *renderer);
 	static void setSkyBox(CubeMap* cubeMap);
 	static SkyBox* getSkyBox() { return &_skyBox; }
 	static void printList();
-	static FrameBuffer* getMainFrameBuffer() { return _mainFrameBuffer; }
 	static void setClearColor(Vector3f color);
 	static Vector3f getClearColor() { return _clearColor; }
 	static void addDrawCall();
 	static int getDrawCalls() { return _drawCalls; }
+	static FrameBuffer* getMainFrameBuffer() { return _mainFrameBuffer; }
+	static FrameBuffer* getGBuffer() { return _gBuffer; }
+	static FrameBuffer* getDebugBuffer() { return _debugFrameBuffer; }
 
 	void init();
 	void init(float superSampling);
@@ -51,14 +58,15 @@ public:
 	static void renderAmbient(int pass, LightMap* lightMap, AABB* volume);
 	void renderGizmos();
 	void destroy();
-	static FrameBuffer*	_debugFrameBuffer;
 private:
 	static int _drawCalls;
 	static void clearTransparentQueue();
 	static void updateTransparentQueue();
 	static SkyBox _skyBox;
 	static FrameBuffer* _mainFrameBuffer;
-	static bool _isDebug;
+	static FrameBuffer* _gBuffer;
+	static FrameBuffer*	_debugFrameBuffer;
+	static int _debugMode;
 	static std::vector<ObjectRenderer*> _renderListOpaque;
 	static std::vector<ObjectRenderer*> _renderListTransparent;
 	static Vector3f _clearColor;
