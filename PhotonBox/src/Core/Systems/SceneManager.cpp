@@ -1,6 +1,7 @@
 #include "../../Resources/Scene.h"
 #include "Core.h"
 #include "SceneManager.h"
+#include "imgui\imgui.h"
 
 bool SceneManager::_inQueue = false;
 Scene* SceneManager::_currentScene;
@@ -72,4 +73,18 @@ void SceneManager::destroy()
 		delete scene.second;
 	}
 	_sceneMap.clear();
+}
+
+void SceneManager::drawSceneList()
+{
+	ImGui::Begin("Scenes");
+	for (auto const &scene : _sceneMap)
+	{
+		if (ImGui::Button(scene.first.c_str()))
+		{
+			loadScene(scene.first);
+		}
+		
+	}
+	ImGui::End();
 }

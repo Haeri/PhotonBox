@@ -36,6 +36,8 @@ public:
 	Mesh* cube;
 	Mesh* couchMesh;
 	Mesh* car;
+	Mesh* tree_branch_mesh;
+	Mesh* tree_leaves_mesh;
 
 	Texture* woodAlbedo;
 	Texture* woodRough;
@@ -59,6 +61,11 @@ public:
 	Texture* goldNormal;
 	Texture* goldMetal;
 
+	Texture* bark;
+	Texture* leaveAlbedo;
+	Texture* leaveNormal;
+	Texture* leaveRoughness;
+
 	Texture* default_normal;
 	Texture* default_specular;
 	Texture* default_emission;
@@ -74,6 +81,8 @@ public:
 	Material* def;
 	Material* lit;
 	Material* glassMaterial;
+	Material* barkMaterial;
+	Material* leaveMaterial;
 
 	AutoExposureProcessor* p_autoExposure;
 	BloomProcessor* p_bloom;
@@ -113,6 +122,8 @@ public:
 		cube = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
 		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
 		car = OBJLoader::loadObj("./res/meshes/car.obj");
+		tree_branch_mesh = OBJLoader::loadObj("./res/collection/Tree/Tree_Branch.obj");
+		tree_leaves_mesh = OBJLoader::loadObj("./res/collection/Tree/Leaves.obj");
 
 
 
@@ -139,8 +150,10 @@ public:
 		goldNormal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), true);
 		goldMetal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
 
-		Texture* carpetAlbedo = new Texture(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_D.png"), true);
-
+		bark = new Texture(std::string("./res/collection/Tree/bark_0021.jpg"), true);
+		leaveAlbedo = new Texture(std::string("./res/collection/Tree/DB2X2_L01.png"), true);
+		leaveRoughness = new Texture(std::string("./res/collection/Tree/DB2X2_L01_Spec.png"), true);
+		leaveNormal = new Texture(std::string("./res/collection/Tree/DB2X2_L01_Nor.png"), true);
 
 		default_normal = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
 		default_specular = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
@@ -182,7 +195,7 @@ public:
 		bricks->setTexture("emissionMap", default_emission);
 
 		gold = new Material();
-		gold->setTexture("albedoMap", carpetAlbedo);
+		gold->setTexture("albedoMap", goldAlbedo);
 		gold->setTexture("normalMap", goldNormal);
 		gold->setTexture("roughnessMap", goldRough);
 		gold->setTexture("aoMap", default_ao);
@@ -192,7 +205,7 @@ public:
 		def = new Material();
 		def->setTexture("albedoMap", default_specular);
 		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", gradient);
+		def->setTexture("roughnessMap", default_ao);
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
@@ -204,6 +217,22 @@ public:
 		glassMaterial->setTexture("aoMap", default_ao);
 		glassMaterial->setTexture("metallicMap", default_emission);
 		glassMaterial->setTexture("emissionMap", default_emission);
+
+		barkMaterial = new Material();
+		barkMaterial->setTexture("albedoMap", bark);
+		barkMaterial->setTexture("normalMap", default_normal);
+		barkMaterial->setTexture("roughnessMap", default_roughness);
+		barkMaterial->setTexture("aoMap", default_ao);
+		barkMaterial->setTexture("metallicMap", default_emission);
+		barkMaterial->setTexture("emissionMap", default_emission);
+
+		leaveMaterial = new Material();
+		leaveMaterial->setTexture("albedoMap", leaveAlbedo);
+		leaveMaterial->setTexture("normalMap", leaveNormal);
+		leaveMaterial->setTexture("roughnessMap", leaveRoughness);
+		leaveMaterial->setTexture("aoMap", default_ao);
+		leaveMaterial->setTexture("metallicMap", default_emission);
+		leaveMaterial->setTexture("emissionMap", default_emission);
 
 		lit = new Material(litShader);
 		lit->setProperty("color", Vector3f(0.3, 0.3, 0.5));
@@ -252,14 +281,25 @@ public:
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, -3, 0));
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
-		probe->getComponent<MeshRenderer>()->setMaterial(def);
+		probe->getComponent<MeshRenderer>()->setMaterial(glassMaterial);
 
 		
 		Entity* floor = instanciate("Floor");
 		floor->getComponent<Transform>()->setScale(Vector3f(10, 10, 10));
 		floor->addComponent<MeshRenderer>();
 		floor->getComponent<MeshRenderer>()->setMesh(plane);
-		floor->getComponent<MeshRenderer>()->setMaterial(gold);
+		floor->getComponent<MeshRenderer>()->setMaterial(def);
+
+
+		Entity* tree_branch = instanciate("Branch");
+		tree_branch->addComponent<MeshRenderer>()->setRenderType(RenderType::cutout);
+		tree_branch->getComponent<MeshRenderer>()->setMesh(tree_branch_mesh);
+		tree_branch->getComponent<MeshRenderer>()->setMaterial(barkMaterial);
+
+		Entity* leaves = instanciate("Leaves");
+		leaves->addComponent<MeshRenderer>();
+		leaves->getComponent<MeshRenderer>()->setMesh(tree_leaves_mesh);
+		leaves->getComponent<MeshRenderer>()->setMaterial(leaveMaterial);
 		
 
 			/*

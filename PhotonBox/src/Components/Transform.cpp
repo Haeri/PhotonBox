@@ -2,6 +2,8 @@
 #include "../Core/Entity.h"
 #include "Camera.h"
 #include "Transform.h"
+#include "../Core/Systems/DebugGUI.h"
+#include "imgui/imgui.h"
 
 Vector3f Transform::forward()
 {
@@ -85,6 +87,23 @@ void Transform::renderHandels()
 	glFinish();
 
 	glDepthFunc(GL_LESS);
+
+
+	{
+		ImGui::SliderFloat3(entity->name.c_str(), &(_position[0]), -10, 10);
+/*
+		ImGui::Text("Some Text");
+
+ImGui::Begin(entity->name.c_str());
+		ImGui::SliderFloat3(entity->name.c_str(), &(_position[0]), 0, 1);
+		if (ImGui::Button("Button"))
+		{
+			_hasChangedLastFrame = true;
+			_hasChanged = true;
+		}
+		ImGui::End();
+		*/
+	}
 }
 
 void Transform::print()

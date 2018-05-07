@@ -19,6 +19,7 @@ public:
 	void loadQueuedScene();
 	bool sceneQueued() { return _inQueue; }
 	void destroy();
+	void drawSceneList();
 private:
 	static std::string _newScene;
 	static std::string _currentSceneName;

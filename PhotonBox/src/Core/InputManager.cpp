@@ -106,6 +106,20 @@ void InputManager::update()
 	_yPosLast = _yPos;
 	_keyPress.clear();
 	_keyRelease.clear();
+
+	/*
+	for (auto i = _keyPress.begin(); i != _keyPress.end(); ++i)
+		std::cout << *i << ' ';
+	std::cout << "\n";
+
+	for (auto i = _keyDown.begin(); i != _keyDown.end(); ++i)
+		std::cout << *i << ' ';
+	std::cout << "\n";
+
+	for (auto i = _keyRelease.begin(); i != _keyRelease.end(); ++i)
+		std::cout << *i << ' ';
+	std::cout << "\n";
+	*/
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

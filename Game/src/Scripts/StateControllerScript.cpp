@@ -11,7 +11,7 @@
 class StateControllerScript : public Behaviour
 {
 public:
-	bool toggleCursorMode = true;
+	bool toggleCursorMode = false;
 	bool toggleRenderMode = true;
 	bool toggleVsyncMode = true;
 
