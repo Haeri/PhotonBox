@@ -14,6 +14,7 @@ class InputManager;
 class Config;
 class Profiler;
 class Scene;
+class DebugGUI;
 #include <map>
 
 //namespace PBEngine{
@@ -33,6 +34,7 @@ private:
 	Display* _display;
 	InputManager* _inputManager;
 	UIRenderer* _uiRenderer;
+	DebugGUI* _debugGUI;
 	SceneManager* _sceneManager;
 	Renderer* _renderer;
 	Logic* _logic;
@@ -50,5 +52,4 @@ private:
 
 	static bool _isRunning;
 };
-//}
 #endif // CORE_H

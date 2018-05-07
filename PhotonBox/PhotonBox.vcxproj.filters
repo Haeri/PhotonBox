@@ -140,6 +140,11 @@
     <ClCompile Include="src\Core\Entity.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
+    <ClCompile Include="include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="include\imgui\imgui.cpp" />
+    <ClCompile Include="include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_glfw_gl3.cpp" />
+    <ClCompile Include="src\Core\Systems\DebugGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\AmbientLight.h">
@@ -308,5 +313,13 @@
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\BoundingSphere.h" />
+    <ClInclude Include="include\imgui\imconfig.h" />
+    <ClInclude Include="include\imgui\imgui.h" />
+    <ClInclude Include="include\imgui\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="include\imgui\imgui_internal.h" />
+    <ClInclude Include="include\imgui\stb_rect_pack.h" />
+    <ClInclude Include="include\imgui\stb_textedit.h" />
+    <ClInclude Include="include\imgui\stb_truetype.h" />
+    <ClInclude Include="src\Core\Systems\DebugGUI.h" />
   </ItemGroup>
 </Project>

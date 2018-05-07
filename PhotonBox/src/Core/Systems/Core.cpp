@@ -11,6 +11,7 @@
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "UIRenderer.h"
+#include "DebugGUI.h"
 
 
 bool Core::_isRunning;
@@ -32,6 +33,7 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 	// Subsystems
 	_uiRenderer = new UIRenderer();
 	_sceneManager = new SceneManager();
+	_debugGUI = new DebugGUI();
 	_renderer = new Renderer();
 	_logic = new Logic();
 	//_physics = new Physics();
@@ -41,7 +43,9 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 
 	// Initialize OpenGL
 	_display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
-
+	
+	// Init Subsystems
+	_debugGUI->init();
 	_renderer->init(Config::profile.supersampling ? 2 : 1);
 	_inputManager->init();
 	//_physics->init();
@@ -83,7 +87,6 @@ void Core::run()
 
 	while (_isRunning && _display->isRunning())
 	{
-
 		// Measure time
 		double currentTime = glfwGetTime();
 		_time->setDeltaTime(currentTime - lastTime);
@@ -97,6 +100,9 @@ void Core::run()
 			nbFrames = 0;
 			lastSecond = 0;
 		}
+		
+		_inputManager->pollEvents();
+		_debugGUI->newFrame();
 
 		// Update Logic
 		_logic->update();
@@ -137,7 +143,6 @@ void Core::run()
 		_renderer->renderGizmos();
 
 		// UI Rendering
-		
 		if(Config::profile.showFPS)
 			_uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0, 1, 0));
 		if (Config::profile.fpsProfiling)
@@ -147,12 +152,16 @@ void Core::run()
 			_uiRenderer->renderText("avg: " + std::to_string(Profiler::getAvgFps()), 10, Display::getHeight() - 65, 0.32f, Vector3f(0, 0, 1));
 		}
 
+		// System GUI
+		_sceneManager->drawSceneList();
+
+		_debugGUI->render();
+
+
 		// Stop Rendering
 		Display::swapBuffer();
 		_renderer->clearDrawCalls();
-
-
-		_inputManager->pollEvents();
+		
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())
@@ -182,6 +191,7 @@ void Core::destroy()
 	_renderer->destroy();
 	//_physics->destroy();
 	_sceneManager->destroy();
+	_debugGUI->destroy();
 	_display->destroy();
 
 	delete _sceneManager;
