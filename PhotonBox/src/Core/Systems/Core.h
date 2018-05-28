@@ -21,6 +21,7 @@ class DebugGUI;
 class Core
 {
 public:
+	bool temp = false;
 	void init(std::map<std::string, Scene*>& sceneMap, std::string firstScene);
 	void start();
 	void reset();
@@ -44,8 +45,6 @@ private:
 
 	Profiler* _profiler;
 	Config* _config;
-
-	const double FIXED_TIME_INTERVAL = 30;
 
 	double _accumulatedTime, _newTime, _lastTime;
 	int _fps = 0;

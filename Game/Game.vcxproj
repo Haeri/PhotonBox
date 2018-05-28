@@ -144,6 +144,7 @@
     <ClInclude Include="src\PostProcessors\SSAOProcessor.cpp" />
     <ClInclude Include="src\PostProcessors\SSReflectionProcessor.cpp" />
     <ClInclude Include="src\PostProcessors\ToneMappingProcessor.cpp" />
+    <ClInclude Include="src\Scenes\PhysicsScene.h" />
     <ClInclude Include="src\Scripts\StateControllerScript.cpp" />
     <ClInclude Include="src\Shader\AddShader.cpp" />
     <ClInclude Include="src\PostProcessors\BloomProcessor.cpp" />

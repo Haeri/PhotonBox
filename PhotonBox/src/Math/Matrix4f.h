@@ -35,6 +35,7 @@ public:
 	void set(unsigned int x, unsigned int  y, float val);
 	Matrix4f transpose();
 	Matrix4f inverse();
+	float* getArray() { return _matrix; }
 
 	inline Matrix4f operator* (const Matrix4f& other) const
 	{

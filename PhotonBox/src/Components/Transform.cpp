@@ -207,18 +207,18 @@ Matrix4f Transform::getLocalTransformationMatrix()
 {
 	if (_hasChangedLastFrame)
 	{
-		_modelMatrixCached = Matrix4f::IDENTITY;
+		_transformationMatrixCached = Matrix4f::IDENTITY;
 
-		_modelMatrixCached = getRotationMatrix() * Matrix4f::createScaling(_scale);
+		_transformationMatrixCached = getRotationMatrix() * Matrix4f::createScaling(_scale);
 
-		_modelMatrixCached(3, 0) = _position.x();
-		_modelMatrixCached(3, 1) = _position.y();
-		_modelMatrixCached(3, 2) = _position.z();
+		_transformationMatrixCached(3, 0) = _position.x();
+		_transformationMatrixCached(3, 1) = _position.y();
+		_transformationMatrixCached(3, 2) = _position.z();
 
 		_hasChangedLastFrame = false;
 	}
 
-	return _modelMatrixCached;
+	return _transformationMatrixCached;
 }
 
 Matrix4f Transform::getLocalTransformationMatrix(bool rot, bool scale, bool trans)
@@ -226,22 +226,22 @@ Matrix4f Transform::getLocalTransformationMatrix(bool rot, bool scale, bool tran
 	if (rot && scale && trans)
 		return getLocalTransformationMatrix();
 
-	_modelMatrixCached = Matrix4f::IDENTITY;
+	_transformationMatrixCached = Matrix4f::IDENTITY;
 
 	if (rot)
-		_modelMatrixCached = _modelMatrixCached * getRotationMatrix();
+		_transformationMatrixCached = _transformationMatrixCached * getRotationMatrix();
 
 	if (scale)
-		_modelMatrixCached = _modelMatrixCached * Matrix4f::createScaling(_scale);
+		_transformationMatrixCached = _transformationMatrixCached * Matrix4f::createScaling(_scale);
 
 	if (trans)
 	{
-		_modelMatrixCached(3, 0) = _position.x();
-		_modelMatrixCached(3, 1) = _position.y();
-		_modelMatrixCached(3, 2) = _position.z();
+		_transformationMatrixCached(3, 0) = _position.x();
+		_transformationMatrixCached(3, 1) = _position.y();
+		_transformationMatrixCached(3, 2) = _position.z();
 	}
 
 	_hasChangedLastFrame = true;
 
-	return _modelMatrixCached;
+	return _transformationMatrixCached;
 }
