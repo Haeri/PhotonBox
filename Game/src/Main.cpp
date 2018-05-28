@@ -8,6 +8,7 @@
 #include "Scenes/DemoScene.h"
 #include "Scenes/PBRScene.h"
 #include "Scenes/TestScene.h"
+#include "Scenes/PhysicsScene.h"
 
 int main(void)
 {
@@ -24,10 +25,11 @@ int main(void)
 	sceneMap["Realistic Rendering"] = new TestScene();
 	sceneMap["Material Test"] = new PBRScene();
 	sceneMap["Demo Scene"] = new DemoScene();
+	sceneMap["Physics Scene"] = new PhysicsScene();
 
 	// Create and initialize the RenderProject
 	Core core;
-	core.init(sceneMap, "Realistic Rendering");
+	core.init(sceneMap, "Physics Scene");
 	core.run();
 	core.destroy();
 

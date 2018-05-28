@@ -91,6 +91,7 @@
     <ClInclude Include="src\Components\ObjectRenderer.h" />
     <ClInclude Include="src\Components\PointLight.h" />
     <ClInclude Include="src\Components\PointRenderer.h" />
+    <ClInclude Include="src\Components\Rigidbody.h" />
     <ClInclude Include="src\Components\SpotLight.h" />
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Components\TransparentMeshRenderer.h" />

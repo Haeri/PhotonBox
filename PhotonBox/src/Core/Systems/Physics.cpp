@@ -2,34 +2,60 @@
 #include <iostream>
 #include "../../Components/Collider.h"
 #include "Physics.h"
+#include "../../Components/Rigidbody.h"
+#include "../../Components/Transform.h"
+#include "../../Core/Entity.h"
 
-std::vector<Collider*> Physics::_physicsList;
+std::vector<Collider*> Physics::_colliders;
+std::vector<Rigidbody*> Physics::_rigidbodies;
+std::map<PxActor*, Entity*> Physics::_physXMap;
+
+PxMaterial* Physics::_gMaterial;
+PxScene*	Physics::_gScene;
+PxPhysics*	Physics::_gPhysics;
+PxSceneDesc* Physics::_sceneDesc;
+
+const double Physics::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
 
 void Physics::init()
 {
-	gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, gAllocator, gErrorCallback);
-	if (!gFoundation)
+	_gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, _gAllocator, _gErrorCallback);
+	if (!_gFoundation)
 		std::cerr << "PxCreateFoundation failed!";
 
-	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true);
+	_gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *_gFoundation, PxTolerancesScale(), true);
 
-	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
-	gDispatcher = PxDefaultCpuDispatcherCreate(2);
-	sceneDesc.cpuDispatcher = gDispatcher;
-	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
-	gScene = gPhysics->createScene(sceneDesc);
-	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	_sceneDesc = new PxSceneDesc(_gPhysics->getTolerancesScale());
+	_sceneDesc->gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	_gDispatcher = PxDefaultCpuDispatcherCreate(2);
+	_sceneDesc->cpuDispatcher = _gDispatcher;
+	_sceneDesc->filterShader = PxDefaultSimulationFilterShader;
+	_gScene = _gPhysics->createScene(*_sceneDesc);
+	_gScene->setFlag(PxSceneFlag::eENABLE_ACTIVETRANSFORMS, true);
 
-	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gMaterial);
-	gScene->addActor(*groundPlane);
+	_gMaterial = _gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+
+	PxRigidStatic* groundPlane = PxCreatePlane(*_gPhysics, PxPlane(0, 1, 0, 0), *_gMaterial);
+	_gScene->addActor(*groundPlane);
+	
 }
 
 void Physics::update()
 {
-	gScene->simulate(1.0f / 60.0f);
-	gScene->fetchResults(true);
+	_gScene->simulate(FIXED_TIME_INTERVAL);
+	_gScene->fetchResults(true);
 
+	PxU32 size = 0;
+	const PxActiveTransform* first = _gScene->getActiveTransforms(size);
+
+	for (PxU32  i = 0; i < size; ++i)
+	{
+		PxTransform pt = first[i].actor2World;
+		Transform* t = _physXMap[first[i].actor]->transform;
+		t->setPosition(Vector3f(pt.p.x, pt.p.y, pt.p.z));
+	}
+
+	/*
 	if (_physicsList.size() == 0) return;
 	for (int i = 0; i < _physicsList.size() - 1; ++i)
 	{
@@ -40,32 +66,69 @@ void Physics::update()
 			_physicsList[i]->collide(_physicsList[j]);
 		}
 	}
+	*/
+}
+
+void Physics::reset()
+{
+	_gScene->release();
+
+	_gScene = _gPhysics->createScene(*_sceneDesc);
+	_gScene->setFlag(PxSceneFlag::eENABLE_ACTIVETRANSFORMS, true);
+	
+	PxRigidStatic* groundPlane = PxCreatePlane(*_gPhysics, PxPlane(0, 1, 0, 0), *_gMaterial);
+	_gScene->addActor(*groundPlane);
 }
 
 void Physics::addToPhysicsList(Collider *behaviour)
 {
-	_physicsList.push_back(behaviour);
+	_colliders.push_back(behaviour);
+}
+
+void Physics::addToPhysicsList(Rigidbody *rigidbody)
+{
+
+	_rigidbodies.push_back(rigidbody);
 }
 
 void Physics::removeFromPhysicsList(Collider * collider)
 {
-	_physicsList.erase(std::remove(_physicsList.begin(), _physicsList.end(), collider), _physicsList.end());
+	_colliders.erase(std::remove(_colliders.begin(), _colliders.end(), collider), _colliders.end());
+}
+
+void Physics::removeFromPhysicsList(Rigidbody * rigidbody)
+{
+	_rigidbodies.erase(std::remove(_rigidbodies.begin(), _rigidbodies.end(), rigidbody), _rigidbodies.end());
 }
 
 void Physics::destroy()
 {
 	// PHYSX
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();
-	gFoundation->release();
+	_gScene->release();
+	_gDispatcher->release();
+	_gPhysics->release();
+	_gFoundation->release();
 
-	_physicsList.clear();
+	_colliders.clear();
+	_rigidbodies.clear();
+}
+
+void Physics::addPhysicsObject(Rigidbody* rigidbody) //, Collider* collider)
+{
+	Matrix4f mat = rigidbody->transform->getTransformationMatrix();
+	
+	const PxMat44 pmat(mat.getArray());
+
+	PxTransform t(pmat);
+	PxRigidDynamic* dynamic = PxCreateDynamic(*_gPhysics, t, PxSphereGeometry(1), *_gMaterial, 10.0f);
+	_gScene->addActor(*dynamic);
+
+	_physXMap[dynamic] = rigidbody->entity;
 }
 
 void Physics::printList()
 {
-	for (std::vector<Collider*>::iterator it = _physicsList.begin(); it != _physicsList.end(); ++it)
+	for (std::vector<Collider*>::iterator it = _colliders.begin(); it != _colliders.end(); ++it)
 	{
 		std::cout << (*it)->getName() << std::endl;
 	}
@@ -74,7 +137,7 @@ void Physics::printList()
 std::string Physics::getList()
 {
 	std::string ret = "";
-	for (std::vector<Collider*>::iterator it = _physicsList.begin(); it != _physicsList.end(); ++it)
+	for (std::vector<Collider*>::iterator it = _colliders.begin(); it != _colliders.end(); ++it)
 	{
 		ret += (*it)->getName() + "\n";
 	}

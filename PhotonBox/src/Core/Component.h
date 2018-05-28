@@ -8,8 +8,8 @@ class Transform;
 class Component
 {
 public:
-	Entity * entity;
-	Transform *transform;
+	Entity* entity;
+	Transform* transform;
 
 	void setEntity(Entity* _go);
 	void setTransform(Transform* _t);

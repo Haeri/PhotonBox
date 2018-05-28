@@ -36,14 +36,13 @@ public:
 	void removeChild(Transform* child);
 	void renderHandels();
 	void print();
-
 private:
 	bool _hasChanged = true;
 	bool _hasChangedLastFrame = true;
 	Vector3f _position = Vector3f::ZERO;
 	Vector3f _rotation = Vector3f::ZERO;
 	Vector3f _scale = Vector3f::ONE;
-	Matrix4f _modelMatrixCached;
+	Matrix4f _transformationMatrixCached;
 	Transform* _parent;
 };
 #endif // TRANSFORM_H

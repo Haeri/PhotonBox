@@ -121,7 +121,7 @@ void Renderer::init(float superSampling)
 	_deferredMaterial->setTexture("gMetallic", _gBuffer, "gMetallic");
 	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
 	
-	_debugMode = 2;
+	_debugMode = 0;
 }
 
 void Renderer::start()

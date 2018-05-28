@@ -321,5 +321,6 @@
     <ClInclude Include="include\imgui\stb_textedit.h" />
     <ClInclude Include="include\imgui\stb_truetype.h" />
     <ClInclude Include="src\Core\Systems\DebugGUI.h" />
+    <ClInclude Include="src\Components\Rigidbody.h" />
   </ItemGroup>
 </Project>

@@ -13,7 +13,6 @@
 #include "UIRenderer.h"
 #include "DebugGUI.h"
 
-
 bool Core::_isRunning;
 
 void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
@@ -36,7 +35,7 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 	_debugGUI = new DebugGUI();
 	_renderer = new Renderer();
 	_logic = new Logic();
-	//_physics = new Physics();
+	_physics = new Physics();
 	_postPocessing = new PostProcessing();
 	_lighting = new Lighting();
 	_profiler = new Profiler();
@@ -48,7 +47,7 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 	_debugGUI->init();
 	_renderer->init(Config::profile.supersampling ? 2 : 1);
 	_inputManager->init();
-	//_physics->init();
+	_physics->init();
 	_uiRenderer->init();
 
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
@@ -112,9 +111,9 @@ void Core::run()
 
 		// Update Physics
 		_accumulatedTime += Time::deltaTime;
-		if (_accumulatedTime > FIXED_TIME_INTERVAL)
+		if (_accumulatedTime > Physics::FIXED_TIME_INTERVAL)
 		{
-			//_physics->update();
+			_physics->update();
 			_logic->fixedUpdate();
 			_accumulatedTime = 0;
 		}
@@ -183,13 +182,14 @@ void Core::reset()
 {
 	_postPocessing->reset();
 	_profiler->reset();
+	_physics->reset();
 }
 
 void Core::destroy()
 {
 	_logic->destroy();
 	_renderer->destroy();
-	//_physics->destroy();
+	_physics->destroy();
 	_sceneManager->destroy();
 	_debugGUI->destroy();
 	_display->destroy();
