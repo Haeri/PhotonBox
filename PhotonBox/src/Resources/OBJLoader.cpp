@@ -133,6 +133,7 @@ Mesh* loadFromCache(const std::string& filename)
 
 Mesh* OBJLoader::loadObj(const std::string & filePath)
 {
+	std::cerr << "Loading mesh: " << filePath << std::endl;
 	std::ifstream file(filePath);
 
 	std::size_t found = filePath.find_last_of(".");

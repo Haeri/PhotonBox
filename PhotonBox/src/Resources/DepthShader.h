@@ -9,6 +9,7 @@
 class DepthShader : public InstancedShader<DepthShader>
 {
 public:
+	float offset = -6;
 	std::string getFilePath() override
 	{
 		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/depth");
@@ -17,13 +18,14 @@ public:
 	void update(Transform* transform, LightEmitter* light)
 	{
 		Matrix4f model = transform->getTransformationMatrix();
-		DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
-		/*Matrix4f lightView = Matrix4f::lookAt(
+		DirectionalLight* dl = static_cast<DirectionalLight*>(light);
+		/*
+		Matrix4f lightView = Matrix4f::lookAt(
 			Camera::getMainCamera()->transform->getPosition() + (dl->direction * -3),
 			Vector3f(0.0f, 1.0f, 0.0f),
 			dl->direction);*/
 		Matrix4f lightView = Matrix4f::lookAt(
-			(dl->direction * -3),
+			(dl->direction * offset),
 			Vector3f(0.0f, 1.0f, 0.0f),
 			dl->direction);
 		Matrix4f lightSpaceMatrix = dl->lightProjection * lightView;

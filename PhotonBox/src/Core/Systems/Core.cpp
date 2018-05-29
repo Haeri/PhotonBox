@@ -70,6 +70,7 @@ void Core::start()
 	_renderer->start();
 	_lighting->start();
 	_postPocessing->start();
+	_physics->start();
 
 	std::cout << std::endl << "                   SCENE READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;

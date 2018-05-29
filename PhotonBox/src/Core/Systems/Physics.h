@@ -4,6 +4,7 @@
 class Collider;
 class Rigidbody;
 class Entity;
+
 #include <vector>
 #include <map>
 
@@ -25,16 +26,8 @@ public:
 	static void printList();
 	static std::string getList();
 
-	static PxRigidDynamic* createDynamic(const PxTransform& t, const PxGeometry& geometry, const PxVec3& velocity = PxVec3(0))
-	{
-		PxRigidDynamic* dynamic = PxCreateDynamic(*_gPhysics, t, geometry, *_gMaterial, 10.0f);
-		_gScene->addActor(*dynamic);
-
-		
-		return dynamic;
-	}
-
 	void init();
+	void start();
 	void update();
 	void reset();
 	void destroy();
@@ -49,13 +42,13 @@ private:
 	PxDefaultErrorCallback	_gErrorCallback;
 
 	PxFoundation*			_gFoundation = NULL;
-	static PxPhysics*				_gPhysics;
+	static PxPhysics*		_gPhysics;
 
 	PxDefaultCpuDispatcher*	_gDispatcher = NULL;
-	static PxScene*				_gScene;
+	static PxScene*			_gScene;
 
-	static PxMaterial* _gMaterial;
-	static PxSceneDesc* _sceneDesc;
+	static PxMaterial*		_gMaterial;
+	static PxSceneDesc*		_sceneDesc;
 };
 
 #endif // PHYSICS_H
