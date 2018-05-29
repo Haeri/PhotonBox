@@ -43,9 +43,7 @@ Vector3f Transform::rightWorld()
 
 bool Transform::hasChanged()
 {
-	bool temp = _hasChanged;
-	_hasChanged = false;
-	return temp;
+	return _hasChangedLastFrame;
 }
 
 void Transform::removeChild(Transform * child)
@@ -149,7 +147,6 @@ void Transform::setPosition(Vector3f position)
 	{
 		_position = position;
 		_hasChangedLastFrame = true;
-		_hasChanged = true;
 	}
 }
 
@@ -157,7 +154,6 @@ void Transform::setRotation(Vector3f rotation)
 {
 	_rotation = rotation;
 	_hasChangedLastFrame = true;
-	_hasChanged = true;
 }
 
 void Transform::setScale(Vector3f scale)
@@ -166,7 +162,6 @@ void Transform::setScale(Vector3f scale)
 	{
 		_scale = scale;
 		_hasChangedLastFrame = true;
-		_hasChanged = true;
 	}
 }
 
@@ -181,8 +176,6 @@ void Transform::setParent(Transform *parent)
 
 	if (parent != nullptr)
 		parent->children.push_back(this);
-
-	_hasChanged = true;
 }
 
 void Transform::setParent(Entity *_entity)

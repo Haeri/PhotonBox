@@ -16,6 +16,7 @@ Texture::Texture(std::string fileName) : Texture(fileName, false, false) {}
 Texture::Texture(std::string fileName, bool generateMipMaps) : Texture(fileName, generateMipMaps, false) {}
 Texture::Texture(std::string fileName, bool generateMipMaps, bool hdr)
 {
+	std::cerr << "Loading Texture: " << fileName << std::endl;
 	int numComponents;
 	unsigned char* data = stbi_load((fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
 

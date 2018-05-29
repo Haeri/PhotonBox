@@ -5,6 +5,7 @@
 #include "../Resources/DepthShader.h"
 #include "../Resources/ForwardDirectionalLightShader.h"
 #include "DirectionalLight.h"
+#include "imgui\imgui.h"
 
 DirectionalLight::DirectionalLight()
 {
@@ -48,6 +49,12 @@ void DirectionalLight::renderShadowMap(bool captureMode)
 	glClear(GL_DEPTH_BUFFER_BIT);
 
 	Renderer::render(_depthShader, captureMode);
+
+	if(!captureMode){
+		ImGui::Begin("Depth");
+		ImGui::Image((void *)_depthMap, ImVec2(_shadowMapResolution/20, _shadowMapResolution/20));
+		ImGui::End();
+	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

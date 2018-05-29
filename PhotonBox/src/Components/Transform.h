@@ -37,7 +37,6 @@ public:
 	void renderHandels();
 	void print();
 private:
-	bool _hasChanged = true;
 	bool _hasChangedLastFrame = true;
 	Vector3f _position = Vector3f::ZERO;
 	Vector3f _rotation = Vector3f::ZERO;

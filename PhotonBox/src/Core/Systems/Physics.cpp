@@ -30,14 +30,17 @@ void Physics::init()
 	_gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	_sceneDesc->cpuDispatcher = _gDispatcher;
 	_sceneDesc->filterShader = PxDefaultSimulationFilterShader;
+	
+	_gMaterial = _gPhysics->createMaterial(0.5f, 0.5f, 0.6f);	
+
 	_gScene = _gPhysics->createScene(*_sceneDesc);
 	_gScene->setFlag(PxSceneFlag::eENABLE_ACTIVETRANSFORMS, true);
+}
 
-	_gMaterial = _gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
-
+void Physics::start()
+{
 	PxRigidStatic* groundPlane = PxCreatePlane(*_gPhysics, PxPlane(0, 1, 0, 0), *_gMaterial);
 	_gScene->addActor(*groundPlane);
-	
 }
 
 void Physics::update()
@@ -75,9 +78,6 @@ void Physics::reset()
 
 	_gScene = _gPhysics->createScene(*_sceneDesc);
 	_gScene->setFlag(PxSceneFlag::eENABLE_ACTIVETRANSFORMS, true);
-	
-	PxRigidStatic* groundPlane = PxCreatePlane(*_gPhysics, PxPlane(0, 1, 0, 0), *_gMaterial);
-	_gScene->addActor(*groundPlane);
 }
 
 void Physics::addToPhysicsList(Collider *behaviour)

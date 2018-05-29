@@ -278,10 +278,10 @@ public:
 		
 		Entity* probe = instanciate("Probe-1");
 		//probe->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
-		probe->getComponent<Transform>()->setPosition(Vector3f(0, -3, 0));
+		probe->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		probe->addComponent<MeshRenderer>();
-		probe->getComponent<MeshRenderer>()->setMesh(sphere);
-		probe->getComponent<MeshRenderer>()->setMaterial(glassMaterial);
+		probe->getComponent<MeshRenderer>()->setMesh(car);
+		probe->getComponent<MeshRenderer>()->setMaterial(rust);
 
 		
 		Entity* floor = instanciate("Floor");
@@ -290,7 +290,7 @@ public:
 		floor->getComponent<MeshRenderer>()->setMesh(plane);
 		floor->getComponent<MeshRenderer>()->setMaterial(def);
 
-
+		/*
 		Entity* tree_branch = instanciate("Branch");
 		tree_branch->addComponent<MeshRenderer>()->setRenderType(RenderType::cutout);
 		tree_branch->getComponent<MeshRenderer>()->setMesh(tree_branch_mesh);
@@ -300,7 +300,7 @@ public:
 		leaves->addComponent<MeshRenderer>();
 		leaves->getComponent<MeshRenderer>()->setMesh(tree_leaves_mesh);
 		leaves->getComponent<MeshRenderer>()->setMaterial(leaveMaterial);
-		
+		*/
 
 			/*
 		Entity* couch = instanciate("Couch");
