@@ -9,7 +9,7 @@
 class DepthShader : public InstancedShader<DepthShader>
 {
 public:
-	float offset = -6;
+	float offset = -3;
 	std::string getFilePath() override
 	{
 		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/depth");

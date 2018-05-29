@@ -1,12 +1,12 @@
 #ifndef FORWARD_DIRECTIONAL_LIGHT_SHADER_H
 #define FORWARD_DIRECTIONAL_LIGHT_SHADER_H
 
-
 #include "../Components/Camera.h"
 #include "../Components/DirectionalLight.h"
 #include "../Components/Transform.h"
 #include "Shader.h"
 #include "Resources.h"
+#include "../Core/FrameBuffer.h"
 
 class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader>
 {
@@ -42,8 +42,7 @@ public:
 		glUniform3fv(uniforms["light.color"], 1, &(dl->color.x()));
 		glUniform1f(uniforms["light.intensity"], dl->intensity);
 
-		glActiveTexture(textures["shadowMap"].unit);
-		glBindTexture(GL_TEXTURE_2D, dl->_depthMap);
+		dl->shadowBuffer->bind(textures["shadowMap"].unit, "depth");
 	}
 
 	void addUniforms() override

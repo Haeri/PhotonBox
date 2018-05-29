@@ -11,6 +11,24 @@ GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;
 std::vector<FrameBuffer*> FrameBuffer::_bufferList;
 
+std::map<FrameBuffer::InterpolationType, GLint> FrameBuffer::_interpolationTypes = {
+	{ NEAREST , GL_NEAREST },
+	{ LINEAR ,	GL_LINEAR }
+};
+std::map<FrameBuffer::InterpolationType, GLint> FrameBuffer::_interpolationMipTypes = {
+	{ NEAREST ,			GL_NEAREST_MIPMAP_NEAREST },
+	{ LINEAR ,			GL_LINEAR_MIPMAP_LINEAR },
+	{ LINEAR_NEAREST ,	GL_LINEAR_MIPMAP_NEAREST},
+	{ NEAREST_LINEAR ,	GL_NEAREST_MIPMAP_LINEAR }
+};
+std::map<FrameBuffer::EdgeType, GLint> FrameBuffer::_edgeTypes = {
+	{ CLAMP_TO_EDGE ,			GL_CLAMP_TO_EDGE },
+	{ CLAMP_TO_BORDER ,			GL_CLAMP_TO_BORDER },
+	{ MIRRORED_REPEAT ,			GL_MIRRORED_REPEAT },
+	{ REPEAT ,					GL_REPEAT },
+	{ MIRROR_CLAMP_TO_EDGE ,	GL_MIRROR_CLAMP_TO_EDGE }
+};
+
 FrameBuffer::FrameBuffer(float screenFactor)
 {
 	_screenFactor = screenFactor;
@@ -39,17 +57,7 @@ FrameBuffer::~FrameBuffer()
 	glDeleteRenderbuffers(1, &_depthAttachment);
 }
 
-void FrameBuffer::addTextureAttachment(std::string name)
-{
-	addTextureAttachment(name, false, false);
-}
-
-void FrameBuffer::addTextureAttachment(std::string name, bool hdr)
-{
-	addTextureAttachment(name, hdr, false);
-}
-
-void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps)
+void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps, InterpolationType interpolationType, EdgeType edgeType)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 	GLint format = hdr ? GL_RGB16F : GL_RGBA;
@@ -59,21 +67,21 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps)
 	glBindTexture(GL_TEXTURE_2D, temp.id);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, GL_RGB, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _edgeTypes[edgeType]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _edgeTypes[edgeType]);
 
 	if (mipmaps)
 	{
 		temp.mipmaps = 1 + floor(log2(min(_width, _height)));
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _interpolationMipTypes[interpolationType]);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _interpolationTypes[interpolationType]);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
 	{
 		temp.mipmaps = 0;
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _interpolationTypes[interpolationType]);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _interpolationTypes[interpolationType]);
 	}
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, temp.id, 0);
@@ -94,6 +102,8 @@ void FrameBuffer::addDepthTextureAttachment(std::string name)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, _width, _height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, temp.id, 0);
 
 	temp.mipmaps = 0;
@@ -132,8 +142,11 @@ void FrameBuffer::ready()
 
 	if (_drawBuffers.size() > 0)
 		glDrawBuffers(_drawBuffers.size(), &_drawBuffers[0]);
-
-
+	else {
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+	}
+		
 	auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Framebuffer not complete: " << fboStatus << std::endl;

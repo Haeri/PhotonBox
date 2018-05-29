@@ -43,7 +43,7 @@ Material* Renderer::_deferredMaterial;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_gBuffer;
-FrameBuffer* Renderer::_debugFrameBuffer;
+FrameBuffer* Renderer::_gizmoBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3, 0.3, 0.3);
 
 void Renderer::addToRenderQueue(ObjectRenderer * renderer, RenderType type)
@@ -110,9 +110,9 @@ void Renderer::init(float superSampling)
 	_gBuffer->addDepthBufferAttachment();
 	_gBuffer->ready();
 
-	_debugFrameBuffer = new FrameBuffer(1);
-	_debugFrameBuffer->addTextureAttachment("color", false, false);
-	_debugFrameBuffer->ready();
+	_gizmoBuffer = new FrameBuffer(1);
+	_gizmoBuffer->addTextureAttachment("color", false, false);
+	_gizmoBuffer->ready();
 	
 	_deferredMaterial = new Material(_deferredShader);
 	_deferredMaterial->setTexture("gPosition", _gBuffer, "gPosition");
@@ -228,9 +228,9 @@ void Renderer::renderDeferred() {
 				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
 				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
 
-
-				glActiveTexture(_deferredShader->textures["shadowMap"].unit);
-				glBindTexture(GL_TEXTURE_2D, dl->_depthMap);
+				dl->shadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
+				//glActiveTexture(_deferredShader->textures["shadowMap"].unit);
+				//glBindTexture(GL_TEXTURE_2D, dl->_depthMap);
 				//_deferredMaterial->setTexture("shadowMap", dl->_depthMap, "shadowMap");
 			}
 		}
@@ -626,7 +626,7 @@ void Renderer::render(Shader* customShader, bool captureMode)
 
 void Renderer::renderGizmos()
 {
-	_debugFrameBuffer->enable();
+	_gizmoBuffer->enable();
 
 	if (_debugMode >= 1)
 	{
@@ -712,8 +712,8 @@ void Renderer::renderGizmos()
 		int cols = 4;
 		int widthX = 0;
 
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, _gBuffer->_fbo);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _debugFrameBuffer->_fbo);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, _gBuffer->getFBO());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _gizmoBuffer->getFBO());
 
 		glReadBuffer(_gBuffer->getAttachment("gAlbedo")->attachmentIndex);
 		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
@@ -758,13 +758,13 @@ void Renderer::renderGizmos()
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	_debugFrameBuffer->render("color");
+	_gizmoBuffer->render("color");
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 
-	_debugFrameBuffer->enable();
-	_debugFrameBuffer->clear();
+	_gizmoBuffer->enable();
+	_gizmoBuffer->clear();
 	
 	
 }

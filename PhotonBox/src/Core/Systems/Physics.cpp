@@ -8,7 +8,7 @@
 
 std::vector<Collider*> Physics::_colliders;
 std::vector<Rigidbody*> Physics::_rigidbodies;
-std::map<PxActor*, Entity*> Physics::_physXMap;
+std::map<Transform*, PxRigidDynamic*> Physics::_physXMap;
 
 PxMaterial* Physics::_gMaterial;
 PxScene*	Physics::_gScene;
@@ -54,7 +54,7 @@ void Physics::update()
 	for (PxU32  i = 0; i < size; ++i)
 	{
 		PxTransform pt = first[i].actor2World;
-		Transform* t = _physXMap[first[i].actor]->transform;
+		Transform* t = (static_cast<Entity*>(first[i].actor->userData))->transform;
 		t->setPosition(Vector3f(pt.p.x, pt.p.y, pt.p.z));
 	}
 
@@ -70,6 +70,18 @@ void Physics::update()
 		}
 	}
 	*/
+}
+
+void Physics::refeed()
+{
+	for (std::vector<Rigidbody*>::iterator it = _rigidbodies.begin(); it != _rigidbodies.end(); ++it)
+	{
+		if ((*it)->transform->hasChanged())
+		{
+			Vector3f p = (*it)->transform->getPositionWorld();
+			_physXMap[(*it)->transform]->setGlobalPose(PxTransform(PxVec3(p.getX(), p.getY(), p.getZ())));
+		}
+	}
 }
 
 void Physics::reset()
@@ -121,9 +133,12 @@ void Physics::addPhysicsObject(Rigidbody* rigidbody) //, Collider* collider)
 
 	PxTransform t(pmat);
 	PxRigidDynamic* dynamic = PxCreateDynamic(*_gPhysics, t, PxSphereGeometry(1), *_gMaterial, 10.0f);
+	dynamic->userData = rigidbody->entity;
 	_gScene->addActor(*dynamic);
 
-	_physXMap[dynamic] = rigidbody->entity;
+	_rigidbodies.push_back(rigidbody);
+
+	_physXMap[rigidbody->entity->transform] = dynamic;
 }
 
 void Physics::printList()

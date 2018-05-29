@@ -104,12 +104,6 @@ void Core::run()
 		_inputManager->pollEvents();
 		_debugGUI->newFrame();
 
-		// Update Logic
-		_logic->update();
-
-		// Late update Logic
-		_logic->lateUpdate();
-
 		// Update Physics
 		_accumulatedTime += Time::deltaTime;
 		if (_accumulatedTime > Physics::FIXED_TIME_INTERVAL)
@@ -118,6 +112,12 @@ void Core::run()
 			_logic->fixedUpdate();
 			_accumulatedTime = 0;
 		}
+
+		// Update Logic
+		_logic->update();
+
+		// Late update Logic
+		_logic->lateUpdate();
 
 		// Update input
 		_inputManager->update();
@@ -134,10 +134,7 @@ void Core::run()
 		//Renderer::render();
 		nbFrames++;
 
-
 		_postPocessing->postProcess();
-
-
 
 		// Gizmos
 		_renderer->renderGizmos();
@@ -157,11 +154,12 @@ void Core::run()
 
 		_debugGUI->render();
 
+		// Refeed position updates to physics system
+		_physics->refeed();
 
 		// Stop Rendering
 		Display::swapBuffer();
 		_renderer->clearDrawCalls();
-		
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())
