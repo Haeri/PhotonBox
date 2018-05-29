@@ -40,7 +40,7 @@ public:
 	static int getDrawCalls() { return _drawCalls; }
 	static FrameBuffer* getMainFrameBuffer() { return _mainFrameBuffer; }
 	static FrameBuffer* getGBuffer() { return _gBuffer; }
-	static FrameBuffer* getDebugBuffer() { return _debugFrameBuffer; }
+	static FrameBuffer* getDebugBuffer() { return _gizmoBuffer; }
 
 	void init();
 	void init(float superSampling);
@@ -65,7 +65,7 @@ private:
 	static SkyBox _skyBox;
 	static FrameBuffer* _mainFrameBuffer;
 	static FrameBuffer* _gBuffer;
-	static FrameBuffer*	_debugFrameBuffer;
+	static FrameBuffer*	_gizmoBuffer;
 	static int _debugMode;
 	static std::vector<ObjectRenderer*> _renderListOpaque;
 	static std::vector<ObjectRenderer*> _renderListTransparent;

@@ -14,22 +14,9 @@ DirectionalLight::DirectionalLight()
 	_shadowMapResolution = 4096;
 	lightProjection = Matrix4f::createOrthographic(-5, 5, -5, 5, 0.1, 100);
 
-	glGenFramebuffers(1, &_depthMapFBO);
-
-	glGenTextures(1, &_depthMap);
-	glBindTexture(GL_TEXTURE_2D, _depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
-		_shadowMapResolution, _shadowMapResolution, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, _depthMap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	shadowBuffer = new FrameBuffer(_shadowMapResolution, _shadowMapResolution);
+	shadowBuffer->addDepthTextureAttachment("depth");
+	shadowBuffer->ready();
 }
 
 void DirectionalLight::destroy()
@@ -44,17 +31,16 @@ Shader * DirectionalLight::getLightShader()
 
 void DirectionalLight::renderShadowMap(bool captureMode)
 {
-	glViewport(0, 0, _shadowMapResolution, _shadowMapResolution);
-	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	shadowBuffer->enable();
+	shadowBuffer->clear();
 
 	Renderer::render(_depthShader, captureMode);
 
 	if(!captureMode){
 		ImGui::Begin("Depth");
-		ImGui::Image((void *)_depthMap, ImVec2(_shadowMapResolution/20, _shadowMapResolution/20));
+		ImGui::Image((void *)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15, _shadowMapResolution/15));
 		ImGui::End();
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	FrameBuffer::resetDefaultBuffer();
 }

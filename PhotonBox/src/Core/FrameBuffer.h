@@ -5,6 +5,7 @@ class Material;
 
 #include <unordered_map>
 #include <vector>
+#include <map>
 #include "OpenGL.h"
 
 class FrameBuffer
@@ -27,6 +28,24 @@ public:
 			mipmaps = 0;
 		}
 	};
+
+	enum InterpolationType
+	{
+		NEAREST, 
+		LINEAR,
+		LINEAR_NEAREST,
+		NEAREST_LINEAR
+	};
+
+	enum EdgeType
+	{
+		CLAMP_TO_EDGE, 
+		CLAMP_TO_BORDER, 
+		MIRRORED_REPEAT, 
+		REPEAT, 
+		MIRROR_CLAMP_TO_EDGE
+	};
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FrameBuffer"/> class.
 	/// </summary>
@@ -39,9 +58,8 @@ public:
 	/// <param name="height">The fixed height of the FrameBuffer.</param>
 	FrameBuffer(int width, int height);
 	~FrameBuffer();
-	void addTextureAttachment(std::string name);
-	void addTextureAttachment(std::string name, bool hdr);
-	void addTextureAttachment(std::string name, bool hdr, bool mipmaps);
+
+	void addTextureAttachment(std::string name, bool hdr = false, bool mipmaps = false, InterpolationType interpolationType = LINEAR, EdgeType edgeType = CLAMP_TO_EDGE);
 	void addDepthTextureAttachment(std::string name);
 	void addDepthBufferAttachment();
 
@@ -74,21 +92,27 @@ public:
 	GLuint getTextureID(std::string name) { return _colorAttachments[name].id; }
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }
+	GLuint getFBO() { return _fbo; }
 
 	static void resetDefaultBuffer();
 	static void resizeAll();
-	GLuint _fbo;
 private:
 	// config
 	int _width, _height;
 	float _screenFactor;
 
 	// Buffers
+	GLuint _fbo;
 	GLuint _depthAttachment = -1;
 	std::unordered_map<std::string, BufferAttachment> _colorAttachments;
 
 	GLenum _colorAttachmentIndex = GL_COLOR_ATTACHMENT0;
 	std::vector<GLenum> _drawBuffers;
+
+	//Opengl Wrapper
+	static std::map<InterpolationType, GLint> _interpolationTypes;
+	static std::map<InterpolationType, GLint> _interpolationMipTypes;
+	static std::map<EdgeType, GLint> _edgeTypes;
 
 	// Mesh
 	static GLuint _quadVAO;

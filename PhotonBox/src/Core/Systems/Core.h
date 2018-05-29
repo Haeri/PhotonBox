@@ -21,7 +21,7 @@ class DebugGUI;
 class Core
 {
 public:
-	bool temp = false;
+	bool temp = true;
 	void init(std::map<std::string, Scene*>& sceneMap, std::string firstScene);
 	void start();
 	void reset();

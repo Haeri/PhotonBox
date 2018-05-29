@@ -29,24 +29,21 @@ public:
 	void init();
 	void start();
 	void update();
+	void refeed();
 	void reset();
 	void destroy();
 private:
 	static std::vector<Collider*> _colliders;
 	static std::vector<Rigidbody*> _rigidbodies;
-	static std::map<PxActor*, Entity*> _physXMap;
-
-
+	static std::map<Transform*, PxRigidDynamic*> _physXMap;
 
 	PxDefaultAllocator		_gAllocator;
 	PxDefaultErrorCallback	_gErrorCallback;
+	PxFoundation*			_gFoundation;
+	PxDefaultCpuDispatcher*	_gDispatcher;
 
-	PxFoundation*			_gFoundation = NULL;
 	static PxPhysics*		_gPhysics;
-
-	PxDefaultCpuDispatcher*	_gDispatcher = NULL;
 	static PxScene*			_gScene;
-
 	static PxMaterial*		_gMaterial;
 	static PxSceneDesc*		_sceneDesc;
 };

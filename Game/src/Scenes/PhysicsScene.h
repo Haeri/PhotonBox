@@ -105,11 +105,11 @@ public:
 		sun->getComponent<DirectionalLight>()->intensity = 10.0f;	
 
 
-		for (size_t i = 0; i < 4; i++)
+		for (size_t i = 0; i < 1; i++)
 		{
-			for (size_t j = 0; j < 4; j++)
+			for (size_t j = 0; j < 1; j++)
 			{
-				for (size_t z = 0; z < 4; z++)
+				for (size_t z = 0; z < 1; z++)
 				{
 					
 					Entity* probe = instanciate("Sphere" + std::to_string(i));
