@@ -19,6 +19,6 @@ public:
 	void renderShadowMap(bool captureMode);
 private:
 	DepthShader* _depthShader;
-	GLuint _shadowMapResolution;
+	int _shadowMapResolution;
 };
 #endif // DIRECTIONAL_LIGHT_H

@@ -72,7 +72,7 @@ Vector2f Camera::worldToScreen(Vector3f point)
 	Vector4f clipSpacePos = Camera::getMainCamera()->getViewProjection() * Vector4f(point, 1.0);
 	if (clipSpacePos.w() <= 0)
 	{
-		clipSpacePos.w() = 0.0001;
+		clipSpacePos.w() = 0.0001f;
 	}
 
 	return Vector2f(clipSpacePos.x() / clipSpacePos.w(), clipSpacePos.y() / clipSpacePos.w());

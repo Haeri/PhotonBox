@@ -17,11 +17,11 @@ public:
 
 	static const int KEY_UNKNOWN = -1;
 	static const int KEY_SPACE = 32;
-	static const int KEY_APOSTROPHE = 39; /* ' */
-	static const int KEY_COMMA = 44; /* , */
-	static const int KEY_MINUS = 45; /* - */
-	static const int KEY_PERIOD = 46; /* . */
-	static const int KEY_SLASH = 47; /* / */
+	static const int KEY_APOSTROPHE = 39;	/* ' */
+	static const int KEY_COMMA = 44;		/* , */
+	static const int KEY_MINUS = 45;		/* - */
+	static const int KEY_PERIOD = 46;		/* . */
+	static const int KEY_SLASH = 47;		/* / */
 	static const int KEY_0 = 48;
 	static const int KEY_1 = 49;
 	static const int KEY_2 = 50;
@@ -32,8 +32,8 @@ public:
 	static const int KEY_7 = 55;
 	static const int KEY_8 = 56;
 	static const int KEY_9 = 57;
-	static const int KEY_SEMICOLON = 59; /* ; */
-	static const int KEY_EQUAL = 61; /* = */
+	static const int KEY_SEMICOLON = 59;	/* ; */
+	static const int KEY_EQUAL = 61;		/* = */
 	static const int KEY_A = 65;
 	static const int KEY_B = 66;
 	static const int KEY_C = 67;
@@ -60,12 +60,12 @@ public:
 	static const int KEY_X = 88;
 	static const int KEY_Y = 89;
 	static const int KEY_Z = 90;
-	static const int KEY_LEFT_BRACKET = 91; /* [ */
-	static const int KEY_BACKSLASH = 92; /* \ */
+	static const int KEY_LEFT_BRACKET = 91;	/* [ */
+	static const int KEY_BACKSLASH = 92;	/* \ */
 	static const int KEY_RIGHT_BRACKET = 93; /* ] */
-	static const int KEY_GRAVE_ACCENT = 96; /* ` */
-	static const int KEY_WORLD_1 = 161; /* non-US #1 */
-	static const int KEY_WORLD_2 = 162; /* non-US #2 */
+	static const int KEY_GRAVE_ACCENT = 96;	/* ` */
+	static const int KEY_WORLD_1 = 161;		/* non-US #1 */
+	static const int KEY_WORLD_2 = 162;		/* non-US #2 */
 	static const int KEY_ESCAPE = 256;
 	static const int KEY_ENTER = 257;
 	static const int KEY_TAB = 258;
@@ -149,11 +149,11 @@ public:
 	static void setCursorMode(CursorMode mode);
 
 	static void handleKey(int key, int action);
-	static void handleMouse(double x, double y);
+	static void handleMouse(float x, float y);
 private:
 	static std::vector<int> _keyPress;
 	static std::vector<int> _keyDown;
 	static std::vector<int> _keyRelease;
-	static double _xPos, _yPos, _xPosLast, _yPosLast;
+	static float _xPos, _yPos, _xPosLast, _yPosLast;
 };
 #endif // INPUT_MANAGER_H

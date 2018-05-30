@@ -29,7 +29,7 @@ int main(void)
 
 	// Create and initialize the RenderProject
 	Core core;
-	core.init(sceneMap, "Physics Scene");
+	core.init(sceneMap, "Material Test");
 	core.run();
 	core.destroy();
 

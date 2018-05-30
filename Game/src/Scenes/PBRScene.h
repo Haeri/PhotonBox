@@ -73,6 +73,7 @@ public:
 	Texture* gradient;
 	Texture* default_roughness;
 	Texture* transparentAlbedo;
+	Texture* grid;
 
 	Material* wood;
 	Material* rust;
@@ -109,7 +110,7 @@ public:
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		p_ssao = new SSAOProcessor(0);
+		//p_ssao = new SSAOProcessor(0);
 		p_ssreflection = new SSReflectionProcessor(1);
 		p_autoExposure = new AutoExposureProcessor(2);
 		p_bloom = new BloomProcessor(3);
@@ -162,6 +163,7 @@ public:
 		default_roughness = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
 		gradient = new Texture(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 		transparentAlbedo = new Texture(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
+		grid = new Texture(std::string(Resources::ENGINE_RESOURCES + "/grid.png"), false);
 
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
@@ -203,7 +205,7 @@ public:
 		gold->setTexture("emissionMap", default_emission);
 
 		def = new Material();
-		def->setTexture("albedoMap", default_specular);
+		def->setTexture("albedoMap", grid);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_ao);
 		def->setTexture("aoMap", default_ao);
@@ -235,7 +237,7 @@ public:
 		leaveMaterial->setTexture("emissionMap", default_emission);
 
 		lit = new Material(litShader);
-		lit->setProperty("color", Vector3f(0.3, 0.3, 0.5));
+		lit->setProperty("color", Vector3f(0.3f, 0.3f, 0.5f));
 
 
 		/* --------------------------- CAMERA --------------------------- */
@@ -461,6 +463,7 @@ public:
 		delete gradient;
 		delete default_roughness;
 		delete transparentAlbedo;
+		delete grid;
 
 		delete wood;
 		delete rust;

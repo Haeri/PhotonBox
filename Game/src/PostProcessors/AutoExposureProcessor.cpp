@@ -20,7 +20,7 @@ public:
 	AutoExposureProcessor(int index) : PostProcessor(index)
 	{
 		int res = 64;
-		int numLevels = 1 + floor(log2(res));
+		int numLevels = 1 + (int)floor(log2(res));
 
 		autoExpMaterial = new Material(AutoExposureShader::getInstance());
 		expMaterial = new Material(ExposureShader::getInstance());

@@ -303,3 +303,5 @@ PhotonBox/lib/PhysX3CommonDEBUG_x64.lib
 PhotonBox/lib/PhysX3DEBUG_x64.lib
 PhotonBox/lib/PhysX3ExtensionsDEBUG.lib
 PhotonBox/lib/PxPvdSDKDEBUG_x64.lib
+Deploy_Debug/
+Deploy_Release/

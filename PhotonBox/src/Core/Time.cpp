@@ -2,12 +2,14 @@
 #include <chrono>
 
 double Time::deltaTime = 0.001;
+float Time::deltaTimef = 0.001f;
 double Time::time;
 double Time::timeScale;
 
 void Time::setDeltaTime(double deltaTime)
 {
 	Time::deltaTime = deltaTime;
+	Time::deltaTimef = (float)deltaTime;
 }
 
 void Time::setTime(double time)

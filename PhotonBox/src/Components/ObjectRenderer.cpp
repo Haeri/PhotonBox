@@ -12,7 +12,7 @@ void ObjectRenderer::onDestroy() {}
 
 BoundingSphere ObjectRenderer::getBoundingSphere()
 {
-	return BoundingSphere(Vector3f::ZERO, 0.001);
+	return BoundingSphere(Vector3f::ZERO, 0.001f);
 }
 
 void ObjectRenderer::destroy()

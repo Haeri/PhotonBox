@@ -5,6 +5,7 @@ class Time
 {
 public:
 	static double deltaTime;
+	static float deltaTimef;
 	static double time;
 	static double timeScale;
 

@@ -64,7 +64,7 @@ void MeshRenderer::render(Shader* shader, LightEmitter* light)
 	shader->updateTextures();
 	shader->enableAttributes();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, (GLsizei)_mesh->indices.size(), GL_UNSIGNED_INT, 0);
 	Renderer::addDrawCall();
 	shader->disableAttributes();
 

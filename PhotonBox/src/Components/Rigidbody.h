@@ -20,6 +20,7 @@ public:
 
 	~Rigidbody()
 	{
+		Physics::removePhysicsObject(this);
 		//Physics::removeFromPhysicsList(this);
 	}
 };
