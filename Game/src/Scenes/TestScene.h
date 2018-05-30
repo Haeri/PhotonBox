@@ -561,76 +561,76 @@ public:
 		/* --------------------------- CAMERA --------------------------- */
 
 		Entity* s1 = instanciate("start");
-		s1->getComponent<Transform>()->setPosition(Vector3f(-1.275343, 0.609712, 3.92936));
-		s1->getComponent<Transform>()->setRotation(Vector3f(-0.406666, 2.218385, 0.00000));
+		s1->getComponent<Transform>()->setPosition(Vector3f(-1.275343f, 0.609712f, 3.92936f));
+		s1->getComponent<Transform>()->setRotation(Vector3f(-0.406666f, 2.218385f, 0.00000f));
 
 		Entity* f1 = instanciate("¨fin");
-		f1->getComponent<Transform>()->setPosition(Vector3f(-1.701402, 0.896463, 3.75409));
-		f1->getComponent<Transform>()->setRotation(Vector3f(0.070667, 2.363519, 0.00000));
+		f1->getComponent<Transform>()->setPosition(Vector3f(-1.701402f, 0.896463f, 3.75409f));
+		f1->getComponent<Transform>()->setRotation(Vector3f(0.070667f, 2.363519f, 0.00000f));
 
 		Entity* s2 = instanciate("start");
-		s2->getComponent<Transform>()->setPosition(Vector3f(0.042963, 0.564167, 0.744266));
-		s2->getComponent<Transform>()->setRotation(Vector3f(-0.441667, -4.278056, 0.000000));
+		s2->getComponent<Transform>()->setPosition(Vector3f(0.042963f, 0.564167f, 0.744266f));
+		s2->getComponent<Transform>()->setRotation(Vector3f(-0.441667f, -4.278056f, 0.000000f));
 
 		Entity* f2 = instanciate("fin");
-		f2->getComponent<Transform>()->setPosition(Vector3f(0.325749, 0.647959, 0.665603));
-		f2->getComponent<Transform>()->setRotation(Vector3f(-0.323334, -4.136055, 0.000000));
+		f2->getComponent<Transform>()->setPosition(Vector3f(0.325749f, 0.647959f, 0.665603f));
+		f2->getComponent<Transform>()->setRotation(Vector3f(-0.323334f, -4.136055f, 0.000000f));
 
 		Entity* s3 = instanciate("start");
-		s3->getComponent<Transform>()->setPosition(Vector3f(1.849994, 1.612600, 0.045660));
-		s3->getComponent<Transform>()->setRotation(Vector3f(-0.133326, 3.428171, 0.000000));
+		s3->getComponent<Transform>()->setPosition(Vector3f(1.849994f, 1.612600f, 0.045660f));
+		s3->getComponent<Transform>()->setRotation(Vector3f(-0.133326f, 3.428171f, 0.000000f));
 
 		Entity* f3 = instanciate("fin");
-		f3->getComponent<Transform>()->setPosition(Vector3f(1.719618, 1.658098, 1.163731));
-		f3->getComponent<Transform>()->setRotation(Vector3f(-0.098326, 3.107171, 0.000000));
+		f3->getComponent<Transform>()->setPosition(Vector3f(1.719618f, 1.658098f, 1.163731f));
+		f3->getComponent<Transform>()->setRotation(Vector3f(-0.098326f, 3.107171f, 0.000000f));
 
 		Entity* s4 = instanciate("start");
-		s4->getComponent<Transform>()->setPosition(Vector3f(-1.432103, 0.233059, 3.00573));
-		s4->getComponent<Transform>()->setRotation(Vector3f(-0.910666, 0.317027, 0.00000));
+		s4->getComponent<Transform>()->setPosition(Vector3f(-1.432103f, 0.233059f, 3.00573f));
+		s4->getComponent<Transform>()->setRotation(Vector3f(-0.910666f, 0.317027f, 0.00000f));
 
 		Entity* f4 = instanciate("fin");
-		f4->getComponent<Transform>()->setPosition(Vector3f(-1.254720, 0.108683, -0.22882));
-		f4->getComponent<Transform>()->setRotation(Vector3f(0.086667, 0.071351, 0.00000));
+		f4->getComponent<Transform>()->setPosition(Vector3f(-1.254720f, 0.108683f, -0.22882f));
+		f4->getComponent<Transform>()->setRotation(Vector3f(0.086667f, 0.071351f, 0.00000f));
 
 		Entity* s5 = instanciate("start");
-		s5->getComponent<Transform>()->setPosition(Vector3f(1.497587, 1.648782, 2.544615));
-		s5->getComponent<Transform>()->setRotation(Vector3f(-0.126667, -2.622055, 0.000000));
+		s5->getComponent<Transform>()->setPosition(Vector3f(1.497587f, 1.648782f, 2.544615f));
+		s5->getComponent<Transform>()->setRotation(Vector3f(-0.126667f, -2.622055f, 0.000000f));
 
 		Entity* f5 = instanciate("fin");
-		f5->getComponent<Transform>()->setPosition(Vector3f(1.335855, 0.571176, 2.610204));
-		f5->getComponent<Transform>()->setRotation(Vector3f(-0.126667, -2.622055, 0.000000));
+		f5->getComponent<Transform>()->setPosition(Vector3f(1.335855f, 0.571176f, 2.610204f));
+		f5->getComponent<Transform>()->setRotation(Vector3f(-0.126667f, -2.622055f, 0.000000f));
 
 		Entity* s6 = instanciate("start");
-		s6->getComponent<Transform>()->setPosition(Vector3f(-1.708001, 0.232390, 0.078278));
-		s6->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
+		s6->getComponent<Transform>()->setPosition(Vector3f(-1.708001f, 0.232390f, 0.078278f));
+		s6->getComponent<Transform>()->setRotation(Vector3f(0.028630f, -1.570984f, 0.000000f));
 
 		Entity* f6 = instanciate("fin");
-		f6->getComponent<Transform>()->setPosition(Vector3f(-0.610981, 0.718269, 0.078073));
-		f6->getComponent<Transform>()->setRotation(Vector3f(0.028630, -1.570984, 0.000000));
+		f6->getComponent<Transform>()->setPosition(Vector3f(-0.610981f, 0.718269f, 0.078073f));
+		f6->getComponent<Transform>()->setRotation(Vector3f(0.028630f, -1.570984f, 0.000000f));
 
 		Entity* s7 = instanciate("start");
-		s7->getComponent<Transform>()->setPosition(Vector3f(1.163253, 2.849120, -0.82634));
-		s7->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
+		s7->getComponent<Transform>()->setPosition(Vector3f(1.163253f, 2.849120f, -0.82634f));
+		s7->getComponent<Transform>()->setRotation(Vector3f(-1.466666f, 7.874601f, 0.00000f));
 
 		Entity* f7 = instanciate("fin");
-		f7->getComponent<Transform>()->setPosition(Vector3f(1.112261, 2.849120, 1.64630));
-		f7->getComponent<Transform>()->setRotation(Vector3f(-1.466666, 7.874601, 0.00000));
+		f7->getComponent<Transform>()->setPosition(Vector3f(1.112261f, 2.849120f, 1.64630f));
+		f7->getComponent<Transform>()->setRotation(Vector3f(-1.466666f, 7.874601f, 0.00000f));
 
 		Entity* s8 = instanciate("start");
-		s8->getComponent<Transform>()->setPosition(Vector3f(1.269536, 2.121249, 4.091350));
-		s8->getComponent<Transform>()->setRotation(Vector3f(-0.606236, 2.979938, 0.000000));
+		s8->getComponent<Transform>()->setPosition(Vector3f(1.269536f, 2.121249f, 4.091350f));
+		s8->getComponent<Transform>()->setRotation(Vector3f(-0.606236f, 2.979938f, 0.000000f));
 
 		Entity* f8 = instanciate("fin");
-		f8->getComponent<Transform>()->setPosition(Vector3f(0.237463, 1.906774, 3.826429));
-		f8->getComponent<Transform>()->setRotation(Vector3f(-0.576903, 3.178587, 0.000000));
+		f8->getComponent<Transform>()->setPosition(Vector3f(0.237463f, 1.906774f, 3.826429f));
+		f8->getComponent<Transform>()->setRotation(Vector3f(-0.576903f, 3.178587f, 0.000000f));
 
 		Entity* s9 = instanciate("start");
-		s9->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4));
-		s9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0));
+		s9->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4f));
+		s9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0f));
 
 		Entity* f9 = instanciate("fin");
-		f9->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9));
-		f9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0));
+		f9->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9f));
+		f9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0f));
 
 
 		Entity* cam = instanciate("Camera");
@@ -667,11 +667,11 @@ public:
 		Entity* lightProbe = instanciate("LightProbe");
 		lightProbe->addComponent<LightProbe>()->resolution = 512;
 		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
-		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3.4));
+		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3.4f));
 		lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(2.1f, 2.0f, 6));
 
 		Entity* min = instanciate("min");
-		min->getComponent<Transform>()->setPosition(Vector3f(-2.1f, -1.3f, -3.4));
+		min->getComponent<Transform>()->setPosition(Vector3f(-2.1f, -1.3f, -3.4f));
 
 		Entity* max = instanciate("max");
 		max->getComponent<Transform>()->setPosition(Vector3f(2.1f, 2.0f, 6));
@@ -686,7 +686,7 @@ public:
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(253.0f/255.0f, 248.0f / 255.0f, 230.0f / 255.0f);
-		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4, -0.6, 2);
+		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4f, -0.6f, 2.0f);
 		sun->getComponent<DirectionalLight>()->intensity = 300.0f;
 
 
@@ -823,7 +823,7 @@ public:
 		balconyRailing->getComponent<MeshRenderer>()->setMaterial(railingMaterial);
 
 		Entity* probe = instanciate("Probe");
-		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2, 0));
+		probe->getComponent<Transform>()->setPosition(Vector3f(0.0f, 1.2f, 0.0f));
 		probe->getComponent<Transform>()->setScale(Vector3f(0.1f, 0.1f, 0.1f));
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);

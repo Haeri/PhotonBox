@@ -35,8 +35,8 @@ public:
 
 		Vector2f mouse = InputManager::getMouseDelta();
 
-		float x = transform->getRotation().x() + mouse.y() * Time::deltaTime * mouseSensitivity;
-		float y = transform->getRotation().y() + mouse.x() * Time::deltaTime * mouseSensitivity;
+		float x = transform->getRotation().x() + mouse.y() * Time::deltaTimef * mouseSensitivity;
+		float y = transform->getRotation().y() + mouse.x() * Time::deltaTimef * mouseSensitivity;
 		float z = transform->getRotation().z();
 		transform->setRotation(Vector3f(x, y, z));
 

@@ -107,7 +107,7 @@ public:
 		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.17f, 0.17f, 0.17f);
-		ambient->getComponent<AmbientLight>()->intensity = 0.4;
+		ambient->getComponent<AmbientLight>()->intensity = 0.4f;
 		//ambient->getComponent<AmbientLight>()->intensity = 0;
 
 
@@ -133,7 +133,7 @@ public:
 
 		Entity* pointLight2 = instanciate("Pointlight2");
 		pointLight2->addComponent<PointRenderer>();
-		pointLight2->getComponent<Transform>()->setPosition(Vector3f(1.7, 2, -1));
+		pointLight2->getComponent<Transform>()->setPosition(Vector3f(1.7f, 2.0f, -1.0f));
 		pointLight2->addComponent<PointLight>();
 		pointLight2->getComponent<PointLight>()->color = Vector3f(0.1f, 0.1f, 0.94f);
 		pointLight2->getComponent<PointLight>()->constant = 2;
@@ -144,7 +144,7 @@ public:
 
 		Entity* pointLight3 = instanciate("Pointlight3");
 		pointLight3->addComponent<PointRenderer>();
-		pointLight3->getComponent<Transform>()->setPosition(Vector3f(-1.7, 2, -1));
+		pointLight3->getComponent<Transform>()->setPosition(Vector3f(-1.7f, 2.0f, -1.0f));
 		pointLight3->addComponent<PointLight>();
 		pointLight3->getComponent<PointLight>()->color = Vector3f(0.93f, 0.1f, 0.1f);
 		pointLight3->getComponent<PointLight>()->constant = 2;
@@ -155,11 +155,11 @@ public:
 
 		Entity* spot = instanciate("Spot");
 		spot->getComponent<Transform>()->setPosition(Vector3f(1, 7, -1));
-		spot->getComponent<Transform>()->setRotation(Vector3f(-PI / 2.0f, 0, -0.3f));
+		spot->getComponent<Transform>()->setRotation(Vector3f(-PI / 2.0f, 0.0f, -0.3f));
 		spot->addComponent<SpotLight>();
-		spot->getComponent<SpotLight>()->coneAngle = 0.97;
-		spot->getComponent<SpotLight>()->coneAttenuation = 0.96;
-		spot->getComponent<SpotLight>()->constant = 2;
+		spot->getComponent<SpotLight>()->coneAngle = 0.97f;
+		spot->getComponent<SpotLight>()->coneAttenuation = 0.96f;
+		spot->getComponent<SpotLight>()->constant = 2.0f;
 		spot->getComponent<SpotLight>()->linear = 0.09f;
 		spot->getComponent<SpotLight>()->quadratic = 0.032f;
 		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
@@ -168,7 +168,7 @@ public:
 
 
 		Entity* probe = instanciate("Probe-1");
-		probe->getComponent<Transform>()->setPosition(Vector3f(0, 1, 0));
+		probe->getComponent<Transform>()->setPosition(Vector3f(0.0f, 1.0f, 0.0f));
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(def);

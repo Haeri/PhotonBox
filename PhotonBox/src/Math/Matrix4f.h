@@ -89,8 +89,7 @@ public:
 			os << "[";
 			for (size_t j = 0; j < 4; ++j)
 			{
-				int f = m.at(j, i);
-				os << m.at(j, i);
+				os << m.at((unsigned int)j, (unsigned int)i);
 				if (j < 3)
 					os << ",\t";
 			}

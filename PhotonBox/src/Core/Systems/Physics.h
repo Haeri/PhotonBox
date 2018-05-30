@@ -17,14 +17,15 @@ class Physics
 public:
 	static const double FIXED_TIME_INTERVAL;
 
-	static void addToPhysicsList(Collider *collider);
-	static void addToPhysicsList(Rigidbody *rigidbody);
-	static void removeFromPhysicsList(Collider* collider);
-	static void removeFromPhysicsList(Rigidbody *rigidbody);
+	//static void addToPhysicsList(Collider *collider);
+	//static void addToPhysicsList(Rigidbody *rigidbody);
+	//static void removeFromPhysicsList(Collider* collider);
+	//static void removeFromPhysicsList(Rigidbody *rigidbody);
 
 	static void addPhysicsObject(Rigidbody* rigidbody); // , Collider* collider);
-	static void printList();
-	static std::string getList();
+	static void removePhysicsObject(Rigidbody* rigidbody);
+	//static void printList();
+	//static std::string getList();
 
 	void init();
 	void start();
@@ -33,8 +34,8 @@ public:
 	void reset();
 	void destroy();
 private:
-	static std::vector<Collider*> _colliders;
-	static std::vector<Rigidbody*> _rigidbodies;
+	//static std::vector<Collider*> _colliders;
+	//static std::vector<Rigidbody*> _rigidbodies;
 	static std::map<Transform*, PxRigidDynamic*> _physXMap;
 
 	PxDefaultAllocator		_gAllocator;

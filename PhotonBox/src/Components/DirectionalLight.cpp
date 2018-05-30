@@ -12,7 +12,7 @@ DirectionalLight::DirectionalLight()
 	Lighting::addLight(this);
 	_depthShader = DepthShader::getInstance();
 	_shadowMapResolution = 4096;
-	lightProjection = Matrix4f::createOrthographic(-5, 5, -5, 5, 0.1, 100);
+	lightProjection = Matrix4f::createOrthographic(-5.0f, 5.0f, -5.0f, 5.0f, 0.1f, 100.0f);
 
 	shadowBuffer = new FrameBuffer(_shadowMapResolution, _shadowMapResolution);
 	shadowBuffer->addDepthTextureAttachment("depth");
@@ -36,11 +36,13 @@ void DirectionalLight::renderShadowMap(bool captureMode)
 
 	Renderer::render(_depthShader, captureMode);
 
+	/*
 	if(!captureMode){
 		ImGui::Begin("Depth");
-		ImGui::Image((void *)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15, _shadowMapResolution/15));
+		ImGui::Image((void *)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15.0f, _shadowMapResolution/15.0f), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 	}
+	*/
 
 	FrameBuffer::resetDefaultBuffer();
 }

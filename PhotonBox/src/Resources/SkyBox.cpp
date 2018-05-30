@@ -64,6 +64,7 @@ void SkyBox::render()
 	vp = Camera::getMainCamera()->getProjectionMatrix() * vp;
 	glBindVertexArray(_vao);
 	glDepthMask(GL_FALSE);
+	glDepthFunc(GL_EQUAL);
 
 	_skyBoxShader->bind();
 	_skyBoxShader->update(vp);
@@ -75,5 +76,6 @@ void SkyBox::render()
 	_skyBoxShader->disableAttributes();
 
 	glDepthMask(GL_TRUE);
+	glDepthFunc(GL_LESS);
 	glBindVertexArray(0);
 }

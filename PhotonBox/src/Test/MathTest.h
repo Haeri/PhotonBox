@@ -38,10 +38,10 @@ public:
 		std::cout << "Look At Test\t\t\t - ";
 		Matrix4f lookAt = Matrix4f::lookAt(Vector3f(3, 3, -3), Vector3f(0, 1, 0), Vector3f(-3, -3, 3).normalize());
 		Matrix4f lookAtResult;
-		lookAtResult(0, 0) = -0.707106769;		lookAtResult(1, 0) = 0;					lookAtResult(2, 0) = -0.707106769;		lookAtResult(3, 0) = 0;
-		lookAtResult(0, 1) = -0.408248276;		lookAtResult(1, 1) = 0.816496551;		lookAtResult(2, 1) = 0.408248276;		lookAtResult(3, 1) = 0;
-		lookAtResult(0, 2) = 0.577350259;		lookAtResult(1, 2) = 0.577350259;		lookAtResult(2, 2) = -0.577350259;		lookAtResult(3, 2) = -5.19615221;
-		lookAtResult(0, 3) = 0;					lookAtResult(1, 3) = 0;					lookAtResult(2, 3) = 0;					lookAtResult(3, 3) = 1;
+		lookAtResult(0, 0) = -0.707106769f;		lookAtResult(1, 0) = 0.0f;				lookAtResult(2, 0) = -0.707106769f;		lookAtResult(3, 0) = 0.0f;
+		lookAtResult(0, 1) = -0.408248276f;		lookAtResult(1, 1) = 0.816496551f;		lookAtResult(2, 1) = 0.408248276f;		lookAtResult(3, 1) = 0.0f;
+		lookAtResult(0, 2) = 0.577350259f;		lookAtResult(1, 2) = 0.577350259f;		lookAtResult(2, 2) = -0.577350259f;		lookAtResult(3, 2) = -5.19615221f;
+		lookAtResult(0, 3) = 0.0f;				lookAtResult(1, 3) = 0.0f;				lookAtResult(2, 3) = 0.0f;				lookAtResult(3, 3) = 1.0f;
 
 		if (lookAt == lookAtResult)
 		{

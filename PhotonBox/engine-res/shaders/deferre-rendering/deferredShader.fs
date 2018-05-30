@@ -70,11 +70,7 @@ vec3 PointLightBRDF();
 vec3 SpotLightBRDF();
 
 void main()
-{             
-    if(texture(gPosition, TexCoords).xyz == vec3(0, 0, 0)){
-    	discard;
-    }
-
+{
     // retrieve data from gbuffer
     gData.Position = texture(gPosition, TexCoords).rgb;
 	if(gData.Position == vec3(0, 0, 0)) discard;

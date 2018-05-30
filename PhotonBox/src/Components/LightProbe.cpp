@@ -38,7 +38,7 @@ void LightProbe::generateLightMap()
 	for (size_t i = 0; i < stepSize - 1; ++i)
 	{
 		//capture scene
-		lightMaps[i + 1] = captureAmbient(i, lightMaps[i]);
+		lightMaps[(int)i + 1] = captureAmbient((int)i, lightMaps[(int)i]);
 	}
 
 	_lightMap = *lightMaps[3];

@@ -6,8 +6,8 @@
 #include "../../Components/Transform.h"
 #include "../../Core/Entity.h"
 
-std::vector<Collider*> Physics::_colliders;
-std::vector<Rigidbody*> Physics::_rigidbodies;
+//std::vector<Collider*> Physics::_colliders;
+//std::vector<Rigidbody*> Physics::_rigidbodies;
 std::map<Transform*, PxRigidDynamic*> Physics::_physXMap;
 
 PxMaterial* Physics::_gMaterial;
@@ -57,29 +57,17 @@ void Physics::update()
 		Transform* t = (static_cast<Entity*>(first[i].actor->userData))->transform;
 		t->setPosition(Vector3f(pt.p.x, pt.p.y, pt.p.z));
 	}
-
-	/*
-	if (_physicsList.size() == 0) return;
-	for (int i = 0; i < _physicsList.size() - 1; ++i)
-	{
-		for (int j = i + 1; j < _physicsList.size(); ++j)
-		{
-			if (!_physicsList[i]->getEnable() || !_physicsList[j]->getEnable()) return;
-
-			_physicsList[i]->collide(_physicsList[j]);
-		}
-	}
-	*/
 }
 
 void Physics::refeed()
 {
-	for (std::vector<Rigidbody*>::iterator it = _rigidbodies.begin(); it != _rigidbodies.end(); ++it)
+	for (std::map<Transform*, PxRigidDynamic*>::iterator it = _physXMap.begin(); it != _physXMap.end(); ++it)
 	{
-		if ((*it)->transform->hasChanged())
+		Transform* t = it->first;
+		if (t->hasChanged())
 		{
-			Vector3f p = (*it)->transform->getPositionWorld();
-			_physXMap[(*it)->transform]->setGlobalPose(PxTransform(PxVec3(p.getX(), p.getY(), p.getZ())));
+			Vector3f p = t->getPositionWorld();
+			_physXMap[t]->setGlobalPose(PxTransform(PxVec3(p.getX(), p.getY(), p.getZ())));
 		}
 	}
 }
@@ -90,8 +78,11 @@ void Physics::reset()
 
 	_gScene = _gPhysics->createScene(*_sceneDesc);
 	_gScene->setFlag(PxSceneFlag::eENABLE_ACTIVETRANSFORMS, true);
+
+	//_physXMap.clear();
 }
 
+/*
 void Physics::addToPhysicsList(Collider *behaviour)
 {
 	_colliders.push_back(behaviour);
@@ -112,6 +103,7 @@ void Physics::removeFromPhysicsList(Rigidbody * rigidbody)
 {
 	_rigidbodies.erase(std::remove(_rigidbodies.begin(), _rigidbodies.end(), rigidbody), _rigidbodies.end());
 }
+*/
 
 void Physics::destroy()
 {
@@ -121,8 +113,8 @@ void Physics::destroy()
 	_gPhysics->release();
 	_gFoundation->release();
 
-	_colliders.clear();
-	_rigidbodies.clear();
+	//_colliders.clear();
+	//_rigidbodies.clear();
 }
 
 void Physics::addPhysicsObject(Rigidbody* rigidbody) //, Collider* collider)
@@ -136,11 +128,19 @@ void Physics::addPhysicsObject(Rigidbody* rigidbody) //, Collider* collider)
 	dynamic->userData = rigidbody->entity;
 	_gScene->addActor(*dynamic);
 
-	_rigidbodies.push_back(rigidbody);
+	//_rigidbodies.push_back(rigidbody);
 
 	_physXMap[rigidbody->entity->transform] = dynamic;
 }
 
+void Physics::removePhysicsObject(Rigidbody * rigidbody)
+{
+	Transform* t = rigidbody->entity->transform;
+	_physXMap[t]->release();
+	_physXMap.erase(t);
+}
+
+/*
 void Physics::printList()
 {
 	for (std::vector<Collider*>::iterator it = _colliders.begin(); it != _colliders.end(); ++it)
@@ -158,3 +158,4 @@ std::string Physics::getList()
 	}
 	return ret;
 }
+*/

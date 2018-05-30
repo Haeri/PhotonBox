@@ -6,10 +6,10 @@
 std::vector<int> InputManager::_keyPress;
 std::vector<int> InputManager::_keyDown;
 std::vector<int> InputManager::_keyRelease;
-double InputManager::_xPos = 0;
-double InputManager::_yPos = 0;
-double InputManager::_xPosLast = 0;
-double InputManager::_yPosLast = 0;
+float InputManager::_xPos = 0;
+float InputManager::_yPos = 0;
+float InputManager::_xPosLast = 0;
+float InputManager::_yPosLast = 0;
 
 void key_callback(GLFWwindow*, int, int, int, int);
 void cursor_position_callback(GLFWwindow*, double, double);
@@ -70,8 +70,8 @@ Vector2f InputManager::getMouseDelta()
 	float yl = (_yPosLast - Display::getHeight() / 2.0f) / Display::getHeight() * -2.0f;
 	float x = (_xPos - Display::getWidth() / 2.0f) / Display::getWidth() * 2.0f;
 	float y = (_yPos - Display::getHeight() / 2.0f) / Display::getHeight() * -2.0f;
-	float xres = (x - xl) / (Time::deltaTime == 0 ? 0.001 : Time::deltaTime);
-	float yres = (y - yl) / (Time::deltaTime == 0 ? 0.001 : Time::deltaTime);
+	float xres = (x - xl) / (Time::deltaTimef == 0 ? 0.001f : Time::deltaTimef);
+	float yres = (y - yl) / (Time::deltaTimef == 0 ? 0.001f : Time::deltaTimef);
 	return Vector2f(xres, yres);
 }
 
@@ -94,7 +94,7 @@ void InputManager::handleKey(int key, int action)
 	}
 }
 
-void InputManager::handleMouse(double x, double y)
+void InputManager::handleMouse(float x, float y)
 {
 	_xPos = x;
 	_yPos = y;
@@ -106,20 +106,6 @@ void InputManager::update()
 	_yPosLast = _yPos;
 	_keyPress.clear();
 	_keyRelease.clear();
-
-	/*
-	for (auto i = _keyPress.begin(); i != _keyPress.end(); ++i)
-		std::cout << *i << ' ';
-	std::cout << "\n";
-
-	for (auto i = _keyDown.begin(); i != _keyDown.end(); ++i)
-		std::cout << *i << ' ';
-	std::cout << "\n";
-
-	for (auto i = _keyRelease.begin(); i != _keyRelease.end(); ++i)
-		std::cout << *i << ' ';
-	std::cout << "\n";
-	*/
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -129,5 +115,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	InputManager::handleMouse(xpos, ypos);
+	InputManager::handleMouse((float)xpos, (float)ypos);
 }

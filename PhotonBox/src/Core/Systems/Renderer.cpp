@@ -24,6 +24,7 @@
 #include "../PostProcessor.h"
 #include "Lighting.h"
 #include "SceneManager.h"
+#include "imgui/imgui.h"
 
 int Renderer::_debugMode;
 SkyBox Renderer::_skyBox;
@@ -44,7 +45,7 @@ Material* Renderer::_deferredMaterial;
 FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_gBuffer;
 FrameBuffer* Renderer::_gizmoBuffer;
-Vector3f Renderer::_clearColor = Vector3f(0.3, 0.3, 0.3);
+Vector3f Renderer::_clearColor = Vector3f(0.3f, 0.3f, 0.3f);
 
 void Renderer::addToRenderQueue(ObjectRenderer * renderer, RenderType type)
 {
@@ -194,8 +195,6 @@ void Renderer::renderDeferred() {
 	_mainFrameBuffer->enable();
 	_mainFrameBuffer->clear();
 
-	_skyBox.render();
-
 	renderBase();
 
 	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
@@ -235,7 +234,8 @@ void Renderer::renderDeferred() {
 			}
 		}
 	}
-	
+
+	_skyBox.render();
 	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
