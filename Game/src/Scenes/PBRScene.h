@@ -111,9 +111,9 @@ public:
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		//p_ssao = new SSAOProcessor(0);
-		//p_ssreflection = new SSReflectionProcessor(1);
+		p_ssreflection = new SSReflectionProcessor(1);
 		//p_autoExposure = new AutoExposureProcessor(2);
-		p_bloom = new BloomProcessor(3);
+		//p_bloom = new BloomProcessor(3);
 		//p_tonemapping = new ToneMappingProcessor(4);
 
 
@@ -207,7 +207,7 @@ public:
 		def = new Material();
 		def->setTexture("albedoMap", grid);
 		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_ao);
+		def->setTexture("roughnessMap", default_emission);
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);

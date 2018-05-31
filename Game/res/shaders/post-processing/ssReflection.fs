@@ -37,7 +37,10 @@ vec3 hash(vec3 a);
 
 void main()
 {
-   vec2 MetallicEmmissive = texture2D(gMetallic, TexCoords).rg;
+	if(texture2D(gPosition, TexCoords).xyz == vec3(0)) 
+		discard;
+
+   	vec2 MetallicEmmissive = texture2D(gMetallic, TexCoords).rg;
     Metallic = MetallicEmmissive.r;
     float roughness = texture(gRoughness, TexCoords).r;
     
