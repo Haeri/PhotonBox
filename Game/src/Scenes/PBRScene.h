@@ -111,10 +111,10 @@ public:
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		//p_ssao = new SSAOProcessor(0);
-		p_ssreflection = new SSReflectionProcessor(1);
-		p_autoExposure = new AutoExposureProcessor(2);
+		//p_ssreflection = new SSReflectionProcessor(1);
+		//p_autoExposure = new AutoExposureProcessor(2);
 		p_bloom = new BloomProcessor(3);
-		p_tonemapping = new ToneMappingProcessor(4);
+		//p_tonemapping = new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */

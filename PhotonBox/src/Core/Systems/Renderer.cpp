@@ -234,8 +234,6 @@ void Renderer::renderDeferred() {
 			}
 		}
 	}
-
-	_skyBox.render();
 	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
@@ -243,22 +241,13 @@ void Renderer::renderDeferred() {
 
 	_gBuffer->render(_deferredMaterial); 
 
-	renderTransparents();
-
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 
+	_skyBox.render();
 
-	/*
-	int cols = 2;
-	int widthX = 0;
+	renderTransparents();
 
-	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	//defBuffer.gBuffer->render("gAlbedo");
-	defBuffer.gBuffer->render(_deferredMaterial);
-
-	widthX += Display::getWidth() / cols;
-	*/
 
 	if (!PostProcessing::isActive())
 	{

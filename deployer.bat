@@ -14,13 +14,14 @@ echo incorrect input
 goto ask
 
 :debug
+echo .obj > ".\filter.txt"
 rmdir /s /q ".\Deploy_Debug"
 mkdir ".\Deploy_Debug"
-xcopy /s /i ".\PhotonBox\engine-res" ".\Deploy_Debug\PhotonBox\engine-res"
+xcopy /s /i /exclude:filter.txt ".\PhotonBox\engine-res" ".\Deploy_Debug\PhotonBox\engine-res"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
-xcopy /s /i ".\Game\res" ".\Deploy_Debug\Game\res"
+xcopy /s /i /exclude:filter.txt ".\Game\res" ".\Deploy_Debug\Game\res"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
@@ -36,13 +37,14 @@ goto succ
 
 
 :release
+echo .obj > ".\filter.txt"
 rmdir /s /q ".\Deploy_Release"
 mkdir ".\Deploy_Release"
-xcopy /s /i ".\PhotonBox\engine-res" ".\Deploy_Release\Game\engine-res"
+xcopy /s /i /exclude:filter.txt ".\PhotonBox\engine-res" ".\Deploy_Release\Game\engine-res"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
-xcopy /s /i ".\Game\res" ".\Deploy_Release\Game\res"
+xcopy /s /i /exclude:filter.txt ".\Game\res" ".\Deploy_Release\Game\res"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
@@ -72,6 +74,7 @@ echo ==============================================
 goto end
 
 :end
+del ".\filter.txt"
 echo.
 pause
 exit
