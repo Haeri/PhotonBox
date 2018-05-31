@@ -252,6 +252,8 @@ void Renderer::renderDeferred() {
 	if (!PostProcessing::isActive())
 	{
 		FrameBuffer::resetDefaultBuffer();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
 		_mainFrameBuffer->render("color");
 	}
 }

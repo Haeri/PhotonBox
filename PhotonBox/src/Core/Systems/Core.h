@@ -17,11 +17,12 @@ class Scene;
 class DebugGUI;
 #include <map>
 
+
 //namespace PBEngine{
 class Core
 {
 public:
-	bool temp = true;
+	bool temp = false;
 	void init(std::map<std::string, Scene*>& sceneMap, std::string firstScene);
 	void start();
 	void reset();
