@@ -4,6 +4,7 @@
 class Entity;
 class Transform;
 #include <string>
+#include <typeindex>
 
 class Component
 {
@@ -21,6 +22,7 @@ public:
 	virtual void OnEnable();
 	virtual void OnDisable();
 	virtual void destroy();
+	virtual std::type_index getBaseType();
 private:
 	bool isEnabled = true;
 };

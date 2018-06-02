@@ -29,4 +29,9 @@ void Component::OnEnable() {}
 void Component::OnDisable() {}
 void Component::destroy() {}
 
+std::type_index Component::getBaseType()
+{
+	return typeid(Component);
+}
+
 Component::~Component() {}

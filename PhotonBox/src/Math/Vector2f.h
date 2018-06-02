@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <math.h>
+#include "PxPhysicsAPI.h"
 
 class Vector2f
 {
@@ -107,6 +108,12 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, Vector2f m)
 	{
 		return os << "(" << m.x() << ", " << m.y() << ")";
+	}
+
+	// PHYSX
+	physx::PxVec2 toPhysX()
+	{
+		return physx::PxVec2(_x, _y);
 	}
 
 private:

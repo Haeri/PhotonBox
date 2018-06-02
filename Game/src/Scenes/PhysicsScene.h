@@ -6,6 +6,8 @@
 #include <Resources/OBJLoader.h>
 #include <Resources/Scene.h>
 #include <Resources/Texture.h>
+#include <Components/SphereCollider.h>
+#include <Components/BoxCollider.h>
 
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../PostProcessors/AutoExposureProcessor.cpp"
@@ -16,8 +18,9 @@ class PhysicsScene : public Scene
 public:
 	CubeMap * sky;
 
-	Mesh* plane;
-	Mesh* sphere;
+	Mesh* planeMesh;
+	Mesh* sphereMesh;
+	Mesh* boxMesh;
 
 	Texture* default_normal;
 	Texture* default_specular;
@@ -35,7 +38,6 @@ public:
 	{
 
 		/* --------------------------- RESOURCES --------------------------- */
-
 		std::vector<std::string> nightSky = {
 			Resources::ENGINE_RESOURCES + "/default_specular.png",
 			Resources::ENGINE_RESOURCES + "/default_specular.png",
@@ -56,9 +58,9 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		plane = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		sphere = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-
+		planeMesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
+		sphereMesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		boxMesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -111,13 +113,23 @@ public:
 			{
 				for (size_t z = 0; z < 1; z++)
 				{
-					
-					Entity* probe = instanciate("Sphere" + std::to_string(i));
-					probe->getComponent<Transform>()->setPosition(Vector3f(i *3 + (rand() % 2), 6 + z*3 + (rand() % 2), j*3 + (rand() % 2)));
-					probe->addComponent<MeshRenderer>();
-					probe->getComponent<MeshRenderer>()->setMesh(sphere);
-					probe->getComponent<MeshRenderer>()->setMaterial(def);
-					probe->addComponent<Rigidbody>()->delay();
+			
+		Entity* sphere = instanciate("Sphere" + i);
+		sphere->getComponent<Transform>()->setPosition(Vector3f(0.8, 5, 0));
+		//sphere->getComponent<Transform>()->setPosition(Vector3f(i * 3 + (rand() % 2), 6 + z * 3 + (rand() % 2), j * 3 + (rand() % 2)));
+		sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
+		sphere->getComponent<MeshRenderer>()->setMaterial(def);
+		sphere->addComponent<Rigidbody>();
+		sphere->addComponent<SphereCollider>()->setRadius(1);
+		
+		Entity* box = instanciate("Box" + std::to_string(i));
+		box->getComponent<Transform>()->setPosition(Vector3f(0, 9, 0));
+		//box->getComponent<Transform>()->setPosition(Vector3f(i * 3 + (rand() % 2), 6 + z * 3 + (rand() % 2), j * 3 + (rand() % 2)));
+		//box->getComponent<Transform>()->setRotation(Vector3f(rand() % 4, 0, 0));
+		box->addComponent<MeshRenderer>()->setMesh(boxMesh);
+		box->getComponent<MeshRenderer>()->setMaterial(def);
+		box->addComponent<Rigidbody>();
+		box->addComponent<BoxCollider>()->setHalfExtents(Vector3f(1));
 					
 
 					//std::cout << std::to_string(i + j + z) << std::endl;
@@ -132,7 +144,7 @@ public:
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
 		quad->getComponent<Transform>()->setScale(Vector3f(20, 20, 20));
 		quad->addComponent<MeshRenderer>();
-		quad->getComponent<MeshRenderer>()->setMesh(plane);
+		quad->getComponent<MeshRenderer>()->setMesh(planeMesh);
 		quad->getComponent<MeshRenderer>()->setMaterial(def);
 	}
 
@@ -140,8 +152,9 @@ public:
 	{
 		delete sky;
 
-		delete plane;
-		delete sphere;
+		delete planeMesh;
+		delete sphereMesh;
+		delete boxMesh;
 
 		delete default_normal;
 		delete default_specular;

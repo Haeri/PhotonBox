@@ -188,10 +188,10 @@ void Core::reset()
 
 void Core::destroy()
 {
+	_sceneManager->destroy();
 	_logic->destroy();
 	_renderer->destroy();
 	_physics->destroy();
-	_sceneManager->destroy();
 	_debugGUI->destroy();
 	_display->destroy();
 

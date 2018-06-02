@@ -25,6 +25,7 @@
     <ClCompile Include="include\imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="src\Components\AmbientLight.cpp" />
     <ClCompile Include="src\Components\Behaviour.cpp" />
+    <ClCompile Include="src\Components\BoxCollider.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
     <ClCompile Include="src\Components\DirectionalLight.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="src\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\ObjectRenderer.cpp" />
     <ClCompile Include="src\Components\PointLight.cpp" />
+    <ClCompile Include="src\Components\Rigidbody.cpp" />
     <ClCompile Include="src\Components\SphereCollider.cpp" />
     <ClCompile Include="src\Components\SpotLight.cpp" />
     <ClCompile Include="src\Components\Transform.cpp" />
@@ -82,8 +84,10 @@
     <ClInclude Include="include\imgui\stb_truetype.h" />
     <ClInclude Include="src\Components\AmbientLight.h" />
     <ClInclude Include="src\Components\Behaviour.h" />
+    <ClInclude Include="src\Components\BoxCollider.h" />
     <ClInclude Include="src\Components\Camera.h" />
     <ClInclude Include="src\Components\Collider.h" />
+    <ClInclude Include="src\Components\SphereCollider.h" />
     <ClInclude Include="src\Components\DirectionalLight.h" />
     <ClInclude Include="src\Components\LightEmitter.h" />
     <ClInclude Include="src\Components\LightProbe.h" />
