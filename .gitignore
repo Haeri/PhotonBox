@@ -300,11 +300,15 @@ PhotonBox/include/PhysX/
 PhotonBox/lib/PxFoundationDEBUG_x64.lib
 PhotonBox/lib/PhysX3CommonDEBUG_x64.lib
 PhotonBox/lib/PhysX3DEBUG_x64.lib
+PhotonBox/lib/PxPvdSDKDEBUG_x64.lib
+
 PhotonBox/lib/PhysX3ExtensionsDEBUG.lib
 PhotonBox/lib/PxFoundation_x64.lib
 PhotonBox/lib/PhysX3Common_x64.lib
 PhotonBox/lib/PhysX3_x64.lib
 PhotonBox/lib/PhysX3Extensions.lib
+PhotonBox/lib/PxPvdSDK_x64.lib
+
 Deploy_Debug/
 Deploy_Release/
 vendor/

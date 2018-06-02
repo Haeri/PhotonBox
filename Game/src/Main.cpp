@@ -27,9 +27,9 @@ int main(void)
 	sceneMap["Demo Scene"] = new DemoScene();
 	sceneMap["Physics Scene"] = new PhysicsScene();
 
-	// Create and initialize the RenderProject
+	// Create and initialize the Core
 	Core core;
-	core.init(sceneMap, "Material Test");
+	core.init(sceneMap, "Physics Scene");
 	core.run();
 	core.destroy();
 

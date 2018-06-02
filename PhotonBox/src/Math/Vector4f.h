@@ -131,6 +131,11 @@ public:
 		return os << "(" << m.x() << ", " << m.y() << ", " << m.z() << ", " << m.w() << ")";
 	}
 
+	// PHYSX
+	physx::PxVec4 toPhysX()
+	{
+		return physx::PxVec4(_x, _y, _z, _w);
+	}
 private:
 	float _x, _y, _z, _w;
 };

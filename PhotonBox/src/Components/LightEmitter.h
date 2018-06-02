@@ -12,6 +12,10 @@ public:
 	float intensity;
 
 	virtual Shader* getLightShader() = 0;
+	std::type_index getBaseType()
+	{
+		return typeid(LightEmitter);
+	}
 };
 
 #endif // LIGHT_EMITTER_H

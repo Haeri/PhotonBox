@@ -39,7 +39,15 @@ public:
 	{
 		if (_componentMap.find(typeid(T)) == _componentMap.end())
 		{
-			std::cerr << "Component was not found!" << std::endl;
+			for(std::unordered_map<std::type_index, Component*>::iterator it = _componentMap.begin(); it != _componentMap.end(); ++it)
+			{
+				if (typeid(T).hash_code() == it->second->getBaseType().hash_code())
+				{
+					return (T*)it->second;
+				}
+			}
+			
+			std::cerr << typeid(T).name() << "-Component was not found!" << std::endl;
 			return nullptr;
 		}
 		return (T*)_componentMap[typeid(T)];

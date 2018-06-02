@@ -5,15 +5,21 @@
 #include "../../Components/Rigidbody.h"
 #include "../../Components/Transform.h"
 #include "../../Core/Entity.h"
+#include "../../Components/SphereCollider.h"
+#include "../../Math/Math.h"
 
 //std::vector<Collider*> Physics::_colliders;
 //std::vector<Rigidbody*> Physics::_rigidbodies;
 std::map<Transform*, PxRigidDynamic*> Physics::_physXMap;
+std::vector<Rigidbody*> Physics::_initializationList;
 
-PxMaterial* Physics::_gMaterial;
-PxScene*	Physics::_gScene;
-PxPhysics*	Physics::_gPhysics;
-PxSceneDesc* Physics::_sceneDesc;
+PxMaterial*		Physics::_gMaterial;
+PxScene*		Physics::_gScene;
+PxPhysics*		Physics::_gPhysics;
+PxSceneDesc*	Physics::_sceneDesc;
+
+PxPvd*			Physics::_gPvd;
+PxPvdTransport*	Physics::_gTransport;
 
 const double Physics::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
 
@@ -23,7 +29,12 @@ void Physics::init()
 	if (!_gFoundation)
 		std::cerr << "PxCreateFoundation failed!";
 
-	_gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *_gFoundation, PxTolerancesScale(), true);
+	_gPvd = PxCreatePvd(*_gFoundation);
+	_gTransport = PxDefaultPvdSocketTransportCreate("localhost", 5425, 10);
+	_gPvd->connect(*_gTransport, PxPvdInstrumentationFlag::eALL);
+
+	_gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *_gFoundation, PxTolerancesScale(), true, _gPvd);
+
 
 	_sceneDesc = new PxSceneDesc(_gPhysics->getTolerancesScale());
 	_sceneDesc->gravity = PxVec3(0.0f, -9.81f, 0.0f);
@@ -39,8 +50,16 @@ void Physics::init()
 
 void Physics::start()
 {
+	// Base Plane
 	PxRigidStatic* groundPlane = PxCreatePlane(*_gPhysics, PxPlane(0, 1, 0, 0), *_gMaterial);
 	_gScene->addActor(*groundPlane);
+
+	// Init all objects
+	for (std::vector<Rigidbody*>::iterator it = _initializationList.begin(); it != _initializationList.end(); ++it)
+	{
+		addPhysicsObject((*it));
+	}
+	_initializationList.clear();
 }
 
 void Physics::update()
@@ -56,6 +75,7 @@ void Physics::update()
 		PxTransform pt = first[i].actor2World;
 		Transform* t = (static_cast<Entity*>(first[i].actor->userData))->transform;
 		t->setPosition(Vector3f(pt.p.x, pt.p.y, pt.p.z));
+		t->setRotation(Math::toEulerAngle(pt.q));
 	}
 }
 
@@ -66,8 +86,7 @@ void Physics::refeed()
 		Transform* t = it->first;
 		if (t->hasChanged())
 		{
-			Vector3f p = t->getPositionWorld();
-			_physXMap[t]->setGlobalPose(PxTransform(PxVec3(p.getX(), p.getY(), p.getZ())));
+			_physXMap[t]->setGlobalPose(PxTransform(t->getPositionWorld().toPhysX()));
 		}
 	}
 }
@@ -79,7 +98,7 @@ void Physics::reset()
 	_gScene = _gPhysics->createScene(*_sceneDesc);
 	_gScene->setFlag(PxSceneFlag::eENABLE_ACTIVETRANSFORMS, true);
 
-	//_physXMap.clear();
+	_physXMap.clear();
 }
 
 /*
@@ -113,6 +132,9 @@ void Physics::destroy()
 	_gPhysics->release();
 	_gFoundation->release();
 
+	_gPvd->release();
+	_gTransport->release();
+
 	//_colliders.clear();
 	//_rigidbodies.clear();
 }
@@ -122,15 +144,30 @@ void Physics::addPhysicsObject(Rigidbody* rigidbody) //, Collider* collider)
 	Matrix4f mat = rigidbody->transform->getTransformationMatrix();
 	
 	const PxMat44 pmat(mat.getArray());
+	Collider* c = rigidbody->entity->getComponent<Collider>();
+	if (c == nullptr)
+	{
+#ifdef _DEBUG
+		std::cerr << rigidbody->entity->name << "-Entity with a rigidbody requires a Collider component!\n";
+#endif
+		return;
+	}
 
+	PxGeometry* geo = c->getShape();
 	PxTransform t(pmat);
-	PxRigidDynamic* dynamic = PxCreateDynamic(*_gPhysics, t, PxSphereGeometry(1), *_gMaterial, 10.0f);
+	PxRigidDynamic* dynamic = PxCreateDynamic(*_gPhysics, t, *geo, *_gMaterial, rigidbody->getMass());
 	dynamic->userData = rigidbody->entity;
 	_gScene->addActor(*dynamic);
+	rigidbody->setBody(dynamic);
 
 	//_rigidbodies.push_back(rigidbody);
 
 	_physXMap[rigidbody->entity->transform] = dynamic;
+}
+
+void Physics::registerObject(Rigidbody * entity)
+{
+	_initializationList.push_back(entity);
 }
 
 void Physics::removePhysicsObject(Rigidbody * rigidbody)

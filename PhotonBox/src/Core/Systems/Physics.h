@@ -22,7 +22,7 @@ public:
 	//static void removeFromPhysicsList(Collider* collider);
 	//static void removeFromPhysicsList(Rigidbody *rigidbody);
 
-	static void addPhysicsObject(Rigidbody* rigidbody); // , Collider* collider);
+	static void registerObject(Rigidbody* entity);
 	static void removePhysicsObject(Rigidbody* rigidbody);
 	//static void printList();
 	//static std::string getList();
@@ -37,16 +37,21 @@ private:
 	//static std::vector<Collider*> _colliders;
 	//static std::vector<Rigidbody*> _rigidbodies;
 	static std::map<Transform*, PxRigidDynamic*> _physXMap;
+	static std::vector<Rigidbody*> _initializationList;
 
 	PxDefaultAllocator		_gAllocator;
 	PxDefaultErrorCallback	_gErrorCallback;
 	PxFoundation*			_gFoundation;
 	PxDefaultCpuDispatcher*	_gDispatcher;
+	static PxPvd*			_gPvd;
+	static PxPvdTransport*	_gTransport;
 
 	static PxPhysics*		_gPhysics;
 	static PxScene*			_gScene;
 	static PxMaterial*		_gMaterial;
 	static PxSceneDesc*		_sceneDesc;
+	
+	void addPhysicsObject(Rigidbody* rigidbody); // , Collider* collider);
 };
 
 #endif // PHYSICS_H

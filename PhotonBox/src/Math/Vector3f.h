@@ -153,6 +153,12 @@ public:
 		return os << "(" << m.x() << ", " << m.y() << ", " << m.z() << ")";
 	}
 
+	// PHYSX
+	physx::PxVec3 toPhysX()
+	{
+		return physx::PxVec3(_x, _y, _z);
+	}
+
 private:
 	float _x, _y, _z;
 };

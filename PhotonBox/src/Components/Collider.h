@@ -1,16 +1,22 @@
 #ifndef COLLIDER_H
 #define COLLIDER_H
 
-class PxGeometry;
 #include "../Core/Component.h"
+#include "PxPhysicsAPI.h"
 
 class Collider : public Component
 {
 public:
 	Collider();
+	//virtual ~Collider() = 0;
+
 	void destroy();
 
-	virtual PxGeometry* getShape() = 0;
+	virtual physx::PxGeometry* getShape() = 0;
+	std::type_index getBaseType() override
+	{
+		return typeid(Collider);
+	}
 };
 
-#endif /* defined(COLLIDER_H) */
+#endif // COLLIDER_H
