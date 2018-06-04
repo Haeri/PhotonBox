@@ -128,10 +128,10 @@ void Physics::destroy()
 	_gScene->release();
 	_gDispatcher->release();
 	_gPhysics->release();
-	_gFoundation->release();
-
+	
 	_gPvd->release();
 	_gTransport->release();
+	_gFoundation->release();
 
 	//_colliders.clear();
 	//_rigidbodies.clear();
