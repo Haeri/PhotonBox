@@ -13,6 +13,8 @@
 #include "UIRenderer.h"
 #include "DebugGUI.h"
 
+const double Core::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
+
 bool Core::_isRunning;
 
 void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
@@ -106,9 +108,9 @@ void Core::run()
 
 		// Update Physics
 		_accumulatedTime += Time::deltaTime;
-		if (_accumulatedTime > Physics::FIXED_TIME_INTERVAL)
+		if (_accumulatedTime > FIXED_TIME_INTERVAL)
 		{
-			_physics->update();
+			_physics->update(_accumulatedTime);
 			_logic->fixedUpdate();
 			_accumulatedTime = 0;
 		}

@@ -32,7 +32,7 @@ namespace Math
 		double cosy = +1.0 - 2.0 * (q.y * q.y + q.z * q.z);
 		yaw = atan2(siny, cosy);
 
-		return Vector3f(roll, pitch, -yaw);
+		return Vector3f(roll, pitch, yaw);
 	}
 }
 

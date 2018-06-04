@@ -15,13 +15,14 @@ class Config;
 class Profiler;
 class Scene;
 class DebugGUI;
+
 #include <map>
 
-
-//namespace PBEngine{
 class Core
 {
 public:
+	static const double FIXED_TIME_INTERVAL;
+
 	bool temp = false;
 	void init(std::map<std::string, Scene*>& sceneMap, std::string firstScene);
 	void start();

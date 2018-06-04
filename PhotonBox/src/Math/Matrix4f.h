@@ -1,7 +1,6 @@
 #ifndef MATRIX4F_H
 #define MATRIX4F_H
 
-#include "Vector3f.h"
 #include "Vector4f.h"
 
 /// <summary>
