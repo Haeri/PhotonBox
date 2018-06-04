@@ -147,6 +147,7 @@ public:
 	static Vector2f getMouse();
 	static Vector2f getMouseDelta();
 	static void setCursorMode(CursorMode mode);
+	static CursorMode getCursorMode();
 
 	static void handleKey(int key, int action);
 	static void handleMouse(float x, float y);

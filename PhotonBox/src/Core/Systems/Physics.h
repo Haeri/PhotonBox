@@ -15,8 +15,6 @@ using namespace physx;
 class Physics
 {
 public:
-	static const double FIXED_TIME_INTERVAL;
-
 	//static void addToPhysicsList(Collider *collider);
 	//static void addToPhysicsList(Rigidbody *rigidbody);
 	//static void removeFromPhysicsList(Collider* collider);
@@ -29,7 +27,7 @@ public:
 
 	void init();
 	void start();
-	void update();
+	void update(double elapsedTime);
 	void refeed();
 	void reset();
 	void destroy();

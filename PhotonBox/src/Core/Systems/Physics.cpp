@@ -21,8 +21,6 @@ PxSceneDesc*	Physics::_sceneDesc;
 PxPvd*			Physics::_gPvd;
 PxPvdTransport*	Physics::_gTransport;
 
-const double Physics::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
-
 void Physics::init()
 {
 	_gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, _gAllocator, _gErrorCallback);
@@ -62,9 +60,9 @@ void Physics::start()
 	_initializationList.clear();
 }
 
-void Physics::update()
+void Physics::update(double elapsedTime)
 {
-	_gScene->simulate(FIXED_TIME_INTERVAL);
+	_gScene->simulate(elapsedTime);
 	_gScene->fetchResults(true);
 
 	PxU32 size = 0;

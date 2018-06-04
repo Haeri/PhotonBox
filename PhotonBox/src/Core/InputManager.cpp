@@ -80,6 +80,11 @@ void InputManager::setCursorMode(CursorMode mode)
 	glfwSetInputMode(Display::getWindow(), GLFW_CURSOR, (int)mode);
 }
 
+InputManager::CursorMode InputManager::getCursorMode()
+{
+	return (CursorMode)glfwGetInputMode(Display::getWindow(), GLFW_CURSOR);
+}
+
 void InputManager::handleKey(int key, int action)
 {
 	if (action == GLFW_PRESS)

@@ -60,6 +60,7 @@
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\Util.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Math\Quaternion.cpp" />
     <ClCompile Include="src\Math\Vector2f.cpp" />
     <ClCompile Include="src\Math\Vector3f.cpp" />
     <ClCompile Include="src\Math\Vector4f.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="src\Game\TestScene.h" />
     <ClInclude Include="src\Math\Math.h" />
     <ClInclude Include="src\Math\Matrix4f.h" />
+    <ClInclude Include="src\Math\Quaternion.h" />
     <ClInclude Include="src\Math\Vector2f.h" />
     <ClInclude Include="src\Math\Vector3f.h" />
     <ClInclude Include="src\Math\Vector4f.h" />
