@@ -40,7 +40,7 @@ Matrix4f Quaternion::createRotation()
 
 	return new Matrix4f().InitRotation(forward, up, right);
 	*/
-	return NULL;
+	return Matrix4f::IDENTITY;
 }
 
 inline Quaternion Quaternion::operator*(const Quaternion & other) const

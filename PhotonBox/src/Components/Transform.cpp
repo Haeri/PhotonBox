@@ -124,7 +124,6 @@ Vector3f Transform::getRotation()
 	return _rotation;
 }
 
-
 Vector3f Transform::getPosition()
 {
 	return _position;
