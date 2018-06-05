@@ -5,10 +5,10 @@
 #include <Test/MathTest.h>
 #include <Resources/Scene.h>
 
-#include "Scenes/DemoScene.h"
-#include "Scenes/PBRScene.h"
-#include "Scenes/TestScene.h"
-#include "Scenes/PhysicsScene.h"
+#include "Scenes/DemoScene.cpp"
+#include "Scenes/PBRScene.cpp"
+#include "Scenes/TestScene.cpp"
+#include "Scenes/PhysicsScene.cpp"
 
 int main(void)
 {

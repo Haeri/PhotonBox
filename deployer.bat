@@ -25,7 +25,7 @@ xcopy /s /i /exclude:filter.txt ".\Game\res" ".\Deploy_Debug\Game\res"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
-xcopy /s /i ".\vendor\Debug" ".\Deploy_Debug\Game"
+xcopy /s /i ".\Redist\Debug" ".\Deploy_Debug\Game"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
@@ -48,7 +48,7 @@ xcopy /s /i /exclude:filter.txt ".\Game\res" ".\Deploy_Release\Game\res"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
-xcopy /s /i ".\vendor\Release" ".\Deploy_Release\Game"
+xcopy /s /i ".\Redist\Release" ".\Deploy_Release\Game"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
@@ -70,7 +70,7 @@ xcopy /s /i /exclude:filter.txt ".\Game\res" ".\Deploy_Release\Game\res"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )
-xcopy /s /i ".\vendor\Release" ".\Deploy_Release\Game"
+xcopy /s /i ".\Redist\Release" ".\Deploy_Release\Game"
 IF %ERRORLEVEL% NEQ 0 (
 	goto err
 )

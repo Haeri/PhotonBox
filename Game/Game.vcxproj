@@ -145,7 +145,7 @@
     <ClInclude Include="src\PostProcessors\SSAOProcessor.cpp" />
     <ClInclude Include="src\PostProcessors\SSReflectionProcessor.cpp" />
     <ClInclude Include="src\PostProcessors\ToneMappingProcessor.cpp" />
-    <ClInclude Include="src\Scenes\PhysicsScene.h" />
+    <ClInclude Include="src\Scenes\PhysicsScene.cpp" />
     <ClInclude Include="src\Scripts\StateControllerScript.cpp" />
     <ClInclude Include="src\Shader\AddShader.cpp" />
     <ClInclude Include="src\PostProcessors\BloomProcessor.cpp" />
@@ -157,15 +157,15 @@
     <ClInclude Include="src\Scripts\CameraControllerScript.cpp" />
     <ClInclude Include="src\Scripts\ControllerToggleScript.cpp" />
     <ClInclude Include="src\Shader\CutOffShader.cpp" />
-    <ClInclude Include="src\Scenes\DemoScene.h" />
+    <ClInclude Include="src\Scenes\DemoScene.cpp" />
     <ClInclude Include="src\Scripts\FollowScript.cpp" />
     <ClInclude Include="src\Scripts\MaterialScript.cpp" />
     <ClInclude Include="src\PostProcessors\MonochromProcessor.cpp" />
     <ClInclude Include="src\Shader\ExposureShader.cpp" />
     <ClInclude Include="src\Shader\MonochromShader.cpp" />
     <ClInclude Include="src\Scripts\PathWalkerScript.cpp" />
-    <ClInclude Include="src\Scenes\PBRScene.h" />
-    <ClInclude Include="src\Scenes\TestScene.h" />
+    <ClInclude Include="src\Scenes\PBRScene.cpp" />
+    <ClInclude Include="src\Scenes\TestScene.cpp" />
     <ClInclude Include="src\Shader\SSAOBlurShader.cpp" />
     <ClInclude Include="src\Shader\SSAOShader.cpp" />
     <ClInclude Include="src\Shader\SSReflectionShader.cpp" />

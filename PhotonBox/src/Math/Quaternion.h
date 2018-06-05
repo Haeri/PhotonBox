@@ -9,25 +9,28 @@ class Quaternion
 public:
 	static const Quaternion ZERO;
 
-	Quaternion(float x, float y, float z, float w) : _quaternion(x, y, z, w) {}
+	Quaternion(float x, float y, float z, float w)
+		: _x(x), _y(y), _z(z), _w(w) {}
 	Quaternion(Vector3f axis, float angle);
+	Quaternion(Vector3f euler);
 
-	float getX() const { return _quaternion.getX(); }
-	float getY() const { return _quaternion.getY(); }
-	float getZ() const { return _quaternion.getZ(); }
-	float getW() const { return _quaternion.getW(); }
+	float getX() const { return _x; }
+	float getY() const { return _y; }
+	float getZ() const { return _z; }
+	float getW() const { return _w; }
 
 	float length();
 	float lengthSqrd();
+	Quaternion normalize();
 	float getAngle();
 	Vector3f getAxis();
 
 	Matrix4f createRotation();
 
-	inline Quaternion operator* (const Quaternion& scalar) const;
-	inline Quaternion operator* (const float& scalar) const;
+	Quaternion operator* (const Quaternion& scalar);
+	inline Quaternion operator* (const float& scalar);
 private:
-	Vector4f _quaternion;
+	float _x, _y, _z, _w;
 };
 
 #endif // MATRIX4F_H

@@ -172,6 +172,10 @@ void Core::run()
 			reset();
 			_sceneManager->loadQueuedScene();
 			start();
+
+			// reset timing
+			_accumulatedTime = 0;
+			lastTime = glfwGetTime();
 		}
 	}
 }
