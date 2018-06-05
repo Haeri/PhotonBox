@@ -46,4 +46,4 @@ A modern OpenGL Game-Engine with focus on PBR
 
 NVIDIA PhysX 3.4
 Header files required from https://github.com/NVIDIAGameWorks/PhysX-3.4
-(To get access to the repository, you will need to accept the ![PhysX EULA](https://developer.nvidia.com/content/apply-access-nvidia-physx-source-code))
+(To get access to the repository, you will need to accept the [PhysX EULA](https://developer.nvidia.com/content/apply-access-nvidia-physx-source-code))
