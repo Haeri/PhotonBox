@@ -112,6 +112,7 @@
     <ClInclude Include="src\Core\ManagedResource.h" />
     <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Core\OpenGL.h" />
+    <ClInclude Include="src\Core\PhotonBoxVersion.h" />
     <ClInclude Include="src\Core\Profiler.h" />
     <ClInclude Include="src\Core\Systems\DebugGUI.h" />
     <ClInclude Include="src\Core\Systems\PostProcessing.h" />

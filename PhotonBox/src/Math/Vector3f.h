@@ -137,6 +137,11 @@ public:
 		if (index == 0) return _x;
 		else if (index == 1) return _y;
 		else if (index == 2) return _z;
+		else 
+		{
+			std::cerr << "index " << std::to_string(index) << " out of range\n";
+			return _z;
+		}
 	}
 
 	float operator [](int index) const
@@ -144,6 +149,11 @@ public:
 		if (index == 0) return _x;
 		else if (index == 1) return _y;
 		else if (index == 2) return _z;
+		else
+		{
+			std::cerr << "index " << std::to_string(index) << " out of range\n";
+			return _z;
+		}
 	}
 
 	static Vector3f lerp(Vector3f start, Vector3f target, float percent);
