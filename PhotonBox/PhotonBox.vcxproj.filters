@@ -328,5 +328,6 @@
     <ClInclude Include="src\Components\SphereCollider.h" />
     <ClInclude Include="src\Components\BoxCollider.h" />
     <ClInclude Include="src\Math\Quaternion.h" />
+    <ClInclude Include="src\Core\PhotonBoxVersion.h" />
   </ItemGroup>
 </Project>
