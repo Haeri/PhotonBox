@@ -73,7 +73,7 @@ void Physics::update(double elapsedTime)
 		PxTransform pt = first[i].actor2World;
 		Transform* t = (static_cast<Entity*>(first[i].actor->userData))->transform;
 		t->setPosition(Vector3f(pt.p.x, pt.p.y, pt.p.z));
-		t->setRotation(Math::toEulerAngle(pt.q));
+		t->setRotation(Quaternion(pt.q.x, pt.q.y, pt.q.z, pt.q.w));
 	}
 }
 

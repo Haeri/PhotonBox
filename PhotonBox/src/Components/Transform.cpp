@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "../Core/Systems/DebugGUI.h"
 #include "imgui/imgui.h"
+#include "../Math/Math.h"
 
 Vector3f Transform::forward()
 {
@@ -116,12 +117,13 @@ void Transform::print()
 
 Matrix4f Transform::getRotationMatrix()
 {
-	return Matrix4f::createRotation(_rotation.z(), Vector3f::UNIT_Z) * Matrix4f::createRotation(_rotation.x(), Vector3f::UNIT_X) * Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y);
+	//return Matrix4f::createRotation(_rotation.z(), Vector3f::UNIT_Z) * Matrix4f::createRotation(_rotation.x(), Vector3f::UNIT_X) * Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y);
+	return _rotation.createRotation();
 }
 
 Vector3f Transform::getRotation()
 {
-	return _rotation;
+	return Math::toEulerAngle(_rotation);
 }
 
 Vector3f Transform::getPosition()
@@ -150,6 +152,11 @@ void Transform::setPosition(Vector3f position)
 }
 
 void Transform::setRotation(Vector3f rotation)
+{
+	setRotation(Quaternion(rotation));
+}
+
+void Transform::setRotation(Quaternion rotation)
 {
 	_rotation = rotation;
 	_hasChangedLastFrame = true;
@@ -180,6 +187,12 @@ void Transform::setParent(Transform *parent)
 void Transform::setParent(Entity *_entity)
 {
 	setParent(_entity->transform);
+}
+
+void Transform::rotate(Quaternion quat)
+{
+	_rotation = (_rotation * quat);
+	_hasChangedLastFrame = true;
 }
 
 Matrix4f Transform::getTransformationMatrix()

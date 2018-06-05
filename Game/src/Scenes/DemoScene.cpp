@@ -1,5 +1,5 @@
-#ifndef DEMO_SCENE_H
-#define DEMO_SCENE_H
+#ifndef DEMO_SCENE_CPP
+#define DEMO_SCENE_CPP
 
 #include <Components/MeshRenderer.h>
 #include <Components/PointRenderer.h>
@@ -199,4 +199,4 @@ public:
 	}
 
 };
-#endif // DEMO_SCENE_H
+#endif // DEMO_SCENE_CPP

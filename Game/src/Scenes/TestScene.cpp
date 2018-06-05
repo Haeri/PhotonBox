@@ -1,5 +1,5 @@
-#ifndef TEST_SCENE_H
-#define TEST_SCENE_H
+#ifndef TEST_SCENE_CPP
+#define TEST_SCENE_CPP
 
 #include <Components/MeshRenderer.h>
 #include <Components/TransparentMeshRenderer.h>
@@ -1009,4 +1009,4 @@ public:
 	}
 
 };
-#endif // TEST_SCENE_H
+#endif // TEST_SCENE_CPP

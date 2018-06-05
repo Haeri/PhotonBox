@@ -1,5 +1,5 @@
-#ifndef PBR_SCENE_H
-#define PBR_SCENE_H
+#ifndef PBR_SCENE_CPP
+#define PBR_SCENE_CPP
 
 #include <Components/AmbientLight.h>
 #include <Components/Camera.h>
@@ -25,6 +25,58 @@
 #include "../Scripts/MaterialScript.cpp"
 #include "../Scripts/PrinterScript.cpp"
 #include "../Scripts/TransformerScript.cpp"
+
+typedef unsigned char byte;
+
+
+struct Buffer
+{
+	byte* current;
+	size_t size;
+
+	Buffer(size_t size)
+		: size(size)
+	{
+		_start = (byte*)malloc(size);
+		_max = _start + size;
+		memset(_start, 0, size);
+		current = _start;
+	}
+
+	~Buffer()
+	{
+		free(_start);
+	}
+
+	int getRemainingSize()
+	{
+		return (int)(_start + size - current);
+	}
+
+	template <typename T, typename ...A>
+	T* balloc(A ...args)
+	{
+		if ((current + sizeof(T)) > _max)
+		{
+			std::cout << "Out of memory!\n";
+			return nullptr;
+		}
+
+		current = current + sizeof(T);
+
+		std::cout << sizeof(T) << "\n";
+
+		T* ret = reinterpret_cast<T*>(current);
+		new(ret) T(args...);
+		return ret;
+	}
+
+private:
+	byte * _start;
+	byte* _max;
+};
+
+
 
 class PBRScene : public Scene
 {
@@ -91,8 +143,12 @@ public:
 	SSAOProcessor* p_ssao;
 	SSReflectionProcessor* p_ssreflection;
 
+	Buffer* sceneBuffer;
+
 	void Load()
 	{
+		sceneBuffer = new Buffer(100000);
+
 
 		/* --------------------------- RESOURCES --------------------------- */
 		std::vector<std::string> nightSky = {
@@ -104,17 +160,18 @@ public:
 			"./res/enviroment/dark/negz.jpg",
 		};
 
-		sky = new CubeMap(nightSky);
+		sky = sceneBuffer->balloc<CubeMap>(nightSky);
 		Renderer::setSkyBox(sky);
 		Renderer::getSkyBox()->intensity = 1;
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		//p_ssao = new SSAOProcessor(0);
-		p_ssreflection = new SSReflectionProcessor(1);
-		//p_autoExposure = new AutoExposureProcessor(2);
+		//p_ssao = sceneBuffer->balloc<SSAOProcessor>(0);
+		//p_ssreflection = sceneBuffer->balloc<SSReflectionProcessor>(1);
+		//p_autoExposure = sceneBuffer->balloc<AutoExposureProcessor>(2);
+		//p_bloom = sceneBuffer->balloc<BloomProcessor>(3);
 		//p_bloom = new BloomProcessor(3);
-		//p_tonemapping = new ToneMappingProcessor(4);
+		//p_tonemapping = sceneBuffer->balloc<ToneMappingProcessor>(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -127,43 +184,42 @@ public:
 		tree_leaves_mesh = OBJLoader::loadObj("./res/collection/Tree/Leaves.obj");
 
 
-
 		/* --------------------------- TEXTURES --------------------------- */
-		woodAlbedo = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
-		woodRough = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
-		woodNormal = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), true);
-		woodAo = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), true);
-		woodMetal = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_metalness.png"), true);
+		woodAlbedo = sceneBuffer->balloc<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
+		woodRough = sceneBuffer->balloc<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
+		woodNormal = sceneBuffer->balloc<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), true);
+		woodAo = sceneBuffer->balloc<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), true);
+		woodMetal = sceneBuffer->balloc<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_metalness.png"), true);
 
-		bricksAlbedo = new Texture(std::string("./res/materials/harshbricks/harshbricks-albedo.png"), true);
-		bricksRough = new Texture(std::string("./res/materials/harshbricks/harshbricks-roughness.png"), true);
-		bricksNormal = new Texture(std::string("./res/materials/harshbricks/harshbricks-normal.png"), true);
-		bricksAo = new Texture(std::string("./res/materials/harshbricks/harshbricks-ao.png"), true);
-		bricksMetal = new Texture(std::string("./res/materials/harshbricks/harshbricks-metalness.png"), true);
+		bricksAlbedo = sceneBuffer->balloc<Texture>(std::string("./res/materials/harshbricks/harshbricks-albedo.png"), true);
+		bricksRough = sceneBuffer->balloc<Texture>(std::string("./res/materials/harshbricks/harshbricks-roughness.png"), true);
+		bricksNormal = sceneBuffer->balloc<Texture>(std::string("./res/materials/harshbricks/harshbricks-normal.png"), true);
+		bricksAo = sceneBuffer->balloc<Texture>(std::string("./res/materials/harshbricks/harshbricks-ao.png"), true);
+		bricksMetal = sceneBuffer->balloc<Texture>(std::string("./res/materials/harshbricks/harshbricks-metalness.png"), true);
 
-		rustAlbedo = new Texture(std::string("./res/materials/rust/rustediron2_basecolor.png"), true);
-		rustRough = new Texture(std::string("./res/materials/rust/rustediron2_roughness.png"), true);
-		rustNormal = new Texture(std::string("./res/materials/rust/rustediron2_normal.png"), true);
-		rustMetal = new Texture(std::string("./res/materials/rust/rustediron2_metallic.png"), true);
+		rustAlbedo = sceneBuffer->balloc<Texture>(std::string("./res/materials/rust/rustediron2_basecolor.png"), true);
+		rustRough = sceneBuffer->balloc<Texture>(std::string("./res/materials/rust/rustediron2_roughness.png"), true);
+		rustNormal = sceneBuffer->balloc<Texture>(std::string("./res/materials/rust/rustediron2_normal.png"), true);
+		rustMetal = sceneBuffer->balloc<Texture>(std::string("./res/materials/rust/rustediron2_metallic.png"), true);
 
-		goldAlbedo = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), true);
-		goldRough = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png"), true);
-		goldNormal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), true);
-		goldMetal = new Texture(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
+		goldAlbedo = sceneBuffer->balloc<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), true);
+		goldRough = sceneBuffer->balloc<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png"), true);
+		goldNormal = sceneBuffer->balloc<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), true);
+		goldMetal = sceneBuffer->balloc<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
 
-		bark = new Texture(std::string("./res/collection/Tree/bark_0021.jpg"), true);
-		leaveAlbedo = new Texture(std::string("./res/collection/Tree/DB2X2_L01.png"), true);
-		leaveRoughness = new Texture(std::string("./res/collection/Tree/DB2X2_L01_Spec.png"), true);
-		leaveNormal = new Texture(std::string("./res/collection/Tree/DB2X2_L01_Nor.png"), true);
+		bark = sceneBuffer->balloc<Texture>(std::string("./res/collection/Tree/bark_0021.jpg"), true);
+		leaveAlbedo = sceneBuffer->balloc<Texture>(std::string("./res/collection/Tree/DB2X2_L01.png"), true);
+		leaveRoughness = sceneBuffer->balloc<Texture>(std::string("./res/collection/Tree/DB2X2_L01_Spec.png"), true);
+		leaveNormal = sceneBuffer->balloc<Texture>(std::string("./res/collection/Tree/DB2X2_L01_Nor.png"), true);
 
-		default_normal = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		default_specular = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		default_emission = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		default_ao = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
-		default_roughness = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
-		gradient = new Texture(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
-		transparentAlbedo = new Texture(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
-		grid = new Texture(std::string(Resources::ENGINE_RESOURCES + "/grid.png"), false);
+		default_normal = sceneBuffer->balloc<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
+		default_specular = sceneBuffer->balloc<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
+		default_emission = sceneBuffer->balloc<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
+		default_ao = sceneBuffer->balloc<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
+		default_roughness = sceneBuffer->balloc<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		gradient = sceneBuffer->balloc<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
+		transparentAlbedo = sceneBuffer->balloc<Texture>(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
+		grid = sceneBuffer->balloc<Texture>(std::string(Resources::ENGINE_RESOURCES + "/grid.png"), false, false);
 
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
@@ -172,7 +228,7 @@ public:
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		wood = new Material();
+		wood = sceneBuffer->balloc<Material>();
 		wood->setTexture("albedoMap", woodAlbedo);
 		wood->setTexture("normalMap", woodNormal);
 		wood->setTexture("roughnessMap", woodRough);
@@ -180,7 +236,7 @@ public:
 		wood->setTexture("metallicMap", woodMetal);
 		wood->setTexture("emissionMap", default_emission);
 
-		rust = new Material();
+		rust = sceneBuffer->balloc<Material>();
 		rust->setTexture("albedoMap", rustAlbedo);
 		rust->setTexture("normalMap", rustNormal);
 		rust->setTexture("roughnessMap", rustRough);
@@ -188,7 +244,7 @@ public:
 		rust->setTexture("metallicMap", rustMetal);
 		rust->setTexture("emissionMap", default_emission);
 
-		bricks = new Material();
+		bricks = sceneBuffer->balloc<Material>();
 		bricks->setTexture("albedoMap", bricksAlbedo);
 		bricks->setTexture("normalMap", bricksNormal);
 		bricks->setTexture("roughnessMap", bricksRough);
@@ -196,7 +252,7 @@ public:
 		bricks->setTexture("metallicMap", bricksMetal);
 		bricks->setTexture("emissionMap", default_emission);
 
-		gold = new Material();
+		gold = sceneBuffer->balloc<Material>();
 		gold->setTexture("albedoMap", goldAlbedo);
 		gold->setTexture("normalMap", goldNormal);
 		gold->setTexture("roughnessMap", goldRough);
@@ -204,7 +260,7 @@ public:
 		gold->setTexture("metallicMap", goldMetal);
 		gold->setTexture("emissionMap", default_emission);
 
-		def = new Material();
+		def = sceneBuffer->balloc<Material>();
 		def->setTexture("albedoMap", grid);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_emission);
@@ -212,7 +268,7 @@ public:
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
 
-		glassMaterial = new Material(transparentShader);
+		glassMaterial = sceneBuffer->balloc<Material>(transparentShader);
 		glassMaterial->setTexture("albedoMap", transparentAlbedo);
 		glassMaterial->setTexture("normalMap", default_normal);
 		glassMaterial->setTexture("roughnessMap", default_roughness);
@@ -220,7 +276,7 @@ public:
 		glassMaterial->setTexture("metallicMap", default_emission);
 		glassMaterial->setTexture("emissionMap", default_emission);
 
-		barkMaterial = new Material();
+		barkMaterial = sceneBuffer->balloc<Material>();
 		barkMaterial->setTexture("albedoMap", bark);
 		barkMaterial->setTexture("normalMap", default_normal);
 		barkMaterial->setTexture("roughnessMap", default_roughness);
@@ -228,7 +284,7 @@ public:
 		barkMaterial->setTexture("metallicMap", default_emission);
 		barkMaterial->setTexture("emissionMap", default_emission);
 
-		leaveMaterial = new Material();
+		leaveMaterial = sceneBuffer->balloc<Material>();
 		leaveMaterial->setTexture("albedoMap", leaveAlbedo);
 		leaveMaterial->setTexture("normalMap", leaveNormal);
 		leaveMaterial->setTexture("roughnessMap", leaveRoughness);
@@ -236,7 +292,7 @@ public:
 		leaveMaterial->setTexture("metallicMap", default_emission);
 		leaveMaterial->setTexture("emissionMap", default_emission);
 
-		lit = new Material(litShader);
+		lit = sceneBuffer->balloc<Material>(litShader);
 		lit->setProperty("color", Vector3f(0.3f, 0.3f, 0.5f));
 
 
@@ -424,10 +480,13 @@ public:
 		quad7->getComponent<TransparentMeshRenderer>()->setMesh(plane);
 		quad7->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 		*/
+
+		std::cout << "Remaining size: " << std::to_string(sceneBuffer->getRemainingSize()) << " bytes\n";
 	}
 
 	void OnUnload()
 	{
+		/*
 		delete sky;
 
 		delete plane;
@@ -478,7 +537,10 @@ public:
 		//delete p_tonemapping;
 		//delete p_ssao;
 		//delete p_ssreflection;
+		*/
+
+		delete sceneBuffer;
 	}
 
 };
-#endif // PBR_SCENE_H
+#endif // PBR_SCENE_CPP

@@ -43,5 +43,7 @@ A modern OpenGL Game-Engine with focus on PBR
 ![screenshot_1](https://user-images.githubusercontent.com/7956606/35122763-2d3a2934-fca0-11e7-8f38-552fcc106b7e.png)
 
 ## Dependency
-freetype271MT.dll from
-https://github.com/ubawurinna/freetype-windows-binaries/blob/master/win64/freetype271MT.dll
+
+NVIDIA PhysX 3.4
+Header files required from https://github.com/NVIDIAGameWorks/PhysX-3.4
+(To get access to the repository, you will need to accept the ![PhysX EULA](https://developer.nvidia.com/content/apply-access-nvidia-physx-source-code))
