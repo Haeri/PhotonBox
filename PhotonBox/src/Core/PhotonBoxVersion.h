@@ -1,11 +1,13 @@
 #ifndef PHOTON_BOX_VERSION_H
 #define PHOTON_BOX_VERSION_H
 
-#include <chrono>
-
+#define PHOTON_BOX_APPLICATION_NAME "PhotonBox Engine"
 #define PHOTON_BOX_VERSION_MAJOR 0
-#define PHOTON_BOX_VERSION_MINOR 1
+#define PHOTON_BOX_VERSION_MINOR 5
+#define PHOTON_BOX_VERSION_BUILD 6 
 
-#define PHOTON_BOX_VERSION_BUILD std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count()
+#define TO_STR2(x) #x
+#define TO_STR(x) TO_STR2(x)
+#define PHOTON_BOX_VERSION (PHOTON_BOX_APPLICATION_NAME " " TO_STR(PHOTON_BOX_VERSION_MAJOR) "." TO_STR(PHOTON_BOX_VERSION_MINOR) ":" TO_STR(PHOTON_BOX_VERSION_BUILD))
 
 #endif // PHOTON_BOX_VERSION_H

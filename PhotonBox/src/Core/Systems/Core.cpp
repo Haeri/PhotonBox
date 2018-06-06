@@ -20,7 +20,7 @@ bool Core::_isRunning;
 
 void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 {
-	std::cout << "PhotonBox Engine " << PHOTON_BOX_VERSION_MAJOR << "." << PHOTON_BOX_VERSION_MINOR << ":" << PHOTON_BOX_VERSION_BUILD << "\n";
+	std::cout << PHOTON_BOX_VERSION << "\n";
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
 
