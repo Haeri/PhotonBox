@@ -44,9 +44,9 @@ Quaternion Quaternion::normalize()
 {
 	float len = length();
 	if (len <= 0) // Problem
-		return Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
+		return Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 	float oneOverLen = 1.0f / len;
-	return Quaternion(_w * oneOverLen, _x * oneOverLen, _y * oneOverLen, _z * oneOverLen);
+	return Quaternion(_x * oneOverLen, _y * oneOverLen, _z * oneOverLen, _w * oneOverLen);
 }
 
 float Quaternion::getAngle()

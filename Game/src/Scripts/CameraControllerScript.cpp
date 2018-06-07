@@ -36,18 +36,16 @@ public:
 		if(InputManager::getCursorMode() == InputManager::CursorMode::DISABLED){
 			Vector2f mouse = InputManager::getMouseDelta();
 
-			/*
-			float x = transform->getRotation().x() + mouse.y() * Time::deltaTimef * mouseSensitivity;
-			float y = transform->getRotation().y() + mouse.x() * Time::deltaTimef * mouseSensitivity;
-			float z = transform->getRotation().z();
-			transform->setRotation(Vector3f(x, y, z));
-			*/
-
 			float yaw = mouse.x() * Time::deltaTimef * mouseSensitivity;
 			float pitch = mouse.y() * Time::deltaTimef * mouseSensitivity;
-			float roll = 0;
 
-			transform->rotate(Quaternion(Vector3f(pitch, yaw, roll)));
+			Quaternion q1(transform->right(), pitch);
+			Quaternion q2(Vector3f::UP, yaw);
+
+			if (yaw != 0 && pitch != 0) 
+			{
+				transform->setRotation(transform->getRotation() * q1 * q2);
+			}
 		}
 
 		if (InputManager::keyDown(InputManager::KEY_PAGE_UP))
