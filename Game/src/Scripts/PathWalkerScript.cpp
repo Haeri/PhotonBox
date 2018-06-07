@@ -39,7 +39,7 @@ public:
 		}
 
 		transform->setPosition(Vector3f::lerp(path[index].getPosition(), path[index + 1].getPosition(), progress));
-		transform->setRotation(Vector3f::lerp(path[index].getRotation(), path[index + 1].getRotation(), progress));
+		//transform->setRotation(Vector3f::lerp(path[index].getRotation(), path[index + 1].getRotation(), progress));
 	}
 private:
 	float progress = 0;

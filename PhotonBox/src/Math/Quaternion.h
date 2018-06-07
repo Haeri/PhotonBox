@@ -29,6 +29,37 @@ public:
 
 	Quaternion operator* (const Quaternion& scalar);
 	inline Quaternion operator* (const float& scalar);
+
+	float& operator [](int index)
+	{
+		if (index == 0) return _x;
+		else if (index == 1) return _y;
+		else if (index == 2) return _z;
+		else if (index == 3) return _w;
+		else
+		{
+			std::cerr << "index " << std::to_string(index) << " out of range\n";
+			return _w;
+		}
+	}
+
+	float operator [](int index) const
+	{
+		if (index == 0) return _x;
+		else if (index == 1) return _y;
+		else if (index == 2) return _z;
+		else if (index == 3) return _w;
+		else
+		{
+			std::cerr << "index " << std::to_string(index) << " out of range\n";
+			return _w;
+		}
+	}
+
+	friend std::ostream& operator<<(std::ostream& os, Quaternion m)
+	{
+		return os << "(" << m.getX() << ", " << m.getY() << ", " << m.getZ() << ", " << m.getW() << ")";
+	}
 private:
 	float _x, _y, _z, _w;
 };

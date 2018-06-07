@@ -89,7 +89,10 @@ void Transform::renderHandels()
 
 
 	{
-		ImGui::SliderFloat3(entity->name.c_str(), &(_position[0]), -10, 10);
+		ImGui::LabelText(entity->name.c_str(), "");
+		ImGui::SliderFloat3("Position", &(_position[0]), -10, 10);
+		ImGui::SliderFloat4("Rotation", &(_rotation[0]), -10, 10);
+		ImGui::NewLine();
 /*
 		ImGui::Text("Some Text");
 
@@ -121,9 +124,9 @@ Matrix4f Transform::getRotationMatrix()
 	return _rotation.createRotation();
 }
 
-Vector3f Transform::getRotation()
+Quaternion Transform::getRotation()
 {
-	return Math::toEulerAngle(_rotation);
+	return _rotation;
 }
 
 Vector3f Transform::getPosition()
@@ -191,7 +194,7 @@ void Transform::setParent(Entity *_entity)
 
 void Transform::rotate(Quaternion quat)
 {
-	_rotation = (_rotation * quat);
+	_rotation = (quat * _rotation).normalize();
 	_hasChangedLastFrame = true;
 }
 

@@ -46,9 +46,10 @@ public:
 				", " + std::to_string(transform->getPositionWorld().y()) +
 				", " + std::to_string(transform->getPositionWorld().z());
 
-			std::string sr = "rot: " + std::to_string(transform->getRotation().x()) +
-				", " + std::to_string(transform->getRotation().y()) +
-				", " + std::to_string(transform->getRotation().z());
+			std::string sr = "rot: " + std::to_string(transform->getRotation().getX()) +
+				", " + std::to_string(transform->getRotation().getY()) +
+				", " + std::to_string(transform->getRotation().getZ()) +
+				", " + std::to_string(transform->getRotation().getW());
 
 
 			std::cout << sp << std::endl;

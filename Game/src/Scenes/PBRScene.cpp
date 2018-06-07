@@ -38,8 +38,8 @@ struct Buffer
 		: size(size)
 	{
 		_start = (byte*)malloc(size);
-		_max = _start + size;
 		memset(_start, 0, size);
+		_end = _start + size;
 		current = _start;
 	}
 
@@ -53,27 +53,39 @@ struct Buffer
 		return (int)(_start + size - current);
 	}
 
+	void mem_print()
+	{
+		byte* curr = _start;
+		int i = 0;
+		while (curr != _end)
+		{
+			if (i % 16 == 0) std::cout << "\n";
+			printf("%02x ", (unsigned)*curr);
+
+			curr++;
+			i++;
+		}
+		std::cout << "\n";
+	}
+
 	template <typename T, typename ...A>
 	T* balloc(A ...args)
 	{
-		if ((current + sizeof(T)) > _max)
+		if ((current + sizeof(T)) > _end)
 		{
 			std::cout << "Out of memory!\n";
 			return nullptr;
 		}
 
-		current = current + sizeof(T);
-
-		std::cout << sizeof(T) << "\n";
-
 		T* ret = reinterpret_cast<T*>(current);
 		new(ret) T(args...);
+		current = current + sizeof(T);
 		return ret;
 	}
 
 private:
-	byte * _start;
-	byte* _max;
+	byte* _start;
+	byte* _end;
 };
 
 
@@ -147,8 +159,7 @@ public:
 
 	void Load()
 	{
-		sceneBuffer = new Buffer(100000);
-
+		sceneBuffer = new Buffer(10000);
 
 		/* --------------------------- RESOURCES --------------------------- */
 		std::vector<std::string> nightSky = {
@@ -167,11 +178,10 @@ public:
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		//p_ssao = sceneBuffer->balloc<SSAOProcessor>(0);
-		//p_ssreflection = sceneBuffer->balloc<SSReflectionProcessor>(1);
-		//p_autoExposure = sceneBuffer->balloc<AutoExposureProcessor>(2);
-		//p_bloom = sceneBuffer->balloc<BloomProcessor>(3);
-		//p_bloom = new BloomProcessor(3);
-		//p_tonemapping = sceneBuffer->balloc<ToneMappingProcessor>(4);
+		p_ssreflection = sceneBuffer->balloc<SSReflectionProcessor>(1);
+		p_autoExposure = sceneBuffer->balloc<AutoExposureProcessor>(2);
+		p_bloom = sceneBuffer->balloc<BloomProcessor>(3);
+		p_tonemapping = sceneBuffer->balloc<ToneMappingProcessor>(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -263,7 +273,7 @@ public:
 		def = sceneBuffer->balloc<Material>();
 		def->setTexture("albedoMap", grid);
 		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_emission);
+		def->setTexture("roughnessMap", default_roughness);
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
@@ -318,6 +328,7 @@ public:
 		sun->getComponent<DirectionalLight>()->intensity = 2.0f;
 		//sun->setEnable(false);
 
+		/*
 		Entity* rig = instanciate("Rig");
 		rig->addComponent<TransformerScript>();
 
@@ -332,20 +343,18 @@ public:
 		pointLight->getComponent<PointLight>()->intensity = 1.6f;
 		pointLight->getComponent<Transform>()->setParent(rig);
 		//pointLight->setEnable(false);
+		*/
 
-		
-		Entity* probe = instanciate("Probe-1");
+		Entity* probe = instanciate("Car");
 		//probe->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
-		probe->addComponent<MeshRenderer>();
-		probe->getComponent<MeshRenderer>()->setMesh(car);
+		probe->addComponent<MeshRenderer>()->setMesh(car);
 		probe->getComponent<MeshRenderer>()->setMaterial(rust);
 
 		
 		Entity* floor = instanciate("Floor");
 		floor->getComponent<Transform>()->setScale(Vector3f(10, 10, 10));
-		floor->addComponent<MeshRenderer>();
-		floor->getComponent<MeshRenderer>()->setMesh(plane);
+		floor->addComponent<MeshRenderer>()->setMesh(plane);
 		floor->getComponent<MeshRenderer>()->setMaterial(def);
 
 		/*
@@ -482,6 +491,7 @@ public:
 		*/
 
 		std::cout << "Remaining size: " << std::to_string(sceneBuffer->getRemainingSize()) << " bytes\n";
+		//sceneBuffer->mem_print();
 	}
 
 	void OnUnload()

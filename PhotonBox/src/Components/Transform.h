@@ -18,7 +18,7 @@ public:
 	void setParent(Entity *_entity);
 	void rotate(Quaternion quat);
 	Matrix4f getRotationMatrix();
-	Vector3f getRotation();
+	Quaternion getRotation();
 	Vector3f getPosition();
 	Vector3f getPositionWorld();
 	Vector3f getScale();
