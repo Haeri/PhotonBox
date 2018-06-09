@@ -1,11 +1,12 @@
-#include "../Resources/DefaultPostShader.h"
-#include "../Resources/Material.h"
-#include "../Resources/Vertex.h"
-#include "FrameBuffer.h"
-#include "Systems/Renderer.h"
-
 #include <limits>
 #include <iostream>
+#include "PhotonBox/core/FrameBuffer.h"
+
+#include "PhotonBox/resources/DefaultPostShader.h"
+#include "PhotonBox/resources/Material.h"
+#include "PhotonBox/resources/Vertex.h"
+#include "PhotonBox/core/systems/Renderer.h"
+
 
 GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;
@@ -32,8 +33,8 @@ std::map<FrameBuffer::EdgeType, GLint> FrameBuffer::_edgeTypes = {
 FrameBuffer::FrameBuffer(float screenFactor)
 {
 	_screenFactor = screenFactor;
-	_width = Display::getWidth() * screenFactor;
-	_height = Display::getHeight() * screenFactor;
+	_width = static_cast<int>(Display::getWidth() * screenFactor);
+	_height = static_cast<int>(Display::getHeight() * screenFactor);
 	initialize();
 	_bufferList.push_back(this);
 }
@@ -72,7 +73,7 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps,
 
 	if (mipmaps)
 	{
-		temp.mipmaps = 1 + floor(log2(min(_width, _height)));
+		temp.mipmaps = static_cast<int>(1 + floor(log2(min(_width, _height))));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _interpolationMipTypes[interpolationType]);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _interpolationTypes[interpolationType]);
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -141,7 +142,7 @@ void FrameBuffer::ready()
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 
 	if (_drawBuffers.size() > 0)
-		glDrawBuffers(_drawBuffers.size(), &_drawBuffers[0]);
+		glDrawBuffers(static_cast<GLsizei>(_drawBuffers.size()), &_drawBuffers[0]);
 	else {
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
@@ -154,7 +155,7 @@ void FrameBuffer::ready()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FrameBuffer::clear(int r, int g, int b, int a)
+void FrameBuffer::clear(float r, float g, float b, float a)
 {
 	glClearColor(r, g, b, a);
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);

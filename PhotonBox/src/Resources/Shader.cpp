@@ -1,9 +1,10 @@
-#include "../Core/Util.h"
-#include "CubeMap.h"
-#include "Shader.h"
-#include "Texture.h"
 #include <iostream>
 #include <fstream>
+#include "PhotonBox/resources/Shader.h"
+
+#include "PhotonBox/core/Util.h"
+#include "PhotonBox/resources/CubeMap.h"
+#include "PhotonBox/resources/Texture.h"
 
 void Shader::init()
 {

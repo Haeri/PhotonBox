@@ -1,13 +1,13 @@
-#include "../Core/MeshSerializer.h"
-#include "../Core/Util.h"
-#include "OBJLoader.h"
 #include <fstream>
 #include <string>
 #include <unordered_map>
-
 #include <sys/stat.h>
 #include <cstdio>
 #include <cerrno>
+#include "PhotonBox/resources/OBJLoader.h"
+
+#include "PhotonBox/core/MeshSerializer.h"
+#include "PhotonBox/core/Util.h"
 
 #define FORECE_GENERATE false
 
@@ -16,7 +16,6 @@ struct OBJIndex
 	int position;
 	int uv;
 	int normal;
-
 
 	bool operator==(const OBJIndex &other) const
 	{

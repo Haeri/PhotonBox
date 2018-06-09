@@ -1,5 +1,6 @@
-#include "../Core/Systems/Renderer.h"
-#include "ObjectRenderer.h"
+#include "PhotonBox/components/ObjectRenderer.h"
+
+#include "PhotonBox/core/systems/Renderer.h"
 
 ObjectRenderer::ObjectRenderer(RenderType type)
 {

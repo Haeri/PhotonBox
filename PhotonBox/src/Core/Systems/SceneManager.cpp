@@ -1,6 +1,8 @@
-#include "../../Resources/Scene.h"
-#include "Core.h"
-#include "SceneManager.h"
+#include "PhotonBox/core/systems/SceneManager.h"
+
+#include "PhotonBox/resources/Scene.h"
+#include "PhotonBox/core/systems/Core.h"
+
 #include "imgui\imgui.h"
 
 bool SceneManager::_inQueue = false;

@@ -1,5 +1,5 @@
-#include "../Core/Util.h"
-#include "Config.h"
+#include "PhotonBox/core/Util.h"
+#include "PhotonBox/resources/Config.h"
 
 #include <algorithm>
 #include <fstream>

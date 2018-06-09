@@ -1,4 +1,4 @@
-#include "SphereCollider.h"
+#include "PhotonBox/components/SphereCollider.h"
 
 SphereCollider::SphereCollider():Collider()
 {

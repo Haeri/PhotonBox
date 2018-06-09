@@ -1,4 +1,4 @@
-#include "BoxCollider.h"
+#include "PhotonBox/components/BoxCollider.h"
 
 BoxCollider::BoxCollider()
 {

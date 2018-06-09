@@ -1,5 +1,5 @@
-#include "Quaternion.h"
 #include <math.h>
+#include "PhotonBox/math/Quaternion.h"
 
 const Quaternion Quaternion::ZERO = Quaternion(0, 0, 0, 0);
 

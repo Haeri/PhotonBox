@@ -1,7 +1,7 @@
 #include <iostream>
+#include "PhotonBox/core/Entity.h"
 
-#include "../Resources/Scene.h"
-#include "Entity.h"
+#include "PhotonBox/resources/Scene.h"
 
 int Entity::_idCnt = 0;
 

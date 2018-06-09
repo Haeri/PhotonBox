@@ -83,7 +83,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -91,7 +91,7 @@
       <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\src\Core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Increment build version</Message>
@@ -103,7 +103,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -111,7 +111,7 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PxTaskDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\src\Core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Increment build version</Message>
@@ -125,7 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -134,7 +134,7 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PhysX3Extensions.lib;PxTask_x64.lib;PxFoundation_x64.lib;PsFastXml_x64.lib;PxPvdSDK_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\src\Core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Increment build version</Message>
@@ -148,7 +148,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -158,7 +158,7 @@
       <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\src\Core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Increment build version</Message>

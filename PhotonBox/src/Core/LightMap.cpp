@@ -1,4 +1,4 @@
-#include "LightMap.h"
+#include "PhotonBox/core/LightMap.h"
 
 LightMap::LightMap() {}
 

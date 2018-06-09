@@ -1,10 +1,12 @@
-#include "../Core/FrameBuffer.h"
-#include "../Core/Systems/Lighting.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Resources/DefaultPostShader.h"
-#include "../Resources/DepthShader.h"
-#include "../Resources/ForwardDirectionalLightShader.h"
-#include "DirectionalLight.h"
+#include "PhotonBox/components/DirectionalLight.h"
+
+#include "PhotonBox/core/FrameBuffer.h"
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/resources/DefaultPostShader.h"
+#include "PhotonBox/resources/DepthShader.h"
+#include "PhotonBox/resources/ForwardDirectionalLightShader.h"
+
 #include "imgui\imgui.h"
 
 DirectionalLight::DirectionalLight()
@@ -24,7 +26,7 @@ void DirectionalLight::destroy()
 	Lighting::removeLight(this);
 }
 
-Shader * DirectionalLight::getLightShader()
+Shader* DirectionalLight::getLightShader()
 {
 	return ForwardDirectionalLightShader::getInstance();
 }

@@ -1,6 +1,7 @@
-#include "../Core/Systems/Lighting.h"
-#include "../Resources/ForwardSpotLightShader.h"
-#include "SpotLight.h"
+#include "PhotonBox/components/SpotLight.h"
+
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/resources/ForwardSpotLightShader.h"
 
 SpotLight::SpotLight()
 {
