@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\imgui\imgui.cpp" />
+    <ClCompile Include="include\imgui\ImGuizmo.cpp" />
     <ClCompile Include="include\imgui\imgui_draw.cpp" />
     <ClCompile Include="include\imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="src\Components\AmbientLight.cpp" />
@@ -28,7 +29,6 @@
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
     <ClCompile Include="src\Components\DirectionalLight.cpp" />
-    <ClCompile Include="src\Components\LightEmitter.cpp" />
     <ClCompile Include="src\Components\LightProbe.cpp" />
     <ClCompile Include="src\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\ObjectRenderer.cpp" />
@@ -65,7 +65,7 @@
     <ClCompile Include="src\Math\Vector4f.cpp" />
     <ClCompile Include="src\Resources\Config.cpp" />
     <ClCompile Include="src\Resources\CubeMap.cpp" />
-    <ClCompile Include="src\Resources\DeferredShader.cpp" />
+    <ClCompile Include="include\PhotonBox\resources\DeferredShader.h" />
     <ClCompile Include="src\Resources\Material.cpp" />
     <ClCompile Include="src\Math\Matrix4f.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />
@@ -77,12 +77,13 @@
   <ItemGroup>
     <ClInclude Include="include\imgui\imconfig.h" />
     <ClInclude Include="include\imgui\imgui.h" />
+    <ClInclude Include="include\imgui\ImGuizmo.h" />
     <ClInclude Include="include\imgui\imgui_impl_glfw_gl3.h" />
     <ClInclude Include="include\imgui\imgui_internal.h" />
     <ClInclude Include="include\imgui\stb_rect_pack.h" />
     <ClInclude Include="include\imgui\stb_textedit.h" />
     <ClInclude Include="include\imgui\stb_truetype.h" />
-    <ClInclude Include="src\Components\AmbientLight.h" />
+    <ClInclude Include="include\PhotonBox\Components\AmbientLight.h" />
     <ClInclude Include="src\Components\Behaviour.h" />
     <ClInclude Include="src\Components\BoxCollider.h" />
     <ClInclude Include="src\Components\Camera.h" />
@@ -238,6 +239,9 @@
       <AdditionalIncludeDirectories>.\include;.\include\PhysX</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -251,6 +255,9 @@
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -265,6 +272,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -282,6 +292,9 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

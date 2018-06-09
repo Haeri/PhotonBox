@@ -1,8 +1,9 @@
-#include "../Core/FrameBuffer.h"
-#include "CubeMap.h"
-#include "Material.h"
-#include "Shader.h"
-#include "Texture.h"
+#include "PhotonBox/resources/Material.h"
+
+#include "PhotonBox/core/FrameBuffer.h"
+#include "PhotonBox/resources/CubeMap.h"
+#include "PhotonBox/resources/Shader.h"
+#include "PhotonBox/resources/Texture.h"
 
 void Material::setTexture(const std::string & uniformName, Texture* texture)
 {

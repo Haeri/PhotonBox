@@ -1,4 +1,4 @@
-#include "Component.h"
+#include "PhotonBox/core/Component.h"
 
 void Component::setEntity(Entity* _go)
 {

@@ -1,8 +1,9 @@
 #include <iostream>
 #include <algorithm>
-#include "../Core/Systems/Core.h"
-#include "../Core/Systems/SceneManager.h"
-#include "Scene.h"
+#include "PhotonBox/resources/Scene.h"
+
+#include "PhotonBox/core/systems/Core.h"
+#include "PhotonBox/core/systems/SceneManager.h"
 
 void Scene::unload()
 {

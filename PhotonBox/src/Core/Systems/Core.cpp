@@ -1,18 +1,19 @@
-#include "Core.h"
-#include "../../Core/PhotonBoxVersion.h"
-#include "../../Resources/Config.h"
-#include "../Display.h"
-#include "../InputManager.h"
-#include "../Profiler.h"
-#include "../Time.h"
-#include "Lighting.h"
-#include "Logic.h"
-#include "Physics.h"
-#include "PostProcessing.h"
-#include "Renderer.h"
-#include "SceneManager.h"
-#include "UIRenderer.h"
-#include "DebugGUI.h"
+#include "PhotonBox/core/systems/Core.h"
+
+#include "PhotonBox/core/PhotonBoxVersion.h"
+#include "PhotonBox/resources/Config.h"
+#include "PhotonBox/core/Display.h"
+#include "PhotonBox/core/InputManager.h"
+#include "PhotonBox/core/Profiler.h"
+#include "PhotonBox/core/Time.h"
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/core/systems/Logic.h"
+#include "PhotonBox/core/systems/Physics.h"
+#include "PhotonBox/core/systems/PostProcessing.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/core/systems/SceneManager.h"
+#include "PhotonBox/core/systems/UIRenderer.h"
+#include "PhotonBox/core/systems/DebugGUI.h"
 
 const double Core::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
 
@@ -49,7 +50,7 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 	
 	// Init Subsystems
 	_debugGUI->init();
-	_renderer->init(Config::profile.supersampling ? 2 : 1);
+	_renderer->init(Config::profile.supersampling ? 2.0f : 1.0f);
 	_inputManager->init();
 	_physics->init();
 	_uiRenderer->init();
@@ -82,7 +83,7 @@ void Core::start()
 
 void Core::run()
 {
-	double lastTime = glfwGetTime();
+	double lastTime = Time::now();
 	int nbFrames = 0;
 	double lastSecond = 0;
 	_isRunning = true;
@@ -92,7 +93,7 @@ void Core::run()
 	while (_isRunning && _display->isRunning())
 	{
 		// Measure time
-		double currentTime = glfwGetTime();
+		double currentTime = Time::now();
 		_time->setDeltaTime(currentTime - lastTime);
 		lastTime = currentTime;
 		lastSecond += Time::deltaTime;
@@ -147,12 +148,12 @@ void Core::run()
 
 		// UI Rendering
 		if(Config::profile.showFPS)
-			_uiRenderer->renderText(statPrint, 10, Display::getHeight() - 20, 0.32f, Vector3f(0, 1, 0));
+			_uiRenderer->renderText(statPrint, 10.0f, Display::getHeight() - 20.0f, 0.32f, Vector3f(0, 1, 0));
 		if (Config::profile.fpsProfiling)
 		{
-			_uiRenderer->renderText("min: " + std::to_string(Profiler::getMinFps()) , 10, Display::getHeight() - 35, 0.32f, Vector3f(1, 0, 0));
-			_uiRenderer->renderText("max: " + std::to_string(Profiler::getMaxFps()), 10, Display::getHeight() - 50, 0.32f, Vector3f(0, 1, 0));
-			_uiRenderer->renderText("avg: " + std::to_string(Profiler::getAvgFps()), 10, Display::getHeight() - 65, 0.32f, Vector3f(0, 0, 1));
+			_uiRenderer->renderText("min: " + std::to_string(Profiler::getMinFps()) , 10.0f, Display::getHeight() - 35, 0.32f, Vector3f(1, 0, 0));
+			_uiRenderer->renderText("max: " + std::to_string(Profiler::getMaxFps()), 10.0f, Display::getHeight() - 50, 0.32f, Vector3f(0, 1, 0));
+			_uiRenderer->renderText("avg: " + std::to_string(Profiler::getAvgFps()), 10.0f, Display::getHeight() - 65, 0.32f, Vector3f(0, 0, 1));
 		}
 
 		// System GUI
@@ -177,7 +178,7 @@ void Core::run()
 
 			// reset timing
 			_accumulatedTime = 0;
-			lastTime = glfwGetTime();
+			lastTime = Time::now();
 		}
 	}
 }

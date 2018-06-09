@@ -1,17 +1,17 @@
 #include <vector>
 #include <iostream>
+#include "PhotonBox/resources/CubeMap.h"
+
+#include "PhotonBox/components/Camera.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/math/Matrix4f.h"
+#include "PhotonBox/resources/Resources.h"
+#include "PhotonBox/resources/IrradianceShader.h"
+#include "PhotonBox/resources/OBJLoader.h"
+#include "PhotonBox/resources/SkyBoxShader.h"
+#include "PhotonBox/resources/SpecularConvolutionShader.h"
+
 #include "STB/stb_image.h"
-
-#include "../Components/Camera.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Math/Matrix4f.h"
-#include "Resources.h"
-#include "CubeMap.h"
-#include "IrradianceShader.h"
-#include "OBJLoader.h"
-#include "SkyBoxShader.h"
-#include "SpecularConvolutionShader.h"
-
 
 CubeMap::CubeMap(const std::vector<std::string>& allFaces)
 {

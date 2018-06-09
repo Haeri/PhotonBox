@@ -2,7 +2,7 @@
 #include <map>
 
 #include <Core/Systems/Core.h>
-#include <Test/MathTest.h>
+//#include <Test/MathTest.h>
 #include <Resources/Scene.h>
 
 #include "Scenes/DemoScene.cpp"
@@ -15,7 +15,7 @@ int main(void)
 
 #ifdef _DEBUG
 	// Tests
-	MathTest::startTest();
+	//MathTest::startTest();
 #else
 	FreeConsole();
 #endif

@@ -1,7 +1,8 @@
-#include "InputManager.h"
-#include "Time.h"
 #include <iostream>
 #include <algorithm>
+#include "PhotonBox/core/InputManager.h"
+
+#include "PhotonBox/core/Time.h"
 
 std::vector<int> InputManager::_keyPress;
 std::vector<int> InputManager::_keyDown;

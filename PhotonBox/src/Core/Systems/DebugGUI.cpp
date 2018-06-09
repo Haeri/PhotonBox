@@ -1,8 +1,11 @@
-#include "DebugGUI.h"
+#include "PhotonBox/core/systems/DebugGUI.h"
+
+#include "PhotonBox/core/Display.h"
+#include "PhotonBox/components/Camera.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw_gl3.h"
-#include "../Display.h"
+#include "imgui/ImGuizmo.h"
 
 void DebugGUI::init()
 {
@@ -12,15 +15,25 @@ void DebugGUI::init()
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	
 	ImGui::StyleColorsDark();
+
+	ImGuizmo::Enable(true);
 }
 
 void DebugGUI::newFrame()
 {
 	ImGui_ImplGlfwGL3_NewFrame();
+	ImGuizmo::BeginFrame();
 }
 
 void DebugGUI::render()
 {
+	static const float identityMatrix[16] =
+	{ 1.f, 0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		0.f, 0.f, 0.f, 1.f };
+
+	ImGuizmo::DrawGrid(&(Camera::getMainCamera()->getViewMatrix()(0, 0)), &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)), identityMatrix, 100.f);
 	ImGui::Render();
 	ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 }

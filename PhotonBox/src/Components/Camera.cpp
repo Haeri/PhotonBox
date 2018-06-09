@@ -1,6 +1,7 @@
-#include "../Core/Entity.h"
-#include "Camera.h"
-#include "ObjectRenderer.h"
+#include "PhotonBox/components/Camera.h"
+
+#include "PhotonBox/core/Entity.h"
+#include "PhotonBox/components/ObjectRenderer.h"
 
 Camera* Camera::_main;
 

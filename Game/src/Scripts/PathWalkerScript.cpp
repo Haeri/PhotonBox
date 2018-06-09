@@ -1,9 +1,9 @@
 #ifndef PATH_WALKER_SCRIPT_CPP
 #define PATH_WALKER_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Transform.h>
-#include <Core/Time.h>
+#include <components/Behaviour.h>
+#include <components/Transform.h>
+#include <core/Time.h>
 
 class PathWalkerScript : public Behaviour
 {

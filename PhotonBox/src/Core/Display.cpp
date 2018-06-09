@@ -1,8 +1,9 @@
-#include "../Components/Camera.h"
-#include "../Resources/Texture.h"
-#include "../Resources/Resources.h"
-#include "Display.h"
-#include "FrameBuffer.h"
+#include "PhotonBox/core/Display.h"
+
+#include "PhotonBox/components/Camera.h"
+#include "PhotonBox/resources/Texture.h"
+#include "PhotonBox/resources/Resources.h"
+#include "PhotonBox/core/FrameBuffer.h"
 
 bool Display::_isRunning;
 int Display::_width, Display::_height;
@@ -22,8 +23,8 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	}
 
 	glfwDefaultWindowHints();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 1);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RED_BITS, 8);
 	glfwWindowHint(GLFW_GREEN_BITS, 8);

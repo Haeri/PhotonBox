@@ -1,10 +1,11 @@
-#include "../Core/FrameBuffer.h"
-#include "../Core/Systems/Lighting.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Resources/DefaultPostShader.h"
-#include "../Resources/Resources.h"
-#include "Camera.h"
-#include "LightProbe.h"
+#include "PhotonBox/components/LightProbe.h"
+
+#include "PhotonBox/core/FrameBuffer.h"
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/resources/DefaultPostShader.h"
+#include "PhotonBox/resources/Resources.h"
+#include "PhotonBox/components/Camera.h"
 
 LightProbe::LightProbe()
 {

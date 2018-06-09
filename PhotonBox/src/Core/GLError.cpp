@@ -1,6 +1,7 @@
 #include <iostream>
-#include "GLError.h"
-#include "OpenGL.h"
+#include "PhotonBox/core/GLError.h"
+
+#include "PhotonBox/core/OpenGL.h"
 
 void _check_gl_error(const char *file, int line)
 {

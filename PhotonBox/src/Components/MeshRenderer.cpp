@@ -1,15 +1,16 @@
-#include "../Core/Entity.h"
-#include "../Core/OpenGL.h"
-#include "../Core/Systems/Lighting.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Resources/SkyBox.h"
-#include "../Resources/Texture.h"
-#include "AmbientLight.h"
-#include "Camera.h"
-#include "DirectionalLight.h"
-#include "MeshRenderer.h"
-#include "PointLight.h"
-#include "Transform.h"
+#include "PhotonBox/components/MeshRenderer.h"
+
+#include "PhotonBox/core/Entity.h"
+#include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/resources/SkyBox.h"
+#include "PhotonBox/resources/Texture.h"
+#include "PhotonBox/components/AmbientLight.h"
+#include "PhotonBox/components/Camera.h"
+#include "PhotonBox/components/DirectionalLight.h"
+#include "PhotonBox/components/PointLight.h"
+#include "PhotonBox/components/Transform.h"
 
 void MeshRenderer::init()
 {

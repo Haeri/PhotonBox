@@ -1,7 +1,6 @@
-#include "Profiler.h"
-
 #include <limits>
 #include <iostream>
+#include "PhotonBox/core/Profiler.h"
 
 int Profiler::_minFPS = std::numeric_limits<int>::max();;
 int Profiler::_maxFPS;

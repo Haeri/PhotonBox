@@ -1,5 +1,6 @@
-#include "../Core/Systems/Logic.h"
-#include "Behaviour.h"
+#include "PhotonBox/components/Behaviour.h"
+
+#include "PhotonBox/core/systems/Logic.h"
 
 Behaviour::Behaviour()
 {

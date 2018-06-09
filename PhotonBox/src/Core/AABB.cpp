@@ -1,7 +1,8 @@
-#include "../Components/Transform.h"
-#include "AABB.h"
+#include "PhotonBox/core/AABB.h"
 
-void AABB::setTransform(Transform * transform)
+#include "PhotonBox/components/Transform.h"
+
+void AABB::setTransform(Transform* transform)
 {
 	_transform = transform;
 }
@@ -31,12 +32,12 @@ Vector3f AABB::getBoundPosition()
 	return _transform->getPositionWorld();
 }
 
-bool AABB::collide(Vector3f other)
+bool AABB::collide(Vector3f point)
 {
 	Vector3f min = getMinBoundGlobal();
 	Vector3f max = getMaxBoundGlobal();
 
-	return (other.x() > min.x() && other.x() < max.x() &&
-		other.x() > min.x() && other.x() < max.x() &&
-		other.x() > min.x() && other.x() < max.x());
+	return (point.x() > min.x() && point.x() < max.x() &&
+			point.x() > min.x() && point.x() < max.x() &&
+			point.x() > min.x() && point.x() < max.x());
 }

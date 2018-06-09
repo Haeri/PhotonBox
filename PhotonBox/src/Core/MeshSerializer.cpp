@@ -1,15 +1,15 @@
 #include <fstream>
 #include <iostream>
+#include "PhotonBox/core/MeshSerializer.h"
 
-#include "../Resources/Mesh.h"
-#include "../Resources/Vertex.h"
-#include "MeshSerializer.h"
+#include "PhotonBox/resources/Mesh.h"
+#include "PhotonBox/resources/Vertex.h"
 
 void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 {
 
-	int indicesSize = mesh->indices.size();
-	int verticesSize = mesh->vertices.size();
+	int indicesSize = static_cast<int>(mesh->indices.size());
+	int verticesSize = static_cast<int>(mesh->vertices.size());
 	BoundingSphere bs = mesh->boundingSphere;
 
 	std::ofstream myfile;

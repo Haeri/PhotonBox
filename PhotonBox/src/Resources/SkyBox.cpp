@@ -1,10 +1,9 @@
-#include "SkyBox.h"
+#include "PhotonBox/resources/SkyBox.h"
 
-#include "../Components/Camera.h"
-#include "../Core/Systems/Renderer.h"
-#include "Resources.h"
-#include "OBJLoader.h"
-
+#include "PhotonBox/components/Camera.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/resources/Resources.h"
+#include "PhotonBox/resources/OBJLoader.h"
 
 void SkyBox::setLightProbe(LightProbe * lightProbe)
 {
@@ -17,16 +16,6 @@ void SkyBox::init()
 	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 }
-
-/*
-void SkyBox::setEnviromentMap(CubeMap* cubeMap) {
-	_evMap = cubeMap;
-}
-
-void SkyBox::setIrradienceMap(CubeMap* cubeMap) {
-	_irrMap = cubeMap;
-}
-*/
 
 void SkyBox::genVAO()
 {

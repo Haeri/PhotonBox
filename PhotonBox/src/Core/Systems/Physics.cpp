@@ -1,12 +1,13 @@
 #include <algorithm>
 #include <iostream>
-#include "../../Components/Collider.h"
-#include "Physics.h"
-#include "../../Components/Rigidbody.h"
-#include "../../Components/Transform.h"
-#include "../../Core/Entity.h"
-#include "../../Components/SphereCollider.h"
-#include "../../Math/Math.h"
+#include "PhotonBox/core/systems/Physics.h"
+
+#include "PhotonBox/core/Entity.h"
+#include "PhotonBox/math/Math.h"
+#include "PhotonBox/components/Collider.h"
+#include "PhotonBox/components/Rigidbody.h"
+#include "PhotonBox/components/Transform.h"
+#include "PhotonBox/components/SphereCollider.h"
 
 //std::vector<Collider*> Physics::_colliders;
 //std::vector<Rigidbody*> Physics::_rigidbodies;

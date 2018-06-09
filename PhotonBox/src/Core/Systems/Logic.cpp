@@ -1,7 +1,8 @@
 #include <iostream>
 #include <algorithm>
-#include "../../Components/Behaviour.h"
-#include "Logic.h"
+#include "PhotonBox/core/systems/Logic.h"
+
+#include "PhotonBox/components/Behaviour.h"
 
 std::vector<Behaviour*> Logic::_behaviourList;
 

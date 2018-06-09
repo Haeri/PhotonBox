@@ -1,6 +1,7 @@
-#include "../Core/Systems/Lighting.h"
-#include "../Resources/ForwardPointLightShader.h"
-#include "PointLight.h"
+#include "PhotonBox/components/PointLight.h"
+
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/resources/ForwardPointLightShader.h"
 
 PointLight::PointLight()
 {

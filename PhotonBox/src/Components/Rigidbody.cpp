@@ -1,4 +1,4 @@
-#include "Rigidbody.h"
+#include "PhotonBox/components/Rigidbody.h"
 
 void Rigidbody::setBody(PxRigidBody * rigidBody)
 {

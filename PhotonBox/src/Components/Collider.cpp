@@ -1,5 +1,4 @@
-//#include "../Core/Systems/Physics.h"
-#include "Collider.h"
+#include "PhotonBox/components/Collider.h"
 
 Collider::Collider()
 {

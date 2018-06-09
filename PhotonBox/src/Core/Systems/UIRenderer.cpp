@@ -1,11 +1,10 @@
-#include "UIRenderer.h"
-
 #include <iostream>
+#include "PhotonBox/core/systems/UIRenderer.h"
 
-#include "../../Resources/TextShader.h"
-#include "../../Resources/Resources.h"
-#include "../OpenGL.h"
-#include "Renderer.h"
+#include "PhotonBox/resources/TextShader.h"
+#include "PhotonBox/resources/Resources.h"
+#include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/core/systems/Renderer.h"
 
 TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;
