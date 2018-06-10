@@ -10,6 +10,8 @@
 #include "PhotonBox/resources/OBJLoader.h"
 #include "PhotonBox/resources/SkyBoxShader.h"
 #include "PhotonBox/resources/SpecularConvolutionShader.h"
+#include "PhotonBox/core/systems/SceneManager.h"
+#include "PhotonBox/resources/Scene.h"
 
 #include "STB/stb_image.h"
 
@@ -63,7 +65,7 @@ void CubeMap::generateIrradiance(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
+	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 
 
@@ -126,7 +128,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
+	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 
 	glGenFramebuffers(1, &_captureFBO);

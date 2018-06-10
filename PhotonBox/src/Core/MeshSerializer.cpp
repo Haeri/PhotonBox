@@ -37,10 +37,8 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 	}
 }
 
-Mesh * MeshSerializer::read(const std::string & pathName)
+void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 {
-	Mesh* mesh = new Mesh();
-
 	int indicesSize;
 	int verticesSize; 
 	BoundingSphere bs;
@@ -71,12 +69,9 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 		myfile.close();
 
 		mesh->boundingSphere = bs;
-
-		return mesh;
 	}
 	else
 	{
 		std::cout << "Unable to open file" << std::endl;
-		return nullptr;
 	}
 }

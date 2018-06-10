@@ -4,6 +4,8 @@
 #include "PhotonBox/core/systems/Renderer.h"
 #include "PhotonBox/resources/Resources.h"
 #include "PhotonBox/resources/OBJLoader.h"
+#include "PhotonBox/core/systems/SceneManager.h"
+#include "PhotonBox/resources/Scene.h"
 
 void SkyBox::setLightProbe(LightProbe * lightProbe)
 {
@@ -13,7 +15,7 @@ void SkyBox::setLightProbe(LightProbe * lightProbe)
 void SkyBox::init()
 {
 	_skyBoxShader = SkyBoxShader::getInstance();
-	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
+	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 }
 

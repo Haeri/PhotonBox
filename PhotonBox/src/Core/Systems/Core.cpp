@@ -204,13 +204,19 @@ void Core::destroy()
 	_debugGUI->destroy();
 	_display->destroy();
 
+	Shader::clearAll();
+
+	delete _time;
+	delete _display;
+	delete _inputManager;
+	delete _uiRenderer;
+	delete _debugGUI;
 	delete _sceneManager;
 	delete _renderer;
-	delete _time;
 	delete _logic;
 	delete _physics;
 	delete _postPocessing;
-	delete _display;
 	delete _lighting;
+	delete _profiler;
 	delete _config;
 }

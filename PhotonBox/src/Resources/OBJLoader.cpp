@@ -6,6 +6,7 @@
 #include <cerrno>
 #include "PhotonBox/resources/OBJLoader.h"
 
+#include "PhotonBox/resources/Mesh.h"
 #include "PhotonBox/core/MeshSerializer.h"
 #include "PhotonBox/core/Util.h"
 
@@ -124,13 +125,13 @@ Vector3f calculateTangent(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f uv1, V
 	return tangent;
 }
 
-Mesh* loadFromCache(const std::string& filename)
+void loadFromCache(const std::string& filename, Mesh* mesh)
 {
-	return MeshSerializer::read(filename);
+	return MeshSerializer::read(filename, mesh);
 }
 
 
-Mesh* OBJLoader::loadObj(const std::string & filePath)
+void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 {
 	std::cerr << "Loading mesh: " << filePath << std::endl;
 	std::ifstream file(filePath);
@@ -140,18 +141,17 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 	struct stat buffer;
 
 #if FORECE_GENERATE
-	loadFromCache(cachePath);
+	loadFromCache(cachePath, mesh);
 #else
 	if (stat(cachePath.c_str(), &buffer) == 0)
 	{
-		return loadFromCache(cachePath);
+		return loadFromCache(cachePath, mesh);
 	}
 #endif
 
 	std::string line;
 	std::vector<std::string> tokens;
 
-	Mesh* mesh = new Mesh();
 	std::vector<Vector3f> positions;
 	std::vector<Vector3f> normals;
 	std::vector<Vector2f> uvs;
@@ -268,6 +268,4 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 	//mesh->indices = indices;
 
 	MeshSerializer::write(cachePath, mesh);
-
-	return mesh;
 }

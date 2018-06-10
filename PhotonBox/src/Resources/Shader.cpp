@@ -6,6 +6,8 @@
 #include "PhotonBox/resources/CubeMap.h"
 #include "PhotonBox/resources/Texture.h"
 
+std::vector<Shader*> Shader::_shaderList;
+
 void Shader::init()
 {
 	std::vector<std::string> path;

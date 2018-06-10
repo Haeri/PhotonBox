@@ -21,16 +21,6 @@ class DemoScene : public Scene
 public:
 	CubeMap * sky;
 
-	Mesh* plane;
-	Mesh* sphere;
-
-	Texture* default_normal;
-	Texture* default_specular;
-	Texture* default_emission;
-	Texture* default_ao;
-	Texture* gradient;
-	Texture* default_roughness;
-
 	Material* def;
 
 	AutoExposureProcessor* p_autoExposure;
@@ -67,18 +57,18 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		plane = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		sphere = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
+		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		default_normal = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		default_specular = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		default_emission = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		default_ao = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
-		default_roughness = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
-		gradient = new Texture(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
+		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
+		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
+		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
+		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
+		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 
 		/* --------------------------- SHADERS --------------------------- */
 
@@ -184,16 +174,6 @@ public:
 	void OnUnload()
 	{
 		delete sky;
-
-		delete plane;
-		delete sphere;
-
-		delete default_normal;
-		delete default_specular;
-		delete default_emission;
-		delete default_ao;
-		delete gradient;
-		delete default_roughness;
 
 		delete def;
 	}

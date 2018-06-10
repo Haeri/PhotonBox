@@ -2,15 +2,13 @@
 #define TEXTURE_H
 
 #include "PhotonBox/core/Display.h"
+#include "PhotonBox/core/ManagedResource.h"
 
-class Texture
+class Texture : public ManagedResource
 {
 public:
-	Texture(bool generateMipMaps);
-	Texture(bool generateMipMaps, bool hdr);
-	Texture(std::string fileName);
-	Texture(std::string fileName, bool generateMipMaps);
-	Texture(std::string fileName, bool generateMipMaps, bool hdr);
+	Texture(bool generateMipMaps, bool hdr = false);
+	Texture(std::string fileName, bool generateMipMaps = false, bool hdr = false);
 	~Texture();
 	void bind();
 	void bind(GLuint textureUnit);
