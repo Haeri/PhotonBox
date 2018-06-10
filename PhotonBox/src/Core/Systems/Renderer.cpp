@@ -23,6 +23,7 @@
 #include "PhotonBox/core/PostProcessor.h"
 #include "PhotonBox/core/systems/Lighting.h"
 #include "PhotonBox/core/systems/SceneManager.h"
+#include "PhotonBox/core/Entity.h"
 
 #include "imgui/imgui.h"
 
@@ -621,7 +622,7 @@ void Renderer::renderGizmos()
 
 	if (_debugMode >= 1)
 	{
-		for (std::vector<Entity*>::iterator it = SceneManager::getCurrentScene()->entityList.begin(); it != SceneManager::getCurrentScene()->entityList.end(); ++it)
+		for (std::vector<Entity*>::iterator it = SceneManager::getCurrentScene()->getEntities().begin(); it != SceneManager::getCurrentScene()->getEntities().end(); ++it)
 		{
 			if ((*it)->getEnable())
 			{

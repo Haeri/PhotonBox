@@ -6,15 +6,12 @@
 
 unsigned int Texture::_nameIndex = 0;
 
-Texture::Texture(bool generateMipMaps) : Texture(generateMipMaps, false) {}
 Texture::Texture(bool generateMipMaps, bool hdr)
 {
 	_fileName = "Generated_Texture_" + std::to_string(_nameIndex++);
 	initializeTexture(NULL, generateMipMaps, hdr);
 }
 
-Texture::Texture(std::string fileName) : Texture(fileName, false, false) {}
-Texture::Texture(std::string fileName, bool generateMipMaps) : Texture(fileName, generateMipMaps, false) {}
 Texture::Texture(std::string fileName, bool generateMipMaps, bool hdr)
 {
 	std::cerr << "Loading Texture: " << fileName << std::endl;

@@ -37,129 +37,6 @@ class TestScene : public Scene
 public:
 	CubeMap * whiteCube;
 
-	Mesh* couchMesh;
-	Mesh* wallMesh;
-	Mesh* floorMesh;
-	Mesh* sphere;
-	Mesh* doorsMesh;
-	Mesh* tableMesh;
-	Mesh* longCouchMesh;
-	Mesh* slidingDoorMesh;
-	Mesh* floorEdgeMesh;
-	Mesh* shelveMesh;
-	Mesh* carpetMesh;
-	Mesh* carpetFloorMesh;
-	Mesh* occluderMesh;
-	Mesh* windowMesh;
-	Mesh* panoramaMesh;
-	Mesh* lampMesh;
-	Mesh* ceilingLightMesh;
-	Mesh* vaseMesh;
-	Mesh* bookMesh1;
-	Mesh* bookMesh2;
-	Mesh* bookMesh3;
-	Mesh* bookMesh4;
-	Mesh* balconyFloorMesh;
-	Mesh* balconyRailingMesh;
-	Mesh* frameMesh;
-	Mesh* frameGlassMesh;
-	Mesh* painting1Mesh;
-	Mesh* painting2Mesh;
-	Mesh* painting3Mesh;
-
-	Texture* woodAlbedo;
-	Texture* woodRough;
-	Texture* woodNormal;
-	Texture* woodAo;
-	Texture* woodMetal;
-
-	Texture* couchAlbedo;
-	Texture* couchNormal;
-	Texture* couchRoughness;
-	Texture* couchAo;
-	Texture* couchMetal;
-
-	Texture* wallAlbedo;
-	Texture* wallNormal;
-
-	Texture* default_normal;
-	Texture* default_specular;
-	Texture* default_emission;
-	Texture* default_ao;
-	Texture* default_roughness;
-	Texture* gradient;
-
-	Texture* doorAlbedo;
-	Texture* doorRough;
-	Texture* doorNormal;
-	Texture* doorAo;
-	Texture* doorMetal;
-
-	Texture* tableAlbedo;
-	Texture* tableRough;
-	Texture* tableNormal;
-	Texture* tableAo;
-	Texture* tableMetal;
-
-	Texture* slidingDoorRough;
-	Texture* slidingDoorNormal;
-	Texture* slidingDoorAo;
-	Texture* slidingDoorMetal;
-
-	Texture* shelveAlbedo;
-	Texture* shelveRough;
-	Texture* shelveNormal;
-	Texture* shelveAo;
-
-	Texture* carpetAlbedo;
-	Texture* carpetNormal;
-	Texture* carpetAo;
-
-	Texture* lampAlbedo;
-	Texture* lampRough;
-	Texture* lampNormal;
-	Texture* lampAo;
-	Texture* lampMetal;
-
-	Texture* ceilingAlbedo;
-	Texture* ceilingRough;
-	Texture* ceilingNormal;
-	Texture* ceilingAo;
-	Texture* ceilingMetal;
-
-	Texture* vaseAlbedo;
-	Texture* vaseRough;
-
-	Texture* bookAo;
-	Texture* bookNormal;
-	Texture* bookAlbedo1;
-	Texture* bookAlbedo2;
-	Texture* bookAlbedo3;
-	Texture* bookAlbedo4;
-
-	Texture* balconyFloorAlbedo;
-	Texture* balconyFloorNormal;
-	Texture* balconyFloorRoughness;
-
-	Texture* frameAlbedo;
-	Texture* frameNormal;
-	Texture* frameRoughness;
-
-	Texture* painting1D;
-	Texture* painting2D;
-	Texture* painting3D;
-
-	Texture* galvanizedAlbedo;
-	Texture* galvanizedRough;
-	Texture* galvanizedNormal;
-	Texture* railingAo;
-	Texture* railingNormal;
-
-	Texture* windowAlbedo;
-
-	Texture* panoramaAlbedo;
-	Texture* blinds;
-
 	Material* wood;
 	Material* def;
 	Material* couchMaterial;
@@ -220,129 +97,129 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		sphere = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		couchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/couch.obj");
-		wallMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Walls/Room.obj");
-		floorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Floor/Floor.obj");
-		doorsMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Doors/Doors.obj");
-		tableMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Table/Table.obj");
-		longCouchMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Couch/Long_Couch.obj");
-		slidingDoorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/SlidingDoor/SlideDoor.obj");
-		floorEdgeMesh = OBJLoader::loadObj("./res/Realistic-Rendering/FloorEdge/FloorEdge.obj");
-		shelveMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Shelving/Shelving.obj");
-		carpetMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Carpet/Carpet.obj");
-		carpetFloorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Carpet/CarpetFloor.obj");
-		occluderMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Occluder/occluder.obj");
-		windowMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Window/Window.obj");
-		panoramaMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Panorama/Panorama.obj");
-		lampMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Lamp/Lamp.obj");
-		ceilingLightMesh = OBJLoader::loadObj("./res/Realistic-Rendering/CeilingLight/CeilingLight.obj");
-		vaseMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Vase/Vase.obj");
-		bookMesh1 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_1.obj");
-		bookMesh2 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_2.obj");
-		bookMesh3 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_3.obj");
-		bookMesh4 = OBJLoader::loadObj("./res/Realistic-Rendering/Books/Books_4.obj");
-		balconyFloorMesh = OBJLoader::loadObj("./res/Realistic-Rendering/BalconyFloor/Balcony_Floor.obj");
-		balconyRailingMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Railing/Balcony_Railing.obj");
-		frameMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Frame.obj");
-		frameGlassMesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/GlassPane.obj");
-		painting1Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting1.obj");
-		painting2Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting2.obj");
-		painting3Mesh = OBJLoader::loadObj("./res/Realistic-Rendering/Frame/Painting3.obj");
+		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* couchMesh = createResource<Mesh>("./res/Realistic-Rendering/Couch/couch.obj");
+		Mesh* wallMesh = createResource<Mesh>("./res/Realistic-Rendering/Walls/Room.obj");
+		Mesh* floorMesh = createResource<Mesh>("./res/Realistic-Rendering/Floor/Floor.obj");
+		Mesh* doorsMesh = createResource<Mesh>("./res/Realistic-Rendering/Doors/Doors.obj");
+		Mesh* tableMesh = createResource<Mesh>("./res/Realistic-Rendering/Table/Table.obj");
+		Mesh* longCouchMesh = createResource<Mesh>("./res/Realistic-Rendering/Couch/Long_Couch.obj");
+		Mesh* slidingDoorMesh = createResource<Mesh>("./res/Realistic-Rendering/SlidingDoor/SlideDoor.obj");
+		Mesh* floorEdgeMesh = createResource<Mesh>("./res/Realistic-Rendering/FloorEdge/FloorEdge.obj");
+		Mesh* shelveMesh = createResource<Mesh>("./res/Realistic-Rendering/Shelving/Shelving.obj");
+		Mesh* carpetMesh = createResource<Mesh>("./res/Realistic-Rendering/Carpet/Carpet.obj");
+		Mesh* carpetFloorMesh = createResource<Mesh>("./res/Realistic-Rendering/Carpet/CarpetFloor.obj");
+		Mesh* occluderMesh = createResource<Mesh>("./res/Realistic-Rendering/Occluder/occluder.obj");
+		Mesh* windowMesh = createResource<Mesh>("./res/Realistic-Rendering/Window/Window.obj");
+		Mesh* panoramaMesh = createResource<Mesh>("./res/Realistic-Rendering/Panorama/Panorama.obj");
+		Mesh* lampMesh = createResource<Mesh>("./res/Realistic-Rendering/Lamp/Lamp.obj");
+		Mesh* ceilingLightMesh = createResource<Mesh>("./res/Realistic-Rendering/CeilingLight/CeilingLight.obj");
+		Mesh* vaseMesh = createResource<Mesh>("./res/Realistic-Rendering/Vase/Vase.obj");
+		Mesh* bookMesh1 = createResource<Mesh>("./res/Realistic-Rendering/Books/Books_1.obj");
+		Mesh* bookMesh2 = createResource<Mesh>("./res/Realistic-Rendering/Books/Books_2.obj");
+		Mesh* bookMesh3 = createResource<Mesh>("./res/Realistic-Rendering/Books/Books_3.obj");
+		Mesh* bookMesh4 = createResource<Mesh>("./res/Realistic-Rendering/Books/Books_4.obj");
+		Mesh* balconyFloorMesh = createResource<Mesh>("./res/Realistic-Rendering/BalconyFloor/Balcony_Floor.obj");
+		Mesh* balconyRailingMesh = createResource<Mesh>("./res/Realistic-Rendering/Railing/Balcony_Railing.obj");
+		Mesh* frameMesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/Frame.obj");
+		Mesh* frameGlassMesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/GlassPane.obj");
+		Mesh* painting1Mesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting1.obj");
+		Mesh* painting2Mesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting2.obj");
+		Mesh* painting3Mesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting3.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		woodAlbedo = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
-		woodRough = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
-		woodNormal = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), true);
-		woodAo = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), true);
-		woodMetal = new Texture(std::string("./res/materials/mahogfloor/mahogfloor_metalness.png"), true);
-
-		doorAlbedo = new Texture(std::string("./res/Realistic-Rendering/Doors/T_Door_D.tga"), true);
-		doorRough = new Texture(std::string("./res/Realistic-Rendering/Doors/T_Door_R.tga"), true);
-		doorNormal = new Texture(std::string("./res/Realistic-Rendering/Doors/T_Door_N.TGA"), true);
-		doorAo = new Texture(std::string("./res/Realistic-Rendering/Doors/T_Door_AOMask.TGA"), true);
-		doorMetal = new Texture(std::string("./res/Realistic-Rendering/Doors/T_Door_M.tga"), true);
-
-		tableAlbedo = new Texture(std::string("./res/Realistic-Rendering/Table/T_Table_D.tga"), true);
-		tableRough = new Texture(std::string("./res/Realistic-Rendering/Table/T_Table_R.tga"), true);
-		tableNormal = new Texture(std::string("./res/Realistic-Rendering/Table/T_Table_N.TGA"), true);
-		tableAo = new Texture(std::string("./res/Realistic-Rendering/Table/T_Table_AOMASK.TGA"), true);
-		tableMetal = new Texture(std::string("./res/Realistic-Rendering/Table/T_Table_M.tga"), true);
-
-		slidingDoorRough = new Texture(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_R.tga"), true);
-		slidingDoorNormal = new Texture(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_N.TGA"), true);
-		slidingDoorAo = new Texture(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_AOMask.TGA"), true);
-		slidingDoorMetal = new Texture(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_M.TGA"), true);
-
-		shelveAlbedo = new Texture(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_D.TGA"), true);
-		shelveRough = new Texture(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_R.TGA"), true);
-		shelveNormal = new Texture(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_N.TGA"), true);
-		shelveAo = new Texture(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_AO.TGA"), true);
-
-		carpetAlbedo = new Texture(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_D.png"), true);
-		carpetNormal = new Texture(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_N.TGA"), true);
-		carpetAo = new Texture(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_AO.TGA"), true);
-
-		lampAlbedo = new Texture(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_Albedo.TGA"), true);
-		lampRough = new Texture(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_Roughness.TGA"), true);
-		lampNormal = new Texture(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_N.TGA"), true);
-		lampAo = new Texture(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_AO.TGA"), true);
-		lampMetal = new Texture(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_M.TGA"), true);
-
-		ceilingAlbedo = new Texture(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Albedo.TGA"), true);
-		ceilingRough = new Texture(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Roughness.TGA"), true);
-		ceilingNormal = new Texture(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_N.TGA"), true);
-		ceilingAo = new Texture(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_AO.TGA"), true);
-		ceilingMetal = new Texture(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_M.TGA"), true);
-
-		vaseAlbedo = new Texture(std::string("./res/Realistic-Rendering/Vase/Vase_Albedo.png"), true);
-		vaseRough = new Texture(std::string("./res/Realistic-Rendering/Vase/Vase_Roughness.png"), true);
-
-		frameAlbedo = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_Albedo.tga"), true);
-		frameNormal = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_N.tga"), true);
-		frameRoughness = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Frame_Roughness.tga"), true);
-
-		painting1D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting4_D.tga"), true);
-		painting2D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting2_D.tga"), true);
-		painting3D = new Texture(std::string("./res/Realistic-Rendering/Frame/T_Painting3_D.tga"), true);
-
-		bookAo = new Texture(std::string("./res/Realistic-Rendering/Books/book_occlusion.tga"), true);
-		bookNormal = new Texture(std::string("./res/Realistic-Rendering/Books/book_normals.tga"), true);
-		bookAlbedo1 = new Texture(std::string("./res/Realistic-Rendering/Books/book_albedo_1.tga"), true);
-		bookAlbedo2 = new Texture(std::string("./res/Realistic-Rendering/Books/book_albedo_2.tga"), true);
-		bookAlbedo3 = new Texture(std::string("./res/Realistic-Rendering/Books/book_albedo_3.tga"), true);
-		bookAlbedo4 = new Texture(std::string("./res/Realistic-Rendering/Books/book_albedo_4.tga"), true);
-
-		balconyFloorAlbedo = new Texture(std::string("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_D.tga"), true);
-		balconyFloorNormal = new Texture(std::string("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_N.tga"), true);
-		balconyFloorRoughness = new Texture(std::string("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_R.tga"), true);
-
-		galvanizedAlbedo = new Texture(std::string("./res/Realistic-Rendering/Railing/T_Galvanized_D.tga"), true);
-		galvanizedRough = new Texture(std::string("./res/Realistic-Rendering/Railing/T_Galvanized_Roughness.tga"), true);
-		galvanizedNormal = new Texture(std::string("./res/Realistic-Rendering/Railing/T_Galvanized_N.tga"), true);
-		railingAo = new Texture(std::string("./res/Realistic-Rendering/Railing/T_Railing_AOMASK.tga"), true);
-		railingNormal = new Texture(std::string("./res/Realistic-Rendering/Railing/T_Railing_N.tga"), true);
-
-		windowAlbedo = new Texture(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
-
-		couchAlbedo = new Texture(std::string("./res/Realistic-Rendering/Couch/T_Couch_D.TGA"), true);
-		couchNormal = new Texture(std::string("./res/Realistic-Rendering/Couch/T_Couch_N.TGA"), true);
-		couchRoughness = new Texture(std::string("./res/Realistic-Rendering/Couch/T_Couch_R.tga"), true);
-		couchAo = new Texture(std::string("./res/Realistic-Rendering/Couch/T_Couch_AO.TGA"), true);
-		couchMetal = new Texture(std::string("./res/Realistic-Rendering/Couch/T_Couch_M.TGA"), true);
-
-		wallNormal = new Texture(std::string("./res/Realistic-Rendering/Walls/T_PaintedWall_N.TGA"), true);
-
-		default_normal = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		default_specular = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		default_emission = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		default_ao = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
-		default_roughness = new Texture(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
-		gradient = new Texture(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
-
-		panoramaAlbedo = new Texture(std::string("./res/Realistic-Rendering/Panorama/T_Background_D.TGA"), true);
-		blinds = new Texture(std::string("./res/textures/blinds.png"), true);
+		Texture* woodAlbedo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
+		Texture* woodRough = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
+		Texture* woodNormal = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), true);
+		Texture* woodAo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), true);
+		Texture* woodMetal = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_metalness.png"), true);
+		
+		Texture* doorAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_D.tga"), true);
+		Texture* doorRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_R.tga"), true);
+		Texture* doorNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_N.TGA"), true);
+		Texture* doorAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_AOMask.TGA"), true);
+		Texture* doorMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_M.tga"), true);
+		
+		Texture* tableAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_D.tga"), true);
+		Texture* tableRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_R.tga"), true);
+		Texture* tableNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_N.TGA"), true);
+		Texture* tableAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_AOMASK.TGA"), true);
+		Texture* tableMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_M.tga"), true);
+		
+		Texture* slidingDoorRough = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_R.tga"), true);
+		Texture* slidingDoorNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_N.TGA"), true);
+		Texture* slidingDoorAo = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_AOMask.TGA"), true);
+		Texture* slidingDoorMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_M.TGA"), true);
+		
+		Texture* shelveAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_D.TGA"), true);
+		Texture* shelveRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_R.TGA"), true);
+		Texture* shelveNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_N.TGA"), true);
+		Texture* shelveAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_AO.TGA"), true);
+		
+		Texture* carpetAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_D.png"), true);
+		Texture* carpetNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_N.TGA"), true);
+		Texture* carpetAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_AO.TGA"), true);
+		 
+		Texture* lampAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_Albedo.TGA"), true);
+		Texture* lampRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_Roughness.TGA"), true);
+		Texture* lampNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_N.TGA"), true);
+		Texture* lampAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_AO.TGA"), true);
+		Texture* lampMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_M.TGA"), true);
+		
+		Texture* ceilingAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Albedo.TGA"), true);
+		Texture* ceilingRough = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Roughness.TGA"), true);
+		Texture* ceilingNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_N.TGA"), true);
+		Texture* ceilingAo = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_AO.TGA"), true);
+		Texture* ceilingMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_M.TGA"), true);
+		
+		Texture* vaseAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Vase/Vase_Albedo.png"), true);
+		Texture* vaseRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Vase/Vase_Roughness.png"), true);
+		
+		Texture* frameAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Frame/T_Frame_Albedo.tga"), true);
+		Texture* frameNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Frame/T_Frame_N.tga"), true);
+		Texture* frameRoughness = createResource<Texture>(std::string("./res/Realistic-Rendering/Frame/T_Frame_Roughness.tga"), true);
+		
+		Texture* painting1D = createResource<Texture>(std::string("./res/Realistic-Rendering/Frame/T_Painting4_D.tga"), true);
+		Texture* painting2D = createResource<Texture>(std::string("./res/Realistic-Rendering/Frame/T_Painting2_D.tga"), true);
+		Texture* painting3D = createResource<Texture>(std::string("./res/Realistic-Rendering/Frame/T_Painting3_D.tga"), true);
+		
+		Texture* bookAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Books/book_occlusion.tga"), true);
+		Texture* bookNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Books/book_normals.tga"), true);
+		Texture* bookAlbedo1 = createResource<Texture>(std::string("./res/Realistic-Rendering/Books/book_albedo_1.tga"), true);
+		Texture* bookAlbedo2 = createResource<Texture>(std::string("./res/Realistic-Rendering/Books/book_albedo_2.tga"), true);
+		Texture* bookAlbedo3 = createResource<Texture>(std::string("./res/Realistic-Rendering/Books/book_albedo_3.tga"), true);
+		Texture* bookAlbedo4 = createResource<Texture>(std::string("./res/Realistic-Rendering/Books/book_albedo_4.tga"), true);
+		
+		Texture* balconyFloorAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_D.tga"), true);
+		Texture* balconyFloorNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_N.tga"), true);
+		Texture* balconyFloorRoughness = createResource<Texture>(std::string("./res/Realistic-Rendering/BalconyFloor/T_StoneMix_R.tga"), true);
+		
+		Texture* galvanizedAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Railing/T_Galvanized_D.tga"), true);
+		Texture* galvanizedRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Railing/T_Galvanized_Roughness.tga"), true);
+		Texture* galvanizedNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Railing/T_Galvanized_N.tga"), true);
+		Texture* railingAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Railing/T_Railing_AOMASK.tga"), true);
+		Texture* railingNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Railing/T_Railing_N.tga"), true);
+		
+		Texture* windowAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
+		
+		Texture* couchAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_D.TGA"), true);
+		Texture* couchNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_N.TGA"), true);
+		Texture* couchRoughness = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_R.tga"), true);
+		Texture* couchAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_AO.TGA"), true);
+		Texture* couchMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_M.TGA"), true);
+		
+		Texture* wallNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Walls/T_PaintedWall_N.TGA"), true);
+		
+		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
+		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
+		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
+		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
+		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
+		
+		Texture* panoramaAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Panorama/T_Background_D.TGA"), true);
+		Texture* blinds = createResource<Texture>(std::string("./res/textures/blinds.png"), true);
 
 
 		/* --------------------------- SHADERS --------------------------- */
@@ -869,110 +746,6 @@ public:
 	void OnUnload()
 	{
 		delete whiteCube;
-
-		delete couchMesh;
-		delete wallMesh;
-		delete floorMesh;
-		delete sphere;
-		delete doorsMesh;
-		delete tableMesh;
-		delete longCouchMesh;
-		delete slidingDoorMesh;
-		delete floorEdgeMesh;
-		delete shelveMesh;
-		delete carpetMesh;
-		delete carpetFloorMesh;
-		delete occluderMesh;
-		delete windowMesh;
-		delete panoramaMesh;
-		delete lampMesh;
-		delete ceilingLightMesh;
-		delete vaseMesh;
-		delete bookMesh1;
-		delete bookMesh2;
-		delete bookMesh3;
-		delete bookMesh4;
-		delete balconyFloorMesh;
-		delete balconyRailingMesh;
-		delete frameMesh;
-		delete frameGlassMesh;
-		delete painting1Mesh;
-		delete painting2Mesh;
-		delete painting3Mesh;
-
-		delete woodAlbedo;
-		delete woodRough;
-		delete woodNormal;
-		delete woodAo;
-		delete woodMetal;
-		delete couchAlbedo;
-		delete couchNormal;
-		delete couchRoughness;
-		delete couchAo;
-		delete couchMetal;
-		delete wallAlbedo;
-		delete wallNormal;
-		delete default_normal;
-		delete default_specular;
-		delete default_emission;
-		delete default_ao;
-		delete default_roughness;
-		delete gradient;
-		delete doorAlbedo;
-		delete doorRough;
-		delete doorNormal;
-		delete doorAo;
-		delete doorMetal;
-		delete tableAlbedo;
-		delete tableRough;
-		delete tableNormal;
-		delete tableAo;
-		delete tableMetal;
-		delete slidingDoorRough;
-		delete slidingDoorNormal;
-		delete slidingDoorAo;
-		delete slidingDoorMetal;
-		delete shelveAlbedo;
-		delete shelveRough;
-		delete shelveNormal;
-		delete shelveAo;
-		delete carpetAlbedo;
-		delete carpetNormal;
-		delete carpetAo;
-		delete lampAlbedo;
-		delete lampRough;
-		delete lampNormal;
-		delete lampAo;
-		delete lampMetal;
-		delete ceilingAlbedo;
-		delete ceilingRough;
-		delete ceilingNormal;
-		delete ceilingAo;
-		delete ceilingMetal;
-		delete vaseAlbedo;
-		delete vaseRough;
-		delete bookAo;
-		delete bookNormal;
-		delete bookAlbedo1;
-		delete bookAlbedo2;
-		delete bookAlbedo3;
-		delete bookAlbedo4;
-		delete balconyFloorAlbedo;
-		delete balconyFloorNormal;
-		delete balconyFloorRoughness;
-		delete galvanizedAlbedo;
-		delete galvanizedRough;
-		delete galvanizedNormal;
-		delete railingAo;
-		delete railingNormal;
-		delete windowAlbedo;
-		delete panoramaAlbedo;
-		delete frameAlbedo;
-		delete frameNormal;
-		delete frameRoughness;
-		delete painting1D;
-		delete painting2D;
-		delete painting3D;
 
 		delete wood;
 		delete def;

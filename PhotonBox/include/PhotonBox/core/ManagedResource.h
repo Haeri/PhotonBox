@@ -4,9 +4,7 @@
 class ManagedResource
 {
 public:
-	ManagedResource();
-	ManagedResource(bool isGlobalResource);
-	virtual ~ManagedResource() = 0;
+	virtual ~ManagedResource() {};
 };
 
 #endif // MANAGED_RESOURCE_H

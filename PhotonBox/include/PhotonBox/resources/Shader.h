@@ -8,6 +8,7 @@ class LightEmitter;
 
 #include <string>
 #include <map>
+#include <vector>
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/math/Matrix4f.h"
 #include "PhotonBox/resources/Vertex.h"
@@ -20,6 +21,11 @@ public:
 		GLint uniformLocation;
 		GLint unit;
 	};
+
+	Shader()
+	{
+		//_shaderList.push_back(this);
+	}
 
 	std::map<std::string, GLint> uniforms;
 	std::map<std::string, GLint> attributes;
@@ -91,17 +97,28 @@ public:
 	}
 	//void setUniform(const std::string& uniformName, Texture* texture);
 	//void setUniform(const std::string& uniformName, CubeMap* cubeMap);
+
+	static void clearAll()
+	{
+		for (std::vector<Shader*>::iterator it = _shaderList.begin(); it != _shaderList.end(); ++it)
+		{
+			delete (*it);
+		}
+		_shaderList.clear();
+	}
 protected:
 	const static unsigned int NUM_SHADERS = 2;
 	std::string _fileName;
 	GLuint _program;
 	GLuint _shaders[NUM_SHADERS];
 	GLenum _textureUnit = GL_TEXTURE0;
+	static std::vector<Shader*> _shaderList;
 
 	std::string readShader(const std::string& fileName);
 	GLuint createShader(const std::string& shaderSource, unsigned int shaderType);
 	int checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 private:
+
 	bool checkUniform(const std::string& name);
 };
 

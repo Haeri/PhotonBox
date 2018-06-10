@@ -21,10 +21,6 @@ class PhysicsScene : public Scene
 public:
 	CubeMap * sky;
 
-	Mesh* planeMesh;
-	Mesh* sphereMesh;
-	Mesh* boxMesh;
-
 	Texture* default_normal;
 	Texture* default_specular;
 	Texture* default_emission;
@@ -64,9 +60,9 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		planeMesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		sphereMesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		boxMesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
+		Mesh* planeMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
+		Mesh* sphereMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* boxMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -149,10 +145,6 @@ public:
 	void OnUnload()
 	{
 		delete sky;
-
-		delete planeMesh;
-		delete sphereMesh;
-		delete boxMesh;
 
 		delete default_normal;
 		delete default_specular;
