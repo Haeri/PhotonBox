@@ -25,7 +25,7 @@ public:
 	std::string getEntitys();
 	void removeFromList(Entity* go);
 	Entity* getObjectByName(std::string name);
-	std::vector<Entity*> getEntities() { return _entityList; }
+	std::vector<Entity*>& getEntities() { return _entityList; }
 private:
 	std::vector<Entity*> _entityList;
 	std::vector<ManagedResource*> _resourceList;

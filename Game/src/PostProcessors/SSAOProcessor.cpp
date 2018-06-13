@@ -102,6 +102,8 @@ private:
 			Vector3f noise(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, 0.0f); // rotate around z-axis (in tangent space)
 			ssaoNoise.push_back(noise);
 		}
+
+		//TODO: LEAK: The texture never gets deleted
 		glGenTextures(1, &_noiseTexture);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);

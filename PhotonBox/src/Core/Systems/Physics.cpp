@@ -19,8 +19,10 @@ PxScene*		Physics::_gScene;
 PxPhysics*		Physics::_gPhysics;
 PxSceneDesc*	Physics::_sceneDesc;
 
+#ifdef PDV_DEBUG
 PxPvd*			Physics::_gPvd;
 PxPvdTransport*	Physics::_gTransport;
+#endif // PDV_DEBUG
 
 void Physics::init()
 {
@@ -28,11 +30,16 @@ void Physics::init()
 	if (!_gFoundation)
 		std::cerr << "PxCreateFoundation failed!";
 
+#ifdef PDV_DEBUG
 	_gPvd = PxCreatePvd(*_gFoundation);
 	_gTransport = PxDefaultPvdSocketTransportCreate("localhost", 5425, 10);
 	_gPvd->connect(*_gTransport, PxPvdInstrumentationFlag::eALL);
 
 	_gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *_gFoundation, PxTolerancesScale(), true, _gPvd);
+#else
+	_gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *_gFoundation, PxTolerancesScale(), true);
+#endif // PDV_DEBUG
+
 
 
 	_sceneDesc = new PxSceneDesc(_gPhysics->getTolerancesScale());
@@ -130,8 +137,11 @@ void Physics::destroy()
 	_gDispatcher->release();
 	_gPhysics->release();
 	
+#ifdef PDV_DEBUG
 	_gPvd->release();
 	_gTransport->release();
+#endif // PDV_DEBUG
+
 	_gFoundation->release();
 
 	//_colliders.clear();

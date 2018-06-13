@@ -6,7 +6,7 @@
 class LightMap
 {
 public:
-	CubeMap * enviromentMap;
+	CubeMap* enviromentMap;
 	CubeMap* irradianceMap;
 	CubeMap* specularMap;
 

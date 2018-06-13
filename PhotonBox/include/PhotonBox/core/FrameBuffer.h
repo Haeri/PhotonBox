@@ -11,6 +11,8 @@ class Material;
 class FrameBuffer
 {
 public:
+	static const std::string DEFAULT_ATTACHMENT;
+
 	struct BufferAttachment
 	{
 		std::string name;
@@ -88,6 +90,8 @@ public:
 	void render(Material* material);
 	void resize();
 
+	void blit(FrameBuffer* target, std::string sourceAttachment, std::string targetAttachment);
+	void blitToScreen(std::string name);
 	BufferAttachment* getAttachment(std::string name);
 	GLuint getTextureID(std::string name) { return _colorAttachments[name].id; }
 	int getWidth() { return _width; }

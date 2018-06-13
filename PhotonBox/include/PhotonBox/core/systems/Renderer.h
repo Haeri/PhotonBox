@@ -45,6 +45,7 @@ public:
 	void init();
 	void init(float superSampling);
 	void start();
+	void reset();
 	void prePass();
 	void clearDrawCalls();
 	static void renderBase();
