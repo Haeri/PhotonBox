@@ -35,36 +35,6 @@
 class TestScene : public Scene
 {
 public:
-	CubeMap * whiteCube;
-
-	Material* wood;
-	Material* def;
-	Material* couchMaterial;
-	Material* wallMaterial;
-	Material* doorMaterial;
-	Material* tableMaterial;
-	Material* shelveMaterial;
-	Material* slidingDoorMaterial;
-	Material* carpetMaterial;
-	Material* carpetFloorMaterial;
-	Material* lampMaterial;
-	Material* ceilingLightMaterial;
-	Material* vaseMaterial;
-	Material* bookMaterial1;
-	Material* bookMaterial2;
-	Material* bookMaterial3;
-	Material* bookMaterial4;
-	Material* railingMaterial;
-	Material* balconyFloorMaterial;
-	Material* glassMaterial;
-	Material* occluderMaterial;
-	Material* panoramaMaterial;
-	Material* frameMaterial;
-	Material* painting1Material;
-	Material* painting2Material;
-	Material* painting3Material;
-	Material* blindsMaterial;
-
 	AutoExposureProcessor* p_autoExposure;
 	BloomProcessor* p_bloom;
 	ToneMappingProcessor* p_tonemapping;
@@ -83,7 +53,7 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_ao.png",
 		};
 
-		whiteCube = new CubeMap(white);
+		CubeMap* whiteCube = createResource<CubeMap>(white);
 		Renderer::setSkyBox(whiteCube);
 		Renderer::getSkyBox()->intensity = 10;
 
@@ -230,7 +200,7 @@ public:
 
 		/* --------------------------- MATERIALS --------------------------- */
 
-		couchMaterial = new Material();
+		Material* couchMaterial = createResource<Material>();
 		couchMaterial->setTexture("albedoMap", couchAlbedo);
 		couchMaterial->setTexture("normalMap", couchNormal);
 		couchMaterial->setTexture("roughnessMap", couchRoughness);
@@ -238,7 +208,7 @@ public:
 		couchMaterial->setTexture("metallicMap", couchMetal);
 		couchMaterial->setTexture("emissionMap", default_emission);
 
-		wallMaterial = new Material();
+		Material* wallMaterial = createResource<Material>();
 		wallMaterial->setTexture("albedoMap", default_ao);
 		wallMaterial->setTexture("normalMap", wallNormal);
 		wallMaterial->setTexture("roughnessMap", default_ao);
@@ -246,7 +216,7 @@ public:
 		wallMaterial->setTexture("metallicMap", default_emission);
 		wallMaterial->setTexture("emissionMap", default_emission);
 
-		wood = new Material();
+		Material* wood = createResource<Material>();
 		wood->setTexture("albedoMap", woodAlbedo);
 		wood->setTexture("normalMap", woodNormal);
 		wood->setTexture("roughnessMap", woodRough);
@@ -254,7 +224,7 @@ public:
 		wood->setTexture("metallicMap", woodMetal);
 		wood->setTexture("emissionMap", default_emission);
 
-		doorMaterial = new Material();
+		Material* doorMaterial = createResource<Material>();
 		doorMaterial->setTexture("albedoMap", doorAlbedo);
 		doorMaterial->setTexture("normalMap", doorNormal);
 		doorMaterial->setTexture("roughnessMap", doorRough);
@@ -262,7 +232,7 @@ public:
 		doorMaterial->setTexture("metallicMap", doorMetal);
 		doorMaterial->setTexture("emissionMap", default_emission);
 
-		tableMaterial = new Material();
+		Material* tableMaterial = createResource<Material>();
 		tableMaterial->setTexture("albedoMap", tableAlbedo);
 		tableMaterial->setTexture("normalMap", tableNormal);
 		tableMaterial->setTexture("roughnessMap", tableRough);
@@ -270,7 +240,7 @@ public:
 		tableMaterial->setTexture("metallicMap", tableMetal);
 		tableMaterial->setTexture("emissionMap", default_emission);
 
-		shelveMaterial = new Material();
+		Material* shelveMaterial = createResource<Material>();
 		shelveMaterial->setTexture("albedoMap", shelveAlbedo);
 		shelveMaterial->setTexture("normalMap", shelveNormal);
 		shelveMaterial->setTexture("roughnessMap", shelveRough);
@@ -278,7 +248,7 @@ public:
 		shelveMaterial->setTexture("metallicMap", default_emission);
 		shelveMaterial->setTexture("emissionMap", default_emission);
 
-		slidingDoorMaterial = new Material();
+		Material* slidingDoorMaterial = createResource<Material>();
 		slidingDoorMaterial->setTexture("albedoMap", default_ao);
 		slidingDoorMaterial->setTexture("normalMap", slidingDoorNormal);
 		slidingDoorMaterial->setTexture("roughnessMap", slidingDoorRough);
@@ -286,7 +256,7 @@ public:
 		slidingDoorMaterial->setTexture("metallicMap", slidingDoorMetal);
 		slidingDoorMaterial->setTexture("emissionMap", default_emission);
 
-		carpetMaterial = new Material();
+		Material* carpetMaterial = createResource<Material>();
 		carpetMaterial->setTexture("albedoMap", carpetAlbedo);
 		carpetMaterial->setTexture("normalMap", default_normal);
 		carpetMaterial->setTexture("roughnessMap", default_ao);
@@ -294,7 +264,7 @@ public:
 		carpetMaterial->setTexture("metallicMap", default_emission);
 		carpetMaterial->setTexture("emissionMap", default_emission);
 
-		carpetFloorMaterial = new Material();
+		Material* carpetFloorMaterial = createResource<Material>();
 		carpetFloorMaterial->setTexture("albedoMap", carpetAlbedo);
 		carpetFloorMaterial->setTexture("normalMap", default_normal);
 		carpetFloorMaterial->setTexture("roughnessMap", default_ao);
@@ -302,7 +272,7 @@ public:
 		carpetFloorMaterial->setTexture("metallicMap", default_emission);
 		carpetFloorMaterial->setTexture("emissionMap", default_emission);
 
-		lampMaterial = new Material();
+		Material* lampMaterial = createResource<Material>();
 		lampMaterial->setTexture("albedoMap", lampAlbedo);
 		lampMaterial->setTexture("normalMap", lampNormal);
 		lampMaterial->setTexture("roughnessMap", lampRough);
@@ -310,7 +280,7 @@ public:
 		lampMaterial->setTexture("metallicMap", lampMetal);
 		lampMaterial->setTexture("emissionMap", default_emission);
 
-		ceilingLightMaterial = new Material();
+		Material* ceilingLightMaterial = createResource<Material>();
 		ceilingLightMaterial->setTexture("albedoMap", ceilingAlbedo);
 		ceilingLightMaterial->setTexture("normalMap", ceilingNormal);
 		ceilingLightMaterial->setTexture("roughnessMap", ceilingRough);
@@ -318,7 +288,7 @@ public:
 		ceilingLightMaterial->setTexture("metallicMap", ceilingMetal);
 		ceilingLightMaterial->setTexture("emissionMap", default_emission);
 
-		vaseMaterial = new Material();
+		Material* vaseMaterial = createResource<Material>();
 		vaseMaterial->setTexture("albedoMap", vaseAlbedo);
 		vaseMaterial->setTexture("normalMap", default_normal);
 		vaseMaterial->setTexture("roughnessMap", vaseRough);
@@ -326,7 +296,7 @@ public:
 		vaseMaterial->setTexture("metallicMap", default_emission);
 		vaseMaterial->setTexture("emissionMap", default_emission);
 
-		frameMaterial = new Material();
+		Material* frameMaterial = createResource<Material>();
 		frameMaterial->setTexture("albedoMap", frameAlbedo);
 		frameMaterial->setTexture("normalMap", frameNormal);
 		frameMaterial->setTexture("roughnessMap", frameRoughness);
@@ -334,21 +304,21 @@ public:
 		frameMaterial->setTexture("metallicMap", default_emission);
 		frameMaterial->setTexture("emissionMap", default_emission);
 
-		painting1Material = new Material();
+		Material* painting1Material = createResource<Material>();
 		painting1Material->setTexture("albedoMap", painting1D);
 		painting1Material->setTexture("normalMap", default_normal);
 		painting1Material->setTexture("roughnessMap", default_ao);
 		painting1Material->setTexture("aoMap", default_ao);
 		painting1Material->setTexture("metallicMap", default_emission);
 		painting1Material->setTexture("emissionMap", default_emission);
-		painting2Material = new Material();
+		Material* painting2Material = createResource<Material>();
 		painting2Material->setTexture("albedoMap", painting2D);
 		painting2Material->setTexture("normalMap", default_normal);
 		painting2Material->setTexture("roughnessMap", default_ao);
 		painting2Material->setTexture("aoMap", default_ao);
 		painting2Material->setTexture("metallicMap", default_emission);
 		painting2Material->setTexture("emissionMap", default_emission);
-		painting3Material = new Material();
+		Material* painting3Material = createResource<Material>();
 		painting3Material->setTexture("albedoMap", painting3D);
 		painting3Material->setTexture("normalMap", default_normal);
 		painting3Material->setTexture("roughnessMap", default_ao);
@@ -357,28 +327,28 @@ public:
 		painting3Material->setTexture("emissionMap", default_emission);
 
 
-		bookMaterial1 = new Material();
+		Material* bookMaterial1 = createResource<Material>();
 		bookMaterial1->setTexture("albedoMap", bookAlbedo1);
 		bookMaterial1->setTexture("normalMap", bookNormal);
 		bookMaterial1->setTexture("roughnessMap", default_ao);
 		bookMaterial1->setTexture("aoMap", bookAo);
 		bookMaterial1->setTexture("metallicMap", default_emission);
 		bookMaterial1->setTexture("emissionMap", default_emission);
-		bookMaterial2 = new Material();
+		Material* bookMaterial2 = createResource<Material>();
 		bookMaterial2->setTexture("albedoMap", bookAlbedo2);
 		bookMaterial2->setTexture("normalMap", bookNormal);
 		bookMaterial2->setTexture("roughnessMap", default_ao);
 		bookMaterial2->setTexture("aoMap", bookAo);
 		bookMaterial2->setTexture("metallicMap", default_emission);
 		bookMaterial2->setTexture("emissionMap", default_emission);
-		bookMaterial3 = new Material();
+		Material* bookMaterial3 = createResource<Material>();
 		bookMaterial3->setTexture("albedoMap", bookAlbedo3);
 		bookMaterial3->setTexture("normalMap", bookNormal);
 		bookMaterial3->setTexture("roughnessMap", default_ao);
 		bookMaterial3->setTexture("aoMap", bookAo);
 		bookMaterial3->setTexture("metallicMap", default_emission);
 		bookMaterial3->setTexture("emissionMap", default_emission);
-		bookMaterial4 = new Material();
+		Material* bookMaterial4 = createResource<Material>();
 		bookMaterial4->setTexture("albedoMap", bookAlbedo4);
 		bookMaterial4->setTexture("normalMap", bookNormal);
 		bookMaterial4->setTexture("roughnessMap", default_ao);
@@ -386,7 +356,7 @@ public:
 		bookMaterial4->setTexture("metallicMap", default_emission);
 		bookMaterial4->setTexture("emissionMap", default_emission);
 
-		railingMaterial = new Material();
+		Material* railingMaterial = createResource<Material>();
 		railingMaterial->setTexture("albedoMap", galvanizedAlbedo);
 		railingMaterial->setTexture("normalMap", railingNormal);
 		railingMaterial->setTexture("roughnessMap", galvanizedRough);
@@ -394,7 +364,7 @@ public:
 		railingMaterial->setTexture("metallicMap", default_ao);
 		railingMaterial->setTexture("emissionMap", default_emission);
 
-		balconyFloorMaterial = new Material();
+		Material* balconyFloorMaterial = createResource<Material>();
 		balconyFloorMaterial->setTexture("albedoMap", balconyFloorAlbedo);
 		balconyFloorMaterial->setTexture("normalMap", balconyFloorNormal);
 		balconyFloorMaterial->setTexture("roughnessMap", balconyFloorRoughness);
@@ -402,7 +372,7 @@ public:
 		balconyFloorMaterial->setTexture("metallicMap", default_emission);
 		balconyFloorMaterial->setTexture("emissionMap", default_emission);
 
-		blindsMaterial = new Material();
+		Material* blindsMaterial = createResource<Material>();
 		blindsMaterial->setTexture("albedoMap", blinds);
 		blindsMaterial->setTexture("normalMap", default_normal);
 		blindsMaterial->setTexture("roughnessMap", default_emission);
@@ -411,7 +381,7 @@ public:
 		blindsMaterial->setTexture("emissionMap", default_emission);
 
 
-		def = new Material();
+		Material* def = createResource<Material>();
 		def->setTexture("albedoMap", default_specular);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_emission);
@@ -419,7 +389,7 @@ public:
 		def->setTexture("metallicMap", default_ao);
 		def->setTexture("emissionMap", default_emission);
 
-		glassMaterial = new Material(transparentShader);
+		Material* glassMaterial = createResource<Material>(transparentShader);
 		glassMaterial->setTexture("albedoMap", windowAlbedo);
 		glassMaterial->setTexture("normalMap", default_normal);
 		glassMaterial->setTexture("roughnessMap", default_roughness);
@@ -428,10 +398,10 @@ public:
 		glassMaterial->setTexture("emissionMap", default_emission);
 
 
-		occluderMaterial = new Material(litShader);
+		Material* occluderMaterial = createResource<Material>(litShader);
 		occluderMaterial->setProperty<Vector3f>("color", Vector3f(0, 0, 0));
 
-		panoramaMaterial = new Material(skyBoost);
+		Material* panoramaMaterial = createResource<Material>(skyBoost);
 		panoramaMaterial->setTexture("albedoMap", panoramaAlbedo);
 		panoramaMaterial->setProperty("boost", 30.0f);
 
@@ -517,6 +487,7 @@ public:
 		cam->addComponent<StateControllerScript>();
 		cam->addComponent<CameraControllerScript>();
 
+		/*
 		cam->addComponent<PathWalkerScript>()->speed = 0.1f;
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(s1->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f1->transform));
@@ -536,8 +507,8 @@ public:
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f8->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(s9->transform));
 		cam->getComponent<PathWalkerScript>()->path.push_back(*(f9->transform));
-
-		cam->addComponent<ControllerToggleScript>();
+		*/
+		//cam->addComponent<ControllerToggleScript>();
 
 
 		/* --------------------------- LIGHT HELPER --------------------------- */
@@ -706,19 +677,19 @@ public:
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(def);
 
-		/*
+		
 		Entity* window = instanciate("Window");
 		window->addComponent<TransparentMeshRenderer>();
 		window->getComponent<TransparentMeshRenderer>()->setMesh(windowMesh);
 		window->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
 		//window->setEnable(false);
-		*/
-
+		
+		/*
 		Entity* window = instanciate("Window");
 		window->addComponent<MeshRenderer>();
 		window->getComponent<MeshRenderer>()->setMesh(windowMesh);
 		window->getComponent<MeshRenderer>()->setMaterial(blindsMaterial);
-
+		*/
 
 		Entity* panorama = instanciate("Panorama");
 		panorama->addComponent<MeshRenderer>();
@@ -743,43 +714,7 @@ public:
 
 	}
 
-	void OnUnload()
-	{
-		delete whiteCube;
-
-		delete wood;
-		delete def;
-		delete couchMaterial;
-		delete wallMaterial;
-		delete doorMaterial;
-		delete tableMaterial;
-		delete shelveMaterial;
-		delete slidingDoorMaterial;
-		delete carpetMaterial;
-		delete carpetFloorMaterial;
-		delete lampMaterial;
-		delete ceilingLightMaterial;
-		delete vaseMaterial;
-		delete bookMaterial1;
-		delete bookMaterial2;
-		delete bookMaterial3;
-		delete bookMaterial4;
-		delete railingMaterial;
-		delete balconyFloorMaterial;
-		delete glassMaterial;
-		delete occluderMaterial;
-		delete panoramaMaterial;
-		delete frameMaterial;
-		delete painting1Material;
-		delete painting2Material;
-		delete painting3Material;
-
-		//delete p_autoExposure;
-		//delete p_bloom;
-		//delete p_tonemapping;
-		//delete p_ssao;
-		//delete p_ssreflection;
-	}
+	void OnUnload() {}
 
 };
 #endif // TEST_SCENE_CPP

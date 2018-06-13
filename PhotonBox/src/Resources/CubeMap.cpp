@@ -12,6 +12,7 @@
 #include "PhotonBox/resources/SpecularConvolutionShader.h"
 #include "PhotonBox/core/systems/SceneManager.h"
 #include "PhotonBox/resources/Scene.h"
+#include "PhotonBox/resources/Mesh.h"
 
 #include "STB/stb_image.h"
 

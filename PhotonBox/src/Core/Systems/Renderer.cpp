@@ -74,6 +74,7 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *renderer)
 
 void Renderer::setSkyBox(CubeMap* cubeMap)
 {
+	//TODO: LEAK
 	_skyBox.setLightProbe(new LightProbe(cubeMap));
 }
 
@@ -622,6 +623,7 @@ void Renderer::renderGizmos()
 
 	if (_debugMode >= 1)
 	{
+		SceneManager::getCurrentScene()->getEntities();
 		for (std::vector<Entity*>::iterator it = SceneManager::getCurrentScene()->getEntities().begin(); it != SceneManager::getCurrentScene()->getEntities().end(); ++it)
 		{
 			if ((*it)->getEnable())
@@ -746,7 +748,7 @@ void Renderer::renderGizmos()
 	*/
 
 	FrameBuffer::resetDefaultBuffer();
-
+	
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -754,6 +756,7 @@ void Renderer::renderGizmos()
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
+	
 
 	_gizmoBuffer->enable();
 	_gizmoBuffer->clear();

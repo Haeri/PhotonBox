@@ -7,7 +7,7 @@
 #include "PhotonBox/resources/Vertex.h"
 #include "PhotonBox/core/systems/Renderer.h"
 
-
+const std::string DEFAULT_ATTACHMENT = "default";
 GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;
 std::vector<FrameBuffer*> FrameBuffer::_bufferList;
@@ -203,6 +203,26 @@ void FrameBuffer::resize()
 	}
 
 	ready();
+}
+
+void FrameBuffer::blit(FrameBuffer* target, std::string sourceAttachment, std::string targetAttachment) 
+{
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, target->getFBO());
+
+	glReadBuffer(getAttachment(sourceAttachment)->attachmentIndex);
+	glDrawBuffer(getAttachment(sourceAttachment)->attachmentIndex);
+
+	glBlitFramebuffer(0, 0, _width, _height, 0, 0, target->getWidth(), target->getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
+}
+
+void FrameBuffer::blitToScreen(std::string name)
+{
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+	glReadBuffer(getAttachment(name)->attachmentIndex);
+	glBlitFramebuffer(0, 0, _width, _height, 0, 0, Display::getWidth(), Display::getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 
 FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name)

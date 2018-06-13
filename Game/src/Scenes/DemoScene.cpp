@@ -19,10 +19,6 @@
 class DemoScene : public Scene
 {
 public:
-	CubeMap * sky;
-
-	Material* def;
-
 	AutoExposureProcessor* p_autoExposure;
 	BloomProcessor* p_bloom;
 	ToneMappingProcessor* p_tonemapping;
@@ -43,7 +39,7 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
 		};
 
-		sky = new CubeMap(nightSky);
+		CubeMap* sky = createResource<CubeMap>(nightSky);
 		Renderer::setSkyBox(sky);
 		Renderer::getSkyBox()->intensity = 1;
 		
@@ -75,7 +71,7 @@ public:
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		def = new Material();
+		Material* def = createResource<Material>();
 		def->setTexture("albedoMap", default_ao);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_specular);
@@ -171,12 +167,7 @@ public:
 		quad->getComponent<MeshRenderer>()->setMaterial(def);
 	}
 
-	void OnUnload()
-	{
-		delete sky;
-
-		delete def;
-	}
+	void OnUnload() {}
 
 };
 #endif // DEMO_SCENE_CPP

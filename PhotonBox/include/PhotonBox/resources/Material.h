@@ -7,14 +7,17 @@ class Texture;
 
 #include <unordered_map>
 #include "PhotonBox/core/FrameBuffer.h"
+#include "PhotonBox/core/ManagedResource.h"
 
-class Material
+class Material : public ManagedResource
 {
 public:
 	Shader * shader;
 
+	//TODO: Assign default PBR shader if no shader provided
 	Material() {}
 	Material(Shader* shader) : shader(shader) {}
+	~Material();
 
 	template<typename T>
 	void setProperty(std::string name, T value)

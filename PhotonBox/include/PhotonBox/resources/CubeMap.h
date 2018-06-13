@@ -1,13 +1,13 @@
 #ifndef CUBE_MAP_H
 #define CUBE_MAP_H
 
-#include <string>
-#include <vector>
-#include "PhotonBox/core/Display.h"
-#include "PhotonBox/math/Vector3f.h"
-#include "PhotonBox/resources/Mesh.h"
+class Mesh;
 
-class CubeMap
+#include <vector>
+#include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/core/ManagedResource.h"
+
+class CubeMap : public ManagedResource
 {
 public:
 	enum Face

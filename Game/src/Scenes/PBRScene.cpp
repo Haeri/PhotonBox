@@ -93,18 +93,6 @@ private:
 class PBRScene : public Scene
 {
 public:
-	CubeMap * sky;
-
-	Material* wood;
-	Material* rust;
-	Material* bricks;
-	Material* gold;
-	Material* def;
-	Material* lit;
-	Material* glassMaterial;
-	Material* barkMaterial;
-	Material* leaveMaterial;
-
 	AutoExposureProcessor* p_autoExposure;
 	BloomProcessor* p_bloom;
 	ToneMappingProcessor* p_tonemapping;
@@ -123,7 +111,7 @@ public:
 			"./res/enviroment/dark/negz.jpg",
 		};
 
-		sky = new CubeMap(nightSky);
+		CubeMap* sky = createResource<CubeMap>(nightSky);
 		Renderer::setSkyBox(sky);
 		Renderer::getSkyBox()->intensity = 1;
 
@@ -141,7 +129,7 @@ public:
 		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 		Mesh* cube = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
 		Mesh* couchMesh = createResource<Mesh>("./res/Realistic-Rendering/Couch/couch.obj");
-		Mesh* car = createResource<Mesh>("./res/meshes/car.obj");
+		Mesh* car = createResource<Mesh>("./res/meshes/rallyCarHigh.obj");
 		Mesh* tree_branch_mesh = createResource<Mesh>("./res/collection/Tree/Tree_Branch.obj");
 		Mesh* tree_leaves_mesh = createResource<Mesh>("./res/collection/Tree/Leaves.obj");
 
@@ -190,7 +178,7 @@ public:
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		wood = new Material();
+		Material* wood = createResource<Material>();
 		wood->setTexture("albedoMap", woodAlbedo);
 		wood->setTexture("normalMap", woodNormal);
 		wood->setTexture("roughnessMap", woodRough);
@@ -198,7 +186,7 @@ public:
 		wood->setTexture("metallicMap", woodMetal);
 		wood->setTexture("emissionMap", default_emission);
 
-		rust = new Material();
+		Material* rust = createResource<Material>();
 		rust->setTexture("albedoMap", rustAlbedo);
 		rust->setTexture("normalMap", rustNormal);
 		rust->setTexture("roughnessMap", rustRough);
@@ -206,7 +194,7 @@ public:
 		rust->setTexture("metallicMap", rustMetal);
 		rust->setTexture("emissionMap", default_emission);
 
-		bricks = new Material();
+		Material* bricks = createResource<Material>();
 		bricks->setTexture("albedoMap", bricksAlbedo);
 		bricks->setTexture("normalMap", bricksNormal);
 		bricks->setTexture("roughnessMap", bricksRough);
@@ -214,7 +202,7 @@ public:
 		bricks->setTexture("metallicMap", bricksMetal);
 		bricks->setTexture("emissionMap", default_emission);
 
-		gold = new Material();
+		Material* gold = createResource<Material>();
 		gold->setTexture("albedoMap", goldAlbedo);
 		gold->setTexture("normalMap", goldNormal);
 		gold->setTexture("roughnessMap", goldRough);
@@ -222,7 +210,7 @@ public:
 		gold->setTexture("metallicMap", goldMetal);
 		gold->setTexture("emissionMap", default_emission);
 
-		def = new Material();
+		Material* def = createResource<Material>();
 		def->setTexture("albedoMap", grid);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_roughness);
@@ -230,7 +218,7 @@ public:
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
 
-		glassMaterial = new Material(transparentShader);
+		Material* glassMaterial = createResource<Material>(transparentShader);
 		glassMaterial->setTexture("albedoMap", transparentAlbedo);
 		glassMaterial->setTexture("normalMap", default_normal);
 		glassMaterial->setTexture("roughnessMap", default_roughness);
@@ -238,7 +226,7 @@ public:
 		glassMaterial->setTexture("metallicMap", default_emission);
 		glassMaterial->setTexture("emissionMap", default_emission);
 
-		barkMaterial = new Material();
+		Material* barkMaterial = createResource<Material>();
 		barkMaterial->setTexture("albedoMap", bark);
 		barkMaterial->setTexture("normalMap", default_normal);
 		barkMaterial->setTexture("roughnessMap", default_roughness);
@@ -246,7 +234,7 @@ public:
 		barkMaterial->setTexture("metallicMap", default_emission);
 		barkMaterial->setTexture("emissionMap", default_emission);
 
-		leaveMaterial = new Material();
+		Material* leaveMaterial = createResource<Material>();
 		leaveMaterial->setTexture("albedoMap", leaveAlbedo);
 		leaveMaterial->setTexture("normalMap", leaveNormal);
 		leaveMaterial->setTexture("roughnessMap", leaveRoughness);
@@ -254,7 +242,7 @@ public:
 		leaveMaterial->setTexture("metallicMap", default_emission);
 		leaveMaterial->setTexture("emissionMap", default_emission);
 
-		lit = new Material(litShader);
+		Material* lit = createResource<Material>(litShader);
 		lit->setProperty("color", Vector3f(0.3f, 0.3f, 0.5f));
 
 
@@ -443,24 +431,7 @@ public:
 		*/
 	}
 
-	void OnUnload()
-	{		
-		delete sky;
-
-		delete wood;
-		delete rust;
-		delete bricks;
-		delete gold;
-		delete def;
-		delete lit;
-		delete glassMaterial;
-
-		//delete p_autoExposure;
-		//delete p_bloom;
-		//delete p_tonemapping;
-		//delete p_ssao;
-		//delete p_ssreflection;
-	}
+	void OnUnload() {}
 
 };
 #endif // PBR_SCENE_CPP

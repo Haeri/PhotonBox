@@ -24,6 +24,7 @@ void LightProbe::generateLightMap()
 	const int stepSize = 4;
 	LightMap* lightMaps[stepSize];
 
+	// TODO: LEAK
 	lightMaps[0] = new LightMap(new CubeMap(std::vector<std::string> {
 		Resources::ENGINE_RESOURCES + "/default_emission.png",
 		Resources::ENGINE_RESOURCES + "/default_emission.png",
