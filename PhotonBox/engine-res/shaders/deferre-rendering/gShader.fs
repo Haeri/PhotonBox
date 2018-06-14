@@ -4,6 +4,7 @@ layout (location = 1) out vec4 gNormal;
 layout (location = 2) out vec4 gMetallic;
 layout (location = 3) out vec4 gRoughness;
 layout (location = 4) out vec4 gAlbedo;
+layout (location = 5) out vec4 gBase;
 
 in vec2 TexCoords;
 in vec3 FragPos;

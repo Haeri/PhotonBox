@@ -2,6 +2,7 @@
 
 #include "PhotonBox/resources/Scene.h"
 #include "PhotonBox/core/systems/Core.h"
+#include "PhotonBox/core/Display.h"
 
 #include "imgui\imgui.h"
 
@@ -35,6 +36,7 @@ void SceneManager::loadSceneImediately(const std::string& name)
 	_currentScene = _sceneMap[name];
 	_currentSceneName = name;
 	_currentScene->Load();
+	Display::setTitle("PhotonBox Engine - " + name);
 	_inQueue = false;
 }
 

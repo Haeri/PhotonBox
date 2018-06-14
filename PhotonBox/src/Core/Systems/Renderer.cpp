@@ -110,6 +110,8 @@ void Renderer::init(float superSampling)
 	_gBuffer->addTextureAttachment("gMetallic");
 	_gBuffer->addTextureAttachment("gRoughness");
 	_gBuffer->addTextureAttachment("gAlbedo");
+	_gBuffer->addTextureAttachment("gBase", true);
+	_gBuffer->addDepthTextureAttachment("gDepth");
 	_gBuffer->addDepthBufferAttachment();
 	_gBuffer->ready();
 
@@ -123,6 +125,7 @@ void Renderer::init(float superSampling)
 	_deferredMaterial->setTexture("gRoughness", _gBuffer, "gRoughness");
 	_deferredMaterial->setTexture("gMetallic", _gBuffer, "gMetallic");
 	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
+	_deferredMaterial->setTexture("gBase", _gBuffer, "gBase");
 	
 	_debugMode = 0;
 }
