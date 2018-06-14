@@ -74,15 +74,15 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps,
 	if (mipmaps)
 	{
 		temp.mipmaps = static_cast<int>(1 + floor(log2(min(_width, _height))));
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _interpolationMipTypes[interpolationType]);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _interpolationTypes[interpolationType]);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLfloat>(_interpolationMipTypes[interpolationType]));
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLfloat>(_interpolationTypes[interpolationType]));
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
 	{
 		temp.mipmaps = 0;
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _interpolationTypes[interpolationType]);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _interpolationTypes[interpolationType]);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLfloat>(_interpolationTypes[interpolationType]));
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLfloat>(_interpolationTypes[interpolationType]));
 	}
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, temp.id, 0);
@@ -178,8 +178,8 @@ void FrameBuffer::resize()
 	if (_screenFactor == -1) return;
 
 	glDeleteFramebuffers(1, &_fbo);
-	_width = Display::getWidth() * _screenFactor;
-	_height = Display::getHeight() * _screenFactor;
+	_width = static_cast<int>(Display::getWidth() * _screenFactor);
+	_height = static_cast<int>(Display::getHeight() * _screenFactor);
 	initialize();
 
 	if (_depthAttachment != -1)

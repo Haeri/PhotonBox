@@ -70,7 +70,7 @@ void Physics::start()
 
 void Physics::update(double elapsedTime)
 {
-	_gScene->simulate(elapsedTime);
+	_gScene->simulate(static_cast<physx::PxReal>(elapsedTime));
 	_gScene->fetchResults(true);
 
 	PxU32 size = 0;

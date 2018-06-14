@@ -73,7 +73,6 @@
     <ClCompile Include="src\Math\Vector4f.cpp" />
     <ClCompile Include="src\Resources\Config.cpp" />
     <ClCompile Include="src\Resources\CubeMap.cpp" />
-    <ClCompile Include="include\PhotonBox\resources\DeferredShader.h" />
     <ClCompile Include="src\Resources\Material.cpp" />
     <ClCompile Include="src\Math\Matrix4f.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />
@@ -349,6 +348,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>.\include;.\include\PhysX;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

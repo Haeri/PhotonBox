@@ -69,6 +69,11 @@ void Display::setVSync(bool vsync)
 	_isVSync = vsync;
 }
 
+void Display::setTitle(const std::string& title)
+{
+	glfwSetWindowTitle(_window, title.c_str());
+}
+
 void Display::swapBuffer()
 {
 	glfwSwapBuffers(_window);

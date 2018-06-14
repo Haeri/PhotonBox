@@ -261,9 +261,9 @@ void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 			tangent
 		));
 
-		mesh->indices.push_back(i);
-		mesh->indices.push_back(i + 1);
-		mesh->indices.push_back(i + 2);
+		mesh->indices.push_back(static_cast<unsigned int>(i));
+		mesh->indices.push_back(static_cast<unsigned int>(i) + 1);
+		mesh->indices.push_back(static_cast<unsigned int>(i) + 2);
 	}
 	//mesh->indices = indices;
 

@@ -71,7 +71,7 @@ Matrix4f Matrix4f::createTranslation(Vector3f vec)
 
 Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float far)
 {
-	float tanHalfFovy = tan((fov / 360 * 2 * M_PI) / 2);
+	float tanHalfFovy = static_cast<float>(tan((fov / 360 * 2 * M_PI) / 2));
 
 	Matrix4f ret;
 	ret._matrix[0] = 1.0f / (aspect * tanHalfFovy);	ret._matrix[4] = 0;							ret._matrix[8] = 0;								ret._matrix[12] = 0;
@@ -140,9 +140,9 @@ Matrix4f Matrix4f::transpose()
 {
 	Matrix4f temp;
 
-	for (size_t i = 0; i < 4; ++i)
+	for (unsigned int i = 0; i < 4; ++i)
 	{
-		for (size_t j = 0; j < 4; ++j)
+		for (unsigned int j = 0; j < 4; ++j)
 		{
 			temp(j, i) = this->at(i, j);
 		}
@@ -277,7 +277,7 @@ Matrix4f Matrix4f::inverse()
 	if (det == 0)
 		return Matrix4f::IDENTITY;
 
-	det = 1.0 / det;
+	det = 1.0f / det;
 
 	for (size_t i = 0; i < 16; i++)
 		ret._matrix[i] = temp._matrix[i] * det;

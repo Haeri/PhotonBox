@@ -59,9 +59,9 @@ void UIRenderer::init()
 		// Now store character for later use
 		Character character = {
 			texture,
-			Vector2f(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-			Vector2f(face->glyph->bitmap_left, face->glyph->bitmap_top),
-			face->glyph->advance.x
+			Vector2f(static_cast<float>(face->glyph->bitmap.width), static_cast<float>(face->glyph->bitmap.rows)),
+			Vector2f(static_cast<float>(face->glyph->bitmap_left), static_cast<float>(face->glyph->bitmap_top)),
+			static_cast<GLuint>(face->glyph->advance.x)
 		};
 		_characters.insert(std::pair<GLchar, Character>(c, character));
 	}
