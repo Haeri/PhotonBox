@@ -38,13 +38,13 @@ void DirectionalLight::renderShadowMap(bool captureMode)
 
 	Renderer::render(_depthShader, captureMode);
 
-	/*
+	
 	if(!captureMode){
 		ImGui::Begin("Depth");
 		ImGui::Image((void *)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15.0f, _shadowMapResolution/15.0f), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 	}
-	*/
+	
 
 	FrameBuffer::resetDefaultBuffer();
 }

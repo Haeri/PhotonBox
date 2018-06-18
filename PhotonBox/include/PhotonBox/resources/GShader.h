@@ -15,9 +15,12 @@ public:
 
 	void update(Transform* transform)
 	{
+		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
+
 		glUniformMatrix4fv(uniforms["model"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
 		glUniformMatrix4fv(uniforms["view"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix()(0, 0)));
 		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
+		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
 	}
 
 	void addUniforms() override
@@ -26,10 +29,21 @@ public:
 		addUniform("view");
 		addUniform("projection");
 
+		addUniform("viewPos");
+		addUniform("minBound");
+		addUniform("maxBound");
+		addUniform("boundPos");
+		addUniform("useCorrection");
+
+		addTexture("irradianceMap");
+		addTexture("convolutedSpecularMap");
+
 		addTexture("albedoMap");
-		addTexture("normalMap");
 		addTexture("roughnessMap");
 		addTexture("metallicMap");
+		addTexture("normalMap");
+		addTexture("emissionMap");
+		//addTexture("aoMap");
 	}
 
 	void addAttributes() override

@@ -39,7 +39,6 @@ ForwardDirectionalLightShader* Renderer::_directionalLightShader;
 ForwardPointLightShader* Renderer::_pointLightShader;
 ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
-GShader* Renderer::_gShader;
 DeferredShader* Renderer::_deferredShader;
 Material* Renderer::_deferredMaterial;
 
@@ -96,7 +95,6 @@ void Renderer::init(float superSampling)
 	_pointLightShader = ForwardPointLightShader::getInstance();
 	_spotLightShader = ForwardSpotLightShader::getInstance();
 	_transparentBaseShader = TransparentShader::getInstance();
-	_gShader = GShader::getInstance();
 	_deferredShader = DeferredShader::getInstance();
 	
 	_mainFrameBuffer = new FrameBuffer(superSampling);
@@ -110,8 +108,11 @@ void Renderer::init(float superSampling)
 	_gBuffer->addTextureAttachment("gMetallic");
 	_gBuffer->addTextureAttachment("gRoughness");
 	_gBuffer->addTextureAttachment("gAlbedo");
-	_gBuffer->addTextureAttachment("gBase", true);
-	_gBuffer->addDepthTextureAttachment("gDepth");
+	_gBuffer->addTextureAttachment("gEmission", true);
+	//_gBuffer->addTextureAttachment("gAO");
+	_gBuffer->addTextureAttachment("gIrradiance", true);
+	_gBuffer->addTextureAttachment("gRadiance", true);
+	//_gBuffer->addDepthTextureAttachment("gDepth");
 	_gBuffer->addDepthBufferAttachment();
 	_gBuffer->ready();
 
@@ -125,9 +126,63 @@ void Renderer::init(float superSampling)
 	_deferredMaterial->setTexture("gRoughness", _gBuffer, "gRoughness");
 	_deferredMaterial->setTexture("gMetallic", _gBuffer, "gMetallic");
 	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
-	_deferredMaterial->setTexture("gBase", _gBuffer, "gBase");
+	_deferredMaterial->setTexture("gIrradiance", _gBuffer, "gIrradiance");
+	_deferredMaterial->setTexture("gRadiance", _gBuffer, "gRadiance");
 	
 	_debugMode = 0;
+}
+
+void Renderer::reset()
+{
+	/*
+	// OpenGL config
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	glClearColor(_clearColor.x(), _clearColor.y(), _clearColor.z(), 0);
+
+	_ambientLightShader = ForwardAmbientLightShader::getInstance();
+	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
+	_pointLightShader = ForwardPointLightShader::getInstance();
+	_spotLightShader = ForwardSpotLightShader::getInstance();
+	_transparentBaseShader = TransparentShader::getInstance();
+	_gShader = GShader::getInstance();
+	_deferredShader = DeferredShader::getInstance();
+
+	_mainFrameBuffer = new FrameBuffer(superSampling);
+	_mainFrameBuffer->addTextureAttachment("color", true, false);
+	_mainFrameBuffer->addDepthBufferAttachment();
+	_mainFrameBuffer->ready();
+
+	_gBuffer = new FrameBuffer(1);
+	_gBuffer->addTextureAttachment("gPosition", true);
+	_gBuffer->addTextureAttachment("gNormal", true);
+	_gBuffer->addTextureAttachment("gMetallic");
+	_gBuffer->addTextureAttachment("gRoughness");
+	_gBuffer->addTextureAttachment("gAlbedo");
+	_gBuffer->addTextureAttachment("gEmission", true);
+	//_gBuffer->addTextureAttachment("gAO");
+	_gBuffer->addTextureAttachment("gIrradiance", true);
+	_gBuffer->addTextureAttachment("gRadiance", true);
+	//_gBuffer->addDepthTextureAttachment("gDepth");
+	_gBuffer->addDepthBufferAttachment();
+	_gBuffer->ready();
+
+	_gizmoBuffer = new FrameBuffer(1);
+	_gizmoBuffer->addTextureAttachment("color", false, false);
+	_gizmoBuffer->ready();
+
+	_deferredMaterial = new Material(_deferredShader);
+	_deferredMaterial->setTexture("gPosition", _gBuffer, "gPosition");
+	_deferredMaterial->setTexture("gNormal", _gBuffer, "gNormal");
+	_deferredMaterial->setTexture("gRoughness", _gBuffer, "gRoughness");
+	_deferredMaterial->setTexture("gMetallic", _gBuffer, "gMetallic");
+	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
+	_deferredMaterial->setTexture("gIrradiance", _gBuffer, "gIrradiance");
+	_deferredMaterial->setTexture("gRadiance", _gBuffer, "gRadiance");
+
+	_debugMode = 0;
+	*/
 }
 
 void Renderer::start()
@@ -155,12 +210,38 @@ void Renderer::prePass()
 		{
 			glEnable(GL_DEPTH_TEST);
 
-			if ((*it)->getType() == RenderType::cutout) {		
+			if ((*it)->getType() == RenderType::cutout)
+			{
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
 
-			(*it)->render(_gShader);
+			Shader* shader = (*it)->getMaterial()->shader;
+
+			if(typeid(*shader) == typeid(GShader))
+			{
+				// IBL
+				shader->bind();
+				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
+				if (lp != nullptr)
+				{
+					lp->getIrradianceCube()->bind(shader->textures["irradianceMap"].unit);
+					lp->getSpecularCube()->bind(shader->textures["convolutedSpecularMap"].unit);
+
+					shader->setUniform("minBound", lp->bounds.getMinBoundGlobal());
+					shader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
+					shader->setUniform("boundPos", lp->bounds.getBoundPosition());
+					shader->setUniform("useCorrection", true);
+				}
+				else
+				{
+					_skyBox.getLightProbe()->getIrradianceCube()->bind(shader->textures["irradianceMap"].unit);
+					_skyBox.getLightProbe()->getSpecularCube()->bind(shader->textures["convolutedSpecularMap"].unit);
+					shader->setUniform("useCorrection", false);
+				}
+			}
+		
+			(*it)->render();
 
 			if ((*it)->getType() == RenderType::cutout)
 			{
@@ -195,22 +276,23 @@ void Renderer::renderShadows(bool captureMode)
 }
 
 void Renderer::renderDeferred() {
+	
+	// Render Shadows
 	renderShadows(false);
 
+	// Clear Buffer
 	_mainFrameBuffer->enable();
 	_mainFrameBuffer->clear();
 
-	renderBase();
 
+	// Send light data to shader
 	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
 
 	_deferredShader->bind();
-	
 
-	int i = -1;
 	for (auto const &lightvec : lights)
 	{
-
+		int i = -1;
 		for (auto const &light : lightvec.second)
 		{
 			if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
@@ -233,27 +315,34 @@ void Renderer::renderDeferred() {
 				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
 
 				dl->shadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
-				//glActiveTexture(_deferredShader->textures["shadowMap"].unit);
-				//glBindTexture(GL_TEXTURE_2D, dl->_depthMap);
-				//_deferredMaterial->setTexture("shadowMap", dl->_depthMap, "shadowMap");
+			}
+			else if ((typeid(*(light->getLightShader())) == typeid(*(ForwardPointLightShader::getInstance()))))
+			{
+				PointLight* dl = dynamic_cast<PointLight*>(light);
+
+				++i;
+				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].position", dl->transform->getPosition());
+				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].color", dl->color);
+				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].intensity", dl->intensity);
+				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
+				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
+				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
 			}
 		}
 	}
-	
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE);
-	glDisable(GL_DEPTH_TEST);
 
-	_gBuffer->render(_deferredMaterial); 
+	// Render opaque objects
+	_gBuffer->render(_deferredMaterial);
 
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
 
+	// Render Skybox
 	_skyBox.render();
 
+	// Render transparent objects
 	renderTransparents();
 
 
+	// Directly draw to main buffer if no post processing is active
 	if (!PostProcessing::isActive())
 	{
 		FrameBuffer::resetDefaultBuffer();
@@ -288,7 +377,7 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 		{
 			if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 			{
-				if (!(*it)->captureble && captureMode) continue;
+				if (!(*it)->getReflected && captureMode) continue;
 
 
 				if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
@@ -607,7 +696,7 @@ void Renderer::render(Shader* customShader, bool captureMode)
 {
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
-		if ((*it)->getEnable() && (!(!(*it)->captureble && captureMode)))
+		if ((*it)->getEnable() && (!(!(*it)->getReflected && captureMode)))
 		{
 			glEnable(GL_DEPTH_TEST);
 			std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();

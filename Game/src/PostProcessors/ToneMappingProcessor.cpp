@@ -17,7 +17,6 @@ public:
 		_frameBuffer->addTextureAttachment("color", true);
 		_frameBuffer->ready();
 
-		_material->setProperty<float>("exposure", 0.2f);
 		_material->setTexture("renderTexture", _frameBuffer, "color");
 	}
 

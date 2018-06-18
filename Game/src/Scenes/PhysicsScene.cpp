@@ -63,11 +63,12 @@ public:
 		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 
 		/* --------------------------- SHADERS --------------------------- */
+		GShader* defaultShader = GShader::getInstance();
 
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		Material* def = createResource<Material>();
+		Material* def = createResource<Material>(defaultShader);
 		def->setTexture("albedoMap", default_ao);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_specular);

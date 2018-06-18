@@ -46,7 +46,11 @@ Vector3f Transform::rightWorld()
 
 bool Transform::hasChanged()
 {
-	return _hasChangedLastFrame;
+
+	//TODO: This is completely broken! This should not be calld since last frame, but needs to be
+	// an internal falg for cache checking.
+	// Create a public hasChanged variable that is updated every frame
+	return true;
 }
 
 void Transform::removeChild(Transform * child)

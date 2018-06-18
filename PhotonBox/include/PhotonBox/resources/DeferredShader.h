@@ -30,6 +30,13 @@ public:
 			addUniform("directionalLights[" + std::to_string(i) + "].color");
 			addUniform("directionalLights[" + std::to_string(i) + "].lightSpaceMatrix");
 			addUniform("directionalLights[" + std::to_string(i) + "].intensity");
+
+			addUniform("pointLights[" + std::to_string(i) + "].position");
+			addUniform("pointLights[" + std::to_string(i) + "].color");
+			addUniform("pointLights[" + std::to_string(i) + "].intensity");
+			addUniform("pointLights[" + std::to_string(i) + "].attenuation.constant");
+			addUniform("pointLights[" + std::to_string(i) + "].attenuation.linear");
+			addUniform("pointLights[" + std::to_string(i) + "].attenuation.quadratic");
 		}
 
 		addTexture("gPosition");
@@ -37,6 +44,8 @@ public:
 		addTexture("gRoughness");
 		addTexture("gMetallic");
 		addTexture("gAlbedo");
+		addTexture("gIrradiance");
+		addTexture("gRadiance");
 
 		addTexture("shadowMap");
 	}

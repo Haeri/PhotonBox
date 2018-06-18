@@ -8,6 +8,9 @@ struct GData{
     vec3 Normal;
     vec3 Albedo;
     vec3 Emission;
+    vec3 Irradiance;
+    vec3 Radiance;
+
     float Roughness;
     float Metallic;
     float Occlusion;
@@ -42,6 +45,7 @@ GData gData;
 const int NR_LIGHTS = 3;
 const float PI = 3.14159265359;
 const float F0_DEFAULT = 0.04;
+const float AMBIENT_ATTENUATION = 0.1;
 
 
 // UNIFORMS
@@ -50,23 +54,33 @@ uniform sampler2D gNormal;
 uniform sampler2D gRoughness;
 uniform sampler2D gMetallic;
 uniform sampler2D gAlbedo;
+uniform sampler2D gIrradiance;
+uniform sampler2D gRadiance;
+
 
 uniform sampler2D shadowMap;
 uniform mat4 viewMatrixInv;
 
 uniform DirectionalLight directionalLights[NR_LIGHTS];
+uniform PointLight pointLights[NR_LIGHTS];
 //uniform vec3 viewPos;
 
+
+vec3 F0;
+vec3 N;
+vec3 V;
 
 
 float DistributionGGX(vec3 N, vec3 H, float roughness);
 float GeometrySchlickGGX(float NdotV, float roughness);
 float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness);
 vec3 FresnelSchlick(float cosTheta, vec3 F0);
+vec3 FresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness);
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir);
 
+vec3 BasePass();
 vec3 DirectionalLightBRDF(DirectionalLight directionalLight);
-vec3 PointLightBRDF();
+vec3 PointLightBRDF(PointLight pointLight);
 vec3 SpotLightBRDF();
 
 void main()
@@ -78,31 +92,50 @@ void main()
     gData.Albedo = texture(gAlbedo, TexCoords).rgb;
     gData.Roughness = texture(gRoughness, TexCoords).r;
     gData.Metallic = texture(gMetallic, TexCoords).r;
+    gData.Irradiance = texture(gIrradiance, TexCoords).rgb;
+    gData.Radiance = texture(gRadiance, TexCoords).rgb;
+
+
+    F0 = mix(vec3(F0_DEFAULT), gData.Albedo, gData.Metallic);
+    N = normalize(gData.Normal);
+    V = normalize(-gData.Position);
+
     
-    vec3 finalColor;
+    vec3 finalColor = BasePass();
 
     for(int i = 0; i < NR_LIGHTS; ++i){
         finalColor += DirectionalLightBRDF(directionalLights[i]);
+        finalColor += PointLightBRDF(pointLights[i]);
     }
   
     FragColor = vec4(finalColor, texture(gAlbedo, TexCoords).a);
 }
 
 
+vec3 BasePass(){
+    //vec3 ambientLight = light.color * light.intensity;
+
+    vec3 F = FresnelSchlickRoughness(max(dot(N, V), 0.0), F0, gData.Roughness);
+    vec3 kS = F;
+    vec3 kD = 1.0 - kS;
+    kD *= 1.0 - gData.Metallic;
+
+    vec3 diffuse  = gData.Irradiance * gData.Albedo;
+    vec3 specular = gData.Radiance * (F); // * brdf.x + brdf.y);
+    vec3 ambient  = (kD * diffuse + specular); //* (ao * 2); 
+
+    vec3 color = ambient + /*ambientLight + */gData.Emission;
+   
+    return color;
+}
+
+
 
 vec3 DirectionalLightBRDF(DirectionalLight directionalLight){
-    vec3 F0 = vec3(F0_DEFAULT); 
-    F0 = mix(F0, gData.Albedo, gData.Metallic);
-
-    vec3 radiance = directionalLight.color * directionalLight.intensity;
-
-    vec3 N = normalize(gData.Normal);
-    vec3 V = normalize(-gData.Position);
-
-    // calculate per-light radiance
     vec3 L = normalize(-directionalLight.direction);
     vec3 H = normalize(V + L);
-    
+
+    vec3 radiance = directionalLight.color * directionalLight.intensity;    
     // cook-torrance brdf
     float NDF = DistributionGGX(N, H, gData.Roughness);        
     float G   = GeometrySmith(N, V, L, gData.Roughness);  
@@ -127,8 +160,34 @@ vec3 DirectionalLightBRDF(DirectionalLight directionalLight){
     return color;
 }
 
+vec3 PointLightBRDF(PointLight pointLight){
+    vec3 L = normalize(pointLight.position - gData.Position);
+    vec3 H = normalize(V + L);
+    
+    // attenuation
+    float distance    = length(pointLight.position - gData.Position);
+    float attenuation = 1.0 / (pointLight.attenuation.constant + pointLight.attenuation.linear * distance + pointLight.attenuation.quadratic * (distance * distance));     
+    vec3 radiance = pointLight.color * pointLight.intensity * attenuation;
 
+    // cook-torrance brdf
+    float NDF = DistributionGGX(N, H, gData.Roughness);        
+    float G   = GeometrySmith(N, V, L, gData.Roughness);      
+    vec3 F    = FresnelSchlick(max(dot(H, V), 0.0), F0);
+    
+    vec3 nominator    = NDF * G * F;
+    float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001; 
+    vec3 specular     = nominator / denominator;
 
+    vec3 kS = F;
+    vec3 kD = vec3(1.0) - kS;
+    kD *= 1.0 - gData.Metallic;     
+        
+    // add to outgoing radiance Lo
+    float NdotL = max(dot(N, L), 0.0);                
+    vec3 color = (kD * gData.Albedo / PI + specular) * radiance * NdotL;
+
+    return color;
+}
 
 
 
@@ -170,6 +229,10 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness){
 
 vec3 FresnelSchlick(float cosTheta, vec3 F0){
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+}
+
+vec3 FresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness){
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){

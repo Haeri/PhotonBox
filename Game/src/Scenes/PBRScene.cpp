@@ -14,6 +14,7 @@
 #include <Resources/OBJLoader.h>
 #include <Resources/Scene.h>
 #include <Resources/TransparentShader.h>
+#include <resources/GShader.h>
 
 #include "../PostProcessors/SSReflectionProcessor.cpp"
 #include "../PostProcessors/ToneMappingProcessor.cpp"
@@ -25,69 +26,6 @@
 #include "../Scripts/MaterialScript.cpp"
 #include "../Scripts/PrinterScript.cpp"
 #include "../Scripts/TransformerScript.cpp"
-
-typedef unsigned char byte;
-
-/*
-struct Buffer
-{
-	byte* current;
-	size_t size;
-
-	Buffer(size_t size)
-		: size(size)
-	{
-		_start = (byte*)malloc(size);
-		memset(_start, 0, size);
-		_end = _start + size;
-		current = _start;
-	}
-
-	~Buffer()
-	{
-		free(_start);
-	}
-
-	int getRemainingSize()
-	{
-		return (int)(_start + size - current);
-	}
-
-	void mem_print()
-	{
-		byte* curr = _start;
-		int i = 0;
-		while (curr != _end)
-		{
-			if (i % 16 == 0) std::cout << "\n";
-			printf("%02x ", (unsigned)*curr);
-
-			curr++;
-			i++;
-		}
-		std::cout << "\n";
-	}
-
-	template <typename T, typename ...A>
-	T* balloc(A ...args)
-	{
-		if ((current + sizeof(T)) > _end)
-		{
-			std::cout << "Out of memory!\n";
-			return nullptr;
-		}
-
-		T* ret = reinterpret_cast<T*>(current);
-		new(ret) T(args...);
-		current = current + sizeof(T);
-		return ret;
-	}
-
-private:
-	byte* _start;
-	byte* _end;
-};
-*/
 
 
 class PBRScene : public Scene
@@ -118,7 +56,7 @@ public:
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		//p_ssao = new SSAOProcessor(0);
-		p_ssreflection = new SSReflectionProcessor(1);
+		//p_ssreflection = new SSReflectionProcessor(1);
 		p_autoExposure = new AutoExposureProcessor(2);
 		p_bloom = new BloomProcessor(3);
 		p_tonemapping = new ToneMappingProcessor(4);
@@ -174,11 +112,12 @@ public:
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
 		TransparentShader* transparentShader = TransparentShader::getInstance();
+		GShader* defaultShader = GShader::getInstance();
 
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		Material* wood = createResource<Material>();
+		Material* wood = createResource<Material>(defaultShader);
 		wood->setTexture("albedoMap", woodAlbedo);
 		wood->setTexture("normalMap", woodNormal);
 		wood->setTexture("roughnessMap", woodRough);
@@ -186,7 +125,7 @@ public:
 		wood->setTexture("metallicMap", woodMetal);
 		wood->setTexture("emissionMap", default_emission);
 
-		Material* rust = createResource<Material>();
+		Material* rust = createResource<Material>(defaultShader);
 		rust->setTexture("albedoMap", rustAlbedo);
 		rust->setTexture("normalMap", rustNormal);
 		rust->setTexture("roughnessMap", rustRough);
@@ -194,7 +133,7 @@ public:
 		rust->setTexture("metallicMap", rustMetal);
 		rust->setTexture("emissionMap", default_emission);
 
-		Material* bricks = createResource<Material>();
+		Material* bricks = createResource<Material>(defaultShader);
 		bricks->setTexture("albedoMap", bricksAlbedo);
 		bricks->setTexture("normalMap", bricksNormal);
 		bricks->setTexture("roughnessMap", bricksRough);
@@ -202,7 +141,7 @@ public:
 		bricks->setTexture("metallicMap", bricksMetal);
 		bricks->setTexture("emissionMap", default_emission);
 
-		Material* gold = createResource<Material>();
+		Material* gold = createResource<Material>(defaultShader);
 		gold->setTexture("albedoMap", goldAlbedo);
 		gold->setTexture("normalMap", goldNormal);
 		gold->setTexture("roughnessMap", goldRough);
@@ -210,7 +149,7 @@ public:
 		gold->setTexture("metallicMap", goldMetal);
 		gold->setTexture("emissionMap", default_emission);
 
-		Material* def = createResource<Material>();
+		Material* def = createResource<Material>(defaultShader);
 		def->setTexture("albedoMap", grid);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_roughness);
@@ -226,7 +165,7 @@ public:
 		glassMaterial->setTexture("metallicMap", default_emission);
 		glassMaterial->setTexture("emissionMap", default_emission);
 
-		Material* barkMaterial = createResource<Material>();
+		Material* barkMaterial = createResource<Material>(defaultShader);
 		barkMaterial->setTexture("albedoMap", bark);
 		barkMaterial->setTexture("normalMap", default_normal);
 		barkMaterial->setTexture("roughnessMap", default_roughness);
@@ -234,7 +173,7 @@ public:
 		barkMaterial->setTexture("metallicMap", default_emission);
 		barkMaterial->setTexture("emissionMap", default_emission);
 
-		Material* leaveMaterial = createResource<Material>();
+		Material* leaveMaterial = createResource<Material>(defaultShader);
 		leaveMaterial->setTexture("albedoMap", leaveAlbedo);
 		leaveMaterial->setTexture("normalMap", leaveNormal);
 		leaveMaterial->setTexture("roughnessMap", leaveRoughness);

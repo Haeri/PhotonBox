@@ -9,7 +9,8 @@
 class ObjectRenderer : public Component
 {
 public:
-	bool captureble = true;
+	bool getReflected = true;
+	bool castShadows = true;
 
 	ObjectRenderer() : ObjectRenderer(RenderType::opaque) {}
 	ObjectRenderer(RenderType type);
