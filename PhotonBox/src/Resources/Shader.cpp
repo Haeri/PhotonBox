@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <intrin.h>
 #include "PhotonBox/resources/Shader.h"
 
 #include "PhotonBox/core/Util.h"
@@ -183,5 +184,18 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 
 bool Shader::checkUniform(const std::string & name)
 {
+#ifdef _DEBUG
+	if (uniforms.find(name) != uniforms.end())
+	{
+		return true;
+	}
+	else
+	{
+		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
+		//__debugbreak();
+		return false;
+	}
+#else
 	return uniforms.find(name) != uniforms.end();
+#endif
 }

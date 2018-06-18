@@ -79,7 +79,6 @@ private:
 	static ForwardPointLightShader* _pointLightShader;
 	static ForwardSpotLightShader* _spotLightShader;
 	static TransparentShader* _transparentBaseShader;
-	static GShader* _gShader;
 	static DeferredShader* _deferredShader;
 	static Material* _deferredMaterial;
 };

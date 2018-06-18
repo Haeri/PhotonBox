@@ -7,6 +7,8 @@
 #include <Resources/Scene.h>
 #include <Resources/Texture.h>
 #include <Resources/Resources.h>
+#include <resources/GShader.h>
+#include <Resources/LitShader.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -29,7 +31,6 @@ public:
 	{
 
 		/* --------------------------- RESOURCES --------------------------- */
-		
 		std::vector<std::string> nightSky = {
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
@@ -57,7 +58,6 @@ public:
 		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 
 
-
 		/* --------------------------- TEXTURES --------------------------- */
 		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
 		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
@@ -67,17 +67,20 @@ public:
 		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 
 		/* --------------------------- SHADERS --------------------------- */
-
+		GShader* defaultShader = GShader::getInstance();
+		LitShader* litShader = LitShader::getInstance();
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		Material* def = createResource<Material>();
+		Material* def = createResource<Material>(defaultShader);
 		def->setTexture("albedoMap", default_ao);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_specular);
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
+
+		Material* lit = createResource<Material>(litShader);
 
 
 		/* --------------------------- CAMERA --------------------------- */
@@ -118,7 +121,7 @@ public:
 
 
 		Entity* pointLight2 = instanciate("Pointlight2");
-		pointLight2->addComponent<PointRenderer>();
+		pointLight2->addComponent<PointRenderer>()->setMaterial(lit);
 		pointLight2->getComponent<Transform>()->setPosition(Vector3f(1.7f, 2.0f, -1.0f));
 		pointLight2->addComponent<PointLight>();
 		pointLight2->getComponent<PointLight>()->color = Vector3f(0.1f, 0.1f, 0.94f);
@@ -129,7 +132,7 @@ public:
 		//pointLight2->setEnable(false);
 
 		Entity* pointLight3 = instanciate("Pointlight3");
-		pointLight3->addComponent<PointRenderer>();
+		pointLight3->addComponent<PointRenderer>()->setMaterial(lit);
 		pointLight3->getComponent<Transform>()->setPosition(Vector3f(-1.7f, 2.0f, -1.0f));
 		pointLight3->addComponent<PointLight>();
 		pointLight3->getComponent<PointLight>()->color = Vector3f(0.93f, 0.1f, 0.1f);

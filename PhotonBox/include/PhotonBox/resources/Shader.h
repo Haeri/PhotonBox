@@ -24,7 +24,7 @@ public:
 
 	Shader()
 	{
-		//_shaderList.push_back(this);
+		_shaderList.push_back(this);
 	}
 
 	std::map<std::string, GLint> uniforms;
