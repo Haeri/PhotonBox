@@ -27,6 +27,8 @@ public:
 		_shaderList.push_back(this);
 	}
 
+	// TODO: these attribute should be private. Check the query to 
+	// prevent unwanted creation of new objects while querying
 	std::map<std::string, GLint> uniforms;
 	std::map<std::string, GLint> attributes;
 	std::map<std::string, TexUniforUnit> textures;

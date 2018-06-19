@@ -191,8 +191,8 @@ bool Shader::checkUniform(const std::string & name)
 	}
 	else
 	{
-		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
-		//__debugbreak();
+//		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
+//		__debugbreak();
 		return false;
 	}
 #else

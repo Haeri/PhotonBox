@@ -55,8 +55,8 @@ public:
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		//p_ssao = new SSAOProcessor(0);
-		//p_ssreflection = new SSReflectionProcessor(1);
+		p_ssao = new SSAOProcessor(0);
+		p_ssreflection = new SSReflectionProcessor(1);
 		p_autoExposure = new AutoExposureProcessor(2);
 		p_bloom = new BloomProcessor(3);
 		p_tonemapping = new ToneMappingProcessor(4);
@@ -207,25 +207,23 @@ public:
 		sun->getComponent<DirectionalLight>()->intensity = 2.0f;
 		//sun->setEnable(false);
 
-		/*
+		
 		Entity* rig = instanciate("Rig");
 		rig->addComponent<TransformerScript>();
 
 		Entity* pointLight = instanciate("Pointlight");
-		//pointLight->addComponent<PointRenderer>();
 		pointLight->getComponent<Transform>()->setPosition(Vector3f(-7, 2, 0));
 		pointLight->addComponent<PointLight>();
-		pointLight->getComponent<PointLight>()->color = Vector3f(165 / 255.0f, 249 / 255.0f, 245 / 255.0f);
+		pointLight->getComponent<PointLight>()->color = Vector3f(215 / 255.0f, 30 / 255.0f, 45 / 255.0f);
 		pointLight->getComponent<PointLight>()->constant = 2;
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 1.6f;
-		pointLight->getComponent<Transform>()->setParent(rig);
-		//pointLight->setEnable(false);
-		*/
+		//pointLight->getComponent<Transform>()->setParent(rig);
+		
+
 
 		Entity* probe = instanciate("Car");
-		//probe->getComponent<Transform>()->setScale(Vector3f(3, 3, 3));
 		probe->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		probe->addComponent<MeshRenderer>()->setMesh(car);
 		probe->getComponent<MeshRenderer>()->setMaterial(rust);

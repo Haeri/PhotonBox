@@ -65,12 +65,12 @@ void main()
         float distance = correctedCubeMapWeight(N, Pos); 
         cN = correctedCubeMapDir(N, Pos);
     }
-   	vec3 irradiance = textureCube(irradianceMap, cN).rgb;
+   	vec3 irradiance = texture(irradianceMap, cN).rgb;
 
     vec3 cR = R;
     if(useCorrection > 0.5)
         cR = correctedCubeMapDir(R, Pos);
-   	vec3 convolutedSpecular = textureCubeLod(convolutedSpecularMap, cR, roughness * MAX_REFLECTION_LOD).rgb;
+   	vec3 convolutedSpecular = textureLod(convolutedSpecularMap, cR, roughness * MAX_REFLECTION_LOD).rgb;
 
 
 

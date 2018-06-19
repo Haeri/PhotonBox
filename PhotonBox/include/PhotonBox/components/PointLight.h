@@ -6,9 +6,9 @@
 class PointLight : public LightEmitter
 {
 public:
-	float constant;
-	float linear;
-	float quadratic;
+	float constant = 2;
+	float linear = 0.09f;
+	float quadratic = 0.032f;
 
 	PointLight();
 
