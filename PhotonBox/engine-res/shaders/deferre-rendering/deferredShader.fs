@@ -42,7 +42,10 @@ struct DirectionalLight{
 GData gData;
 
 // CONSTANTS
-const int NR_LIGHTS = 3;
+const int MAX_DIRECTIONAL_LIGHTS = 3;
+const int MAX_POINT_LIGHTS = 10;
+
+
 const float PI = 3.14159265359;
 const float F0_DEFAULT = 0.04;
 const float AMBIENT_ATTENUATION = 0.1;
@@ -60,16 +63,15 @@ uniform sampler2D gRadiance;
 
 uniform sampler2D shadowMap;
 uniform mat4 viewMatrixInv;
+uniform int numPointLights;
+uniform int numDirectionalLights;
 
-uniform DirectionalLight directionalLights[NR_LIGHTS];
-uniform PointLight pointLights[NR_LIGHTS];
-//uniform vec3 viewPos;
-
+uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
 
 vec3 F0;
 vec3 N;
 vec3 V;
-
 
 float DistributionGGX(vec3 N, vec3 H, float roughness);
 float GeometrySchlickGGX(float NdotV, float roughness);
@@ -95,19 +97,24 @@ void main()
     gData.Irradiance = texture(gIrradiance, TexCoords).rgb;
     gData.Radiance = texture(gRadiance, TexCoords).rgb;
 
-
     F0 = mix(vec3(F0_DEFAULT), gData.Albedo, gData.Metallic);
     N = normalize(gData.Normal);
     V = normalize(-gData.Position);
-
     
     vec3 finalColor = BasePass();
 
-    for(int i = 0; i < NR_LIGHTS; ++i){
+    for(int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i){
+        if(numDirectionalLights == i) 
+            break;
         finalColor += DirectionalLightBRDF(directionalLights[i]);
+    }
+    
+    for(int i = 0; i < MAX_POINT_LIGHTS; ++i){
+        if(numPointLights == i) 
+            break;
         finalColor += PointLightBRDF(pointLights[i]);
     }
-  
+
     FragColor = vec4(finalColor, texture(gAlbedo, TexCoords).a);
 }
 

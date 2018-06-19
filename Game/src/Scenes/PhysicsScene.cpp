@@ -27,12 +27,12 @@ public:
 
 		/* --------------------------- RESOURCES --------------------------- */
 		std::vector<std::string> nightSky = {
-			Resources::ENGINE_RESOURCES + "/default_specular.png",
-			Resources::ENGINE_RESOURCES + "/default_specular.png",
-			Resources::ENGINE_RESOURCES + "/default_specular.png",
-			Resources::ENGINE_RESOURCES + "/default_specular.png",
-			Resources::ENGINE_RESOURCES + "/default_specular.png",
-			Resources::ENGINE_RESOURCES + "/default_specular.png",
+			Resources::ENGINE_RESOURCES + "/default_roughness.png",
+			Resources::ENGINE_RESOURCES + "/default_roughness.png",
+			Resources::ENGINE_RESOURCES + "/default_roughness.png",
+			Resources::ENGINE_RESOURCES + "/default_roughness.png",
+			Resources::ENGINE_RESOURCES + "/default_roughness.png",
+			Resources::ENGINE_RESOURCES + "/default_roughness.png",
 		};
 
 		CubeMap* sky = new CubeMap(nightSky);
@@ -41,11 +41,11 @@ public:
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		SSAOProcessor * p_ssao = new SSAOProcessor(0);
-		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
+		//SSAOProcessor * p_ssao = new SSAOProcessor(0);
+		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
+		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
 		BloomProcessor* p_bloom = new BloomProcessor(3);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
+		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -80,7 +80,7 @@ public:
 		/* --------------------------- CAMERA --------------------------- */
 		Entity* cam = instanciate("Camera");
 		cam->addComponent<Camera>();
-		cam->getComponent<Transform>()->setPosition(Vector3f(0, 6, -16));
+		cam->getComponent<Transform>()->setPosition(Vector3f(0, 6, -30));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraControllerScript>();
 		cam->addComponent<StateControllerScript>();
@@ -91,22 +91,32 @@ public:
 		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 
-
+		/*
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
 		sun->getComponent<DirectionalLight>()->intensity = 10.0f;	
+		*/
 
+		
+		for (size_t i = 0; i < 10; i++)
+		{
 
-
-		Entity* sphere = instanciate("Sphere");
-		sphere->getComponent<Transform>()->setPosition(Vector3f(0, 5, 0));
+		Entity* sphere = instanciate("Sphere" + std::to_string(i));
+		sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
 		sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
 		sphere->getComponent<MeshRenderer>()->setMaterial(def);
 		sphere->addComponent<Rigidbody>();
 		sphere->addComponent<SphereCollider>()->setRadius(1);
+		sphere->addComponent<PointLight>()->color = Vector3f((rand() % 100)/100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
+		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
 
+		}
+
+
+		
+		/*
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
@@ -119,10 +129,12 @@ public:
 					box->addComponent<MeshRenderer>()->setMesh(boxMesh);
 					box->getComponent<MeshRenderer>()->setMaterial(def);
 					box->addComponent<Rigidbody>();
+					box->addComponent<PointLight>()->color = Vector3f((i/4.0f * 255.0f), (j / 4.0f * 255.0f), (z / 4.0f * 255.0f));
 					box->addComponent<BoxCollider>()->setHalfExtents(Vector3f(1));
 				}
 			}
 		}
+		*/
 
 		Entity* quad = instanciate("Plane");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));

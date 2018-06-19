@@ -9,8 +9,8 @@ class Shader;
 class LightEmitter : public Component
 {
 public:
-	Vector3f color;
-	float intensity;
+	Vector3f color = Vector3f::ONE;
+	float intensity = 1;
 
 	virtual ~LightEmitter() {}
 

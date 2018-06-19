@@ -21,6 +21,11 @@ DirectionalLight::DirectionalLight()
 	shadowBuffer->ready();
 }
 
+DirectionalLight::~DirectionalLight()
+{
+	shadowBuffer->clear();
+}
+
 void DirectionalLight::destroy()
 {
 	Lighting::removeLight(this);

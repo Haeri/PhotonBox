@@ -16,6 +16,7 @@ public:
 	FrameBuffer* shadowBuffer;
 
 	DirectionalLight();
+	~DirectionalLight();
 
 	void destroy() override;
 	Shader* getLightShader() override;

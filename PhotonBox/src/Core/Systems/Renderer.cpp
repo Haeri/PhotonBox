@@ -102,7 +102,7 @@ void Renderer::init(float superSampling)
 	_mainFrameBuffer->addDepthBufferAttachment();
 	_mainFrameBuffer->ready();
 
-	_gBuffer = new FrameBuffer(1);
+	_gBuffer = new FrameBuffer(superSampling);
 	_gBuffer->addTextureAttachment("gPosition", true);
 	_gBuffer->addTextureAttachment("gNormal", true);
 	_gBuffer->addTextureAttachment("gMetallic");
@@ -287,8 +287,11 @@ void Renderer::renderDeferred() {
 
 	// Send light data to shader
 	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+	
 
 	_deferredShader->bind();
+	_deferredShader->setUniform<int>("numDirectionalLights", lights[typeid(DirectionalLight)].size());
+	_deferredShader->setUniform<int>("numPointLights", lights[typeid(PointLight)].size());
 
 	for (auto const &lightvec : lights)
 	{
@@ -297,7 +300,7 @@ void Renderer::renderDeferred() {
 		{
 			if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
 
-			if ((typeid(*(light->getLightShader())) == typeid(*(ForwardDirectionalLightShader::getInstance()))))
+			if (typeid(*light) == typeid(DirectionalLight))
 			{
 				DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
 				Vector3f lightViewDirection = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->direction, 0.0f)).xyz();
@@ -316,12 +319,12 @@ void Renderer::renderDeferred() {
 
 				dl->shadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
 			}
-			else if ((typeid(*(light->getLightShader())) == typeid(*(ForwardPointLightShader::getInstance()))))
+			else if (typeid(*light) == typeid(PointLight))
 			{
 				PointLight* dl = dynamic_cast<PointLight*>(light);
-
+				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->getPositionWorld(), 1)).xyz();
 				++i;
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].position", dl->transform->getPosition());
+				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].position", posViewSpace);
 				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].color", dl->color);
 				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].intensity", dl->intensity);
 				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
@@ -795,55 +798,43 @@ void Renderer::renderGizmos()
 
 	if (_debugMode >= 3)
 	{
-		int cols = 4;
-		int widthX = 0;
-
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, _gBuffer->getFBO());
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _gizmoBuffer->getFBO());
-
-		glReadBuffer(_gBuffer->getAttachment("gAlbedo")->attachmentIndex);
-		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-		widthX += Display::getWidth() / cols;
-		glReadBuffer(_gBuffer->getAttachment("gPosition")->attachmentIndex);
-		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-		widthX += Display::getWidth() / cols;
-		glReadBuffer(_gBuffer->getAttachment("gNormal")->attachmentIndex);
-		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-		widthX += Display::getWidth() / cols;
-		glReadBuffer(_gBuffer->getAttachment("gMetallic")->attachmentIndex);
-		glBlitFramebuffer(0, 0, Display::getWidth(), Display::getHeight(), widthX, 0, widthX + Display::getWidth() / cols, Display::getHeight() / cols, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+		float factor = 5.0f;
+		{
+			ImGui::Begin("GBuffer");
+			ImGui::Text("gPosition");
+			ImGui::Image((void *)_gBuffer->getAttachment("gPosition")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::NewLine();
+			ImGui::Text("gNormal");
+			ImGui::Image((void *)_gBuffer->getAttachment("gNormal")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::NewLine();
+			ImGui::Text("gMetallic");
+			ImGui::Image((void *)_gBuffer->getAttachment("gMetallic")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::NewLine();
+			ImGui::Text("gRoughness");
+			ImGui::Image((void *)_gBuffer->getAttachment("gRoughness")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::NewLine();
+			ImGui::Text("gAlbedo");
+			ImGui::Image((void *)_gBuffer->getAttachment("gAlbedo")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::NewLine();
+			ImGui::Text("gEmission");
+			ImGui::Image((void *)_gBuffer->getAttachment("gEmission")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::NewLine();
+			ImGui::Text("gIrradiance");
+			ImGui::Image((void *)_gBuffer->getAttachment("gIrradiance")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::NewLine();
+			ImGui::Text("gRadiance");
+			ImGui::Image((void *)_gBuffer->getAttachment("gRadiance")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::End();
+		}
 	}
-	/*
-	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	_gBuffer->render("gAlbedo");
-	widthX += Display::getWidth() / cols;
-
-	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	_gBuffer->render("gPosition");
-	widthX += Display::getWidth() / cols;
-
-	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	_gBuffer->render("gNormal");
-	widthX += Display::getWidth() / cols;
-
-	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	_gBuffer->render("gMetallic");
-	widthX += Display::getWidth() / cols;
-
 	
-	glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-	_gBuffer->render("gRoughness");
-	widthX += Display::getWidth() / cols;
-	*/
 
 	FrameBuffer::resetDefaultBuffer();
 	
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	_gizmoBuffer->render("color");
 
 	glDisable(GL_BLEND);
@@ -852,8 +843,6 @@ void Renderer::renderGizmos()
 
 	_gizmoBuffer->enable();
 	_gizmoBuffer->clear();
-	
-	
 }
 
 void Renderer::updateTransparentQueue()

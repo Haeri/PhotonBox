@@ -8,6 +8,10 @@
 class DeferredShader : public InstancedShader<DeferredShader>
 {
 public:
+	const unsigned int MAX_DIRECTIONAL_LIGHTS = 3;
+	const unsigned int MAX_POINT_LIGHTS = 10;
+	const unsigned int MAX_SPOT_LIGHTS = 10;
+
 	std::string getFilePath() override
 	{
 		return std::string(Resources::ENGINE_RESOURCES + "/shaders/deferre-rendering/deferredShader");
@@ -15,22 +19,25 @@ public:
 
 	void update(Transform* transform) override
 	{
-		//glUniform3fv(uniforms["viewPos"], 1, &(Camera::getMainCamera()->getViewMatrix() * Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1.0f)).x());
 		glUniformMatrix4fv(uniforms["viewMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix().inverse()(0, 0)));
 	}
 
 	void addUniforms() override
 	{
-		//addUniform("viewPos");
 		addUniform("viewMatrixInv");
+		addUniform("numPointLights");
+		addUniform("numDirectionalLights");
 
-		for (size_t i = 0; i < 3; i++)
+		for (size_t i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i)
 		{
 			addUniform("directionalLights[" + std::to_string(i) + "].direction");
 			addUniform("directionalLights[" + std::to_string(i) + "].color");
 			addUniform("directionalLights[" + std::to_string(i) + "].lightSpaceMatrix");
 			addUniform("directionalLights[" + std::to_string(i) + "].intensity");
+		}
 
+		for (size_t i = 0; i < MAX_POINT_LIGHTS; ++i)
+		{
 			addUniform("pointLights[" + std::to_string(i) + "].position");
 			addUniform("pointLights[" + std::to_string(i) + "].color");
 			addUniform("pointLights[" + std::to_string(i) + "].intensity");
