@@ -24,6 +24,7 @@
 #include "PhotonBox/core/systems/Lighting.h"
 #include "PhotonBox/core/systems/SceneManager.h"
 #include "PhotonBox/core/Entity.h"
+#include "PhotonBox/resources/CircleShader.h"
 
 #include "imgui/imgui.h"
 
@@ -723,7 +724,7 @@ void Renderer::renderGizmos()
 		{
 			if ((*it)->getEnable())
 			{
-				(*it)->transform->renderHandels();
+				//(*it)->transform->renderHandels();
 			}
 		}
 	}
@@ -758,36 +759,27 @@ void Renderer::renderGizmos()
 				*/
 				Vector2f min = Camera::getMainCamera()->worldToScreen(((*it)->transform->getTransformationMatrix() * Vector4f((*it)->getBoundingSphere().getCenter(), 1)).xyz());
 
-				glDepthFunc(GL_ALWAYS);
+				/*
+				CircleShader* shader = CircleShader::getInstance();
+				shader->bind();
+				*/
 
 				glUseProgram(0);
 
-				glPointSize(10.0);
-				glBegin(GL_POINTS);
+				glDepthFunc(GL_ALWAYS);
 
-			
-				glColor3f(0, 0, 1);
-			
+				GLfloat pointVertex[] = { Display::getWidth() / 2.0f, Display::getHeight() / 2.0f };
 
-				glVertex2fv(&min.x());
-				//glVertex3fv(&x.x());
+				// Render OpenGL here
+				glEnable(GL_POINT_SMOOTH); // make the point circular
+				glEnableClientState(GL_VERTEX_ARRAY); // tell OpenGL that you're using a vertex array for fixed-function attribute
+				glPointSize(50); // must be added before glDrawArrays is called
+				glVertexPointer(2, GL_FLOAT, 0, pointVertex); // point to the vertices to be used
+				glDrawArrays(GL_POINTS, 0, 1); // draw the vertixes
+				glDisableClientState(GL_VERTEX_ARRAY); // tell OpenGL that you're finished using the vertex arrayattribute
+				glDisable(GL_POINT_SMOOTH); // stop the smoothing to make the points circular
 
-				//glVertex3fv(&min.x());
-				//glVertex3fv(&z.x());
 
-				//glVertex3fv(&min.x());
-				//glVertex3fv(&y.x());
-
-				//glVertex3fv(&negx.x());
-
-				//glVertex3fv(&max.x());
-				//glVertex3fv(&negz.x());
-
-				//glVertex3fv(&max.x());
-				//glVertex3fv(&negy.x());
-
-				glEnd();
-				glFinish();
 
 				glDepthFunc(GL_LESS);
 			
@@ -798,34 +790,39 @@ void Renderer::renderGizmos()
 
 	if (_debugMode >= 3)
 	{
+
+
 		float factor = 5.0f;
+		std::string buffers[8] =
 		{
-			ImGui::Begin("GBuffer");
-			ImGui::Text("gPosition");
-			ImGui::Image((void *)_gBuffer->getAttachment("gPosition")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+			"gPosition",
+			"gNormal",
+			"gMetallic",
+			"gRoughness",
+			"gAlbedo",
+			"gEmission",
+			"gIrradiance",
+			"gRadiance",
+		};
+
+		ImGui::Begin("GBuffer");
+		for (size_t i = 0; i < 8; ++i)
+		{
+			ImGui::Text(buffers[i].c_str());
+			bool close = true;
+			if (ImGui::ImageButton((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0)))
+			{
+				ImGui::OpenPopup(buffers[i].c_str());
+			}
+			if (ImGui::BeginPopup(buffers[i].c_str()))
+			{				
+				factor = 1.2f;
+				ImGui::Image((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+				ImGui::EndPopup();
+			}
 			ImGui::NewLine();
-			ImGui::Text("gNormal");
-			ImGui::Image((void *)_gBuffer->getAttachment("gNormal")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
-			ImGui::NewLine();
-			ImGui::Text("gMetallic");
-			ImGui::Image((void *)_gBuffer->getAttachment("gMetallic")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
-			ImGui::NewLine();
-			ImGui::Text("gRoughness");
-			ImGui::Image((void *)_gBuffer->getAttachment("gRoughness")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
-			ImGui::NewLine();
-			ImGui::Text("gAlbedo");
-			ImGui::Image((void *)_gBuffer->getAttachment("gAlbedo")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
-			ImGui::NewLine();
-			ImGui::Text("gEmission");
-			ImGui::Image((void *)_gBuffer->getAttachment("gEmission")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
-			ImGui::NewLine();
-			ImGui::Text("gIrradiance");
-			ImGui::Image((void *)_gBuffer->getAttachment("gIrradiance")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
-			ImGui::NewLine();
-			ImGui::Text("gRadiance");
-			ImGui::Image((void *)_gBuffer->getAttachment("gRadiance")->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
-			ImGui::End();
 		}
+		ImGui::End();
 	}
 	
 

@@ -14,6 +14,7 @@
 #include "PhotonBox/core/systems/SceneManager.h"
 #include "PhotonBox/core/systems/UIRenderer.h"
 #include "PhotonBox/core/systems/DebugGUI.h"
+#include "PhotonBox/util/FileWatch.h"
 
 const double Core::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
 
@@ -44,6 +45,7 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 	_postPocessing = new PostProcessing();
 	_lighting = new Lighting();
 	_profiler = new Profiler();
+	_fileWatch = new FileWatch();
 
 	// Initialize OpenGL
 	_display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
@@ -146,6 +148,8 @@ void Core::run()
 		// Gizmos
 		_renderer->renderGizmos();
 
+		FrameBuffer::resetDefaultBuffer();
+
 		// UI Rendering
 		if(Config::profile.showFPS)
 			_uiRenderer->renderText(statPrint, 10.0f, Display::getHeight() - 20.0f, 0.32f, Vector3f(0, 1, 0));
@@ -167,6 +171,9 @@ void Core::run()
 		// Stop Rendering
 		Display::swapBuffer();
 		_renderer->clearDrawCalls();
+
+
+		_fileWatch->checkValidity();
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())
@@ -219,4 +226,5 @@ void Core::destroy()
 	delete _lighting;
 	delete _profiler;
 	delete _config;
+	delete _fileWatch;
 }

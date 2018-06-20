@@ -15,6 +15,7 @@ class Config;
 class Profiler;
 class Scene;
 class DebugGUI;
+class FileWatch;
 
 #include <map>
 
@@ -47,6 +48,7 @@ private:
 
 	Profiler* _profiler;
 	Config* _config;
+	FileWatch* _fileWatch;
 
 	double _accumulatedTime, _newTime, _lastTime;
 	int _fps = 0;

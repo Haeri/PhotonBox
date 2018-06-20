@@ -12,6 +12,7 @@ class LightEmitter;
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/math/Matrix4f.h"
 #include "PhotonBox/resources/Vertex.h"
+#include "PhotonBox/util/FileWatch.h"
 
 class Shader
 {
@@ -36,6 +37,7 @@ public:
 	void init();
 	void bind();
 	void destroy();
+	void reload();
 
 	virtual std::string getFilePath() = 0;
 	virtual void addUniforms() = 0;
