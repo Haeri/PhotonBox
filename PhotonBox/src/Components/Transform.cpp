@@ -97,7 +97,7 @@ void Transform::renderHandels()
 	{
 		ImGui::BeginGroup();
 		ImGui::Text(entity->name.c_str());
-		ImGui::SliderFloat3(("Position##" + entity->name).c_str(), &(_position[0]), -10, 10);
+		ImGui::SliderFloat3(("Pos##" + entity->name).c_str(), &(_position[0]), -10, 10);
 		//ImGui::SliderFloat4("Rotation", &(_rotation[0]), -10, 10);
 		ImGui::EndGroup();
 		ImGui::NewLine();

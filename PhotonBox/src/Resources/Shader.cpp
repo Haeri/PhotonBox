@@ -11,8 +11,8 @@ std::vector<Shader*> Shader::_shaderList;
 
 void Shader::init()
 {
+	FileWatch::addToWatchList(getFilePath(), this);
 	std::vector<std::string> path;
-
 	std::string filePath = getFilePath();
 	Util::split(filePath, "/", path);
 
@@ -56,6 +56,12 @@ void Shader::destroy()
 	glDetachShader(_program, _shaders[0]);
 	glDetachShader(_program, _shaders[1]);
 	glDeleteProgram(_program);
+}
+
+void Shader::reload()
+{
+	destroy();
+	init();
 }
 
 void Shader::bind()

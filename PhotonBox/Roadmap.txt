@@ -1,0 +1,17 @@
+Rendering
+- Deferred spotlights
+- Instanced rendering
+- Deferred decals
+- switch to GTAO
+- TAA
+- Draw handles
+
+General
+- zlib binary file compression
+- switch image format to compressed ddt
+- Resource manager
+	- protected constructors for managed resources
+	- load next before unload to pass already loaded resources
+- fix all memory leaks
+- Frustum culling
+- Recursive lightmap generation with light conservation
