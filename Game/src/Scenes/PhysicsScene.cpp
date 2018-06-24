@@ -19,12 +19,9 @@
 class PhysicsScene : public Scene
 {
 public:
-	AutoExposureProcessor* p_autoExposure;
-	ToneMappingProcessor* p_tonemapping;
 
 	void Load()
 	{
-
 		/* --------------------------- RESOURCES --------------------------- */
 		std::vector<std::string> nightSky = {
 			Resources::ENGINE_RESOURCES + "/default_roughness.png",
@@ -35,8 +32,7 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_roughness.png",
 		};
 
-		CubeMap* sky = new CubeMap(nightSky);
-		Renderer::setSkyBox(sky);
+		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
 
@@ -99,7 +95,7 @@ public:
 		sun->getComponent<DirectionalLight>()->intensity = 10.0f;	
 		*/
 
-		
+		/*
 		for (size_t i = 0; i < 10; i++)
 		{
 
@@ -113,7 +109,7 @@ public:
 		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
 
 		}
-
+		*/
 
 		
 		/*
@@ -135,13 +131,14 @@ public:
 			}
 		}
 		*/
-
+		/*
 		Entity* quad = instanciate("Plane");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
 		quad->getComponent<Transform>()->setScale(Vector3f(20, 20, 20));
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(planeMesh);
 		quad->getComponent<MeshRenderer>()->setMaterial(def);
+		*/
 	}
 
 	void OnUnload() {}

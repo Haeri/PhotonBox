@@ -31,12 +31,6 @@
 class PBRScene : public Scene
 {
 public:
-	AutoExposureProcessor* p_autoExposure;
-	BloomProcessor* p_bloom;
-	ToneMappingProcessor* p_tonemapping;
-	SSAOProcessor* p_ssao;
-	SSReflectionProcessor* p_ssreflection;
-
 	void Load()
 	{
 		/* --------------------------- RESOURCES --------------------------- */
@@ -49,17 +43,16 @@ public:
 			"./res/enviroment/dark/negz.jpg",
 		};
 
-		CubeMap* sky = createResource<CubeMap>(nightSky);
-		Renderer::setSkyBox(sky);
+		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		p_ssao = new SSAOProcessor(0);
-		p_ssreflection = new SSReflectionProcessor(1);
-		p_autoExposure = new AutoExposureProcessor(2);
-		p_bloom = new BloomProcessor(3);
-		p_tonemapping = new ToneMappingProcessor(4);
+		//SSAOProcessor* p_ssao = new SSAOProcessor(0);
+		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
+		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
+		//BloomProcessor* p_bloom = new BloomProcessor(3);
+		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -208,6 +201,7 @@ public:
 		//sun->setEnable(false);
 
 		
+		/*
 		Entity* rig = instanciate("Rig");
 		rig->addComponent<TransformerScript>();
 
@@ -220,7 +214,7 @@ public:
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 1.6f;
 		//pointLight->getComponent<Transform>()->setParent(rig);
-		
+		*/
 
 
 		Entity* probe = instanciate("Car");

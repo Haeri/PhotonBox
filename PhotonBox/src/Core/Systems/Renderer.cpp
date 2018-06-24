@@ -25,6 +25,8 @@
 #include "PhotonBox/core/systems/SceneManager.h"
 #include "PhotonBox/core/Entity.h"
 #include "PhotonBox/resources/CircleShader.h"
+#include "PhotonBox/components/LightProbe.h"
+#include "PhotonBox/core/LightMap.h"
 
 #include "imgui/imgui.h"
 
@@ -47,6 +49,12 @@ FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_gBuffer;
 FrameBuffer* Renderer::_gizmoBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3f, 0.3f, 0.3f);
+
+// Temp stuff
+GLuint _quadVAO = -1;
+GLuint _quadVBO;
+std::vector<float> stuff;
+
 
 void Renderer::addToRenderQueue(ObjectRenderer * renderer, RenderType type)
 {
@@ -74,8 +82,8 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *renderer)
 
 void Renderer::setSkyBox(CubeMap* cubeMap)
 {
-	//TODO: LEAK
-	_skyBox.setLightProbe(new LightProbe(cubeMap));
+	_skyBox.setCubeMap(*cubeMap);
+	_skyBox.setDrawMode(SkyBox::DRAW_CUBE_MAP);
 }
 
 void Renderer::init()
@@ -131,10 +139,31 @@ void Renderer::init(float superSampling)
 	_deferredMaterial->setTexture("gRadiance", _gBuffer, "gRadiance");
 	
 	_debugMode = 0;
+	
+	float max = 100;
+	int half = max / 2.0f;
+	for (float x = 0; x < max; x += 1)
+	{
+		float y = 0;
+	//	for (float y = 0; y < max; y += 10)
+	//	{
+			for (float z = 0; z < max; z += 1)
+			{
+				stuff.push_back(x- half);
+				stuff.push_back(y);
+				stuff.push_back(z- half);
+
+				stuff.push_back(1- x/max);
+				stuff.push_back(1- z/max);
+				stuff.push_back(1- 1.0f/max);
+			}
+	//	}
+	}
 }
 
 void Renderer::reset()
 {
+	_skyBox.reset();
 	/*
 	// OpenGL config
 	glCullFace(GL_BACK);
@@ -236,8 +265,8 @@ void Renderer::prePass()
 				}
 				else
 				{
-					_skyBox.getLightProbe()->getIrradianceCube()->bind(shader->textures["irradianceMap"].unit);
-					_skyBox.getLightProbe()->getSpecularCube()->bind(shader->textures["convolutedSpecularMap"].unit);
+					_skyBox.getLightMap()->irradianceMap->bind(shader->textures["irradianceMap"].unit);
+					_skyBox.getLightMap()->specularMap->bind(shader->textures["convolutedSpecularMap"].unit);
 					shader->setUniform("useCorrection", false);
 				}
 			}
@@ -415,8 +444,8 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 					}
 					else
 					{
-						_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
-						_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+						_skyBox.getLightMap()->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
+						_skyBox.getLightMap()->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
 						_ambientLightShader->setUniform("useCorrection", false);
 					}
 
@@ -471,7 +500,7 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 			}
 			else
 			{
-				_skyBox.getLightProbe()->getSpecularCube()->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
+				_skyBox.getLightMap()->specularMap->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
 				_transparentBaseShader->setUniform("useCorrection", false);
 			}
 
@@ -556,8 +585,8 @@ void Renderer::renderBase()
 				}
 				else
 				{
-					_skyBox.getLightProbe()->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
-					_skyBox.getLightProbe()->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					_skyBox.getLightMap()->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					_skyBox.getLightMap()->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
 					_ambientLightShader->setUniform("useCorrection", false);
 				}
 
@@ -591,7 +620,7 @@ void Renderer::renderTransparents()
 		}
 		else
 		{
-			_skyBox.getLightProbe()->getSpecularCube()->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
+			_skyBox.getLightMap()->specularMap->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
 			_transparentBaseShader->setUniform("useCorrection", false);
 		}
 
@@ -717,6 +746,7 @@ void Renderer::renderGizmos()
 {
 	_gizmoBuffer->enable();
 
+
 	if (_debugMode >= 1)
 	{
 		SceneManager::getCurrentScene()->getEntities();
@@ -731,6 +761,48 @@ void Renderer::renderGizmos()
 
 	if (_debugMode >= 2)
 	{
+
+		if (_quadVAO == -1)
+		{
+			glGenVertexArrays(1, &_quadVAO);
+			glBindVertexArray(_quadVAO);
+
+			glGenBuffers(1, &_quadVBO);
+		}
+
+		glBindVertexArray(_quadVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
+
+		glBufferData(GL_ARRAY_BUFFER, stuff.size() * sizeof(float), &stuff[0], GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
+		glVertexAttribPointer(Vertex::AttibLocation::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
+		glVertexAttribPointer(Vertex::AttibLocation::COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));
+
+
+		CircleShader* shader = CircleShader::getInstance();
+		shader->bind();
+		shader->enableAttributes();
+		shader->update(nullptr);
+
+
+		//glDisable(GL_DEPTH_TEST);
+
+		glEnable(GL_PROGRAM_POINT_SIZE);
+		//glPointSize(1);
+
+		glDrawArrays(GL_POINTS, 0, stuff.size() / 6);
+
+		glDisable(GL_PROGRAM_POINT_SIZE);
+		shader->disableAttributes();
+
+		//glEnable(GL_DEPTH_TEST);
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+
 		for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 		{
 			if ((*it)->getEnable())
@@ -757,32 +829,7 @@ void Renderer::renderGizmos()
 				Vector3f negz = (min + Vector3f::UNIT_Z) * -1;
 				Vector3f negy = (min + Vector3f::UNIT_Y) * -1;
 				*/
-				Vector2f min = Camera::getMainCamera()->worldToScreen(((*it)->transform->getTransformationMatrix() * Vector4f((*it)->getBoundingSphere().getCenter(), 1)).xyz());
-
-				/*
-				CircleShader* shader = CircleShader::getInstance();
-				shader->bind();
-				*/
-
-				glUseProgram(0);
-
-				glDepthFunc(GL_ALWAYS);
-
-				GLfloat pointVertex[] = { Display::getWidth() / 2.0f, Display::getHeight() / 2.0f };
-
-				// Render OpenGL here
-				glEnable(GL_POINT_SMOOTH); // make the point circular
-				glEnableClientState(GL_VERTEX_ARRAY); // tell OpenGL that you're using a vertex array for fixed-function attribute
-				glPointSize(50); // must be added before glDrawArrays is called
-				glVertexPointer(2, GL_FLOAT, 0, pointVertex); // point to the vertices to be used
-				glDrawArrays(GL_POINTS, 0, 1); // draw the vertixes
-				glDisableClientState(GL_VERTEX_ARRAY); // tell OpenGL that you're finished using the vertex arrayattribute
-				glDisable(GL_POINT_SMOOTH); // stop the smoothing to make the points circular
-
-
-
-				glDepthFunc(GL_LESS);
-			
+				//Vector2f min = Camera::getMainCamera()->worldToScreen(((*it)->transform->getTransformationMatrix() * Vector4f((*it)->getBoundingSphere().getCenter(), 1)).xyz());
 			}
 		}
 	}
@@ -816,8 +863,8 @@ void Renderer::renderGizmos()
 			}
 			if (ImGui::BeginPopup(buffers[i].c_str()))
 			{				
-				factor = 1.2f;
-				ImGui::Image((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0));
+				float bigFactor = 1.2f;
+				ImGui::Image((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() / bigFactor, _gBuffer->getHeight() / bigFactor), ImVec2(0, 1), ImVec2(1, 0));
 				ImGui::EndPopup();
 			}
 			ImGui::NewLine();

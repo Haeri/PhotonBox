@@ -1,4 +1,4 @@
-Rendering
+RENDERING
 - Deferred spotlights
 - Instanced rendering
 - Deferred decals
@@ -6,7 +6,7 @@ Rendering
 - TAA
 - Draw handles
 
-General
+GENERAL
 - zlib binary file compression
 - switch image format to compressed ddt
 - Resource manager
@@ -15,3 +15,9 @@ General
 - fix all memory leaks
 - Frustum culling
 - Recursive lightmap generation with light conservation
+- Uniform buffer
+- Precompile shader
+
+BUGS
+- Resizing window messes us frame buffer indices
+- 

@@ -16,6 +16,7 @@
 #include <Resources/Texture.h>
 #include <Resources/TransparentShader.h>
 #include <Resources/SkyBoostShader.h>
+#include <components/LightProbe.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -35,11 +36,6 @@
 class TestScene : public Scene
 {
 public:
-	AutoExposureProcessor* p_autoExposure;
-	BloomProcessor* p_bloom;
-	ToneMappingProcessor* p_tonemapping;
-	SSAOProcessor* p_ssao;
-	SSReflectionProcessor* p_ssreflection;
 
 	void Load()
 	{
@@ -53,17 +49,16 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_ao.png",
 		};
 
-		CubeMap* whiteCube = createResource<CubeMap>(white);
-		Renderer::setSkyBox(whiteCube);
+		Renderer::setSkyBox(createResource<CubeMap>(white));
 		Renderer::getSkyBox()->intensity = 10;
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		p_ssao = new SSAOProcessor(0);
-		p_ssreflection = new SSReflectionProcessor(1);
-		p_autoExposure = new AutoExposureProcessor(2);
-		p_bloom = new BloomProcessor(3);
-		p_tonemapping = new ToneMappingProcessor(4);
+		SSAOProcessor* p_ssao = new SSAOProcessor(0);
+		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
+		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
+		BloomProcessor* p_bloom = new BloomProcessor(3);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -514,8 +509,8 @@ public:
 
 		/* --------------------------- LIGHT HELPER --------------------------- */
 		Entity* lightProbe = instanciate("LightProbe");
-		lightProbe->addComponent<LightProbe>()->resolution = 512;
 		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
+		lightProbe->addComponent<LightProbe>()->resolution = 512;
 		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3.4f));
 		lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(2.1f, 2.0f, 6));
 

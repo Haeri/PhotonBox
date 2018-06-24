@@ -21,11 +21,6 @@
 class DemoScene : public Scene
 {
 public:
-	AutoExposureProcessor* p_autoExposure;
-	BloomProcessor* p_bloom;
-	ToneMappingProcessor* p_tonemapping;
-	SSAOProcessor* p_ssao;
-	SSReflectionProcessor* p_ssreflection;
 
 	void Load()
 	{
@@ -40,17 +35,16 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
 		};
 
-		CubeMap* sky = createResource<CubeMap>(nightSky);
-		Renderer::setSkyBox(sky);
+		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		p_ssao = new SSAOProcessor(0);
-		p_ssreflection = new SSReflectionProcessor(0);
-		p_autoExposure = new AutoExposureProcessor(1);
-		p_bloom = new BloomProcessor(2);
-		p_tonemapping = new ToneMappingProcessor(3);
+		SSAOProcessor* p_ssao = new SSAOProcessor(0);
+		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(0);
+		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
+		BloomProcessor* p_bloom = new BloomProcessor(2);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
 
 
 		/* --------------------------- OBJ --------------------------- */
