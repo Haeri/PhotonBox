@@ -1,10 +1,11 @@
 #ifndef LIGHT_PROBE_H
 #define LIGHT_PROBE_H
 
+class CubeMap;
+class LightMap;
+
 #include "PhotonBox/core/AABB.h"
 #include "PhotonBox/core/Component.h"
-#include "PhotonBox/core/LightMap.h"
-#include "PhotonBox/resources/CubeMap.h"
 
 class LightProbe : public Component
 {
@@ -12,20 +13,19 @@ public:
 	int resolution;
 	AABB bounds;
 
-	LightProbe();
-	LightProbe(CubeMap* enviromentMap);
+	LightProbe(int steps = 3);
 
-	void generateLightMap();
 	void capture();
-	LightMap* captureAmbient(int pass, LightMap* lastLightMap);
-	LightMap* captureRecursive(int step);
-	CubeMap* getEnviromentCube() { return _lightMap.enviromentMap; }
-	CubeMap* getIrradianceCube() { return _lightMap.irradianceMap; }
-	CubeMap* getSpecularCube() { return _lightMap.specularMap; }
+	CubeMap* getEnviromentCube();
+	CubeMap* getIrradianceCube();
+	CubeMap* getSpecularCube();
 
 	void destroy() override;
 private:
-	LightMap _lightMap;
+	int _steps;
+	LightMap* _lightMap;
+
+	LightMap* captureRecursive(int step);
 };
 
 #endif // LIGHT_PROBE_H

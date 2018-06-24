@@ -200,6 +200,7 @@ void Core::reset()
 	_postPocessing->reset();
 	_profiler->reset();
 	_physics->reset();
+	_renderer->reset();
 }
 
 void Core::destroy()

@@ -8,6 +8,7 @@ class GShader;
 class TransparentMeshRenderer;
 class DeferredShader;
 class Material;
+class AABB;
 
 #include <vector>
 

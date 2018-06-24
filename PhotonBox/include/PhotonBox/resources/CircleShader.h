@@ -22,7 +22,7 @@ public:
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
-		//addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
+		addAttribut("color", Vertex::AttibLocation::COLOR);
 	}
 
 	void update(Transform* transform) override

@@ -1,5 +1,6 @@
 #include <limits>
 #include <iostream>
+#include <algorithm>
 #include "PhotonBox/core/FrameBuffer.h"
 
 #include "PhotonBox/resources/DefaultPostShader.h"
@@ -56,16 +57,22 @@ FrameBuffer::~FrameBuffer()
 		glDeleteRenderbuffers(1, &ent1.second.id);
 	}
 	glDeleteRenderbuffers(1, &_depthAttachment);
+	_bufferList.erase(std::remove(_bufferList.begin(), _bufferList.end(), this), _bufferList.end());
 }
 
 void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps, InterpolationType interpolationType, EdgeType edgeType)
 {
+	// Get reference to attachment
+	BufferAttachment* temp = &_colorAttachments[name];
+
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 	GLint format = hdr ? GL_RGB16F : GL_RGBA;
-	BufferAttachment temp(this, name, hdr);
+	temp->frameBuffer = this;
+	temp->name = name;
+	temp->hdr = hdr;
 
-	glGenTextures(1, &temp.id);
-	glBindTexture(GL_TEXTURE_2D, temp.id);
+	glGenTextures(1, &temp->id);
+	glBindTexture(GL_TEXTURE_2D, temp->id);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _edgeTypes[edgeType]);
@@ -73,43 +80,45 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps,
 
 	if (mipmaps)
 	{
-		temp.mipmaps = static_cast<int>(1 + floor(log2(min(_width, _height))));
+		temp->mipmaps = static_cast<int>(1 + floor(log2(min(_width, _height))));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLfloat>(_interpolationMipTypes[interpolationType]));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLfloat>(_interpolationTypes[interpolationType]));
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
 	{
-		temp.mipmaps = 0;
+		temp->mipmaps = 0;
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLfloat>(_interpolationTypes[interpolationType]));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLfloat>(_interpolationTypes[interpolationType]));
 	}
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, temp.id, 0);
-	temp.attachmentIndex = _colorAttachmentIndex;
+	glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, temp->id, 0);
+	temp->attachmentIndex = _colorAttachmentIndex;
 	_drawBuffers.push_back(_colorAttachmentIndex);
 
-	_colorAttachments[name] = temp;
 	++_colorAttachmentIndex;
 }
 
 void FrameBuffer::addDepthTextureAttachment(std::string name)
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-	BufferAttachment temp(this, name, false);
+	BufferAttachment* temp = &_colorAttachments[name];
+	temp->frameBuffer = this;
+	temp->name = name;
+	temp->hdr = false;
 
-	glGenTextures(1, &temp.id);
-	glBindTexture(GL_TEXTURE_2D, temp.id);
+	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+
+	glGenTextures(1, &temp->id);
+	glBindTexture(GL_TEXTURE_2D, temp->id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, _width, _height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, temp.id, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, temp->id, 0);
 
-	temp.mipmaps = 0;
-	temp.attachmentIndex = GL_DEPTH_ATTACHMENT;
-	_colorAttachments[name] = temp;
+	temp->mipmaps = 0;
+	temp->attachmentIndex = GL_DEPTH_ATTACHMENT;
 }
 
 void FrameBuffer::addDepthBufferAttachment()
@@ -177,10 +186,10 @@ void FrameBuffer::resize()
 	// Only recreate nonstatic buffers
 	if (_screenFactor == -1) return;
 
-	glDeleteFramebuffers(1, &_fbo);
+	_colorAttachmentIndex = GL_COLOR_ATTACHMENT0;
 	_width = static_cast<int>(Display::getWidth() * _screenFactor);
 	_height = static_cast<int>(Display::getHeight() * _screenFactor);
-	initialize();
+	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 
 	if (_depthAttachment != -1)
 	{

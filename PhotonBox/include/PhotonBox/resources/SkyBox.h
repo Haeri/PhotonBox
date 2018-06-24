@@ -1,26 +1,41 @@
 #ifndef SKY_BOX_H
 #define SKY_BOX_H
 
-#include "PhotonBox/components/LightProbe.h"
+class SkyBoxShader;
+class LightMap;
+
+#include "PhotonBox/math/Vector3f.h"
 #include "PhotonBox/resources/CubeMap.h"
-#include "PhotonBox/resources/Mesh.h"
-#include "PhotonBox/resources/SkyBoxShader.h"
 
 class SkyBox
 {
 public:
-	float intensity = 1;
-	void setLightProbe(LightProbe* lightProbe);
+	enum SkyBoxMode
+	{
+		DRAW_CUBE_MAP,
+		DRAW_SOLID_COLOR
+	};
 
-	LightProbe* getLightProbe() { return _lp; }
+	float intensity = 1;
+
+	SkyBox() {}
+	~SkyBox();
+
+	void setCubeMap(CubeMap cubeMap);
+	void setColor(Vector3f color);
+	void setDrawMode(SkyBoxMode mode);
+	LightMap* getLightMap();
+
 	void init();
 	void render();
+	void reset();
 private:
-	LightProbe * _lp;
-
+	SkyBoxMode _mode;
+	Vector3f _color;
+	LightMap* _lightMap = nullptr;
 	SkyBoxShader* _skyBoxShader;
-	GLuint _vao, _vbo, _ebo;
-	Mesh* _mesh;
+	static GLuint _vao, _vbo, _ebo;
+	static Mesh* _mesh;
 
 	void genVAO();
 };

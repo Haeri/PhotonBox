@@ -53,7 +53,6 @@ void main()
 
 
 
-
 	float roughness = texture(roughnessMap, TexCoords).r;
 
 	vec3 N = normalize(normal.xyz);

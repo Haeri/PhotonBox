@@ -10,11 +10,12 @@ public:
 	CubeMap* irradianceMap;
 	CubeMap* specularMap;
 
-	LightMap();
-	LightMap(CubeMap* enviromentMap) : enviromentMap(enviromentMap) { generate(); }
+	LightMap() {}
+	LightMap(const std::vector<std::string>& faces);
+	LightMap(CubeMap cubemap);
 	~LightMap();
 
-	void generate();
+	void generateLightMaps();
 };
 
 #endif // LIGHT_MAP_H
