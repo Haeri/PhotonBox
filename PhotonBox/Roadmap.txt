@@ -17,7 +17,9 @@ GENERAL
 - Recursive lightmap generation with light conservation
 - Uniform buffer
 - Precompile shader
+- Run Filewatcher parallel in an interval
+- GL-State system: define all needed properties befre draw call. System compares 
+	what state is to what it should be and only changes properties that are needed.
 
 BUGS
-- Resizing window messes us frame buffer indices
-- 
+- Skybox is broken

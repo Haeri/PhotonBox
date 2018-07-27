@@ -56,6 +56,20 @@ GLuint _quadVBO;
 std::vector<float> stuff;
 
 
+float factor = 0.2f;
+std::string buffers[8] =
+{
+	"gPosition",
+	"gNormal",
+	"gMetallic",
+	"gRoughness",
+	"gAlbedo",
+	"gEmission",
+	"gIrradiance",
+	"gRadiance",
+};
+
+
 void Renderer::addToRenderQueue(ObjectRenderer * renderer, RenderType type)
 {
 	if (type == RenderType::transparent)
@@ -837,27 +851,13 @@ void Renderer::renderGizmos()
 
 	if (_debugMode >= 3)
 	{
-
-
-		float factor = 5.0f;
-		std::string buffers[8] =
-		{
-			"gPosition",
-			"gNormal",
-			"gMetallic",
-			"gRoughness",
-			"gAlbedo",
-			"gEmission",
-			"gIrradiance",
-			"gRadiance",
-		};
-
 		ImGui::Begin("GBuffer");
+		ImGui::SliderFloat("Scale", &factor, 0.1f, 1);
 		for (size_t i = 0; i < 8; ++i)
 		{
-			ImGui::Text(buffers[i].c_str());
+			ImGui::Text((buffers[i] + "  id: " + std::to_string(_gBuffer->getAttachment(buffers[i])->id) + "  index: " + std::to_string(_gBuffer->getAttachment(buffers[i])->attachmentIndex)).c_str() );
 			bool close = true;
-			if (ImGui::ImageButton((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() / factor, _gBuffer->getHeight() / factor), ImVec2(0, 1), ImVec2(1, 0)))
+			if (ImGui::ImageButton((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() * factor, _gBuffer->getHeight() * factor), ImVec2(0, 1), ImVec2(1, 0)))
 			{
 				ImGui::OpenPopup(buffers[i].c_str());
 			}

@@ -1,17 +1,19 @@
 #include "PhotonBox/resources/SkyBox.h"
 
 #include "PhotonBox/components/Camera.h"
+#include "PhotonBox/core/LightMap.h"
 #include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/core/systems/SceneManager.h"
 #include "PhotonBox/resources/Resources.h"
 #include "PhotonBox/resources/OBJLoader.h"
-#include "PhotonBox/core/systems/SceneManager.h"
 #include "PhotonBox/resources/Scene.h"
 #include "PhotonBox/resources/SkyBoxShader.h"
 #include "PhotonBox/resources/Mesh.h"
-#include "PhotonBox/core/LightMap.h"
 
-GLuint SkyBox::_vao = -1, SkyBox::_vbo, SkyBox::_ebo;
-Mesh* SkyBox::_mesh;
+GLuint SkyBox::_vao = -1;
+GLuint SkyBox::_vbo = -1;
+GLuint SkyBox::_ebo = -1;
+Mesh* SkyBox::_mesh = nullptr;
 
 SkyBox::~SkyBox()
 {

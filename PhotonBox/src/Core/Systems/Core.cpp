@@ -1,7 +1,6 @@
 #include "PhotonBox/core/systems/Core.h"
 
 #include "PhotonBox/core/PhotonBoxVersion.h"
-#include "PhotonBox/resources/Config.h"
 #include "PhotonBox/core/Display.h"
 #include "PhotonBox/core/InputManager.h"
 #include "PhotonBox/core/Profiler.h"
@@ -14,6 +13,7 @@
 #include "PhotonBox/core/systems/SceneManager.h"
 #include "PhotonBox/core/systems/UIRenderer.h"
 #include "PhotonBox/core/systems/DebugGUI.h"
+#include "PhotonBox/resources/Config.h"
 #include "PhotonBox/util/FileWatch.h"
 
 const double Core::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
@@ -172,8 +172,9 @@ void Core::run()
 		Display::swapBuffer();
 		_renderer->clearDrawCalls();
 
-
-		_fileWatch->checkValidity();
+		// Run filewatch every second
+		if(_accumulatedTime == 0)
+			_fileWatch->checkValidity();
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())

@@ -60,8 +60,8 @@ uniform sampler2D gAlbedo;
 uniform sampler2D gIrradiance;
 uniform sampler2D gRadiance;
 
-
 uniform sampler2D shadowMap;
+
 uniform mat4 viewMatrixInv;
 uniform int numPointLights;
 uniform int numDirectionalLights;

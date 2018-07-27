@@ -1,7 +1,8 @@
+#include "PhotonBox/core/FrameBuffer.h"
+
 #include <limits>
 #include <iostream>
 #include <algorithm>
-#include "PhotonBox/core/FrameBuffer.h"
 
 #include "PhotonBox/resources/DefaultPostShader.h"
 #include "PhotonBox/resources/Material.h"
@@ -54,7 +55,7 @@ FrameBuffer::~FrameBuffer()
 	glDeleteFramebuffers(1, &_fbo);
 	for (auto const &ent1 : _colorAttachments)
 	{
-		glDeleteRenderbuffers(1, &ent1.second.id);
+		glDeleteTextures(1, &ent1.second.id);
 	}
 	glDeleteRenderbuffers(1, &_depthAttachment);
 	_bufferList.erase(std::remove(_bufferList.begin(), _bufferList.end(), this), _bufferList.end());
@@ -92,11 +93,18 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps,
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLfloat>(_interpolationTypes[interpolationType]));
 	}
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, temp->id, 0);
-	temp->attachmentIndex = _colorAttachmentIndex;
-	_drawBuffers.push_back(_colorAttachmentIndex);
+	if (temp->attachmentIndex == -1)
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, _colorAttachmentIndex, GL_TEXTURE_2D, temp->id, 0);
+		temp->attachmentIndex = _colorAttachmentIndex;
+		_drawBuffers.push_back(_colorAttachmentIndex);
 
-	++_colorAttachmentIndex;
+		++_colorAttachmentIndex;
+	}
+	else
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, temp->attachmentIndex, GL_TEXTURE_2D, temp->id, 0);
+	}
 }
 
 void FrameBuffer::addDepthTextureAttachment(std::string name)
@@ -140,7 +148,7 @@ void FrameBuffer::enable()
 
 void FrameBuffer::bind(GLuint textureUnit, std::string name)
 {
-	glActiveTexture(textureUnit);
+	glActiveTexture(GL_TEXTURE0 + textureUnit);
 	glBindTexture(GL_TEXTURE_2D, _colorAttachments[name].id);
 	if (_colorAttachments[name].mipmaps > 0)
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -186,7 +194,6 @@ void FrameBuffer::resize()
 	// Only recreate nonstatic buffers
 	if (_screenFactor == -1) return;
 
-	_colorAttachmentIndex = GL_COLOR_ATTACHMENT0;
 	_width = static_cast<int>(Display::getWidth() * _screenFactor);
 	_height = static_cast<int>(Display::getHeight() * _screenFactor);
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
@@ -197,10 +204,9 @@ void FrameBuffer::resize()
 		addDepthBufferAttachment();
 	}
 
-	_drawBuffers.clear();
 	for (auto &attachment : _colorAttachments)
 	{
-		glDeleteRenderbuffers(1, &attachment.second.id);
+		glDeleteTextures(1, &attachment.second.id);
 		if (attachment.second.attachmentIndex == GL_DEPTH_ATTACHMENT)
 		{
 			addDepthTextureAttachment(attachment.second.name);
@@ -255,6 +261,7 @@ void FrameBuffer::render(std::string name, Material* material)
 
 	shader->bind();
 	shader->update(nullptr);
+	shader->updateTextures();
 
 	if (material != nullptr)
 	{
@@ -266,7 +273,6 @@ void FrameBuffer::render(std::string name, Material* material)
 		bind(GL_TEXTURE0, name);
 	}
 
-	shader->updateTextures();
 	shader->enableAttributes();
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	Renderer::addDrawCall();

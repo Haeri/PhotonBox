@@ -1,7 +1,8 @@
+#include "PhotonBox/resources/Shader.h"
+
 #include <iostream>
 #include <fstream>
 #include <intrin.h>
-#include "PhotonBox/resources/Shader.h"
 
 #include "PhotonBox/core/Util.h"
 #include "PhotonBox/resources/CubeMap.h"
@@ -111,8 +112,17 @@ void Shader::updateTextures()
 {
 	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it)
 	{
-		glUniform1i(it->second.uniformLocation, it->second.unit - GL_TEXTURE0);
+		glUniform1i(it->second.uniformLocation, it->second.unit);
 	}
+}
+
+void Shader::clearAll()
+{
+	for (std::vector<Shader*>::iterator it = _shaderList.begin(); it != _shaderList.end(); ++it)
+	{
+		delete (*it);
+	}
+	_shaderList.clear();
 }
 
 std::string Shader::readShader(const std::string& fileName)
