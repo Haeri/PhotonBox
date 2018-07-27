@@ -38,12 +38,12 @@ Texture::~Texture()
 
 void Texture::bind()
 {
-	bind(GL_TEXTURE0);
+	bind(0);
 }
 
 void Texture::bind(GLuint textureUnit)
 {
-	glActiveTexture(textureUnit);
+	glActiveTexture(GL_TEXTURE0 + textureUnit);
 	glBindTexture(GL_TEXTURE_2D, _texture);
 }
 

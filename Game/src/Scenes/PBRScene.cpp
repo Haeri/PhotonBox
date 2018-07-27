@@ -48,11 +48,11 @@ public:
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		//SSAOProcessor* p_ssao = new SSAOProcessor(0);
-		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
-		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
-		//BloomProcessor* p_bloom = new BloomProcessor(3);
-		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
+		SSAOProcessor* p_ssao = new SSAOProcessor(0);
+		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
+		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
+		BloomProcessor* p_bloom = new BloomProcessor(3);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */

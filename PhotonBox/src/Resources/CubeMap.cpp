@@ -222,12 +222,12 @@ CubeMap::~CubeMap()
 
 void CubeMap::bind()
 {
-	bind(GL_TEXTURE0);
+	bind(0);
 }
 
 void CubeMap::bind(GLenum textureUnit)
 {
-	glActiveTexture(textureUnit);
+	glActiveTexture(GL_TEXTURE0 + textureUnit);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap);
 }
 

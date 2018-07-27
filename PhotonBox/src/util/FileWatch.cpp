@@ -1,4 +1,5 @@
 #include "PhotonBox/util/FileWatch.h"
+
 #include "PhotonBox/resources/Shader.h"
 
 std::map<std::string, FileWatch::ShaderFile> FileWatch::_watchList;
