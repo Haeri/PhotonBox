@@ -21,7 +21,7 @@ public:
 	SkyBox() {}
 	~SkyBox();
 
-	void setCubeMap(CubeMap cubeMap);
+	void setCubeMap(CubeMap* cubeMap);
 	void setColor(Vector3f color);
 	void setDrawMode(SkyBoxMode mode);
 	LightMap* getLightMap();

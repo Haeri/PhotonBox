@@ -35,7 +35,8 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
 		};
 
-		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
+		//Renderer::setSkyBox(createResource<CubeMap>(nightSky));
+		Renderer::setSkyBox(new CubeMap(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 		
 

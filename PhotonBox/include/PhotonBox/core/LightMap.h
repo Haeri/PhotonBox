@@ -12,7 +12,7 @@ public:
 
 	LightMap() {}
 	LightMap(const std::vector<std::string>& faces);
-	LightMap(CubeMap cubemap);
+	LightMap(CubeMap* cubemap);
 	~LightMap();
 
 	void generateLightMaps();
