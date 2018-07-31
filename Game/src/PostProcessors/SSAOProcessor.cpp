@@ -44,7 +44,7 @@ public:
 		// TODO: Clean up this block
 		ssaoMaterial->shader->bind();
 
-		glActiveTexture(SSAOShader::getInstance()->textures["texNoise"].unit);
+		glActiveTexture(GL_TEXTURE0 + SSAOShader::getInstance()->textures["texNoise"].unit);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 
 		for (unsigned int i = 0; i < 64; ++i)

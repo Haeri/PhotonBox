@@ -32,7 +32,8 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_roughness.png",
 		};
 
-		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
+		//Renderer::setSkyBox(createResource<CubeMap>(nightSky));
+		Renderer::setSkyBox(new CubeMap(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
 
@@ -93,10 +94,11 @@ public:
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
 		sun->getComponent<DirectionalLight>()->intensity = 10.0f;	
+		sun->setEnable(false);
 		*/
 
-		/*
-		for (size_t i = 0; i < 10; i++)
+		
+		for (size_t i = 0; i < 20; i++)
 		{
 
 		Entity* sphere = instanciate("Sphere" + std::to_string(i));
@@ -109,7 +111,7 @@ public:
 		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
 
 		}
-		*/
+		
 
 		
 		/*
@@ -131,14 +133,14 @@ public:
 			}
 		}
 		*/
-		/*
+		
 		Entity* quad = instanciate("Plane");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
 		quad->getComponent<Transform>()->setScale(Vector3f(20, 20, 20));
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(planeMesh);
 		quad->getComponent<MeshRenderer>()->setMaterial(def);
-		*/
+		
 	}
 
 	void OnUnload() {}

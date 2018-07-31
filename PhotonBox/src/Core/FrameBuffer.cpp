@@ -270,7 +270,7 @@ void FrameBuffer::render(std::string name, Material* material)
 	}
 	else
 	{
-		bind(GL_TEXTURE0, name);
+		bind(0, name);
 	}
 
 	shader->enableAttributes();

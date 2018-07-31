@@ -96,7 +96,7 @@ void Renderer::removeFromRenderQueue(ObjectRenderer *renderer)
 
 void Renderer::setSkyBox(CubeMap* cubeMap)
 {
-	_skyBox.setCubeMap(*cubeMap);
+	_skyBox.setCubeMap(cubeMap);
 	_skyBox.setDrawMode(SkyBox::DRAW_CUBE_MAP);
 }
 

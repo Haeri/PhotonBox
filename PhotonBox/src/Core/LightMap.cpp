@@ -6,9 +6,9 @@ LightMap::LightMap(const std::vector<std::string>& allFaces)
 	generateLightMaps();
 }
 
-LightMap::LightMap(CubeMap cubemap)
+LightMap::LightMap(CubeMap* cubemap)
 {
-	enviromentMap = new CubeMap(cubemap);
+	enviromentMap = cubemap;
 	generateLightMaps();
 }
 

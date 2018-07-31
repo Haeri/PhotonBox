@@ -57,7 +57,7 @@ void SkyBox::genVAO()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void SkyBox::setCubeMap(CubeMap cubeMap)
+void SkyBox::setCubeMap(CubeMap* cubeMap)
 {
 	_lightMap = new LightMap(cubeMap);
 }
