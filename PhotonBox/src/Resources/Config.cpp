@@ -1,10 +1,11 @@
-#include "PhotonBox/core/Util.h"
 #include "PhotonBox/resources/Config.h"
 
 #include <algorithm>
 #include <fstream>
 #include <vector>
 #include <iostream>
+
+#include "PhotonBox/core/Util.h"
 
 Config::Profile Config::profile;
 

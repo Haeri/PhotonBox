@@ -3,10 +3,12 @@
 
 class Mesh;
 
+#include <string>
+
 class OBJLoader
 {
 public:
 	static void loadObj(const std::string& filePath, Mesh* mesh);
 };
 
-#endif /* defined(OBJ_LOADER_H) */
+#endif // OBJ_LOADER_H

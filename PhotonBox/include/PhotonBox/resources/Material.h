@@ -6,6 +6,7 @@ class CubeMap;
 class Texture;
 
 #include <unordered_map>
+
 #include "PhotonBox/core/FrameBuffer.h"
 #include "PhotonBox/core/ManagedResource.h"
 

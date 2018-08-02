@@ -1,6 +1,7 @@
+#include "PhotonBox/core/InputManager.h"
+
 #include <iostream>
 #include <algorithm>
-#include "PhotonBox/core/InputManager.h"
 
 #include "PhotonBox/core/Time.h"
 

@@ -2,6 +2,7 @@
 #define DISPLAY_H
 
 #include <string>
+
 #include "PhotonBox/core/OpenGL.h"
 
 class Display

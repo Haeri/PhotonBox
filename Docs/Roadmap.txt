@@ -1,5 +1,4 @@
 RENDERING
-- Deferred spotlights
 - Instanced rendering
 - Deferred decals
 - switch to GTAO
@@ -20,6 +19,10 @@ GENERAL
 - Run Filewatcher parallel in an interval
 - GL-State system: define all needed properties befre draw call. System compares 
 	what state is to what it should be and only changes properties that are needed.
+- SIMD math
+- License
+- namespace
+- Abstraction layer over opengl
 
 BUGS
-- Skybox is broken
+- Enviroment capture is broken

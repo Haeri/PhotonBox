@@ -5,8 +5,8 @@ class TextShader;
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
-
 #include <map>
+
 #include "PhotonBox/math/Vector2f.h"
 #include "PhotonBox/math/Vector3f.h"
 #include "PhotonBox/core/OpenGL.h"

@@ -13,9 +13,9 @@
 #include "PhotonBox/core/systems/SceneManager.h"
 #include "PhotonBox/core/systems/UIRenderer.h"
 #include "PhotonBox/core/systems/DebugGUI.h"
+#include "PhotonBox/core/GLError.h"
 #include "PhotonBox/resources/Config.h"
 #include "PhotonBox/util/FileWatch.h"
-#include "PhotonBox/core/GLError.h"
 
 const double Core::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
 

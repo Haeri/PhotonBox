@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <math.h>
+
 #include "PhotonBox/math/Vector3f.h"
 
 class Vector4f

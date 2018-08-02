@@ -1,7 +1,8 @@
+#include "PhotonBox/core/systems/Renderer.h"
+
 #include <algorithm>
 #include <string>
 #include <iostream>
-#include "PhotonBox/core/systems/Renderer.h"
 
 #include "PhotonBox/components/AmbientLight.h"
 #include "PhotonBox/components/Camera.h"

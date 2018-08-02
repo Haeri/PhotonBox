@@ -1,5 +1,6 @@
-#include <iostream>
 #include "PhotonBox/core/GLError.h"
+
+#include <iostream>
 
 #include "PhotonBox/core/OpenGL.h"
 

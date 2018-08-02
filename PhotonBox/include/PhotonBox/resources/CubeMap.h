@@ -4,6 +4,7 @@
 class Mesh;
 
 #include <vector>
+
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/core/ManagedResource.h"
 

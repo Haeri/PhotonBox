@@ -2,7 +2,9 @@
 #define POST_PROCESSING_H
 
 class PostProcessor;
+
 #include <map>
+
 #include "PhotonBox/core/FrameBuffer.h"
 
 class PostProcessing
