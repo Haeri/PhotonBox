@@ -47,14 +47,12 @@ public:
 		Renderer::setSkyBox(new CubeMap(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
-
 		/* --------------------------- POST PROCESSING --------------------------- */
 		SSAOProcessor* p_ssao = new SSAOProcessor(0);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
 		BloomProcessor* p_bloom = new BloomProcessor(3);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
-
 
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
@@ -64,7 +62,6 @@ public:
 		Mesh* car = createResource<Mesh>("./res/meshes/rallyCarHigh.obj");
 		Mesh* tree_branch_mesh = createResource<Mesh>("./res/collection/Tree/Tree_Branch.obj");
 		Mesh* tree_leaves_mesh = createResource<Mesh>("./res/collection/Tree/Leaves.obj");
-
 
 		/* --------------------------- TEXTURES --------------------------- */
 		Texture* woodAlbedo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
@@ -102,6 +99,7 @@ public:
 		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 		Texture* transparentAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
 		Texture* grid = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/grid.png"), false, false);
+
 
 		/* --------------------------- SHADERS --------------------------- */
 		LitShader* litShader = LitShader::getInstance();
@@ -202,6 +200,19 @@ public:
 		//sun->setEnable(false);
 
 		
+		Entity* spot = instanciate("Spot");
+		spot->getComponent<Transform>()->setPosition(Vector3f(1, 7, -1));
+		spot->getComponent<Transform>()->setRotation(Vector3f(-PI / 2.0f, 0.0f, -0.3f));
+		spot->addComponent<SpotLight>();
+		spot->getComponent<SpotLight>()->coneAngle = 0.97f;
+		spot->getComponent<SpotLight>()->coneAttenuation = 0.96f;
+		spot->getComponent<SpotLight>()->constant = 2.0f;
+		spot->getComponent<SpotLight>()->linear = 0.09f;
+		spot->getComponent<SpotLight>()->quadratic = 0.032f;
+		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
+		spot->getComponent<SpotLight>()->intensity = 3.6f;
+
+
 		/*
 		Entity* rig = instanciate("Rig");
 		rig->addComponent<TransformerScript>();

@@ -9,8 +9,8 @@ class DeferredShader : public InstancedShader<DeferredShader>
 {
 public:
 	const unsigned int MAX_DIRECTIONAL_LIGHTS = 3;
-	const unsigned int MAX_POINT_LIGHTS = 10;
-	const unsigned int MAX_SPOT_LIGHTS = 10;
+	const unsigned int MAX_POINT_LIGHTS = 100;
+	const unsigned int MAX_SPOT_LIGHTS = 100;
 
 	std::string getFilePath() override
 	{
@@ -25,8 +25,9 @@ public:
 	void addUniforms() override
 	{
 		addUniform("viewMatrixInv");
-		addUniform("numPointLights");
 		addUniform("numDirectionalLights");
+		addUniform("numPointLights");
+		addUniform("numSpotLights");
 
 		for (size_t i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i)
 		{
@@ -44,6 +45,19 @@ public:
 			addUniform("pointLights[" + std::to_string(i) + "].attenuation.constant");
 			addUniform("pointLights[" + std::to_string(i) + "].attenuation.linear");
 			addUniform("pointLights[" + std::to_string(i) + "].attenuation.quadratic");
+		}
+
+		for (size_t i = 0; i < MAX_SPOT_LIGHTS; ++i)
+		{
+			addUniform("spotLights[" + std::to_string(i) + "].position");
+			addUniform("spotLights[" + std::to_string(i) + "].direction");
+			addUniform("spotLights[" + std::to_string(i) + "].coneAngle");
+			addUniform("spotLights[" + std::to_string(i) + "].coneFallOff");
+			addUniform("spotLights[" + std::to_string(i) + "].color");
+			addUniform("spotLights[" + std::to_string(i) + "].intensity");
+			addUniform("spotLights[" + std::to_string(i) + "].attenuation.constant");
+			addUniform("spotLights[" + std::to_string(i) + "].attenuation.linear");
+			addUniform("spotLights[" + std::to_string(i) + "].attenuation.quadratic");
 		}
 
 		addTexture("gPosition");

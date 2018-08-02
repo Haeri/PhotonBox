@@ -15,6 +15,7 @@
 #include "PhotonBox/core/systems/DebugGUI.h"
 #include "PhotonBox/resources/Config.h"
 #include "PhotonBox/util/FileWatch.h"
+#include "PhotonBox/core/GLError.h"
 
 const double Core::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
 
@@ -175,6 +176,9 @@ void Core::run()
 		// Run filewatch every second
 		if(_accumulatedTime == 0)
 			_fileWatch->checkValidity();
+
+		// Check errors
+		check_gl_error();
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())

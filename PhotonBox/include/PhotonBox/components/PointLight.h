@@ -12,6 +12,8 @@ public:
 
 	PointLight();
 
+	void OnEnable() override;
+	void OnDisable() override;
 	void destroy() override;
 	Shader* getLightShader() override;
 };

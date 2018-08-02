@@ -39,11 +39,24 @@ struct DirectionalLight{
     float intensity;
 };
 
+struct SpotLight {
+    vec3 position;
+    vec3 direction;
+    float coneAngle;
+    float coneFallOff;
+    
+    vec3 color;
+    float intensity;
+    
+    Attenuation attenuation;
+};
+
 GData gData;
 
 // CONSTANTS
 const int MAX_DIRECTIONAL_LIGHTS = 3;
-const int MAX_POINT_LIGHTS = 10;
+const int MAX_POINT_LIGHTS = 100;
+const int MAX_SPOT_LIGHTS = 100;
 
 
 const float PI = 3.14159265359;
@@ -63,11 +76,13 @@ uniform sampler2D gRadiance;
 uniform sampler2D shadowMap;
 
 uniform mat4 viewMatrixInv;
-uniform int numPointLights;
 uniform int numDirectionalLights;
+uniform int numPointLights;
+uniform int numSpotLights;
 
 uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
+uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 vec3 F0;
 vec3 N;
@@ -83,7 +98,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir);
 vec3 BasePass();
 vec3 DirectionalLightBRDF(DirectionalLight directionalLight);
 vec3 PointLightBRDF(PointLight pointLight);
-vec3 SpotLightBRDF();
+vec3 SpotLightBRDF(SpotLight spotLight);
 
 void main()
 {
@@ -115,6 +130,12 @@ void main()
         finalColor += PointLightBRDF(pointLights[i]);
     }
 
+    for(int i = 0; i < MAX_SPOT_LIGHTS; ++i){
+        if(numSpotLights == i) 
+            break;
+        finalColor += SpotLightBRDF(spotLights[i]);
+    }
+
     FragColor = vec4(finalColor, texture(gAlbedo, TexCoords).a);
 }
 
@@ -129,20 +150,19 @@ vec3 BasePass(){
 
     vec3 diffuse  = gData.Irradiance * gData.Albedo;
     vec3 specular = gData.Radiance * (F); // * brdf.x + brdf.y);
-    vec3 ambient  = (kD * diffuse + specular); //* (ao * 2); 
+    vec3 ambient  = (kD * diffuse + specular);
 
     vec3 color = ambient + /*ambientLight + */gData.Emission;
    
     return color;
 }
 
-
-
 vec3 DirectionalLightBRDF(DirectionalLight directionalLight){
     vec3 L = normalize(-directionalLight.direction);
     vec3 H = normalize(V + L);
 
     vec3 radiance = directionalLight.color * directionalLight.intensity;    
+    
     // cook-torrance brdf
     float NDF = DistributionGGX(N, H, gData.Roughness);        
     float G   = GeometrySmith(N, V, L, gData.Roughness);  
@@ -197,7 +217,41 @@ vec3 PointLightBRDF(PointLight pointLight){
 }
 
 
+vec3 SpotLightBRDF(SpotLight spotLight){
+	vec3 L = normalize(spotLight.position - gData.Position);
+    vec3 H = normalize(V + L);
+	float theta = dot(L, normalize(-spotLight.direction));
 
+	// attenuation
+	float distance    = length(spotLight.position - gData.Position);
+	float attenuation = 1.0 / (spotLight.attenuation.constant + spotLight.attenuation.linear * distance + spotLight.attenuation.quadratic * (distance * distance));     
+
+	// cone attenuation
+	float epsilon   = spotLight.coneAngle - spotLight.coneFallOff;
+	float coneAttenuation = clamp((theta - spotLight.coneFallOff) / epsilon, 0.0, 1.0);  
+
+ 	vec3 radiance = spotLight.color * spotLight.intensity * attenuation * coneAttenuation;
+
+	// cook-torrance brdf
+	float NDF = DistributionGGX(N, H, gData.Roughness);        
+	float G   = GeometrySmith(N, V, L, gData.Roughness);      
+	vec3 F    = FresnelSchlick(max(dot(H, V), 0.0), F0);
+
+	vec3 nominator    = NDF * G * F;
+	float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001; 
+	vec3 specular     = (nominator / denominator) * coneAttenuation;
+
+	vec3 kS = F;
+	vec3 kD = vec3(1.0) - kS;
+	kD *= 1.0 - gData.Metallic;     
+	    
+	// add to outgoing radiance Lo
+	float NdotL = max(dot(N, L), 0.0);                
+	vec3 color = (kD * gData.Albedo / PI + specular) * radiance * NdotL;
+
+	return color;
+	//return vec3(0, 0, 0);
+}
 
 
 // ---------------- Components ---------------- //

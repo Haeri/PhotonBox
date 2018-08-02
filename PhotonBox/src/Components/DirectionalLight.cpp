@@ -46,10 +46,21 @@ void DirectionalLight::renderShadowMap(bool captureMode)
 	
 	if(!captureMode){
 		ImGui::Begin("Depth");
-		ImGui::Image((void *)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15.0f, _shadowMapResolution/15.0f), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image((ImTextureID)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15.0f, _shadowMapResolution/15.0f), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 	}
 	
 
 	FrameBuffer::resetDefaultBuffer();
+}
+
+
+void DirectionalLight::OnEnable()
+{
+	Lighting::addLight(this);
+}
+
+void DirectionalLight::OnDisable()
+{
+	Lighting::removeLight(this);
 }

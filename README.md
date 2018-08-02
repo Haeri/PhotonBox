@@ -37,6 +37,7 @@ A modern OpenGL Game-Engine with focus on PBR
 - Mesh caching
 - PhysX 3.4 integration
 - ImGui integration
+- Shader hot reload
 
 ## Media
 

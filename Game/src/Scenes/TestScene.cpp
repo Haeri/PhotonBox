@@ -509,13 +509,13 @@ public:
 
 
 		/* --------------------------- LIGHT HELPER --------------------------- */
-		/*
+		
 		Entity* lightProbe = instanciate("LightProbe");
 		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 1.2f, 0));
 		lightProbe->addComponent<LightProbe>()->resolution = 512;
 		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-2.1f, -1.3f, -3.4f));
 		lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(2.1f, 2.0f, 6));
-		*/
+		
 
 		Entity* min = instanciate("min");
 		min->getComponent<Transform>()->setPosition(Vector3f(-2.1f, -1.3f, -3.4f));

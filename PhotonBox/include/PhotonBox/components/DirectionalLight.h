@@ -18,6 +18,9 @@ public:
 	DirectionalLight();
 	~DirectionalLight();
 
+	void OnEnable() override;
+	void OnDisable() override;
+
 	void destroy() override;
 	Shader* getLightShader() override;
 	void renderShadowMap(bool captureMode);

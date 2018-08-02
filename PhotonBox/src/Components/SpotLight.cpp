@@ -17,3 +17,13 @@ Shader * SpotLight::getLightShader()
 {
 	return ForwardSpotLightShader::getInstance();
 }
+
+void SpotLight::OnEnable()
+{
+	Lighting::addLight(this);
+}
+
+void SpotLight::OnDisable()
+{
+	Lighting::removeLight(this);
+}
