@@ -1,6 +1,7 @@
+#include "PhotonBox/core/systems/Logic.h"
+
 #include <iostream>
 #include <algorithm>
-#include "PhotonBox/core/systems/Logic.h"
 
 #include "PhotonBox/components/Behaviour.h"
 

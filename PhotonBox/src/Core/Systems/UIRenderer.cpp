@@ -1,5 +1,6 @@
-#include <iostream>
 #include "PhotonBox/core/systems/UIRenderer.h"
+
+#include <iostream>
 
 #include "PhotonBox/resources/TextShader.h"
 #include "PhotonBox/resources/Resources.h"

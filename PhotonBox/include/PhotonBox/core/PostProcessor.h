@@ -2,6 +2,7 @@
 #define POST_PROCESSOR_H
 
 class Material;
+
 #include "PhotonBox/core/systems/PostProcessing.h"
 
 class PostProcessor

@@ -1,6 +1,7 @@
+#include "PhotonBox/core/MeshSerializer.h"
+
 #include <fstream>
 #include <iostream>
-#include "PhotonBox/core/MeshSerializer.h"
 
 #include "PhotonBox/resources/Mesh.h"
 #include "PhotonBox/resources/Vertex.h"

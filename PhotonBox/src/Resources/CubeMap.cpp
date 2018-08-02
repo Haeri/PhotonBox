@@ -1,6 +1,7 @@
+#include "PhotonBox/resources/CubeMap.h"
+
 #include <vector>
 #include <iostream>
-#include "PhotonBox/resources/CubeMap.h"
 
 #include "PhotonBox/components/Camera.h"
 #include "PhotonBox/core/systems/Renderer.h"

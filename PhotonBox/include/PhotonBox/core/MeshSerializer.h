@@ -3,6 +3,8 @@
 
 class Mesh;
 
+#include <string>
+
 class MeshSerializer
 {
 public:

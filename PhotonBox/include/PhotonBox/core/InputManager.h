@@ -1,9 +1,10 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
+#include <vector>
+
 #include "PhotonBox/math/Vector2f.h"
 #include "PhotonBox/core/Display.h"
-#include <vector>
 
 class InputManager
 {

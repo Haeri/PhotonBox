@@ -1,5 +1,6 @@
-#include <algorithm>
 #include "PhotonBox/components/Transform.h"
+
+#include <algorithm>
 
 #include "PhotonBox/components/Camera.h"
 #include "PhotonBox/core/Entity.h"

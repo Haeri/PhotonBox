@@ -2,6 +2,7 @@
 #define MESH_H
 
 #include <vector>
+
 #include "PhotonBox/resources/Vertex.h"
 #include "PhotonBox/core/BoundingSphere.h"
 #include "PhotonBox/resources/OBJLoader.h"

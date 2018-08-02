@@ -2,6 +2,7 @@
 #define SCENE_MANAGER_H
 
 class Scene;
+
 #include <map>
 
 class SceneManager

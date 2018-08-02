@@ -38,11 +38,11 @@ public:
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		//SSAOProcessor * p_ssao = new SSAOProcessor(0);
-		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
-		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
+		SSAOProcessor * p_ssao = new SSAOProcessor(0);
+		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
+		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
 		BloomProcessor* p_bloom = new BloomProcessor(3);
-		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
@@ -113,6 +113,7 @@ public:
 
 		sphere->addComponent<SpotLight>()->color = Vector3f((rand() % 100) / 100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
 		sphere->getComponent<SpotLight>()->intensity = rand() % 5 + 10;
+		//sphere->getComponent<SpotLight>()->coneAngle = 0.95f;
 
 		}
 		

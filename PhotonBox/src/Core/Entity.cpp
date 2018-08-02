@@ -1,5 +1,6 @@
-#include <iostream>
 #include "PhotonBox/core/Entity.h"
+
+#include <iostream>
 
 #include "PhotonBox/resources/Scene.h"
 

@@ -1,10 +1,11 @@
+#include "PhotonBox/resources/OBJLoader.h"
+
 #include <fstream>
 #include <string>
 #include <unordered_map>
 #include <sys/stat.h>
 #include <cstdio>
 #include <cerrno>
-#include "PhotonBox/resources/OBJLoader.h"
 
 #include "PhotonBox/resources/Mesh.h"
 #include "PhotonBox/core/MeshSerializer.h"

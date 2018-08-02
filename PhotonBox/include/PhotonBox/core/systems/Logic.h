@@ -2,6 +2,7 @@
 #define LOGIC_H
 
 class Behaviour;
+
 #include <vector>
 
 class Logic

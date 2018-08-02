@@ -1,6 +1,7 @@
+#include "PhotonBox/resources/Scene.h"
+
 #include <iostream>
 #include <algorithm>
-#include "PhotonBox/resources/Scene.h"
 
 #include "PhotonBox/core/systems/Core.h"
 #include "PhotonBox/core/systems/SceneManager.h"
