@@ -98,7 +98,7 @@ public:
 		*/
 
 		
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < 100; i++)
 		{
 
 		Entity* sphere = instanciate("Sphere" + std::to_string(i));
@@ -107,8 +107,12 @@ public:
 		sphere->getComponent<MeshRenderer>()->setMaterial(def);
 		sphere->addComponent<Rigidbody>();
 		sphere->addComponent<SphereCollider>()->setRadius(1);
-		sphere->addComponent<PointLight>()->color = Vector3f((rand() % 100)/100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
-		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
+//		sphere->addComponent<PointLight>()->color = Vector3f((rand() % 100)/100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
+//		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
+
+
+		sphere->addComponent<SpotLight>()->color = Vector3f((rand() % 100) / 100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
+		sphere->getComponent<SpotLight>()->intensity = rand() % 5 + 10;
 
 		}
 		
@@ -136,7 +140,7 @@ public:
 		
 		Entity* quad = instanciate("Plane");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
-		quad->getComponent<Transform>()->setScale(Vector3f(20, 20, 20));
+		quad->getComponent<Transform>()->setScale(Vector3f(200, 200, 200));
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(planeMesh);
 		quad->getComponent<MeshRenderer>()->setMaterial(def);

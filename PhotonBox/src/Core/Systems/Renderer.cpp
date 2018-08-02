@@ -319,15 +319,18 @@ void Renderer::renderShadows(bool captureMode)
 	glCullFace(GL_BACK);
 }
 
-void Renderer::renderDeferred() {
-	
-	// Render Shadows
-	renderShadows(false);
+void Renderer::renderDeferred(bool captureMode, LightMap* lightmap)
+{	
 
-	// Clear Buffer
-	_mainFrameBuffer->enable();
-	_mainFrameBuffer->clear();
+	if (!captureMode)
+	{
+		// Render Shadows
+		renderShadows(false);
 
+		// Clear Buffer
+		_mainFrameBuffer->enable();
+		_mainFrameBuffer->clear();
+	}
 
 	// Send light data to shader
 	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
@@ -336,6 +339,7 @@ void Renderer::renderDeferred() {
 	_deferredShader->bind();
 	_deferredShader->setUniform<int>("numDirectionalLights", lights[typeid(DirectionalLight)].size());
 	_deferredShader->setUniform<int>("numPointLights", lights[typeid(PointLight)].size());
+	_deferredShader->setUniform<int>("numSpotLights", lights[typeid(SpotLight)].size());
 
 	for (auto const &lightvec : lights)
 	{
@@ -375,6 +379,23 @@ void Renderer::renderDeferred() {
 				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
 				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
 			}
+			else if (typeid(*light) == typeid(SpotLight))
+			{
+				SpotLight* dl = dynamic_cast<SpotLight*>(light);
+				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->getPositionWorld(), 1)).xyz();
+				Vector3f directionView = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->forwardWorld(), 0.0f)).xyz();
+
+				++i;
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].position", posViewSpace);
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].direction", directionView);
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].coneAngle", dl->coneAngle);
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].coneFallOff", dl->coneAttenuation);
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].color", dl->color);
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].intensity", dl->intensity);
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
+				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
+			}
 		}
 	}
 
@@ -390,7 +411,7 @@ void Renderer::renderDeferred() {
 
 
 	// Directly draw to main buffer if no post processing is active
-	if (!PostProcessing::isActive())
+	if (!PostProcessing::isActive() && !captureMode)
 	{
 		FrameBuffer::resetDefaultBuffer();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

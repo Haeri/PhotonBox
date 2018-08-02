@@ -51,7 +51,7 @@ public:
 	void clearDrawCalls();
 	static void renderBase();
 	static void renderTransparents();
-	static void renderDeferred();
+	static void renderDeferred(bool captureMode = false, LightMap* lightmap = nullptr);
 	static void render();
 	static void render(bool captureMode);
 	static void render(Shader* customShader, bool captureMode);

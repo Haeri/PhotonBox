@@ -17,3 +17,13 @@ Shader * PointLight::getLightShader()
 {
 	return ForwardPointLightShader::getInstance();
 }
+
+void PointLight::OnEnable()
+{
+	Lighting::addLight(this);
+}
+
+void PointLight::OnDisable()
+{
+	Lighting::removeLight(this);
+}

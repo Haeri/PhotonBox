@@ -114,7 +114,7 @@ public:
 		pointLight->getComponent<PointLight>()->intensity = 3.6f;
 		//pointLight->setEnable(false);
 
-
+		
 		Entity* pointLight2 = instanciate("Pointlight2");
 		pointLight2->addComponent<PointRenderer>()->setMaterial(lit);
 		pointLight2->getComponent<Transform>()->setPosition(Vector3f(1.7f, 2.0f, -1.0f));
@@ -124,7 +124,7 @@ public:
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 3.6f;
-		//pointLight2->setEnable(false);
+		pointLight2->setEnable(false);
 
 		Entity* pointLight3 = instanciate("Pointlight3");
 		pointLight3->addComponent<PointRenderer>()->setMaterial(lit);
@@ -135,7 +135,8 @@ public:
 		pointLight3->getComponent<PointLight>()->linear = 0.09f;
 		pointLight3->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight3->getComponent<PointLight>()->intensity = 3.6f;
-		//pointLight3->setEnable(false);
+		pointLight3->setEnable(false);
+		
 
 		Entity* spot = instanciate("Spot");
 		spot->getComponent<Transform>()->setPosition(Vector3f(1, 7, -1));
@@ -148,7 +149,7 @@ public:
 		spot->getComponent<SpotLight>()->quadratic = 0.032f;
 		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		spot->getComponent<SpotLight>()->intensity = 3.6f;
-		spot->setEnable(false);
+		//spot->setEnable(false);
 
 
 		Entity* probe = instanciate("Probe-1");
