@@ -34,6 +34,7 @@ public:
 	void Load()
 	{
 		/* --------------------------- RESOURCES --------------------------- */
+		/*
 		std::vector<std::string> nightSky = {
 			"./res/enviroment/dark/posx.jpg",
 			"./res/enviroment/dark/negx.jpg",
@@ -42,10 +43,20 @@ public:
 			"./res/enviroment/dark/posz.jpg",
 			"./res/enviroment/dark/negz.jpg",
 		};
+		*/
+
+		std::vector<std::string> studio = {
+			"./res/enviroment/studio/face-l.jpg",
+			"./res/enviroment/studio/face-r.jpg",
+			"./res/enviroment/studio/face-t.jpg",
+			"./res/enviroment/studio/face-b.jpg",
+			"./res/enviroment/studio/face-d.jpg",
+			"./res/enviroment/studio/face-f.jpg",
+		};
 
 		//Renderer::setSkyBox(createResource<CubeMap>(nightSky));
-		Renderer::setSkyBox(new CubeMap(nightSky));
-		Renderer::getSkyBox()->intensity = 1;
+		Renderer::setSkyBox(new CubeMap(studio));
+		Renderer::getSkyBox()->intensity = 3;
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		SSAOProcessor* p_ssao = new SSAOProcessor(0);
@@ -62,6 +73,7 @@ public:
 		//Mesh* car = createResource<Mesh>("./res/meshes/rallyCarHigh.obj");
 		Mesh* shelby_chassis = createResource<Mesh>("./res/meshes/shelby/shelby_chassis.obj");
 		Mesh* shelby_chrome = createResource<Mesh>("./res/meshes/shelby/shelby_chrome.obj");
+		Mesh* shelby_tires = createResource<Mesh>("./res/meshes/shelby/shelby_tires.obj");
 		//Mesh* tree_branch_mesh = createResource<Mesh>("./res/collection/Tree/Tree_Branch.obj");
 		//Mesh* tree_leaves_mesh = createResource<Mesh>("./res/collection/Tree/Leaves.obj");
 
@@ -83,6 +95,14 @@ public:
 		Texture* rustNormal = createResource<Texture>(std::string("./res/materials/rust/rustediron2_normal.png"), true);
 		Texture* rustMetal = createResource<Texture>(std::string("./res/materials/rust/rustediron2_metallic.png"), true);
 		
+
+		Texture* aluminium_a = createResource<Texture>(std::string("./res/materials/aluminium/albedo.png"), true);
+		Texture* aluminium_r = createResource<Texture>(std::string("./res/materials/aluminium/roughness.png"), true);
+		Texture* aluminium_n = createResource<Texture>(std::string("./res/materials/aluminium/normal.png"), true);
+		Texture* aluminium_m = createResource<Texture>(std::string("./res/materials/aluminium/metallic.png"), true);
+
+		Texture* tire_text = createResource<Texture>(std::string("./res/meshes/shelby/tire.png"), true);
+
 		Texture* red = createResource<Texture>(std::string("./res/meshes/shelby/red.png"));
 		
 		/*Texture* goldAlbedo = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), true);
@@ -100,6 +120,7 @@ public:
 		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
 		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
 		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		Texture* default_gray = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_gray18.png"), false);
 		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
 		Texture* transparentAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
 		Texture* grid = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/grid.png"), false, false);
@@ -146,7 +167,7 @@ public:
 		rust->setTexture("emissionMap", default_emission);
 
 		Material* def = createResource<Material>(defaultShader);
-		def->setTexture("albedoMap", grid);
+		def->setTexture("albedoMap", default_roughness);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_roughness);
 		def->setTexture("aoMap", default_ao);
@@ -154,20 +175,28 @@ public:
 		def->setTexture("emissionMap", default_emission);
 
 		Material* chrome = createResource<Material>(defaultShader);
-		chrome->setTexture("albedoMap", default_ao);
-		chrome->setTexture("normalMap", default_normal);
-		chrome->setTexture("roughnessMap", default_roughness);
+		chrome->setTexture("albedoMap", aluminium_a);
+		chrome->setTexture("normalMap", aluminium_n);
+		chrome->setTexture("roughnessMap", aluminium_r);
 		chrome->setTexture("aoMap", default_ao);
-		chrome->setTexture("metallicMap", default_ao);
+		chrome->setTexture("metallicMap", aluminium_m);
 		chrome->setTexture("emissionMap", default_emission);
 
 		Material* paint = createResource<Material>(defaultShader);
 		paint->setTexture("albedoMap", red);
 		paint->setTexture("normalMap", default_normal);
-		paint->setTexture("roughnessMap", default_roughness);
+		paint->setTexture("roughnessMap", default_emission);
 		paint->setTexture("aoMap", default_ao);
 		paint->setTexture("metallicMap", default_emission);
 		paint->setTexture("emissionMap", default_emission);
+
+		Material* rubber = createResource<Material>(defaultShader);
+		rubber->setTexture("albedoMap", tire_text);
+		rubber->setTexture("normalMap", default_normal);
+		rubber->setTexture("roughnessMap", default_ao);
+		rubber->setTexture("aoMap", default_ao);
+		rubber->setTexture("metallicMap", default_emission);
+		rubber->setTexture("emissionMap", default_emission);
 
 		Material* glassMaterial = createResource<Material>(transparentShader);
 		glassMaterial->setTexture("albedoMap", transparentAlbedo);
@@ -207,16 +236,18 @@ public:
 
 
 		/* --------------------------- LIGHTS --------------------------- */
+		/*
 		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.3f, 0.3f, 0.3f);
 		ambient->getComponent<AmbientLight>()->intensity = 0;
+		*/
 
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, -1, 1);
-		sun->getComponent<DirectionalLight>()->intensity = 2.0f;
+		sun->getComponent<DirectionalLight>()->intensity = 10.0f;
 		//sun->setEnable(false);
 
 		
@@ -231,6 +262,7 @@ public:
 		spot->getComponent<SpotLight>()->quadratic = 0.032f;
 		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		spot->getComponent<SpotLight>()->intensity = 3.6f;
+		spot->setEnable(false);
 
 
 		/*
@@ -259,9 +291,14 @@ public:
 		shelby_chrome_part->addComponent<MeshRenderer>()->setMesh(shelby_chrome);
 		shelby_chrome_part->getComponent<MeshRenderer>()->setMaterial(chrome);
 
+		Entity* shelby_tires_part = instanciate("shelby_tires_part");
+		shelby_tires_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		shelby_tires_part->addComponent<MeshRenderer>()->setMesh(shelby_tires);
+		shelby_tires_part->getComponent<MeshRenderer>()->setMaterial(rubber);
+
 		
 		Entity* floor = instanciate("Floor");
-		floor->getComponent<Transform>()->setScale(Vector3f(10, 10, 10));
+		floor->getComponent<Transform>()->setScale(Vector3f(30, 30, 30));
 		floor->addComponent<MeshRenderer>()->setMesh(plane);
 		floor->getComponent<MeshRenderer>()->setMaterial(def);
 

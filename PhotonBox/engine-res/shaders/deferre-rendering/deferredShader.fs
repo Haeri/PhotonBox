@@ -55,8 +55,8 @@ GData gData;
 
 // CONSTANTS
 const int MAX_DIRECTIONAL_LIGHTS = 3;
-const int MAX_POINT_LIGHTS = 100;
-const int MAX_SPOT_LIGHTS = 100;
+const int MAX_POINT_LIGHTS = 10;
+const int MAX_SPOT_LIGHTS = 10;
 
 
 const float PI = 3.14159265359;

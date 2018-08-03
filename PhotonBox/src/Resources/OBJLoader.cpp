@@ -150,6 +150,8 @@ void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 	}
 #endif
 
+	std::cout << "\tCaching model..." << std::endl;
+
 	std::string line;
 	std::vector<std::string> tokens;
 
