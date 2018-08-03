@@ -56,15 +56,17 @@ public:
 
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		Mesh* cube = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
-		Mesh* couchMesh = createResource<Mesh>("./res/Realistic-Rendering/Couch/couch.obj");
-		Mesh* car = createResource<Mesh>("./res/meshes/rallyCarHigh.obj");
-		Mesh* tree_branch_mesh = createResource<Mesh>("./res/collection/Tree/Tree_Branch.obj");
-		Mesh* tree_leaves_mesh = createResource<Mesh>("./res/collection/Tree/Leaves.obj");
+		//Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		//Mesh* cube = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
+		//Mesh* couchMesh = createResource<Mesh>("./res/Realistic-Rendering/Couch/couch.obj");
+		//Mesh* car = createResource<Mesh>("./res/meshes/rallyCarHigh.obj");
+		Mesh* shelby_chassis = createResource<Mesh>("./res/meshes/shelby/shelby_chassis.obj");
+		Mesh* shelby_chrome = createResource<Mesh>("./res/meshes/shelby/shelby_chrome.obj");
+		//Mesh* tree_branch_mesh = createResource<Mesh>("./res/collection/Tree/Tree_Branch.obj");
+		//Mesh* tree_leaves_mesh = createResource<Mesh>("./res/collection/Tree/Leaves.obj");
 
 		/* --------------------------- TEXTURES --------------------------- */
-		Texture* woodAlbedo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
+		/*Texture* woodAlbedo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
 		Texture* woodRough = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
 		Texture* woodNormal = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), true);
 		Texture* woodAo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), true);
@@ -74,14 +76,16 @@ public:
 		Texture* bricksRough = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-roughness.png"), true);
 		Texture* bricksNormal = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-normal.png"), true);
 		Texture* bricksAo = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-ao.png"), true);
-		Texture* bricksMetal = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-metalness.png"), true);
+		Texture* bricksMetal = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-metalness.png"), true);*/
 		
 		Texture* rustAlbedo = createResource<Texture>(std::string("./res/materials/rust/rustediron2_basecolor.png"), true);
 		Texture* rustRough = createResource<Texture>(std::string("./res/materials/rust/rustediron2_roughness.png"), true);
 		Texture* rustNormal = createResource<Texture>(std::string("./res/materials/rust/rustediron2_normal.png"), true);
 		Texture* rustMetal = createResource<Texture>(std::string("./res/materials/rust/rustediron2_metallic.png"), true);
 		
-		Texture* goldAlbedo = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), true);
+		Texture* red = createResource<Texture>(std::string("./res/meshes/shelby/red.png"));
+		
+		/*Texture* goldAlbedo = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), true);
 		Texture* goldRough = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png"), true);
 		Texture* goldNormal = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), true);
 		Texture* goldMetal = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
@@ -89,7 +93,7 @@ public:
 		Texture* bark = createResource<Texture>(std::string("./res/collection/Tree/bark_0021.jpg"), true);
 		Texture* leaveAlbedo = createResource<Texture>(std::string("./res/collection/Tree/DB2X2_L01.png"), true);
 		Texture* leaveRoughness = createResource<Texture>(std::string("./res/collection/Tree/DB2X2_L01_Spec.png"), true);
-		Texture* leaveNormal = createResource<Texture>(std::string("./res/collection/Tree/DB2X2_L01_Nor.png"), true);
+		Texture* leaveNormal = createResource<Texture>(std::string("./res/collection/Tree/DB2X2_L01_Nor.png"), true);*/
 		 
 		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
 		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
@@ -109,13 +113,29 @@ public:
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		Material* wood = createResource<Material>(defaultShader);
-		wood->setTexture("albedoMap", woodAlbedo);
-		wood->setTexture("normalMap", woodNormal);
-		wood->setTexture("roughnessMap", woodRough);
-		wood->setTexture("aoMap", woodAo);
-		wood->setTexture("metallicMap", woodMetal);
-		wood->setTexture("emissionMap", default_emission);
+		//Material* wood = createResource<Material>(defaultShader);
+		//wood->setTexture("albedoMap", woodAlbedo);
+		//wood->setTexture("normalMap", woodNormal);
+		//wood->setTexture("roughnessMap", woodRough);
+		//wood->setTexture("aoMap", woodAo);
+		//wood->setTexture("metallicMap", woodMetal);
+		//wood->setTexture("emissionMap", default_emission);
+
+		//Material* bricks = createResource<Material>(defaultShader);
+		//bricks->setTexture("albedoMap", bricksAlbedo);
+		//bricks->setTexture("normalMap", bricksNormal);
+		//bricks->setTexture("roughnessMap", bricksRough);
+		//bricks->setTexture("aoMap", bricksAo);
+		//bricks->setTexture("metallicMap", bricksMetal);
+		//bricks->setTexture("emissionMap", default_emission);
+
+		//Material* gold = createResource<Material>(defaultShader);
+		//gold->setTexture("albedoMap", goldAlbedo);
+		//gold->setTexture("normalMap", goldNormal);
+		//gold->setTexture("roughnessMap", goldRough);
+		//gold->setTexture("aoMap", default_ao);
+		//gold->setTexture("metallicMap", goldMetal);
+		//gold->setTexture("emissionMap", default_emission);
 
 		Material* rust = createResource<Material>(defaultShader);
 		rust->setTexture("albedoMap", rustAlbedo);
@@ -125,22 +145,6 @@ public:
 		rust->setTexture("metallicMap", rustMetal);
 		rust->setTexture("emissionMap", default_emission);
 
-		Material* bricks = createResource<Material>(defaultShader);
-		bricks->setTexture("albedoMap", bricksAlbedo);
-		bricks->setTexture("normalMap", bricksNormal);
-		bricks->setTexture("roughnessMap", bricksRough);
-		bricks->setTexture("aoMap", bricksAo);
-		bricks->setTexture("metallicMap", bricksMetal);
-		bricks->setTexture("emissionMap", default_emission);
-
-		Material* gold = createResource<Material>(defaultShader);
-		gold->setTexture("albedoMap", goldAlbedo);
-		gold->setTexture("normalMap", goldNormal);
-		gold->setTexture("roughnessMap", goldRough);
-		gold->setTexture("aoMap", default_ao);
-		gold->setTexture("metallicMap", goldMetal);
-		gold->setTexture("emissionMap", default_emission);
-
 		Material* def = createResource<Material>(defaultShader);
 		def->setTexture("albedoMap", grid);
 		def->setTexture("normalMap", default_normal);
@@ -148,6 +152,22 @@ public:
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
+
+		Material* chrome = createResource<Material>(defaultShader);
+		chrome->setTexture("albedoMap", default_ao);
+		chrome->setTexture("normalMap", default_normal);
+		chrome->setTexture("roughnessMap", default_roughness);
+		chrome->setTexture("aoMap", default_ao);
+		chrome->setTexture("metallicMap", default_ao);
+		chrome->setTexture("emissionMap", default_emission);
+
+		Material* paint = createResource<Material>(defaultShader);
+		paint->setTexture("albedoMap", red);
+		paint->setTexture("normalMap", default_normal);
+		paint->setTexture("roughnessMap", default_roughness);
+		paint->setTexture("aoMap", default_ao);
+		paint->setTexture("metallicMap", default_emission);
+		paint->setTexture("emissionMap", default_emission);
 
 		Material* glassMaterial = createResource<Material>(transparentShader);
 		glassMaterial->setTexture("albedoMap", transparentAlbedo);
@@ -157,21 +177,21 @@ public:
 		glassMaterial->setTexture("metallicMap", default_emission);
 		glassMaterial->setTexture("emissionMap", default_emission);
 
-		Material* barkMaterial = createResource<Material>(defaultShader);
-		barkMaterial->setTexture("albedoMap", bark);
-		barkMaterial->setTexture("normalMap", default_normal);
-		barkMaterial->setTexture("roughnessMap", default_roughness);
-		barkMaterial->setTexture("aoMap", default_ao);
-		barkMaterial->setTexture("metallicMap", default_emission);
-		barkMaterial->setTexture("emissionMap", default_emission);
+		//Material* barkMaterial = createResource<Material>(defaultShader);
+		//barkMaterial->setTexture("albedoMap", bark);
+		//barkMaterial->setTexture("normalMap", default_normal);
+		//barkMaterial->setTexture("roughnessMap", default_roughness);
+		//barkMaterial->setTexture("aoMap", default_ao);
+		//barkMaterial->setTexture("metallicMap", default_emission);
+		//barkMaterial->setTexture("emissionMap", default_emission);
 
-		Material* leaveMaterial = createResource<Material>(defaultShader);
-		leaveMaterial->setTexture("albedoMap", leaveAlbedo);
-		leaveMaterial->setTexture("normalMap", leaveNormal);
-		leaveMaterial->setTexture("roughnessMap", leaveRoughness);
-		leaveMaterial->setTexture("aoMap", default_ao);
-		leaveMaterial->setTexture("metallicMap", default_emission);
-		leaveMaterial->setTexture("emissionMap", default_emission);
+		//Material* leaveMaterial = createResource<Material>(defaultShader);
+		//leaveMaterial->setTexture("albedoMap", leaveAlbedo);
+		//leaveMaterial->setTexture("normalMap", leaveNormal);
+		//leaveMaterial->setTexture("roughnessMap", leaveRoughness);
+		//leaveMaterial->setTexture("aoMap", default_ao);
+		//leaveMaterial->setTexture("metallicMap", default_emission);
+		//leaveMaterial->setTexture("emissionMap", default_emission);
 
 		Material* lit = createResource<Material>(litShader);
 		lit->setProperty("color", Vector3f(0.3f, 0.3f, 0.5f));
@@ -229,10 +249,15 @@ public:
 		*/
 
 
-		Entity* probe = instanciate("Car");
-		probe->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
-		probe->addComponent<MeshRenderer>()->setMesh(car);
-		probe->getComponent<MeshRenderer>()->setMaterial(rust);
+		Entity* shelby_chassis_part = instanciate("shelby_chassis_part");
+		shelby_chassis_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		shelby_chassis_part->addComponent<MeshRenderer>()->setMesh(shelby_chassis);
+		shelby_chassis_part->getComponent<MeshRenderer>()->setMaterial(paint);
+
+		Entity* shelby_chrome_part = instanciate("shelby_chrome_part");
+		shelby_chrome_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		shelby_chrome_part->addComponent<MeshRenderer>()->setMesh(shelby_chrome);
+		shelby_chrome_part->getComponent<MeshRenderer>()->setMaterial(chrome);
 
 		
 		Entity* floor = instanciate("Floor");
