@@ -9,8 +9,8 @@ class DeferredShader : public InstancedShader<DeferredShader>
 {
 public:
 	const unsigned int MAX_DIRECTIONAL_LIGHTS = 3;
-	const unsigned int MAX_POINT_LIGHTS = 100;
-	const unsigned int MAX_SPOT_LIGHTS = 100;
+	const unsigned int MAX_POINT_LIGHTS = 10;
+	const unsigned int MAX_SPOT_LIGHTS = 10;
 
 	std::string getFilePath() override
 	{
