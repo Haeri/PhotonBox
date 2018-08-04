@@ -72,6 +72,7 @@ uniform sampler2D gMetallic;
 uniform sampler2D gAlbedo;
 uniform sampler2D gIrradiance;
 uniform sampler2D gRadiance;
+uniform sampler2D gEmission;
 
 uniform sampler2D shadowMap;
 
@@ -111,6 +112,7 @@ void main()
     gData.Metallic = texture(gMetallic, TexCoords).r;
     gData.Irradiance = texture(gIrradiance, TexCoords).rgb;
     gData.Radiance = texture(gRadiance, TexCoords).rgb;
+    gData.Emission = texture(gEmission, TexCoords).rgb;
 
     F0 = mix(vec3(F0_DEFAULT), gData.Albedo, gData.Metallic);
     N = normalize(gData.Normal);

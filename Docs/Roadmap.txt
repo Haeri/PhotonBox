@@ -4,6 +4,7 @@ RENDERING
 - switch to GTAO
 - TAA
 - Draw handles
+- GBuffer packing
 
 GENERAL
 - zlib binary file compression
@@ -26,3 +27,4 @@ GENERAL
 
 BUGS
 - Enviroment capture is broken
+- Fix forward rendering

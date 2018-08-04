@@ -67,6 +67,7 @@ public:
 		addTexture("gAlbedo");
 		addTexture("gIrradiance");
 		addTexture("gRadiance");
+		addTexture("gEmission");
 
 		addTexture("shadowMap");
 	}

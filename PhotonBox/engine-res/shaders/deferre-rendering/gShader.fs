@@ -20,6 +20,7 @@ uniform vec3 minBound;
 uniform vec3 maxBound;
 uniform vec3 boundPos;
 uniform int useCorrection = 0;
+uniform float emissionIntensity = 1.0;
 
 uniform samplerCube irradianceMap;
 uniform samplerCube convolutedSpecularMap;
@@ -47,8 +48,7 @@ void main()
 	gRoughness = texture(roughnessMap, TexCoords).rgba;
 	vec4 alb = texture(albedoMap, TexCoords).rgba;
 	gAlbedo = vec4(pow(alb.xyz, vec3(2.2)), alb.a);
-
-	gEmission = texture(emissionMap, TexCoords).rgba;
+	gEmission = vec4(texture(emissionMap, TexCoords).rgb * emissionIntensity, 1);
 	//gAO = texture(aoMap, TexCoords).rgba;
 
 
