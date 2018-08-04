@@ -4,13 +4,13 @@
 
 double Time::deltaTime = 0.001;
 float Time::deltaTimef = 0.001f;
-double Time::time;
-double Time::timeScale;
+double Time::time = 0.0;
+float Time::timeScale = 1.0f;
 
 void Time::setDeltaTime(double deltaTime)
 {
-	Time::deltaTime = deltaTime;
-	Time::deltaTimef = (float)deltaTime;
+	Time::deltaTime = deltaTime * timeScale;
+	Time::deltaTimef = (float)deltaTime * timeScale;
 }
 
 void Time::setTime(double time)
@@ -18,7 +18,7 @@ void Time::setTime(double time)
 	Time::time = time;
 }
 
-void Time::setTimeScale(double timeScale)
+void Time::setTimeScale(float timeScale)
 {
 	Time::timeScale = timeScale;
 }

@@ -34,6 +34,7 @@ public:
 		addUniform("maxBound");
 		addUniform("boundPos");
 		addUniform("useCorrection");
+		addUniform("emissionIntensity");
 
 		addTexture("irradianceMap");
 		addTexture("convolutedSpecularMap");

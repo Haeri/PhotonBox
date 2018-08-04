@@ -61,6 +61,7 @@ void Transform::removeChild(Transform * child)
 
 void Transform::renderHandels()
 {
+	/*
 	Matrix4f projectionMatrix = Camera::getMainCamera()->getProjectionMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf((const GLfloat*)&projectionMatrix(0, 0));
@@ -94,12 +95,15 @@ void Transform::renderHandels()
 
 	glDepthFunc(GL_LESS);
 
+	*/
+
 
 	{
 		ImGui::BeginGroup();
 		ImGui::Text(entity->name.c_str());
 		ImGui::SliderFloat3(("Pos##" + entity->name).c_str(), &(_position[0]), -10, 10);
 		//ImGui::SliderFloat4("Rotation", &(_rotation[0]), -10, 10);
+		_hasChangedLastFrame = true;
 		ImGui::EndGroup();
 		ImGui::NewLine();
 	}

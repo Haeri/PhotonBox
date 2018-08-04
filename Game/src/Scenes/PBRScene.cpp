@@ -74,6 +74,8 @@ public:
 		Mesh* shelby_chassis = createResource<Mesh>("./res/meshes/shelby/shelby_chassis.obj");
 		Mesh* shelby_chrome = createResource<Mesh>("./res/meshes/shelby/shelby_chrome.obj");
 		Mesh* shelby_tires = createResource<Mesh>("./res/meshes/shelby/shelby_tires.obj");
+		Mesh* shelby_glass = createResource<Mesh>("./res/meshes/shelby/shelby_glass.obj");
+		Mesh* shelby_front_lights = createResource<Mesh>("./res/meshes/shelby/shelby_front_lights.obj");
 		//Mesh* tree_branch_mesh = createResource<Mesh>("./res/collection/Tree/Tree_Branch.obj");
 		//Mesh* tree_leaves_mesh = createResource<Mesh>("./res/collection/Tree/Leaves.obj");
 
@@ -102,6 +104,7 @@ public:
 		Texture* aluminium_m = createResource<Texture>(std::string("./res/materials/aluminium/metallic.png"), true);
 
 		Texture* tire_text = createResource<Texture>(std::string("./res/meshes/shelby/tire.png"), true);
+		Texture* light_grid = createResource<Texture>(std::string("./res/meshes/shelby/lights.jpg"), true);
 
 		Texture* red = createResource<Texture>(std::string("./res/meshes/shelby/red.png"));
 		
@@ -198,6 +201,15 @@ public:
 		rubber->setTexture("metallicMap", default_emission);
 		rubber->setTexture("emissionMap", default_emission);
 
+		Material* front_emissive = createResource<Material>(defaultShader);
+		front_emissive->setTexture("albedoMap", light_grid);
+		front_emissive->setTexture("normalMap", default_normal);
+		front_emissive->setTexture("roughnessMap", light_grid);
+		front_emissive->setTexture("aoMap", default_ao);
+		front_emissive->setTexture("metallicMap", default_emission);
+		front_emissive->setTexture("emissionMap", light_grid);
+		front_emissive->setProperty("emissionIntensity", 10.0f);
+
 		Material* glassMaterial = createResource<Material>(transparentShader);
 		glassMaterial->setTexture("albedoMap", transparentAlbedo);
 		glassMaterial->setTexture("normalMap", default_normal);
@@ -236,12 +248,12 @@ public:
 
 
 		/* --------------------------- LIGHTS --------------------------- */
-		/*
+		
 		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.3f, 0.3f, 0.3f);
 		ambient->getComponent<AmbientLight>()->intensity = 0;
-		*/
+		
 
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
@@ -251,18 +263,8 @@ public:
 		//sun->setEnable(false);
 
 		
-		Entity* spot = instanciate("Spot");
-		spot->getComponent<Transform>()->setPosition(Vector3f(1, 7, -1));
-		spot->getComponent<Transform>()->setRotation(Vector3f(-PI / 2.0f, 0.0f, -0.3f));
-		spot->addComponent<SpotLight>();
-		spot->getComponent<SpotLight>()->coneAngle = 0.97f;
-		spot->getComponent<SpotLight>()->coneAttenuation = 0.96f;
-		spot->getComponent<SpotLight>()->constant = 2.0f;
-		spot->getComponent<SpotLight>()->linear = 0.09f;
-		spot->getComponent<SpotLight>()->quadratic = 0.032f;
-		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
-		spot->getComponent<SpotLight>()->intensity = 3.6f;
-		spot->setEnable(false);
+		
+
 
 
 		/*
@@ -281,22 +283,70 @@ public:
 		*/
 
 
+		/* ======== SHELBY ======== */
+		Entity * shelby = instanciate("Shelby");
+
 		Entity* shelby_chassis_part = instanciate("shelby_chassis_part");
 		shelby_chassis_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_chassis_part->addComponent<MeshRenderer>()->setMesh(shelby_chassis);
 		shelby_chassis_part->getComponent<MeshRenderer>()->setMaterial(paint);
+		shelby_chassis_part->getComponent<Transform>()->setParent(shelby);
 
 		Entity* shelby_chrome_part = instanciate("shelby_chrome_part");
 		shelby_chrome_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_chrome_part->addComponent<MeshRenderer>()->setMesh(shelby_chrome);
 		shelby_chrome_part->getComponent<MeshRenderer>()->setMaterial(chrome);
+		shelby_chrome_part->getComponent<Transform>()->setParent(shelby);
 
 		Entity* shelby_tires_part = instanciate("shelby_tires_part");
 		shelby_tires_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_tires_part->addComponent<MeshRenderer>()->setMesh(shelby_tires);
 		shelby_tires_part->getComponent<MeshRenderer>()->setMaterial(rubber);
+		shelby_tires_part->getComponent<Transform>()->setParent(shelby);
 
-		
+		Entity* shelby_front_lights_part = instanciate("shelby_front_lights");
+		shelby_front_lights_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		shelby_front_lights_part->addComponent<MeshRenderer>()->setMesh(shelby_front_lights);
+		shelby_front_lights_part->getComponent<MeshRenderer>()->setMaterial(front_emissive);
+		shelby_front_lights_part->getComponent<Transform>()->setParent(shelby);
+
+
+		Entity* shelby_glass_part = instanciate("shelby_glass_part");
+		shelby_glass_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		shelby_glass_part->addComponent<TransparentMeshRenderer>()->setMesh(shelby_glass);
+		shelby_glass_part->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+		shelby_glass_part->getComponent<Transform>()->setParent(shelby);
+
+		Entity* spot = instanciate("Spot");
+		spot->getComponent<Transform>()->setPosition(Vector3f(-1.0f, 1.0f, 1.0f));
+		spot->getComponent<Transform>()->setRotation(Vector3f(0.0f, PI / 2.0f, 0.0f));
+		spot->addComponent<SpotLight>();
+		spot->getComponent<SpotLight>()->coneAngle = 0.97f;
+		spot->getComponent<SpotLight>()->coneAttenuation = 0.96f;
+		spot->getComponent<SpotLight>()->constant = 2.0f;
+		spot->getComponent<SpotLight>()->linear = 0.09f;
+		spot->getComponent<SpotLight>()->quadratic = 0.032f;
+		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
+		spot->getComponent<SpotLight>()->intensity = 100.0f;
+		spot->getComponent<Transform>()->setParent(shelby);
+
+		Entity* spot2 = instanciate("Spot2");
+		spot2->getComponent<Transform>()->setPosition(Vector3f(-1.0f, 1.0f, -1.0f));
+		spot2->getComponent<Transform>()->setRotation(Vector3f(0.0f, PI / 2.0f, 0.0f));
+		spot2->addComponent<SpotLight>();
+		spot2->getComponent<SpotLight>()->coneAngle = 0.97f;
+		spot2->getComponent<SpotLight>()->coneAttenuation = 0.96f;
+		spot2->getComponent<SpotLight>()->constant = 2.0f;
+		spot2->getComponent<SpotLight>()->linear = 0.09f;
+		spot2->getComponent<SpotLight>()->quadratic = 0.032f;
+		spot2->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
+		spot2->getComponent<SpotLight>()->intensity = 100.0f;
+		spot2->getComponent<Transform>()->setParent(shelby);
+
+
+
+
+
 		Entity* floor = instanciate("Floor");
 		floor->getComponent<Transform>()->setScale(Vector3f(30, 30, 30));
 		floor->addComponent<MeshRenderer>()->setMesh(plane);

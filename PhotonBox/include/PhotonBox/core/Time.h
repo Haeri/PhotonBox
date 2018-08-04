@@ -7,11 +7,11 @@ public:
 	static double deltaTime;
 	static float deltaTimef;
 	static double time;
-	static double timeScale;
+	static float timeScale;
 
 	void setDeltaTime(double deltaTime);
 	void setTime(double time);
-	void setTimeScale(double timeScale);
+	void setTimeScale(float timeScale);
 	static double now();
 };
 #endif // TIME_H

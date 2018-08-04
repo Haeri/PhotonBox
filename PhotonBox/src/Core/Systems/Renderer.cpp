@@ -57,7 +57,7 @@ GLuint _quadVBO;
 std::vector<float> stuff;
 
 
-float factor = 0.2f;
+float factor = 0.1f;
 std::string buffers[8] =
 {
 	"gPosition",
@@ -152,6 +152,7 @@ void Renderer::init(float superSampling)
 	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
 	_deferredMaterial->setTexture("gIrradiance", _gBuffer, "gIrradiance");
 	_deferredMaterial->setTexture("gRadiance", _gBuffer, "gRadiance");
+	_deferredMaterial->setTexture("gEmission", _gBuffer, "gEmission");
 	
 	_debugMode = 0;
 	
@@ -790,7 +791,7 @@ void Renderer::renderGizmos()
 		{
 			if ((*it)->getEnable())
 			{
-				//(*it)->transform->renderHandels();
+				(*it)->transform->renderHandels();
 			}
 		}
 	}
@@ -885,8 +886,8 @@ void Renderer::renderGizmos()
 			}
 			if (ImGui::BeginPopup(buffers[i].c_str()))
 			{				
-				float bigFactor = 1.2f;
-				ImGui::Image((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() / bigFactor, _gBuffer->getHeight() / bigFactor), ImVec2(0, 1), ImVec2(1, 0));
+				float bigFactor = 0.4f;
+				ImGui::Image((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() * bigFactor, _gBuffer->getHeight() * bigFactor), ImVec2(0, 1), ImVec2(1, 0));
 				ImGui::EndPopup();
 			}
 			ImGui::NewLine();
