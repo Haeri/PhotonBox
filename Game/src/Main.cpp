@@ -31,7 +31,7 @@ int main(void)
 
 	// Create and initialize the Core
 	Core core;
-	core.init(sceneMap, "Physics Scene");
+	core.init(sceneMap, "Demo Scene");
 	core.run();
 	core.destroy();
 

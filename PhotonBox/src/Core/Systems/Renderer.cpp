@@ -28,6 +28,7 @@
 #include "PhotonBox/resources/CircleShader.h"
 #include "PhotonBox/components/LightProbe.h"
 #include "PhotonBox/core/LightMap.h"
+#include "PhotonBox/core/GLError.h"
 
 #include "imgui/imgui.h"
 
@@ -404,6 +405,12 @@ void Renderer::renderDeferred(bool captureMode, LightMap* lightmap)
 	// Render opaque objects
 	_gBuffer->render(_deferredMaterial);
 
+	// Blit Depth
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _gBuffer->getFBO());
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _mainFrameBuffer->getFBO());
+
+	glBlitFramebuffer(0, 0, _gBuffer->getWidth(), _gBuffer->getHeight(), 0, 0, _mainFrameBuffer->getWidth(), _mainFrameBuffer->getHeight(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
 
 	// Render Skybox
 	_skyBox.render();
@@ -441,78 +448,77 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 
 	_skyBox.render();
 	
-	if (captureMode)
+	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
-		for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
+		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 		{
-			if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
+			if (!(*it)->getReflected && captureMode) continue;
+
+
+			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader == GShader::getInstance())
+//			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
 			{
-				if (!(*it)->getReflected && captureMode) continue;
+				glEnable(GL_DEPTH_TEST);
 
 
-				if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
+				// IBL
+				_ambientLightShader->bind();
+				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
+				if (!captureMode && lp != nullptr)
 				{
-					glEnable(GL_DEPTH_TEST);
-					(*it)->render();
+					lp->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					lp->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+
+					_ambientLightShader->setUniform("minBound", lp->bounds.getMinBoundGlobal());
+					_ambientLightShader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
+					_ambientLightShader->setUniform("boundPos", lp->bounds.getBoundPosition());
+					_ambientLightShader->setUniform("useCorrection", true);
+				}
+				else if (lightmap != nullptr)
+				{
+					lightmap->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					lightmap->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					_ambientLightShader->setUniform("useCorrection", false);
 				}
 				else
 				{
-					glEnable(GL_DEPTH_TEST);
-
-
-					// IBL
-					_ambientLightShader->bind();
-					LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
-					if (!captureMode && lp != nullptr)
-					{
-						lp->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
-						lp->getSpecularCube()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
-
-						_ambientLightShader->setUniform("minBound", lp->bounds.getMinBoundGlobal());
-						_ambientLightShader->setUniform("maxBound", lp->bounds.getMaxBoundGlobal());
-						_ambientLightShader->setUniform("boundPos", lp->bounds.getBoundPosition());
-						_ambientLightShader->setUniform("useCorrection", true);
-					}
-					else if (lightmap != nullptr)
-					{
-						lightmap->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
-						lightmap->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
-						_ambientLightShader->setUniform("useCorrection", false);
-					}
-					else
-					{
-						_skyBox.getLightMap()->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
-						_skyBox.getLightMap()->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
-						_ambientLightShader->setUniform("useCorrection", false);
-					}
-
-					// AMBIENT
-					AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
-					(*it)->render(_ambientLightShader, ambient);
-
-
-					glEnable(GL_BLEND);
-					glBlendFunc(GL_ONE, GL_ONE);
-					glDepthMask(GL_FALSE);
-					glDepthFunc(GL_EQUAL);
-
-					std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
-					for (auto const &lightvec : lights)
-					{
-						for (auto const &light : lightvec.second)
-						{
-							if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
-							(*it)->render(light->getLightShader(), light);
-						}
-					}
-
-					glDepthMask(GL_TRUE);
-					glDepthFunc(GL_LESS);
-					glDisable(GL_BLEND);
-
+					_skyBox.getLightMap()->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					_skyBox.getLightMap()->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					_ambientLightShader->setUniform("useCorrection", false);
 				}
+
+				// AMBIENT
+				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+				(*it)->render(_ambientLightShader, ambient);
+
+
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_ONE, GL_ONE);
+				glDepthMask(GL_FALSE);
+				glDepthFunc(GL_EQUAL);
+
+				std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+				for (auto const &lightvec : lights)
+				{
+					for (auto const &light : lightvec.second)
+					{
+						if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+						(*it)->render(light->getLightShader(), light);
+					}
+				}
+
+				glDepthMask(GL_TRUE);
+				glDepthFunc(GL_LESS);
+				glDisable(GL_BLEND);
+
+			}
+			else
+			{
+				glEnable(GL_DEPTH_TEST);
+				(*it)->render();
 			}
 		}
+		
 	}
 	
 
@@ -586,11 +592,14 @@ void Renderer::render(bool captureMode, LightMap* lightmap)
 	if (!captureMode && !PostProcessing::isActive())
 	{
 		FrameBuffer::resetDefaultBuffer();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
 		_mainFrameBuffer->render("color");
 	}
 }
 
 
+// DEPRECATED
 void Renderer::renderBase()
 {
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
@@ -668,7 +677,7 @@ void Renderer::renderTransparents()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
-		glDepthFunc(GL_EQUAL);
+		glDepthFunc(GL_ALWAYS);
 
 		
 		it->second->render(_transparentBaseShader, ambient);
