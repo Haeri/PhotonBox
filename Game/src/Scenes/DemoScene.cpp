@@ -2,6 +2,7 @@
 #define DEMO_SCENE_CPP
 
 #include <Components/MeshRenderer.h>
+#include <Components/TransparentMeshRenderer.h>
 #include <Components/PointRenderer.h>
 #include <Resources/OBJLoader.h>
 #include <Resources/Scene.h>
@@ -160,6 +161,12 @@ public:
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(def);
+
+		Entity* probe2 = instanciate("Probe-2");
+		probe2->getComponent<Transform>()->setPosition(Vector3f(3.0f, 1.0f, 0.0f));
+		probe2->addComponent<TransparentMeshRenderer>();
+		probe2->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
+		probe2->getComponent<TransparentMeshRenderer>()->setMaterial(def);
 
 		Entity* quad = instanciate("Quad-1");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
