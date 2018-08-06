@@ -1,12 +1,12 @@
 #ifndef FORWARD_DIRECTIONAL_LIGHT_SHADER_H
 #define FORWARD_DIRECTIONAL_LIGHT_SHADER_H
 
-#include "PhotonBox/components/Camera.h"
+//#include "PhotonBox/components/Camera.h"
 #include "PhotonBox/components/DirectionalLight.h"
-#include "PhotonBox/components/Transform.h"
-#include "PhotonBox/resources/Shader.h"
-#include "PhotonBox/resources/Resources.h"
-#include "PhotonBox/core/FrameBuffer.h"
+//#include "PhotonBox/components/Transform.h"
+//#include "PhotonBox/resources/Shader.h"
+//#include "PhotonBox/resources/Resources.h"
+//#include "PhotonBox/core/FrameBuffer.h"
 
 class ForwardDirectionalLightShader : public InstancedShader<ForwardDirectionalLightShader>
 {
@@ -42,7 +42,7 @@ public:
 		glUniform3fv(uniforms["light.color"], 1, &(dl->color.x()));
 		glUniform1f(uniforms["light.intensity"], dl->intensity);
 
-		dl->shadowBuffer->bind(textures["shadowMap"].unit, "depth");
+		
 	}
 
 	void addUniforms() override

@@ -27,6 +27,7 @@ class Renderer
 {
 public:
 	static const int MAX_DEBUG = 4;
+	static const int SHADOW_MAP_RESOLUTION = 4096;
 
 	static int getDebugMode() { return _debugMode; }
 	static void setDebug(int debugMode);
@@ -42,6 +43,7 @@ public:
 	static FrameBuffer* getMainFrameBuffer() { return _mainFrameBuffer; }
 	static FrameBuffer* getGBuffer() { return _gBuffer; }
 	static FrameBuffer* getDebugBuffer() { return _gizmoBuffer; }
+	static FrameBuffer* getShadowBuffer() { return _shadowBuffer; }
 
 	void init(float superSampling = 1);
 	void start();
@@ -65,6 +67,7 @@ private:
 	static FrameBuffer* _mainFrameBuffer;
 	static FrameBuffer* _gBuffer;
 	static FrameBuffer*	_gizmoBuffer;
+	static FrameBuffer* _shadowBuffer;
 	static int _debugMode;
 	static std::vector<ObjectRenderer*> _renderListOpaque;
 	static std::vector<ObjectRenderer*> _renderListTransparent;
@@ -78,6 +81,7 @@ private:
 	static ForwardSpotLightShader* _spotLightShader;
 	static TransparentShader* _transparentBaseShader;
 	static DeferredShader* _deferredShader;
+	static DepthShader* _depthShader;
 	static Material* _deferredMaterial;
 };
 
