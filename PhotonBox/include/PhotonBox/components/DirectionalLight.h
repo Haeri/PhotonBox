@@ -13,7 +13,7 @@ class DirectionalLight : public LightEmitter
 public:
 	Vector3f direction;
 	Matrix4f lightProjection;
-	FrameBuffer* shadowBuffer;
+	//FrameBuffer* shadowBuffer;
 
 	DirectionalLight();
 	~DirectionalLight();
@@ -23,10 +23,10 @@ public:
 
 	void destroy() override;
 	Shader* getLightShader() override;
-	void renderShadowMap(bool captureMode);
+	//void renderShadowMap(bool captureMode);
 private:
-	DepthShader* _depthShader;
-	int _shadowMapResolution;
+	//DepthShader* _depthShader;
+	//int _shadowMapResolution;
 };
 
 #endif // DIRECTIONAL_LIGHT_H

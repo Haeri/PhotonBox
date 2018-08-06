@@ -29,6 +29,7 @@
 #include "PhotonBox/components/LightProbe.h"
 #include "PhotonBox/core/LightMap.h"
 #include "PhotonBox/core/GLError.h"
+#include "PhotonBox/resources/ForwardDirectionalLightShader.h"
 
 #include "imgui/imgui.h"
 
@@ -45,15 +46,14 @@ ForwardPointLightShader* Renderer::_pointLightShader;
 ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
 DeferredShader* Renderer::_deferredShader;
-DepthShader* _depthShader;
+DepthShader* Renderer::_depthShader;
 
 Material* Renderer::_deferredMaterial;
-
-_shadowMapResolution = 4096;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_gBuffer;
 FrameBuffer* Renderer::_gizmoBuffer;
+FrameBuffer* Renderer::_shadowBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3f, 0.3f, 0.3f);
 
 // Temp stuff
@@ -145,7 +145,7 @@ void Renderer::init(float superSampling)
 	_gizmoBuffer->addTextureAttachment("color", false, false);
 	_gizmoBuffer->ready();
 
-	_shadowBuffer = new FrameBuffer(_shadowMapResolution, _shadowMapResolution);
+	_shadowBuffer = new FrameBuffer(SHADOW_MAP_RESOLUTION, SHADOW_MAP_RESOLUTION);
 	_shadowBuffer->addDepthTextureAttachment("depth");
 	_shadowBuffer->ready();
 	
@@ -252,8 +252,40 @@ void Renderer::start()
 
 void Renderer::prePass()
 {
+	bool depthPrePass = true;
+
 	_gBuffer->enable();
 	_gBuffer->clear();
+
+	if (depthPrePass)
+	{
+		glDepthMask(GL_TRUE);
+		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+		glDepthFunc(GL_LESS);
+
+
+		for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
+		{
+			if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
+			{
+				glEnable(GL_DEPTH_TEST);
+
+				
+
+				Shader* shader = (*it)->getMaterial()->shader;
+
+				(*it)->render(LitShader::getInstance());
+
+				
+			}
+		}
+
+		glDepthMask(GL_FALSE);
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+		glDepthFunc(GL_EQUAL);
+	}
+
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
@@ -300,7 +332,8 @@ void Renderer::prePass()
 			}
 		}
 	}
-
+	glDepthFunc(GL_LESS);
+	glDepthMask(GL_TRUE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -311,18 +344,24 @@ void Renderer::clearDrawCalls()
 
 void Renderer::renderShadows()
 {
+	_shadowBuffer->enable();
+	_shadowBuffer->clear();
+	
 	glCullFace(GL_FRONT);
+	glEnable(GL_DEPTH_TEST);
+
 	std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
 	for (size_t i = 0; i < directionalLights.size(); ++i)
 	{
 		if (!directionalLights[i]->getEnable()) continue;
-		directionalLights[i]->renderShadowMap(false);
-
-
-		shadowBuffer->enable();
-		shadowBuffer->clear();
-
-		Renderer::render(_depthShader, captureMode);
+		
+		for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
+		{
+			if ((*it)->getEnable() && (*it)->castShadows && Camera::getMainCamera()->frustumTest(*it))
+			{
+				(*it)->render(_depthShader, directionalLights[i]);
+			}
+		}
 
 
 		/*
@@ -332,11 +371,6 @@ void Renderer::renderShadows()
 		ImGui::End();
 		}
 		*/
-
-
-		FrameBuffer::resetDefaultBuffer();
-
-
 	}
 	glCullFace(GL_BACK);
 }
@@ -383,7 +417,7 @@ void Renderer::renderDeferred()
 				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
 				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
 
-				dl->shadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
+				_shadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
 			}
 			else if (typeid(*light) == typeid(PointLight))
 			{
@@ -446,12 +480,12 @@ void Renderer::renderDeferred()
 
 void Renderer::renderForward()
 {
-		// Bind & clear Shadow FBO
-		renderShadows();
+	// Bind & clear Shadow FBO
+	renderShadows();
 
-		// Bind & clear Main FBO
-		_mainFrameBuffer->enable();
-		_mainFrameBuffer->clear();
+	// Bind & clear Main FBO
+	_mainFrameBuffer->enable();
+	_mainFrameBuffer->clear();
 
 	_skyBox.render();
 	
@@ -501,6 +535,12 @@ void Renderer::renderForward()
 					for (auto const &light : lightvec.second)
 					{
 						if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+						
+						if (typeid(*light) == typeid(DirectionalLight))
+						{
+							ForwardDirectionalLightShader::getInstance()->bind();
+							Renderer::getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
+						}
 						(*it)->render(light->getLightShader(), light);
 					}
 				}
@@ -562,38 +602,16 @@ void Renderer::renderTransparents()
 		std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
 
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_TRUE);
-				
-		/*
-		// Backside Pass
 		glDepthFunc(GL_LESS);
-		glCullFace(GL_FRONT);
-
-		it->second->render(_transparentBaseShader, ambient);
-
-		
-		glDepthFunc(GL_EQUAL);
-
-		for (auto const &lightvec : lights)
-		{
-			for (auto const &light : lightvec.second)
-			{
-				if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
-				it->second->render(light->getLightShader(), light);
-			}
-		}
-		*/
-
-		
-		// Frontside Pass
-		glDepthFunc(GL_LESS);
-		glCullFace(GL_BACK);
 
 		it->second->render(_transparentBaseShader, ambient);
 
 
 		glDepthFunc(GL_EQUAL);
+		glBlendFunc(GL_ONE, GL_ONE);
 
 		for (auto const &lightvec : lights)
 		{

@@ -5,9 +5,9 @@ attribute vec2 uv;
 
 uniform mat4 mvp;
 
-varying vec2 texCoordVarying;
+//varying vec2 texCoordVarying;
 
 void main(){
 	gl_Position = mvp * vec4(position, 1.0);
-	texCoordVarying = uv;
+	//texCoordVarying = uv;
 }
