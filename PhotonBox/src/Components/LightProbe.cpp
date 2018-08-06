@@ -69,10 +69,10 @@ LightMap* LightProbe::captureRecursive(int step)
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, resolution, resolution);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _captureRBO);
 
+	Renderer::renderShadows();
 
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		Renderer::renderShadows(true);
 
 		glViewport(0, 0, resolution, resolution);
 		glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);
@@ -80,7 +80,7 @@ LightMap* LightProbe::captureRecursive(int step)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		cam.transform->setRotation(rotations[i]);
-		Renderer::render(true, lastLightMap);
+		Renderer::captureScene(lastLightMap);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

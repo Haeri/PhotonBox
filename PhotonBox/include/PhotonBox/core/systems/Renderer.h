@@ -43,21 +43,18 @@ public:
 	static FrameBuffer* getGBuffer() { return _gBuffer; }
 	static FrameBuffer* getDebugBuffer() { return _gizmoBuffer; }
 
-	void init();
-	void init(float superSampling);
+	void init(float superSampling = 1);
 	void start();
 	void reset();
 	void prePass();
 	void clearDrawCalls();
-	static void renderBase();
+
+	static void renderDeferred();
+	static void renderForward();
 	static void renderTransparents();
-	static void renderDeferred(bool captureMode = false, LightMap* lightmap = nullptr);
-	static void render();
-	static void render(bool captureMode);
-	static void render(Shader* customShader, bool captureMode);
-	static void render(bool captureMode, LightMap* lightmap);
-	static void renderShadows(bool captureMode);
-	static void renderAmbient(int pass, LightMap* lightMap, AABB* volume);
+	static void renderShadows();
+	static void captureScene(LightMap* lightmap = nullptr);
+	
 	void renderGizmos();
 	void destroy();
 private:
