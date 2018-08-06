@@ -134,20 +134,29 @@ void Core::run()
 		// Start Rendering
 		FrameBuffer::resetDefaultBuffer();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		_check_gl_error("First Clear", 0);
 
 
 		// Render gBuffers
 		_renderer->prePass();
+		_check_gl_error("Pre Pass", 0);
+
 
 		// Render Scene
 		Renderer::renderDeferred();
 		//Renderer::render();
 		nbFrames++;
+		_check_gl_error("Main Render", 0);
+
 
 		_postPocessing->postProcess();
+		_check_gl_error("PostProcessing", 0);
+
 
 		// Gizmos
 		_renderer->renderGizmos();
+		_check_gl_error("Gizmos", 0);
+
 
 		FrameBuffer::resetDefaultBuffer();
 
@@ -160,11 +169,16 @@ void Core::run()
 			_uiRenderer->renderText("max: " + std::to_string(Profiler::getMaxFps()), 10.0f, Display::getHeight() - 50.0f, 0.32f, Vector3f(0, 1, 0));
 			_uiRenderer->renderText("avg: " + std::to_string(Profiler::getAvgFps()), 10.0f, Display::getHeight() - 65.0f, 0.32f, Vector3f(0, 0, 1));
 		}
+		_check_gl_error("SystemUI", 0);
+
 
 		// System GUI
 		_sceneManager->drawSceneList();
 
+
 		_debugGUI->render();
+		_check_gl_error("debugGUI", 0);
+
 
 		// Refeed position updates to physics system
 		_physics->refeed();
@@ -177,8 +191,8 @@ void Core::run()
 		if(_accumulatedTime == 0)
 			_fileWatch->checkValidity();
 
-		// Check errors
-		check_gl_error();
+		_check_gl_error("End of frame", 0);
+
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())

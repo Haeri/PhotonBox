@@ -16,6 +16,7 @@
 #include "../PostProcessors/AutoExposureProcessor.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
+#include "../Scripts/StateControllerScript.cpp"
 #include "../Scripts/MaterialScript.cpp"
 
 class DemoScene : public Scene
@@ -41,12 +42,13 @@ public:
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
+		/*
 		SSAOProcessor* p_ssao = new SSAOProcessor(0);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(0);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
 		BloomProcessor* p_bloom = new BloomProcessor(2);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
-
+		*/
 
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
@@ -84,6 +86,7 @@ public:
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -6));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraControllerScript>();
+		cam->addComponent<StateControllerScript>();
 
 
 
@@ -116,7 +119,7 @@ public:
 
 		
 		Entity* pointLight2 = instanciate("Pointlight2");
-		pointLight2->addComponent<PointRenderer>()->setMaterial(lit);
+		//pointLight2->addComponent<PointRenderer>()->setMaterial(lit);
 		pointLight2->getComponent<Transform>()->setPosition(Vector3f(1.7f, 2.0f, -1.0f));
 		pointLight2->addComponent<PointLight>();
 		pointLight2->getComponent<PointLight>()->color = Vector3f(0.1f, 0.1f, 0.94f);
@@ -124,10 +127,10 @@ public:
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 3.6f;
-		pointLight2->setEnable(false);
+		//pointLight2->setEnable(false);
 
 		Entity* pointLight3 = instanciate("Pointlight3");
-		pointLight3->addComponent<PointRenderer>()->setMaterial(lit);
+		//pointLight3->addComponent<PointRenderer>()->setMaterial(lit);
 		pointLight3->getComponent<Transform>()->setPosition(Vector3f(-1.7f, 2.0f, -1.0f));
 		pointLight3->addComponent<PointLight>();
 		pointLight3->getComponent<PointLight>()->color = Vector3f(0.93f, 0.1f, 0.1f);
@@ -135,7 +138,7 @@ public:
 		pointLight3->getComponent<PointLight>()->linear = 0.09f;
 		pointLight3->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight3->getComponent<PointLight>()->intensity = 3.6f;
-		pointLight3->setEnable(false);
+		//pointLight3->setEnable(false);
 		
 
 		Entity* spot = instanciate("Spot");

@@ -223,10 +223,10 @@ void FrameBuffer::resize()
 void FrameBuffer::blit(FrameBuffer* target, std::string sourceAttachment, std::string targetAttachment) 
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, target->getFBO());
-
 	glReadBuffer(getAttachment(sourceAttachment)->attachmentIndex);
-	glDrawBuffer(getAttachment(sourceAttachment)->attachmentIndex);
+	
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, target->getFBO());
+	glDrawBuffer(target->getAttachment(targetAttachment)->attachmentIndex);
 
 	glBlitFramebuffer(0, 0, _width, _height, 0, 0, target->getWidth(), target->getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
@@ -234,9 +234,10 @@ void FrameBuffer::blit(FrameBuffer* target, std::string sourceAttachment, std::s
 void FrameBuffer::blitToScreen(std::string name)
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
+	glReadBuffer(getAttachment(name)->attachmentIndex);
+
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
-	glReadBuffer(getAttachment(name)->attachmentIndex);
 	glBlitFramebuffer(0, 0, _width, _height, 0, 0, Display::getWidth(), Display::getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 
