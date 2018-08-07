@@ -13,12 +13,13 @@
 #include "PhotonBox/components/SpotLight.h"
 #include "PhotonBox/components/Transform.h"
 #include "PhotonBox/components/TransparentMeshRenderer.h"
-#include "PhotonBox/resources/DepthShader.h"
+#include "PhotonBox/resources/DirectionalShadowShader.h"
 #include "PhotonBox/resources/GShader.h"
 #include "PhotonBox/resources/LitShader.h"
 #include "PhotonBox/resources/Scene.h"
 #include "PhotonBox/resources/TransparentShader.h"
 #include "PhotonBox/resources/DeferredShader.h"
+#include "PhotonBox/resources/DepthShader.h"
 #include "PhotonBox/core/Display.h"
 #include "PhotonBox/core/FrameBuffer.h"
 #include "PhotonBox/core/PostProcessor.h"
@@ -46,7 +47,7 @@ ForwardPointLightShader* Renderer::_pointLightShader;
 ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
 DeferredShader* Renderer::_deferredShader;
-DepthShader* Renderer::_depthShader;
+DirectionalShadowShader* Renderer::_directionalShadowShader;
 
 Material* Renderer::_deferredMaterial;
 
@@ -120,7 +121,7 @@ void Renderer::init(float superSampling)
 	_spotLightShader = ForwardSpotLightShader::getInstance();
 	_transparentBaseShader = TransparentShader::getInstance();
 	_deferredShader = DeferredShader::getInstance();
-	_depthShader = DepthShader::getInstance();
+	_directionalShadowShader = DirectionalShadowShader::getInstance();
 	
 	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
@@ -252,10 +253,11 @@ void Renderer::start()
 
 void Renderer::prePass()
 {
-	bool depthPrePass = true;
 
 	_gBuffer->enable();
 	_gBuffer->clear();
+
+	glEnable(GL_DEPTH_TEST);
 
 	if (depthPrePass)
 	{
@@ -263,20 +265,12 @@ void Renderer::prePass()
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		glDepthFunc(GL_LESS);
 
-
 		for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 		{
 			if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 			{
-				glEnable(GL_DEPTH_TEST);
-
-				
-
 				Shader* shader = (*it)->getMaterial()->shader;
-
-				(*it)->render(LitShader::getInstance());
-
-				
+				(*it)->render(DepthShader::getInstance());	
 			}
 		}
 
@@ -291,8 +285,6 @@ void Renderer::prePass()
 	{
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 		{
-			glEnable(GL_DEPTH_TEST);
-
 			if ((*it)->getType() == RenderType::cutout)
 			{
 				glEnable(GL_BLEND);
@@ -359,7 +351,7 @@ void Renderer::renderShadows()
 		{
 			if ((*it)->getEnable() && (*it)->castShadows && Camera::getMainCamera()->frustumTest(*it))
 			{
-				(*it)->render(_depthShader, directionalLights[i]);
+				(*it)->render(_directionalShadowShader, directionalLights[i]);
 			}
 		}
 

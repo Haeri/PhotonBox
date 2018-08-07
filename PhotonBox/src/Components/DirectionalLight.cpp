@@ -4,7 +4,7 @@
 #include "PhotonBox/core/systems/Lighting.h"
 #include "PhotonBox/core/systems/Renderer.h"
 #include "PhotonBox/resources/DefaultPostShader.h"
-#include "PhotonBox/resources/DepthShader.h"
+#include "PhotonBox/resources/DirectionalShadowShader.h"
 #include "PhotonBox/resources/ForwardDirectionalLightShader.h"
 
 #include "imgui\imgui.h"

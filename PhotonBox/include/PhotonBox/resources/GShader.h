@@ -16,7 +16,9 @@ public:
 	void update(Transform* transform)
 	{
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
-
+		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
+		
+		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
 		glUniformMatrix4fv(uniforms["model"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
 		glUniformMatrix4fv(uniforms["view"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix()(0, 0)));
 		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
@@ -28,6 +30,7 @@ public:
 		addUniform("model");
 		addUniform("view");
 		addUniform("projection");
+		addUniform("mvp");
 
 		addUniform("viewPos");
 		addUniform("minBound");
