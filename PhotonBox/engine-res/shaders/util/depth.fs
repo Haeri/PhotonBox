@@ -1,9 +1,10 @@
-#version 120
+#version 330
+
+in vec2 texCoords;
 
 uniform sampler2D albedoMap;
-varying vec2 TexCoords;
 
 void main()
 {          
-	if(texture2D(albedoMap, TexCoords).a < 0.1) discard;
+	if(texture(albedoMap, texCoords).a < 0.1) discard;
 }  

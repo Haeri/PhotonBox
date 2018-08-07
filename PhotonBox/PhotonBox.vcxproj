@@ -92,6 +92,7 @@
     <ClInclude Include="include\imgui\stb_textedit.h" />
     <ClInclude Include="include\imgui\stb_truetype.h" />
     <ClInclude Include="include\PhotonBox\Components\AmbientLight.h" />
+    <ClInclude Include="include\PhotonBox\resources\DepthShader.h" />
     <ClInclude Include="src\Components\Behaviour.h" />
     <ClInclude Include="src\Components\BoxCollider.h" />
     <ClInclude Include="src\Components\Camera.h" />

@@ -7,6 +7,7 @@ class TransparentShader;
 class GShader;
 class TransparentMeshRenderer;
 class DeferredShader;
+class DirectionalShadowShader;
 class Material;
 class AABB;
 
@@ -28,6 +29,8 @@ class Renderer
 public:
 	static const int MAX_DEBUG = 4;
 	static const int SHADOW_MAP_RESOLUTION = 4096;
+
+	bool depthPrePass = true;
 
 	static int getDebugMode() { return _debugMode; }
 	static void setDebug(int debugMode);
@@ -81,7 +84,7 @@ private:
 	static ForwardSpotLightShader* _spotLightShader;
 	static TransparentShader* _transparentBaseShader;
 	static DeferredShader* _deferredShader;
-	static DepthShader* _depthShader;
+	static DirectionalShadowShader* _directionalShadowShader;
 	static Material* _deferredMaterial;
 };
 
