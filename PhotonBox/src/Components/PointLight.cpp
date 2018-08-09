@@ -1,6 +1,7 @@
-#include "../Core/Systems/Lighting.h"
-#include "../Resources/ForwardPointLightShader.h"
-#include "PointLight.h"
+#include "PhotonBox/components/PointLight.h"
+
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/resources/ForwardPointLightShader.h"
 
 PointLight::PointLight()
 {
@@ -15,4 +16,14 @@ void PointLight::destroy()
 Shader * PointLight::getLightShader()
 {
 	return ForwardPointLightShader::getInstance();
+}
+
+void PointLight::OnEnable()
+{
+	Lighting::addLight(this);
+}
+
+void PointLight::OnDisable()
+{
+	Lighting::removeLight(this);
 }

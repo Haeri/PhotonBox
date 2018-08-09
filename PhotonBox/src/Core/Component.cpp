@@ -1,8 +1,8 @@
-#include "Component.h"
+#include "PhotonBox/core/Component.h"
 
-void Component::setGameObject(GameObject* _go)
+void Component::setEntity(Entity* _go)
 {
-	gameObject = _go;
+	entity = _go;
 }
 
 void Component::setTransform(Transform* _t)
@@ -28,5 +28,10 @@ std::string Component::getName()
 void Component::OnEnable() {}
 void Component::OnDisable() {}
 void Component::destroy() {}
+
+std::type_index Component::getBaseType()
+{
+	return typeid(Component);
+}
 
 Component::~Component() {}

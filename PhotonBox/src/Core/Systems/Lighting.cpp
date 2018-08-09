@@ -1,6 +1,7 @@
-#include "../../Components/LightProbe.h"
-#include "../../Components/Transform.h"
-#include "Lighting.h"
+#include "PhotonBox/core/systems/Lighting.h"
+
+#include "PhotonBox/components/LightProbe.h"
+#include "PhotonBox/components/Transform.h"
 
 std::unordered_map<std::type_index, std::vector<LightEmitter*>> Lighting::_lights;
 std::vector<LightProbe*> Lighting::_lightProbes;

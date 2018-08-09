@@ -1,11 +1,11 @@
-#include "UIRenderer.h"
+#include "PhotonBox/core/systems/UIRenderer.h"
 
 #include <iostream>
 
-#include "../../Resources/TextShader.h"
-#include "../../Resources/Resources.h"
-#include "../OpenGL.h"
-#include "Renderer.h"
+#include "PhotonBox/resources/TextShader.h"
+#include "PhotonBox/resources/Resources.h"
+#include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/core/systems/Renderer.h"
 
 TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;
@@ -60,9 +60,9 @@ void UIRenderer::init()
 		// Now store character for later use
 		Character character = {
 			texture,
-			Vector2f(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-			Vector2f(face->glyph->bitmap_left, face->glyph->bitmap_top),
-			face->glyph->advance.x
+			Vector2f(static_cast<float>(face->glyph->bitmap.width), static_cast<float>(face->glyph->bitmap.rows)),
+			Vector2f(static_cast<float>(face->glyph->bitmap_left), static_cast<float>(face->glyph->bitmap_top)),
+			static_cast<GLuint>(face->glyph->advance.x)
 		};
 		_characters.insert(std::pair<GLchar, Character>(c, character));
 	}

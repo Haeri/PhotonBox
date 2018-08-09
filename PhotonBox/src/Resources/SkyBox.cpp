@@ -1,35 +1,41 @@
-#include "SkyBox.h"
+#include "PhotonBox/resources/SkyBox.h"
 
-#include "../Components/Camera.h"
-#include "../Core/Systems/Renderer.h"
-#include "Resources.h"
-#include "OBJLoader.h"
+#include "PhotonBox/components/Camera.h"
+#include "PhotonBox/core/LightMap.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/core/systems/SceneManager.h"
+#include "PhotonBox/resources/Resources.h"
+#include "PhotonBox/resources/OBJLoader.h"
+#include "PhotonBox/resources/Scene.h"
+#include "PhotonBox/resources/SkyBoxShader.h"
+#include "PhotonBox/resources/Mesh.h"
 
+GLuint SkyBox::_vao = -1;
+GLuint SkyBox::_vbo = -1;
+GLuint SkyBox::_ebo = -1;
+Mesh* SkyBox::_mesh = nullptr;
 
-void SkyBox::setLightProbe(LightProbe * lightProbe)
+SkyBox::~SkyBox()
 {
-	_lp = lightProbe;
+	glDeleteVertexArrays(1, &_vao);
+	glDeleteBuffers(1, &_vbo);
+	glDeleteBuffers(1, &_ebo);
+
+	delete _lightMap;
+	_vao = -1;
 }
 
 void SkyBox::init()
 {
 	_skyBoxShader = SkyBoxShader::getInstance();
-	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
+	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 }
 
-/*
-void SkyBox::setEnviromentMap(CubeMap* cubeMap) {
-	_evMap = cubeMap;
-}
-
-void SkyBox::setIrradienceMap(CubeMap* cubeMap) {
-	_irrMap = cubeMap;
-}
-*/
-
 void SkyBox::genVAO()
 {
+	if (_vao != -1) return;
+
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
 	glGenBuffers(1, &_ebo);
@@ -49,14 +55,33 @@ void SkyBox::genVAO()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(1, &_vbo);
-	glDeleteBuffers(1, &_ebo);
+}
+
+void SkyBox::setCubeMap(CubeMap* cubeMap)
+{
+	_lightMap = new LightMap(cubeMap);
+}
+
+void SkyBox::setColor(Vector3f color)
+{
+	_color = color;
+}
+
+void SkyBox::setDrawMode(SkyBoxMode mode)
+{
+	_mode = mode;
+}
+
+LightMap* SkyBox::getLightMap()
+{
+	return _lightMap;
 }
 
 void SkyBox::render()
 {
-	if (_lp == nullptr) return;
+	if (_lightMap == nullptr) return;
 
+	//TODO: If skyBox set, else solid color.
 	Matrix4f vp = Camera::getMainCamera()->getViewMatrix();
 	vp(3, 0) = 0;
 	vp(3, 1) = 0;
@@ -64,16 +89,23 @@ void SkyBox::render()
 	vp = Camera::getMainCamera()->getProjectionMatrix() * vp;
 	glBindVertexArray(_vao);
 	glDepthMask(GL_FALSE);
+	glDepthFunc(GL_EQUAL);
 
 	_skyBoxShader->bind();
 	_skyBoxShader->update(vp);
 	_skyBoxShader->setUniform("intensity", intensity);
 	_skyBoxShader->enableAttributes();
-	_lp->getEnviromentCube()->bind();
+	_lightMap->enviromentMap->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	Renderer::addDrawCall();
 	_skyBoxShader->disableAttributes();
 
 	glDepthMask(GL_TRUE);
+	glDepthFunc(GL_LESS);
 	glBindVertexArray(0);
+}
+
+void SkyBox::reset()
+{
+	delete _lightMap;
 }

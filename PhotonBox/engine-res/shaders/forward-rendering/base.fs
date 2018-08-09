@@ -47,6 +47,8 @@ float correctedCubeMapWeight(vec3 v, vec3 pos);
 
 
 void main(){
+    if(texture2D(albedoMap, texCoordVarying).a < 0.1) discard;
+
     vec3 albedo     = pow(texture2D(albedoMap, texCoordVarying).rgb, vec3(2.2));
     vec3 emission   = texture2D(emissionMap, texCoordVarying).rgb;
     vec3 normal     = tbnVarying * (255.0/128.0 * texture2D(normalMap, texCoordVarying).rgb - 1);
@@ -88,7 +90,7 @@ void main(){
 
 	vec3 color = ambient + ambientLight + emission;
    
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color, texture2D(albedoMap, texCoordVarying).a);
 }
 
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness){

@@ -12,7 +12,7 @@ public:
 
 	void Update()
 	{
-		transform->setRotation(Vector3f(0, transform->getRotation().y() + Time::deltaTime * speed, 0));
+		//transform->setRotation(Vector3f(0, transform->getRotation().y() + Time::deltaTime * speed, 0));
 	}
 };
 

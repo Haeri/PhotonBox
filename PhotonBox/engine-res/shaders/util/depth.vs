@@ -1,11 +1,14 @@
-#version 120
+#version 330 core
 
-attribute vec3 position;
+layout (location = 0) in vec3 position;
+layout (location = 3) in vec2 uv;
 
-uniform mat4 lightSpaceMatrix;
-uniform mat4 model;
+out vec2 texCoords;
+
+uniform mat4 mvp;
 
 void main()
 {
-    gl_Position = lightSpaceMatrix * model * vec4(position, 1.0);
-}  
+    gl_Position = mvp * vec4(position, 1.0);
+    texCoords = uv;
+}

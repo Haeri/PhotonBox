@@ -1,22 +1,23 @@
-#include "../Core/MeshSerializer.h"
-#include "../Core/Util.h"
-#include "OBJLoader.h"
+#include "PhotonBox/resources/OBJLoader.h"
+
 #include <fstream>
 #include <string>
 #include <unordered_map>
-
 #include <sys/stat.h>
 #include <cstdio>
 #include <cerrno>
 
-const bool forceWrite = false;
+#include "PhotonBox/resources/Mesh.h"
+#include "PhotonBox/core/MeshSerializer.h"
+#include "PhotonBox/core/Util.h"
+
+#define FORECE_GENERATE false
 
 struct OBJIndex
 {
 	int position;
 	int uv;
 	int normal;
-
 
 	bool operator==(const OBJIndex &other) const
 	{
@@ -125,37 +126,53 @@ Vector3f calculateTangent(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f uv1, V
 	return tangent;
 }
 
-Mesh* loadFromCache(const std::string& filename)
+void loadFromCache(const std::string& filename, Mesh* mesh)
 {
-	return MeshSerializer::read(filename);
+	return MeshSerializer::read(filename, mesh);
 }
 
 
-Mesh* OBJLoader::loadObj(const std::string & filePath)
+void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 {
+	std::cout << "Loading mesh: " << filePath << std::endl;
 	std::ifstream file(filePath);
+
+	if (!file.is_open())
+	{
+		std::cerr << "\t ERROR: Could not open file this file!" << std::endl;
+		mesh = nullptr;
+		return;
+	}
 
 	std::size_t found = filePath.find_last_of(".");
 	std::string cachePath = filePath.substr(0, found) + ".mesh";
 	struct stat buffer;
 
-	if (!forceWrite && stat(cachePath.c_str(), &buffer) == 0)
+#if FORECE_GENERATE
+	loadFromCache(cachePath, mesh);
+#else
+	if (stat(cachePath.c_str(), &buffer) == 0)
 	{
-		return loadFromCache(cachePath);
+		return loadFromCache(cachePath, mesh);
 	}
+#endif
 
+	std::cout << "\tCaching model..." << std::endl;
 
 	std::string line;
 	std::vector<std::string> tokens;
 
-	Mesh* mesh = new Mesh();
 	std::vector<Vector3f> positions;
 	std::vector<Vector3f> normals;
 	std::vector<Vector2f> uvs;
 	std::vector<OBJIndex> vertexList;
 	std::vector<unsigned int> indices;
 	std::unordered_map<OBJIndex, int> vertexIndexMap;
+	Vector3f min = Vector3f((std::numeric_limits<float>::max)());
+	Vector3f max = Vector3f((std::numeric_limits<float>::min)());
 	int cnt = 0;
+
+
 
 	while (std::getline(file, line))
 	{
@@ -175,8 +192,20 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 			pos.z() = std::stof(tokens[3]);
 			positions.push_back(pos);
 
-			if (mesh->boundingSphereRadius < pos.lengthSqrd())
-				mesh->boundingSphereRadius = pos.lengthSqrd();
+			if (pos.x() < min.x())
+				min.x() = pos.x();
+			if (pos.y() < min.y())
+				min.y() = pos.y();
+			if (pos.z() < min.z())
+				min.z() = pos.z();
+
+			if (pos.x() > max.x())
+				max.x() = pos.x();
+			if (pos.y() > max.y())
+				max.y() = pos.y();
+			if (pos.z() > max.z())
+				max.z() = pos.z();
+
 		}
 		else if (tokens[0].compare("vt") == 0)
 		{
@@ -204,7 +233,9 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 		}
 	}
 
-	mesh->boundingSphereRadius = sqrt(mesh->boundingSphereRadius);
+	Vector3f center = ((min + max) / 2.0f);
+	BoundingSphere bs(center, (center - min).length());
+	mesh->boundingSphere = bs;
 
 	// Create Indexed Model 
 	for (size_t i = 0; i <= indices.size() - 3; i += 3)
@@ -240,13 +271,11 @@ Mesh* OBJLoader::loadObj(const std::string & filePath)
 			tangent
 		));
 
-		mesh->indices.push_back(i);
-		mesh->indices.push_back(i + 1);
-		mesh->indices.push_back(i + 2);
+		mesh->indices.push_back(static_cast<unsigned int>(i));
+		mesh->indices.push_back(static_cast<unsigned int>(i) + 1);
+		mesh->indices.push_back(static_cast<unsigned int>(i) + 2);
 	}
 	//mesh->indices = indices;
 
 	MeshSerializer::write(cachePath, mesh);
-
-	return mesh;
 }

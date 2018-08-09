@@ -1,9 +1,9 @@
 #ifndef PATH_WALKER_SCRIPT_CPP
 #define PATH_WALKER_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Transform.h>
-#include <Core/Time.h>
+#include <components/Behaviour.h>
+#include <components/Transform.h>
+#include <core/Time.h>
 
 class PathWalkerScript : public Behaviour
 {
@@ -39,7 +39,7 @@ public:
 		}
 
 		transform->setPosition(Vector3f::lerp(path[index].getPosition(), path[index + 1].getPosition(), progress));
-		transform->setRotation(Vector3f::lerp(path[index].getRotation(), path[index + 1].getRotation(), progress));
+		//transform->setRotation(Vector3f::lerp(path[index].getRotation(), path[index + 1].getRotation(), progress));
 	}
 private:
 	float progress = 0;

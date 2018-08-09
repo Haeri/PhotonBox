@@ -1,14 +1,19 @@
-#include "../Core/Util.h"
-#include "CubeMap.h"
-#include "Shader.h"
-#include "Texture.h"
+#include "PhotonBox/resources/Shader.h"
+
 #include <iostream>
 #include <fstream>
+#include <intrin.h>
+
+#include "PhotonBox/core/Util.h"
+#include "PhotonBox/resources/CubeMap.h"
+#include "PhotonBox/resources/Texture.h"
+
+std::vector<Shader*> Shader::_shaderList;
 
 void Shader::init()
 {
+	FileWatch::addToWatchList(getFilePath(), this);
 	std::vector<std::string> path;
-
 	std::string filePath = getFilePath();
 	Util::split(filePath, "/", path);
 
@@ -52,6 +57,12 @@ void Shader::destroy()
 	glDetachShader(_program, _shaders[0]);
 	glDetachShader(_program, _shaders[1]);
 	glDeleteProgram(_program);
+}
+
+void Shader::reload()
+{
+	destroy();
+	init();
 }
 
 void Shader::bind()
@@ -101,8 +112,17 @@ void Shader::updateTextures()
 {
 	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it)
 	{
-		glUniform1i(it->second.uniformLocation, it->second.unit - GL_TEXTURE0);
+		glUniform1i(it->second.uniformLocation, it->second.unit);
 	}
+}
+
+void Shader::clearAll()
+{
+	for (std::vector<Shader*>::iterator it = _shaderList.begin(); it != _shaderList.end(); ++it)
+	{
+		delete (*it);
+	}
+	_shaderList.clear();
 }
 
 std::string Shader::readShader(const std::string& fileName)
@@ -180,5 +200,18 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 
 bool Shader::checkUniform(const std::string & name)
 {
+#ifdef _DEBUG
+	if (uniforms.find(name) != uniforms.end())
+	{
+		return true;
+	}
+	else
+	{
+//		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
+//		__debugbreak();
+		return false;
+	}
+#else
 	return uniforms.find(name) != uniforms.end();
+#endif
 }

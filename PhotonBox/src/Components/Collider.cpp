@@ -1,12 +1,11 @@
-#include "../Core/Systems/Physics.h"
-#include "Collider.h"
+#include "PhotonBox/components/Collider.h"
 
 Collider::Collider()
 {
-	Physics::addToPhysicsList(this);
+	//Physics::addToPhysicsList(this);
 }
 
 void Collider::destroy()
 {
-	Physics::removeFromPhysicsList(this);
+	//Physics::removeFromPhysicsList(this);
 }

@@ -73,11 +73,6 @@ void main(){
     float NdotL = max(dot(N, L), 0.0);                
     vec3 color = ((kD * albedo * alpha) / PI + specular) * radiance * (1.0 - shadow) * NdotL;
 
-
-
-    // Temporary gamma correction
-    //color = color / (color + vec3(1.0));
-    //color = pow(color, vec3(1.0/2.2));  
    
     gl_FragColor = vec4(color, 1.0);
 }

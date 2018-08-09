@@ -1,16 +1,17 @@
+#include "PhotonBox/core/MeshSerializer.h"
+
 #include <fstream>
 #include <iostream>
 
-#include "../Resources/Mesh.h"
-#include "../Resources/Vertex.h"
-#include "MeshSerializer.h"
+#include "PhotonBox/resources/Mesh.h"
+#include "PhotonBox/resources/Vertex.h"
 
 void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 {
 
-	int indicesSize = mesh->indices.size();
-	int verticesSize = mesh->vertices.size();
-	float boundingSphereRadius = mesh->boundingSphereRadius;
+	int indicesSize = static_cast<int>(mesh->indices.size());
+	int verticesSize = static_cast<int>(mesh->vertices.size());
+	BoundingSphere bs = mesh->boundingSphere;
 
 	std::ofstream myfile;
 	myfile.open(pathName, std::ios::out | std::ios::binary);
@@ -22,8 +23,8 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 		myfile.write((char*)&verticesSize, sizeof(int));
 		// write indices size
 		myfile.write((char*)&indicesSize, sizeof(int));
-		// write radius
-		myfile.write((char*)&boundingSphereRadius, sizeof(float));
+		// write Bounding Sphere
+		myfile.write((char*)&bs, sizeof(BoundingSphere));
 		// write indices
 		myfile.write((char*)&mesh->vertices[0], sizeof(Vertex) * verticesSize);
 		// write vertices
@@ -37,16 +38,11 @@ void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 	}
 }
 
-Mesh * MeshSerializer::read(const std::string & pathName)
+void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 {
-	Mesh* mesh = new Mesh();
-
 	int indicesSize;
-	int verticesSize;
-	float boundingSphereRadius;
-
-	//	Vertex *vertices;
-	//	unsigned int *indices;
+	int verticesSize; 
+	BoundingSphere bs;
 
 
 	std::ifstream myfile;
@@ -60,8 +56,8 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 		myfile.read((char*)&verticesSize, sizeof(int));
 		// read indices size
 		myfile.read((char*)&indicesSize, sizeof(int));
-		// read radius
-		myfile.read((char*)&boundingSphereRadius, sizeof(float));
+		// read Bounding Sphere
+		myfile.read((char*)&bs, sizeof(BoundingSphere));
 
 		mesh->vertices.resize(verticesSize);
 		mesh->indices.resize(indicesSize);
@@ -73,12 +69,10 @@ Mesh * MeshSerializer::read(const std::string & pathName)
 
 		myfile.close();
 
-		mesh->boundingSphereRadius = boundingSphereRadius;
-		return mesh;
+		mesh->boundingSphere = bs;
 	}
 	else
 	{
 		std::cout << "Unable to open file" << std::endl;
-		return nullptr;
 	}
 }

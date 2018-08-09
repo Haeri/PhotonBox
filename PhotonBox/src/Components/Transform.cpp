@@ -1,7 +1,13 @@
+#include "PhotonBox/components/Transform.h"
+
 #include <algorithm>
-#include "../Core/GameObject.h"
-#include "Camera.h"
-#include "Transform.h"
+
+#include "PhotonBox/components/Camera.h"
+#include "PhotonBox/core/Entity.h"
+#include "PhotonBox/core/systems/DebugGUI.h"
+#include "PhotonBox/math/Math.h"
+
+#include "imgui/imgui.h"
 
 Vector3f Transform::forward()
 {
@@ -39,6 +45,15 @@ Vector3f Transform::rightWorld()
 	return Vector3f(r(0, 0), r(1, 0), r(2, 0));
 }
 
+bool Transform::hasChanged()
+{
+
+	//TODO: This is completely broken! This should not be calld since last frame, but needs to be
+	// an internal falg for cache checking.
+	// Create a public hasChanged variable that is updated every frame
+	return true;
+}
+
 void Transform::removeChild(Transform * child)
 {
 	children.erase(std::remove(children.begin(), children.end(), child), children.end());
@@ -46,6 +61,7 @@ void Transform::removeChild(Transform * child)
 
 void Transform::renderHandels()
 {
+	/*
 	Matrix4f projectionMatrix = Camera::getMainCamera()->getProjectionMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf((const GLfloat*)&projectionMatrix(0, 0));
@@ -78,11 +94,24 @@ void Transform::renderHandels()
 	glFinish();
 
 	glDepthFunc(GL_LESS);
+
+	*/
+
+
+	{
+		ImGui::BeginGroup();
+		ImGui::Text(entity->name.c_str());
+		ImGui::SliderFloat3(("Pos##" + entity->name).c_str(), &(_position[0]), -10, 10);
+		//ImGui::SliderFloat4("Rotation", &(_rotation[0]), -10, 10);
+		_hasChangedLastFrame = true;
+		ImGui::EndGroup();
+		ImGui::NewLine();
+	}
 }
 
 void Transform::print()
 {
-	std::cout << gameObject->name << std::endl;
+	std::cout << entity->name << std::endl;
 	std::cout << "Position: " << getPosition() << std::endl;
 	std::cout << "World Position: " << getPositionWorld() << std::endl;
 	std::cout << "Rotation: " << getRotation() << std::endl;
@@ -92,14 +121,13 @@ void Transform::print()
 
 Matrix4f Transform::getRotationMatrix()
 {
-	return Matrix4f::createRotation(_rotation.z(), Vector3f::UNIT_Z) * Matrix4f::createRotation(_rotation.x(), Vector3f::UNIT_X) * Matrix4f::createRotation(_rotation.y(), Vector3f::UNIT_Y);
+	return _rotation.createRotation();
 }
 
-Vector3f Transform::getRotation()
+Quaternion Transform::getRotation()
 {
 	return _rotation;
 }
-
 
 Vector3f Transform::getPosition()
 {
@@ -122,14 +150,19 @@ void Transform::setPosition(Vector3f position)
 	if (!position.equals(_position))
 	{
 		_position = position;
-		_hasChanged = true;
+		_hasChangedLastFrame = true;
 	}
 }
 
 void Transform::setRotation(Vector3f rotation)
 {
+	setRotation(Quaternion(rotation));
+}
+
+void Transform::setRotation(Quaternion rotation)
+{
 	_rotation = rotation;
-	_hasChanged = true;
+	_hasChangedLastFrame = true;
 }
 
 void Transform::setScale(Vector3f scale)
@@ -137,7 +170,7 @@ void Transform::setScale(Vector3f scale)
 	if (!scale.equals(_scale))
 	{
 		_scale = scale;
-		_hasChanged = true;
+		_hasChangedLastFrame = true;
 	}
 }
 
@@ -154,9 +187,15 @@ void Transform::setParent(Transform *parent)
 		parent->children.push_back(this);
 }
 
-void Transform::setParent(GameObject *_gameObject)
+void Transform::setParent(Entity *_entity)
 {
-	setParent(_gameObject->transform);
+	setParent(_entity->transform);
+}
+
+void Transform::rotate(Quaternion quat)
+{
+	_rotation = (quat * _rotation).normalize();
+	_hasChangedLastFrame = true;
 }
 
 Matrix4f Transform::getTransformationMatrix()
@@ -174,20 +213,19 @@ Matrix4f Transform::getTransformationMatrix(bool rot, bool scale, bool trans)
 
 Matrix4f Transform::getLocalTransformationMatrix()
 {
-	if (_hasChanged)
+	if (_hasChangedLastFrame)
 	{
-		_modelMatrixCached = Matrix4f::IDENTITY;
+		_transformationMatrixCached = Matrix4f::IDENTITY;
+		_transformationMatrixCached = getRotationMatrix() * Matrix4f::createScaling(_scale);
 
-		_modelMatrixCached = getRotationMatrix() * Matrix4f::createScaling(_scale);
+		_transformationMatrixCached(3, 0) = _position.x();
+		_transformationMatrixCached(3, 1) = _position.y();
+		_transformationMatrixCached(3, 2) = _position.z();
 
-		_modelMatrixCached(3, 0) = _position.x();
-		_modelMatrixCached(3, 1) = _position.y();
-		_modelMatrixCached(3, 2) = _position.z();
-
-		_hasChanged = false;
+		_hasChangedLastFrame = false;
 	}
 
-	return _modelMatrixCached;
+	return _transformationMatrixCached;
 }
 
 Matrix4f Transform::getLocalTransformationMatrix(bool rot, bool scale, bool trans)
@@ -195,22 +233,22 @@ Matrix4f Transform::getLocalTransformationMatrix(bool rot, bool scale, bool tran
 	if (rot && scale && trans)
 		return getLocalTransformationMatrix();
 
-	_modelMatrixCached = Matrix4f::IDENTITY;
+	_transformationMatrixCached = Matrix4f::IDENTITY;
 
 	if (rot)
-		_modelMatrixCached = _modelMatrixCached * getRotationMatrix();
+		_transformationMatrixCached = _transformationMatrixCached * getRotationMatrix();
 
 	if (scale)
-		_modelMatrixCached = _modelMatrixCached * Matrix4f::createScaling(_scale);
+		_transformationMatrixCached = _transformationMatrixCached * Matrix4f::createScaling(_scale);
 
 	if (trans)
 	{
-		_modelMatrixCached(3, 0) = _position.x();
-		_modelMatrixCached(3, 1) = _position.y();
-		_modelMatrixCached(3, 2) = _position.z();
+		_transformationMatrixCached(3, 0) = _position.x();
+		_transformationMatrixCached(3, 1) = _position.y();
+		_transformationMatrixCached(3, 2) = _position.z();
 	}
 
-	_hasChanged = true;
+	_hasChangedLastFrame = true;
 
-	return _modelMatrixCached;
+	return _transformationMatrixCached;
 }

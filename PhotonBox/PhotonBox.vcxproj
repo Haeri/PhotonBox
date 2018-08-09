@@ -5,6 +5,14 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="PDV_Debug|Win32">
+      <Configuration>PDV_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="PDV_Debug|x64">
+      <Configuration>PDV_Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -19,30 +27,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\imgui\imgui.cpp" />
+    <ClCompile Include="include\imgui\ImGuizmo.cpp" />
+    <ClCompile Include="include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="src\Components\AmbientLight.cpp" />
     <ClCompile Include="src\Components\Behaviour.cpp" />
+    <ClCompile Include="src\Components\BoxCollider.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
     <ClCompile Include="src\Components\DirectionalLight.cpp" />
-    <ClCompile Include="src\Components\LightEmitter.cpp" />
     <ClCompile Include="src\Components\LightProbe.cpp" />
     <ClCompile Include="src\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\ObjectRenderer.cpp" />
     <ClCompile Include="src\Components\PointLight.cpp" />
+    <ClCompile Include="src\Components\Rigidbody.cpp" />
     <ClCompile Include="src\Components\SphereCollider.cpp" />
     <ClCompile Include="src\Components\SpotLight.cpp" />
     <ClCompile Include="src\Components\Transform.cpp" />
     <ClCompile Include="src\Core\AABB.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />
-    <ClCompile Include="src\Core\DeferredBuffer.cpp" />
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
-    <ClCompile Include="src\Core\GameObject.cpp" />
+    <ClCompile Include="src\Core\Entity.cpp" />
     <ClCompile Include="src\Core\GLError.cpp" />
     <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\LightMap.cpp" />
     <ClCompile Include="src\Core\MeshSerializer.cpp" />
     <ClCompile Include="src\Core\Profiler.cpp" />
+    <ClCompile Include="src\Core\Systems\DebugGUI.cpp" />
     <ClCompile Include="src\Core\Systems\PostProcessing.cpp" />
     <ClCompile Include="src\Core\Systems\Core.cpp" />
     <ClCompile Include="src\Core\Systems\Lighting.cpp" />
@@ -54,6 +67,7 @@
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\Util.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Math\Quaternion.cpp" />
     <ClCompile Include="src\Math\Vector2f.cpp" />
     <ClCompile Include="src\Math\Vector3f.cpp" />
     <ClCompile Include="src\Math\Vector4f.cpp" />
@@ -66,12 +80,24 @@
     <ClCompile Include="src\Resources\Shader.cpp" />
     <ClCompile Include="src\Resources\SkyBox.cpp" />
     <ClCompile Include="src\Resources\Texture.cpp" />
+    <ClCompile Include="src\util\FileWatch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Components\AmbientLight.h" />
+    <ClInclude Include="include\imgui\imconfig.h" />
+    <ClInclude Include="include\imgui\imgui.h" />
+    <ClInclude Include="include\imgui\ImGuizmo.h" />
+    <ClInclude Include="include\imgui\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="include\imgui\imgui_internal.h" />
+    <ClInclude Include="include\imgui\stb_rect_pack.h" />
+    <ClInclude Include="include\imgui\stb_textedit.h" />
+    <ClInclude Include="include\imgui\stb_truetype.h" />
+    <ClInclude Include="include\PhotonBox\Components\AmbientLight.h" />
+    <ClInclude Include="include\PhotonBox\resources\DepthShader.h" />
     <ClInclude Include="src\Components\Behaviour.h" />
+    <ClInclude Include="src\Components\BoxCollider.h" />
     <ClInclude Include="src\Components\Camera.h" />
     <ClInclude Include="src\Components\Collider.h" />
+    <ClInclude Include="src\Components\SphereCollider.h" />
     <ClInclude Include="src\Components\DirectionalLight.h" />
     <ClInclude Include="src\Components\LightEmitter.h" />
     <ClInclude Include="src\Components\LightProbe.h" />
@@ -79,22 +105,25 @@
     <ClInclude Include="src\Components\ObjectRenderer.h" />
     <ClInclude Include="src\Components\PointLight.h" />
     <ClInclude Include="src\Components\PointRenderer.h" />
+    <ClInclude Include="src\Components\Rigidbody.h" />
     <ClInclude Include="src\Components\SpotLight.h" />
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Components\TransparentMeshRenderer.h" />
     <ClInclude Include="src\Core\AABB.h" />
+    <ClInclude Include="src\Core\BoundingSphere.h" />
     <ClInclude Include="src\Core\Component.h" />
-    <ClInclude Include="src\Core\DeferredBuffer.h" />
     <ClInclude Include="src\Core\Display.h" />
     <ClInclude Include="src\Core\FrameBuffer.h" />
-    <ClInclude Include="src\Core\GameObject.h" />
+    <ClInclude Include="src\Core\Entity.h" />
     <ClInclude Include="src\Core\GLError.h" />
     <ClInclude Include="src\Core\InputManager.h" />
     <ClInclude Include="src\Core\LightMap.h" />
     <ClInclude Include="src\Core\ManagedResource.h" />
     <ClInclude Include="src\Core\MeshSerializer.h" />
     <ClInclude Include="src\Core\OpenGL.h" />
+    <ClInclude Include="src\Core\PhotonBoxVersion.h" />
     <ClInclude Include="src\Core\Profiler.h" />
+    <ClInclude Include="src\Core\Systems\DebugGUI.h" />
     <ClInclude Include="src\Core\Systems\PostProcessing.h" />
     <ClInclude Include="src\Core\PostProcessor.h" />
     <ClInclude Include="src\Core\Systems\Core.h" />
@@ -110,6 +139,7 @@
     <ClInclude Include="src\Game\TestScene.h" />
     <ClInclude Include="src\Math\Math.h" />
     <ClInclude Include="src\Math\Matrix4f.h" />
+    <ClInclude Include="src\Math\Quaternion.h" />
     <ClInclude Include="src\Math\Vector2f.h" />
     <ClInclude Include="src\Math\Vector3f.h" />
     <ClInclude Include="src\Math\Vector4f.h" />
@@ -145,11 +175,17 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F4FBA3E5-7430-4B45-B047-1CE9EDD7BAB5}</ProjectGuid>
     <RootNamespace>PhotonBoxEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>PhotonBox</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -163,6 +199,12 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -183,10 +225,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -197,6 +245,10 @@
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|Win32'">
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
@@ -204,6 +256,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_DEBUG</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'">
+    <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_DEBUG_PDV</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
@@ -214,19 +272,57 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>.\include;.\include\PhysX</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>.\include;.\include\PhysX</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\include;.\include\PhysX;</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>.\include;.\include\PhysX;</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>PDV_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -235,11 +331,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>.\include;.\include\PhysX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -248,7 +348,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\include;.\include\PhysX;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -256,6 +358,9 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

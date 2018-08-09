@@ -1,6 +1,7 @@
-#include "../Core/Systems/Lighting.h"
-#include "../Resources/ForwardAmbientLightShader.h"
-#include "AmbientLight.h"
+#include "PhotonBox/components/AmbientLight.h"
+
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/resources/ForwardAmbientLightShader.h"
 
 AmbientLight::AmbientLight()
 {
@@ -12,7 +13,7 @@ void AmbientLight::destroy()
 	Lighting::removeLight(this);
 }
 
-Shader * AmbientLight::getLightShader()
+Shader* AmbientLight::getLightShader()
 {
 	return ForwardAmbientLightShader::getInstance();
 }
