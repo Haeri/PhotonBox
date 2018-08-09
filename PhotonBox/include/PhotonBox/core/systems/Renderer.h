@@ -30,7 +30,7 @@ public:
 	static const int MAX_DEBUG = 4;
 	static const int SHADOW_MAP_RESOLUTION = 4096;
 
-	bool depthPrePass = true;
+	bool depthPrePass = false;
 
 	static int getDebugMode() { return _debugMode; }
 	static void setDebug(int debugMode);
@@ -48,24 +48,22 @@ public:
 	static FrameBuffer* getDebugBuffer() { return _gizmoBuffer; }
 	static FrameBuffer* getShadowBuffer() { return _shadowBuffer; }
 
-	void init(float superSampling = 1);
-	void start();
-	void reset();
-	void prePass();
-	void clearDrawCalls();
-
 	static void renderDeferred();
 	static void renderForward();
 	static void renderTransparents();
 	static void renderShadows();
 	static void captureScene(LightMap* lightmap = nullptr);
+	void init(float superSampling = 1);
+
+	void start();
+	void reset();
+	void prePass();
+	void clearDrawCalls();
 	
 	void renderGizmos();
 	void destroy();
 private:
 	static int _drawCalls;
-	static void clearTransparentQueue();
-	static void updateTransparentQueue();
 	static SkyBox _skyBox;
 	static FrameBuffer* _mainFrameBuffer;
 	static FrameBuffer* _gBuffer;
@@ -86,6 +84,9 @@ private:
 	static DeferredShader* _deferredShader;
 	static DirectionalShadowShader* _directionalShadowShader;
 	static Material* _deferredMaterial;
+
+	static void clearTransparentQueue();
+	static void updateTransparentQueue();
 };
 
 #endif // RENDERER_H
