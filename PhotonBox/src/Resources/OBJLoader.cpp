@@ -134,8 +134,15 @@ void loadFromCache(const std::string& filename, Mesh* mesh)
 
 void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 {
-	std::cerr << "Loading mesh: " << filePath << std::endl;
+	std::cout << "Loading mesh: " << filePath << std::endl;
 	std::ifstream file(filePath);
+
+	if (!file.is_open())
+	{
+		std::cerr << "\t ERROR: Could not open file this file!" << std::endl;
+		mesh = nullptr;
+		return;
+	}
 
 	std::size_t found = filePath.find_last_of(".");
 	std::string cachePath = filePath.substr(0, found) + ".mesh";

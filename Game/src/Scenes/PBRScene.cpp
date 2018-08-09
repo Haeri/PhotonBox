@@ -15,6 +15,7 @@
 #include <Resources/Scene.h>
 #include <Resources/TransparentShader.h>
 #include <resources/GShader.h>
+#include <components/LightProbe.h>
 
 #include "../PostProcessors/SSReflectionProcessor.cpp"
 #include "../PostProcessors/ToneMappingProcessor.cpp"
@@ -66,7 +67,7 @@ public:
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
+		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane_big.obj");
 		//Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 		//Mesh* cube = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
 		//Mesh* couchMesh = createResource<Mesh>("./res/Realistic-Rendering/Couch/couch.obj");
@@ -76,8 +77,9 @@ public:
 		Mesh* shelby_tires = createResource<Mesh>("./res/meshes/shelby/shelby_tires.obj");
 		Mesh* shelby_glass = createResource<Mesh>("./res/meshes/shelby/shelby_glass.obj");
 		Mesh* shelby_front_lights = createResource<Mesh>("./res/meshes/shelby/shelby_front_lights.obj");
-		Mesh* tree_branch_mesh = createResource<Mesh>("./res/collection/Tree/Tree_Branch.obj");
-		Mesh* tree_leaves_mesh = createResource<Mesh>("./res/collection/Tree/Leaves.obj");
+		Mesh* shelby_seats = createResource<Mesh>("./res/meshes/shelby/shelby_seats.obj");
+		//Mesh* tree_branch_mesh = createResource<Mesh>("./res/collection/Tree/Tree_Branch.obj");
+		//Mesh* tree_leaves_mesh = createResource<Mesh>("./res/collection/Tree/Leaves.obj");
 
 		/* --------------------------- TEXTURES --------------------------- */
 		/*Texture* woodAlbedo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
@@ -103,8 +105,22 @@ public:
 		Texture* aluminium_n = createResource<Texture>(std::string("./res/materials/aluminium/normal.png"), true);
 		Texture* aluminium_m = createResource<Texture>(std::string("./res/materials/aluminium/metallic.png"), true);
 
+		Texture* leather_a = createResource<Texture>(std::string("./res/materials/leather/leather_a.png"), true);
+		Texture* leather_r = createResource<Texture>(std::string("./res/materials/leather/leather_r.png"), true);
+		Texture* leather_n = createResource<Texture>(std::string("./res/materials/leather/leather_n.png"), true);
+		Texture* leather_ao = createResource<Texture>(std::string("./res/materials/leather/leather_ao.png"), true);
+
+
+		Texture* concrete_a = createResource<Texture>(std::string("./res/materials/concrete/concrete_a.jpg"), true);
+		Texture* concrete_r = createResource<Texture>(std::string("./res/materials/concrete/concrete_r.jpg"), true);
+		Texture* concrete_n = createResource<Texture>(std::string("./res/materials/concrete/concrete_n.jpg"), true);
+		Texture* concrete_ao = createResource<Texture>(std::string("./res/materials/concrete/concrete_ao.jpg"), true);
+
 		Texture* tire_text = createResource<Texture>(std::string("./res/meshes/shelby/tire.png"), true);
-		Texture* light_grid = createResource<Texture>(std::string("./res/meshes/shelby/lights.jpg"), true);
+		Texture* light_grid = createResource<Texture>(std::string("./res/meshes/shelby/lights.png"), true);
+		Texture* light_grid_r = createResource<Texture>(std::string("./res/meshes/shelby/lights_r.jpg"), true);
+
+
 
 		Texture* red = createResource<Texture>(std::string("./res/meshes/shelby/red.png"));
 		
@@ -201,14 +217,30 @@ public:
 		rubber->setTexture("metallicMap", default_emission);
 		rubber->setTexture("emissionMap", default_emission);
 
+		Material* concrete = createResource<Material>(defaultShader);
+		concrete->setTexture("albedoMap", concrete_a);
+		concrete->setTexture("normalMap", concrete_n);
+		concrete->setTexture("roughnessMap", concrete_r);
+		concrete->setTexture("aoMap", concrete_ao);
+		concrete->setTexture("metallicMap", default_emission);
+		concrete->setTexture("emissionMap", default_emission);
+
+		Material* leather = createResource<Material>(defaultShader);
+		leather->setTexture("albedoMap", leather_a);
+		leather->setTexture("normalMap", leather_n);
+		leather->setTexture("roughnessMap", leather_r);
+		leather->setTexture("aoMap", leather_ao);
+		leather->setTexture("metallicMap", default_emission);
+		leather->setTexture("emissionMap", default_emission);
+
 		Material* front_emissive = createResource<Material>(defaultShader);
 		front_emissive->setTexture("albedoMap", light_grid);
 		front_emissive->setTexture("normalMap", default_normal);
-		front_emissive->setTexture("roughnessMap", light_grid);
+		front_emissive->setTexture("roughnessMap", light_grid_r);
 		front_emissive->setTexture("aoMap", default_ao);
 		front_emissive->setTexture("metallicMap", default_emission);
 		front_emissive->setTexture("emissionMap", light_grid);
-		front_emissive->setProperty("emissionIntensity", 10.0f);
+		front_emissive->setProperty("emissionIntensity", 15.0f);
 
 		Material* glassMaterial = createResource<Material>(transparentShader);
 		glassMaterial->setTexture("albedoMap", transparentAlbedo);
@@ -248,7 +280,21 @@ public:
 
 
 		/* --------------------------- LIGHTS --------------------------- */
-		
+		/*
+		Entity* lightProbe = instanciate("LightProbe");
+		lightProbe->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		lightProbe->addComponent<LightProbe>()->resolution = 512;
+		lightProbe->getComponent<LightProbe>()->bounds.setMinBound(Vector3f(-6.0f, -6.0f, -6.0f));
+		lightProbe->getComponent<LightProbe>()->bounds.setMaxBound(Vector3f(6.0f, 6.0f, 6.0f));
+		*/
+/*
+		Entity* min = instanciate("min");
+		min->getComponent<Transform>()->setPosition(Vector3f(-2.1f, -1.3f, -3.4f));
+
+		Entity* max = instanciate("max");
+		max->getComponent<Transform>()->setPosition(Vector3f(2.1f, 2.0f, 6));
+		*/
+
 		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.3f, 0.3f, 0.3f);
@@ -261,6 +307,8 @@ public:
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(-1, -1, 1);
 		sun->getComponent<DirectionalLight>()->intensity = 10.0f;
 		//sun->setEnable(false);
+
+
 
 		
 		
@@ -284,39 +332,55 @@ public:
 
 
 		/* ======== SHELBY ======== */
-		/*
+		
 		Entity * shelby = instanciate("Shelby");
 
 		Entity* shelby_chassis_part = instanciate("shelby_chassis_part");
 		shelby_chassis_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_chassis_part->addComponent<MeshRenderer>()->setMesh(shelby_chassis);
 		shelby_chassis_part->getComponent<MeshRenderer>()->setMaterial(paint);
+		shelby_chassis_part->getComponent<MeshRenderer>()->getReflected = false;
 		shelby_chassis_part->getComponent<Transform>()->setParent(shelby);
+
 
 		Entity* shelby_chrome_part = instanciate("shelby_chrome_part");
 		shelby_chrome_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_chrome_part->addComponent<MeshRenderer>()->setMesh(shelby_chrome);
 		shelby_chrome_part->getComponent<MeshRenderer>()->setMaterial(chrome);
+		shelby_chrome_part->getComponent<MeshRenderer>()->getReflected = false;
 		shelby_chrome_part->getComponent<Transform>()->setParent(shelby);
 
 		Entity* shelby_tires_part = instanciate("shelby_tires_part");
 		shelby_tires_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_tires_part->addComponent<MeshRenderer>()->setMesh(shelby_tires);
 		shelby_tires_part->getComponent<MeshRenderer>()->setMaterial(rubber);
+		shelby_tires_part->getComponent<MeshRenderer>()->getReflected = false;
 		shelby_tires_part->getComponent<Transform>()->setParent(shelby);
 
 		Entity* shelby_front_lights_part = instanciate("shelby_front_lights");
 		shelby_front_lights_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_front_lights_part->addComponent<MeshRenderer>()->setMesh(shelby_front_lights);
 		shelby_front_lights_part->getComponent<MeshRenderer>()->setMaterial(front_emissive);
+		shelby_front_lights_part->getComponent<MeshRenderer>()->getReflected = false;
 		shelby_front_lights_part->getComponent<Transform>()->setParent(shelby);
 
+		Entity* shelby_seats_part = instanciate("shelby_seats_part");
+		shelby_seats_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		shelby_seats_part->addComponent<MeshRenderer>()->setMesh(shelby_seats);
+		shelby_seats_part->getComponent<MeshRenderer>()->setMaterial(leather);
+		shelby_seats_part->getComponent<MeshRenderer>()->getReflected = false;
+		shelby_seats_part->getComponent<Transform>()->setParent(shelby);
 
 		Entity* shelby_glass_part = instanciate("shelby_glass_part");
 		shelby_glass_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_glass_part->addComponent<TransparentMeshRenderer>()->setMesh(shelby_glass);
 		shelby_glass_part->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+		shelby_glass_part->getComponent<TransparentMeshRenderer>()->getReflected = false;
 		shelby_glass_part->getComponent<Transform>()->setParent(shelby);
+
+
+		
+
 
 		Entity* spot = instanciate("Spot");
 		spot->getComponent<Transform>()->setPosition(Vector3f(-1.0f, 1.0f, 1.0f));
@@ -345,7 +409,7 @@ public:
 		spot2->getComponent<Transform>()->setParent(shelby);
 
 
-		*/
+		
 
 
 		Entity* floor = instanciate("Floor");
@@ -353,6 +417,7 @@ public:
 		floor->addComponent<MeshRenderer>()->setMesh(plane);
 		floor->getComponent<MeshRenderer>()->setMaterial(def);
 
+		/*
 		
 		Entity* tree_branch = instanciate("Branch");
 		tree_branch->addComponent<MeshRenderer>()->setRenderType(RenderType::cutout);
@@ -363,7 +428,7 @@ public:
 		leaves->addComponent<MeshRenderer>();
 		leaves->getComponent<MeshRenderer>()->setMesh(tree_leaves_mesh);
 		leaves->getComponent<MeshRenderer>()->setMaterial(leaveMaterial);
-		
+		*/
 
 			/*
 		Entity* couch = instanciate("Couch");
