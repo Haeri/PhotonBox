@@ -3,7 +3,7 @@ A modern OpenGL Game-Engine with focus on PBR
 
 ## Rendering 
 - Forward Rendering
-- Mixed Deferred Rendering
+- Deferred Rendering
 - Point lights, Directional lights, Spot lights
 - SkyBox/Enviroment Mapping
 - Cook Torrance BRDF shader

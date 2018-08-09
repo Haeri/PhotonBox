@@ -26,5 +26,4 @@ GENERAL
 - Abstraction layer over opengl
 
 BUGS
-- Enviroment capture is broken
-- Fix forward rendering
+- No shadows in capture mode
