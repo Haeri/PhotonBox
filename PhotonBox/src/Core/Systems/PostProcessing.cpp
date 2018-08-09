@@ -1,6 +1,7 @@
-#include "../PostProcessor.h"
-#include "PostProcessing.h"
-#include "Renderer.h"
+#include "PhotonBox/core/systems/PostProcessing.h"
+
+#include "PhotonBox/core/PostProcessor.h"
+#include "PhotonBox/core/systems/Renderer.h"
 
 std::map<int, PostProcessor*> PostProcessing::_processorMap;
 bool PostProcessing::_doPostProcessing;

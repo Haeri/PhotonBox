@@ -1,15 +1,16 @@
-#include "../Core/GameObject.h"
-#include "../Core/OpenGL.h"
-#include "../Core/Systems/Lighting.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Resources/SkyBox.h"
-#include "../Resources/Texture.h"
-#include "AmbientLight.h"
-#include "Camera.h"
-#include "DirectionalLight.h"
-#include "MeshRenderer.h"
-#include "PointLight.h"
-#include "Transform.h"
+#include "PhotonBox/components/MeshRenderer.h"
+
+#include "PhotonBox/core/Entity.h"
+#include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/resources/SkyBox.h"
+#include "PhotonBox/resources/Texture.h"
+#include "PhotonBox/components/AmbientLight.h"
+#include "PhotonBox/components/Camera.h"
+#include "PhotonBox/components/DirectionalLight.h"
+#include "PhotonBox/components/PointLight.h"
+#include "PhotonBox/components/Transform.h"
 
 void MeshRenderer::init()
 {
@@ -58,13 +59,14 @@ void MeshRenderer::render(Shader* shader, LightEmitter* light)
 	else
 		shader->update(transform, light);
 
+	shader->updateTextures();
+
 	_material->updateUniforms(shader);
 	_material->bindTextures(shader);
 
-	shader->updateTextures();
 	shader->enableAttributes();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-	glDrawElements(GL_TRIANGLES, _mesh->indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, (GLsizei)_mesh->indices.size(), GL_UNSIGNED_INT, 0);
 	Renderer::addDrawCall();
 	shader->disableAttributes();
 
@@ -78,7 +80,13 @@ void MeshRenderer::onDestroy()
 	glDeleteVertexArrays(1, &_vao);
 }
 
-float MeshRenderer::getBoundingSphereRadius()
+BoundingSphere MeshRenderer::getBoundingSphere()
 {
-	return _mesh->boundingSphereRadius;
+	return _mesh->boundingSphere;
+}
+
+MeshRenderer & MeshRenderer::setMesh(Mesh * mesh)
+{
+	_mesh = mesh;
+	return *this;
 }

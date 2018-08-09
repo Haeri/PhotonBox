@@ -3,7 +3,6 @@
 
 #include <random>
 
-#include <Core/DeferredBuffer.h>
 #include <Core/PostProcessor.h>
 #include <Math/Math.h>
 
@@ -24,8 +23,8 @@ public:
 		ssaoBlurBuffer->ready();
 
 		ssaoMaterial = new Material(SSAOShader::getInstance());
-		ssaoMaterial->setTexture("gPosition", Renderer::defBuffer.gBuffer, "gPosition");
-		ssaoMaterial->setTexture("gNormal", Renderer::defBuffer.gBuffer, "gNormal");
+		ssaoMaterial->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
+		ssaoMaterial->setTexture("gNormal", Renderer::getGBuffer(), "gNormal");
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
 		ssaoBlurMaterial->setTexture("original", mainBuffer, "color");
 		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer, "color");
@@ -45,7 +44,7 @@ public:
 		// TODO: Clean up this block
 		ssaoMaterial->shader->bind();
 
-		glActiveTexture(SSAOShader::getInstance()->textures["texNoise"].unit);
+		glActiveTexture(GL_TEXTURE0 + SSAOShader::getInstance()->textures["texNoise"].unit);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 
 		for (unsigned int i = 0; i < 64; ++i)
@@ -100,9 +99,11 @@ private:
 		std::vector<Vector3f> ssaoNoise;
 		for (unsigned int i = 0; i < 16; i++)
 		{
-			Vector3f noise(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, 0.0f); // rotate around z-axis (in tangent space)
+			Vector3f noise(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, 0.0f); // rotate around z-axis (in tangent space)
 			ssaoNoise.push_back(noise);
 		}
+
+		//TODO: LEAK: The texture never gets deleted
 		glGenTextures(1, &_noiseTexture);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);

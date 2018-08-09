@@ -1,34 +1,24 @@
-#include "../Core/FrameBuffer.h"
-#include "../Core/Systems/Lighting.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Resources/DefaultPostShader.h"
-#include "../Resources/DepthShader.h"
-#include "../Resources/ForwardDirectionalLightShader.h"
-#include "DirectionalLight.h"
+#include "PhotonBox/components/DirectionalLight.h"
+
+#include "PhotonBox/core/FrameBuffer.h"
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/resources/DefaultPostShader.h"
+#include "PhotonBox/resources/DirectionalShadowShader.h"
+#include "PhotonBox/resources/ForwardDirectionalLightShader.h"
+
+#include "imgui\imgui.h"
 
 DirectionalLight::DirectionalLight()
 {
 	Lighting::addLight(this);
-	_depthShader = DepthShader::getInstance();
-	_shadowMapResolution = 4096;
-	lightProjection = Matrix4f::createOrthographic(-5, 5, -5, 5, 0.1, 100);
 
-	glGenFramebuffers(1, &_depthMapFBO);
+	lightProjection = Matrix4f::createOrthographic(-5.0f, 5.0f, -5.0f, 5.0f, 0.1f, 100.0f);
+}
 
-	glGenTextures(1, &_depthMap);
-	glBindTexture(GL_TEXTURE_2D, _depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
-		_shadowMapResolution, _shadowMapResolution, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, _depthMap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+DirectionalLight::~DirectionalLight()
+{
+	//shadowBuffer->clear();
 }
 
 void DirectionalLight::destroy()
@@ -36,18 +26,39 @@ void DirectionalLight::destroy()
 	Lighting::removeLight(this);
 }
 
-Shader * DirectionalLight::getLightShader()
+Shader* DirectionalLight::getLightShader()
 {
 	return ForwardDirectionalLightShader::getInstance();
 }
 
+/*
 void DirectionalLight::renderShadowMap(bool captureMode)
 {
-	glViewport(0, 0, _shadowMapResolution, _shadowMapResolution);
-	glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	shadowBuffer->enable();
+	shadowBuffer->clear();
 
-	Renderer::render(_depthShader, captureMode);
+	//Renderer::render(_depthShader, captureMode);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+	if(!captureMode){
+		ImGui::Begin("Depth");
+		ImGui::Image((ImTextureID)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15.0f, _shadowMapResolution/15.0f), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::End();
+	}
+	
+	
+
+	//FrameBuffer::resetDefaultBuffer();
+}
+*/
+
+
+void DirectionalLight::OnEnable()
+{
+	Lighting::addLight(this);
+}
+
+void DirectionalLight::OnDisable()
+{
+	Lighting::removeLight(this);
 }

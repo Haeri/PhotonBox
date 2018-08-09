@@ -1,7 +1,7 @@
+#include "PhotonBox/math/Matrix4f.h"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
-
-#include "Matrix4f.h"
 
 const Matrix4f Matrix4f::IDENTITY = createIdentity();
 
@@ -71,7 +71,7 @@ Matrix4f Matrix4f::createTranslation(Vector3f vec)
 
 Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float far)
 {
-	float tanHalfFovy = tan((fov / 360 * 2 * M_PI) / 2);
+	float tanHalfFovy = static_cast<float>(tan((fov / 360 * 2 * M_PI) / 2));
 
 	Matrix4f ret;
 	ret._matrix[0] = 1.0f / (aspect * tanHalfFovy);	ret._matrix[4] = 0;							ret._matrix[8] = 0;								ret._matrix[12] = 0;
@@ -140,9 +140,9 @@ Matrix4f Matrix4f::transpose()
 {
 	Matrix4f temp;
 
-	for (size_t i = 0; i < 4; ++i)
+	for (unsigned int i = 0; i < 4; ++i)
 	{
-		for (size_t j = 0; j < 4; ++j)
+		for (unsigned int j = 0; j < 4; ++j)
 		{
 			temp(j, i) = this->at(i, j);
 		}
@@ -160,124 +160,124 @@ Matrix4f Matrix4f::inverse()
 
 	float det;
 
-	temp._matrix[0] = _matrix[5] * _matrix[10] * _matrix[15] -
-		_matrix[5] * _matrix[11] * _matrix[14] -
-		_matrix[9] * _matrix[6] * _matrix[15] +
-		_matrix[9] * _matrix[7] * _matrix[14] +
-		_matrix[13] * _matrix[6] * _matrix[11] -
-		_matrix[13] * _matrix[7] * _matrix[10];
+	temp._matrix[0] =	_matrix[5] * _matrix[10] * _matrix[15] -
+						_matrix[5] * _matrix[11] * _matrix[14] -
+						_matrix[9] * _matrix[6] * _matrix[15] +
+						_matrix[9] * _matrix[7] * _matrix[14] +
+						_matrix[13] * _matrix[6] * _matrix[11] -
+						_matrix[13] * _matrix[7] * _matrix[10];
 
-	temp._matrix[4] = -_matrix[4] * _matrix[10] * _matrix[15] +
-		_matrix[4] * _matrix[11] * _matrix[14] +
-		_matrix[8] * _matrix[6] * _matrix[15] -
-		_matrix[8] * _matrix[7] * _matrix[14] -
-		_matrix[12] * _matrix[6] * _matrix[11] +
-		_matrix[12] * _matrix[7] * _matrix[10];
+	temp._matrix[4] = -	_matrix[4] * _matrix[10] * _matrix[15] +
+						_matrix[4] * _matrix[11] * _matrix[14] +
+						_matrix[8] * _matrix[6] * _matrix[15] -
+						_matrix[8] * _matrix[7] * _matrix[14] -
+						_matrix[12] * _matrix[6] * _matrix[11] +
+						_matrix[12] * _matrix[7] * _matrix[10];
 
-	temp._matrix[8] = _matrix[4] * _matrix[9] * _matrix[15] -
-		_matrix[4] * _matrix[11] * _matrix[13] -
-		_matrix[8] * _matrix[5] * _matrix[15] +
-		_matrix[8] * _matrix[7] * _matrix[13] +
-		_matrix[12] * _matrix[5] * _matrix[11] -
-		_matrix[12] * _matrix[7] * _matrix[9];
+	temp._matrix[8] =	_matrix[4] * _matrix[9] * _matrix[15] -
+						_matrix[4] * _matrix[11] * _matrix[13] -
+						_matrix[8] * _matrix[5] * _matrix[15] +
+						_matrix[8] * _matrix[7] * _matrix[13] +
+						_matrix[12] * _matrix[5] * _matrix[11] -
+						_matrix[12] * _matrix[7] * _matrix[9];
 
 	temp._matrix[12] = -_matrix[4] * _matrix[9] * _matrix[14] +
-		_matrix[4] * _matrix[10] * _matrix[13] +
-		_matrix[8] * _matrix[5] * _matrix[14] -
-		_matrix[8] * _matrix[6] * _matrix[13] -
-		_matrix[12] * _matrix[5] * _matrix[10] +
-		_matrix[12] * _matrix[6] * _matrix[9];
+						_matrix[4] * _matrix[10] * _matrix[13] +
+						_matrix[8] * _matrix[5] * _matrix[14] -
+						_matrix[8] * _matrix[6] * _matrix[13] -
+						_matrix[12] * _matrix[5] * _matrix[10] +
+						_matrix[12] * _matrix[6] * _matrix[9];
 
-	temp._matrix[1] = -_matrix[1] * _matrix[10] * _matrix[15] +
-		_matrix[1] * _matrix[11] * _matrix[14] +
-		_matrix[9] * _matrix[2] * _matrix[15] -
-		_matrix[9] * _matrix[3] * _matrix[14] -
-		_matrix[13] * _matrix[2] * _matrix[11] +
-		_matrix[13] * _matrix[3] * _matrix[10];
+	temp._matrix[1] =  -_matrix[1] * _matrix[10] * _matrix[15] +
+						_matrix[1] * _matrix[11] * _matrix[14] +
+						_matrix[9] * _matrix[2] * _matrix[15] -
+						_matrix[9] * _matrix[3] * _matrix[14] -
+						_matrix[13] * _matrix[2] * _matrix[11] +
+						_matrix[13] * _matrix[3] * _matrix[10];
 
-	temp._matrix[5] = _matrix[0] * _matrix[10] * _matrix[15] -
-		_matrix[0] * _matrix[11] * _matrix[14] -
-		_matrix[8] * _matrix[2] * _matrix[15] +
-		_matrix[8] * _matrix[3] * _matrix[14] +
-		_matrix[12] * _matrix[2] * _matrix[11] -
-		_matrix[12] * _matrix[3] * _matrix[10];
+	temp._matrix[5] =	_matrix[0] * _matrix[10] * _matrix[15] -
+						_matrix[0] * _matrix[11] * _matrix[14] -
+						_matrix[8] * _matrix[2] * _matrix[15] +
+						_matrix[8] * _matrix[3] * _matrix[14] +
+						_matrix[12] * _matrix[2] * _matrix[11] -
+						_matrix[12] * _matrix[3] * _matrix[10];
 
-	temp._matrix[9] = -_matrix[0] * _matrix[9] * _matrix[15] +
-		_matrix[0] * _matrix[11] * _matrix[13] +
-		_matrix[8] * _matrix[1] * _matrix[15] -
-		_matrix[8] * _matrix[3] * _matrix[13] -
-		_matrix[12] * _matrix[1] * _matrix[11] +
-		_matrix[12] * _matrix[3] * _matrix[9];
+	temp._matrix[9] =  -_matrix[0] * _matrix[9] * _matrix[15] +
+						_matrix[0] * _matrix[11] * _matrix[13] +
+						_matrix[8] * _matrix[1] * _matrix[15] -
+						_matrix[8] * _matrix[3] * _matrix[13] -
+						_matrix[12] * _matrix[1] * _matrix[11] +
+						_matrix[12] * _matrix[3] * _matrix[9];
 
-	temp._matrix[13] = _matrix[0] * _matrix[9] * _matrix[14] -
-		_matrix[0] * _matrix[10] * _matrix[13] -
-		_matrix[8] * _matrix[1] * _matrix[14] +
-		_matrix[8] * _matrix[2] * _matrix[13] +
-		_matrix[12] * _matrix[1] * _matrix[10] -
-		_matrix[12] * _matrix[2] * _matrix[9];
+	temp._matrix[13] =	_matrix[0] * _matrix[9] * _matrix[14] -
+						_matrix[0] * _matrix[10] * _matrix[13] -
+						_matrix[8] * _matrix[1] * _matrix[14] +
+						_matrix[8] * _matrix[2] * _matrix[13] +
+						_matrix[12] * _matrix[1] * _matrix[10] -
+						_matrix[12] * _matrix[2] * _matrix[9];
 
-	temp._matrix[2] = _matrix[1] * _matrix[6] * _matrix[15] -
-		_matrix[1] * _matrix[7] * _matrix[14] -
-		_matrix[5] * _matrix[2] * _matrix[15] +
-		_matrix[5] * _matrix[3] * _matrix[14] +
-		_matrix[13] * _matrix[2] * _matrix[7] -
-		_matrix[13] * _matrix[3] * _matrix[6];
+	temp._matrix[2] =	_matrix[1] * _matrix[6] * _matrix[15] -
+						_matrix[1] * _matrix[7] * _matrix[14] -
+						_matrix[5] * _matrix[2] * _matrix[15] +
+						_matrix[5] * _matrix[3] * _matrix[14] +
+						_matrix[13] * _matrix[2] * _matrix[7] -
+						_matrix[13] * _matrix[3] * _matrix[6];
 
-	temp._matrix[6] = -_matrix[0] * _matrix[6] * _matrix[15] +
-		_matrix[0] * _matrix[7] * _matrix[14] +
-		_matrix[4] * _matrix[2] * _matrix[15] -
-		_matrix[4] * _matrix[3] * _matrix[14] -
-		_matrix[12] * _matrix[2] * _matrix[7] +
-		_matrix[12] * _matrix[3] * _matrix[6];
+	temp._matrix[6] =  -_matrix[0] * _matrix[6] * _matrix[15] +
+						_matrix[0] * _matrix[7] * _matrix[14] +
+						_matrix[4] * _matrix[2] * _matrix[15] -
+						_matrix[4] * _matrix[3] * _matrix[14] -
+						_matrix[12] * _matrix[2] * _matrix[7] +
+						_matrix[12] * _matrix[3] * _matrix[6];
 
-	temp._matrix[10] = _matrix[0] * _matrix[5] * _matrix[15] -
-		_matrix[0] * _matrix[7] * _matrix[13] -
-		_matrix[4] * _matrix[1] * _matrix[15] +
-		_matrix[4] * _matrix[3] * _matrix[13] +
-		_matrix[12] * _matrix[1] * _matrix[7] -
-		_matrix[12] * _matrix[3] * _matrix[5];
+	temp._matrix[10] =	_matrix[0] * _matrix[5] * _matrix[15] -
+						_matrix[0] * _matrix[7] * _matrix[13] -
+						_matrix[4] * _matrix[1] * _matrix[15] +
+						_matrix[4] * _matrix[3] * _matrix[13] +
+						_matrix[12] * _matrix[1] * _matrix[7] -
+						_matrix[12] * _matrix[3] * _matrix[5];
 
 	temp._matrix[14] = -_matrix[0] * _matrix[5] * _matrix[14] +
-		_matrix[0] * _matrix[6] * _matrix[13] +
-		_matrix[4] * _matrix[1] * _matrix[14] -
-		_matrix[4] * _matrix[2] * _matrix[13] -
-		_matrix[12] * _matrix[1] * _matrix[6] +
-		_matrix[12] * _matrix[2] * _matrix[5];
+						_matrix[0] * _matrix[6] * _matrix[13] +
+						_matrix[4] * _matrix[1] * _matrix[14] -
+						_matrix[4] * _matrix[2] * _matrix[13] -
+						_matrix[12] * _matrix[1] * _matrix[6] +
+						_matrix[12] * _matrix[2] * _matrix[5];
 
-	temp._matrix[3] = -_matrix[1] * _matrix[6] * _matrix[11] +
-		_matrix[1] * _matrix[7] * _matrix[10] +
-		_matrix[5] * _matrix[2] * _matrix[11] -
-		_matrix[5] * _matrix[3] * _matrix[10] -
-		_matrix[9] * _matrix[2] * _matrix[7] +
-		_matrix[9] * _matrix[3] * _matrix[6];
+	temp._matrix[3] =  -_matrix[1] * _matrix[6] * _matrix[11] +
+						_matrix[1] * _matrix[7] * _matrix[10] +
+						_matrix[5] * _matrix[2] * _matrix[11] -
+						_matrix[5] * _matrix[3] * _matrix[10] -
+						_matrix[9] * _matrix[2] * _matrix[7] +
+						_matrix[9] * _matrix[3] * _matrix[6];
 
-	temp._matrix[7] = _matrix[0] * _matrix[6] * _matrix[11] -
-		_matrix[0] * _matrix[7] * _matrix[10] -
-		_matrix[4] * _matrix[2] * _matrix[11] +
-		_matrix[4] * _matrix[3] * _matrix[10] +
-		_matrix[8] * _matrix[2] * _matrix[7] -
-		_matrix[8] * _matrix[3] * _matrix[6];
+	temp._matrix[7] =	_matrix[0] * _matrix[6] * _matrix[11] -
+						_matrix[0] * _matrix[7] * _matrix[10] -
+						_matrix[4] * _matrix[2] * _matrix[11] +
+						_matrix[4] * _matrix[3] * _matrix[10] +
+						_matrix[8] * _matrix[2] * _matrix[7] -
+						_matrix[8] * _matrix[3] * _matrix[6];
 
 	temp._matrix[11] = -_matrix[0] * _matrix[5] * _matrix[11] +
-		_matrix[0] * _matrix[7] * _matrix[9] +
-		_matrix[4] * _matrix[1] * _matrix[11] -
-		_matrix[4] * _matrix[3] * _matrix[9] -
-		_matrix[8] * _matrix[1] * _matrix[7] +
-		_matrix[8] * _matrix[3] * _matrix[5];
+						_matrix[0] * _matrix[7] * _matrix[9] +
+						_matrix[4] * _matrix[1] * _matrix[11] -
+						_matrix[4] * _matrix[3] * _matrix[9] -
+						_matrix[8] * _matrix[1] * _matrix[7] +
+						_matrix[8] * _matrix[3] * _matrix[5];
 
-	temp._matrix[15] = _matrix[0] * _matrix[5] * _matrix[10] -
-		_matrix[0] * _matrix[6] * _matrix[9] -
-		_matrix[4] * _matrix[1] * _matrix[10] +
-		_matrix[4] * _matrix[2] * _matrix[9] +
-		_matrix[8] * _matrix[1] * _matrix[6] -
-		_matrix[8] * _matrix[2] * _matrix[5];
+	temp._matrix[15] =	_matrix[0] * _matrix[5] * _matrix[10] -
+						_matrix[0] * _matrix[6] * _matrix[9] -
+						_matrix[4] * _matrix[1] * _matrix[10] +
+						_matrix[4] * _matrix[2] * _matrix[9] +
+						_matrix[8] * _matrix[1] * _matrix[6] -
+						_matrix[8] * _matrix[2] * _matrix[5];
 
 	det = _matrix[0] * temp._matrix[0] + _matrix[1] * temp._matrix[4] + _matrix[2] * temp._matrix[8] + _matrix[3] * temp._matrix[12];
 
 	if (det == 0)
 		return Matrix4f::IDENTITY;
 
-	det = 1.0 / det;
+	det = 1.0f / det;
 
 	for (size_t i = 0; i < 16; i++)
 		ret._matrix[i] = temp._matrix[i] * det;

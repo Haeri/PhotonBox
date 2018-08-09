@@ -5,6 +5,14 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="PDV_Debug|Win32">
+      <Configuration>PDV_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="PDV_Debug|x64">
+      <Configuration>PDV_Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -22,10 +30,16 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{7F136C4B-B66A-4F5E-BE68-0881C808D919}</ProjectGuid>
     <RootNamespace>Game</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -39,6 +53,12 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -59,10 +79,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -72,10 +98,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>
+    </LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'">
+    <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>
+    </LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>
+    </LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -83,12 +119,39 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;./include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;./lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PxFoundationDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Increment build version</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PxFoundationDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Increment build version</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -96,8 +159,39 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox-Engine/src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PxTaskDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Increment build version</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PxTaskDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Increment build version</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -107,12 +201,20 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox-Engine/src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PhysX3Extensions.lib;PxTask_x64.lib;PxFoundation_x64.lib;PsFastXml_x64.lib;PxPvdSDK_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Increment build version</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -122,20 +224,28 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;./include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;./lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype271MT.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PhysX3Extensions.lib;PxFoundation_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Increment build version</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\PostProcessors\AutoExposureProcessor.cpp" />
     <ClInclude Include="src\PostProcessors\SSAOProcessor.cpp" />
     <ClInclude Include="src\PostProcessors\SSReflectionProcessor.cpp" />
     <ClInclude Include="src\PostProcessors\ToneMappingProcessor.cpp" />
+    <ClInclude Include="src\Scenes\PhysicsScene.cpp" />
     <ClInclude Include="src\Scripts\StateControllerScript.cpp" />
     <ClInclude Include="src\Shader\AddShader.cpp" />
     <ClInclude Include="src\PostProcessors\BloomProcessor.cpp" />
@@ -147,15 +257,15 @@
     <ClInclude Include="src\Scripts\CameraControllerScript.cpp" />
     <ClInclude Include="src\Scripts\ControllerToggleScript.cpp" />
     <ClInclude Include="src\Shader\CutOffShader.cpp" />
-    <ClInclude Include="src\Scenes\DemoScene.h" />
+    <ClInclude Include="src\Scenes\DemoScene.cpp" />
     <ClInclude Include="src\Scripts\FollowScript.cpp" />
     <ClInclude Include="src\Scripts\MaterialScript.cpp" />
     <ClInclude Include="src\PostProcessors\MonochromProcessor.cpp" />
     <ClInclude Include="src\Shader\ExposureShader.cpp" />
     <ClInclude Include="src\Shader\MonochromShader.cpp" />
     <ClInclude Include="src\Scripts\PathWalkerScript.cpp" />
-    <ClInclude Include="src\Scenes\PBRScene.h" />
-    <ClInclude Include="src\Scenes\TestScene.h" />
+    <ClInclude Include="src\Scenes\PBRScene.cpp" />
+    <ClInclude Include="src\Scenes\TestScene.cpp" />
     <ClInclude Include="src\Shader\SSAOBlurShader.cpp" />
     <ClInclude Include="src\Shader\SSAOShader.cpp" />
     <ClInclude Include="src\Shader\SSReflectionShader.cpp" />

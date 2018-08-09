@@ -1,8 +1,18 @@
-#include "../Core/FrameBuffer.h"
-#include "CubeMap.h"
-#include "Material.h"
-#include "Shader.h"
-#include "Texture.h"
+#include "PhotonBox/resources/Material.h"
+
+#include "PhotonBox/core/FrameBuffer.h"
+#include "PhotonBox/resources/CubeMap.h"
+#include "PhotonBox/resources/Shader.h"
+#include "PhotonBox/resources/Texture.h"
+
+Material::~Material()
+{
+	for (std::unordered_map<std::string, SuperObject*>::iterator it = _uniformMap.begin(); it != _uniformMap.end(); ++it)
+	{
+		delete it->second;
+	}
+	_uniformMap.clear();
+}
 
 void Material::setTexture(const std::string & uniformName, Texture* texture)
 {
@@ -46,7 +56,7 @@ void Material::bindTextures(Shader* shader)
 			it->second->bind(shader->textures[it->first].unit);
 	}
 
-	// Textures
+	// Framebuffers
 	for (std::unordered_map<std::string, FrameBuffer::BufferAttachment*>::const_iterator it = _frameBufferMap.begin(); it != _frameBufferMap.end(); ++it)
 	{
 		if (shader->textures.find(it->first) != shader->textures.end())

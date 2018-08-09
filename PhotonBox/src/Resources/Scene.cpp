@@ -1,35 +1,45 @@
+#include "PhotonBox/resources/Scene.h"
+
 #include <iostream>
 #include <algorithm>
-#include "../Core/Systems/Core.h"
-#include "../Core/Systems/SceneManager.h"
-#include "Scene.h"
+
+#include "PhotonBox/core/systems/Core.h"
+#include "PhotonBox/core/systems/SceneManager.h"
+#include "PhotonBox/core/Entity.h"
+#include "PhotonBox/core/ManagedResource.h"
 
 void Scene::unload()
 {
 	OnUnload();
-	for (std::vector<GameObject*>::iterator it = gameObjectList.begin(); it != gameObjectList.end(); ++it)
+	for (std::vector<Entity*>::iterator it = _entityList.begin(); it != _entityList.end(); ++it)
 	{
 		(*it)->destroyComponents();
 		delete (*it);
 	}
-	gameObjectList.clear();
+	_entityList.clear();
+
+	for (std::vector<ManagedResource*>::iterator it = _resourceList.begin(); it != _resourceList.end(); ++it)
+	{
+		delete (*it);
+	}
+	_resourceList.clear();
 }
 
 void Scene::OnUnload() {}
 
-GameObject* Scene::instanciate(std::string name)
+Entity* Scene::instanciate(std::string name)
 {
-	GameObject *Go = new GameObject(*this, name);
+	Entity *Go = new Entity(*this, name);
 	addToList(Go);
 	Go->parentScene = this;
 	return Go;
 }
 
-GameObject* Scene::getObjectByName(std::string name)
+Entity* Scene::getObjectByName(std::string name)
 {
 
-	std::vector<GameObject*> gameObjects = SceneManager::getCurrentScene()->gameObjectList;
-	for (std::vector<GameObject*>::iterator obj = gameObjects.begin(); obj != gameObjects.end(); ++obj)
+	std::vector<Entity*> entitys = SceneManager::getCurrentScene()->_entityList;
+	for (std::vector<Entity*>::iterator obj = entitys.begin(); obj != entitys.end(); ++obj)
 	{
 		if ((*obj)->name.find(name) != std::string::npos || (*obj)->name.compare(name) == 0)
 		{
@@ -39,23 +49,23 @@ GameObject* Scene::getObjectByName(std::string name)
 	return nullptr;
 }
 
-void Scene::destroy(GameObject* go)
+void Scene::destroy(Entity* go)
 {
 	go->destroy();
 }
 
-void Scene::printGameObjects()
+void Scene::printEntitys()
 {
-	for (std::vector<GameObject*>::iterator it = gameObjectList.begin(); it != gameObjectList.end(); ++it)
+	for (std::vector<Entity*>::iterator it = _entityList.begin(); it != _entityList.end(); ++it)
 	{
 		std::cout << (*it)->name << std::endl;
 	}
 }
 
-std::string Scene::getGameObjects()
+std::string Scene::getEntitys()
 {
 	std::string ret = "";
-	for (std::vector<GameObject*>::iterator it = gameObjectList.begin(); it != gameObjectList.end(); ++it)
+	for (std::vector<Entity*>::iterator it = _entityList.begin(); it != _entityList.end(); ++it)
 	{
 		ret += " + " + (*it)->name + "\n";
 	}
@@ -63,13 +73,13 @@ std::string Scene::getGameObjects()
 	return ret;
 }
 
-void Scene::addToList(GameObject* go)
+void Scene::addToList(Entity* go)
 {
-	gameObjectList.push_back(go);
+	_entityList.push_back(go);
 }
 
-void Scene::removeFromList(GameObject* go)
+void Scene::removeFromList(Entity* go)
 {
-	gameObjectList.erase(std::remove(gameObjectList.begin(), gameObjectList.end(), go), gameObjectList.end());
+	_entityList.erase(std::remove(_entityList.begin(), _entityList.end(), go), _entityList.end());
 	delete go;
 }

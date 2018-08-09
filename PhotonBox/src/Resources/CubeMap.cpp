@@ -1,17 +1,21 @@
+#include "PhotonBox/resources/CubeMap.h"
+
 #include <vector>
 #include <iostream>
+
+#include "PhotonBox/components/Camera.h"
+#include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/math/Matrix4f.h"
+#include "PhotonBox/resources/Resources.h"
+#include "PhotonBox/resources/IrradianceShader.h"
+#include "PhotonBox/resources/OBJLoader.h"
+#include "PhotonBox/resources/SkyBoxShader.h"
+#include "PhotonBox/resources/SpecularConvolutionShader.h"
+#include "PhotonBox/core/systems/SceneManager.h"
+#include "PhotonBox/resources/Scene.h"
+#include "PhotonBox/resources/Mesh.h"
+
 #include "STB/stb_image.h"
-
-#include "../Components/Camera.h"
-#include "../Core/Systems/Renderer.h"
-#include "../Math/Matrix4f.h"
-#include "Resources.h"
-#include "CubeMap.h"
-#include "IrradianceShader.h"
-#include "OBJLoader.h"
-#include "SkyBoxShader.h"
-#include "SpecularConvolutionShader.h"
-
 
 CubeMap::CubeMap(const std::vector<std::string>& allFaces)
 {
@@ -63,7 +67,7 @@ void CubeMap::generateIrradiance(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
+	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 
 
@@ -126,7 +130,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	_mesh = OBJLoader::loadObj(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
+	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
 	genVAO();
 
 	glGenFramebuffers(1, &_captureFBO);
@@ -151,8 +155,8 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 	{
 
 		// reisze framebuffer according to mip-level size.
-		unsigned int mipWidth = _width * std::pow(0.5, mip);
-		unsigned int mipHeight = _height * std::pow(0.5, mip);
+		unsigned int mipWidth = static_cast<unsigned int>(_width * std::pow(0.5, mip));
+		unsigned int mipHeight = static_cast<unsigned int>(_height * std::pow(0.5, mip));
 		//glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mipWidth, mipHeight);
 		glViewport(0, 0, mipWidth, mipHeight);
@@ -219,12 +223,12 @@ CubeMap::~CubeMap()
 
 void CubeMap::bind()
 {
-	bind(GL_TEXTURE0);
+	bind(0);
 }
 
 void CubeMap::bind(GLenum textureUnit)
 {
-	glActiveTexture(textureUnit);
+	glActiveTexture(GL_TEXTURE0 + textureUnit);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap);
 }
 

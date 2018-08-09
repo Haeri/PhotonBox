@@ -1,6 +1,10 @@
-#include "../../Resources/Scene.h"
-#include "Core.h"
-#include "SceneManager.h"
+#include "PhotonBox/core/systems/SceneManager.h"
+
+#include "PhotonBox/resources/Scene.h"
+#include "PhotonBox/core/systems/Core.h"
+#include "PhotonBox/core/Display.h"
+
+#include "imgui\imgui.h"
 
 bool SceneManager::_inQueue = false;
 Scene* SceneManager::_currentScene;
@@ -32,6 +36,7 @@ void SceneManager::loadSceneImediately(const std::string& name)
 	_currentScene = _sceneMap[name];
 	_currentSceneName = name;
 	_currentScene->Load();
+	Display::setTitle("PhotonBox Engine - " + name);
 	_inQueue = false;
 }
 
@@ -72,4 +77,18 @@ void SceneManager::destroy()
 		delete scene.second;
 	}
 	_sceneMap.clear();
+}
+
+void SceneManager::drawSceneList()
+{
+	ImGui::Begin("Scenes");
+	for (auto const &scene : _sceneMap)
+	{
+		if (ImGui::Button(scene.first.c_str()))
+		{
+			loadScene(scene.first);
+		}
+		
+	}
+	ImGui::End();
 }

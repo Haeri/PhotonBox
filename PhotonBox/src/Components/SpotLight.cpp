@@ -1,6 +1,7 @@
-#include "../Core/Systems/Lighting.h"
-#include "../Resources/ForwardSpotLightShader.h"
-#include "SpotLight.h"
+#include "PhotonBox/components/SpotLight.h"
+
+#include "PhotonBox/core/systems/Lighting.h"
+#include "PhotonBox/resources/ForwardSpotLightShader.h"
 
 SpotLight::SpotLight()
 {
@@ -15,4 +16,14 @@ void SpotLight::destroy()
 Shader * SpotLight::getLightShader()
 {
 	return ForwardSpotLightShader::getInstance();
+}
+
+void SpotLight::OnEnable()
+{
+	Lighting::addLight(this);
+}
+
+void SpotLight::OnDisable()
+{
+	Lighting::removeLight(this);
 }

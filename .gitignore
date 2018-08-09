@@ -13,9 +13,9 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
+#[Rr]elease/
 [Rr]eleases/
 x64/
 x86/
@@ -295,6 +295,33 @@ __pycache__/
 *.xsd.cs
 
 
-!**/PhotonBox-Engine/res/
-Photon Box
+
+
+## 
+## Photon Box
+##
+
+# Types
 *.mesh
+
+# folders
+Deploy_Debug/
+Deploy_Release/
+
+
+# PhysX cause of EULA
+PhotonBox/include/PhysX/**/*.h
+PhotonBox/include/PhysX/**/*.cpp
+
+PhotonBox/lib/PxFoundationDEBUG_x64.lib
+PhotonBox/lib/PhysX3CommonDEBUG_x64.lib
+PhotonBox/lib/PhysX3DEBUG_x64.lib
+PhotonBox/lib/PxPvdSDKDEBUG_x64.lib
+PhotonBox/lib/PhysX3ExtensionsDEBUG.lib
+
+PhotonBox/lib/PxFoundation_x64.lib
+PhotonBox/lib/PhysX3Common_x64.lib
+PhotonBox/lib/PhysX3_x64.lib
+PhotonBox/lib/PhysX3Extensions.lib
+PhotonBox/lib/PxPvdSDK_x64.lib
+

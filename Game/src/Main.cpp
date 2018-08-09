@@ -2,19 +2,22 @@
 #include <map>
 
 #include <Core/Systems/Core.h>
-#include <Test/MathTest.h>
+//#include <Test/MathTest.h>
 #include <Resources/Scene.h>
 
-#include "Scenes/DemoScene.h"
-#include "Scenes/PBRScene.h"
-#include "Scenes/TestScene.h"
+#include "Scenes/DemoScene.cpp"
+#include "Scenes/PBRScene.cpp"
+#include "Scenes/TestScene.cpp"
+#include "Scenes/PhysicsScene.cpp"
 
 int main(void)
 {
 
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 #ifdef _DEBUG
 	// Tests
-	MathTest::startTest();
+	//MathTest::startTest();
 #else
 	FreeConsole();
 #endif
@@ -24,10 +27,11 @@ int main(void)
 	sceneMap["Realistic Rendering"] = new TestScene();
 	sceneMap["Material Test"] = new PBRScene();
 	sceneMap["Demo Scene"] = new DemoScene();
+	sceneMap["Physics Scene"] = new PhysicsScene();
 
-	// Create and initialize the RenderProject
+	// Create and initialize the Core
 	Core core;
-	core.init(sceneMap, "Realistic Rendering");
+	core.init(sceneMap, "Material Test");
 	core.run();
 	core.destroy();
 

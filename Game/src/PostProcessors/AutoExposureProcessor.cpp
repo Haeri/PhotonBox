@@ -1,9 +1,9 @@
 #ifndef AUTO_EXPOSURE_PROCESSOR_CPP
 #define AUTO_EXPOSURE_PROCESSOR_CPP
 
-#include <Core/FrameBuffer.h>
-#include <Core/PostProcessor.h>
-#include <Resources/Material.h>
+#include <core/FrameBuffer.h>
+#include <core/PostProcessor.h>
+#include <resources/Material.h>
 
 #include "../Shader/ToneMappingShader.cpp"
 #include "../Shader/MonochromShader.cpp"
@@ -20,7 +20,7 @@ public:
 	AutoExposureProcessor(int index) : PostProcessor(index)
 	{
 		int res = 64;
-		int numLevels = 1 + floor(log2(res));
+		int numLevels = 1 + (int)floor(log2(res));
 
 		autoExpMaterial = new Material(AutoExposureShader::getInstance());
 		expMaterial = new Material(ExposureShader::getInstance());

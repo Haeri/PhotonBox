@@ -1,6 +1,16 @@
-#include "LightMap.h"
+#include "PhotonBox/core/LightMap.h"
 
-LightMap::LightMap() {}
+LightMap::LightMap(const std::vector<std::string>& allFaces)
+{
+	enviromentMap = new CubeMap(allFaces);
+	generateLightMaps();
+}
+
+LightMap::LightMap(CubeMap* cubemap)
+{
+	enviromentMap = cubemap;
+	generateLightMaps();
+}
 
 LightMap::~LightMap()
 {
@@ -9,7 +19,7 @@ LightMap::~LightMap()
 	delete specularMap;
 }
 
-void LightMap::generate()
+void LightMap::generateLightMaps()
 {
 	irradianceMap = new CubeMap(32);
 	irradianceMap->generateIrradiance(enviromentMap->getLocation());

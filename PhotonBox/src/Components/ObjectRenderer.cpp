@@ -1,17 +1,30 @@
-#include "../Core/Systems/Renderer.h"
-#include "ObjectRenderer.h"
+#include "PhotonBox/components/ObjectRenderer.h"
 
-ObjectRenderer::ObjectRenderer(bool isOpaque)
+#include "PhotonBox/core/systems/Renderer.h"
+
+ObjectRenderer::ObjectRenderer(RenderType type)
 {
-	_isOpaque = isOpaque;
-	Renderer::addToRenderQueue(this, isOpaque);
+	_type = type;
+	Renderer::addToRenderQueue(this, type);
 }
 
 void ObjectRenderer::init() {}
 void ObjectRenderer::onDestroy() {}
 
+BoundingSphere ObjectRenderer::getBoundingSphere()
+{
+	return BoundingSphere(Vector3f::ZERO, 0.001f);
+}
+
 void ObjectRenderer::destroy()
 {
 	onDestroy();
 	Renderer::removeFromRenderQueue(this);
+}
+
+void ObjectRenderer::setRenderType(RenderType type)
+{
+	Renderer::removeFromRenderQueue(this);
+	Renderer::addToRenderQueue(this, type);
+	_type = type;
 }
