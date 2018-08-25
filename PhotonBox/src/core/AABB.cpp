@@ -2,6 +2,11 @@
 
 #include "PhotonBox/components/Transform.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void AABB::setTransform(Transform* transform)
 {
 	_transform = transform;

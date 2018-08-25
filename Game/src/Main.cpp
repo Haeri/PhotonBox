@@ -13,9 +13,11 @@
 int main(void)
 {
 
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
-#ifdef _DEBUG
+#ifdef MEM_DEBUG
+	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+	flag |= _CRTDBG_LEAK_CHECK_DF;
+	_CrtSetDbgFlag(flag);
+#elif _DEBUG
 	// Tests
 	//MathTest::startTest();
 #else
@@ -31,7 +33,7 @@ int main(void)
 
 	// Create and initialize the Core
 	Core core;
-	core.init(sceneMap, "Material Test");
+	core.init(sceneMap, "Demo Scene");
 	core.run();
 	core.destroy();
 

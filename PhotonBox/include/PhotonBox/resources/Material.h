@@ -9,6 +9,7 @@ class Texture;
 
 #include "PhotonBox/core/FrameBuffer.h"
 #include "PhotonBox/core/ManagedResource.h"
+#include "PhotonBox/resources/Shader.h"
 
 class Material : public ManagedResource
 {

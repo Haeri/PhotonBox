@@ -3,6 +3,11 @@
 #include "PhotonBox/core/PostProcessor.h"
 #include "PhotonBox/core/systems/Renderer.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 std::map<int, PostProcessor*> PostProcessing::_processorMap;
 bool PostProcessing::_doPostProcessing;
 

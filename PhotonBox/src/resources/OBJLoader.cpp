@@ -11,6 +11,11 @@
 #include "PhotonBox/core/MeshSerializer.h"
 #include "PhotonBox/core/Util.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 #define FORECE_GENERATE false
 
 struct OBJIndex

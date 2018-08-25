@@ -17,6 +17,11 @@
 
 #include "STB/stb_image.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 CubeMap::CubeMap(const std::vector<std::string>& allFaces)
 {
 	loadCubeMap(allFaces);

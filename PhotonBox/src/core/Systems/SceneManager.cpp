@@ -6,6 +6,11 @@
 
 #include "imgui\imgui.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 bool SceneManager::_inQueue = false;
 Scene* SceneManager::_currentScene;
 std::string SceneManager::_newScene;

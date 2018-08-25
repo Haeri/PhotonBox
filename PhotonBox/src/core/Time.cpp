@@ -2,6 +2,11 @@
 
 #include "PhotonBox/core/OpenGL.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 double Time::deltaTime = 0.001;
 float Time::deltaTimef = 0.001f;
 double Time::time = 0.0;

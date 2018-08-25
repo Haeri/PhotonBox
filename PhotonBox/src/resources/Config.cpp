@@ -7,6 +7,11 @@
 
 #include "PhotonBox/core/Util.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 Config::Profile Config::profile;
 
 void Config::readConfig()

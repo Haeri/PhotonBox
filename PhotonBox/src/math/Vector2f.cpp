@@ -1,5 +1,10 @@
 #include "PhotonBox/math/Vector2f.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 const Vector2f Vector2f::ZERO = Vector2f(0, 0);
 const Vector2f Vector2f::ONE = Vector2f(1, 1);
 const Vector2f Vector2f::UNIT_X = Vector2f(1, 0);

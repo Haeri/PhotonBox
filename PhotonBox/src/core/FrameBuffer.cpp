@@ -9,6 +9,11 @@
 #include "PhotonBox/resources/Vertex.h"
 #include "PhotonBox/core/systems/Renderer.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 const std::string DEFAULT_ATTACHMENT = "default";
 GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;

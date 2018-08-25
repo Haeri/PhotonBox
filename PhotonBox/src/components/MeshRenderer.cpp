@@ -12,6 +12,11 @@
 #include "PhotonBox/components/PointLight.h"
 #include "PhotonBox/components/Transform.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void MeshRenderer::init()
 {
 	glGenVertexArrays(1, &_vao);

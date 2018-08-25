@@ -3,6 +3,11 @@
 #include "PhotonBox/core/Entity.h"
 #include "PhotonBox/components/ObjectRenderer.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 Camera* Camera::_main;
 
 Camera::Camera()

@@ -7,6 +7,11 @@
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/core/systems/Renderer.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;
 std::map<GLchar, Character> UIRenderer::_characters;

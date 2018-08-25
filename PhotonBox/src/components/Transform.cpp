@@ -9,6 +9,11 @@
 
 #include "imgui/imgui.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 Vector3f Transform::forward()
 {
 	Matrix4f r = getRotationMatrix();

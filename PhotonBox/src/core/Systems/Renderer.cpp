@@ -34,6 +34,11 @@
 
 #include "imgui/imgui.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 int Renderer::_debugMode;
 SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderListOpaque;
@@ -863,6 +868,12 @@ void Renderer::setDebug(int debugMode)
 
 void Renderer::destroy()
 {
+	delete _mainFrameBuffer;
+	delete _gBuffer;
+	delete	_gizmoBuffer;
+	delete _shadowBuffer;
+	delete _deferredMaterial;
+
 	_renderListOpaque.clear();
 }
 

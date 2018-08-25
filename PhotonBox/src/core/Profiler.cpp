@@ -3,6 +3,11 @@
 #include <limits>
 #include <iostream>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 int Profiler::_minFPS = std::numeric_limits<int>::max();;
 int Profiler::_maxFPS;
 float Profiler::_avgFPS;

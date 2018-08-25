@@ -1,5 +1,10 @@
 #include "PhotonBox/core/Component.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void Component::setEntity(Entity* _go)
 {
 	entity = _go;

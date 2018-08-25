@@ -10,6 +10,11 @@
 #include "PhotonBox/components/Transform.h"
 #include "PhotonBox/components/SphereCollider.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 //std::vector<Collider*> Physics::_colliders;
 //std::vector<Rigidbody*> Physics::_rigidbodies;
 std::map<Transform*, PxRigidDynamic*> Physics::_physXMap;
@@ -138,7 +143,8 @@ void Physics::destroy()
 	_gScene->release();
 	_gDispatcher->release();
 	_gPhysics->release();
-	
+	delete _sceneDesc;
+
 #ifdef PDV_DEBUG
 	_gPvd->release();
 	_gTransport->release();

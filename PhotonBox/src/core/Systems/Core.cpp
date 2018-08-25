@@ -17,6 +17,11 @@
 #include "PhotonBox/resources/Config.h"
 #include "PhotonBox/util/FileWatch.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 const double Core::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
 
 bool Core::_isRunning;

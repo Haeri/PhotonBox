@@ -6,6 +6,11 @@
 #include "PhotonBox/components/Camera.h"
 #include "PhotonBox/core/LightMap.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 LightProbe::LightProbe(int steps)
 	:_steps(steps)
 {
@@ -90,6 +95,7 @@ LightMap* LightProbe::captureRecursive(int step)
 
 	delete lastLightMap;
 	delete _transform;
+
 	return lightMap;
 }
 

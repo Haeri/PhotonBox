@@ -1,5 +1,10 @@
 #include "PhotonBox/math/Vector3f.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 const Vector3f Vector3f::ZERO = Vector3f(0, 0, 0);
 const Vector3f Vector3f::ONE = Vector3f(1, 1, 1);
 const Vector3f Vector3f::UNIT_X = Vector3f(1, 0, 0);

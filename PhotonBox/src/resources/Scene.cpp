@@ -8,6 +8,11 @@
 #include "PhotonBox/core/Entity.h"
 #include "PhotonBox/core/ManagedResource.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void Scene::unload()
 {
 	OnUnload();

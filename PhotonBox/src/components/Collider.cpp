@@ -1,5 +1,10 @@
 #include "PhotonBox/components/Collider.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 Collider::Collider()
 {
 	//Physics::addToPhysicsList(this);

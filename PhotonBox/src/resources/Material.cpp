@@ -5,6 +5,11 @@
 #include "PhotonBox/resources/Shader.h"
 #include "PhotonBox/resources/Texture.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 Material::~Material()
 {
 	for (std::unordered_map<std::string, SuperObject*>::iterator it = _uniformMap.begin(); it != _uniformMap.end(); ++it)

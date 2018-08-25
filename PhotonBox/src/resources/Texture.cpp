@@ -4,6 +4,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "STB/stb_image.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 unsigned int Texture::_nameIndex = 0;
 
 Texture::Texture(bool generateMipMaps, bool hdr)
