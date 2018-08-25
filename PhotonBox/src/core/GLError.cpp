@@ -4,6 +4,11 @@
 
 #include "PhotonBox/core/OpenGL.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void _check_gl_error(const char *file, int line)
 {
 	GLenum err(glGetError());

@@ -5,6 +5,11 @@
 
 #include "PhotonBox/core/Time.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 std::vector<int> InputManager::_keyPress;
 std::vector<int> InputManager::_keyDown;
 std::vector<int> InputManager::_keyRelease;

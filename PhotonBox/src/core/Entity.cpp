@@ -4,6 +4,11 @@
 
 #include "PhotonBox/resources/Scene.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 int Entity::_idCnt = 0;
 
 Entity::Entity(Scene &_scene)

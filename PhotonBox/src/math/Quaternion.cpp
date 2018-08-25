@@ -2,6 +2,11 @@
 
 #include <math.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 const Quaternion Quaternion::ZERO = Quaternion(0, 0, 0, 0);
 
 Quaternion::Quaternion(Vector3f axis, float angle)

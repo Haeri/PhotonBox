@@ -3,6 +3,11 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 const Matrix4f Matrix4f::IDENTITY = createIdentity();
 
 Matrix4f Matrix4f::createRotation(float angle, Vector3f axis)

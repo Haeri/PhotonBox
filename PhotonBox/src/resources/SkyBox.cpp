@@ -10,6 +10,11 @@
 #include "PhotonBox/resources/SkyBoxShader.h"
 #include "PhotonBox/resources/Mesh.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 GLuint SkyBox::_vao = -1;
 GLuint SkyBox::_vbo = -1;
 GLuint SkyBox::_ebo = -1;

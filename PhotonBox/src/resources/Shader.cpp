@@ -8,6 +8,11 @@
 #include "PhotonBox/resources/CubeMap.h"
 #include "PhotonBox/resources/Texture.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 std::vector<Shader*> Shader::_shaderList;
 
 void Shader::init()

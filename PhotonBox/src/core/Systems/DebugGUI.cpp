@@ -7,6 +7,11 @@
 #include "imgui/imgui_impl_glfw_gl3.h"
 #include "imgui/ImGuizmo.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void DebugGUI::init()
 {
 	IMGUI_CHECKVERSION();

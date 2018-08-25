@@ -5,6 +5,11 @@
 
 #include "PhotonBox/components/Behaviour.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 std::vector<Behaviour*> Logic::_behaviourList;
 
 void Logic::start()

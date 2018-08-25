@@ -2,6 +2,11 @@
 
 #include "PhotonBox/resources/Shader.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 std::map<std::string, FileWatch::ShaderFile> FileWatch::_watchList;
 
 void FileWatch::addToWatchList(std::string filePath, Shader* shader)

@@ -6,6 +6,11 @@
 #include "PhotonBox/resources/Mesh.h"
 #include "PhotonBox/resources/Vertex.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void MeshSerializer::write(const std::string & pathName, Mesh* mesh)
 {
 

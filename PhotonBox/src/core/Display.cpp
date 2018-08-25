@@ -5,6 +5,11 @@
 #include "PhotonBox/resources/Resources.h"
 #include "PhotonBox/core/FrameBuffer.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 bool Display::_isRunning;
 int Display::_width, Display::_height;
 GLFWwindow* Display::_window;

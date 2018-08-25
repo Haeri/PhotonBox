@@ -1,5 +1,10 @@
 #include "PhotonBox/components/BoxCollider.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 BoxCollider::BoxCollider()
 {
 	_geometry = new physx::PxBoxGeometry();

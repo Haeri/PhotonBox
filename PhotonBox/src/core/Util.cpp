@@ -1,5 +1,10 @@
 #include "PhotonBox/core/Util.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 namespace Util
 {
 	void split(const std::string& line, const std::string& delimiter, std::vector<std::string>& output)

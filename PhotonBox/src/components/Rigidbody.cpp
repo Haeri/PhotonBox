@@ -1,5 +1,10 @@
 #include "PhotonBox/components/Rigidbody.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void Rigidbody::setBody(PxRigidBody * rigidBody)
 {
 	_rigidBody = rigidBody;
