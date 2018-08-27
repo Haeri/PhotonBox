@@ -13,6 +13,7 @@ public:
 	static void addProcessor(PostProcessor* processor);
 	static void removeProcessor(PostProcessor* processor);
 	static bool isActive() { return _doPostProcessing; }
+	static void resizeAll();
 	void start();
 	void postProcess();
 	void reset();

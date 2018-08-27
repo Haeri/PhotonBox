@@ -15,10 +15,10 @@ public:
 
 	SSAOProcessor(int index) : PostProcessor(index)
 	{
-		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		mainBuffer = new FrameBuffer(1);
 		mainBuffer->addTextureAttachment("color", true);
 		mainBuffer->ready();
-		ssaoBlurBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		ssaoBlurBuffer = new FrameBuffer(1);
 		ssaoBlurBuffer->addTextureAttachment("color", true);
 		ssaoBlurBuffer->ready();
 
@@ -28,8 +28,16 @@ public:
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
 		ssaoBlurMaterial->setTexture("original", mainBuffer, "color");
 		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer, "color");
+		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth());
+		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
 
 		generateNoise();
+	}
+
+	void onResize() override
+	{
+		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth());
+		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
 	}
 
 	void enable() override

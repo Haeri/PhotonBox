@@ -47,6 +47,14 @@ void PostProcessing::postProcess()
 	(--_processorMap.end())->second->render();
 }
 
+void PostProcessing::resizeAll()
+{
+	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it)
+	{
+		it->second->onResize();
+	}
+}
+
 void PostProcessing::reset()
 {
 	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it)
