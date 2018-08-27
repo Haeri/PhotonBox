@@ -4,6 +4,7 @@
 #include "PhotonBox/resources/Texture.h"
 #include "PhotonBox/resources/Resources.h"
 #include "PhotonBox/core/FrameBuffer.h"
+#include "PhotonBox/core/PostProcessor.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -103,4 +104,5 @@ void window_size_callback(GLFWwindow* window, int width, int height)
 	Display::setRect(width, height);
 	Camera::getMainCamera()->updateAspect();
 	FrameBuffer::resizeAll();
+	PostProcessing::resizeAll();
 }

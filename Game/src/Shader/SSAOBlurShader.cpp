@@ -12,18 +12,13 @@ public:
 		return std::string("./res/shaders/post-processing/ssaoBlur");
 	}
 
-	void update(Transform* transform) override
-	{
-		glUniform1f(uniforms["screenWidth"], GLfloat(Display::getWidth()));
-		glUniform1f(uniforms["screenHeight"], GLfloat(Display::getHeight()));
-	}
-
 	void addUniforms() override
 	{
-		addTexture("original");
-		addTexture("ssaoInput");
 		addUniform("screenWidth");
 		addUniform("screenHeight");
+
+		addTexture("original");
+		addTexture("ssaoInput");
 	}
 
 	void addAttributes() override

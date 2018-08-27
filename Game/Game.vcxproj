@@ -345,9 +345,11 @@
     <ClInclude Include="src\Shader\ToneMappingShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\PostProcessors\FXAAProcessor.cpp" />
     <ClCompile Include="src\Scripts\PrinterScript.cpp" />
     <ClCompile Include="src\Scripts\TransformerScript.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Shader\FXAAShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PhotonBox-Engine\PhotonBox-Engine.vcxproj">

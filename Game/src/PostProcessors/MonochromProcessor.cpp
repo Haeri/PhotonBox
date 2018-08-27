@@ -10,31 +10,34 @@
 class MonochromProcessor : public PostProcessor
 {
 public:
-	Material * material;
-	FrameBuffer* frameBuffer;
+	Material * _material;
+	FrameBuffer* _frameBuffer;
 
 	MonochromProcessor(int index) : PostProcessor(index)
 	{
-		material = new Material(MonochromShader::getInstance());
-		frameBuffer = new FrameBuffer(1);
+		_frameBuffer = new FrameBuffer(1);
+		_frameBuffer->addTextureAttachment("color", true);
+		_frameBuffer->ready();
+
+		_material = new Material(MonochromShader::getInstance());
+		_material->setTexture("renderTexture", _frameBuffer, "color");
 	}
 
 	void enable() override
 	{
-		frameBuffer->enable();
+		_frameBuffer->enable();
 	}
 
 	void render() override
 	{
-		frameBuffer->render(material);
+		_frameBuffer->render(_material);
 	}
 
 	void destroy() override
 	{
-		delete material;
-		delete frameBuffer;
+		delete _material;
+		delete _frameBuffer;
 	}
-
 };
 
 #endif // MONOCHROM_PROCESSOR_CPP

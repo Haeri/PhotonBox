@@ -16,6 +16,7 @@
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../PostProcessors/AutoExposureProcessor.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
+#include "../PostProcessors/FXAAProcessor.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
 #include "../Scripts/StateControllerScript.cpp"
 #include "../Scripts/MaterialScript.cpp"
@@ -43,6 +44,7 @@ public:
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
+		FXAAProcessor* p_fxaa = new FXAAProcessor(0);
 		/*
 		SSAOProcessor* p_ssao = new SSAOProcessor(0);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(0);
