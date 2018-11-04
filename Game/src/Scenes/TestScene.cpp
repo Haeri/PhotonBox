@@ -33,6 +33,11 @@
 #include "../Scripts/ControllerToggleScript.cpp"
 #include "../Shader/BlurShader.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class TestScene : public Scene
 {
 public:
@@ -49,8 +54,8 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_ao.png",
 		};
 
-		//Renderer::setSkyBox(createResource<CubeMap>(white));
-		Renderer::setSkyBox(new CubeMap(white));
+		Renderer::setSkyBox(createResource<CubeMap>(white));
+		//Renderer::setSkyBox(new CubeMap(white));
 		Renderer::getSkyBox()->intensity = 10;
 
 

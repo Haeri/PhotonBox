@@ -1,17 +1,14 @@
 #ifndef SSREFLECTION_PROCESSOR_CPP
 #define SSREFLECTION_PROCESSOR_CPP
 
-#include <random>
-
-#include <Core/FrameBuffer.h>
 #include <Core/PostProcessor.h>
-#include <Core/Systems/Renderer.h>
-#include <Math/Math.h>
-#include <Resources/Material.h>
 
-#include "../Shader/SSAOBlurShader.cpp"
-#include "../Shader/SSAOShader.cpp"
 #include "../Shader/SSReflectionShader.cpp"
+
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
 
 class SSReflectionProcessor : public PostProcessor
 {

@@ -17,9 +17,10 @@ public:
 	void start();
 	void postProcess();
 	void reset();
+	void destroy();
 private:
 	static bool _doPostProcessing;
 	static std::map<int, PostProcessor*> _processorMap;
 };
 
-#endif /* defined(POST_PROCESSING_H) */
+#endif // POST_PROCESSING_H

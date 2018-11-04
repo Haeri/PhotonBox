@@ -7,6 +7,11 @@
 #include <Core/InputManager.h>
 #include <Core/Time.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class CameraControllerScript : public Behaviour
 {
 public:

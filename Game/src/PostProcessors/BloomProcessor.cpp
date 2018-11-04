@@ -8,6 +8,11 @@
 #include "../Shader/BlurVShader.cpp"
 #include "../Shader/CutOffShader.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class BloomProcessor : public PostProcessor
 {
 public:

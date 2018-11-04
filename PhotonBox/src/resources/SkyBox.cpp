@@ -53,9 +53,9 @@ void SkyBox::genVAO()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _mesh->indices.size() * sizeof(unsigned int), &(_mesh->indices[0]), GL_DYNAMIC_DRAW);
 
-	glVertexAttribPointer(Vertex::AttibLocation::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glVertexAttribPointer(Vertex::AttibLocation::NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	glVertexAttribPointer(Vertex::AttibLocation::TEXTURECOORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	glVertexAttribPointer(Vertex::AttibLocation::POSITION,		3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	glVertexAttribPointer(Vertex::AttibLocation::NORMAL,		3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	glVertexAttribPointer(Vertex::AttibLocation::TEXTURECOORD,	2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -100,7 +100,7 @@ void SkyBox::render()
 	_skyBoxShader->update(vp);
 	_skyBoxShader->setUniform("intensity", intensity);
 	_skyBoxShader->enableAttributes();
-	_lightMap->enviromentMap->bind();
+	_lightMap->getEnviromentMap()->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	Renderer::addDrawCall();
 	_skyBoxShader->disableAttributes();
