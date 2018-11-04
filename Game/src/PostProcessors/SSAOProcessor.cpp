@@ -9,6 +9,11 @@
 #include "../Shader/SSAOBlurShader.cpp"
 #include "../Shader/SSAOShader.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class SSAOProcessor : public PostProcessor
 {
 public:
@@ -66,6 +71,8 @@ public:
 
 		delete mainBuffer;
 		delete ssaoBlurBuffer;
+
+		glDeleteTextures(1, &_noiseTexture);
 	}
 private:
 	Material * ssaoMaterial, *ssaoBlurMaterial;

@@ -7,28 +7,44 @@
 
 LightMap::LightMap(const std::vector<std::string>& allFaces)
 {
-	enviromentMap = new CubeMap(allFaces);
+	_enviromentMap = new CubeMap(allFaces);
+	_isManagedEnviromentMap = false;
 	generateLightMaps();
 }
 
-LightMap::LightMap(CubeMap* cubemap)
+LightMap::LightMap(CubeMap* cubemap, bool generate)
 {
-	enviromentMap = cubemap;
-	generateLightMaps();
+	_enviromentMap = cubemap;
+	_isManagedEnviromentMap = true;
+	if(generate)
+		generateLightMaps();
 }
 
 LightMap::~LightMap()
 {
-	delete enviromentMap;
-	delete irradianceMap;
-	delete specularMap;
+	if(!_isManagedEnviromentMap)
+		delete _enviromentMap;
+	delete _irradianceMap;
+	delete _specularMap;
+}
+
+CubeMap* LightMap::getEnviromentMap() {
+	return _enviromentMap;
+}
+
+CubeMap* LightMap::getIrradianceMap() {
+	return _irradianceMap;
+}
+
+CubeMap* LightMap::getSpecularConvolutionMap() {
+	return _specularMap;
 }
 
 void LightMap::generateLightMaps()
 {
-	irradianceMap = new CubeMap(32);
-	irradianceMap->generateIrradiance(enviromentMap->getLocation());
+	_irradianceMap = new CubeMap(32);
+	_irradianceMap->generateIrradiance(_enviromentMap->getLocation());
 
-	specularMap = new CubeMap(128, true);
-	specularMap->generateSpecularConvolution(enviromentMap->getLocation());
+	_specularMap = new CubeMap(128, true);
+	_specularMap->generateSpecularConvolution(_enviromentMap->getLocation());
 }

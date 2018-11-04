@@ -57,3 +57,14 @@ void PostProcessing::reset()
 
 	_processorMap.clear();
 }
+
+void PostProcessing::destroy()
+{
+	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it)
+	{
+		it->second->destroy();
+		delete it->second;
+	}
+
+	_processorMap.clear();
+}

@@ -6,6 +6,11 @@
 #include <Core/InputManager.h>
 #include <Resources/Material.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class MaterialScript : public Behaviour
 {
 public:

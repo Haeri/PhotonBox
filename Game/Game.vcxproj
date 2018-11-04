@@ -128,7 +128,7 @@
     </LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mem_Debug|x64'">
-    <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\Debug\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental />
   </PropertyGroup>
@@ -143,6 +143,8 @@
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental>
     </LinkIncremental>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -299,6 +301,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(solutionDir)PhotonBox/src;$(solutionDir)PhotonBox/include;$(solutionDir)PhotonBox/include/PhotonBox;$(solutionDir)PhotonBox/include/PhysX</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

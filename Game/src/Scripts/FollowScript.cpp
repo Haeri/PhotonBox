@@ -4,6 +4,11 @@
 #include <Components/Behaviour.h>
 #include <Components/Transform.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class FollowScript : public Behaviour
 {
 public:
