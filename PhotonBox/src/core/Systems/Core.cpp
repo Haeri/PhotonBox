@@ -235,6 +235,7 @@ void Core::destroy()
 	_physics->destroy();
 	_debugGUI->destroy();
 	_display->destroy();
+	_postPocessing->destroy();
 
 	Shader::clearAll();
 

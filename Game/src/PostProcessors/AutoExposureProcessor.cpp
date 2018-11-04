@@ -10,6 +10,11 @@
 #include "../Shader/AutoExposureShader.cpp"
 #include "../Shader/ExposureShader.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class AutoExposureProcessor : public PostProcessor
 {
 public:
@@ -112,11 +117,12 @@ public:
 		delete currentLuminancBuffer;
 		delete luminancBufferA;
 		delete luminancBufferB;
+		delete expMaterial;
 	}
 private:
 	Material * autoExpMaterial, *expMaterial;
 	FrameBuffer* mainBuffer, *currentLuminancBuffer, *luminancBufferA, *luminancBufferB;
-	bool flip;
+	bool flip = false;
 };
 
 #endif // AUTO_EXPOSURE_PROCESSOR_CPP

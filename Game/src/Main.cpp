@@ -10,6 +10,11 @@
 #include "Scenes/TestScene.cpp"
 #include "Scenes/PhysicsScene.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 int main(void)
 {
 
@@ -26,10 +31,11 @@ int main(void)
 
 	// Create Scenes
 	std::map<std::string, Scene*> sceneMap;
+	sceneMap["Demo Scene"] = new DemoScene();
 	sceneMap["Realistic Rendering"] = new TestScene();
 	sceneMap["Material Test"] = new PBRScene();
-	sceneMap["Demo Scene"] = new DemoScene();
 	sceneMap["Physics Scene"] = new PhysicsScene();
+	
 
 	// Create and initialize the Core
 	Core core;

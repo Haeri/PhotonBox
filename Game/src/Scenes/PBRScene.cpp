@@ -18,6 +18,8 @@
 #include <components/LightProbe.h>
 
 #include "../PostProcessors/SSReflectionProcessor.cpp"
+#include "../PostProcessors/SSAOProcessor.cpp"
+#include "../PostProcessors/AutoExposureProcessor.cpp"
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../PostProcessors/BlurProcessor.cpp"
@@ -28,6 +30,10 @@
 #include "../Scripts/PrinterScript.cpp"
 #include "../Scripts/TransformerScript.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
 
 class PBRScene : public Scene
 {
@@ -55,17 +61,17 @@ public:
 			"./res/enviroment/studio/face-f.jpg",
 		};
 
-		//Renderer::setSkyBox(createResource<CubeMap>(nightSky));
-		Renderer::setSkyBox(new CubeMap(studio));
+		Renderer::setSkyBox(createResource<CubeMap>(studio));
 		Renderer::getSkyBox()->intensity = 3;
 
 		/* --------------------------- POST PROCESSING --------------------------- */
+		/*
 		SSAOProcessor* p_ssao = new SSAOProcessor(0);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
 		BloomProcessor* p_bloom = new BloomProcessor(3);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
-
+		*/
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane_big.obj");
 		//Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");

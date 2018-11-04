@@ -1,11 +1,14 @@
 #ifndef TONE_MAPPING_PROCESSOR_CPP
 #define TONE_MAPPING_PROCESSOR_CPP
 
-#include <Core/FrameBuffer.h>
 #include <Core/PostProcessor.h>
 
-#include "../Shader/MonochromShader.cpp"
 #include "../Shader/ToneMappingShader.cpp"
+
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
 
 class ToneMappingProcessor : public PostProcessor
 {
@@ -17,6 +20,7 @@ public:
 		_frameBuffer->addTextureAttachment("color", true);
 		_frameBuffer->ready();
 
+		_material = new Material(ToneMappingShader::getInstance());
 		_material->setTexture("renderTexture", _frameBuffer, "color");
 	}
 
