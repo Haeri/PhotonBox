@@ -7,6 +7,11 @@
 
 #include "../Shader/MonochromShader.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class MonochromProcessor : public PostProcessor
 {
 public:

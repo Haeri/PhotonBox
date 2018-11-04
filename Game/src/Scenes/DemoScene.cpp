@@ -1,24 +1,30 @@
 #ifndef DEMO_SCENE_CPP
 #define DEMO_SCENE_CPP
 
-#include <Components/MeshRenderer.h>
-#include <Components/TransparentMeshRenderer.h>
-#include <Components/PointRenderer.h>
-#include <Resources/OBJLoader.h>
-#include <Resources/Scene.h>
-#include <Resources/Texture.h>
-#include <Resources/Resources.h>
+#include <components/MeshRenderer.h>
+#include <components/TransparentMeshRenderer.h>
+#include <components/PointRenderer.h>
+#include <resources/OBJLoader.h>
+#include <resources/Scene.h>
+#include <resources/Texture.h>
+#include <resources/Resources.h>
 #include <resources/GShader.h>
-#include <Resources/LitShader.h>
+#include <math/Math.h>
+
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../PostProcessors/AutoExposureProcessor.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
+
 #include "../Scripts/CameraControllerScript.cpp"
 #include "../Scripts/StateControllerScript.cpp"
-#include "../Scripts/MaterialScript.cpp"
+
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
 
 class DemoScene : public Scene
 {
@@ -37,19 +43,16 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
 		};
 
-		//Renderer::setSkyBox(createResource<CubeMap>(nightSky));
-		Renderer::setSkyBox(new CubeMap(nightSky));
+		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		/*
 		SSAOProcessor* p_ssao = new SSAOProcessor(0);
-		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(0);
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
-		BloomProcessor* p_bloom = new BloomProcessor(2);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
-		*/
+		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(0);
+		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
+		//BloomProcessor* p_bloom = new BloomProcessor(2);
+		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
 
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
@@ -66,7 +69,6 @@ public:
 
 		/* --------------------------- SHADERS --------------------------- */
 		GShader* defaultShader = GShader::getInstance();
-		LitShader* litShader = LitShader::getInstance();
 
 
 		/* --------------------------- MATERIALS --------------------------- */
@@ -77,8 +79,6 @@ public:
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
-
-		Material* lit = createResource<Material>(litShader);
 
 
 		/* --------------------------- CAMERA --------------------------- */
@@ -108,7 +108,6 @@ public:
 
 
 		Entity* pointLight = instanciate("Pointlight");
-		//pointLight->addComponent<PointRenderer>();
 		pointLight->getComponent<Transform>()->setPosition(Vector3f(0, 2, -1));
 		pointLight->addComponent<PointLight>();
 		pointLight->getComponent<PointLight>()->color = Vector3f(0.1f, 0.92f, 0.1f);
@@ -120,7 +119,6 @@ public:
 
 		
 		Entity* pointLight2 = instanciate("Pointlight2");
-		//pointLight2->addComponent<PointRenderer>()->setMaterial(lit);
 		pointLight2->getComponent<Transform>()->setPosition(Vector3f(1.7f, 2.0f, -1.0f));
 		pointLight2->addComponent<PointLight>();
 		pointLight2->getComponent<PointLight>()->color = Vector3f(0.1f, 0.1f, 0.94f);
@@ -131,7 +129,6 @@ public:
 		//pointLight2->setEnable(false);
 
 		Entity* pointLight3 = instanciate("Pointlight3");
-		//pointLight3->addComponent<PointRenderer>()->setMaterial(lit);
 		pointLight3->getComponent<Transform>()->setPosition(Vector3f(-1.7f, 2.0f, -1.0f));
 		pointLight3->addComponent<PointLight>();
 		pointLight3->getComponent<PointLight>()->color = Vector3f(0.93f, 0.1f, 0.1f);

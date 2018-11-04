@@ -16,6 +16,11 @@
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class PhysicsScene : public Scene
 {
 public:
@@ -32,8 +37,8 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_roughness.png",
 		};
 
-		//Renderer::setSkyBox(createResource<CubeMap>(nightSky));
-		Renderer::setSkyBox(new CubeMap(nightSky));
+		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
+		//Renderer::setSkyBox(new CubeMap(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
 

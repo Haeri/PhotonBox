@@ -315,8 +315,8 @@ void Renderer::prePass()
 				}
 				else
 				{
-					_skyBox.getLightMap()->irradianceMap->bind(shader->textures["irradianceMap"].unit);
-					_skyBox.getLightMap()->specularMap->bind(shader->textures["convolutedSpecularMap"].unit);
+					_skyBox.getLightMap()->getIrradianceMap()->bind(shader->textures["irradianceMap"].unit);
+					_skyBox.getLightMap()->getSpecularConvolutionMap()->bind(shader->textures["convolutedSpecularMap"].unit);
 					shader->setUniform("useCorrection", false);
 				}
 			}
@@ -511,8 +511,8 @@ void Renderer::renderForward()
 				}
 				else
 				{
-					_skyBox.getLightMap()->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
-					_skyBox.getLightMap()->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					_skyBox.getLightMap()->getIrradianceMap()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					_skyBox.getLightMap()->getSpecularConvolutionMap()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
 					_ambientLightShader->setUniform("useCorrection", false);
 				}
 
@@ -589,7 +589,7 @@ void Renderer::renderTransparents()
 		}
 		else
 		{
-			_skyBox.getLightMap()->specularMap->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
+			_skyBox.getLightMap()->getSpecularConvolutionMap()->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
 			_transparentBaseShader->setUniform("useCorrection", false);
 		}
 
@@ -653,14 +653,14 @@ void Renderer::captureScene(LightMap* lightmap)
 				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
 				if (lightmap != nullptr)
 				{
-					lightmap->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
-					lightmap->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					lightmap->getIrradianceMap()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					lightmap->getSpecularConvolutionMap()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
 					_ambientLightShader->setUniform("useCorrection", false);
 				}
 				else
 				{
-					_skyBox.getLightMap()->irradianceMap->bind(_ambientLightShader->textures["irradianceMap"].unit);
-					_skyBox.getLightMap()->specularMap->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
+					_skyBox.getLightMap()->getIrradianceMap()->bind(_ambientLightShader->textures["irradianceMap"].unit);
+					_skyBox.getLightMap()->getSpecularConvolutionMap()->bind(_ambientLightShader->textures["convolutedSpecularMap"].unit);
 					_ambientLightShader->setUniform("useCorrection", false);
 				}
 

@@ -39,8 +39,9 @@ LightMap* LightProbe::captureRecursive(int step)
 
 	LightMap* lastLightMap = captureRecursive(--step);
 
-	LightMap* lightMap = new LightMap();
-	lightMap->enviromentMap = new CubeMap(resolution);
+	//lightMap->enviromentMap = 
+	CubeMap* current = new CubeMap(resolution);
+	LightMap* lightMap = new LightMap(current, false);
 
 	Camera* oldMain = Camera::getMainCamera();
 	Camera cam = Camera();
@@ -81,7 +82,7 @@ LightMap* LightProbe::captureRecursive(int step)
 
 		glViewport(0, 0, resolution, resolution);
 		glBindFramebuffer(GL_FRAMEBUFFER, _captureFBO);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, lightMap->enviromentMap->getLocation(), 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, current->getLocation(), 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		cam.transform->setRotation(rotations[i]);
@@ -93,6 +94,7 @@ LightMap* LightProbe::captureRecursive(int step)
 
 	lightMap->generateLightMaps();
 
+	delete current;
 	delete lastLightMap;
 	delete _transform;
 
@@ -101,17 +103,17 @@ LightMap* LightProbe::captureRecursive(int step)
 
 CubeMap* LightProbe::getEnviromentCube()
 {
-	return _lightMap->enviromentMap;
+	return _lightMap->getEnviromentMap();
 }
 
 CubeMap* LightProbe::getIrradianceCube()
 {
-	return _lightMap->irradianceMap; 
+	return _lightMap->getIrradianceMap(); 
 }
 
 CubeMap* LightProbe::getSpecularCube()
 {
-	return _lightMap->specularMap; 
+	return _lightMap->getSpecularConvolutionMap(); 
 }
 
 void LightProbe::destroy()

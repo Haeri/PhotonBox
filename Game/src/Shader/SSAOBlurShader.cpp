@@ -4,6 +4,11 @@
 #include <Core/Display.h>
 #include <Resources/Shader.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class SSAOBlurShader : public InstancedShader<SSAOBlurShader>
 {
 public:

@@ -63,15 +63,15 @@
     <ClCompile Include="src\Core\LightMap.cpp" />
     <ClCompile Include="src\Core\MeshSerializer.cpp" />
     <ClCompile Include="src\Core\Profiler.cpp" />
-    <ClCompile Include="src\Core\Systems\DebugGUI.cpp" />
-    <ClCompile Include="src\Core\Systems\PostProcessing.cpp" />
-    <ClCompile Include="src\Core\Systems\Core.cpp" />
-    <ClCompile Include="src\Core\Systems\Lighting.cpp" />
-    <ClCompile Include="src\Core\Systems\Logic.cpp" />
-    <ClCompile Include="src\Core\Systems\Physics.cpp" />
-    <ClCompile Include="src\Core\Systems\Renderer.cpp" />
-    <ClCompile Include="src\Core\Systems\SceneManager.cpp" />
-    <ClCompile Include="src\Core\Systems\UIRenderer.cpp" />
+    <ClCompile Include="src\core\systems\DebugGUI.cpp" />
+    <ClCompile Include="src\core\systems\PostProcessing.cpp" />
+    <ClCompile Include="src\core\systems\Core.cpp" />
+    <ClCompile Include="src\core\systems\Lighting.cpp" />
+    <ClCompile Include="src\core\systems\Logic.cpp" />
+    <ClCompile Include="src\core\systems\Physics.cpp" />
+    <ClCompile Include="src\core\systems\Renderer.cpp" />
+    <ClCompile Include="src\core\systems\SceneManager.cpp" />
+    <ClCompile Include="src\core\systems\UIRenderer.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\Util.cpp" />
     <ClCompile Include="src\glad.c" />
@@ -290,7 +290,7 @@
     <TargetName>$(ProjectName)_DEBUG</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mem_Debug|x64'">
-    <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\Debug\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_MEM_DEBUG</TargetName>
   </PropertyGroup>

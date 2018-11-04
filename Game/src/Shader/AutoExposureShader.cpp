@@ -4,6 +4,11 @@
 #include <Resources/Shader.h>
 #include <Core/Time.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class AutoExposureShader : public InstancedShader<AutoExposureShader>
 {
 public:

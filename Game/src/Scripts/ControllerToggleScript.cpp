@@ -3,6 +3,11 @@
 
 #include <Components/Behaviour.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class ControllerToggleScript : public Behaviour
 {
 public:

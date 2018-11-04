@@ -8,6 +8,11 @@
 #include <Core/Systems/Renderer.h>
 #include <Core/Systems/SceneManager.h>
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class StateControllerScript : public Behaviour
 {
 public:
