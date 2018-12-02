@@ -58,9 +58,20 @@ unsigned char* Texture::loadIcon(const std::string& fileName, int& width, int& h
 	unsigned char* data = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4);
 
 	if (data == NULL)
-		std::cerr << "Unable to load texture: " << fileName << std::endl;
+		std::cerr << "Unable to load Icon: " << fileName << std::endl;
 
 	return data;
+}
+
+void Texture::freeIcon(unsigned char* data) 
+{
+	if (data == NULL) 
+	{
+		std::cerr << "Unable to free icon" << std::endl;
+		return;
+	}
+
+	stbi_image_free(data);
 }
 
 void Texture::initializeTexture(unsigned char * data, bool generateMipMaps, bool hdr)

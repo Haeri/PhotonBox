@@ -51,9 +51,10 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	// Set Icon
-	GLFWimage images[1];
-	images[0].pixels = Texture::loadIcon(Resources::ENGINE_RESOURCES + "/logo.png", images[0].width, images[0].height);
-	glfwSetWindowIcon(_window, 1, images);
+	GLFWimage icon[1];
+	icon[0].pixels = Texture::loadIcon(Resources::ENGINE_RESOURCES + "/logo.png", icon[0].width, icon[0].height);
+	glfwSetWindowIcon(_window, 1, icon);
+	Texture::freeIcon(icon[0].pixels);
 
 	setVSync(vsync);
 	_isRunning = true;
