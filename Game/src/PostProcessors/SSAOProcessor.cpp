@@ -91,7 +91,6 @@ private:
 
 	void generateNoise()
 	{
-
 		// generate sample kernel
 		// ----------------------
 		std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
@@ -108,6 +107,7 @@ private:
 			sample = sample * scale;
 			_ssaoKernel.push_back(sample);
 		}
+		
 
 		// generate noise texture
 		// ----------------------

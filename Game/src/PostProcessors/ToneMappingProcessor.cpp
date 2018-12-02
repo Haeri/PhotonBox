@@ -15,7 +15,6 @@ class ToneMappingProcessor : public PostProcessor
 public:
 	ToneMappingProcessor(int index) : PostProcessor(index)
 	{
-		_material = new Material(ToneMappingShader::getInstance());
 		_frameBuffer = new FrameBuffer(1);
 		_frameBuffer->addTextureAttachment("color", true);
 		_frameBuffer->ready();
