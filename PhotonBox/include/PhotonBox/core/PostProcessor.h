@@ -14,6 +14,8 @@ public:
 		PostProcessing::addProcessor(this);
 	}
 
+	virtual ~PostProcessor() {}
+
 	int getIndex() { return _index; }
 
 	virtual void onResize() {}

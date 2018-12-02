@@ -48,13 +48,12 @@ public:
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		//FXAAProcessor* p_fxaa = new FXAAProcessor(0);
-		
-		SSAOProcessor* p_ssao = new SSAOProcessor(0);
-		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(0);
-		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
-		//BloomProcessor* p_bloom = new BloomProcessor(2);
-		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
+		//FXAAProcessor* p_fxaa = new FXAAProcessor(0);								// 0 Leaks
+		SSAOProcessor* p_ssao = new SSAOProcessor(10);							// 2 Leaks
+		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);		// 0 Leaks
+		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(30);		// 0 Leaks
+		//BloomProcessor* p_bloom = new BloomProcessor(40);							// 0 Leaks
+		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(50);			// 0 Leaks
 
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
