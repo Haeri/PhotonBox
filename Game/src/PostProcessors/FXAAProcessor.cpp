@@ -8,6 +8,11 @@
 
 #include "../Shader/FXAAShader.cpp"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 class FXAAProcessor : public PostProcessor
 {
 public:

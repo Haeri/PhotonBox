@@ -24,6 +24,7 @@ GENERAL
 - License
 - namespace
 - Abstraction layer over opengl
+- precompiled header
 
 BUGS
 - No shadows in capture mode
