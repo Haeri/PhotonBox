@@ -1,18 +1,18 @@
 RENDERING
 - Instanced rendering
 - Deferred decals
-- switch to GTAO
+- Switch to GTAO
 - TAA
 - Draw handles
 - GBuffer packing
+- Dynamic Shadow bounding update
 
 GENERAL
-- zlib binary file compression
-- switch image format to compressed ddt
+- Zlib binary file compression
+- Switch image format to compressed ddt
 - Resource manager
-	- protected constructors for managed resources
-	- load next before unload to pass already loaded resources
-- fix all memory leaks
+	- Protected constructors for managed resources
+	- Load next before unload to pass already loaded resources
 - Frustum culling
 - Recursive lightmap generation with light conservation
 - Uniform buffer
@@ -21,10 +21,21 @@ GENERAL
 - GL-State system: define all needed properties befre draw call. System compares 
 	what state is to what it should be and only changes properties that are needed.
 - SIMD math
-- License
-- namespace
-- Abstraction layer over opengl
-- precompiled header
+- License - MIT?
+- Wrap everything in PhotonBox namespace
+- Abstraction layer over OpenGL
+- Precompiled header
+- Switch to dll
+- User Premake or CMake
+- Decouple asset conversion into its own Project (AssetCompiler)
+- Create Shader as JSON resource -> Eliminate Shader classes
+- Move Scene classes to JSON resources
+
+RESOURCES
+- Textures	-> .DDT
+- Mesh		-> .Mesh
+- Shader	-> .JSON
+- Scene		-> .JSON
 
 BUGS
 - No shadows in capture mode
