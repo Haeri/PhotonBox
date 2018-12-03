@@ -17,7 +17,7 @@
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../PostProcessors/AutoExposureProcessor.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
-
+#include "../PostProcessors/FXAAProcessor.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
 #include "../Scripts/StateControllerScript.cpp"
 
@@ -48,11 +48,12 @@ public:
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		SSAOProcessor* p_ssao = new SSAOProcessor(0);
-		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(0);
-		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(1);
-		//BloomProcessor* p_bloom = new BloomProcessor(2);
-		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(3);
+		FXAAProcessor* p_fxaa = new FXAAProcessor(0);
+		//SSAOProcessor* p_ssao = new SSAOProcessor(10);
+		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
+		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(30);
+		//BloomProcessor* p_bloom = new BloomProcessor(40);
+		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(50);
 
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");

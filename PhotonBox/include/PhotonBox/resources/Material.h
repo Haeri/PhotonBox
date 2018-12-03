@@ -55,6 +55,7 @@ private:
 	struct SuperObject
 	{
 		virtual void update(Shader* shader) = 0;
+		virtual ~SuperObject() {}
 	};
 
 	template<class T>

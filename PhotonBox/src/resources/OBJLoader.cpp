@@ -142,12 +142,14 @@ void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 	std::cout << "Loading mesh: " << filePath << std::endl;
 	std::ifstream file(filePath);
 
+	//TODO: Fix case where no .obj files are provided
+	/*
 	if (!file.is_open())
 	{
-		std::cerr << "\t ERROR: Could not open file this file!" << std::endl;
+		std::cerr << "\t ERROR: Could not open this file!" << std::endl;
 		mesh = nullptr;
 		return;
-	}
+	}*/
 
 	std::size_t found = filePath.find_last_of(".");
 	std::string cachePath = filePath.substr(0, found) + ".mesh";

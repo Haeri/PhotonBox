@@ -15,7 +15,7 @@ class SSReflectionProcessor : public PostProcessor
 public:
 	SSReflectionProcessor(int index) : PostProcessor(index)
 	{
-		_mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		_mainBuffer = new FrameBuffer(1);
 		_mainBuffer->addTextureAttachment("color", true);
 		_mainBuffer->ready();
 
