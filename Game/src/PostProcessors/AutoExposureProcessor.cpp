@@ -39,7 +39,7 @@ public:
 		luminancBufferB = new FrameBuffer(1, 1);
 		luminancBufferB->addTextureAttachment("color", true);
 		luminancBufferB->ready();
-		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		mainBuffer = new FrameBuffer(1);
 		mainBuffer->addTextureAttachment("color", true);
 		mainBuffer->ready();
 

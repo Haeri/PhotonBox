@@ -43,7 +43,7 @@ public:
 
 	BloomProcessor(int index) : PostProcessor(index)
 	{
-		fb_original = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		fb_original = new FrameBuffer(1);
 		fb_original->addTextureAttachment("color", true);
 		fb_original->ready();
 		fb_cutOff_2 = new FrameBuffer(0.5f);

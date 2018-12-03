@@ -1,7 +1,6 @@
-#ifndef SSAO_BLUR_SHADER_CPP
-#define SSAO_BLUR_SHADER_CPP
+#ifndef FXAA_SHADER_CPP
+#define FXAA_SHADER_CPP
 
-#include <Core/Display.h>
 #include <Resources/Shader.h>
 
 #ifdef MEM_DEBUG
@@ -9,21 +8,23 @@
 #define new DEBUG_NEW
 #endif
 
-class SSAOBlurShader : public InstancedShader<SSAOBlurShader>
+class FXAAShader : public InstancedShader<FXAAShader>
 {
 public:
 	std::string getFilePath() override
 	{
-		return std::string("./res/shaders/post-processing/ssaoBlur");
+		return std::string("./res/shaders/post-processing/fxaa");
 	}
 
 	void addUniforms() override
 	{
 		addUniform("screenWidth");
 		addUniform("screenHeight");
+		addUniform("R_fxaaSpanMax");
+		addUniform("R_fxaaReduceMin");
+		addUniform("R_fxaaReduceMul");
 
-		addTexture("original");
-		addTexture("ssaoInput");
+		addTexture("renderTexture");
 	}
 
 	void addAttributes() override
@@ -32,4 +33,4 @@ public:
 	}
 };
 
-#endif // SSAO_BLUR_SHADER_CPP
+#endif // FXAA_SHADER_CPP

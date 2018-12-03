@@ -20,10 +20,10 @@ public:
 
 	SSAOProcessor(int index) : PostProcessor(index)
 	{
-		mainBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		mainBuffer = new FrameBuffer(1);
 		mainBuffer->addTextureAttachment("color", true);
 		mainBuffer->ready();
-		ssaoBlurBuffer = new FrameBuffer(Display::getWidth(), Display::getHeight());
+		ssaoBlurBuffer = new FrameBuffer(1);
 		ssaoBlurBuffer->addTextureAttachment("color", true);
 		ssaoBlurBuffer->ready();
 
@@ -33,8 +33,16 @@ public:
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
 		ssaoBlurMaterial->setTexture("original", mainBuffer, "color");
 		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer, "color");
+		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth());
+		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
 
 		generateNoise();
+	}
+
+	void onResize() override
+	{
+		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth());
+		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
 	}
 
 	void enable() override
@@ -83,7 +91,6 @@ private:
 
 	void generateNoise()
 	{
-
 		// generate sample kernel
 		// ----------------------
 		std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
@@ -100,6 +107,7 @@ private:
 			sample = sample * scale;
 			_ssaoKernel.push_back(sample);
 		}
+		
 
 		// generate noise texture
 		// ----------------------
@@ -110,7 +118,6 @@ private:
 			ssaoNoise.push_back(noise);
 		}
 
-		//TODO: LEAK: The texture never gets deleted
 		glGenTextures(1, &_noiseTexture);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);

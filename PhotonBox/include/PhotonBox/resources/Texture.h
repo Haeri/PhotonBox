@@ -19,6 +19,7 @@ public:
 	GLuint getTextureLocation() { return _texture; }
 
 	static unsigned char* loadIcon(const std::string& fileName, int& width, int& height);
+	static void freeIcon(unsigned char* data);
 private:
 	friend class Scene;
 	Texture(bool generateMipMaps, bool hdr = false);
