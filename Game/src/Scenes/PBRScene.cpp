@@ -68,7 +68,7 @@ public:
 		
 		SSAOProcessor* p_ssao = new SSAOProcessor(0);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
-		FXAAProcessor* p_fxaa = new FXAAProcessor(2);
+		//FXAAProcessor* p_fxaa = new FXAAProcessor(2);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(3);
 		BloomProcessor* p_bloom = new BloomProcessor(4);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(5);

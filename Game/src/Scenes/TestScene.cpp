@@ -411,77 +411,51 @@ public:
 
 		/* --------------------------- CAMERA --------------------------- */
 
-		Entity* s1 = instanciate("start");
-		s1->getComponent<Transform>()->setPosition(Vector3f(-1.275343f, 0.609712f, 3.92936f));
-		s1->getComponent<Transform>()->setRotation(Vector3f(-0.406666f, 2.218385f, 0.00000f));
+		std::vector<Vector3f> positions;
+		std::vector<Quaternion> rotations;
+		
+		positions.push_back(Vector3f(1.027929, 0.694633, -2.158259));
+		rotations.push_back(Quaternion(0.000000, 0.000000, 0.000000, 1.000000));
 
-		Entity* f1 = instanciate("¨fin");
-		f1->getComponent<Transform>()->setPosition(Vector3f(-1.701402f, 0.896463f, 3.75409f));
-		f1->getComponent<Transform>()->setRotation(Vector3f(0.070667f, 2.363519f, 0.00000f));
+		positions.push_back(Vector3f(-1.360401, 0.694633, -2.075065));
+		rotations.push_back(Quaternion(-0.028378, -0.230313, 0.006719, 0.972680));
 
-		Entity* s2 = instanciate("start");
-		s2->getComponent<Transform>()->setPosition(Vector3f(0.042963f, 0.564167f, 0.744266f));
-		s2->getComponent<Transform>()->setRotation(Vector3f(-0.441667f, -4.278056f, 0.000000f));
+		positions.push_back(Vector3f(-2.056820, 0.512246, -0.024637));
+		rotations.push_back(Quaternion(0.009905, -0.705615, -0.006306, 0.703909));
 
-		Entity* f2 = instanciate("fin");
-		f2->getComponent<Transform>()->setPosition(Vector3f(0.325749f, 0.647959f, 0.665603f));
-		f2->getComponent<Transform>()->setRotation(Vector3f(-0.323334f, -4.136055f, 0.000000f));
+		positions.push_back(Vector3f(-1.386565, 0.527661, -0.021926));
+		rotations.push_back(Quaternion(0.009905, -0.705615, -0.006306, 0.703909));
 
-		Entity* s3 = instanciate("start");
-		s3->getComponent<Transform>()->setPosition(Vector3f(1.849994f, 1.612600f, 0.045660f));
-		s3->getComponent<Transform>()->setRotation(Vector3f(-0.133326f, 3.428171f, 0.000000f));
+		positions.push_back(Vector3f(-1.546286, 1.844576, 3.710133));
+		rotations.push_back(Quaternion(-0.003881, 0.921661, -0.005412, 0.374513));
 
-		Entity* f3 = instanciate("fin");
-		f3->getComponent<Transform>()->setPosition(Vector3f(1.719618f, 1.658098f, 1.163731f));
-		f3->getComponent<Transform>()->setRotation(Vector3f(-0.098326f, 3.107171f, 0.000000f));
+		positions.push_back(Vector3f(-1.551588, 0.697409, 3.701233));
+		rotations.push_back(Quaternion(0.083715, 0.875332, 0.169155, 0.433270));
 
-		Entity* s4 = instanciate("start");
-		s4->getComponent<Transform>()->setPosition(Vector3f(-1.432103f, 0.233059f, 3.00573f));
-		s4->getComponent<Transform>()->setRotation(Vector3f(-0.910666f, 0.317027f, 0.00000f));
+		positions.push_back(Vector3f(1.669045, 1.679932, -0.204936));
+		rotations.push_back(Quaternion(-0.001640, 0.990844, -0.011507, -0.018861));
 
-		Entity* f4 = instanciate("fin");
-		f4->getComponent<Transform>()->setPosition(Vector3f(-1.254720f, 0.108683f, -0.22882f));
-		f4->getComponent<Transform>()->setRotation(Vector3f(0.086667f, 0.071351f, 0.00000f));
+		positions.push_back(Vector3f(1.831609, 1.694534, 0.390910));
+		rotations.push_back(Quaternion(-0.001640, 0.990844, -0.011507, -0.018861));
 
-		Entity* s5 = instanciate("start");
-		s5->getComponent<Transform>()->setPosition(Vector3f(1.497587f, 1.648782f, 2.544615f));
-		s5->getComponent<Transform>()->setRotation(Vector3f(-0.126667f, -2.622055f, 0.000000f));
+		positions.push_back(Vector3f(1.302423, 1.878779, 3.948425));
+		rotations.push_back(Quaternion(0.024274, -0.972819, 0.122343, -0.131675));
 
-		Entity* f5 = instanciate("fin");
-		f5->getComponent<Transform>()->setPosition(Vector3f(1.335855f, 0.571176f, 2.610204f));
-		f5->getComponent<Transform>()->setRotation(Vector3f(-0.126667f, -2.622055f, 0.000000f));
+		positions.push_back(Vector3f(0.219692, 1.831888, 3.995026));
+		rotations.push_back(Quaternion(-0.001262, -0.979887, 0.116091, 0.074467));
 
-		Entity* s6 = instanciate("start");
-		s6->getComponent<Transform>()->setPosition(Vector3f(-1.708001f, 0.232390f, 0.078278f));
-		s6->getComponent<Transform>()->setRotation(Vector3f(0.028630f, -1.570984f, 0.000000f));
+		positions.push_back(Vector3f(1.450421, 2.951797, -1.219468));
+		rotations.push_back(Quaternion(0.450830, -0.545559, 0.454648, -0.519226));
 
-		Entity* f6 = instanciate("fin");
-		f6->getComponent<Transform>()->setPosition(Vector3f(-0.610981f, 0.718269f, 0.078073f));
-		f6->getComponent<Transform>()->setRotation(Vector3f(0.028630f, -1.570984f, 0.000000f));
+		positions.push_back(Vector3f(1.427990, 2.900677, 1.304277));
+		rotations.push_back(Quaternion(0.450830, -0.545559, 0.454648, -0.519226));
 
-		Entity* s7 = instanciate("start");
-		s7->getComponent<Transform>()->setPosition(Vector3f(1.163253f, 2.849120f, -0.82634f));
-		s7->getComponent<Transform>()->setRotation(Vector3f(-1.466666f, 7.874601f, 0.00000f));
+		positions.push_back(Vector3f(0.001378, 0.554877, 1.378379));
+		rotations.push_back(Quaternion(0.000040, -0.999493, -0.020330, -0.000862));
 
-		Entity* f7 = instanciate("fin");
-		f7->getComponent<Transform>()->setPosition(Vector3f(1.112261f, 2.849120f, 1.64630f));
-		f7->getComponent<Transform>()->setRotation(Vector3f(-1.466666f, 7.874601f, 0.00000f));
+		positions.push_back(Vector3f(-0.001278, 0.617471, -0.158748));
+		rotations.push_back(Quaternion(0.000040, -0.999493, -0.020330, -0.000862));
 
-		Entity* s8 = instanciate("start");
-		s8->getComponent<Transform>()->setPosition(Vector3f(1.269536f, 2.121249f, 4.091350f));
-		s8->getComponent<Transform>()->setRotation(Vector3f(-0.606236f, 2.979938f, 0.000000f));
-
-		Entity* f8 = instanciate("fin");
-		f8->getComponent<Transform>()->setPosition(Vector3f(0.237463f, 1.906774f, 3.826429f));
-		f8->getComponent<Transform>()->setRotation(Vector3f(-0.576903f, 3.178587f, 0.000000f));
-
-		Entity* s9 = instanciate("start");
-		s9->getComponent<Transform>()->setPosition(Vector3f(1.5f, 0.7f, -2.4f));
-		s9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, 0.4f, 0.0f));
-
-		Entity* f9 = instanciate("fin");
-		f9->getComponent<Transform>()->setPosition(Vector3f(-1.8f, 1.1f, -2.9f));
-		f9->getComponent<Transform>()->setRotation(Vector3f(-0.1f, -0.3f, 0.0f));
 
 
 		Entity* cam = instanciate("Camera");
@@ -490,29 +464,13 @@ public:
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<StateControllerScript>();
 		cam->addComponent<CameraControllerScript>();
-
-		/*
+		
+		
 		cam->addComponent<PathWalkerScript>()->speed = 0.1f;
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s1->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f1->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s2->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f2->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s3->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f3->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s4->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f4->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s5->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f5->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s6->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f6->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s7->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f7->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s8->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f8->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(s9->transform));
-		cam->getComponent<PathWalkerScript>()->path.push_back(*(f9->transform));
-		*/
-		//cam->addComponent<ControllerToggleScript>();
+		cam->getComponent<PathWalkerScript>()->positions = positions;
+		cam->getComponent<PathWalkerScript>()->rotations = rotations;	
+		cam->addComponent<ControllerToggleScript>();
+		
 
 
 		/* --------------------------- LIGHT HELPER --------------------------- */
