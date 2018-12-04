@@ -9,6 +9,8 @@ class Quaternion
 public:
 	static const Quaternion ZERO;
 
+	Quaternion()
+		: _x(0), _y(0), _z(0), _w(0) {}
 	Quaternion(float x, float y, float z, float w)
 		: _x(x), _y(y), _z(z), _w(w) {}
 	Quaternion(Vector3f axis, float angle);
@@ -24,6 +26,8 @@ public:
 	Quaternion normalize();
 	float getAngle();
 	Vector3f getAxis();
+
+	static Quaternion lerp(Quaternion start, Quaternion end, float percent);
 
 	Matrix4f createRotation();
 

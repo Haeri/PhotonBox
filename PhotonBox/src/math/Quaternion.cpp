@@ -103,6 +103,16 @@ Matrix4f Quaternion::createRotation()
 	return Matrix4f::IDENTITY;
 }
 
+Quaternion Quaternion::lerp(Quaternion start, Quaternion target, float percent)
+{
+	return Quaternion(
+		start._x + percent * (target._x - start._x),
+		start._y + percent * (target._y - start._y),
+		start._z + percent * (target._z - start._z),
+		start._w + percent * (target._w - start._w)
+	);
+}
+
 Quaternion Quaternion::operator*(const Quaternion & other)
 {
 	float w_ = _w * other.getW() - _x * other.getX() - _y * other.getY() - _z * other.getZ();

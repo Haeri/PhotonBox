@@ -137,7 +137,7 @@ public:
 		}
 	}
 
-	Vector4f lerp(Vector4f start, Vector4f target, float percent);
+	static Vector4f lerp(Vector4f start, Vector4f target, float percent);
 
 	friend std::ostream& operator<<(std::ostream& os, Vector4f m)
 	{
