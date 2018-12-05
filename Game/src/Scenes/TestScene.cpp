@@ -61,12 +61,12 @@ public:
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 
-		SSAOProcessor* p_ssao = new SSAOProcessor(0);
-		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
-		FXAAProcessor* p_fxaa = new FXAAProcessor(2);
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(3);
-		BloomProcessor* p_bloom = new BloomProcessor(4);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(5);
+		SSAOProcessor* p_ssao = new SSAOProcessor(10);
+		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
+		FXAAProcessor* p_fxaa = new FXAAProcessor(30);
+		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(40);
+		BloomProcessor* p_bloom = new BloomProcessor(50);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(60);
 
 
 		/* --------------------------- OBJ --------------------------- */

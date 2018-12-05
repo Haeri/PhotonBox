@@ -48,7 +48,7 @@ public:
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		FXAAProcessor* p_fxaa = new FXAAProcessor(0);
+		//FXAAProcessor* p_fxaa = new FXAAProcessor(1);
 		//SSAOProcessor* p_ssao = new SSAOProcessor(10);
 		//SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
 		//AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(30);
