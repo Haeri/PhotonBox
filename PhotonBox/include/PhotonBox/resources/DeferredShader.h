@@ -19,11 +19,16 @@ public:
 
 	void update(Transform* transform) override
 	{
+		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
+
 		glUniformMatrix4fv(uniforms["viewMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix().inverse()(0, 0)));
 	}
 
 	void addUniforms() override
 	{
+		addUniform("projection");
+
+
 		addUniform("viewMatrixInv");
 		addUniform("numDirectionalLights");
 		addUniform("numPointLights");

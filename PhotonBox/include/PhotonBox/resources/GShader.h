@@ -21,7 +21,6 @@ public:
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
 		glUniformMatrix4fv(uniforms["model"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
 		glUniformMatrix4fv(uniforms["view"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix()(0, 0)));
-		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
 		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
 	}
 
@@ -29,7 +28,6 @@ public:
 	{
 		addUniform("model");
 		addUniform("view");
-		addUniform("projection");
 		addUniform("mvp");
 
 		addUniform("viewPos");

@@ -39,7 +39,7 @@ int main(void)
 
 	// Create and initialize the Core
 	Core core;
-	core.init(sceneMap, "Realistic Rendering");
+	core.init(sceneMap, "Demo Scene");
 	core.run();
 	core.destroy();
 

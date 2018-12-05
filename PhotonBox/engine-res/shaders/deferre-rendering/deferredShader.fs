@@ -81,6 +81,11 @@ uniform int numDirectionalLights;
 uniform int numPointLights;
 uniform int numSpotLights;
 
+uniform mat4 projection;
+
+float stepScalar = 0.01;
+
+
 uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
@@ -101,6 +106,8 @@ vec3 DirectionalLightBRDF(DirectionalLight directionalLight);
 vec3 PointLightBRDF(PointLight pointLight);
 vec3 SpotLightBRDF(SpotLight spotLight);
 
+float rayMarch(vec3 dir);
+
 void main()
 {
     // retrieve data from gbuffer
@@ -113,6 +120,7 @@ void main()
     gData.Irradiance = texture(gIrradiance, TexCoords).rgb;
     gData.Radiance = texture(gRadiance, TexCoords).rgb;
     gData.Emission = texture(gEmission, TexCoords).rgb;
+
 
     F0 = mix(vec3(F0_DEFAULT), gData.Albedo, gData.Metallic);
     N = normalize(gData.Normal);
@@ -180,7 +188,8 @@ vec3 DirectionalLightBRDF(DirectionalLight directionalLight){
 
     // shadows
     vec4 fragPosLightSpace = directionalLight.lightSpaceMatrix * viewMatrixInv * vec4(gData.Position, 1);
-    float shadow = ShadowCalculation(fragPosLightSpace, N, L);     
+    float shadow = min(max(ShadowCalculation(fragPosLightSpace, N, L), rayMarch(L)), 1);
+    //float shadow = ShadowCalculation(fragPosLightSpace, N, L);
         
     // add to outgoing radiance Lo
     float NdotL = max(dot(N, L), 0.0);                
@@ -300,7 +309,7 @@ vec3 FresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness){
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){
     //float bias = max(0.01 * (1.0 - dot(normal, lightDir)), 0.001); 
-    float bias = 0.0001;
+    float bias = 0.0004;
 
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
@@ -329,5 +338,33 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){
     shadow /= 9.0;
 
 
+
+
     return shadow;
 }  
+
+
+float rayMarch(vec3 dir)
+{
+    dir *= stepScalar;
+    float max = 5;
+    vec3 pos = texture(gPosition, TexCoords).xyz;
+    vec3 currpoint = pos;
+    vec4 projectedCoord;
+    float currDepth;
+
+    for(int i = 0; i < max; i++){
+        currpoint += dir;
+
+        projectedCoord = projection * vec4(currpoint, 1.0);
+        projectedCoord.xyz /= projectedCoord.w;
+        projectedCoord.xyz = projectedCoord.xyz * 0.5 + 0.5;
+ 
+        currDepth = texture(gPosition, projectedCoord.xy).z;
+
+        if(currDepth > currpoint.z && abs(currDepth - currpoint.z) <= 0.05  && currDepth != 0)
+            return 1;
+    }
+
+    return 0;
+}
