@@ -103,6 +103,7 @@ public:
 	GLuint getFBO() { return _fbo; }
 
 	static void resetDefaultBuffer();
+	static void clearDefaultBuffer();
 	static void resizeAll();
 
 private:

@@ -334,3 +334,12 @@ void FrameBuffer::resetDefaultBuffer()
 	glViewport(0, 0, Display::getWidth(), Display::getHeight());
 	_currentFBO = 0;
 }
+
+void FrameBuffer::clearDefaultBuffer()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, Display::getWidth(), Display::getHeight());
+	_currentFBO = 0;
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
+

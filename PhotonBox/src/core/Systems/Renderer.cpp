@@ -374,8 +374,15 @@ void Renderer::renderShadows()
 
 void Renderer::renderDeferred()
 {	
-	// Render Shadows
-	renderShadows();
+	// TODO: Replace with a system that detects change in scene
+	static int inited = 0;
+	++inited;
+
+	if(inited == 1) {
+		// Render Shadows
+		renderShadows();
+		std::cout << "rendering shadows " << inited << "\n";
+	}
 
 	// Clear Buffer
 	_mainFrameBuffer->enable();

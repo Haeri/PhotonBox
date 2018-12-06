@@ -30,6 +30,7 @@ GENERAL
 - Decouple asset conversion into its own Project (AssetCompiler)
 - Create Shader as JSON resource -> Eliminate Shader classes
 - Move Scene classes to JSON resources
+- General configurator for static defines (Depth prepass, Resource path)
 
 RESOURCES
 - Textures	-> .DDT
