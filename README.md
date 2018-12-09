@@ -26,6 +26,7 @@ A modern OpenGL Game-Engine with focus on PBR
 - Shadow mapping
 - Text rendering
 - Parallax cubeMap correction  
+- Contact shadows
 
 ## Systems
 - Component system
@@ -45,8 +46,3 @@ Interiour
 
 Automotive
 ![screenshot 2](https://user-images.githubusercontent.com/7956606/43651128-d3b01440-9741-11e8-9224-c5bded3dedce.png)
-## Dependency
-
-NVIDIA PhysX 3.4
-Header files required from https://github.com/NVIDIAGameWorks/PhysX-3.4
-(To get access to the repository, you will need to accept the [PhysX EULA](https://developer.nvidia.com/content/apply-access-nvidia-physx-source-code))

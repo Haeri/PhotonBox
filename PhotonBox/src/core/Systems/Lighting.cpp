@@ -17,7 +17,6 @@ void Lighting::start()
 	{
 		(*it)->bounds.setTransform((*it)->transform);
 		(*it)->capture();
-		//(*it)->generateLightMap();
 	}
 }
 

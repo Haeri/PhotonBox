@@ -354,27 +354,29 @@ void Renderer::renderShadows()
 	glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 
-	std::vector<DirectionalLight*> directionalLights = Lighting::getLights<DirectionalLight>();
-	for (size_t i = 0; i < directionalLights.size(); ++i)
-	{
-		if (!directionalLights[i]->getEnable()) continue;
-		
-		for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
+	std::vector<DirectionalLight*>* directionalLights = Lighting::getLights<DirectionalLight>();
+	if (directionalLights != nullptr) {
+		for (size_t i = 0; i < directionalLights->size(); ++i)
 		{
-			if ((*it)->getEnable() && (*it)->castShadows && Camera::getMainCamera()->frustumTest(*it))
+			if (!directionalLights->at(i)->getEnable()) continue;
+
+			for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 			{
-				(*it)->render(_directionalShadowShader, directionalLights[i]);
+				if ((*it)->getEnable() && (*it)->castShadows && Camera::getMainCamera()->frustumTest(*it))
+				{
+					(*it)->render(_directionalShadowShader, directionalLights->at(i));
+				}
 			}
-		}
 
 
-		/*
-		if(!captureMode){
-		ImGui::Begin("Depth");
-		ImGui::Image((ImTextureID)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15.0f, _shadowMapResolution/15.0f), ImVec2(0, 1), ImVec2(1, 0));
-		ImGui::End();
+			/*
+			if(!captureMode){
+			ImGui::Begin("Depth");
+			ImGui::Image((ImTextureID)shadowBuffer->getAttachment("depth")->id, ImVec2(_shadowMapResolution/15.0f, _shadowMapResolution/15.0f), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::End();
+			}
+			*/
 		}
-		*/
 	}
 	glCullFace(GL_BACK);
 }
@@ -533,7 +535,7 @@ void Renderer::renderForward()
 				}
 
 				// AMBIENT
-				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+				AmbientLight* ambient = Lighting::getLights<AmbientLight>()->at(0);
 				(*it)->render(_ambientLightShader, ambient);
 
 
@@ -611,7 +613,7 @@ void Renderer::renderTransparents()
 
 
 		// AMBIENT
-		AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+		AmbientLight* ambient = Lighting::getLights<AmbientLight>()->at(0);
 		std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
 
 		glEnable(GL_BLEND);
@@ -696,7 +698,7 @@ void Renderer::captureScene(LightMap* lightmap)
 				}
 
 				// AMBIENT
-				AmbientLight* ambient = Lighting::getLights<AmbientLight>()[0];
+				AmbientLight* ambient = Lighting::getLights<AmbientLight>()->at(0);
 				(*it)->render(_ambientLightShader, ambient);
 
 
@@ -850,8 +852,18 @@ void Renderer::renderGizmos()
 			ImGui::NewLine();
 		}
 		ImGui::End();
+
+
+
+		ImGui::Begin("Settings");
+		if (ImGui::Button("Capture Enviroment"))
+		{
+			Lighting::start();
+		}
+		ImGui::End();
 	}
-	
+
+
 
 	FrameBuffer::resetDefaultBuffer();
 	
