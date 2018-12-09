@@ -150,7 +150,6 @@ void Core::run()
 
 		// Render Scene
 		Renderer::renderDeferred();
-		//Renderer::render();
 		nbFrames++;
 		_check_gl_error("Main Render", 0);
 

@@ -13,7 +13,7 @@ public:
 	int resolution;
 	AABB bounds;
 
-	LightProbe(int steps = 3);
+	LightProbe(int steps = 4);
 
 	void capture();
 	CubeMap* getEnviromentCube();

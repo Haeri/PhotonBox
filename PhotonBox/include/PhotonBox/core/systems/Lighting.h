@@ -13,7 +13,7 @@ class LightProbe;
 class Lighting
 {
 public:
-	void start();
+	static void start();
 
 	template<class T>
 	static void addLight(T* light)
@@ -45,14 +45,13 @@ public:
 	}
 
 	template<class T>
-	static std::vector<T*>& getLights()
+	static std::vector<T*>* getLights()
 	{
 		if (_lights.find(typeid(T)) == _lights.end())
 		{
-			std::cerr << "Lights not found!" << std::endl;
-			//			return *nullptr;
+			return nullptr;
 		}
-		return (std::vector<T*>&)_lights[typeid(T)];
+		return (std::vector<T*>*)&_lights[typeid(T)];
 	}
 
 	static std::unordered_map<std::type_index, std::vector<LightEmitter*>>& getAllLights() { return _lights; }

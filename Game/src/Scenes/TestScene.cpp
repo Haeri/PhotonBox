@@ -497,9 +497,9 @@ public:
 
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
-		sun->getComponent<DirectionalLight>()->color = Vector3f(253.0f/255.0f, 248.0f / 255.0f, 230.0f / 255.0f);
+		sun->getComponent<DirectionalLight>()->color = Vector3f(253.0f/255.0f, 248.0f / 255.0f, 240.0f / 255.0f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4f, -0.6f, 2.0f);
-		sun->getComponent<DirectionalLight>()->intensity = 600.0f;
+		sun->getComponent<DirectionalLight>()->intensity = 800.0f;
 
 
 
