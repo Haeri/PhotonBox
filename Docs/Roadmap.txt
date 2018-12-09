@@ -29,14 +29,15 @@ GENERAL
 - User Premake or CMake
 - Decouple asset conversion into its own Project (AssetCompiler)
 - Create Shader as JSON resource -> Eliminate Shader classes
-- Move Scene classes to JSON resources
+- (Move Scene classes to JSON resources)
 - General configurator for static defines (Depth prepass, Resource path)
+- Update dependencies
 
 RESOURCES
 - Textures	-> .DDT
 - Mesh		-> .Mesh
 - Shader	-> .JSON
-- Scene		-> .JSON
 
 BUGS
-- No shadows in capture mode
+- Eye-adaptation freaking out with high framerate
+- SSReflection overflowing colors when too bright

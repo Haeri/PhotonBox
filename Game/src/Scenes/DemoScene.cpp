@@ -58,6 +58,7 @@ public:
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
 		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* m_room = createResource<Mesh>("./res/meshes/fireplace_room.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -172,6 +173,14 @@ public:
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(plane);
 		quad->getComponent<MeshRenderer>()->setMaterial(def);
+
+		Entity* e_room = instanciate("Room");
+		e_room->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		e_room->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
+		e_room->addComponent<MeshRenderer>();
+		e_room->getComponent<MeshRenderer>()->setMesh(m_room);
+		e_room->getComponent<MeshRenderer>()->setMaterial(def);
+		e_room->setEnable(false);
 	}
 
 	void OnUnload() {}

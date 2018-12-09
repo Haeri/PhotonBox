@@ -30,7 +30,7 @@ public:
 	static const int MAX_DEBUG = 4;
 	static const int SHADOW_MAP_RESOLUTION = 4096;
 
-	bool depthPrePass = true;
+	bool depthPrePass = false;
 
 	static int getDebugMode() { return _debugMode; }
 	static void setDebug(int debugMode);
@@ -51,6 +51,7 @@ public:
 	static void renderDeferred();
 	static void renderForward();
 	static void renderTransparents();
+	static void renderCustoms();
 	static void renderShadows();
 	static void captureScene(LightMap* lightmap = nullptr);
 	void init(float superSampling = 1);
@@ -64,6 +65,7 @@ public:
 	void destroy();
 private:
 	static int _drawCalls;
+	static bool _shadowsAreDirty;
 	static SkyBox _skyBox;
 	static FrameBuffer* _mainFrameBuffer;
 	static FrameBuffer* _gBuffer;
@@ -72,6 +74,7 @@ private:
 	static int _debugMode;
 	static std::vector<ObjectRenderer*> _renderListOpaque;
 	static std::vector<ObjectRenderer*> _renderListTransparent;
+	static std::vector<ObjectRenderer*> _renderListCustom;
 	static Vector3f _clearColor;
 
 	static std::map<float, TransparentMeshRenderer*> _renderQueueTransparent;

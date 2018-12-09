@@ -10,7 +10,7 @@
 #include <Components/AmbientLight.h>
 #include <Resources/OBJLoader.h>
 #include <Resources/BasicShader.h>
-#include <Resources/LitShader.h>
+#include <Resources/UnlitShader.h>
 #include <Resources/Scene.h>
 #include <Resources/IrradianceShader.h>
 #include <Resources/Texture.h>
@@ -196,7 +196,7 @@ public:
 
 
 		/* --------------------------- SHADERS --------------------------- */
-		LitShader* litShader = LitShader::getInstance();
+		UnlitShader* unlitShader = UnlitShader::getInstance();
 		TransparentShader* transparentShader = TransparentShader::getInstance();
 		SkyBoostShader* skyBoost = SkyBoostShader::getInstance();
 		GShader* defaultShader = GShader::getInstance();
@@ -402,12 +402,12 @@ public:
 		glassMaterial->setTexture("emissionMap", default_emission);
 
 
-		Material* occluderMaterial = createResource<Material>(litShader);
+		Material* occluderMaterial = createResource<Material>(unlitShader);
 		occluderMaterial->setProperty<Vector3f>("color", Vector3f(0, 0, 0));
 
 		Material* panoramaMaterial = createResource<Material>(skyBoost);
 		panoramaMaterial->setTexture("albedoMap", panoramaAlbedo);
-		panoramaMaterial->setProperty("boost", 30.0f);
+		panoramaMaterial->setProperty("boost", 60.0f);
 
 		/* --------------------------- CAMERA --------------------------- */
 
@@ -499,7 +499,7 @@ public:
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(253.0f/255.0f, 248.0f / 255.0f, 230.0f / 255.0f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4f, -0.6f, 2.0f);
-		sun->getComponent<DirectionalLight>()->intensity = 300.0f;
+		sun->getComponent<DirectionalLight>()->intensity = 600.0f;
 
 
 

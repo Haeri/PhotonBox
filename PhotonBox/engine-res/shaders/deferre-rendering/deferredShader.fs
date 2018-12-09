@@ -189,7 +189,13 @@ vec3 DirectionalLightBRDF(DirectionalLight directionalLight){
     // shadows
     vec4 fragPosLightSpace = directionalLight.lightSpaceMatrix * viewMatrixInv * vec4(gData.Position, 1);
     float shadow = min(max(ShadowCalculation(fragPosLightSpace, N, L), rayMarch(L)), 1);
-    //float shadow = ShadowCalculation(fragPosLightSpace, N, L);
+    
+    /*
+    float shadow = ShadowCalculation(fragPosLightSpace, N, L);
+    if(shadow < 1){
+        shadow = min(max(shadow, rayMarch(L)), 1);
+    }
+    */
         
     // add to outgoing radiance Lo
     float NdotL = max(dot(N, L), 0.0);                

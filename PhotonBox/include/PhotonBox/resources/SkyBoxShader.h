@@ -28,6 +28,11 @@ public:
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
+
+	Type getType() override
+	{
+		return Shader::Type::CUSTOM_SHADER;
+	}
 };
 
 #endif // SKY_BOX_SHADER_H

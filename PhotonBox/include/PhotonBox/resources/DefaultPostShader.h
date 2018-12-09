@@ -22,6 +22,11 @@ public:
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 	}
+
+	Type getType() override
+	{
+		return Shader::Type::SCREEN_SHADER;
+	}
 };
 
 #endif // DEFAULT_POST_SHADER_H

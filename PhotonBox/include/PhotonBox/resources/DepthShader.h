@@ -34,6 +34,11 @@ public:
 		addAttribut("position", Vertex::AttibLocation::POSITION);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
 	}
+
+	Type getType() override
+	{
+		return Shader::Type::CUSTOM_SHADER;
+	}
 };
 
 #endif // DEPTH_SHADER_H

@@ -55,6 +55,11 @@ public:
 		addAttribut("aTexCoords", Vertex::AttibLocation::TEXTURECOORD);
 		addAttribut("tangent", Vertex::AttibLocation::TANGENT);
 	}
+
+	Type getType() override
+	{
+		return Shader::Type::SURFACE_SHADER;
+	}
 };
 
 #endif // G_SHADER_H
