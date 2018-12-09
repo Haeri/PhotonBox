@@ -79,11 +79,13 @@ void Core::start()
 	std::cout << "==================================================" << std::endl;
 	std::cout << "            LOADING SCENE " << SceneManager::getCurrentName() << std::endl << std::endl;
 
+	Display::swapBuffer();
 	_logic->start();
 	_renderer->start();
 	_lighting->start();
 	_postPocessing->start();
 	_physics->start();
+	Display::swapBuffer();
 
 	std::cout << std::endl << "                   SCENE READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;

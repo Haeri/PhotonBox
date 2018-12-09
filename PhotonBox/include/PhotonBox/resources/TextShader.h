@@ -31,6 +31,11 @@ public:
 	{
 		addAttribut("vertex", Vertex::AttibLocation::POSITION);
 	}
+
+	Type getType() override
+	{
+		return Shader::Type::CUSTOM_SHADER;
+	}
 };
 
 #endif // TEXT_SHADER_H

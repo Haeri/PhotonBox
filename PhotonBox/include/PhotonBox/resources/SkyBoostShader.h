@@ -33,6 +33,11 @@ public:
 		addAttribut("normal", Vertex::AttibLocation::NORMAL);
 		addAttribut("uv", Vertex::AttibLocation::TEXTURECOORD);
 	}
+
+	Type getType() override
+	{
+		return Shader::Type::CUSTOM_SHADER;
+	}
 };
 
 #endif // SKY_BOOST_SHADER_H

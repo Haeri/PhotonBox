@@ -81,6 +81,11 @@ public:
 	{
 		addAttribut("aPos", Vertex::AttibLocation::POSITION);
 	}
+
+	Type getType() override
+	{
+		return Shader::Type::CUSTOM_SHADER;
+	}
 };
 
 #endif // DEFERRED_SHADER_H

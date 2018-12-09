@@ -40,9 +40,11 @@
 #endif
 
 int Renderer::_debugMode;
+bool Renderer::_shadowsAreDirty = true;
 SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderListOpaque;
 std::vector<ObjectRenderer*> Renderer::_renderListTransparent;
+std::vector<ObjectRenderer*> Renderer::_renderListCustom;
 std::map<float, TransparentMeshRenderer*> Renderer::_renderQueueTransparent;
 int Renderer::_drawCalls;
 
@@ -191,6 +193,7 @@ void Renderer::init(float superSampling)
 void Renderer::reset()
 {
 	_skyBox.reset();
+	_shadowsAreDirty = true;
 	/*
 	// OpenGL config
 	glCullFace(GL_BACK);
@@ -274,7 +277,6 @@ void Renderer::prePass()
 		{
 			if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 			{
-				Shader* shader = (*it)->getMaterial()->shader;
 				(*it)->render(DepthShader::getInstance());	
 			}
 		}
@@ -298,7 +300,8 @@ void Renderer::prePass()
 
 			Shader* shader = (*it)->getMaterial()->shader;
 
-			if(typeid(*shader) == typeid(GShader))
+			//if(typeid(*shader) == typeid(GShader))
+			if (shader->getType() == Shader::Type::SURFACE_SHADER)
 			{
 				// IBL
 				shader->bind();
@@ -319,9 +322,13 @@ void Renderer::prePass()
 					_skyBox.getLightMap()->getSpecularConvolutionMap()->bind(shader->textures["convolutedSpecularMap"].unit);
 					shader->setUniform("useCorrection", false);
 				}
+			
+				(*it)->render();
 			}
-		
-			(*it)->render();
+			else
+			{
+				_renderListCustom.push_back((*it));
+			}
 
 			if ((*it)->getType() == RenderType::cutout)
 			{
@@ -375,13 +382,10 @@ void Renderer::renderShadows()
 void Renderer::renderDeferred()
 {	
 	// TODO: Replace with a system that detects change in scene
-	static int inited = 0;
-	++inited;
-
-	if(inited == 1) {
+	if(_shadowsAreDirty) {
 		// Render Shadows
 		renderShadows();
-		std::cout << "rendering shadows " << inited << "\n";
+		_shadowsAreDirty = false;
 	}
 
 	// Clear Buffer
@@ -468,8 +472,13 @@ void Renderer::renderDeferred()
 	// Render Skybox
 	_skyBox.render();
 
+	// Render miscelenious
+	renderCustoms();
+
 	// Render transparent objects
 	renderTransparents();
+
+
 
 
 	// Directly draw to main buffer if no post processing is active
@@ -625,9 +634,6 @@ void Renderer::renderTransparents()
 				it->second->render(light->getLightShader(), light);
 			}
 		}
-		
-
-
 
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
@@ -636,6 +642,24 @@ void Renderer::renderTransparents()
 
 	}
 	clearTransparentQueue();
+}
+
+
+void Renderer::renderCustoms()
+{
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	glDepthMask(GL_TRUE);
+
+	for (std::vector<ObjectRenderer*>::iterator it = _renderListCustom.begin(); it != _renderListCustom.end(); ++it)
+	{
+		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
+		{
+			(*it)->render();
+		}
+	}
+
+	_renderListCustom.clear();
 }
 
 void Renderer::captureScene(LightMap* lightmap)
@@ -687,6 +711,13 @@ void Renderer::captureScene(LightMap* lightmap)
 					for (auto const &light : lightvec.second)
 					{
 						if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+						
+						if (typeid(*light) == typeid(DirectionalLight))
+						{
+							ForwardDirectionalLightShader::getInstance()->bind();
+							Renderer::getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
+						}
+
 						(*it)->render(light->getLightShader(), light);
 					}
 				}

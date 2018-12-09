@@ -19,6 +19,13 @@ class Shader
 {
 public:
 
+	enum Type {
+		SURFACE_SHADER,
+		SCREEN_SHADER,
+		COMPUTE_SHADER,
+		CUSTOM_SHADER,
+	};
+
 	struct TexUniforUnit
 	{
 		GLint uniformLocation;
@@ -46,6 +53,7 @@ public:
 	virtual void addAttributes() = 0;
 	virtual void update(Transform* transform) {}
 	virtual void update(Transform* transform, LightEmitter* thing) {}
+	virtual Type getType() { return Type::CUSTOM_SHADER; }
 	//virtual void update(void* data) {}
 
 	void addAttribut(std::string attribute, GLint index);
