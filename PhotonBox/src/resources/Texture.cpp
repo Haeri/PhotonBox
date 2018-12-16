@@ -4,6 +4,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "STB/stb_image.h"
 
+#include "PhotonBox/core/TextureSerializer.h"
+
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
@@ -11,6 +13,7 @@
 
 unsigned int Texture::_nameIndex = 0;
 
+// TODO: Why is this here? There is no way to set width and height after the fact. THere is nit even a way to call initializeTexture
 Texture::Texture(bool generateMipMaps, bool hdr)
 {
 	_fileName = "Generated_Texture_" + std::to_string(_nameIndex++);
@@ -20,15 +23,39 @@ Texture::Texture(bool generateMipMaps, bool hdr)
 Texture::Texture(std::string fileName, bool generateMipMaps, bool hdr)
 {
 	std::cerr << "Loading Texture: " << fileName << std::endl;
+
 	int numComponents;
-	unsigned char* data = stbi_load((fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
+	unsigned char* data;
+
+
+	std::size_t found = fileName.find_last_of(".");
+	std::string cachePath = fileName.substr(0, found) + ".pbt";
+	struct stat buffer;
+	bool ispbt = false;
+
+	if (stat(cachePath.c_str(), &buffer) == 0) {
+		data = TextureSerializer::read_pbt(cachePath, &_width, &_height, &numComponents);
+		ispbt = true;
+	}
+	else
+	{
+		data = stbi_load((fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
+		TextureSerializer::write_pbt(fileName.substr(0, found) + ".pbt", _width, _height, 4, data);
+	}
 
 	_fileName = fileName;
 
 	if (data != NULL)
 	{
 		initializeTexture(data, generateMipMaps, hdr);
-		stbi_image_free(data);
+		if (ispbt)
+		{
+			TextureSerializer::free_buffer(data);
+		}
+		else
+		{
+			stbi_image_free(data);
+		}
 	}
 	else
 	{

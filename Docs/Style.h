@@ -13,9 +13,9 @@ public:
 
 	const int CONST_VALUE = 20;
 
-	int someValue;
-	
 	static int someStatiValue;
+	
+	int someValue;
 
 	int getSomeVallue();
 
@@ -23,9 +23,9 @@ public:
 
 private:
 
-	int _somePrivateValue;
-	
 	static int _somePrivateStatiValue;
+	
+	int _somePrivateValue;
 		
 };
 

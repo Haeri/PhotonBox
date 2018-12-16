@@ -56,6 +56,7 @@
     <ClCompile Include="src\core\systems\Renderer.cpp" />
     <ClCompile Include="src\core\systems\SceneManager.cpp" />
     <ClCompile Include="src\core\systems\UIRenderer.cpp" />
+    <ClCompile Include="src\core\TextureSerializer.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\Util.cpp" />
     <ClCompile Include="src\glad.c" />
@@ -179,6 +180,7 @@
     <ClInclude Include="include\PhotonBox\core\systems\Renderer.h" />
     <ClInclude Include="include\PhotonBox\core\systems\SceneManager.h" />
     <ClInclude Include="include\PhotonBox\core\systems\UIRenderer.h" />
+    <ClInclude Include="include\PhotonBox\core\TextureSerializer.h" />
     <ClInclude Include="include\PhotonBox\core\Time.h" />
     <ClInclude Include="include\PhotonBox\core\Util.h" />
     <ClInclude Include="include\PhotonBox\math\Math.h" />
@@ -425,6 +427,16 @@
     <ClInclude Include="include\PhysX\vehicle\PxVehicleUtilTelemetry.h" />
     <ClInclude Include="include\PhysX\vehicle\PxVehicleWheels.h" />
     <ClInclude Include="include\STB\stb_image.h" />
+    <ClInclude Include="include\zlib\crc32.h" />
+    <ClInclude Include="include\zlib\deflate.h" />
+    <ClInclude Include="include\zlib\inffast.h" />
+    <ClInclude Include="include\zlib\inffixed.h" />
+    <ClInclude Include="include\zlib\inflate.h" />
+    <ClInclude Include="include\zlib\inftrees.h" />
+    <ClInclude Include="include\zlib\trees.h" />
+    <ClInclude Include="include\zlib\zconf.h" />
+    <ClInclude Include="include\zlib\zlib.h" />
+    <ClInclude Include="include\zlib\zutil.h" />
     <ClInclude Include="src\Components\Behaviour.h" />
     <ClInclude Include="src\Components\BoxCollider.h" />
     <ClInclude Include="src\Components\Camera.h" />
