@@ -71,6 +71,7 @@ ipch/
 
 # Types
 *.mesh
+*.pbt
 
 # FIles
 Game/config.cfg

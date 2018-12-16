@@ -10,6 +10,7 @@
 #include <resources/Resources.h>
 #include <resources/GShader.h>
 #include <math/Math.h>
+#include <chrono>
 
 
 #include "../PostProcessors/SSAOProcessor.cpp"
@@ -62,6 +63,17 @@ public:
 
 
 		/* --------------------------- TEXTURES --------------------------- */
+		auto start = std::chrono::system_clock::now();
+		Texture* orig = createResource<Texture>(std::string("./res/textures/view.png"), false);
+		auto mid = std::chrono::system_clock::now();
+		Texture* trans = createResource<Texture>(std::string("./res/textures/view.pbt"), false);
+		auto end = std::chrono::system_clock::now();
+
+		auto t_png = mid - start;
+		auto t_pbt = end - mid;
+		std::cout << "PNG time: " << t_png.count() << '\n';
+		std::cout << "PBT time: " << t_pbt.count() << '\n';
+
 		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
 		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
 		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
@@ -75,12 +87,20 @@ public:
 
 		/* --------------------------- MATERIALS --------------------------- */
 		Material* def = createResource<Material>(defaultShader);
-		def->setTexture("albedoMap", default_ao);
+		def->setTexture("albedoMap", orig);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_specular);
 		def->setTexture("aoMap", default_ao);
 		def->setTexture("metallicMap", default_emission);
 		def->setTexture("emissionMap", default_emission);
+
+		Material* def2 = createResource<Material>(defaultShader);
+		def2->setTexture("albedoMap", trans);
+		def2->setTexture("normalMap", default_normal);
+		def2->setTexture("roughnessMap", default_specular);
+		def2->setTexture("aoMap", default_ao);
+		def2->setTexture("metallicMap", default_emission);
+		def2->setTexture("emissionMap", default_emission);
 
 
 		/* --------------------------- CAMERA --------------------------- */
@@ -105,8 +125,8 @@ public:
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
-		sun->getComponent<DirectionalLight>()->intensity = 10.0f;
-		sun->setEnable(false);
+		sun->getComponent<DirectionalLight>()->intensity = 6.0f;
+		//sun->setEnable(false);
 
 
 		Entity* pointLight = instanciate("Pointlight");
@@ -117,7 +137,7 @@ public:
 		pointLight->getComponent<PointLight>()->linear = 0.09f;
 		pointLight->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight->getComponent<PointLight>()->intensity = 3.6f;
-		//pointLight->setEnable(false);
+		pointLight->setEnable(false);
 
 		
 		Entity* pointLight2 = instanciate("Pointlight2");
@@ -128,7 +148,7 @@ public:
 		pointLight2->getComponent<PointLight>()->linear = 0.09f;
 		pointLight2->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight2->getComponent<PointLight>()->intensity = 3.6f;
-		//pointLight2->setEnable(false);
+		pointLight2->setEnable(false);
 
 		Entity* pointLight3 = instanciate("Pointlight3");
 		pointLight3->getComponent<Transform>()->setPosition(Vector3f(-1.7f, 2.0f, -1.0f));
@@ -138,7 +158,7 @@ public:
 		pointLight3->getComponent<PointLight>()->linear = 0.09f;
 		pointLight3->getComponent<PointLight>()->quadratic = 0.032f;
 		pointLight3->getComponent<PointLight>()->intensity = 3.6f;
-		//pointLight3->setEnable(false);
+		pointLight3->setEnable(false);
 		
 
 		Entity* spot = instanciate("Spot");
@@ -152,7 +172,7 @@ public:
 		spot->getComponent<SpotLight>()->quadratic = 0.032f;
 		spot->getComponent<SpotLight>()->color = Vector3f(0.97f, 0.96f, 0.98f);
 		spot->getComponent<SpotLight>()->intensity = 3.6f;
-		//spot->setEnable(false);
+		spot->setEnable(false);
 
 
 		Entity* probe = instanciate("Probe-1");
@@ -160,23 +180,33 @@ public:
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(def);
+		probe->setEnable(false);
 
 		Entity* probe2 = instanciate("Probe-2");
 		probe2->getComponent<Transform>()->setPosition(Vector3f(3.0f, 1.0f, 0.0f));
 		probe2->addComponent<TransparentMeshRenderer>();
 		probe2->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
 		probe2->getComponent<TransparentMeshRenderer>()->setMaterial(def);
+		probe2->setEnable(false);
 
 		Entity* quad = instanciate("Quad-1");
-		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
-		quad->getComponent<Transform>()->setScale(Vector3f(20, 20, 20));
+		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
+		quad->getComponent<Transform>()->setScale(Vector3f(1, 1, 1));
 		quad->addComponent<MeshRenderer>();
 		quad->getComponent<MeshRenderer>()->setMesh(plane);
 		quad->getComponent<MeshRenderer>()->setMaterial(def);
 
+		Entity* quad2 = instanciate("Quad-2");
+		quad2->getComponent<Transform>()->setPosition(Vector3f(3, 0, 0));
+		quad2->getComponent<Transform>()->setScale(Vector3f(1, 1, 1));
+		quad2->addComponent<MeshRenderer>();
+		quad2->getComponent<MeshRenderer>()->setMesh(plane);
+		quad2->getComponent<MeshRenderer>()->setMaterial(def2);
+
+
 		Entity* e_room = instanciate("Room");
 		e_room->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
-		e_room->getComponent<Transform>()->setScale(Vector3f(2, 2, 2));
+		e_room->getComponent<Transform>()->setScale(Vector3f(2, 2, 1));
 		e_room->addComponent<MeshRenderer>();
 		e_room->getComponent<MeshRenderer>()->setMesh(m_room);
 		e_room->getComponent<MeshRenderer>()->setMaterial(def);
