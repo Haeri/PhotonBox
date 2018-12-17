@@ -32,6 +32,7 @@ PxPvdTransport*	Physics::_gTransport;
 
 void Physics::init()
 {
+	std::cout << "Initializing Physics";
 	_gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, _gAllocator, _gErrorCallback);
 	if (!_gFoundation)
 		std::cerr << "PxCreateFoundation failed!";
@@ -58,6 +59,7 @@ void Physics::init()
 
 	_gScene = _gPhysics->createScene(*_sceneDesc);
 	_gScene->setFlag(PxSceneFlag::eENABLE_ACTIVETRANSFORMS, true);
+	std::cout << " - Done\n";
 }
 
 void Physics::start()

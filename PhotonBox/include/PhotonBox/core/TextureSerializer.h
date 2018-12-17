@@ -31,10 +31,12 @@
 class TextureSerializer
 {
 public:
-	static const short SERIALIZER_VERSION = 1;
+	static const short SERIALIZER_VERSION;
+	static const std::string EXTENSION;
 
-	static void write_pbt(std::string name, int width, int height, int components, unsigned char* data);
-	static unsigned char* read_pbt(std::string name, int* width, int* height, int* components);
+	// TODO: Change input arguments to struct
+	static void write(std::string name, int width, int height, int components, unsigned char* data);
+	static unsigned char* read(std::string name, int* width, int* height, int* components);
 	static void free_buffer(unsigned char* data);
 };
 

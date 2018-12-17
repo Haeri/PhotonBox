@@ -152,7 +152,7 @@ void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 	}*/
 
 	std::size_t found = filePath.find_last_of(".");
-	std::string cachePath = filePath.substr(0, found) + ".mesh";
+	std::string cachePath = filePath.substr(0, found) + MeshSerializer::EXTENSION;
 	struct stat buffer;
 
 #if FORECE_GENERATE

@@ -116,6 +116,7 @@ void Renderer::setSkyBox(CubeMap* cubeMap)
 
 void Renderer::init(float superSampling)
 {
+	std::cout << "Initializing Renderer";
 	// OpenGL config
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
@@ -188,6 +189,7 @@ void Renderer::init(float superSampling)
 			}
 	//	}
 	}
+	std::cout << " - Done\n";
 }
 
 void Renderer::reset()

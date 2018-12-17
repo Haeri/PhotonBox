@@ -23,7 +23,7 @@ void Shader::init()
 	Util::split(filePath, "/", path);
 
 	_fileName = path.back();
-	std::cout << "Creating " << _fileName << std::endl;
+	//std::cout << "Creating " << _fileName << std::endl;
 
 	_program = glCreateProgram();
 	_shaders[0] = createShader(readShader(filePath + ".vs"), GL_VERTEX_SHADER);
@@ -35,10 +35,10 @@ void Shader::init()
 	addAttributes();
 
 	glLinkProgram(_program);
-	checkShaderError(_program, GL_LINK_STATUS, true, "ERROR: Faild linking program!");
+	checkShaderError(_program, GL_LINK_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Faild linking program!");
 
 	glValidateProgram(_program);
-	checkShaderError(_program, GL_VALIDATE_STATUS, true, "ERROR: Shader Program invalid!");
+	checkShaderError(_program, GL_VALIDATE_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Shader Program invalid!");
 
 	/*
 	GLint numUniforms;
@@ -84,7 +84,7 @@ void Shader::addAttribut(std::string attribute, GLint index)
 void Shader::addUniform(std::string uniform)
 {
 	GLint pos = glGetUniformLocation(_program, uniform.c_str());
-	if (pos == -1) std::cout << "\t\tcould not find uniform '" << uniform << "' in shader " << _fileName << std::endl;
+	if (pos == -1) std::cout << "\t\tcould not find uniform '" << uniform << std::endl;
 	uniforms[uniform] = pos;
 }
 
@@ -92,7 +92,7 @@ void Shader::addTexture(std::string uniform)
 {
 	TexUniforUnit texUnit;
 	texUnit.uniformLocation = glGetUniformLocation(_program, uniform.c_str());
-	if (texUnit.uniformLocation == -1) std::cout << "\t\tcould not find uniform '" << uniform << "' in shader " << _fileName << std::endl;
+	if (texUnit.uniformLocation == -1) std::cout << "\t\tcould not find uniform '" << uniform << std::endl;
 	texUnit.unit = _textureUnit++;
 	textures[uniform] = texUnit;
 }
@@ -193,7 +193,7 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 		else
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
-		std::cerr << errorMessage << ": '" << error << "'" << std::endl;
+		std::cerr << errorMessage << ":\n\t" << error;
 
 		return 1;
 	}

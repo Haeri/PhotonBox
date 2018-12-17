@@ -5,8 +5,10 @@
 
 #include "PhotonBox/core/Util.h"
 
+const short TextureSerializer::SERIALIZER_VERSION = 1;
+const std::string TextureSerializer::EXTENSION = ".pbt";
 
-void TextureSerializer::write_pbt(std::string name, int width, int height, int components, unsigned char* data)
+void TextureSerializer::write(std::string name, int width, int height, int components, unsigned char* data)
 {
 	std::fstream f = std::fstream(name, std::ios::out | std::ios::binary);
 	if (f.is_open())
@@ -64,7 +66,7 @@ void TextureSerializer::write_pbt(std::string name, int width, int height, int c
 	}
 }
 
-unsigned char* TextureSerializer::read_pbt(std::string name, int* width, int* height, int* components)
+unsigned char* TextureSerializer::read(std::string name, int* width, int* height, int* components)
 {
 	std::cout << "Start reading " << name;
 

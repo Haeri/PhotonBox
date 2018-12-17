@@ -29,18 +29,18 @@ Texture::Texture(std::string fileName, bool generateMipMaps, bool hdr)
 
 
 	std::size_t found = fileName.find_last_of(".");
-	std::string cachePath = fileName.substr(0, found) + ".pbt";
+	std::string cachePath = fileName.substr(0, found) + TextureSerializer::EXTENSION;
 	struct stat buffer;
 	bool ispbt = false;
 
 	if (stat(cachePath.c_str(), &buffer) == 0) {
-		data = TextureSerializer::read_pbt(cachePath, &_width, &_height, &numComponents);
+		data = TextureSerializer::read(cachePath, &_width, &_height, &numComponents);
 		ispbt = true;
 	}
 	else
 	{
 		data = stbi_load((fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
-		TextureSerializer::write_pbt(fileName.substr(0, found) + ".pbt", _width, _height, 4, data);
+		TextureSerializer::write(fileName.substr(0, found) + TextureSerializer::EXTENSION, _width, _height, 4, data);
 	}
 
 	_fileName = fileName;
