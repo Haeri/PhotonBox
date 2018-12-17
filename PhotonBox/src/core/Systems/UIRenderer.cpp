@@ -18,6 +18,7 @@ std::map<GLchar, Character> UIRenderer::_characters;
 
 void UIRenderer::init()
 {
+	std::cout << "Initializing UIRenderer";
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
@@ -90,6 +91,8 @@ void UIRenderer::init()
 
 
 	shader = TextShader::getInstance();
+
+	std::cout << " - Done\n";
 }
 
 void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color)

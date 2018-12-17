@@ -28,6 +28,7 @@ void InputManager::pollEvents()
 
 void InputManager::init()
 {
+	std::cout << "Initializing InputManager";
 	_xPos = 0;
 	_yPos = 0;
 	_xPosLast = 0;
@@ -35,6 +36,7 @@ void InputManager::init()
 	glfwSetInputMode(Display::getWindow(), GLFW_STICKY_KEYS, 1);
 	glfwSetKeyCallback(Display::getWindow(), key_callback);
 	glfwSetCursorPosCallback(Display::getWindow(), cursor_position_callback);
+	std::cout << " - Done\n";
 }
 
 bool InputManager::keyPressed(int key)

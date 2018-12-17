@@ -14,6 +14,7 @@
 
 void DebugGUI::init()
 {
+	std::cout << "Initializing DebugGUI";
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui_ImplGlfwGL3_Init(Display::getWindow(), true);
@@ -22,6 +23,7 @@ void DebugGUI::init()
 	ImGui::StyleColorsDark();
 
 	ImGuizmo::Enable(true);
+	std::cout << " - Done\n";
 }
 
 void DebugGUI::newFrame()
