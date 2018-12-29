@@ -55,6 +55,8 @@ void Shader::init()
 	*/
 
 	addUniforms();
+
+	_isInitialized = true;
 }
 
 void Shader::destroy()
@@ -64,7 +66,16 @@ void Shader::destroy()
 	glDeleteProgram(_program);
 }
 
-void Shader::reload()
+void Shader::asyncLoad()
+{
+	_isLoaded = false;
+	_isInitialized = false;
+	_initializationList.push_back(this);
+	//std::thread{ &Texture::loadRes, this }.detach();
+	_isLoaded = true;
+}
+
+void Shader::sendToGPU()
 {
 	destroy();
 	init();

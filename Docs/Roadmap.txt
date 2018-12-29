@@ -31,13 +31,9 @@ GENERAL
 - Logging system
 
 OPTIMIZATION
-- Zlib binary file compression
-- Switch image format to compressed dds
 - Frustum culling
 - Uniform buffer
-- Run Filewatcher parallel in an interval
 - SIMD math
-- Multithreaded resource loading
 
 RESOURCES
 - Textures	-> .PBT

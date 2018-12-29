@@ -8,6 +8,7 @@
 #include "PhotonBox/resources/Material.h"
 #include "PhotonBox/resources/Vertex.h"
 #include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/core/Display.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

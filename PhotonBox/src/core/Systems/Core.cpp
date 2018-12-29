@@ -16,6 +16,7 @@
 #include "PhotonBox/core/GLError.h"
 #include "PhotonBox/resources/Config.h"
 #include "PhotonBox/util/FileWatch.h"
+#include "PhotonBox/resources/Texture.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -62,7 +63,6 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 	_inputManager->init();
 	_physics->init();
 	_uiRenderer->init();
-
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
 
@@ -79,13 +79,11 @@ void Core::start()
 	std::cout << "==================================================" << std::endl;
 	std::cout << "            LOADING SCENE " << SceneManager::getCurrentName() << std::endl << std::endl;
 
-	Display::swapBuffer();
 	_logic->start();
 	_renderer->start();
 	_lighting->start();
 	_postPocessing->start();
 	_physics->start();
-	Display::swapBuffer();
 
 	std::cout << std::endl << "                   SCENE READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
@@ -97,6 +95,7 @@ void Core::run()
 	int nbFrames = 0;
 	double lastSecond = 0;
 	_isRunning = true;
+	static int flop = -1;
 
 	std::string statPrint;
 
@@ -193,11 +192,23 @@ void Core::run()
 		_renderer->clearDrawCalls();
 
 		// Run filewatch every second
-		if(_accumulatedTime == 0)
+		if(lastSecond == 0)
 			_fileWatch->checkValidity();
 
 		_check_gl_error("End of frame", 0);
 
+
+		
+		ManagedResource::lazyLoad((flop == -1));
+		
+		if (ManagedResource::allReady()) {
+			if (flop == -1) {
+				std::cout << "Generate Lights!\n";
+				_lighting->generate();
+			}
+
+			++flop;
+		}
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())
@@ -209,6 +220,7 @@ void Core::run()
 
 			// reset timing
 			_accumulatedTime = 0;
+			flop = -1;
 			lastTime = Time::now();
 		}
 	}

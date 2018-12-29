@@ -44,6 +44,9 @@ public:
 	void bindTextures();
 	void bindTextures(Shader* customShader);
 
+	void asyncLoad() override { /* NOT IMPLEMENTED */ __debugbreak(); }
+	void sendToGPU() override { /* NOT IMPLEMENTED */ __debugbreak(); }
+
 	template <typename T>
 	T getProperty(const std::string& uniformName)
 	{

@@ -14,6 +14,7 @@ class Lighting
 {
 public:
 	static void start();
+	static void generate();
 
 	template<class T>
 	static void addLight(T* light)

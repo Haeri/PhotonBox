@@ -1,6 +1,7 @@
 #include "PhotonBox/components/Camera.h"
 
 #include "PhotonBox/core/Entity.h"
+#include "PhotonBox/core/Display.h"
 #include "PhotonBox/components/ObjectRenderer.h"
 
 #ifdef MEM_DEBUG

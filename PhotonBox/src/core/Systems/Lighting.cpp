@@ -20,6 +20,14 @@ void Lighting::start()
 	}
 }
 
+void Lighting::generate()
+{
+	for (std::vector<LightProbe*>::iterator it = _lightProbes.begin(); it != _lightProbes.end(); ++it)
+	{
+		(*it)->capture();
+	}
+}
+
 void Lighting::addLightProbe(LightProbe * lightProbe)
 {
 	_lightProbes.push_back(lightProbe);

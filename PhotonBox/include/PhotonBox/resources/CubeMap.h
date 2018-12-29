@@ -33,6 +33,8 @@ public:
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }
 	bool hasMipMaps() { return _isMip; }
+	void asyncLoad() override { /* NOT IMPLEMENTED */ __debugbreak(); }
+	void sendToGPU() override { /* NOT IMPLEMENTED */ __debugbreak(); }
 private:
 	void loadCubeMap(const std::vector<std::string>& faces);
 	GLuint _cubeMap;
