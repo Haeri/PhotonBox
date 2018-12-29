@@ -1,6 +1,7 @@
 #ifndef G_SHADER_H
 #define G_SHADER_H
 
+#include "PhotonBox/components/Camera.h"
 #include "PhotonBox/resources/Shader.h"
 #include "PhotonBox/resources/Vertex.h"
 #include "PhotonBox/resources/Resources.h"

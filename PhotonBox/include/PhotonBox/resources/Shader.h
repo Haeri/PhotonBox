@@ -14,8 +14,9 @@ class LightEmitter;
 #include "PhotonBox/math/Matrix4f.h"
 #include "PhotonBox/resources/Vertex.h"
 #include "PhotonBox/util/FileWatch.h"
+#include "PhotonBox/core/ManagedResource.h"
 
-class Shader
+class Shader : public ManagedResource
 {
 public:
 
@@ -46,7 +47,8 @@ public:
 	void init();
 	void bind();
 	void destroy();
-	void reload();
+	void asyncLoad() override;
+	void sendToGPU() override;
 
 	virtual std::string getFilePath() = 0;
 	virtual void addUniforms() = 0;

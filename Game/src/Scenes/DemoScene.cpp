@@ -21,6 +21,7 @@
 #include "../PostProcessors/FXAAProcessor.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
 #include "../Scripts/StateControllerScript.cpp"
+#include "../Scripts/SpawnerScript.cpp"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -110,7 +111,7 @@ public:
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
 		cam->addComponent<CameraControllerScript>();
 		cam->addComponent<StateControllerScript>();
-
+		cam->addComponent<SpawnerScript>();
 
 
 		/* --------------------------- LIGHTS --------------------------- */

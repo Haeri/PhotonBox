@@ -20,17 +20,21 @@ public:
 
 	static unsigned char* loadIcon(const std::string& fileName, int& width, int& height);
 	static void freeIcon(unsigned char* data);
+	void asyncLoad() override;
+	void sendToGPU() override;
 private:
 	friend class Scene;
 	Texture(bool generateMipMaps, bool hdr = false);
 	Texture(std::string fileName, bool generateMipMaps = false, bool hdr = false);
-	bool _isHDR;
+	bool _isHDR, _isMipMap;
 	GLuint _texture;
 	int _width, _height;
 	std::string _fileName;
-	static unsigned int _nameIndex;
+	unsigned char* _data = NULL;
 
-	void initializeTexture(unsigned char* data, bool generateMipMaps, bool hdr);
+	void loadRes();
+	void initializeTexture();
+	void blankInit();
 };
 
 #endif // TEXTURE_H

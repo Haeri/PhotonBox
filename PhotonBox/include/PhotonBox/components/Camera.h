@@ -3,11 +3,10 @@
 
 class ObjectRenderer;
 
-#include "PhotonBox/core/Component.h"
-#include "PhotonBox/core/Display.h"
 #include "PhotonBox/math/Matrix4f.h"
-#include "PhotonBox/math/Vector2f.h"
 #include "PhotonBox/components/Transform.h"
+
+#include "PhotonBox/core/Component.h"
 
 class Camera : public Component
 {

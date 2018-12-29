@@ -1,9 +1,12 @@
 #include "PhotonBox/resources/Texture.h"
 
 #include <iostream>
+#include <thread>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "STB/stb_image.h"
 
+#include "PhotonBox/util/FileWatch.h"
 #include "PhotonBox/core/TextureSerializer.h"
 
 #ifdef MEM_DEBUG
@@ -11,56 +14,17 @@
 #define new DEBUG_NEW
 #endif
 
-unsigned int Texture::_nameIndex = 0;
-
-// TODO: Why is this here? There is no way to set width and height after the fact. THere is nit even a way to call initializeTexture
-Texture::Texture(bool generateMipMaps, bool hdr)
-{
-	_fileName = "Generated_Texture_" + std::to_string(_nameIndex++);
-	initializeTexture(NULL, generateMipMaps, hdr);
-}
-
 Texture::Texture(std::string fileName, bool generateMipMaps, bool hdr)
 {
-	std::cerr << "Loading Texture: " << fileName << std::endl;
-
-	int numComponents;
-	unsigned char* data;
-
-
-	std::size_t found = fileName.find_last_of(".");
-	std::string cachePath = fileName.substr(0, found) + TextureSerializer::EXTENSION;
-	struct stat buffer;
-	bool ispbt = false;
-
-	if (stat(cachePath.c_str(), &buffer) == 0) {
-		data = TextureSerializer::read(cachePath, &_width, &_height, &numComponents);
-		ispbt = true;
-	}
-	else
-	{
-		data = stbi_load((fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
-		TextureSerializer::write(fileName.substr(0, found) + TextureSerializer::EXTENSION, _width, _height, 4, data);
-	}
-
+	FileWatch::addToWatchList(fileName, this);
+	std::cerr << "Index Texture: " << fileName << std::endl;
 	_fileName = fileName;
+	_isMipMap = generateMipMaps;
+	_isHDR = hdr;
 
-	if (data != NULL)
-	{
-		initializeTexture(data, generateMipMaps, hdr);
-		if (ispbt)
-		{
-			TextureSerializer::free_buffer(data);
-		}
-		else
-		{
-			stbi_image_free(data);
-		}
-	}
-	else
-	{
-		std::cerr << "Unable to load texture: " << fileName << std::endl;
-	}
+	blankInit();
+
+	asyncLoad();
 }
 
 Texture::~Texture()
@@ -101,15 +65,65 @@ void Texture::freeIcon(unsigned char* data)
 	stbi_image_free(data);
 }
 
-void Texture::initializeTexture(unsigned char * data, bool generateMipMaps, bool hdr)
+void Texture::asyncLoad()
 {
-	_isHDR = hdr;
-	GLint format = hdr ? GL_RGB16F : GL_RGBA;
+	_isLoaded = false;
+	_isInitialized = false;
+	_initializationList.push_back(this);
+	std::thread{ &Texture::loadRes, this }.detach();
+}
 
+void Texture::sendToGPU()
+{
+	initializeTexture();
+}
+
+void Texture::loadRes()
+{
+	int numComponents;
+	std::size_t found = _fileName.find_last_of(".");
+	std::string cachePath = _fileName.substr(0, found) + TextureSerializer::EXTENSION;
+	struct stat buffer;
+	bool ispbt = false;
+
+	if (stat(cachePath.c_str(), &buffer) == 0) {
+		_data = TextureSerializer::read(cachePath, &_width, &_height, &numComponents);
+		ispbt = true;
+	}
+	else
+	{
+		_data = stbi_load((_fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
+		TextureSerializer::write(_fileName.substr(0, found) + TextureSerializer::EXTENSION, _width, _height, 4, _data);
+	}
+
+	std::cout << "Done async!\n";
+	_isLoaded = true;
+}
+
+void Texture::blankInit()
+{
 	glGenTextures(1, &_texture);
 	glBindTexture(GL_TEXTURE_2D, _texture);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	unsigned char r = 50;
+	unsigned char g = 50;
+	unsigned char b = 50;
+	unsigned char a = 255;
+	unsigned char dat[4] = { r, g, b, a };
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dat);
+}
+
+void Texture::initializeTexture()
+{
+	std::cout << "Lazy init\n";
+	GLint format = _isHDR ? GL_RGB16F : GL_RGBA;
+
+	//glDeleteTextures(1, &_texture);
+	//glGenTextures(1, &_texture);
+	glBindTexture(GL_TEXTURE_2D, _texture);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _data);
 	// TODO: Texture compression
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM, _width, _height, 0, GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM, GL_UNSIGNED_BYTE, data);
 	//glCompressedTexImage2D(GL_COMPRESSED_RGBA_S3TC_DXT5_ANGLE)
@@ -117,7 +131,7 @@ void Texture::initializeTexture(unsigned char * data, bool generateMipMaps, bool
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	if (generateMipMaps)
+	if (_isMipMap)
 	{
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -128,5 +142,9 @@ void Texture::initializeTexture(unsigned char * data, bool generateMipMaps, bool
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
-	
+
+	_isInitialized = true;
+
+	TextureSerializer::free_buffer(_data);
 }
+

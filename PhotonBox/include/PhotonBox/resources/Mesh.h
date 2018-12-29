@@ -18,6 +18,9 @@ public:
 	Mesh(const std::string& fileName ) {
 		OBJLoader::loadObj(fileName, this);
 	}
+
+	void asyncLoad() override { /* NOT IMPLEMENTED */ __debugbreak(); }
+	void sendToGPU() override { /* NOT IMPLEMENTED */ __debugbreak(); }
 };
 
 #endif // MESH_H

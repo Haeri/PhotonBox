@@ -2,6 +2,7 @@
 #define FILE_WATCH_H
 
 class Shader;
+class ManagedResource;
 
 #include <iostream>
 #include <map>
@@ -15,16 +16,19 @@ class Shader;
 class FileWatch
 {
 public:
-	struct ShaderFile
+	struct ResourceFile
 	{
 		__time64_t stamp;
-		Shader* shader;
+		ManagedResource* resource;
 	};
 
 	static void addToWatchList(std::string filePath, Shader* shader);
+	static void addToWatchList(std::string filePath, ManagedResource* resource);
 	void checkValidity();
 private:
-	static std::map<std::string, ShaderFile> _watchList;
+	static bool _loading;
+	void asyncCheck();
+	static std::map<std::string, ResourceFile> _watchList;
 };
 
 #endif FILE_WATCH_H
