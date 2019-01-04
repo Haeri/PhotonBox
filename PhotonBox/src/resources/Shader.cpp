@@ -7,6 +7,7 @@
 #include "PhotonBox/core/Util.h"
 #include "PhotonBox/resources/CubeMap.h"
 #include "PhotonBox/resources/Texture.h"
+#include "PhotonBox/core/systems/ResourceManager.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -15,30 +16,23 @@
 
 std::vector<Shader*> Shader::_shaderList;
 
+void Shader::blankInitialize() 
+{
+	_program = glCreateProgram();
+}
+
 void Shader::init()
 {
 	FileWatch::addToWatchList(getFilePath(), this);
+
+	std::cerr << "Index Shader: " << getFilePath() << std::endl;
+
 	std::vector<std::string> path;
 	std::string filePath = getFilePath();
 	Util::split(filePath, "/", path);
 
 	_fileName = path.back();
-	//std::cout << "Creating " << _fileName << std::endl;
 
-	_program = glCreateProgram();
-	_shaders[0] = createShader(readShader(filePath + ".vs"), GL_VERTEX_SHADER);
-	_shaders[1] = createShader(readShader(filePath + ".fs"), GL_FRAGMENT_SHADER);
-
-	glAttachShader(_program, _shaders[0]);
-	glAttachShader(_program, _shaders[1]);
-
-	addAttributes();
-
-	glLinkProgram(_program);
-	checkShaderError(_program, GL_LINK_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Faild linking program!");
-
-	glValidateProgram(_program);
-	checkShaderError(_program, GL_VALIDATE_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Shader Program invalid!");
 
 	/*
 	GLint numUniforms;
@@ -54,9 +48,7 @@ void Shader::init()
 	}
 	*/
 
-	addUniforms();
-
-	_isInitialized = true;
+	loadAsync();
 }
 
 void Shader::destroy()
@@ -66,19 +58,36 @@ void Shader::destroy()
 	glDeleteProgram(_program);
 }
 
-void Shader::asyncLoad()
+void Shader::loadFromFile()
 {
-	_isLoaded = false;
-	_isInitialized = false;
-	_initializationList.push_back(this);
-	//std::thread{ &Texture::loadRes, this }.detach();
+	_vertextCode = readShader(getFilePath() + ".vs");
+	_fragmentCode = readShader(getFilePath() + ".fs");
 	_isLoaded = true;
 }
 
 void Shader::sendToGPU()
 {
-	destroy();
-	init();
+	//destroy();
+	//init();
+
+
+	_shaders[0] = createShader(_vertextCode, GL_VERTEX_SHADER);
+	_shaders[1] = createShader(_fragmentCode, GL_FRAGMENT_SHADER);
+
+	glAttachShader(_program, _shaders[0]);
+	glAttachShader(_program, _shaders[1]);
+
+	addAttributes();
+
+	glLinkProgram(_program);
+	checkShaderError(_program, GL_LINK_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Faild linking program!");
+
+	glValidateProgram(_program);
+	checkShaderError(_program, GL_VALIDATE_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Shader Program invalid!");
+
+	addUniforms();
+
+	std::cout << "Initialized: " << _fileName << "\n";
 }
 
 void Shader::bind()

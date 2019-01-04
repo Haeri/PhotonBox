@@ -52,7 +52,7 @@ public:
 		expMaterial->setTexture("renderTexture", mainBuffer, "color");
 	}
 
-	void enable() override
+	void prepare() override
 	{
 		mainBuffer->enable();
 	}

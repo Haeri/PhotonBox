@@ -40,7 +40,7 @@ public:
 		_material->setProperty<float>("screenHeight", Display::getHeight());
 	}
 
-	void enable() override
+	void prepare() override
 	{
 		_frameBuffer->enable();
 	}

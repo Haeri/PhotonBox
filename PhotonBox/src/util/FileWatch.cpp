@@ -3,6 +3,7 @@
 #include <thread>
 
 #include "PhotonBox/resources/Shader.h"
+#include "PhotonBox/core/ILazyLoadable.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -36,7 +37,7 @@ void FileWatch::addToWatchList(std::string filePath, Shader* shader)
 	}
 }
 
-void FileWatch::addToWatchList(std::string filePath, ManagedResource* resource)
+void FileWatch::addToWatchList(std::string filePath, ILazyLoadable* resource)
 {
 	struct stat result;
 	std::string s = filePath;
@@ -66,7 +67,7 @@ void FileWatch::asyncCheck()
 		{
 			std::cout << "Updating " << it->first << std::endl;
 			it->second.stamp = result.st_mtime;
-			it->second.resource->asyncLoad();
+			it->second.resource->loadAsync();
 		}
 	}
 	_loading = false;

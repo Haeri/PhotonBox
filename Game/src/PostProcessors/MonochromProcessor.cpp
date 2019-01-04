@@ -28,7 +28,7 @@ public:
 		_material->setTexture("renderTexture", _frameBuffer, "color");
 	}
 
-	void enable() override
+	void prepare() override
 	{
 		_frameBuffer->enable();
 	}

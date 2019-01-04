@@ -17,6 +17,7 @@
 #include "PhotonBox/resources/Config.h"
 #include "PhotonBox/util/FileWatch.h"
 #include "PhotonBox/resources/Texture.h"
+#include "PhotonBox/core/systems/ResourceManager.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -159,6 +160,7 @@ void Core::run()
 
 		// Gizmos
 		_renderer->renderGizmos();
+		_postPocessing->drawGizmos();
 		_check_gl_error("Gizmos", 0);
 
 
@@ -173,13 +175,12 @@ void Core::run()
 			_uiRenderer->renderText("max: " + std::to_string(Profiler::getMaxFps()), 10.0f, Display::getHeight() - 50.0f, 0.32f, Vector3f(0, 1, 0));
 			_uiRenderer->renderText("avg: " + std::to_string(Profiler::getAvgFps()), 10.0f, Display::getHeight() - 65.0f, 0.32f, Vector3f(0, 0, 1));
 		}
+		_profiler->drawGraph();
 		_check_gl_error("SystemUI", 0);
 
 
 		// System GUI
 		_sceneManager->drawSceneList();
-
-
 		_debugGUI->render();
 		_check_gl_error("debugGUI", 0);
 
@@ -191,6 +192,12 @@ void Core::run()
 		Display::swapBuffer();
 		_renderer->clearDrawCalls();
 
+
+
+		/*
+		*	After Render events
+		*/
+
 		// Run filewatch every second
 		if(lastSecond == 0)
 			_fileWatch->checkValidity();
@@ -198,10 +205,10 @@ void Core::run()
 		_check_gl_error("End of frame", 0);
 
 
+		// Initialize loaded resources
+		ResourceManager::lazyLoad((flop == -1));
 		
-		ManagedResource::lazyLoad((flop == -1));
-		
-		if (ManagedResource::allReady()) {
+		if (ResourceManager::allReady()) {
 			if (flop == -1) {
 				std::cout << "Generate Lights!\n";
 				_lighting->generate();

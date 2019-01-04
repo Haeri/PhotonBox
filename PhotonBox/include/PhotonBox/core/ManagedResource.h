@@ -1,8 +1,6 @@
 #ifndef MANAGED_RESOURCE_H
 #define MANAGED_RESOURCE_H
 
-#include <vector>
-
 class ManagedResource
 {
 public:
@@ -18,16 +16,6 @@ public:
 	// resources from the global map according to the local set.
 
 	virtual ~ManagedResource() {}
-
-	virtual void asyncLoad() = 0;
-	virtual void sendToGPU() = 0;
-
-	static void lazyLoad(bool force = false);
-	static bool allReady();
-protected:
-	static std::vector<ManagedResource*> _initializationList;
-	bool _isInitialized = false;
-	bool _isLoaded = false;
 };
 
 #endif // MANAGED_RESOURCE_H

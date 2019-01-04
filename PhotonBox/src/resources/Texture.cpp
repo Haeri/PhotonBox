@@ -17,14 +17,14 @@
 Texture::Texture(std::string fileName, bool generateMipMaps, bool hdr)
 {
 	FileWatch::addToWatchList(fileName, this);
+
 	std::cerr << "Index Texture: " << fileName << std::endl;
+	
 	_fileName = fileName;
 	_isMipMap = generateMipMaps;
 	_isHDR = hdr;
 
-	blankInit();
-
-	asyncLoad();
+	loadAsync();
 }
 
 Texture::~Texture()
@@ -65,20 +65,7 @@ void Texture::freeIcon(unsigned char* data)
 	stbi_image_free(data);
 }
 
-void Texture::asyncLoad()
-{
-	_isLoaded = false;
-	_isInitialized = false;
-	_initializationList.push_back(this);
-	std::thread{ &Texture::loadRes, this }.detach();
-}
-
-void Texture::sendToGPU()
-{
-	initializeTexture();
-}
-
-void Texture::loadRes()
+void Texture::loadFromFile()
 {
 	int numComponents;
 	std::size_t found = _fileName.find_last_of(".");
@@ -96,11 +83,10 @@ void Texture::loadRes()
 		TextureSerializer::write(_fileName.substr(0, found) + TextureSerializer::EXTENSION, _width, _height, 4, _data);
 	}
 
-	std::cout << "Done async!\n";
 	_isLoaded = true;
 }
 
-void Texture::blankInit()
+void Texture::blankInitialize()
 {
 	glGenTextures(1, &_texture);
 	glBindTexture(GL_TEXTURE_2D, _texture);
@@ -114,9 +100,8 @@ void Texture::blankInit()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dat);
 }
 
-void Texture::initializeTexture()
+void Texture::sendToGPU()
 {
-	std::cout << "Lazy init\n";
 	GLint format = _isHDR ? GL_RGB16F : GL_RGBA;
 
 	//glDeleteTextures(1, &_texture);
@@ -146,5 +131,7 @@ void Texture::initializeTexture()
 	_isInitialized = true;
 
 	TextureSerializer::free_buffer(_data);
+
+	std::cout << "Initialized: " << _fileName << "\n";
 }
 

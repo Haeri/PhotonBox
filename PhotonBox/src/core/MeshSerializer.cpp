@@ -49,18 +49,15 @@ void MeshSerializer::write(const std::string &pathName, Mesh* mesh)
 
 		free_buffer(buff);
 		free_buffer(cp_buff);
-
-		std::cout << " - Done" << std::endl;
 	}
 	else
 	{
-		std::cout << " - Faild" << std::endl;
+		std::cout << "ERROR: Could not create " << pathName << std::endl;
 	}
 }
 
 void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 {
-	std::cout << "Start reading " << pathName;
 
 	std::fstream f = std::fstream(pathName, std::ios::in | std::ios::binary);
 	if (f.is_open())
@@ -117,12 +114,10 @@ void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 
 		free_buffer(cp_buff);
 		free_buffer(buff);
-
-		std::cout << " - Done" << std::endl;
 	}
 	else
 	{
-		std::cout << " - Faild" << std::endl;
+		std::cout << "ERROR: Could not read " << pathName << std::endl;
 	}
 }
 

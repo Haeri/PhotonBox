@@ -93,7 +93,7 @@ public:
 		m_blur_v = new Material(BlurVShader::getInstance());
 	}
 
-	void enable() override
+	void prepare() override
 	{
 		fb_original->enable();
 	}

@@ -24,6 +24,7 @@ void Lighting::generate()
 {
 	for (std::vector<LightProbe*>::iterator it = _lightProbes.begin(); it != _lightProbes.end(); ++it)
 	{
+		// LEAK: This creats a memory leak!
 		(*it)->capture();
 	}
 }

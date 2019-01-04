@@ -29,6 +29,7 @@ GENERAL
 - Update dependency libs
 - Doxygen integration for documentation
 - Logging system
+- Subsystem ordered vector with init, start, destroy
 
 OPTIMIZATION
 - Frustum culling
