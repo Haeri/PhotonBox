@@ -1,0 +1,121 @@
+#include <cstring>
+#include <assert.h>
+
+template <class T>
+class MaxQueue
+{
+public:
+	MaxQueue(int size, bool startRight = false)
+	{
+		_max_size = size;
+		_array = new T[size * 2];
+		_startRight = startRight;
+		_min = 0;
+		_max = 0;
+		memset(_array, 0, sizeof(T) * _max_size * 2);
+		if (startRight)
+			_current = size;
+	}
+
+	~MaxQueue()
+	{
+		delete[] _array;
+	}
+
+	void add(T value)
+	{
+		if (_current < _max_size) {
+			_array[_current++] = value;
+		}
+		else if (_current >= _max_size && _current < _max_size * 2) {
+			_array[_current++] = value;
+			++_offset;
+		}
+		else {
+			_current = _max_size - 1;
+			_offset = 0;
+			memcpy(_array, &_array[_max_size + 1], sizeof(T) * _current);
+			_array[_current++] = value;
+		}
+
+		if (value > _max)
+			_max = value;
+		else if(value < _min)
+			_min = value;
+
+		//printDebug();
+		//print();
+	}
+
+	void clear()
+	{
+		memset(_array, 0, sizeof(T) * _max_size * 2);
+		_offset = 0;
+		if(_startRight)
+			_current = _max_size;
+		else
+			_current = 0;
+	}
+
+	T getMax()
+	{
+		T max = 0;
+		for (int i = 0; i < _max_size; ++i)
+		{
+			if (get(i) > max)
+				max = get(i);
+		}
+		return max;
+	}
+
+	T* getStart()
+	{
+		return &_array[_offset];
+	}
+
+	T get(int index)
+	{
+		assert(index >= 0 || index < _max_size);
+		return _array[_offset + index];
+	}
+
+	T getLast()
+	{
+		return get(_max_size - 1);
+	}
+
+	int size()
+	{
+		return _max_size;
+	}
+
+	void print()
+	{
+		std::cout << "[";
+		for (int i = 0; i < _max_size - 1; ++i) {
+			std::cout << get(i) << ",\t";
+		}
+		std::cout << get(_max_size - 1) << "]\n";
+	}
+
+	void printDebug()
+	{
+		std::cout << "[";
+		for (int i = 0; i < _max_size * 2 - 1; ++i) {
+			std::cout << _array[i] << ",\t";
+		}
+		std::cout << _array[_max_size * 2 - 1];
+		std::cout << "] ";
+		std::cout << " offset: " << _offset;
+		std::cout << " current: " << _current << std::endl;
+	}
+
+private:
+	int _current = 0;
+	int _max_size = 0;
+	int _offset = 0;
+	bool _startRight;
+	T _max;
+	T _min;
+	T* _array;
+};

@@ -52,7 +52,7 @@ public:
 		fb_blur4->ready();
 	}
 
-	void enable() override
+	void prepare() override
 	{
 		fb_blur1->enable();
 	}

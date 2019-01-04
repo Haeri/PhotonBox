@@ -1,6 +1,12 @@
 #ifndef PROFILER_H
 #define PROFILER_H
 
+#include <vector>
+
+#include "PhotonBox/util/MaxQueue.h"
+
+#define FRAME_WINDOW_SIZE 30
+
 class Profiler
 {
 public:
@@ -11,12 +17,14 @@ public:
 	static int getAvgFps() { return (int)_avgFPS; }
 	
 	void reset();
+	static void drawGraph();
 private:
 	static int _minFPS;
 	static int _maxFPS;
 	static float _avgFPS;
 	static unsigned long int _allFrames;
 	static unsigned long int _allSeconds;
+	static MaxQueue<float> _frames;
 
 	static void startProfiling();
 };

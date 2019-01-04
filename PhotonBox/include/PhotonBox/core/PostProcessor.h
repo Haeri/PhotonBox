@@ -8,23 +8,21 @@ class Material;
 class PostProcessor
 {
 public:
-	PostProcessor(int index)
-	{
-		_index = index;
-		PostProcessing::addProcessor(this);
-	}
-
+	PostProcessor(int index);
 	virtual ~PostProcessor() {}
 
-	int getIndex() { return _index; }
+	int getIndex();
+	bool isEnabled();
+	void setEnabled(bool enable);
 
 	virtual void onResize() {}
-	virtual void enable() = 0;
+	virtual void prepare() = 0;
 	virtual void preProcess() {}
 	virtual void render() = 0;
 	virtual	void destroy() = 0;
 protected:
 	int _index;
+	bool _isEnaled;
 };
 
 #endif // POST_PROCESSOR_H

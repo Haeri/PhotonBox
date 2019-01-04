@@ -27,7 +27,7 @@ public:
 		_ssreflection->setTexture("gRoughness", Renderer::getGBuffer(), "gRoughness");
 	}
 
-	void enable() override
+	void prepare() override
 	{
 		_mainBuffer->enable();
 	}

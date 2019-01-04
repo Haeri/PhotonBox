@@ -23,7 +23,8 @@
     <ClCompile Include="include\imgui\ImGuizmo.cpp" />
     <ClCompile Include="include\imgui\imgui_draw.cpp" />
     <ClCompile Include="include\imgui\imgui_impl_glfw_gl3.cpp" />
-    <ClCompile Include="src\core\ManagedResource.cpp" />
+    <ClCompile Include="src\core\ILazyLoadable.cpp" />
+    <ClCompile Include="src\core\systems\ResourceManager.cpp" />
     <ClCompile Include="src\Components\AmbientLight.cpp" />
     <ClCompile Include="src\Components\Behaviour.cpp" />
     <ClCompile Include="src\Components\BoxCollider.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\LightMap.cpp" />
     <ClCompile Include="src\Core\MeshSerializer.cpp" />
+    <ClCompile Include="src\core\PostProcessor.cpp" />
     <ClCompile Include="src\Core\Profiler.cpp" />
     <ClCompile Include="src\core\systems\DebugGUI.cpp" />
     <ClCompile Include="src\core\systems\PostProcessing.cpp" />
@@ -164,6 +166,7 @@
     <ClInclude Include="include\PhotonBox\core\Entity.h" />
     <ClInclude Include="include\PhotonBox\core\FrameBuffer.h" />
     <ClInclude Include="include\PhotonBox\core\GLError.h" />
+    <ClInclude Include="include\PhotonBox\core\ILazyLoadable.h" />
     <ClInclude Include="include\PhotonBox\core\InputManager.h" />
     <ClInclude Include="include\PhotonBox\core\LightMap.h" />
     <ClInclude Include="include\PhotonBox\core\ManagedResource.h" />
@@ -179,6 +182,7 @@
     <ClInclude Include="include\PhotonBox\core\systems\Physics.h" />
     <ClInclude Include="include\PhotonBox\core\systems\PostProcessing.h" />
     <ClInclude Include="include\PhotonBox\core\systems\Renderer.h" />
+    <ClInclude Include="include\PhotonBox\core\systems\ResourceManager.h" />
     <ClInclude Include="include\PhotonBox\core\systems\SceneManager.h" />
     <ClInclude Include="include\PhotonBox\core\systems\UIRenderer.h" />
     <ClInclude Include="include\PhotonBox\core\TextureSerializer.h" />
@@ -221,6 +225,7 @@
     <ClInclude Include="include\PhotonBox\resources\UnlitShader.h" />
     <ClInclude Include="include\PhotonBox\resources\Vertex.h" />
     <ClInclude Include="include\PhotonBox\util\FileWatch.h" />
+    <ClInclude Include="include\PhotonBox\util\MaxQueue.h" />
     <ClInclude Include="include\PhysX\characterkinematic\PxBoxController.h" />
     <ClInclude Include="include\PhysX\characterkinematic\PxCapsuleController.h" />
     <ClInclude Include="include\PhysX\characterkinematic\PxCharacter.h" />

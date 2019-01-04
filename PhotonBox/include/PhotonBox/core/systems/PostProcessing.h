@@ -4,6 +4,7 @@
 class PostProcessor;
 
 #include <map>
+#include <set>
 
 #include "PhotonBox/core/FrameBuffer.h"
 
@@ -12,15 +13,18 @@ class PostProcessing
 public:
 	static void addProcessor(PostProcessor* processor);
 	static void removeProcessor(PostProcessor* processor);
-	static bool isActive() { return _doPostProcessing; }
+	static bool isActive();
 	static void resizeAll();
 	void start();
 	void postProcess();
 	void reset();
 	void destroy();
+
+	void drawGizmos();
 private:
-	static bool _doPostProcessing;
+	static bool shouldPostProcess();
 	static std::map<int, PostProcessor*> _processorMap;
+	static std::set<PostProcessor*> _processorResourceSet;
 };
 
 #endif // POST_PROCESSING_H

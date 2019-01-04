@@ -23,7 +23,7 @@ public:
 		mainBuffer = new FrameBuffer(1);
 		mainBuffer->addTextureAttachment("color", true);
 		mainBuffer->ready();
-		ssaoBlurBuffer = new FrameBuffer(1);
+		ssaoBlurBuffer = new FrameBuffer(0.5f);
 		ssaoBlurBuffer->addTextureAttachment("color", true);
 		ssaoBlurBuffer->ready();
 
@@ -45,7 +45,7 @@ public:
 		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
 	}
 
-	void enable() override
+	void prepare() override
 	{
 		mainBuffer->enable();
 	}

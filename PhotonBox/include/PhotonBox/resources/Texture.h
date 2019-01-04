@@ -5,8 +5,9 @@ class Scene;
 
 #include "PhotonBox/core/Display.h"
 #include "PhotonBox/core/ManagedResource.h"
+#include "PhotonBox/core/ILazyLoadable.h"
 
-class Texture : public ManagedResource
+class Texture : public ManagedResource, public ILazyLoadable
 {
 public:
 	~Texture();
@@ -20,7 +21,7 @@ public:
 
 	static unsigned char* loadIcon(const std::string& fileName, int& width, int& height);
 	static void freeIcon(unsigned char* data);
-	void asyncLoad() override;
+
 	void sendToGPU() override;
 private:
 	friend class Scene;
@@ -32,9 +33,8 @@ private:
 	std::string _fileName;
 	unsigned char* _data = NULL;
 
-	void loadRes();
-	void initializeTexture();
-	void blankInit();
+	void loadFromFile() override;
+	void blankInitialize();
 };
 
 #endif // TEXTURE_H

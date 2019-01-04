@@ -57,19 +57,15 @@ void TextureSerializer::write(std::string name, int width, int height, int compo
 
 		free_buffer(buff);
 		free_buffer(cp_buff);
-
-		std::cout << " - Done" << std::endl;
 	}
 	else
 	{
-		std::cout << " - Faild" << std::endl;
+		std::cout << "ERROR: Could not create " << name << std::endl;
 	}
 }
 
 unsigned char* TextureSerializer::read(std::string name, int* width, int* height, int* components)
 {
-	std::cout << "Start reading " << name;
-
 	std::fstream f = std::fstream(name, std::ios::in | std::ios::binary);
 	if (f.is_open())
 	{
@@ -116,12 +112,11 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 		free_buffer(cp_buff);
 		free_buffer(buff);
 
-		std::cout << " - Done" << std::endl;
 		return data;
 	}
 	else
 	{
-		std::cout << " - Faild" << std::endl;
+		std::cout << "ERROR: Could not read " << name << std::endl;
 		return nullptr;
 	}
 }

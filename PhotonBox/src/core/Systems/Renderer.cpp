@@ -253,7 +253,7 @@ void Renderer::start()
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
-		(*it)->init();
+		 (*it)->init();
 	}
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it)
 	{

@@ -7,8 +7,9 @@
 #include "PhotonBox/core/BoundingSphere.h"
 #include "PhotonBox/resources/OBJLoader.h"
 #include "PhotonBox/core/ManagedResource.h"
+#include "PhotonBox/core/ILazyLoadable.h"
 
-class Mesh : public ManagedResource
+class Mesh : public ManagedResource, public ILazyLoadable
 {
 public:
 	std::vector< Vertex > vertices;
@@ -19,7 +20,7 @@ public:
 		OBJLoader::loadObj(fileName, this);
 	}
 
-	void asyncLoad() override { /* NOT IMPLEMENTED */ __debugbreak(); }
+	void loadFromFile() override { /* NOT IMPLEMENTED */ __debugbreak(); }
 	void sendToGPU() override { /* NOT IMPLEMENTED */ __debugbreak(); }
 };
 

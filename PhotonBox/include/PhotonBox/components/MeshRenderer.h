@@ -11,7 +11,10 @@ class MeshRenderer : public ObjectRenderer
 {
 public:
 	MeshRenderer(RenderType type) :ObjectRenderer(type) {}
-	MeshRenderer() : ObjectRenderer(RenderType::opaque) {}
+	MeshRenderer() : ObjectRenderer(RenderType::opaque) 
+	{
+//		init();
+	}
 
 	void init() override;
 	void render() override;

@@ -15,8 +15,9 @@ class LightEmitter;
 #include "PhotonBox/resources/Vertex.h"
 #include "PhotonBox/util/FileWatch.h"
 #include "PhotonBox/core/ManagedResource.h"
+#include "PhotonBox/core/ILazyLoadable.h"
 
-class Shader : public ManagedResource
+class Shader : public ManagedResource, public ILazyLoadable
 {
 public:
 
@@ -47,7 +48,7 @@ public:
 	void init();
 	void bind();
 	void destroy();
-	void asyncLoad() override;
+	void loadFromFile() override;
 	void sendToGPU() override;
 
 	virtual std::string getFilePath() = 0;
@@ -130,8 +131,12 @@ protected:
 	int checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 
 private:
+	std::string _vertextCode;
+	std::string _fragmentCode;
 
 	bool checkUniform(const std::string& name);
+
+	void blankInitialize() override;
 
 };
 
