@@ -121,7 +121,7 @@ protected:
 
 	const static unsigned int NUM_SHADERS = 2;
 	std::string _fileName;
-	GLuint _program;
+	GLuint _program = -1;
 	GLuint _shaders[NUM_SHADERS];
 	GLenum _textureUnit = 0;
 	static std::vector<Shader*> _shaderList;

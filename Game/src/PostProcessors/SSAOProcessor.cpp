@@ -33,16 +33,16 @@ public:
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
 		ssaoBlurMaterial->setTexture("original", mainBuffer, "color");
 		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer, "color");
-		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth());
-		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
+		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth() / 2.0f);
+		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight() / 2.0f);
 
 		generateNoise();
 	}
 
 	void onResize() override
 	{
-		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth());
-		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
+		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth()/2.0f);
+		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight()/ 2.0f);
 	}
 
 	void prepare() override

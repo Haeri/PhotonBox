@@ -22,6 +22,7 @@
 #include "../PostProcessors/SSReflectionProcessor.cpp"
 #include "../PostProcessors/AutoExposureProcessor.cpp"
 #include "../PostProcessors/ToneMappingProcessor.cpp"
+#include "../PostProcessors/DOFProcessor.cpp"
 #include "../Scripts/MaterialScript.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../PostProcessors/BlurProcessor.cpp"
@@ -65,6 +66,7 @@ public:
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
 		FXAAProcessor* p_fxaa = new FXAAProcessor(30);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(40);
+		DOFProcessor* p_dof = new DOFProcessor(41);
 		BloomProcessor* p_bloom = new BloomProcessor(50);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(60);
 
@@ -403,7 +405,7 @@ public:
 
 
 		Material* occluderMaterial = createResource<Material>(unlitShader);
-		occluderMaterial->setProperty<Vector3f>("color", Vector3f(0, 0, 0));
+		//occluderMaterial->setProperty<Vector3f>("color", Vector3f(0, 0, 0));
 
 		Material* panoramaMaterial = createResource<Material>(skyBoost);
 		panoramaMaterial->setTexture("albedoMap", panoramaAlbedo);
