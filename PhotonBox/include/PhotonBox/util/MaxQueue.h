@@ -10,8 +10,6 @@ public:
 		_max_size = size;
 		_array = new T[size * 2];
 		_startRight = startRight;
-		_min = 0;
-		_max = 0;
 		memset(_array, 0, sizeof(T) * _max_size * 2);
 		if (startRight)
 			_current = size;
@@ -37,14 +35,6 @@ public:
 			memcpy(_array, &_array[_max_size + 1], sizeof(T) * _current);
 			_array[_current++] = value;
 		}
-
-		if (value > _max)
-			_max = value;
-		else if(value < _min)
-			_min = value;
-
-		//printDebug();
-		//print();
 	}
 
 	void clear()
@@ -115,7 +105,5 @@ private:
 	int _max_size = 0;
 	int _offset = 0;
 	bool _startRight;
-	T _max;
-	T _min;
 	T* _array;
 };

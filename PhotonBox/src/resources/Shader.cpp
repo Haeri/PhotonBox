@@ -55,6 +55,8 @@ void Shader::destroy()
 {
 	glDetachShader(_program, _shaders[0]);
 	glDetachShader(_program, _shaders[1]);
+	glDeleteShader(_shaders[0]);
+	glDeleteShader(_shaders[1]);
 	glDeleteProgram(_program);
 }
 
@@ -70,6 +72,16 @@ void Shader::sendToGPU()
 	//destroy();
 	//init();
 
+	if (_program != -1)
+	{
+		destroy();
+
+		uniforms.clear();
+		attributes.clear();
+		textures.clear();
+
+		_program = glCreateProgram();
+	}
 
 	_shaders[0] = createShader(_vertextCode, GL_VERTEX_SHADER);
 	_shaders[1] = createShader(_fragmentCode, GL_FRAGMENT_SHADER);
@@ -232,8 +244,8 @@ bool Shader::checkUniform(const std::string & name)
 	}
 	else
 	{
-//		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
-//		__debugbreak();
+		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
+		//__debugbreak();
 		return false;
 	}
 #else
