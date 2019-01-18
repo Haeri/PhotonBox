@@ -23,6 +23,7 @@
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../PostProcessors/BlurProcessor.cpp"
+#include "../PostProcessors/DOFProcessor.cpp"
 #include "../Shader/BlurShader.cpp"
 #include "../Scripts/StateControllerScript.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
@@ -70,6 +71,7 @@ public:
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
 		//FXAAProcessor* p_fxaa = new FXAAProcessor(2);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(3);
+		DOFProcessor* p_dof = new DOFProcessor(41);
 		BloomProcessor* p_bloom = new BloomProcessor(4);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(5);
 		
