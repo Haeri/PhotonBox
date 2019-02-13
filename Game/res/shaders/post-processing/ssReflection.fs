@@ -37,7 +37,7 @@ vec3 hash(vec3 a);
 
 void main()
 {
-	if(texture2D(gPosition, TexCoords).xyz == vec3(0)) 
+	if(textureLod(gPosition, TexCoords, 0).xyz == vec3(0)) 
 		discard;
 
    	vec2 MetallicEmmissive = texture2D(gMetallic, TexCoords).rg;
@@ -79,7 +79,7 @@ void main()
                 -reflected.z;
  
     // Get color
-    vec4 SSR = vec4(textureLod(mainBuffer, coords.xy, 0).rgb,  clamp(ReflectionMultiplier, 0.0, 0.9) * Fresnel * strength);  
+    vec4 SSR = vec4(textureLod(mainBuffer, coords.xy, 0).rgb,  clamp(ReflectionMultiplier * Fresnel * strength, 0.0, 0.9));  
 
     outColor = vec4(SSR);
 }

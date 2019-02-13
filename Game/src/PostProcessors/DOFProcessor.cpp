@@ -18,7 +18,7 @@ public:
 	DOFProcessor(int index) : PostProcessor(index)
 	{
 		_mainBuffer = new FrameBuffer(1);
-		_mainBuffer->addTextureAttachment("color", true);
+		_mainBuffer->addTextureAttachment("color", true, true);
 		_mainBuffer->ready();
 
 		_dofShader = new Material(DOFShader::getInstance());

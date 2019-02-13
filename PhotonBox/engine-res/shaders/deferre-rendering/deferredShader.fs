@@ -77,13 +77,19 @@ uniform sampler2D gEmission;
 uniform sampler2D shadowMap;
 
 uniform mat4 viewMatrixInv;
+uniform mat4 projectionMatrixInv;
 uniform int numDirectionalLights;
 uniform int numPointLights;
 uniform int numSpotLights;
 
 uniform mat4 projection;
 
+uniform float time;
+
 float stepScalar = 0.01;
+
+bool useVolumetricShadows = true;
+bool useContactShadows = true;
 
 
 uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
@@ -107,13 +113,15 @@ vec3 PointLightBRDF(PointLight pointLight);
 vec3 SpotLightBRDF(SpotLight spotLight);
 
 float rayMarch(vec3 dir);
+vec3 volumetricShadows();
+float random(vec2 co);
 
 void main()
 {
     // retrieve data from gbuffer
-    gData.Position = texture(gPosition, TexCoords).rgb;
+    gData.Position = textureLod(gPosition, TexCoords, 0).rgb;
 	if(gData.Position == vec3(0, 0, 0)) discard;
-    gData.Normal = texture(gNormal, TexCoords).rgb;
+    gData.Normal = textureLod(gNormal, TexCoords, 0).rgb;
     gData.Albedo = texture(gAlbedo, TexCoords).rgb;
     gData.Roughness = texture(gRoughness, TexCoords).r;
     gData.Metallic = texture(gMetallic, TexCoords).r;
@@ -145,6 +153,9 @@ void main()
             break;
         finalColor += SpotLightBRDF(spotLights[i]);
     }
+
+    if(useVolumetricShadows)
+        finalColor += volumetricShadows();
 
     FragColor = vec4(finalColor, texture(gAlbedo, TexCoords).a);
 }
@@ -188,8 +199,13 @@ vec3 DirectionalLightBRDF(DirectionalLight directionalLight){
 
     // shadows
     vec4 fragPosLightSpace = directionalLight.lightSpaceMatrix * viewMatrixInv * vec4(gData.Position, 1);
-    float shadow = min(max(ShadowCalculation(fragPosLightSpace, N, L), rayMarch(L)), 1);
     
+    float shadow;
+    if(useContactShadows)
+        shadow = min(max(ShadowCalculation(fragPosLightSpace, N, L), rayMarch(L)), 1);
+    else
+        shadow = ShadowCalculation(fragPosLightSpace, N, L);
+
     /*
     float shadow = ShadowCalculation(fragPosLightSpace, N, L);
     if(shadow < 1){
@@ -345,34 +361,66 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){
     }
     shadow /= (x_rad*2+1 + y_rad*2+1);
 
-
-
-
     return shadow;
 }  
 
 
 float rayMarch(vec3 dir)
 {
+    float rand = random(gData.Position.xy+gData.Position.z);
     dir *= stepScalar;
     float max = 5;
-    vec3 pos = texture(gPosition, TexCoords).xyz;
-    vec3 currpoint = pos;
+    vec3 pos = textureLod(gPosition, TexCoords, 0).xyz;
+    vec3 currpoint = pos + (dir * rand * 1);
     vec4 projectedCoord;
     float currDepth;
 
     for(int i = 0; i < max; i++){
-        currpoint += dir;
 
+        currpoint += dir;
         projectedCoord = projection * vec4(currpoint, 1.0);
         projectedCoord.xyz /= projectedCoord.w;
         projectedCoord.xyz = projectedCoord.xyz * 0.5 + 0.5;
  
-        currDepth = texture(gPosition, projectedCoord.xy).z;
+        currDepth = textureLod(gPosition, projectedCoord.xy, 0).z;
 
         if(currDepth > currpoint.z && abs(currDepth - currpoint.z) <= 0.05  && currDepth != 0)
             return 1;
+            
     }
 
     return 0;
+}
+
+vec3 volumetricShadows()
+{
+	float samples = 20.0;
+	float density = 0.0005;
+
+	float delta = (-gData.Position.z) / samples;
+    vec4 view_space_ray_4 = projectionMatrixInv * vec4(TexCoords.x*2-1, TexCoords.y*2-1, 1, 1);
+    vec3 view_space_ray = normalize(view_space_ray_4.xyz / 1);
+
+    float rand = random(gData.Position.xy+gData.Position.z);
+    vec3 ray = (view_space_ray * delta * rand);
+	vec3 ret;
+
+	for(int i = 0; i < samples; ++i){
+        ray += (view_space_ray * delta);
+    	vec4 fragPosLightSpace = directionalLights[0].lightSpaceMatrix * viewMatrixInv * vec4(ray, 1);
+ 		vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+        projCoords = projCoords * 0.5 + 0.5;
+        float closestDepth = texture2D(shadowMap, projCoords.xy).r; 
+    	float currentDepth = projCoords.z;
+
+        if(closestDepth > currentDepth){
+    		ret += directionalLights[0].color * directionalLights[0].intensity * density;
+        }
+
+	}
+	return ret;
+}
+
+float random(vec2 co) {
+    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453123);
 }

@@ -16,6 +16,7 @@ void Time::setDeltaTime(double deltaTime)
 {
 	Time::deltaTime = deltaTime * timeScale;
 	Time::deltaTimef = (float)deltaTime * timeScale;
+	time += deltaTime;
 }
 
 void Time::setTime(double time)

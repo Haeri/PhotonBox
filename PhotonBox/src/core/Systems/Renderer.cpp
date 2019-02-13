@@ -137,8 +137,8 @@ void Renderer::init(float superSampling)
 	_mainFrameBuffer->ready();
 
 	_gBuffer = new FrameBuffer(superSampling);
-	_gBuffer->addTextureAttachment("gPosition", true);
-	_gBuffer->addTextureAttachment("gNormal", true);
+	_gBuffer->addTextureAttachment("gPosition", true, true);
+	_gBuffer->addTextureAttachment("gNormal", true, true);
 	_gBuffer->addTextureAttachment("gMetallic");
 	_gBuffer->addTextureAttachment("gRoughness");
 	_gBuffer->addTextureAttachment("gAlbedo");
