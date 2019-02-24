@@ -10,7 +10,11 @@ class Scene;
 class Texture : public ManagedResource, public ILazyLoadable
 {
 public:
+	Texture(bool generateMipMaps, bool hdr = false);
+	Texture(std::string fileName, bool generateMipMaps = false, bool hdr = false);
+	
 	~Texture();
+
 	void bind();
 	void bind(GLuint textureUnit);
 	int getWidth() { return _width; }
@@ -25,8 +29,6 @@ public:
 	void sendToGPU() override;
 private:
 	friend class Scene;
-	Texture(bool generateMipMaps, bool hdr = false);
-	Texture(std::string fileName, bool generateMipMaps = false, bool hdr = false);
 	bool _isHDR, _isMipMap;
 	GLuint _texture;
 	int _width, _height;

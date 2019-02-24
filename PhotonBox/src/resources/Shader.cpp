@@ -8,6 +8,7 @@
 #include "PhotonBox/resources/CubeMap.h"
 #include "PhotonBox/resources/Texture.h"
 #include "PhotonBox/core/systems/ResourceManager.h"
+#include "PhotonBox/resources/Resources.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -62,16 +63,20 @@ void Shader::destroy()
 
 void Shader::loadFromFile()
 {
-	_vertextCode = readShader(getFilePath() + ".vs");
+	if (this->getType() == Type::SCREEN_SHADER)
+	{
+		// TODO: Refactor Post shaders to use one default vertex shader
+		//_vertextCode = readShader(Resources::ENGINE_RESOURCES + "/shader/util/default-post.vs");
+		_vertextCode = readShader(getFilePath() + ".vs");
+	}else{
+		_vertextCode = readShader(getFilePath() + ".vs");
+	}
 	_fragmentCode = readShader(getFilePath() + ".fs");
 	_isLoaded = true;
 }
 
 void Shader::sendToGPU()
 {
-	//destroy();
-	//init();
-
 	if (_program != -1)
 	{
 		destroy();

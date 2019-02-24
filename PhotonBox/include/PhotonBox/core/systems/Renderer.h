@@ -8,6 +8,7 @@ class GShader;
 class TransparentMeshRenderer;
 class DeferredShader;
 class DirectionalShadowShader;
+class VolumetricFogShader;
 class Material;
 class AABB;
 
@@ -54,6 +55,7 @@ public:
 	static void renderCustoms();
 	static void renderShadows();
 	static void captureScene(LightMap* lightmap = nullptr);
+	static void renderFog();
 	void init(float superSampling = 1);
 
 	void start();
@@ -76,6 +78,7 @@ private:
 	static std::vector<ObjectRenderer*> _renderListTransparent;
 	static std::vector<ObjectRenderer*> _renderListCustom;
 	static Vector3f _clearColor;
+	static Texture* _noise;
 
 	static std::map<float, TransparentMeshRenderer*> _renderQueueTransparent;
 
@@ -86,7 +89,9 @@ private:
 	static TransparentShader* _transparentBaseShader;
 	static DeferredShader* _deferredShader;
 	static DirectionalShadowShader* _directionalShadowShader;
+	static VolumetricFogShader* _volumetricFogShader;
 	static Material* _deferredMaterial;
+	static Material* _volumetricFogMaterial;
 
 	static void clearTransparentQueue();
 	static void updateTransparentQueue();

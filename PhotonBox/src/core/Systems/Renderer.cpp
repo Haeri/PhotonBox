@@ -31,6 +31,8 @@
 #include "PhotonBox/core/LightMap.h"
 #include "PhotonBox/core/GLError.h"
 #include "PhotonBox/resources/ForwardDirectionalLightShader.h"
+#include "PhotonBox/resources/Texture.h"
+#include "PhotonBox/resources/VolumetricFogShader.h"
 
 #include "imgui/imgui.h"
 
@@ -47,6 +49,7 @@ std::vector<ObjectRenderer*> Renderer::_renderListTransparent;
 std::vector<ObjectRenderer*> Renderer::_renderListCustom;
 std::map<float, TransparentMeshRenderer*> Renderer::_renderQueueTransparent;
 int Renderer::_drawCalls;
+Texture* Renderer::_noise;
 
 ForwardAmbientLightShader* Renderer::_ambientLightShader;
 ForwardDirectionalLightShader* Renderer::_directionalLightShader;
@@ -55,8 +58,10 @@ ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
 DeferredShader* Renderer::_deferredShader;
 DirectionalShadowShader* Renderer::_directionalShadowShader;
+VolumetricFogShader* Renderer::_volumetricFogShader;
 
 Material* Renderer::_deferredMaterial;
+Material* Renderer::_volumetricFogMaterial;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_gBuffer;
@@ -130,7 +135,10 @@ void Renderer::init(float superSampling)
 	_transparentBaseShader = TransparentShader::getInstance();
 	_deferredShader = DeferredShader::getInstance();
 	_directionalShadowShader = DirectionalShadowShader::getInstance();
+	_volumetricFogShader = VolumetricFogShader::getInstance();
 	
+	_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/blue_noise.png", false);
+
 	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
 	_mainFrameBuffer->addDepthBufferAttachment();
@@ -167,7 +175,11 @@ void Renderer::init(float superSampling)
 	_deferredMaterial->setTexture("gIrradiance", _gBuffer, "gIrradiance");
 	_deferredMaterial->setTexture("gRadiance", _gBuffer, "gRadiance");
 	_deferredMaterial->setTexture("gEmission", _gBuffer, "gEmission");
-	
+	_deferredMaterial->setTexture("noise", _noise);
+
+	_volumetricFogMaterial = new Material(_volumetricFogShader);
+	_volumetricFogMaterial->setTexture("gPosition", _gBuffer, "gPosition");
+
 	_debugMode = 0;
 	
 	float max = 100;
@@ -482,7 +494,8 @@ void Renderer::renderDeferred()
 	// Render transparent objects
 	renderTransparents();
 
-
+	// Render volumetric fog
+	renderFog();
 
 
 	// Directly draw to main buffer if no post processing is active
@@ -648,6 +661,85 @@ void Renderer::renderTransparents()
 	clearTransparentQueue();
 }
 
+void Renderer::renderFog() 
+{
+	// Send light data to shader
+	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+
+
+	_volumetricFogShader->bind();
+	_volumetricFogShader->setUniform<int>("numDirectionalLights", lights[typeid(DirectionalLight)].size());
+	_volumetricFogShader->setUniform<int>("numPointLights", lights[typeid(PointLight)].size());
+	_volumetricFogShader->setUniform<int>("numSpotLights", lights[typeid(SpotLight)].size());
+
+	for (auto const &lightvec : lights)
+	{
+		int i = -1;
+		for (auto const &light : lightvec.second)
+		{
+			if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
+
+			if (typeid(*light) == typeid(DirectionalLight))
+			{
+				DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
+				Vector3f lightViewDirection = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->direction, 0.0f)).xyz();
+
+				Matrix4f lightView = Matrix4f::lookAt(
+					(dl->direction * -3),
+					Vector3f(0.0f, 1.0f, 0.0f),
+					dl->direction);
+				Matrix4f lightSpaceMatrix = dl->lightProjection * lightView;
+
+				++i;
+				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].lightSpaceMatrix", lightSpaceMatrix);
+				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].direction", lightViewDirection);
+				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
+				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
+
+				_shadowBuffer->bind(_volumetricFogShader->textures["shadowMap"].unit, "depth");
+			}
+			else if (typeid(*light) == typeid(PointLight))
+			{
+				PointLight* dl = dynamic_cast<PointLight*>(light);
+				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->getPositionWorld(), 1)).xyz();
+				++i;
+				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].position", posViewSpace);
+				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].color", dl->color);
+				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].intensity", dl->intensity);
+				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
+				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
+				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
+			}
+			else if (typeid(*light) == typeid(SpotLight))
+			{
+				SpotLight* dl = dynamic_cast<SpotLight*>(light);
+				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->getPositionWorld(), 1)).xyz();
+				Vector3f directionView = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->forwardWorld(), 0.0f)).xyz();
+
+				++i;
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].position", posViewSpace);
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].direction", directionView);
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].coneAngle", dl->coneAngle);
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].coneFallOff", dl->coneAttenuation);
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].color", dl->color);
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].intensity", dl->intensity);
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
+				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
+			}
+		}
+	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthMask(GL_FALSE);
+
+	_gBuffer->render(_volumetricFogMaterial);
+
+	glDepthMask(GL_TRUE);
+	glDisable(GL_BLEND);
+}
 
 void Renderer::renderCustoms()
 {
@@ -925,6 +1017,8 @@ void Renderer::destroy()
 	delete	_gizmoBuffer;
 	delete _shadowBuffer;
 	delete _deferredMaterial;
+	delete _volumetricFogMaterial;
+	delete _noise;
 
 	_renderListOpaque.clear();
 }

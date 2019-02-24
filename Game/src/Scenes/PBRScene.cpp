@@ -69,11 +69,11 @@ public:
 		
 		SSAOProcessor* p_ssao = new SSAOProcessor(0);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
-		//FXAAProcessor* p_fxaa = new FXAAProcessor(2);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(3);
-		DOFProcessor* p_dof = new DOFProcessor(41);
-		BloomProcessor* p_bloom = new BloomProcessor(4);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(5);
+		FXAAProcessor* p_fxaa = new FXAAProcessor(4);
+		DOFProcessor* p_dof = new DOFProcessor(5);
+		BloomProcessor* p_bloom = new BloomProcessor(6);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(7);
 		
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane_big.obj");

@@ -46,6 +46,7 @@ public:
 	void Load()
 	{
 		/* --------------------------- ENVIROMENT --------------------------- */
+		
 		std::vector<std::string> white = {
 			Resources::ENGINE_RESOURCES + "/default_ao.png",
 			Resources::ENGINE_RESOURCES + "/default_ao.png",
@@ -54,6 +55,7 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_ao.png",
 			Resources::ENGINE_RESOURCES + "/default_ao.png",
 		};
+		
 
 		Renderer::setSkyBox(createResource<CubeMap>(white));
 		//Renderer::setSkyBox(new CubeMap(white));
@@ -64,9 +66,9 @@ public:
 
 		SSAOProcessor* p_ssao = new SSAOProcessor(10);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
-		FXAAProcessor* p_fxaa = new FXAAProcessor(30);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(40);
-		DOFProcessor* p_dof = new DOFProcessor(41);
+		FXAAProcessor* p_fxaa = new FXAAProcessor(41);
+		DOFProcessor* p_dof = new DOFProcessor(42);
 		BloomProcessor* p_bloom = new BloomProcessor(50);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(60);
 
@@ -499,7 +501,7 @@ public:
 
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
-		sun->getComponent<DirectionalLight>()->color = Vector3f(253.0f/255.0f, 248.0f / 255.0f, 240.0f / 255.0f);
+		sun->getComponent<DirectionalLight>()->color = Vector3f(255.0f/255.0f, 248.0f / 255.0f, 240.0f / 255.0f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(0.4f, -0.6f, 2.0f);
 		sun->getComponent<DirectionalLight>()->intensity = 800.0f;
 
@@ -642,9 +644,12 @@ public:
 		probe->addComponent<MeshRenderer>();
 		probe->getComponent<MeshRenderer>()->setMesh(sphere);
 		probe->getComponent<MeshRenderer>()->setMaterial(def);
-
+		probe->getComponent<MeshRenderer>()->getReflected = false;
 		
 		Entity* window = instanciate("Window");
+		//window->addComponent<MeshRenderer>()->setRenderType(RenderType::cutout);
+		//window->getComponent<MeshRenderer>()->setMesh(windowMesh);
+		//window->getComponent<MeshRenderer>()->setMaterial(blindsMaterial);
 		window->addComponent<TransparentMeshRenderer>();
 		window->getComponent<TransparentMeshRenderer>()->setMesh(windowMesh);
 		window->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
@@ -654,7 +659,6 @@ public:
 		Entity* window = instanciate("Window");
 		window->addComponent<MeshRenderer>();
 		window->getComponent<MeshRenderer>()->setMesh(windowMesh);
-		window->getComponent<MeshRenderer>()->setMaterial(blindsMaterial);
 		*/
 
 		Entity* panorama = instanciate("Panorama");

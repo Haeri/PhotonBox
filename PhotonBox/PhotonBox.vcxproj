@@ -210,6 +210,7 @@
     <ClInclude Include="include\PhotonBox\resources\IrradianceShader.h" />
     <ClInclude Include="include\PhotonBox\resources\LitShader.h" />
     <ClInclude Include="include\PhotonBox\resources\Material.h" />
+    <ClInclude Include="include\PhotonBox\resources\MedianShader.h" />
     <ClInclude Include="include\PhotonBox\resources\Mesh.h" />
     <ClInclude Include="include\PhotonBox\resources\OBJLoader.h" />
     <ClInclude Include="include\PhotonBox\resources\Resources.h" />
@@ -224,6 +225,7 @@
     <ClInclude Include="include\PhotonBox\resources\TransparentShader.h" />
     <ClInclude Include="include\PhotonBox\resources\UnlitShader.h" />
     <ClInclude Include="include\PhotonBox\resources\Vertex.h" />
+    <ClInclude Include="include\PhotonBox\resources\VolumetricFogShader.h" />
     <ClInclude Include="include\PhotonBox\util\FileWatch.h" />
     <ClInclude Include="include\PhotonBox\util\MaxQueue.h" />
     <ClInclude Include="include\PhysX\characterkinematic\PxBoxController.h" />
