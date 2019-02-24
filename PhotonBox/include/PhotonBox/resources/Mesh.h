@@ -16,9 +16,10 @@ public:
 	std::vector< unsigned int> indices;
 	BoundingSphere boundingSphere;
 
-	Mesh(const std::string& fileName ) {
+	Mesh(const std::string& fileName) {
 		OBJLoader::loadObj(fileName, this);
 	}
+	~Mesh() {}
 
 	void loadFromFile() override { /* NOT IMPLEMENTED */ __debugbreak(); }
 	void sendToGPU() override { /* NOT IMPLEMENTED */ __debugbreak(); }

@@ -1,13 +1,12 @@
-#ifndef DEFERRED_SHADER_H
-#define DEFERRED_SHADER_H
+#ifndef VOLUMETRIC_FOG_SHADER_H
+#define VOLUMETRIC_FOG_SHADER_H
 
-#include "PhotonBox/components/Camera.h"
 #include "PhotonBox/resources/Shader.h"
 #include "PhotonBox/resources/Resources.h"
 #include "PhotonBox/core/Time.h"
 
 
-class DeferredShader : public InstancedShader<DeferredShader>
+class VolumetricFogShader : public InstancedShader<VolumetricFogShader>
 {
 public:
 	const unsigned int MAX_DIRECTIONAL_LIGHTS = 3;
@@ -16,13 +15,11 @@ public:
 
 	std::string getFilePath() override
 	{
-		return std::string(Resources::ENGINE_RESOURCES + "/shaders/deferre-rendering/deferredShader");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/deferre-rendering/volumetricFogShader");
 	}
 
 	void update(Transform* transform) override
 	{
-		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
-
 		glUniformMatrix4fv(uniforms["viewMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix().inverse()(0, 0)));
 		glUniformMatrix4fv(uniforms["projectionMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix().inverse()(0, 0)));
 
@@ -31,9 +28,6 @@ public:
 
 	void addUniforms() override
 	{
-		addUniform("projection");
-
-
 		addUniform("viewMatrixInv");
 		addUniform("projectionMatrixInv");
 		addUniform("numDirectionalLights");
@@ -74,13 +68,6 @@ public:
 		}
 
 		addTexture("gPosition");
-		addTexture("gNormal");
-		addTexture("gRoughness");
-		addTexture("gMetallic");
-		addTexture("gAlbedo");
-		addTexture("gIrradiance");
-		addTexture("gRadiance");
-		addTexture("gEmission");
 
 		addTexture("shadowMap");
 		addTexture("noise");
@@ -97,4 +84,4 @@ public:
 	}
 };
 
-#endif // DEFERRED_SHADER_H
+#endif // VOLUMETRIC_FOG_SHADER_H

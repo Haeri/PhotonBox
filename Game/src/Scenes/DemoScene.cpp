@@ -19,6 +19,7 @@
 #include "../PostProcessors/AutoExposureProcessor.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../PostProcessors/FXAAProcessor.cpp"
+#include "../PostProcessors/DOFProcessor.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
 #include "../Scripts/StateControllerScript.cpp"
 #include "../Scripts/SpawnerScript.cpp"
@@ -36,6 +37,7 @@ public:
 	{
 
 		/* --------------------------- RESOURCES --------------------------- */
+		/*
 		std::vector<std::string> nightSky = {
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
@@ -44,8 +46,17 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
 			Resources::ENGINE_RESOURCES + "/default_emission.png",
 		};
+		*/
+		std::vector<std::string> white = {
+			"./res/enviroment/Forrest/lod0_right.jpg",
+			"./res/enviroment/Forrest/lod0_left.jpg",
+			"./res/enviroment/Forrest/lod0_top.jpg",
+			"./res/enviroment/Forrest/lod0_bottom.jpg",
+			"./res/enviroment/Forrest/lod0_back.jpg",
+			"./res/enviroment/Forrest/lod0_front.jpg",
+		};
 
-		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
+		Renderer::setSkyBox(createResource<CubeMap>(white));
 		Renderer::getSkyBox()->intensity = 1;
 		
 
@@ -57,10 +68,20 @@ public:
 		//BloomProcessor* p_bloom = new BloomProcessor(40);
 		//ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(50);
 
+		SSAOProcessor* p_ssao = new SSAOProcessor(10);
+		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
+		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(40);
+		FXAAProcessor* p_fxaa = new FXAAProcessor(41);
+		DOFProcessor* p_dof = new DOFProcessor(42);
+		BloomProcessor* p_bloom = new BloomProcessor(50);
+		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(60);
+
+
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
 		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		Mesh* m_room = createResource<Mesh>("./res/meshes/fireplace_room.obj");
+		//Mesh* m_room = createResource<Mesh>("./res/meshes/fireplace_room.obj");
+		Mesh* m_terrain = createResource<Mesh>("./res/meshes/Terrain.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
@@ -190,6 +211,7 @@ public:
 		probe2->getComponent<TransparentMeshRenderer>()->setMaterial(def);
 		probe2->setEnable(false);
 
+		/*
 		Entity* quad = instanciate("Quad-1");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		quad->getComponent<Transform>()->setScale(Vector3f(1, 1, 1));
@@ -212,6 +234,14 @@ public:
 		e_room->getComponent<MeshRenderer>()->setMesh(m_room);
 		e_room->getComponent<MeshRenderer>()->setMaterial(def);
 		e_room->setEnable(false);
+		*/
+
+		Entity* e_terrain = instanciate("Room");
+		//e_terrain->getComponent<Transform>()->setScale(Vector3f(2, 2, 1));
+		e_terrain->addComponent<MeshRenderer>();
+		e_terrain->getComponent<MeshRenderer>()->setMesh(m_terrain);
+		e_terrain->getComponent<MeshRenderer>()->setMaterial(def);
+		//e_terrain->setEnable(false);
 	}
 
 	void OnUnload() {}
