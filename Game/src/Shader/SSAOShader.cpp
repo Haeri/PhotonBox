@@ -19,8 +19,8 @@ public:
 
 	void update(Transform* transform) override
 	{
-		glUniform1f(uniforms["screenWidth"], GLfloat(Display::getWidth()));
-		glUniform1f(uniforms["screenHeight"], GLfloat(Display::getHeight()));
+		glUniform1f(uniforms["screenWidth"], GLfloat(Display::getWidth()/2.0f));
+		glUniform1f(uniforms["screenHeight"], GLfloat(Display::getHeight()/2.0f));
 		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
 	}
 

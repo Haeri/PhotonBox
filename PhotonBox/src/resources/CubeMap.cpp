@@ -72,9 +72,8 @@ void CubeMap::generateIrradiance(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
-	genVAO();
-
+	if (_mesh == nullptr)
+		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj", true);
 
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);
@@ -99,7 +98,7 @@ void CubeMap::generateIrradiance(GLuint map)
 			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, _cubeMap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glBindVertexArray(_vao);
+		glBindVertexArray(_mesh->getVAO());
 		glDepthMask(GL_FALSE);
 		shader->setUniform<Matrix4f>("view", captureViews[i]);
 		shader->enableAttributes();
@@ -135,8 +134,8 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
-	genVAO();
+	if(_mesh == nullptr)
+		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj", true);
 
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);
@@ -175,7 +174,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, _cubeMap, mip);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			glBindVertexArray(_vao);
+			glBindVertexArray(_mesh->getVAO());
 			glDepthMask(GL_FALSE);
 			shader->setUniform<Matrix4f>("view", captureViews[i]);
 			shader->enableAttributes();
@@ -237,34 +236,9 @@ void CubeMap::bind(GLenum textureUnit)
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap);
 }
 
-void CubeMap::genVAO()
-{
-	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
-	glGenBuffers(1, &_ebo);
-
-	glBindVertexArray(_vao);
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-
-	glBufferData(GL_ARRAY_BUFFER, _mesh->vertices.size() * sizeof(Vertex), &(_mesh->vertices[0]), GL_DYNAMIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _mesh->indices.size() * sizeof(unsigned int), &(_mesh->indices[0]), GL_DYNAMIC_DRAW);
-
-	glVertexAttribPointer(Vertex::AttibLocation::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glVertexAttribPointer(Vertex::AttibLocation::NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	glVertexAttribPointer(Vertex::AttibLocation::TEXTURECOORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(1, &_vbo);
-	glDeleteBuffers(1, &_ebo);
-}
-
 void CubeMap::renderCube()
 {
-	glBindVertexArray(_vao);
+	glBindVertexArray(_mesh->getVAO());
 	glDepthMask(GL_FALSE);
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);

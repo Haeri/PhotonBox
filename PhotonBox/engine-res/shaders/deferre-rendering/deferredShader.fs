@@ -78,14 +78,11 @@ uniform sampler2D shadowMap;
 uniform sampler2D noise;
 
 uniform mat4 viewMatrixInv;
-uniform mat4 projectionMatrixInv;
 uniform int numDirectionalLights;
 uniform int numPointLights;
 uniform int numSpotLights;
 
 uniform mat4 projection;
-
-uniform float time;
 
 float stepScalar = 0.01;
 
@@ -386,6 +383,5 @@ float rayMarch(vec3 dir)
 }
 
 float random(vec2 co) {
-    //cAW Sreturn texture(noise, co).r *2 -1;
     return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453123);
 }

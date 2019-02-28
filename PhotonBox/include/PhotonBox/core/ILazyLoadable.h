@@ -12,6 +12,7 @@ public:
 
 	bool isLoaded() { return _isLoaded; }
 	bool isInitialized() { return _isInitialized; }
+	void forceLoad();
 protected:
 	bool _isLoaded = false;
 	bool _isInitialized = false;

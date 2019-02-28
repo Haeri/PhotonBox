@@ -16,7 +16,7 @@ public:
 	std::vector< unsigned int> indices;
 	BoundingSphere boundingSphere;
 
-	Mesh(const std::string& fileName);
+	Mesh(const std::string& fileName, bool forceInit = false);
 	~Mesh();
 
 	GLuint getVAO();
