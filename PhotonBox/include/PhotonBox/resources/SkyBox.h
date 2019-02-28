@@ -34,10 +34,7 @@ private:
 	Vector3f _color;
 	LightMap* _lightMap = nullptr;
 	SkyBoxShader* _skyBoxShader;
-	static GLuint _vao, _vbo, _ebo;
 	static Mesh* _mesh;
-
-	void genVAO();
 };
 
 #endif // SKY_BOX_H

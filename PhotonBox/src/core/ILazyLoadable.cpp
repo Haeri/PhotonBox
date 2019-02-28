@@ -19,3 +19,10 @@ void ILazyLoadable::loadAsync()
 	ResourceManager::addToInitializationList(this);
 	std::thread{ &ILazyLoadable::loadFromFile, this }.detach();
 }
+
+void ILazyLoadable::forceLoad()
+{
+	blankInitialize();
+	loadFromFile();
+	sendToGPU();
+}

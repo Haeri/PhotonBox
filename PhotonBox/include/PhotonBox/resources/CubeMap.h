@@ -39,11 +39,9 @@ private:
 	int _width, _height;
 	bool _isMip;
 
-	void genVAO();
 	void renderCube();
-	GLuint _vao, _vbo, _ebo;
 	GLuint _captureFBO, _captureRBO;
-	Mesh* _mesh;
+	Mesh* _mesh = nullptr;
 };
 
 #endif // CUBE_MAP_H

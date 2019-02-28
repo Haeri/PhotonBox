@@ -494,10 +494,10 @@ void Renderer::renderDeferred()
 	// Render transparent objects
 	renderTransparents();
 
-	/*
+	
 	// Render volumetric fog
 	renderFog();
-	*/
+	
 
 	// Directly draw to main buffer if no post processing is active
 	if (!PostProcessing::isActive())

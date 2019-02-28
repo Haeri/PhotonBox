@@ -22,25 +22,17 @@ public:
 	void update(Transform* transform) override
 	{
 		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
-
 		glUniformMatrix4fv(uniforms["viewMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix().inverse()(0, 0)));
-		glUniformMatrix4fv(uniforms["projectionMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix().inverse()(0, 0)));
-
-		glUniform1f(uniforms["time"], Time::time);
 	}
 
 	void addUniforms() override
 	{
 		addUniform("projection");
-
-
 		addUniform("viewMatrixInv");
-		addUniform("projectionMatrixInv");
+
 		addUniform("numDirectionalLights");
 		addUniform("numPointLights");
 		addUniform("numSpotLights");
-
-		addUniform("time");
 
 		for (size_t i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i)
 		{
@@ -83,7 +75,6 @@ public:
 		addTexture("gEmission");
 
 		addTexture("shadowMap");
-		addTexture("noise");
 	}
 
 	void addAttributes() override

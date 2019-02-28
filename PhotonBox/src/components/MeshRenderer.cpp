@@ -44,9 +44,13 @@ void MeshRenderer::render(Shader* shader, LightEmitter* light)
 	_material->updateUniforms(shader);
 	_material->bindTextures(shader);
 
+	shader->enableAttributes();
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _mesh->getEBO());
 	glDrawElements(GL_TRIANGLES, (GLsizei)_mesh->indices.size(), GL_UNSIGNED_INT, 0);
 	Renderer::addDrawCall();
+
+	shader->disableAttributes();
 
 	glBindVertexArray(0);
 }

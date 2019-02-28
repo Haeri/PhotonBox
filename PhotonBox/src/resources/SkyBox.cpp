@@ -15,51 +15,17 @@
 #define new DEBUG_NEW
 #endif
 
-GLuint SkyBox::_vao = -1;
-GLuint SkyBox::_vbo = -1;
-GLuint SkyBox::_ebo = -1;
 Mesh* SkyBox::_mesh = nullptr;
 
 SkyBox::~SkyBox()
 {
-	glDeleteVertexArrays(1, &_vao);
-	glDeleteBuffers(1, &_vbo);
-	glDeleteBuffers(1, &_ebo);
-
 	delete _lightMap;
-	_vao = -1;
 }
 
 void SkyBox::init()
 {
 	_skyBoxShader = SkyBoxShader::getInstance();
-	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj");
-	genVAO();
-}
-
-void SkyBox::genVAO()
-{
-	if (_vao != -1) return;
-
-	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
-	glGenBuffers(1, &_ebo);
-
-	glBindVertexArray(_vao);
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-
-	glBufferData(GL_ARRAY_BUFFER, _mesh->vertices.size() * sizeof(Vertex), &(_mesh->vertices[0]), GL_DYNAMIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _mesh->indices.size() * sizeof(unsigned int), &(_mesh->indices[0]), GL_DYNAMIC_DRAW);
-
-	glVertexAttribPointer(Vertex::AttibLocation::POSITION,		3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glVertexAttribPointer(Vertex::AttibLocation::NORMAL,		3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	glVertexAttribPointer(Vertex::AttibLocation::TEXTURECOORD,	2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj", true);
 }
 
 void SkyBox::setCubeMap(CubeMap* cubeMap)
@@ -92,7 +58,7 @@ void SkyBox::render()
 	vp(3, 1) = 0;
 	vp(3, 2) = 0;
 	vp = Camera::getMainCamera()->getProjectionMatrix() * vp;
-	glBindVertexArray(_vao);
+	glBindVertexArray(_mesh->getVAO());
 	glDepthMask(GL_FALSE);
 	glDepthFunc(GL_EQUAL);
 

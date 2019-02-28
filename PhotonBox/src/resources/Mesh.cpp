@@ -8,15 +8,20 @@
 #define new DEBUG_NEW
 #endif
 
-Mesh::Mesh(const std::string& fileName) 
+Mesh::Mesh(const std::string& fileName, bool forceInit) 
 {
 	FileWatch::addToWatchList(fileName, this);
-
-	std::cout << "Index Mesh: " << fileName << std::endl;
-
 	_fileName = fileName;
 
-	loadAsync();
+	if (!forceInit)
+	{
+		std::cout << "Index Mesh: " << fileName << std::endl;
+		loadAsync();
+	}
+	else
+	{
+		forceLoad();
+	}
 }
 
 GLuint Mesh::getVAO()
@@ -54,15 +59,10 @@ void Mesh::blankInitialize()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &(indices[0]), GL_STATIC_DRAW);
 
 	glVertexAttribPointer(Vertex::AttibLocation::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glEnableVertexAttribArray(Vertex::AttibLocation::POSITION);
 	glVertexAttribPointer(Vertex::AttibLocation::NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	glEnableVertexAttribArray(Vertex::AttibLocation::NORMAL);
 	glVertexAttribPointer(Vertex::AttibLocation::COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-	glEnableVertexAttribArray(Vertex::AttibLocation::COLOR);
 	glVertexAttribPointer(Vertex::AttibLocation::TEXTURECOORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-	glEnableVertexAttribArray(Vertex::AttibLocation::TEXTURECOORD);
 	glVertexAttribPointer(Vertex::AttibLocation::TANGENT, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
-	glEnableVertexAttribArray(Vertex::AttibLocation::TANGENT);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
