@@ -71,6 +71,7 @@
     <ClCompile Include="src\Resources\CubeMap.cpp" />
     <ClCompile Include="src\Resources\Material.cpp" />
     <ClCompile Include="src\Math\Matrix4f.cpp" />
+    <ClCompile Include="src\resources\Mesh.cpp" />
     <ClCompile Include="src\Resources\OBJLoader.cpp" />
     <ClCompile Include="src\Resources\Scene.cpp" />
     <ClCompile Include="src\Resources\Shader.cpp" />

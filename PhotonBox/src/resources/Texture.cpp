@@ -18,7 +18,7 @@ Texture::Texture(std::string fileName, bool generateMipMaps, bool hdr)
 {
 	FileWatch::addToWatchList(fileName, this);
 
-	std::cerr << "Index Texture: " << fileName << std::endl;
+	std::cout << "Index Texture: " << fileName << std::endl;
 	
 	_fileName = fileName;
 	_isMipMap = generateMipMaps;

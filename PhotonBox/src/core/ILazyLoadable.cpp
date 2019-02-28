@@ -4,6 +4,11 @@
 
 #include "PhotonBox/core/systems/ResourceManager.h"
 
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 void ILazyLoadable::loadAsync()
 {
 	_isLoaded = false;
