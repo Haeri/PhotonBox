@@ -11,16 +11,11 @@ class MeshRenderer : public ObjectRenderer
 {
 public:
 	MeshRenderer(RenderType type) :ObjectRenderer(type) {}
-	MeshRenderer() : ObjectRenderer(RenderType::opaque) 
-	{
-//		init();
-	}
+	MeshRenderer() : ObjectRenderer(RenderType::opaque) {}
 
-	void init() override;
 	void render() override;
 	void render(Shader* shader) override;
 	void render(Shader* shader, LightEmitter* light) override;
-	void onDestroy() override;
 
 	BoundingSphere getBoundingSphere();
 	Mesh* getMesh() { return _mesh; }
@@ -28,7 +23,6 @@ public:
 	MeshRenderer& setMesh(Mesh* mesh);
 private:
 	Mesh * _mesh;
-	GLuint _vao, _vbo, _ebo;
 };
 
 #endif // MESH_RENDERER_H

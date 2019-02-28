@@ -81,21 +81,11 @@ public:
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
 		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 		//Mesh* m_room = createResource<Mesh>("./res/meshes/fireplace_room.obj");
-		Mesh* m_terrain = createResource<Mesh>("./res/meshes/Terrain.obj");
+		//Mesh* m_terrain = createResource<Mesh>("./res/meshes/Terrain.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		auto start = std::chrono::system_clock::now();
-		Texture* orig = createResource<Texture>(std::string("./res/textures/view.png"), false);
-		auto mid = std::chrono::system_clock::now();
-		Texture* trans = createResource<Texture>(std::string("./res/textures/view.pbt"), false);
-		auto end = std::chrono::system_clock::now();
-
-		auto t_png = mid - start;
-		auto t_pbt = end - mid;
-		std::cout << "PNG time: " << t_png.count() << '\n';
-		std::cout << "PBT time: " << t_pbt.count() << '\n';
-
+		Texture* trans = createResource<Texture>(std::string("./res/textures/view.png"), false);
 		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
 		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
 		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
@@ -109,7 +99,7 @@ public:
 
 		/* --------------------------- MATERIALS --------------------------- */
 		Material* def = createResource<Material>(defaultShader);
-		def->setTexture("albedoMap", orig);
+		def->setTexture("albedoMap", trans);
 		def->setTexture("normalMap", default_normal);
 		def->setTexture("roughnessMap", default_specular);
 		def->setTexture("aoMap", default_ao);
@@ -239,7 +229,7 @@ public:
 		Entity* e_terrain = instanciate("Room");
 		//e_terrain->getComponent<Transform>()->setScale(Vector3f(2, 2, 1));
 		e_terrain->addComponent<MeshRenderer>();
-		e_terrain->getComponent<MeshRenderer>()->setMesh(m_terrain);
+		e_terrain->getComponent<MeshRenderer>()->setMesh(plane);
 		e_terrain->getComponent<MeshRenderer>()->setMaterial(def);
 		//e_terrain->setEnable(false);
 	}

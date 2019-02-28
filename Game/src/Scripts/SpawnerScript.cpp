@@ -35,7 +35,8 @@ public:
 	void createEntity() 
 	{
 		Scene* scene = SceneManager::getCurrentScene();
-		Mesh* sphere = scene->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		//Mesh* sphere = scene->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* sphere = scene->createResource<Mesh>("./res/meshes/fireplace_room.obj");
 
 		Texture* orig = scene->createResource<Texture>(std::string("./res/textures/view.png"), false);
 		Texture* default_normal = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);

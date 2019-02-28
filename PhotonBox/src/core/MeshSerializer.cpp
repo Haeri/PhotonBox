@@ -98,7 +98,7 @@ void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 
 		if (vert_cnt < 0 || ind_cnt < 0)
 		{
-			// Looks like thexture was incorrectly inflated
+			// Looks like the texture was incorrectly inflated
 			__debugbreak();
 		}
 

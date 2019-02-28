@@ -12,7 +12,6 @@ class Texture : public ManagedResource, public ILazyLoadable
 public:
 	Texture(bool generateMipMaps, bool hdr = false);
 	Texture(std::string fileName, bool generateMipMaps = false, bool hdr = false);
-	
 	~Texture();
 
 	void bind();
