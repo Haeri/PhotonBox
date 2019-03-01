@@ -13,6 +13,8 @@ in vec2 TexCoords;
 in vec3 FragPos;
 in vec3 Pos;
 in mat3 TBN;
+in vec4 PosProj;
+in vec4 PosProjOld;
 
 uniform mat4 view;
 uniform vec3 viewPos;
@@ -52,6 +54,10 @@ void main()
 	//gAO = texture(aoMap, TexCoords).rgba;
 
 
+    // Velocity
+    vec2 a = (PosProj.xy / PosProj.w) * 0.5 + 0.5;
+    vec2 b = (PosProjOld.xy / PosProjOld.w) * 0.5 + 0.5;
+    gMetallic.ba = a - b;
 
 	float roughness = texture(roughnessMap, TexCoords).r;
 

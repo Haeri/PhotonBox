@@ -1,5 +1,8 @@
 #include "PhotonBox/components/Camera.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #include "PhotonBox/core/Entity.h"
 #include "PhotonBox/core/Display.h"
 #include "PhotonBox/components/ObjectRenderer.h"
@@ -58,10 +61,32 @@ void Camera::setPerspectiveProjection(float fov, float aspect, float zNear, floa
 	updateProjection();
 }
 
+Matrix4f Camera::getProjectionMatrix()
+{
+	Matrix4f jitterProjection;
+
+	Vector2f offset = _hilton16[_count] * 1.0f;
+	Vector4f extents = getProjectionExtents(offset.x(), offset.y());
+
+	float cf = _zFar;
+	float cn = _zNear;
+	float xm = extents.z() - extents.x();
+	float xp = extents.z() + extents.x();
+	float ym = extents.w() - extents.y();
+	float yp = extents.w() + extents.y();
+
+	jitterProjection = Matrix4f::createPerspective(xm * cn, xp * cn, ym * cn, yp * cn, cn, cf);
+
+	return jitterProjection;
+}
+
 Matrix4f Camera::getViewMatrix()
 {
 	if (transform->hasChanged())
 	{
+	//	Vector2f offset = _hilton16[_count] * 0.001f;
+	//	Vector3f pos = transform->getPositionWorld() + Vector3f(offset.x(), offset.y(), 0);
+		//_viewCache = Matrix4f::lookAt(pos, transform->up(), transform->forward());
 		_viewCache = Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
 	}
 
@@ -71,7 +96,25 @@ Matrix4f Camera::getViewMatrix()
 //TODO: cache this matrix
 Matrix4f Camera::getViewProjection()
 {
-	return _projection * getViewMatrix();
+	return getViewProjectionJittered();
+	//return _projection * getViewMatrix();
+}
+
+Matrix4f Camera::getViewProjectionJittered()
+{
+	return getProjectionMatrix() * getViewMatrix();
+}
+
+Vector4f Camera::getProjectionExtents(float xOffset, float yOffset)
+{
+	float oneExtentY = tan(0.5f * (M_PI/180.0f) * _fov);
+	float oneExtentX = oneExtentY * _aspect;
+	float texelSizeX = oneExtentX / (0.5f * Display::getWidth());
+	float texelSizeY = oneExtentY / (0.5f * Display::getHeight());
+	float oneJitterX = texelSizeX * xOffset;
+	float oneJitterY = texelSizeY * yOffset;
+
+	return Vector4f(oneExtentX, oneExtentY, oneJitterX, oneJitterY);// xy = frustum extents at distance 1, zw = jitter at distance 1
 }
 
 Vector2f Camera::worldToScreen(Vector3f point)
@@ -165,6 +208,14 @@ bool Camera::frustumTest(ObjectRenderer* object)
 		}
 	}
 	return true;
+}
+
+void Camera::storeOldVP()
+{
+	_viewProjectionLast = getViewProjectionJittered();
+	//_viewProjectionLast = getViewProjection();
+	++_count;
+	_count %= 16;
 }
 
 void Camera::destroy()

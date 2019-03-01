@@ -74,22 +74,15 @@ void PostProcessing::resizeAll()
 
 void PostProcessing::reset()
 {
-	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it)
-	{
-		it->second->destroy();
-		delete it->second;
-	}
-
-	_processorMap.clear();
-	_processorResourceSet.clear();
+	destroy();
 }
 
 void PostProcessing::destroy()
 {
-	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it)
+	for (std::set<PostProcessor*>::const_iterator it = _processorResourceSet.begin(); it != _processorResourceSet.end(); ++it)
 	{
-		it->second->destroy();
-		delete it->second;
+		(*it)->destroy();
+		delete (*it);
 	}
 
 	_processorMap.clear();

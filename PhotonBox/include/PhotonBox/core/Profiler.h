@@ -15,7 +15,8 @@ public:
 	static int getMinFps() { return _minFPS; }
 	static int getMaxFps() { return _maxFPS; }
 	static int getAvgFps() { return (int)_avgFPS; }
-	
+	static unsigned long int getFrameCount() { return _allFrames; }
+
 	void reset();
 	static void drawGraph();
 private:

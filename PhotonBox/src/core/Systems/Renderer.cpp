@@ -494,7 +494,6 @@ void Renderer::renderDeferred()
 	// Render transparent objects
 	renderTransparents();
 
-	
 	// Render volumetric fog
 	renderFog();
 	

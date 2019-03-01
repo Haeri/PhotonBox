@@ -26,7 +26,7 @@ void Profiler::addFps(int fps)
 	if (fps < _minFPS) _minFPS = fps;
 	_avgFPS = ((float)((_allFrames - 1.0) * _avgFPS) + (float)fps) / (float)(++_allFrames);
 
-	_frames.add(fps);
+	_frames.add(static_cast<float>(fps));
 }
 
 void Profiler::reset() {
