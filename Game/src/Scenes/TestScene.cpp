@@ -23,6 +23,7 @@
 #include "../PostProcessors/AutoExposureProcessor.cpp"
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../PostProcessors/DOFProcessor.cpp"
+#include "../PostProcessors/TAAProcessor.cpp"
 #include "../Scripts/MaterialScript.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../PostProcessors/BlurProcessor.cpp"
@@ -67,8 +68,9 @@ public:
 		SSAOProcessor* p_ssao = new SSAOProcessor(10);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(40);
-		FXAAProcessor* p_fxaa = new FXAAProcessor(41);
-		DOFProcessor* p_dof = new DOFProcessor(42);
+		//FXAAProcessor* p_fxaa = new FXAAProcessor(41);
+		TAAProcessor* p_fxaa = new TAAProcessor(41);
+		//DOFProcessor* p_dof = new DOFProcessor(42);
 		BloomProcessor* p_bloom = new BloomProcessor(50);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(60);
 

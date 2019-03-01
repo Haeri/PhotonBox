@@ -8,10 +8,13 @@ out vec3 FragPos;
 out vec3 Pos;
 out vec2 TexCoords;
 out mat3 TBN;
+out vec4 PosProj;
+out vec4 PosProjOld;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 mvp;
+uniform mat4 mvpOld;
 
 
 void main()
@@ -31,5 +34,8 @@ void main()
     vec3 bitangent = cross(n, t);
     TBN = mat3(t, bitangent, n);
 
-    gl_Position = mvp * vec4(aPos, 1.0);
+    PosProj = mvp * vec4(aPos, 1.0);
+    PosProjOld = mvpOld * vec4(aPos, 1.0);
+
+    gl_Position = PosProj;
 }

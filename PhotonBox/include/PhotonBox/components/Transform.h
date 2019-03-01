@@ -46,6 +46,7 @@ private:
 	Quaternion _rotation = Quaternion::ZERO;
 	Vector3f _scale = Vector3f::ONE;
 	Matrix4f _transformationMatrixCached;
+	Matrix4f _transformationMatrixLastFrame;
 	Transform* _parent;
 };
 #endif // TRANSFORM_H

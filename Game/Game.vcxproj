@@ -214,12 +214,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PostProcessors\FXAAProcessor.cpp" />
+    <ClCompile Include="src\PostProcessors\TAAProcessor.cpp" />
     <ClCompile Include="src\Scripts\PrinterScript.cpp" />
     <ClCompile Include="src\Scripts\SpawnerScript.cpp" />
     <ClCompile Include="src\Scripts\TransformerScript.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Shader\DOFShader.cpp" />
     <ClCompile Include="src\Shader\FXAAShader.cpp" />
+    <ClCompile Include="src\Shader\TAAShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PhotonBox-Engine\PhotonBox-Engine.vcxproj">
