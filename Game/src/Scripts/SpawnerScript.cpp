@@ -1,19 +1,19 @@
 #ifndef SPAWNER_SCRIPT_CPP
 #define SPAWNER_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Transform.h>
-#include <Core/Time.h>
-#include <core/InputManager.h>
-#include <core/systems/SceneManager.h>
-#include <resources/Scene.h>
-#include <resources/Texture.h>
-#include <resources/Mesh.h>
-#include <resources/Resources.h>
-#include <resources/GShader.h>
-#include <resources/Material.h>
-#include <components/MeshRenderer.h>
+#include <component/Behaviour.h>
+#include <component/Transform.h>
+#include <component/MeshRenderer.h>
 #include <core/Entity.h>
+#include <core/Resources.h>
+#include <core/Time.h>
+#include <core/InputManager.h>
+#include <core/system/SceneManager.h>
+#include <resource/Scene.h>
+#include <resource/Texture.h>
+#include <resource/Mesh.h>
+#include <resource/Material.h>
+#include <resource/shader/GShader.h>
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

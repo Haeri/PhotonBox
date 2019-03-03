@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "PhotonBox/resources/Scene.h"
+#include "PhotonBox/resource/Scene.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

@@ -2,7 +2,6 @@ RENDERING
 - Instanced rendering
 - Deferred decals
 - Switch to GTAO
-- TAA
 - Draw handles
 - GBuffer packing
 - Dynamic Shadow bounding update
@@ -30,6 +29,12 @@ GENERAL
 - Doxygen integration for documentation
 - Logging system
 - Subsystem ordered vector with init, start, destroy
+- Debounce spam resize calls
+- Separate mesh into mesh-data and mesh-resource. 
+- Separate texture into texture-data and texture-resource. 
+- Clean up light emitter, pack shadow buffer inside, move shader binding code into light
+- Clean Jitter code
+- Autofill uniform list with compiled uniform indices
 
 OPTIMIZATION
 - Frustum culling
@@ -45,5 +50,4 @@ RESOURCES
 
 BUGS
 - Eye-adaptation freaking out with high frame rate
-- SSReflection overflowing colors when too bright
 - Fix FXAA

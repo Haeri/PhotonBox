@@ -7,7 +7,7 @@ class Scene;
 #include <typeindex>
 #include <iostream>
 
-#include "PhotonBox/components/Transform.h"
+#include "PhotonBox/component/Transform.h"
 #include "PhotonBox/core/Component.h"
 
 class Entity

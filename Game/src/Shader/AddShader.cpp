@@ -1,7 +1,7 @@
 #ifndef ADD_SHADER_CPP
 #define ADD_SHADER_CPP
 
-#include <Resources/Shader.h>
+#include <resource/Shader.h>
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

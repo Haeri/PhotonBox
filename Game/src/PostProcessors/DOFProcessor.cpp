@@ -1,9 +1,9 @@
 #ifndef DOF_PROCESSOR_CPP
 #define DOF_PROCESSOR_CPP
 
-#include <core/PostProcessor.h>
-#include <resources/Material.h>
-#include <core/systems/Renderer.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
+#include <core/system/Renderer.h>
 
 #include "../Shader/DOFShader.cpp"
 

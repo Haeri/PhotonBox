@@ -1,10 +1,10 @@
 #ifndef MATERIAL_SCRIPT_CPP
 #define MATERIAL_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Transform.h>
-#include <Core/InputManager.h>
-#include <Resources/Material.h>
+#include <component/Behaviour.h>
+#include <component/Transform.h>
+#include <core/InputManager.h>
+#include <resource/Material.h>
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

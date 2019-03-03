@@ -1,8 +1,8 @@
 #include <iostream>
 #include <map>
 
-#include <Core/Systems/Core.h>
-#include <Resources/Scene.h>
+#include <core/Core.h>
+#include <resource/Scene.h>
 
 #include "Scenes/DemoScene.cpp"
 #include "Scenes/PBRScene.cpp"

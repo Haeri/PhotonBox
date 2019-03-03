@@ -1,11 +1,11 @@
 #ifndef CAMERA_CONTROLLER_SCRIPT_CPP
 #define CAMERA_CONTROLLER_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Camera.h>
-#include <Components/Transform.h>
-#include <Core/InputManager.h>
-#include <Core/Time.h>
+#include <component/Behaviour.h>
+#include <component/Camera.h>
+#include <component/Transform.h>
+#include <core/InputManager.h>
+#include <core/Time.h>
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

@@ -1,11 +1,10 @@
 #ifndef FXAA_PROCESSOR_CPP
 #define FXAA_PROCESSOR_CPP
 
-#include <Core/FrameBuffer.h>
-#include <Core/PostProcessor.h>
-#include <Resources/Material.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
 #include <core/Display.h>
-#include <resources/MedianShader.h>
+#include <resource/shader/MedianShader.h>
 
 #include "../Shader/FXAAShader.cpp"
 

@@ -3,7 +3,8 @@
 
 #include <random>
 
-#include <Core/PostProcessor.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
 #include <Math/Math.h>
 
 #include "../Shader/SSAOBlurShader.cpp"

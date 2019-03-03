@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_TOGGLE_SCRIPT_CPP
 #define CONTROLLER_TOGGLE_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
+#include <component/Behaviour.h>
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

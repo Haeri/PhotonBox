@@ -1,21 +1,19 @@
 #ifndef PBR_SCENE_CPP
 #define PBR_SCENE_CPP
 
-#include <Components/AmbientLight.h>
-#include <Components/Camera.h>
-#include <Components/MeshRenderer.h>
-#include <Components/MeshRenderer.h>
-#include <Components/PointLight.h>
-#include <Components/PointRenderer.h>
-#include <Components/TransparentMeshRenderer.h>
-#include <Resources/BasicShader.h>
-#include <Resources/IrradianceShader.h>
-#include <Resources/LitShader.h>
-#include <Resources/OBJLoader.h>
-#include <Resources/Scene.h>
-#include <Resources/TransparentShader.h>
-#include <resources/GShader.h>
-#include <components/LightProbe.h>
+#include <component/AmbientLight.h>
+#include <component/Camera.h>
+#include <component/MeshRenderer.h>
+#include <component/MeshRenderer.h>
+#include <component/PointLight.h>
+#include <component/PointRenderer.h>
+#include <component/LightProbe.h>
+#include <resource/Scene.h>
+#include <resource/shader/BasicShader.h>
+#include <resource/shader/IrradianceShader.h>
+#include <resource/shader/LitShader.h>
+#include <resource/shader/TransparentShader.h>
+#include <resource/shader/GShader.h>
 
 #include "../PostProcessors/SSReflectionProcessor.cpp"
 #include "../PostProcessors/SSAOProcessor.cpp"
@@ -382,10 +380,11 @@ public:
 
 		Entity* shelby_glass_part = instanciate("shelby_glass_part");
 		shelby_glass_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
-		shelby_glass_part->addComponent<TransparentMeshRenderer>()->setMesh(shelby_glass);
-		shelby_glass_part->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
-		shelby_glass_part->getComponent<TransparentMeshRenderer>()->getReflected = false;
 		shelby_glass_part->getComponent<Transform>()->setParent(shelby);
+		shelby_glass_part->addComponent<MeshRenderer>()->setRenderType(RenderType::RT_TRANSPARENT);
+		shelby_glass_part->getComponent<MeshRenderer>()->setMesh(shelby_glass);
+		shelby_glass_part->getComponent<MeshRenderer>()->setMaterial(glassMaterial);
+		shelby_glass_part->getComponent<MeshRenderer>()->getReflected = false;
 
 
 		

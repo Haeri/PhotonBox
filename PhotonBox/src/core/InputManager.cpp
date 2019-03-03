@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "PhotonBox/core/Time.h"
+#include "PhotonBox/core/Display.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

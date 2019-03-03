@@ -4,6 +4,9 @@
 #include <algorithm>
 #include <cstdint>
 
+#include "PhotonBox/math/Vector3f.h"
+#include "PhotonBox/math/Quaternion.h"
+
 #define PI 3.14159265358979323846
 
 /***

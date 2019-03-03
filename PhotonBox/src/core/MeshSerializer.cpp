@@ -3,9 +3,9 @@
 #include <fstream>
 #include <iostream>
 
-#include "PhotonBox/resources/Mesh.h"
-#include "PhotonBox/resources/Vertex.h"
-#include "PhotonBox/core/Util.h"
+#include "PhotonBox/resource/Mesh.h"
+#include "PhotonBox/data-type/Vertex.h"
+#include "PhotonBox/util/Util.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

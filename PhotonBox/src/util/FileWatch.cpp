@@ -2,7 +2,7 @@
 
 #include <thread>
 
-#include "PhotonBox/resources/Shader.h"
+#include "PhotonBox/resource/Shader.h"
 #include "PhotonBox/core/ILazyLoadable.h"
 
 #ifdef MEM_DEBUG

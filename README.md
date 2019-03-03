@@ -2,10 +2,10 @@
 A modern OpenGL Game-Engine with focus on PBR
 
 ## Rendering 
-- Forward Rendering
-- Deferred Rendering
+- Deferred/Forward Rendering
 - Point lights, Directional lights, Spot lights
 - SkyBox/Enviroment Mapping
+- Parallax cubeMap correction
 - Cook Torrance BRDF shader
   - Albedo Map
   - Normal Map
@@ -13,20 +13,20 @@ A modern OpenGL Game-Engine with focus on PBR
   - Metallic Map
   - Ambient Occclusion Map
   - Emission Map
-- Dynamic Irradiance Map generation
-- Dynamic Specular-Convolution Map generation
+- Dynamic Irradiance & Specular-Convolution generation
 - Post Processing List
   - Eye adaptation
   - Bloom
   - Tone mapping
   - SSAO
   - SSReflections
+  - Temporal anti aliasing
 - Transparent rendering
 - Cutout rendering
 - Shadow mapping
-- Text rendering
-- Parallax cubeMap correction  
 - Contact shadows
+- Volumetric Fog
+- Text rendering
 
 ## Systems
 - Component system
@@ -36,9 +36,9 @@ A modern OpenGL Game-Engine with focus on PBR
 - Input
 - Lightprobe volumes
 - Mesh caching
+- Shader hot reload
 - PhysX 3.4 integration
 - ImGui integration
-- Shader hot reload
 
 ## Media
 Interiour

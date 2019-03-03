@@ -1,7 +1,8 @@
 #ifndef TONE_MAPPING_PROCESSOR_CPP
 #define TONE_MAPPING_PROCESSOR_CPP
 
-#include <Core/PostProcessor.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
 
 #include "../Shader/ToneMappingShader.cpp"
 

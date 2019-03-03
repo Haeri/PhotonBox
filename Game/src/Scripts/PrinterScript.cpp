@@ -1,9 +1,9 @@
 #ifndef PRINTER_SCRIPT_CPP
 #define PRINTER_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Transform.h>
-#include <Core/Time.h>
+#include <component/Behaviour.h>
+#include <component/Transform.h>
+#include <core/Time.h>
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

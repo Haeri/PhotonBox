@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "PhotonBox/util/MaxQueue.h"
+#include "PhotonBox/data-type/MaxQueue.h"
 
 #define FRAME_WINDOW_SIZE 30
 
