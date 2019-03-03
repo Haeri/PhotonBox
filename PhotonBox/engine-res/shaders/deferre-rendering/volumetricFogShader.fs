@@ -66,7 +66,7 @@ uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 // Absorption specific parameters
 float absorptionTau = 0.02;
 vec3 absorptionColor = vec3(0.5, 0.5, 0.5);
-float raySamples = 50.0;
+float raySamples = 20.0;
 
 // Scattering specific parameters
 float scatteringTau = 0.007;
@@ -133,20 +133,11 @@ vec4 volumetricShadows()
         projCoords = projCoords * 0.5 + 0.5;
         float closestDepth = texture2D(shadowMap, projCoords.xy).r; 
     	float currentDepth = projCoords.z;
-/*
-        if(closestDepth > currentDepth){
-    		ret += directionalLights[0].color * directionalLights[0].intensity * delta * density;
-        }
-
-*/
-
-
-
 
 		float visibility = closestDepth > currentDepth ? 1 : 0;
         //vec3 lightToX = x - light.position;
         //float lightDist = length(lightToX);
-        float lightDist = currentDepth;
+        float lightDist = 0.07;
         float omega = 4 * M_PI * lightDist * lightDist;
         vec3 Lin = absorptionTransmittance(lightDist) * visibility * directionalLights[0].color * directionalLights[0].intensity / omega;
         vec3 Li = Lin * scatteringTau * scatteringColor * phaseFunctionRayleigh(normalize(directionalLights[0].direction), fragToCamNorm);
@@ -158,6 +149,6 @@ vec4 volumetricShadows()
 }
 
 float random(vec2 co) {
-    //cAW Sreturn texture(noise, co).r *2 -1;
+    //return texture(noise, co).r *2 -1;
     return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453123);
 }

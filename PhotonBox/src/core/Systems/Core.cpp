@@ -14,10 +14,11 @@
 #include "PhotonBox/core/systems/UIRenderer.h"
 #include "PhotonBox/core/systems/DebugGUI.h"
 #include "PhotonBox/core/GLError.h"
-#include "PhotonBox/resources/Config.h"
-#include "PhotonBox/util/FileWatch.h"
 #include "PhotonBox/resources/Texture.h"
 #include "PhotonBox/core/systems/ResourceManager.h"
+#include "PhotonBox/core/FrameBuffer.h"
+#include "PhotonBox/resources/Config.h"
+#include "PhotonBox/util/FileWatch.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -259,6 +260,7 @@ void Core::destroy()
 	_display->destroy();
 	_postPocessing->destroy();
 
+	FrameBuffer::destroy();
 	Shader::clearAll();
 
 	delete _time;

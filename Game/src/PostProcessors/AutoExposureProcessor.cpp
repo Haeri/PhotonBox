@@ -39,10 +39,7 @@ public:
 		luminancBufferB = new FrameBuffer(1, 1);
 		luminancBufferB->addTextureAttachment("color", true);
 		luminancBufferB->ready();
-		mainBuffer = new FrameBuffer(1);
-		mainBuffer->addTextureAttachment("color", true);
-		mainBuffer->ready();
-
+		
 		autoExpMaterial->setTexture("luminanceSampleCurrent", currentLuminancBuffer, "color");
 		autoExpMaterial->setProperty<int>("maxMip", numLevels);
 		autoExpMaterial->setProperty<float>("adaptationSpeed", adaptationSpeed);
@@ -52,17 +49,13 @@ public:
 		expMaterial->setTexture("renderTexture", mainBuffer, "color");
 	}
 
-	void prepare() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		mainBuffer->enable();
-	}
-
-	void preProcess() override
-	{
+		// Prepare
 		currentLuminancBuffer->enable();
 		mainBuffer->render("color");
 
-		if (flip)
+		if (_flip)
 		{
 			luminancBufferA->enable();
 			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB, "color");
@@ -73,11 +66,10 @@ public:
 			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB, "color");
 		}
 		currentLuminancBuffer->render(autoExpMaterial);
-	}
-
-	void render() override
-	{
-		if (flip)
+	
+		// Render
+		nextBuffer->enable();
+		if (_flip)
 		{
 			expMaterial->setTexture("exposureSample", luminancBufferA, "color");
 		}
@@ -86,34 +78,12 @@ public:
 			expMaterial->setTexture("exposureSample", luminancBufferB, "color");
 		}
 		mainBuffer->render(expMaterial);
-		flip = !flip;
-
-		/*
-		Renderer::_debugFrameBuffer->enable();
-
-		int cols = 4;
-		int widthX = 0;
-
-		glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-		if (flip)
-			luminancBufferA->render("color");
-		else
-			luminancBufferB->render("color");
-		widthX += Display::getWidth() / cols;
-
-		glViewport(widthX, 0, Display::getWidth() / cols, Display::getHeight() / cols);
-		if (flip)
-			luminancBufferB->render("color");
-		else
-			luminancBufferA->render("color");
-		widthX += Display::getWidth() / cols;
-		*/
+		_flip = !_flip;
 	}
 
 	void destroy() override
 	{
 		delete autoExpMaterial;
-		delete mainBuffer;
 		delete currentLuminancBuffer;
 		delete luminancBufferA;
 		delete luminancBufferB;
@@ -121,8 +91,8 @@ public:
 	}
 private:
 	Material * autoExpMaterial, *expMaterial;
-	FrameBuffer* mainBuffer, *currentLuminancBuffer, *luminancBufferA, *luminancBufferB;
-	bool flip = false;
+	FrameBuffer *currentLuminancBuffer, *luminancBufferA, *luminancBufferB;
+	bool _flip = false;
 };
 
 #endif // AUTO_EXPOSURE_PROCESSOR_CPP

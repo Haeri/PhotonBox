@@ -15,32 +15,22 @@ class ToneMappingProcessor : public PostProcessor
 public:
 	ToneMappingProcessor(int index) : PostProcessor(index)
 	{
-		_frameBuffer = new FrameBuffer(1);
-		_frameBuffer->addTextureAttachment("color", true);
-		_frameBuffer->ready();
-
 		_material = new Material(ToneMappingShader::getInstance());
-		_material->setTexture("renderTexture", _frameBuffer, "color");
+		_material->setTexture("renderTexture", mainBuffer, "color");
 	}
 
-	void prepare() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		_frameBuffer->enable();
-	}
-
-	void render() override
-	{
-		_frameBuffer->render(_material);
+		nextBuffer->enable();
+		mainBuffer->render(_material);
 	}
 
 	void destroy() override
 	{
 		delete _material;
-		delete _frameBuffer;
 	}
 private:
 	Material * _material;
-	FrameBuffer* _frameBuffer;
 };
 
 #endif // TONE_MAPPING_PROCESSOR_CPP

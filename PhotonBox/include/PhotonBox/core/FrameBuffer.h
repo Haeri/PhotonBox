@@ -105,6 +105,7 @@ public:
 	static void resetDefaultBuffer();
 	static void clearDefaultBuffer();
 	static void resizeAll();
+	static void destroy();
 
 private:
 
@@ -127,7 +128,7 @@ private:
 
 	// Mesh
 	static GLuint _quadVAO;
-	GLuint _quadVBO;
+	static GLuint _quadVBO;
 
 	static GLuint _currentFBO;
 	static std::vector<FrameBuffer*> _bufferList;

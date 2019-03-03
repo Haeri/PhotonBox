@@ -17,17 +17,9 @@
 class FXAAProcessor : public PostProcessor
 {
 public:
-	Material * _fxaaMaterial;
-	Material * _medianMaterial;
-	FrameBuffer* _frameBuffer;
-	FrameBuffer* _tempBuffer;
 
 	FXAAProcessor(int index) : PostProcessor(index)
 	{
-		_frameBuffer = new FrameBuffer(1);
-		_frameBuffer->addTextureAttachment("color", true);
-		_frameBuffer->ready();
-
 		_tempBuffer = new FrameBuffer(1);
 		_tempBuffer->addTextureAttachment("color", true);
 		_tempBuffer->ready();
@@ -41,7 +33,7 @@ public:
 		_fxaaMaterial->setTexture("renderTexture", _tempBuffer, "color");
 
 		_medianMaterial = new Material(MedianShader::getInstance());
-		_medianMaterial->setTexture("renderTexture", _frameBuffer, "color");
+		_medianMaterial->setTexture("renderTexture", mainBuffer, "color");
 	}
 
 	void onResize() override
@@ -50,19 +42,14 @@ public:
 		_fxaaMaterial->setProperty<float>("screenHeight", Display::getHeight());
 	}
 
-	void prepare() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		_frameBuffer->enable();
-	}
-
-	void preProcess() override
-	{
+		// Prepare
 		_tempBuffer->enable();
-		_frameBuffer->render(_medianMaterial);
-	}
+		mainBuffer->render(_medianMaterial);
 
-	void render() override
-	{
+		// Render
+		nextBuffer->enable();
 		_tempBuffer->render(_fxaaMaterial);
 	}
 
@@ -70,10 +57,13 @@ public:
 	{
 		delete _fxaaMaterial;
 		delete _medianMaterial;
-		delete _frameBuffer;
 		delete _tempBuffer;
 	}
 
+private:
+	Material * _fxaaMaterial;
+	Material * _medianMaterial;
+	FrameBuffer* _tempBuffer;
 };
 
 #endif // FXAA_PROCESSOR_CPP

@@ -1,8 +1,23 @@
 #include "PhotonBox/core/PostProcessor.h"
+#include "PhotonBox/core/FrameBuffer.h"
 
-PostProcessor::PostProcessor(int index) : _index(index)
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
+PostProcessor::PostProcessor(int index, float scale, bool mipmap) : _index(index)
 {
+	mainBuffer = new FrameBuffer(scale);
+	mainBuffer->addTextureAttachment("color", true, mipmap);
+	mainBuffer->ready();
+
 	setEnabled(true);
+}
+
+PostProcessor::~PostProcessor()
+{
+	delete mainBuffer;
 }
 
 int PostProcessor::getIndex()

@@ -15,37 +15,27 @@
 class DOFProcessor : public PostProcessor
 {
 public:
-	DOFProcessor(int index) : PostProcessor(index)
+	DOFProcessor(int index) : PostProcessor(index, 1.0f, true)
 	{
-		_mainBuffer = new FrameBuffer(1);
-		_mainBuffer->addTextureAttachment("color", true, true);
-		_mainBuffer->ready();
-
 		_dofShader = new Material(DOFShader::getInstance());
 		_dofShader->setProperty("depth", 7.0f);
-		_dofShader->setTexture("renderTexture", _mainBuffer, "color");
+		_dofShader->setTexture("renderTexture", mainBuffer, "color");
 		_dofShader->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
 	}
 
-	void prepare() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		_mainBuffer->enable();
-	}
-
-	void render() override
-	{
-		_mainBuffer->render(_dofShader);
+		nextBuffer->enable();
+		mainBuffer->render(_dofShader);
 	}
 
 	void destroy() override
 	{
 		delete _dofShader;
-		delete _mainBuffer;
 	}
 
 private:
 	Material * _dofShader;
-	FrameBuffer* _mainBuffer;
 };
 
 #endif // DOF_PROCESSOR_CPP

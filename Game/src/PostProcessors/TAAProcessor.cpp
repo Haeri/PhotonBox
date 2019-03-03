@@ -15,14 +15,9 @@
 class TAAProcessor : public PostProcessor
 {
 public:
-	bool flip = true;
 
 	TAAProcessor(int index) : PostProcessor(index)
 	{
-		_mainBuffer = new FrameBuffer(1);
-		_mainBuffer->addTextureAttachment("color", true);
-		_mainBuffer->ready();
-
 		_flipBuf1 = new FrameBuffer(1);
 		_flipBuf1->addTextureAttachment("color", true);
 		_flipBuf1->ready();
@@ -32,36 +27,30 @@ public:
 		_flipBuf2->ready();
 
 		_taaShader = new Material(TAAShader::getInstance());
-		_taaShader->setTexture("lowResTexture", _mainBuffer, "color");
+		_taaShader->setTexture("lowResTexture", mainBuffer, "color");
 		_taaShader->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
 		_taaShader->setTexture("normalVelocity", Renderer::getGBuffer(), "gMetallic");
 	}
 
-	void prepare() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		_mainBuffer->enable();
-	}
-
-	void preProcess() override
-	{
-		if (flip)
+		// Prepare
+		if (_flip)
 		{
 			_flipBuf2->enable();
 			_taaShader->setTexture("previousLowResTexture", _flipBuf1, "color");
-			_mainBuffer->render(_taaShader);
+			mainBuffer->render(_taaShader);
 		}
 		else
 		{
 			_flipBuf1->enable();
 			_taaShader->setTexture("previousLowResTexture", _flipBuf2, "color");
-			_mainBuffer->render(_taaShader);
+			mainBuffer->render(_taaShader);
 		}
-	}
 
-
-	void render() override
-	{
-		if (flip)
+		// Render
+		nextBuffer->enable();
+		if (_flip)
 		{
 			_flipBuf2->render("color");
 		}
@@ -70,20 +59,20 @@ public:
 			_flipBuf1->render("color");
 		}
 
-		flip = !flip;
+		_flip = !_flip;
 	}
 
 	void destroy() override
 	{
 		delete _taaShader;
-		delete _mainBuffer;
 		delete _flipBuf1;
 		delete _flipBuf2;
 	}
 
 private:
+	bool _flip = true;
 	Material * _taaShader;
-	FrameBuffer* _mainBuffer, *_flipBuf1, *_flipBuf2;
+	FrameBuffer* _flipBuf1, *_flipBuf2;
 };
 
 #endif // TAA_PROCESSOR_CPP

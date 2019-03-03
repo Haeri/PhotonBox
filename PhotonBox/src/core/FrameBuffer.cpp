@@ -18,6 +18,7 @@
 const std::string DEFAULT_ATTACHMENT = "default";
 GLuint FrameBuffer::_currentFBO;
 GLuint FrameBuffer::_quadVAO = -1;
+GLuint FrameBuffer::_quadVBO = -1;
 std::vector<FrameBuffer*> FrameBuffer::_bufferList;
 
 std::map<FrameBuffer::InterpolationType, GLint> FrameBuffer::_interpolationTypes = {
@@ -327,6 +328,12 @@ void FrameBuffer::resizeAll()
 	{
 		fbo->resize();
 	}
+}
+
+void FrameBuffer::destroy()
+{
+	glDeleteBuffers(1, &_quadVBO);
+	glDeleteVertexArrays(1, &_quadVAO);
 }
 
 void FrameBuffer::resetDefaultBuffer()

@@ -107,7 +107,8 @@
       <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Increment build version</Message>
@@ -149,7 +150,8 @@
       <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Increment build version</Message>
@@ -174,7 +176,8 @@
       <AdditionalLibraryDirectories>$(solutionDir)PhotonBox/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>"$(SolutionDir)Tools\build_increment.exe" "$(SolutionDir)PhotonBox\include\PhotonBox\core\PhotonBoxVersion.h" "PHOTON_BOX_VERSION_BUILD"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Increment build version</Message>
