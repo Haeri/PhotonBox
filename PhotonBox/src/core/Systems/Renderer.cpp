@@ -179,6 +179,8 @@ void Renderer::init(float superSampling)
 
 	_volumetricFogMaterial = new Material(_volumetricFogShader);
 	_volumetricFogMaterial->setTexture("gPosition", _gBuffer, "gPosition");
+	_volumetricFogMaterial->setTexture("noise", _noise);
+
 
 	_debugMode = 0;
 	

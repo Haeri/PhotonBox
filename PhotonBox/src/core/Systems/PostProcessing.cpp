@@ -2,6 +2,7 @@
 
 #include "PhotonBox/core/PostProcessor.h"
 #include "PhotonBox/core/systems/Renderer.h"
+#include "PhotonBox/core/FrameBuffer.h"
 
 #include "imgui/imgui.h"
 
@@ -48,20 +49,23 @@ void PostProcessing::postProcess()
 	if (!shouldPostProcess()) return;
 
 	glDisable(GL_DEPTH_TEST);
-	_processorMap.begin()->second->prepare();
+	_processorMap.begin()->second->mainBuffer->enable();
 	Renderer::getMainFrameBuffer()->render("color");
 
-
+	FrameBuffer* tmp;
 	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != (--_processorMap.end()); ++it)
 	{
-		it->second->preProcess();
-		(++it)->second->prepare();
-		(--it)->second->render();
+		//it->second->preProcess();
+		tmp = (++it)->second->mainBuffer;
+		(--it)->second->render(tmp);
 	}
 
-	(--_processorMap.end())->second->preProcess();
+	//(--_processorMap.end())->second->preProcess();
+	//FrameBuffer::resetDefaultBuffer();
+	(--_processorMap.end())->second->render(Renderer::getMainFrameBuffer());
+
 	FrameBuffer::resetDefaultBuffer();
-	(--_processorMap.end())->second->render();
+	Renderer::getMainFrameBuffer()->render("color");
 }
 
 void PostProcessing::resizeAll()

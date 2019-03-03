@@ -20,9 +20,6 @@ public:
 
 	SSAOProcessor(int index) : PostProcessor(index)
 	{
-		mainBuffer = new FrameBuffer(1);
-		mainBuffer->addTextureAttachment("color", true);
-		mainBuffer->ready();
 		ssaoBlurBuffer = new FrameBuffer(0.5f);
 		ssaoBlurBuffer->addTextureAttachment("color", true);
 		ssaoBlurBuffer->ready();
@@ -45,13 +42,9 @@ public:
 		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight()/ 2.0f);
 	}
 
-	void prepare() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		mainBuffer->enable();
-	}
-
-	void preProcess() override
-	{
+		// Prapare
 		ssaoBlurBuffer->enable();
 
 		// TODO: Clean up this block
@@ -65,10 +58,9 @@ public:
 			ssaoMaterial->shader->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
 		}
 		mainBuffer->render(ssaoMaterial);
-	}
 
-	void render() override
-	{
+		// Render
+		nextBuffer->enable();
 		ssaoBlurBuffer->render(ssaoBlurMaterial);
 	}
 
@@ -77,14 +69,13 @@ public:
 		delete ssaoMaterial;
 		delete ssaoBlurMaterial;
 
-		delete mainBuffer;
 		delete ssaoBlurBuffer;
 
 		glDeleteTextures(1, &_noiseTexture);
 	}
 private:
 	Material * ssaoMaterial, *ssaoBlurMaterial;
-	FrameBuffer* mainBuffer, *ssaoBlurBuffer;
+	FrameBuffer* ssaoBlurBuffer;
 
 	GLuint _noiseTexture;
 	std::vector<Vector3f> _ssaoKernel;

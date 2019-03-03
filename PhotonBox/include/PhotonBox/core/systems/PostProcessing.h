@@ -6,8 +6,6 @@ class PostProcessor;
 #include <map>
 #include <set>
 
-#include "PhotonBox/core/FrameBuffer.h"
-
 class PostProcessing
 {
 public:
