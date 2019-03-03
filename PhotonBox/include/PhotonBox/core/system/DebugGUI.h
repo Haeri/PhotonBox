@@ -5,13 +5,17 @@
 #include "imgui/imgui_impl_glfw_gl3.h"
 #include "imgui/ImGuizmo.h"
 
-class DebugGUI
+#include "PhotonBox/core/System.h"
+
+class DebugGUI : public System
 {
 public:
-	void init();
+	void init() override;
+	void start() override {}
+	void destroy() override;
+
 	void newFrame();
 	void render();
-	void destroy();
 };
 
 #endif // DEBUG_GUI_H

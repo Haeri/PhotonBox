@@ -20,13 +20,14 @@ class MeshRenderer;
 #include "PhotonBox/resource/shader/ForwardPointLightShader.h"
 #include "PhotonBox/resource/shader/ForwardSpotLightShader.h"
 #include "PhotonBox/resource/SkyBox.h"
+#include "PhotonBox/core/System.h"
 
 enum RenderType
 {
 	RT_OPAQUE, RT_CUTOUT, RT_TRANSPARENT
 };
 
-class Renderer
+class Renderer : public System
 {
 public:
 	static const int MAX_DEBUG = 4;
@@ -57,15 +58,15 @@ public:
 	static void renderShadows();
 	static void captureScene(LightMap* lightmap = nullptr);
 	static void renderFog();
+	
 	void init(float superSampling = 1);
+	void start() override;
+	void reset() override;
+	void destroy() override;
 
-	void start();
-	void reset();
 	void prePass();
 	void clearDrawCalls();
-	
 	void renderGizmos();
-	void destroy();
 private:
 	static int _drawCalls;
 	static bool _shadowsAreDirty;

@@ -4,8 +4,9 @@
 class System
 {
 public:
+	virtual void init() {}
 	virtual void start() = 0;
-	virtual void update() {}
+	virtual void reset() {}
 	virtual void destroy() = 0;
 };
 

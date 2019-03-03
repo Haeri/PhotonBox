@@ -10,11 +10,15 @@ class LightProbe;
 #include <typeindex>
 #include <algorithm>
 
-class Lighting
+#include "PhotonBox/core/System.h"
+
+class Lighting : public System
 {
 public:
-	static void start();
-	static void generate();
+	void start() override;
+	void destroy() override;
+
+	void generate();
 
 	template<class T>
 	static void addLight(T* light)

@@ -5,10 +5,11 @@ class Scene;
 
 #include <map>
 
-class SceneManager
+#include "PhotonBox/core/System.h"
+
+class SceneManager : public System
 {
 public:
-	static void addScenes(std::map<std::string, Scene*>& sceneMap);
 	static void addScene(const std::string name, Scene* scene);
 	static void loadScene(const std::string &name);
 	static void unloadScene(Scene* scene);
@@ -16,10 +17,14 @@ public:
 	static std::string getCurrentName();
 	static Scene* getCurrentScene();
 
+
+	void init(std::map<std::string, Scene*>& sceneMap);
+	void start() override;
+	void destroy() override;
+
 	void loadSceneImediately(const std::string &name);
 	void loadQueuedScene();
 	bool sceneQueued() { return _inQueue; }
-	void destroy();
 	void drawSceneList();
 private:
 	static std::string _newScene;
