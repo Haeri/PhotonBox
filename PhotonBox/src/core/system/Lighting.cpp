@@ -20,6 +20,13 @@ void Lighting::start()
 	}
 }
 
+void Lighting::destroy()
+{
+	_lights.clear();
+	_lightProbes.clear();
+
+}
+
 void Lighting::generate()
 {
 	for (std::vector<LightProbe*>::iterator it = _lightProbes.begin(); it != _lightProbes.end(); ++it)

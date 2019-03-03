@@ -5,7 +5,9 @@ class Behaviour;
 
 #include <vector>
 
-class Logic
+#include "PhotonBox/core/System.h"
+
+class Logic : public System
 {
 public:
 	static void addToUpdateList(Behaviour *behaviour);
@@ -13,11 +15,12 @@ public:
 	static void printList();
 	static std::string getList();
 
-	void start();
-	void update();
+	void start() override;
+	void destroy() override;
+
 	void fixedUpdate();
+	void update();
 	void lateUpdate();
-	void destroy();
 private:
 	static std::vector<Behaviour*> _behaviourList;
 };

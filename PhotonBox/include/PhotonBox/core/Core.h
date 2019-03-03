@@ -16,8 +16,10 @@ class Profiler;
 class Scene;
 class DebugGUI;
 class FileWatch;
+class System;
 
 #include <map>
+#include <vector>
 
 class Core
 {
@@ -49,6 +51,8 @@ private:
 	Profiler* _profiler;
 	Config* _config;
 	FileWatch* _fileWatch;
+
+	std::vector<System*> _systems;
 
 	double _accumulatedTime, _newTime, _lastTime;
 	int _fps = 0;

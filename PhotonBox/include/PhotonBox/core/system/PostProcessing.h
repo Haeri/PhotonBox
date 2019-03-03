@@ -6,18 +6,21 @@ class PostProcessor;
 #include <map>
 #include <set>
 
-class PostProcessing
+#include "PhotonBox/core/System.h"
+
+class PostProcessing : public System
 {
 public:
 	static void addProcessor(PostProcessor* processor);
 	static void removeProcessor(PostProcessor* processor);
 	static bool isActive();
 	static void resizeAll();
-	void start();
-	void postProcess();
-	void reset();
-	void destroy();
+	
+	void start() override;
+	void reset() override;
+	void destroy() override;
 
+	void postProcess();
 	void drawGizmos();
 private:
 	static bool shouldPostProcess();

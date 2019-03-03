@@ -9,11 +9,13 @@ class Transform;
 #include <vector>
 #include <map>
 
+#include "PhotonBox/core/System.h"
+
 #include "PxPhysicsAPI.h"
 
 using namespace physx;
 
-class Physics
+class Physics : public System
 {
 public:
 	//static void addToPhysicsList(Collider *collider);
@@ -26,12 +28,13 @@ public:
 	//static void printList();
 	//static std::string getList();
 
-	void init();
-	void start();
+	void init() override;
+	void start() override;
+	void reset() override;
+	void destroy() override;
+
 	void update(double elapsedTime);
 	void refeed();
-	void reset();
-	void destroy();
 private:
 	//static std::vector<Collider*> _colliders;
 	//static std::vector<Rigidbody*> _rigidbodies;

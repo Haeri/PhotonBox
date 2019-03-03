@@ -6,6 +6,7 @@
 #include "PhotonBox/core/InputManager.h"
 #include "PhotonBox/core/Profiler.h"
 #include "PhotonBox/core/Time.h"
+#include "PhotonBox/core/System.h"
 #include "PhotonBox/core/system/Lighting.h"
 #include "PhotonBox/core/system/Logic.h"
 #include "PhotonBox/core/system/Physics.h"
@@ -56,6 +57,16 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 	_profiler = new Profiler();
 	_fileWatch = new FileWatch();
 
+	_systems.push_back(_sceneManager);
+	_systems.push_back(_logic);
+	_systems.push_back(_renderer);
+	_systems.push_back(_lighting);
+	_systems.push_back(_postPocessing);
+	_systems.push_back(_physics);
+	_systems.push_back(_uiRenderer);
+	_systems.push_back(_debugGUI);
+
+
 	// Initialize OpenGL
 	_display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
 	
@@ -65,12 +76,14 @@ void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
 	_inputManager->init();
 	_physics->init();
 	_uiRenderer->init();
+	_sceneManager->init(sceneMap);
+
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
 
 	// Load Scenes
-	_sceneManager->addScenes(sceneMap);
-	_sceneManager->loadSceneImediately(firstScene);
+//	_sceneManager->init(sceneMap);
+//	_sceneManager->loadSceneImediately(firstScene);
 
 	// Start Subsystems
 	start();
@@ -81,12 +94,19 @@ void Core::start()
 	std::cout << "==================================================" << std::endl;
 	std::cout << "            LOADING SCENE " << SceneManager::getCurrentName() << std::endl << std::endl;
 
+
+	for (std::vector<System*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
+	{
+		(*it)->start();
+	}
+
+/*
 	_logic->start();
 	_renderer->start();
 	_lighting->start();
 	_postPocessing->start();
 	_physics->start();
-
+*/
 	std::cout << std::endl << "                   SCENE READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
 }
@@ -226,7 +246,7 @@ void Core::run()
 		{
 			_sceneManager->unloadScene(SceneManager::getCurrentScene());
 			reset();
-			_sceneManager->loadQueuedScene();
+			//_sceneManager->loadQueuedScene();
 			start();
 
 			// reset timing
@@ -244,21 +264,35 @@ void Core::stop()
 
 void Core::reset()
 {
+	for (std::vector<System*>::reverse_iterator  it = _systems.rbegin(); it != _systems.rend(); ++it)
+	{
+		(*it)->reset();
+	}
+
+	/*
 	_postPocessing->reset();
-	_profiler->reset();
 	_physics->reset();
 	_renderer->reset();
+	*/
+	_profiler->reset();
 }
 
 void Core::destroy()
 {
+	for (std::vector<System*>::reverse_iterator it = _systems.rbegin(); it != _systems.rend(); ++it)
+	{
+		(*it)->destroy();
+	}
+
+	/*
 	_sceneManager->destroy();
 	_logic->destroy();
 	_renderer->destroy();
 	_physics->destroy();
 	_debugGUI->destroy();
-	_display->destroy();
 	_postPocessing->destroy();
+	*/
+	_display->destroy();
 
 	FrameBuffer::destroy();
 	Shader::clearAll();

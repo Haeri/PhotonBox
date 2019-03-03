@@ -948,15 +948,6 @@ void Renderer::renderGizmos()
 			ImGui::NewLine();
 		}
 		ImGui::End();
-
-
-
-		ImGui::Begin("Settings");
-		if (ImGui::Button("Capture Enviroment"))
-		{
-			Lighting::start();
-		}
-		ImGui::End();
 	}
 
 

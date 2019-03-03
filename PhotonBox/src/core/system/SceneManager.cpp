@@ -15,9 +15,15 @@ std::string SceneManager::_newScene;
 std::map<std::string, Scene*> SceneManager::_sceneMap;
 std::string SceneManager::_currentSceneName;
 
-void SceneManager::addScenes(std::map<std::string, Scene*>& sceneMap)
+void SceneManager::init(std::map<std::string, Scene*>& sceneMap)
 {
 	_sceneMap = sceneMap;
+	loadScene(_sceneMap.begin()->first);
+}
+
+void SceneManager::start()
+{
+	loadQueuedScene();
 }
 
 void SceneManager::addScene(const std::string name, Scene* scene)
@@ -91,7 +97,6 @@ void SceneManager::drawSceneList()
 		{
 			loadScene(scene.first);
 		}
-		
 	}
 	ImGui::End();
 }

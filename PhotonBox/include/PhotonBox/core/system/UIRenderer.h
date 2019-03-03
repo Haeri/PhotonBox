@@ -7,6 +7,7 @@ class TextShader;
 #include FT_FREETYPE_H
 #include <map>
 
+#include "PhotonBox/core/System.h"
 #include "PhotonBox/math/Vector2f.h"
 #include "PhotonBox/math/Vector3f.h"
 #include "PhotonBox/core/OpenGL.h"
@@ -19,10 +20,13 @@ struct Character
 	GLuint Advance;    // Horizontal offset to advance to next glyph
 };
 
-class UIRenderer
+class UIRenderer : public System
 {
 public:
-	void init();
+	void init() override;
+	void start() override {}
+	void destroy() override {}
+
 	static void renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color);
 private:
 	static TextShader* shader;
