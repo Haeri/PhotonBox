@@ -2,7 +2,7 @@
 
 #include <thread>
 
-#include "PhotonBox/core/systems/ResourceManager.h"
+#include "PhotonBox/core/system/ResourceManager.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

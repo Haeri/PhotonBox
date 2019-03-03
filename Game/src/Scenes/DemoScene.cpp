@@ -1,17 +1,15 @@
 #ifndef DEMO_SCENE_CPP
 #define DEMO_SCENE_CPP
 
-#include <components/MeshRenderer.h>
-#include <components/TransparentMeshRenderer.h>
-#include <components/PointRenderer.h>
-#include <resources/OBJLoader.h>
-#include <resources/Scene.h>
-#include <resources/Texture.h>
-#include <resources/Resources.h>
-#include <resources/GShader.h>
-#include <math/Math.h>
 #include <chrono>
 
+#include <component/MeshRenderer.h>
+#include <component/PointRenderer.h>
+#include <resource/Scene.h>
+#include <resource/Texture.h>
+#include <resource/shader/GShader.h>
+#include <core/Resources.h>
+#include <math/Math.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -196,9 +194,9 @@ public:
 
 		Entity* probe2 = instanciate("Probe-2");
 		probe2->getComponent<Transform>()->setPosition(Vector3f(3.0f, 1.0f, 0.0f));
-		probe2->addComponent<TransparentMeshRenderer>();
-		probe2->getComponent<TransparentMeshRenderer>()->setMesh(sphere);
-		probe2->getComponent<TransparentMeshRenderer>()->setMaterial(def);
+		probe2->addComponent<MeshRenderer>()->setRenderType(RenderType::RT_TRANSPARENT);
+		probe2->getComponent<MeshRenderer>()->setMesh(sphere);
+		probe2->getComponent<MeshRenderer>()->setMaterial(def);
 		probe2->setEnable(false);
 
 		/*

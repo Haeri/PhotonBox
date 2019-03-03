@@ -1,7 +1,8 @@
 #ifndef BLUR_PROCESSOR_CPP
 #define BLUR_PROCESSOR_CPP
 
-#include <Core/PostProcessor.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
 
 #include "../Shader/AddShader.cpp"
 #include "../Shader/BlurHShader.cpp"

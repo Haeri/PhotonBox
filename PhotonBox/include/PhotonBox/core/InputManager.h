@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "PhotonBox/math/Vector2f.h"
-#include "PhotonBox/core/Display.h"
+#include "PhotonBox/core/OpenGL.h"
 
 class InputManager
 {

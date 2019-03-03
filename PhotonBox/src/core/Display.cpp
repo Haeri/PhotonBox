@@ -1,10 +1,11 @@
 #include "PhotonBox/core/Display.h"
 
-#include "PhotonBox/components/Camera.h"
-#include "PhotonBox/resources/Texture.h"
-#include "PhotonBox/resources/Resources.h"
-#include "PhotonBox/core/FrameBuffer.h"
-#include "PhotonBox/core/PostProcessor.h"
+#include "PhotonBox/component/Camera.h"
+#include "PhotonBox/resource/Texture.h"
+#include "PhotonBox/resource/FrameBuffer.h"
+#include "PhotonBox/resource/PostProcessor.h"
+#include "PhotonBox/core/Resources.h"
+#include "PhotonBox/core/system/PostProcessing.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

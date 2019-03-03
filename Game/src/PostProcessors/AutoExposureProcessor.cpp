@@ -1,9 +1,8 @@
 #ifndef AUTO_EXPOSURE_PROCESSOR_CPP
 #define AUTO_EXPOSURE_PROCESSOR_CPP
 
-#include <core/FrameBuffer.h>
-#include <core/PostProcessor.h>
-#include <resources/Material.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
 
 #include "../Shader/ToneMappingShader.cpp"
 #include "../Shader/MonochromShader.cpp"

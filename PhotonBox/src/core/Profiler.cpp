@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "imgui/imgui.h"
+#include "PhotonBox/core/system/DebugGUI.h"
 
 #ifdef MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -52,6 +52,6 @@ void Profiler::drawGraph()
 	std::string fps = "FPS " + std::to_string((int)_frames.getLast());
 
 	ImGui::Begin("FPS Graph");
-	ImGui::PlotHistogram(fps.c_str(), _frames.getStart(), FRAME_WINDOW_SIZE, 0, NULL, 0, (int)_frames.getMax() + 20, ImVec2(180, 50));
+	ImGui::PlotHistogram(fps.c_str(), _frames.getStart(), FRAME_WINDOW_SIZE, 0, NULL, 0, _frames.getMax() + 20, ImVec2(180, 50));
 	ImGui::End();
 }

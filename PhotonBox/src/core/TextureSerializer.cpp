@@ -3,7 +3,12 @@
 #include <iostream>
 #include <fstream>
 
-#include "PhotonBox/core/Util.h"
+#include "PhotonBox/util/Util.h"
+
+#ifdef MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
 
 const short TextureSerializer::SERIALIZER_VERSION = 1;
 const std::string TextureSerializer::EXTENSION = ".pbt";

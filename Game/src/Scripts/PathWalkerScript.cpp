@@ -1,8 +1,8 @@
 #ifndef PATH_WALKER_SCRIPT_CPP
 #define PATH_WALKER_SCRIPT_CPP
 
-#include <components/Behaviour.h>
-#include <components/Transform.h>
+#include <component/Behaviour.h>
+#include <component/Transform.h>
 #include <core/Time.h>
 
 #ifdef MEM_DEBUG

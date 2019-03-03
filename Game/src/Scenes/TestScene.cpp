@@ -1,22 +1,20 @@
 #ifndef TEST_SCENE_CPP
 #define TEST_SCENE_CPP
 
-#include <Components/MeshRenderer.h>
-#include <Components/TransparentMeshRenderer.h>
-#include <Components/Camera.h>
-#include <Components/SpotLight.h>
-#include <Components/PointLight.h>
-#include <Components/PointRenderer.h>
-#include <Components/AmbientLight.h>
-#include <Resources/OBJLoader.h>
-#include <Resources/BasicShader.h>
-#include <Resources/UnlitShader.h>
-#include <Resources/Scene.h>
-#include <Resources/IrradianceShader.h>
-#include <Resources/Texture.h>
-#include <Resources/TransparentShader.h>
-#include <Resources/SkyBoostShader.h>
-#include <components/LightProbe.h>
+#include <component/MeshRenderer.h>
+#include <component/Camera.h>
+#include <component/SpotLight.h>
+#include <component/PointLight.h>
+#include <component/PointRenderer.h>
+#include <component/AmbientLight.h>
+#include <component/LightProbe.h>
+#include <resource/Texture.h>
+#include <resource/Scene.h>
+#include <resource/shader/BasicShader.h>
+#include <resource/shader/UnlitShader.h>
+#include <resource/shader/IrradianceShader.h>
+#include <resource/shader/TransparentShader.h>
+#include <resource/shader/SkyBoostShader.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -563,7 +561,7 @@ public:
 		slidingDoor->getComponent<MeshRenderer>()->setMaterial(slidingDoorMaterial);
 
 		Entity* carpet = instanciate("Carpet");
-		carpet->addComponent<MeshRenderer>()->setRenderType(RenderType::cutout);
+		carpet->addComponent<MeshRenderer>()->setRenderType(RenderType::RT_CUTOUT);
 		carpet->getComponent<MeshRenderer>()->setMesh(carpetMesh);
 		carpet->getComponent<MeshRenderer>()->setMaterial(carpetMaterial);
 
@@ -593,9 +591,9 @@ public:
 		frame->getComponent<MeshRenderer>()->setMaterial(frameMaterial);
 
 		Entity* frameGlass = instanciate("FrameGlass");
-		frameGlass->addComponent<TransparentMeshRenderer>();
-		frameGlass->getComponent<TransparentMeshRenderer>()->setMesh(frameGlassMesh);
-		frameGlass->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+		frameGlass->addComponent<MeshRenderer>()->setRenderType(RenderType::RT_TRANSPARENT);
+		frameGlass->getComponent<MeshRenderer>()->setMesh(frameGlassMesh);
+		frameGlass->getComponent<MeshRenderer>()->setMaterial(glassMaterial);
 
 		Entity* painting1 = instanciate("Painting1");
 		painting1->addComponent<MeshRenderer>();
@@ -652,9 +650,9 @@ public:
 		//window->addComponent<MeshRenderer>()->setRenderType(RenderType::cutout);
 		//window->getComponent<MeshRenderer>()->setMesh(windowMesh);
 		//window->getComponent<MeshRenderer>()->setMaterial(blindsMaterial);
-		window->addComponent<TransparentMeshRenderer>();
-		window->getComponent<TransparentMeshRenderer>()->setMesh(windowMesh);
-		window->getComponent<TransparentMeshRenderer>()->setMaterial(glassMaterial);
+		window->addComponent<MeshRenderer>()->setRenderType(RenderType::RT_TRANSPARENT);
+		window->getComponent<MeshRenderer>()->setMesh(windowMesh);
+		window->getComponent<MeshRenderer>()->setMaterial(glassMaterial);
 		//window->setEnable(false);
 		
 		/*
