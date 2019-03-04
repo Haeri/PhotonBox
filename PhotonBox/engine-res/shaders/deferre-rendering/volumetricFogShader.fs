@@ -103,7 +103,7 @@ float phaseFunctionRayleigh(vec3 inDir, vec3 outDir) {
 vec4 volumetricShadows()
 {
 	
-	float density = 0.01;
+	float density = 0.06;
 
     float fragDistance;
 
@@ -137,7 +137,7 @@ vec4 volumetricShadows()
 		float visibility = closestDepth > currentDepth ? 1 : 0;
         //vec3 lightToX = x - light.position;
         //float lightDist = length(lightToX);
-        float lightDist = 0.07;
+        float lightDist = density;
         float omega = 4 * M_PI * lightDist * lightDist;
         vec3 Lin = absorptionTransmittance(lightDist) * visibility * directionalLights[0].color * directionalLights[0].intensity / omega;
         vec3 Li = Lin * scatteringTau * scatteringColor * phaseFunctionRayleigh(normalize(directionalLights[0].direction), fragToCamNorm);
