@@ -670,9 +670,9 @@ void Renderer::renderFog()
 
 
 	_volumetricFogShader->bind();
-	_volumetricFogShader->setUniform<int>("numDirectionalLights", lights[typeid(DirectionalLight)].size());
-	_volumetricFogShader->setUniform<int>("numPointLights", lights[typeid(PointLight)].size());
-	_volumetricFogShader->setUniform<int>("numSpotLights", lights[typeid(SpotLight)].size());
+	//_volumetricFogShader->setUniform<int>("numDirectionalLights", lights[typeid(DirectionalLight)].size());
+	//_volumetricFogShader->setUniform<int>("numPointLights", lights[typeid(PointLight)].size());
+	//_volumetricFogShader->setUniform<int>("numSpotLights", lights[typeid(SpotLight)].size());
 
 	for (auto const &lightvec : lights)
 	{
