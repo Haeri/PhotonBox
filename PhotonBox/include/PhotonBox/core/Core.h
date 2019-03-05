@@ -16,7 +16,7 @@ class Profiler;
 class Scene;
 class DebugGUI;
 class FileWatch;
-class System;
+class ISystem;
 
 #include <map>
 #include <vector>
@@ -27,7 +27,7 @@ public:
 	static const double FIXED_TIME_INTERVAL;
 
 	bool temp = false;
-	void init(std::map<std::string, Scene*>& sceneMap, std::string firstScene);
+	void init(std::map<std::string, Scene*>& sceneMap);
 	void start();
 	void reset();
 	void run();
@@ -52,7 +52,7 @@ private:
 	Config* _config;
 	FileWatch* _fileWatch;
 
-	std::vector<System*> _systems;
+	std::vector<ISystem*> _systems;
 
 	double _accumulatedTime, _newTime, _lastTime;
 	int _fps = 0;

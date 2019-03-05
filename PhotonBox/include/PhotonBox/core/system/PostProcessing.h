@@ -6,9 +6,9 @@ class PostProcessor;
 #include <map>
 #include <set>
 
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 
-class PostProcessing : public System
+class PostProcessing : public ISystem
 {
 public:
 	static void addProcessor(PostProcessor* processor);

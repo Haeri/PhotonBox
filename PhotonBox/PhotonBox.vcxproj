@@ -175,7 +175,7 @@
     <ClInclude Include="include\PhotonBox\core\PhotonBoxVersion.h" />
     <ClInclude Include="include\PhotonBox\resource\PostProcessor.h" />
     <ClInclude Include="include\PhotonBox\core\Profiler.h" />
-    <ClInclude Include="include\PhotonBox\core\System.h" />
+    <ClInclude Include="include\PhotonBox\core\ISystem.h" />
     <ClInclude Include="include\PhotonBox\core\Core.h" />
     <ClInclude Include="include\PhotonBox\core\system\DebugGUI.h" />
     <ClInclude Include="include\PhotonBox\core\system\Lighting.h" />

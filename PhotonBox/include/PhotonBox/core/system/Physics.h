@@ -9,13 +9,13 @@ class Transform;
 #include <vector>
 #include <map>
 
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 
 #include "PxPhysicsAPI.h"
 
 using namespace physx;
 
-class Physics : public System
+class Physics : public ISystem
 {
 public:
 	//static void addToPhysicsList(Collider *collider);

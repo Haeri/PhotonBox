@@ -5,9 +5,9 @@ class Scene;
 
 #include <map>
 
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 
-class SceneManager : public System
+class SceneManager : public ISystem
 {
 public:
 	static void addScene(const std::string name, Scene* scene);

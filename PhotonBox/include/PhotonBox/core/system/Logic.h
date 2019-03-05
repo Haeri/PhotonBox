@@ -5,9 +5,9 @@ class Behaviour;
 
 #include <vector>
 
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 
-class Logic : public System
+class Logic : public ISystem
 {
 public:
 	static void addToUpdateList(Behaviour *behaviour);
