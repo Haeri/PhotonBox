@@ -89,7 +89,7 @@ print("------------------------------- START -------------------------------")
 indexAll()
 countFiles()
 
-print""
+print("")
 
 memoryCheckModule()
 syncCheckModule()
