@@ -67,9 +67,9 @@ public:
 	void prePass();
 	void clearDrawCalls();
 	void renderGizmos();
+	static bool _shadowsAreDirty;
 private:
 	static int _drawCalls;
-	static bool _shadowsAreDirty;
 	static SkyBox _skyBox;
 	static FrameBuffer* _mainFrameBuffer;
 	static FrameBuffer* _gBuffer;

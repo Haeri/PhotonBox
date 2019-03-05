@@ -23,7 +23,7 @@ public:
 		glUniformMatrix4fv(uniforms["viewMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix().inverse()(0, 0)));
 		glUniformMatrix4fv(uniforms["projectionMatrixInv"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix().inverse()(0, 0)));
 
-		glUniform1f(uniforms["time"], static_cast<float>(Time::time));
+		//glUniform1f(uniforms["time"], static_cast<float>(Time::time));
 	}
 
 	void addUniforms() override

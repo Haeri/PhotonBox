@@ -78,5 +78,5 @@ Game/config.cfg
 Game/imgui.ini
 
 # folders
-Deploy_Debug/
-Deploy_Release/
+Build_Debug/
+Build_Release/

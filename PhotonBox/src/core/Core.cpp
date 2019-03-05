@@ -236,6 +236,7 @@ void Core::run()
 			if (flop == -1) {
 				std::cout << "Generate Lights!\n";
 				_lighting->generate();
+				_renderer->_shadowsAreDirty = true;
 			}
 
 			++flop;
