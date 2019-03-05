@@ -10,9 +10,9 @@ class LightProbe;
 #include <typeindex>
 #include <algorithm>
 
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 
-class Lighting : public System
+class Lighting : public ISystem
 {
 public:
 	void start() override;

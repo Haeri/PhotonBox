@@ -7,7 +7,7 @@ class TextShader;
 #include FT_FREETYPE_H
 #include <map>
 
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 #include "PhotonBox/math/Vector2f.h"
 #include "PhotonBox/math/Vector3f.h"
 #include "PhotonBox/core/OpenGL.h"
@@ -20,7 +20,7 @@ struct Character
 	GLuint Advance;    // Horizontal offset to advance to next glyph
 };
 
-class UIRenderer : public System
+class UIRenderer : public ISystem
 {
 public:
 	void init() override;

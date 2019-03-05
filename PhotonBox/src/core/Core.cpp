@@ -6,7 +6,7 @@
 #include "PhotonBox/core/InputManager.h"
 #include "PhotonBox/core/Profiler.h"
 #include "PhotonBox/core/Time.h"
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 #include "PhotonBox/core/system/Lighting.h"
 #include "PhotonBox/core/system/Logic.h"
 #include "PhotonBox/core/system/Physics.h"
@@ -30,7 +30,7 @@ const double Core::FIXED_TIME_INTERVAL = 1.0f / 60.0f;
 
 bool Core::_isRunning;
 
-void Core::init(std::map<std::string, Scene*>& sceneMap, std::string firstScene)
+void Core::init(std::map<std::string, Scene*>& sceneMap)
 {
 	std::cout << PHOTON_BOX_VERSION << "\n";
 	std::cout << "==================================================" << std::endl;
@@ -95,7 +95,7 @@ void Core::start()
 	std::cout << "            LOADING SCENE " << SceneManager::getCurrentName() << std::endl << std::endl;
 
 
-	for (std::vector<System*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
+	for (std::vector<ISystem*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
 	{
 		(*it)->start();
 	}
@@ -265,7 +265,7 @@ void Core::stop()
 
 void Core::reset()
 {
-	for (std::vector<System*>::reverse_iterator  it = _systems.rbegin(); it != _systems.rend(); ++it)
+	for (std::vector<ISystem*>::iterator  it = _systems.begin(); it != _systems.end(); ++it)
 	{
 		(*it)->reset();
 	}
@@ -280,7 +280,7 @@ void Core::reset()
 
 void Core::destroy()
 {
-	for (std::vector<System*>::reverse_iterator it = _systems.rbegin(); it != _systems.rend(); ++it)
+	for (std::vector<ISystem*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
 	{
 		(*it)->destroy();
 	}

@@ -1,7 +1,7 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-class System
+class ISystem
 {
 public:
 	virtual void init() {}

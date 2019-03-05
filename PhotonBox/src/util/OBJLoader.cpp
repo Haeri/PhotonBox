@@ -243,7 +243,7 @@ void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 	Vector3f center = ((min + max) / 2.0f);
 	BoundingSphere bs(center, (center - min).length());
 	mesh->boundingSphere = bs;
-
+	
 	// Create Indexed Model 
 	for (size_t i = 0; i <= indices.size() - 3; i += 3)
 	{

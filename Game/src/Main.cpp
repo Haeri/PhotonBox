@@ -30,15 +30,15 @@ int main(void)
 
 	// Create Scenes
 	std::map<std::string, Scene*> sceneMap;
+	sceneMap["Material Test"] = new PBRScene();
 	sceneMap["Demo Scene"] = new DemoScene();
 	sceneMap["Realistic Rendering"] = new TestScene();
-	sceneMap["Material Test"] = new PBRScene();
 	sceneMap["Physics Scene"] = new PhysicsScene();
 	
 
 	// Create and initialize the Core
 	Core core;
-	core.init(sceneMap, "Demo Scene");
+	core.init(sceneMap);
 	core.run();
 	core.destroy();
 

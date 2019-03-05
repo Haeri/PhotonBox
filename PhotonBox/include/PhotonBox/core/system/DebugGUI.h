@@ -5,9 +5,9 @@
 #include "imgui/imgui_impl_glfw_gl3.h"
 #include "imgui/ImGuizmo.h"
 
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 
-class DebugGUI : public System
+class DebugGUI : public ISystem
 {
 public:
 	void init() override;

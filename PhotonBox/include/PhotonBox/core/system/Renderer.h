@@ -20,14 +20,14 @@ class MeshRenderer;
 #include "PhotonBox/resource/shader/ForwardPointLightShader.h"
 #include "PhotonBox/resource/shader/ForwardSpotLightShader.h"
 #include "PhotonBox/resource/SkyBox.h"
-#include "PhotonBox/core/System.h"
+#include "PhotonBox/core/ISystem.h"
 
 enum RenderType
 {
 	RT_OPAQUE, RT_CUTOUT, RT_TRANSPARENT
 };
 
-class Renderer : public System
+class Renderer : public ISystem
 {
 public:
 	static const int MAX_DEBUG = 4;
