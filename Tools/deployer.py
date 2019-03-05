@@ -5,7 +5,7 @@ mode = "Debug"
 
 
 while True:
-	imp = raw_input("DEBUG or RELEASE (d, r)\n")
+	imp = input("DEBUG or RELEASE (d, r)\n")
 	imp = imp.strip()
 	if imp == "d":
 		mode = "Debug"
