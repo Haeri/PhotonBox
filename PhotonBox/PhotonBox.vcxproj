@@ -40,7 +40,7 @@
     <ClCompile Include="src\component\SphereCollider.cpp" />
     <ClCompile Include="src\component\SpotLight.cpp" />
     <ClCompile Include="src\component\Transform.cpp" />
-    <ClCompile Include="src\data-txpes\AABB.cpp" />
+    <ClCompile Include="src\data-type\AABB.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />
     <ClCompile Include="src\Core\Display.cpp" />
     <ClCompile Include="src\resource\FrameBuffer.cpp" />
@@ -575,6 +575,10 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>python ../Tools/build_incrementer.py</Command>
+      <Message>Build Increment</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Mem_Debug|x64'">
     <ClCompile>
@@ -592,6 +596,10 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>python ../Tools/build_incrementer.py</Command>
+      <Message>Build Increment</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PDV_Debug|x64'">
     <ClCompile>
@@ -609,6 +617,10 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>python ../Tools/build_incrementer.py</Command>
+      <Message>Build Increment</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -630,6 +642,10 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>python ../Tools/build_incrementer.py</Command>
+      <Message>Build Increment</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
