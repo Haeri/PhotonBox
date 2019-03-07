@@ -2,7 +2,7 @@
 A modern OpenGL Game-Engine with focus on PBR
 
 ## Project Goal
-The PhotonBox Engine aims to be an open source resource for people interested in graphics and system architecture. The goal is to create a clean and good readable codebase, whilst still maintaining good performance and a high graphical fidelity. An Editor is currently not planned as I am still explorin the possibilities for state based GUI solutions.
+The PhotonBox Engine aims to be an open source resource for people interested in graphics and system architecture. The goal is to create a clean and readable codebase, whilst still maintaining good performance and a high graphical fidelity. An Editor is currently not planned as I am still exploring the possibilities for state based GUI solutions.
 
 ## Rendering 
 - Deferred/Forward Rendering
@@ -54,13 +54,13 @@ First generate a project suitable for your operating system by invoking `build_p
 Thats it actually.
 
 ## Roadmap
-###RENDERING
+### RENDERING
 - Instanced rendering
 - Deferred decals
 - GTAO
 - Anisotropic filtering
 
-###GENERAL
+### GENERAL
 - Resource management and pooling
 - Precompile shader
 - Abstraction layer over OpenGL
@@ -69,7 +69,7 @@ Thats it actually.
 - Decoupling asset conversion from engine
 - Doxygen integration for documentation
 
-###OPTIMIZATION
+### OPTIMIZATION
 - Frustum culling
 - Uniform buffer
 - SIMD math
