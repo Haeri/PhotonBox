@@ -8,7 +8,7 @@
 #include "PhotonBox/core/ManagedResource.h"
 #include "PhotonBox/core/system/SceneManager.h"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

@@ -9,7 +9,7 @@
 #include "Scenes/TestScene.cpp"
 #include "Scenes/PhysicsScene.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -17,7 +17,7 @@
 int main(void)
 {
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 	flag |= _CRTDBG_LEAK_CHECK_DF;
 	_CrtSetDbgFlag(flag);
@@ -31,7 +31,7 @@ int main(void)
 	// Create Scenes
 	std::map<std::string, Scene*> sceneMap;
 	sceneMap["Material Test"] = new PBRScene();
-	sceneMap["Demo Scene"] = new DemoScene();
+	sceneMap["Demo Scene"] = new DemoScene(); 
 	sceneMap["Realistic Rendering"] = new TestScene();
 	sceneMap["Physics Scene"] = new PhysicsScene();
 	

@@ -10,7 +10,7 @@
 #include "PhotonBox/resource/shader/SkyBoxShader.h"
 #include "PhotonBox/util/OBJLoader.h"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

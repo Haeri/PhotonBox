@@ -1,6 +1,9 @@
 # PhotonBox
 A modern OpenGL Game-Engine with focus on PBR
 
+## Project Goal
+The PhotonBox Engine aims to be an open source resource for people interested in graphics and system architecture. The goal is to create a clean and good readable codebase, whilst still maintaining good performance and a high graphical fidelity. An Editor is currently not planned as I am still explorin the possibilities for state based GUI solutions.
+
 ## Rendering 
 - Deferred/Forward Rendering
 - Point lights, Directional lights, Spot lights
@@ -21,8 +24,7 @@ A modern OpenGL Game-Engine with focus on PBR
   - SSAO
   - SSReflections
   - Temporal anti aliasing
-- Transparent rendering
-- Cutout rendering
+- Transparent/Cutout rendering
 - Shadow mapping
 - Contact shadows
 - Volumetric Fog
@@ -30,12 +32,11 @@ A modern OpenGL Game-Engine with focus on PBR
 
 ## Systems
 - Component system
-- Scene loading
-- Transformation system
+- Scene system
 - Generic Materials
-- Input
 - Lightprobe volumes
-- Mesh caching
+- Resource caching
+- Async resource loading
 - Shader hot reload
 - PhysX 3.4 integration
 - ImGui integration
@@ -46,3 +47,29 @@ Interiour
 
 Automotive
 ![screenshot 2](https://user-images.githubusercontent.com/7956606/43651128-d3b01440-9741-11e8-9224-c5bded3dedce.png)
+
+
+## Project Setup
+First generate a project suitable for your operating system by invoking `build_project` inside the `Tools` directory.
+Thats it actually.
+
+## Roadmap
+###RENDERING
+- Instanced rendering
+- Deferred decals
+- GTAO
+- Anisotropic filtering
+
+###GENERAL
+- Resource management and pooling
+- Precompile shader
+- Abstraction layer over OpenGL
+- Precompiled headers
+- Switch to dynamic library compilation
+- Decoupling asset conversion from engine
+- Doxygen integration for documentation
+
+###OPTIMIZATION
+- Frustum culling
+- Uniform buffer
+- SIMD math

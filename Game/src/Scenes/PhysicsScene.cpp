@@ -7,6 +7,7 @@
 #include <component/BoxCollider.h>
 #include <resource/Scene.h>
 #include <resource/Texture.h>
+#include <resource/shader/GShader.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -14,8 +15,9 @@
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
+#include "../Scripts/StateControllerScript.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

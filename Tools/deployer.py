@@ -20,7 +20,7 @@ out_path 		= "../Build_" + mode + "/"
 engine_res_path = "../PhotonBox/engine-res/"
 game_res_path 	= "../Game/res/"
 redist_path		= "../Redist/" + mode + "/"
-binaries_path 	= "../Game/bin/x64/" + mode + "/Game.exe"
+binaries_path 	= "../Game/bin/x86_64/" + mode + "/Game.exe"
 
 def copyFiles(src, dest, filters):
 	if not os.path.exists(dest):

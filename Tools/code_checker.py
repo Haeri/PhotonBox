@@ -13,7 +13,7 @@ cpp_loc		= 0
 MEMORY_MOD_ERR 	= 0
 SYNC_MOD_ERR 	= 0
 
-MEMORY_CHECK = "#ifdef MEM_DEBUG\n#include \"PhotonBox/util/MEMDebug.h\"\n#define new DEBUG_NEW\n#endif"
+MEMORY_CHECK = "#ifdef PE_MEM_DEBUG\n#include \"PhotonBox/util/MEMDebug.h\"\n#define new DEBUG_NEW\n#endif"
 
 def pathwalk(src, filter, function):
 	for item in os.listdir(src):
@@ -49,6 +49,7 @@ def countFiles():
 
 # ----------- MEMORY CHECK -----------------
 def checkMemory(item):
+	global MEMORY_MOD_ERR
 	data = ""
 	with open(item, 'r') as myfile:
 		data = myfile.read()
@@ -66,6 +67,7 @@ def memoryCheckModule():
 
 # ----------- CPP-H SYNC CHECK -----------------
 def syncCheck(item):
+	global SYNC_MOD_ERR
 	basename = os.path.basename(item).replace(".h", "")
 	cpp_file = item.replace(header_path, cpp_path)
 	cpp_file = cpp_file.replace(".h", ".cpp")
