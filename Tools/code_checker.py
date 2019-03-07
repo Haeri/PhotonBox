@@ -13,7 +13,7 @@ cpp_loc		= 0
 MEMORY_MOD_ERR 	= 0
 SYNC_MOD_ERR 	= 0
 
-MEMORY_CHECK = "#ifdef PE_MEM_DEBUG\n#include \"PhotonBox/util/MEMDebug.h\"\n#define new DEBUG_NEW\n#endif"
+MEMORY_CHECK = "#ifdef PB_MEM_DEBUG\n#include \"PhotonBox/util/MEMDebug.h\"\n#define new DEBUG_NEW\n#endif"
 
 def pathwalk(src, filter, function):
 	for item in os.listdir(src):
