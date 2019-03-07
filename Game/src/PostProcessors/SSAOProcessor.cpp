@@ -3,6 +3,7 @@
 
 #include <random>
 
+#include <core/system/Renderer.h>
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
 #include <Math/Math.h>
@@ -10,7 +11,7 @@
 #include "../Shader/SSAOBlurShader.cpp"
 #include "../Shader/SSAOShader.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

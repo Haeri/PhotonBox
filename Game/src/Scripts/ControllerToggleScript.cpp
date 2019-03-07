@@ -2,8 +2,13 @@
 #define CONTROLLER_TOGGLE_SCRIPT_CPP
 
 #include <component/Behaviour.h>
+#include <core/Entity.h>
+#include <core/InputManager.h>
 
-#ifdef MEM_DEBUG
+#include "CameraControllerScript.cpp"
+#include "PathWalkerScript.cpp"
+
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

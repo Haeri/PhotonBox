@@ -20,7 +20,6 @@ GENERAL
 - Abstraction layer over OpenGL
 - Precompiled headers
 - Switch to dll
-- User Premake or CMake
 - Decouple asset conversion into its own Project (AssetCompiler)
 - Create Shader as JSON resource -> Eliminate Shader classes
 - (Move Scene classes to JSON resources)
@@ -28,13 +27,11 @@ GENERAL
 - Update dependency libs
 - Doxygen integration for documentation
 - Logging system
-- Subsystem ordered vector with init, start, destroy
 - Debounce spam resize calls
 - Separate mesh into mesh-data and mesh-resource. 
 - Separate texture into texture-data and texture-resource. 
 - Clean up light emitter, pack shadow buffer inside, move shader binding code into light
 - Clean Jitter code
-- Autofill uniform list with compiled uniform indices
 
 OPTIMIZATION
 - Frustum culling
@@ -51,3 +48,5 @@ RESOURCES
 BUGS
 - Eye-adaptation freaking out with high frame rate
 - Fix FXAA
+- CubeMap memory leak
+- Cubemap does nt generate a serialized texture

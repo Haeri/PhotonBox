@@ -3,13 +3,14 @@
 
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
+#include <core/Display.h>
 
 #include "../Shader/AddShader.cpp"
 #include "../Shader/BlurHShader.cpp"
 #include "../Shader/BlurVShader.cpp"
 #include "../Shader/CutOffShader.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

@@ -1,7 +1,7 @@
 #include "PhotonBox/component/SphereCollider.h"
 #include "PhotonBox/core/system/Physics.h"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

@@ -7,7 +7,7 @@
 #include "PhotonBox/core/Resources.h"
 #include "PhotonBox/core/system/PostProcessing.h"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

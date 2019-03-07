@@ -1,12 +1,13 @@
 #ifndef SSREFLECTION_PROCESSOR_CPP
 #define SSREFLECTION_PROCESSOR_CPP
 
+#include <core/system/Renderer.h>
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
 
 #include "../Shader/SSReflectionShader.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

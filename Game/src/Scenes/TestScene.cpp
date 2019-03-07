@@ -15,6 +15,7 @@
 #include <resource/shader/IrradianceShader.h>
 #include <resource/shader/TransparentShader.h>
 #include <resource/shader/SkyBoostShader.h>
+#include <resource/shader/GShader.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -33,7 +34,7 @@
 #include "../Scripts/ControllerToggleScript.cpp"
 #include "../Shader/BlurShader.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

@@ -1,12 +1,14 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-class Entity;
 class ManagedResource;
 
 #include <vector>
 
+#include "PhotonBox/core/Entity.h"
 #include "PhotonBox/resource/CubeMap.h"
+#include "PhotonBox/resource/Mesh.h"
+#include "PhotonBox/resource/Texture.h"
 
 class Scene
 {
