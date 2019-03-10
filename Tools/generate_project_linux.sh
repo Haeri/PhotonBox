@@ -1,0 +1,1 @@
+../premake/linux/premake5 codelite --file="../premake5.lua"

@@ -67,46 +67,46 @@ public:
 
 	std::string& getName() { return _fileName; }
 
-	template<typename T>
-	void setUniform(const std::string& uniformName, T value) {}
-	template<>
-	void setUniform<int>(const std::string& uniformName, int value)
+	//template<typename T>
+	//void setUniform(const std::string& uniformName, T value) {}
+	//template<>
+	void setUniform(const std::string& uniformName, int value)
 	{
 		if (checkUniform(uniformName))
 			glUniform1i(uniforms[uniformName], GLint(value));
 	}
-	template<>
-	void setUniform<float>(const std::string& uniformName, float value)
+	//template<>
+	void setUniform(const std::string& uniformName, float value)
 	{
 		if (checkUniform(uniformName))
 			glUniform1f(uniforms[uniformName], GLfloat(value));
 	}
-	template<>
-	void setUniform<bool>(const std::string& uniformName, bool value)
+	//template<>
+	void setUniform(const std::string& uniformName, bool value)
 	{
 		if (checkUniform(uniformName))
 			glUniform1i(uniforms[uniformName], GLint(value));
 	}
-	template<>
-	void setUniform<Vector2f>(const std::string& uniformName, Vector2f value)
+	//template<>
+	void setUniform(const std::string& uniformName, Vector2f value)
 	{
 		if (checkUniform(uniformName))
 			glUniform2fv(uniforms[uniformName], 1, &(value.x()));
 	}
-	template<>
-	void setUniform<Vector3f>(const std::string& uniformName, Vector3f value)
+	//template<>
+	void setUniform(const std::string& uniformName, Vector3f value)
 	{
 		if (checkUniform(uniformName))
 			glUniform3fv(uniforms[uniformName], 1, &(value.x()));
 	}
-	template<>
-	void setUniform<Vector4f>(const std::string& uniformName, Vector4f value)
+	//template<>
+	void setUniform(const std::string& uniformName, Vector4f value)
 	{
 		if (checkUniform(uniformName))
 			glUniform4fv(uniforms[uniformName], 1, &(value.x()));
 	}
-	template<>
-	void setUniform<Matrix4f>(const std::string& uniformName, Matrix4f value)
+	//template<>
+	void setUniform(const std::string& uniformName, Matrix4f value)
 	{
 		if (checkUniform(uniformName))
 			glUniformMatrix4fv(uniforms[uniformName], 1, GL_FALSE, &(value(0, 0)));

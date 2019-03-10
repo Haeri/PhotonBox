@@ -90,7 +90,7 @@ void CubeMap::generateIrradiance(GLuint map)
 	IrradianceShader* shader = IrradianceShader::getInstance();
 	shader->bind();
 	shader->updateTextures();
-	shader->setUniform<Matrix4f>("projection", captureProjection);
+	shader->setUniform("projection", captureProjection);
 
 	for (unsigned int i = 0; i < 6; ++i)
 	{
@@ -100,7 +100,7 @@ void CubeMap::generateIrradiance(GLuint map)
 
 		glBindVertexArray(_mesh->getVAO());
 		glDepthMask(GL_FALSE);
-		shader->setUniform<Matrix4f>("view", captureViews[i]);
+		shader->setUniform("view", captureViews[i]);
 		shader->enableAttributes();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, map);
@@ -152,7 +152,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 	SpecularConvolutionShader* shader = SpecularConvolutionShader::getInstance();
 	shader->bind();
 	shader->updateTextures();
-	shader->setUniform<Matrix4f>("projection", captureProjection);
+	shader->setUniform("projection", captureProjection);
 
 	unsigned int maxMipLevels = 5;
 	for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
@@ -166,7 +166,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 		glViewport(0, 0, mipWidth, mipHeight);
 
 		float roughness = (float)mip / (float)(maxMipLevels - 1);
-		shader->setUniform<float>("roughness", roughness);
+		shader->setUniform("roughness", roughness);
 		for (unsigned int i = 0; i < 6; ++i)
 		{
 
@@ -176,7 +176,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 
 			glBindVertexArray(_mesh->getVAO());
 			glDepthMask(GL_FALSE);
-			shader->setUniform<Matrix4f>("view", captureViews[i]);
+			shader->setUniform("view", captureViews[i]);
 			shader->enableAttributes();
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, map);

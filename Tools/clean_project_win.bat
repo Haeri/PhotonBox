@@ -1,5 +1,6 @@
 @echo off
 cd ..
+rmdir /s /q ".vs"
 del /s /q "PhotonBox.sln"
 
 cd PhotonBox

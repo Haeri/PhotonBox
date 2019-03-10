@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <cstdio>
 #include <cerrno>
+#include <limits>
 
 #include "PhotonBox/resource/Mesh.h"
 #include "PhotonBox/core/MeshSerializer.h"

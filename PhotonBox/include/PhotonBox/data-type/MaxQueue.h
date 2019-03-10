@@ -1,5 +1,6 @@
 #include <cstring>
 #include <assert.h>
+#include <iostream>
 
 template <class T>
 class MaxQueue

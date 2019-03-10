@@ -1,6 +1,7 @@
 #include "PhotonBox/util/Util.h"
 
 #include <stdarg.h>
+#include <string.h>
 
 #include "zlib/zlib.h"
 

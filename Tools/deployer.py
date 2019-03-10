@@ -17,7 +17,7 @@ while True:
 		print("Command not recognized")
 
 out_path 		= "../Build_" + mode + "/"
-engine_res_path = "../PhotonBox/engine-res/"
+engine_res_path = "../PhotonBox/res/"
 game_res_path 	= "../Game/res/"
 redist_path		= "../Redist/" + mode + "/"
 binaries_path 	= "../Game/bin/x86_64/" + mode + "/Game.exe"
@@ -42,7 +42,7 @@ if os.path.exists(out_path) and os.path.isdir(out_path):
 os.mkdir(out_path);
 
 # Copy all engine resource files
-copyFiles(engine_res_path, out_path + "PhotonBox/engine-res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
+copyFiles(engine_res_path, out_path + "PhotonBox/res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
 copyFiles(game_res_path, out_path + "Game/res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
 copyFiles(redist_path, out_path + "Game/", ('.dll'))
 copyfile(binaries_path, out_path + "Game/Game.exe")

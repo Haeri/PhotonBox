@@ -8,9 +8,9 @@
 namespace Resources
 {
 #if BUILD_MODE
-	const std::string ENGINE_RESOURCES = "./engine-res";
+	const std::string ENGINE_RESOURCES = "./res";
 #else
-	const std::string ENGINE_RESOURCES = "../PhotonBox/engine-res";
+	const std::string ENGINE_RESOURCES = "../PhotonBox/res";
 #endif
 };
 
