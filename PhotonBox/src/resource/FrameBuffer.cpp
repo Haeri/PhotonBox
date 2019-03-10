@@ -9,6 +9,7 @@
 #include "PhotonBox/resource/shader/DefaultPostShader.h"
 #include "PhotonBox/core/system/Renderer.h"
 #include "PhotonBox/core/Display.h"
+#include "PhotonBox/math/Math.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

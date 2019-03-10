@@ -10,7 +10,7 @@ class ILazyLoadable;
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#define stat _stat
+//#define stat _stat
 
 
 class FileWatch
@@ -18,7 +18,7 @@ class FileWatch
 public:
 	struct ResourceFile
 	{
-		__time64_t stamp;
+		int64_t stamp;
 		ILazyLoadable* resource;
 	};
 
@@ -31,4 +31,4 @@ private:
 	static std::map<std::string, ResourceFile> _watchList;
 };
 
-#endif FILE_WATCH_H
+#endif // FILE_WATCH_H

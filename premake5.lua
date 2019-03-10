@@ -21,11 +21,12 @@ project "PhotonBox"
 	targetdir ("%{prj.name}/bin/" .. outputdir)
 	objdir ("%{prj.name}/bin/int/" .. outputdir)
 
-	--pchheader "hzpch.h"
-	--pchsource "Hazel/src/hzpch.cpp"
+	--pchheader "pbpch.h"
+	--pchsource "PhotonBox/src/pbpch.cpp"
 
 	files
 	{
+		"%{prj.name}/include/PhotonBox/**.h",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/include/glad/glad.c",
 		"%{prj.name}/include/imgui/**.cpp",	

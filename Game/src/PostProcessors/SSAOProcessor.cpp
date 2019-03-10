@@ -6,7 +6,7 @@
 #include <core/system/Renderer.h>
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
-#include <Math/Math.h>
+#include <math/Math.h>
 
 #include "../Shader/SSAOBlurShader.cpp"
 #include "../Shader/SSAOShader.cpp"

@@ -17,7 +17,7 @@ public:
 	void setTransform(Transform* _t);
 	void setEnable(bool enable);
 	std::string getName();
-	bool getEnable() { return isEnabled; }
+	bool getEnable();
 
 	virtual ~Component() = 0;
 	virtual void OnEnable();
@@ -25,6 +25,6 @@ public:
 	virtual void destroy();
 	virtual std::type_index getBaseType();
 private:
-	bool isEnabled = true;
+	bool _isEnabled = true;
 };
 #endif // COMPONENT_H

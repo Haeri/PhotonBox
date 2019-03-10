@@ -4,6 +4,7 @@
 class Behaviour;
 
 #include <vector>
+#include <string>
 
 #include "PhotonBox/core/ISystem.h"
 

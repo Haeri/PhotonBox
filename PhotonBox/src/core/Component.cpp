@@ -21,13 +21,18 @@ void Component::setEnable(bool enable)
 		OnEnable();
 	else
 		OnDisable();
-	isEnabled = enable;
+	_isEnabled = enable;
 }
 
 std::string Component::getName()
 {
 	std::string s = typeid(*this).name();
 	return s.substr(6);
+}
+
+bool Component::getEnable()
+{
+	return _isEnabled;
 }
 
 void Component::OnEnable() {}

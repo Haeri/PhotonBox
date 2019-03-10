@@ -7,8 +7,6 @@
 #include "PhotonBox/resource/shader/DirectionalShadowShader.h"
 #include "PhotonBox/resource/shader/ForwardDirectionalLightShader.h"
 
-#include "imgui\imgui.h"
-
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW

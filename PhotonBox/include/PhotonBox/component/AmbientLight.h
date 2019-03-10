@@ -1,7 +1,7 @@
 #ifndef AMBIENT_LIGHT_H
 #define AMBIENT_LIGHT_H
 
-#include "PhotonBox/component/Lightemitter.h"
+#include "PhotonBox/component/LightEmitter.h"
 
 class AmbientLight : public LightEmitter
 {

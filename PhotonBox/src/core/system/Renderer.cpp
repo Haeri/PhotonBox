@@ -415,9 +415,9 @@ void Renderer::renderDeferred()
 	
 
 	_deferredShader->bind();
-	_deferredShader->setUniform<int>("numDirectionalLights", (int)(lights[typeid(DirectionalLight)].size()));
-	_deferredShader->setUniform<int>("numPointLights", lights[typeid(PointLight)].size());
-	_deferredShader->setUniform<int>("numSpotLights", lights[typeid(SpotLight)].size());
+	_deferredShader->setUniform("numDirectionalLights", (int)(lights[typeid(DirectionalLight)].size()));
+	_deferredShader->setUniform("numPointLights", (int)lights[typeid(PointLight)].size());
+	_deferredShader->setUniform("numSpotLights", (int)lights[typeid(SpotLight)].size());
 
 	for (auto const &lightvec : lights)
 	{

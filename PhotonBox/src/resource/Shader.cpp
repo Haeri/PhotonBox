@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <intrin.h>
 #include <algorithm>
 #include <string>
 
