@@ -89,7 +89,7 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps,
 
 	if (mipmaps)
 	{
-		temp->mipmaps = static_cast<int>(1 + floor(log2(min(_width, _height))));
+		temp->mipmaps = static_cast<int>(1 + floor(log2(Math::min(_width, _height))));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLfloat>(_interpolationMipTypes[interpolationType]));
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLfloat>(_interpolationTypes[interpolationType]));
 		glGenerateMipmap(GL_TEXTURE_2D);

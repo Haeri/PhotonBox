@@ -47,7 +47,7 @@ void TextureSerializer::write(std::string name, int width, int height, int compo
 			components != re_components)
 		{
 			// Something went wrong while combining components to one buffer
-			__debugbreak();
+			std::cerr << "ERROR: BUffer combination failed!\n";
 		}
 
 
@@ -107,7 +107,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 		if (*width < 0 || *height < 0 || *components < 0)
 		{
 			// Looks like thexture was incorrectly inflated
-			__debugbreak();
+			std::cerr << "ERROR: Texture was inflated incorrectly!\n";
 		}
 
 

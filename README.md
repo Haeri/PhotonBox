@@ -50,8 +50,16 @@ Automotive
 
 
 ## Project Setup
-First generate a project suitable for your operating system by invoking `build_project` inside the `Tools` directory.
-Thats it actually.
+### For Windows
+Generate the visual studio project files, by doubleclicking on `generate_project_win.bat` inside the `Tools` directory.
+
+### For Linux
+Make the generator script executable by typing `chmod +x Tools/generate_project_linux.sh`.
+Then generate the codelite project files, by executing the script with `./Tools/generate_project_linux.sh`.
+
+### For Mac
+Make the generator script executable by typing `chmod +x Tools/generate_project_mac.sh`.
+Then generate the xcode project files, by executing the script with `./Tools/generate_project_mac.sh`.
 
 ## Roadmap
 ### RENDERING

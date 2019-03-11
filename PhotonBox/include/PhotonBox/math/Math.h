@@ -9,14 +9,6 @@
 
 #define PI 3.14159265358979323846
 
-#ifndef max
-#define max(a,b)            (((a) > (b)) ? (a) : (b))
-#endif
-
-#ifndef min
-#define min(a,b)            (((a) < (b)) ? (a) : (b))
-#endif
-
 /***
 RIGHT HANDED SYSTEM!
 ***/
@@ -27,6 +19,17 @@ namespace Math
 		return a + percent * (b - a);
 	}
 
+	template<typename T>
+	static T min(T a, T b)
+	{
+		return (((a) < (b)) ? (a) : (b));
+	}
+
+	template<typename T>
+	static T max(T a, T b)
+	{
+		return (((a) > (b)) ? (a) : (b));
+	}
 
 	static Vector3f toEulerAngle(const physx::PxQuat& q)
 	{

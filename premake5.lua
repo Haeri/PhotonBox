@@ -39,7 +39,7 @@ project "PhotonBox"
 	}
 
 	filter "system:windows"
-		defines "PB_PLATFORM_WINDOWS"
+		defines "PB_PLATFORM_WIN"
 		cppdialect "C++11"
 		systemversion "latest"
 
@@ -95,14 +95,14 @@ project "Game"
 	links
 	{
 		"PhotonBox",
-		"glfw3.lib",
-		"opengl32.lib",
-		"zlibstat.lib",
-		"freetype271MT.lib",
+		"glfw3",
+		"opengl32",
+		"zlibstat",
+		"freetype271MT",
 	}
 
 	filter "system:windows"
-		defines "PB_PLATFORM_WINDOWS"
+		defines "PB_PLATFORM_WIN"
 		cppdialect "C++17"
 		systemversion "latest"
 
@@ -112,10 +112,10 @@ project "Game"
 		symbols "On"
 		links
 		{
-			"PhysX3DEBUG_x64.lib",
-			"PhysX3CommonDEBUG_x64.lib",
-			"PhysX3ExtensionsDEBUG.lib",
-			"PxFoundationDEBUG_x64.lib",
+			"PhysX3DEBUG_x64",
+			"PhysX3CommonDEBUG_x64",
+			"PhysX3ExtensionsDEBUG",
+			"PxFoundationDEBUG_x64",
 		}
 		postbuildcommands ("{COPY} \"../Redist/Debug\" \"bin/" .. outputdir .. "\"")
 
@@ -125,10 +125,10 @@ project "Game"
 		symbols "On"
 		links
 		{
-			"PhysX3DEBUG_x64.lib",
-			"PhysX3CommonDEBUG_x64.lib",
-			"PhysX3ExtensionsDEBUG.lib",
-			"PxFoundationDEBUG_x64.lib",
+			"PhysX3DEBUG_x64",
+			"PhysX3CommonDEBUG_x64",
+			"PhysX3ExtensionsDEBUG",
+			"PxFoundationDEBUG_x64",
 		}
 		postbuildcommands ("{COPY} \"../Redist/Debug\" \"bin/" .. outputdir .. "\"")
 
@@ -138,10 +138,10 @@ project "Game"
 		optimize "On"
 		links
 		{
-			"PhysX3_x64.lib",
-			"PhysX3Common_x64.lib",
-			"PhysX3Extensions.lib",
-			"PxFoundation_x64.lib",
+			"PhysX3_x64",
+			"PhysX3Common_x64",
+			"PhysX3Extensions",
+			"PxFoundation_x64",
 		}
 		postbuildcommands ("{COPY} \"../Redist/Release\" \"bin/" .. outputdir .. "\"")
 
@@ -151,9 +151,9 @@ project "Game"
 		optimize "On"
 		links
 		{
-			"PhysX3_x64.lib",
-			"PhysX3Common_x64.lib",
-			"PhysX3Extensions.lib",
-			"PxFoundation_x64.lib",
+			"PhysX3_x64",
+			"PhysX3Common_x64",
+			"PhysX3Extensions",
+			"PxFoundation_x64",
 		}
 		postbuildcommands ("{COPY} \"../Redist/Release\" \"bin/" .. outputdir .. "\"")
