@@ -58,6 +58,7 @@ public:
 	static void renderShadows();
 	static void captureScene(LightMap* lightmap = nullptr);
 	static void renderFog();
+	static unsigned long int getFrameIndex();
 	
 	void init(float superSampling = 1);
 	void start() override;
@@ -70,6 +71,7 @@ public:
 	static bool _shadowsAreDirty;
 private:
 	static int _drawCalls;
+	static unsigned int _frameIndex;
 	static SkyBox _skyBox;
 	static FrameBuffer* _mainFrameBuffer;
 	static FrameBuffer* _gBuffer;

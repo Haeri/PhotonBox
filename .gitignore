@@ -29,3 +29,20 @@ Build_Release/
 
 # Folders
 .vs/
+
+## ------------------------------------- 
+## Codelite
+## -------------------------------------
+
+# Types
+*.mk
+*.project
+*.workspace
+
+# Files
+Makefile
+Game/Game.txt
+PhotonBox/PhotonBox.txt
+
+# Folders
+.codelite/

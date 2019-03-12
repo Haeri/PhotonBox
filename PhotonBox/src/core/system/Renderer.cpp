@@ -42,6 +42,7 @@
 #endif
 
 int Renderer::_debugMode;
+unsigned int Renderer::_frameIndex;
 bool Renderer::_shadowsAreDirty = true;
 SkyBox Renderer::_skyBox;
 std::vector<ObjectRenderer*> Renderer::_renderListOpaque;
@@ -208,62 +209,19 @@ void Renderer::init(float superSampling)
 
 void Renderer::reset()
 {
+	_frameIndex = 0;
 	_skyBox.reset();
 	_shadowsAreDirty = true;
-	/*
-	// OpenGL config
-	glCullFace(GL_BACK);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	glClearColor(_clearColor.x(), _clearColor.y(), _clearColor.z(), 0);
-
-	_ambientLightShader = ForwardAmbientLightShader::getInstance();
-	_directionalLightShader = ForwardDirectionalLightShader::getInstance();
-	_pointLightShader = ForwardPointLightShader::getInstance();
-	_spotLightShader = ForwardSpotLightShader::getInstance();
-	_transparentBaseShader = TransparentShader::getInstance();
-	_gShader = GShader::getInstance();
-	_deferredShader = DeferredShader::getInstance();
-
-	_mainFrameBuffer = new FrameBuffer(superSampling);
-	_mainFrameBuffer->addTextureAttachment("color", true, false);
-	_mainFrameBuffer->addDepthBufferAttachment();
-	_mainFrameBuffer->ready();
-
-	_gBuffer = new FrameBuffer(1);
-	_gBuffer->addTextureAttachment("gPosition", true);
-	_gBuffer->addTextureAttachment("gNormal", true);
-	_gBuffer->addTextureAttachment("gMetallic");
-	_gBuffer->addTextureAttachment("gRoughness");
-	_gBuffer->addTextureAttachment("gAlbedo");
-	_gBuffer->addTextureAttachment("gEmission", true);
-	//_gBuffer->addTextureAttachment("gAO");
-	_gBuffer->addTextureAttachment("gIrradiance", true);
-	_gBuffer->addTextureAttachment("gRadiance", true);
-	//_gBuffer->addDepthTextureAttachment("gDepth");
-	_gBuffer->addDepthBufferAttachment();
-	_gBuffer->ready();
-
-	_gizmoBuffer = new FrameBuffer(1);
-	_gizmoBuffer->addTextureAttachment("color", false, false);
-	_gizmoBuffer->ready();
-
-	_deferredMaterial = new Material(_deferredShader);
-	_deferredMaterial->setTexture("gPosition", _gBuffer, "gPosition");
-	_deferredMaterial->setTexture("gNormal", _gBuffer, "gNormal");
-	_deferredMaterial->setTexture("gRoughness", _gBuffer, "gRoughness");
-	_deferredMaterial->setTexture("gMetallic", _gBuffer, "gMetallic");
-	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
-	_deferredMaterial->setTexture("gIrradiance", _gBuffer, "gIrradiance");
-	_deferredMaterial->setTexture("gRadiance", _gBuffer, "gRadiance");
-
-	_debugMode = 0;
-	*/
+	
+	_mainFrameBuffer->clear();
+	_gBuffer->clear();
+	_gizmoBuffer->clear();
 }
 
 void Renderer::start()
 {
 	_skyBox.init();
+	Camera::getMainCamera()->toggleJitter(true);
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
@@ -277,6 +235,7 @@ void Renderer::start()
 
 void Renderer::prePass()
 {
+	++_frameIndex;
 
 	_gBuffer->enable();
 	_gBuffer->clear();
@@ -1001,6 +960,11 @@ void Renderer::clearTransparentQueue()
 void Renderer::setDebug(int debugMode)
 {
 	_debugMode = debugMode;
+}
+
+unsigned long int Renderer::getFrameIndex()
+{
+	return _frameIndex;
 }
 
 void Renderer::destroy()

@@ -31,6 +31,11 @@ public:
 
 	Matrix4f createRotation();
 
+	bool equals(const Quaternion& other)
+	{
+		return (_x == other._x && _y == other._y && _z == other._z && _w == other._w);
+	}
+
 	Quaternion operator* (const Quaternion& scalar);
 	inline Quaternion operator* (const float& scalar);
 
