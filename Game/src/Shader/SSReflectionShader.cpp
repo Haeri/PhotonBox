@@ -19,18 +19,7 @@ public:
 
 	void update(Transform* transform) override
 	{
-		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
-	}
-
-	void addUniforms() override
-	{
-		addUniform("projection");
-
-		addTexture("mainBuffer");
-		addTexture("gPosition");
-		addTexture("gNormal");
-		addTexture("gMetallic");
-		addTexture("gRoughness");
+		setUniform("projection", Camera::getMainCamera()->getProjectionMatrix());	
 	}
 
 	void addAttributes() override

@@ -16,14 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/TAA");
 	}
 
-	void addUniforms() override
-	{
-		addTexture("lowResTexture");
-		addTexture("previousLowResTexture");
-		addTexture("gPosition");
-		addTexture("normalVelocity");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

@@ -16,12 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/exposure");
 	}
 
-	void addUniforms() override
-	{
-		addTexture("renderTexture");
-		addTexture("exposureSample");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

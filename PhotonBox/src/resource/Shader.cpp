@@ -217,7 +217,6 @@ void Shader::sendToGPU()
 		{
 			for (int i = 0; i < num; ++i)
 			{
-				//std::cout << num << " type: " << type << std::endl;
 				std::string s_name(name);
 				s_name.replace(s_name.find("[0]"), sizeof("[0]") - 1, "");
 				s_name += "[" + std::to_string(i) + "]";
@@ -234,8 +233,6 @@ void Shader::sendToGPU()
 				{
 					addUniform(s_name);
 				}
-
-				//std::cout << s_name << " location:" << location << std::endl;
 			}
 		}
 		else
@@ -249,13 +246,8 @@ void Shader::sendToGPU()
 				addUniform(name);
 			}
 		}
-
-		//std::cout << name << " location:" << location << std::endl;
 	}
 	
-
-	//addUniforms();
-
 	std::cout << "Initialized: " << _fileName << "\n";
 }
 
@@ -401,7 +393,7 @@ bool Shader::checkUniform(const std::string & name)
 	}
 	else
 	{
-		//std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
+		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
 		return false;
 	}
 #else

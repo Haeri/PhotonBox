@@ -13,20 +13,16 @@ public:
 		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/unlitShader");
 	}
 
-	void addUniforms() override
+	void update(Transform* transform) override
 	{
-		addUniform("mvp");
+		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
+
+		setUniform("mvp", mvp);
 	}
 
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
-	}
-
-	void update(Transform* transform) override
-	{
-		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
-		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
 	}
 
 	Type getType() override

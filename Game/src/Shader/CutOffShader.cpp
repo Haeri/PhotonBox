@@ -16,12 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/cutOff");
 	}
 
-	void addUniforms() override
-	{
-		addUniform("threshold");
-		addTexture("renderTexture");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

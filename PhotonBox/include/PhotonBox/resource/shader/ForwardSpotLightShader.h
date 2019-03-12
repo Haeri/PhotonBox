@@ -16,46 +16,21 @@ public:
 
 	void update(Transform* transform, LightEmitter* light)
 	{
-
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
-		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
 		SpotLight* spotLight = dynamic_cast<SpotLight*>(light);
-		Vector3f lightPos = spotLight->transform->getPositionWorld();
-		Vector3f direction = spotLight->transform->forwardWorld();
 
-		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
-		glUniformMatrix4fv(uniforms["modelMatrix"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
-		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
-		glUniform3fv(uniforms["light.position"], 1, &(lightPos.x()));
-		glUniform3fv(uniforms["light.direction"], 1, &(direction.x()));
-		glUniform3fv(uniforms["light.color"], 1, &(spotLight->color.x()));
-		glUniform1f(uniforms["light.coneAngle"], spotLight->coneAngle);
-		glUniform1f(uniforms["light.coneFallOff"], spotLight->coneAttenuation);
-		glUniform1f(uniforms["light.intensity"], spotLight->intensity);
-		glUniform1f(uniforms["light.constant"], spotLight->constant);
-		glUniform1f(uniforms["light.linear"], spotLight->linear);
-		glUniform1f(uniforms["light.quadratic"], spotLight->quadratic);
-	}
-
-	void addUniforms()
-	{
-		addUniform("mvp");
-		addUniform("modelMatrix");
-		addUniform("viewPos");
-		addUniform("light.position");
-		addUniform("light.direction");
-		addUniform("light.coneAngle");
-		addUniform("light.coneFallOff");
-		addUniform("light.color");
-		addUniform("light.intensity");
-		addUniform("light.constant");
-		addUniform("light.linear");
-		addUniform("light.quadratic");
-
-		addTexture("albedoMap");
-		addTexture("normalMap");
-		addTexture("roughnessMap");
-		addTexture("metallicMap");
+		setUniform("mvp", mvp);
+		setUniform("modelMatrix", transform->getTransformationMatrix());
+		setUniform("viewPos", Camera::getMainCamera()->transform->getPositionWorld());
+		setUniform("light.position", spotLight->transform->getPositionWorld());
+		setUniform("light.direction", spotLight->transform->forwardWorld());
+		setUniform("light.intensity", spotLight->intensity);
+		setUniform("light.color", spotLight->color);
+		setUniform("light.coneAngle", spotLight->coneAngle);
+		setUniform("light.coneFallOff", spotLight->coneAttenuation);
+		setUniform("light.constant", spotLight->constant);
+		setUniform("light.linear", spotLight->linear);
+		setUniform("light.quadratic", spotLight->quadratic);
 	}
 
 	void addAttributes() override

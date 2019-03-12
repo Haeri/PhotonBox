@@ -12,14 +12,6 @@ public:
 		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/irradiance");
 	}
 
-	void addUniforms() override
-	{
-		addUniform("projection");
-		addUniform("view");
-
-		addTexture("environmentMap");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

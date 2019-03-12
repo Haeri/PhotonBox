@@ -12,15 +12,6 @@ public:
 		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/specular-convolution");
 	}
 
-	void addUniforms() override
-	{
-		addUniform("projection");
-		addUniform("view");
-		addUniform("roughness");
-
-		addTexture("environmentMap");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

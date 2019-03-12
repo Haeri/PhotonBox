@@ -16,14 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/dof");
 	}
 
-	void addUniforms() override
-	{
-		addUniform("depth");
-
-		addTexture("renderTexture");
-		addTexture("gPosition");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

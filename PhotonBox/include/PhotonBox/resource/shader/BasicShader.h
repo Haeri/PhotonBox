@@ -17,14 +17,7 @@ public:
 	{
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 
-		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
-	}
-
-	void addUniforms() override
-	{
-		addUniform("mvp");
-
-		addTexture("albedoMap");
+		setUniform("mvp", mvp);
 	}
 
 	void addAttributes() override

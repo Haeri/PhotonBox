@@ -31,16 +31,8 @@ public:
 			dl->direction);
 		Matrix4f lightSpaceMatrix = dl->lightProjection * lightView;
 
-		glUniformMatrix4fv(uniforms["lightSpaceMatrix"], 1, GL_FALSE, &(lightSpaceMatrix(0, 0)));
-		glUniformMatrix4fv(uniforms["model"], 1, GL_FALSE, &(model(0, 0)));
-	}
-
-	void addUniforms() override
-	{
-		addUniform("lightSpaceMatrix");
-		addUniform("model");
-
-		addTexture("albedoMap");
+		setUniform("lightSpaceMatrix", lightSpaceMatrix);
+		setUniform("model", model);
 	}
 
 	void addAttributes() override

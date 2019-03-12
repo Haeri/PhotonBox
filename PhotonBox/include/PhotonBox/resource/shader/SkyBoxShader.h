@@ -17,13 +17,6 @@ public:
 		glUniformMatrix4fv(uniforms["vp"], 1, GL_FALSE, &(vp(0, 0)));
 	}
 
-	void addUniforms() override
-	{
-		addUniform("vp");
-		addUniform("mip");
-		addUniform("intensity");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);
