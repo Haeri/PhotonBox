@@ -11,6 +11,7 @@
 #endif
 
 std::vector<Behaviour*> Logic::_behaviourList;
+unsigned long int ::Logic::_tickIndex;
 
 void Logic::start()
 {
@@ -20,6 +21,11 @@ void Logic::start()
 	}
 }
 
+void Logic::reset()
+{
+	_tickIndex = 0;
+}
+
 void Logic::update()
 {
 	for (std::vector<Behaviour*>::iterator it = _behaviourList.begin(); it != _behaviourList.end(); ++it)
@@ -27,6 +33,11 @@ void Logic::update()
 		if ((*it)->getEnable())
 			(*it)->Update();
 	}
+}
+
+void Logic::tick()
+{
+	++_tickIndex;
 }
 
 void Logic::fixedUpdate()
@@ -62,20 +73,7 @@ void Logic::addToUpdateList(Behaviour* behaviour)
 	_behaviourList.push_back(behaviour);
 }
 
-void Logic::printList()
+unsigned long int Logic::getTickIndex()
 {
-	for (std::vector<Behaviour*>::iterator it = _behaviourList.begin(); it != _behaviourList.end(); ++it)
-	{
-		std::cout << (*it)->getName() << std::endl;
-	}
-}
-
-std::string Logic::getList()
-{
-	std::string ret = "";
-	for (std::vector<Behaviour*>::iterator it = _behaviourList.begin(); it != _behaviourList.end(); ++it)
-	{
-		ret += " + " + (*it)->getName() + "\n";
-	}
-	return ret;
+	return _tickIndex;
 }

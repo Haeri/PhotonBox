@@ -219,9 +219,6 @@ void Core::run()
 		*	After Render events
 		*/
 
-		//TODO: Dont do this
-		Camera::getMainCamera()->storeOldVP();
-
 		// Run filewatch every second
 		if(lastSecond == 0)
 			_fileWatch->checkValidity();
@@ -241,6 +238,8 @@ void Core::run()
 
 			++flop;
 		}
+
+		_logic->tick();
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())

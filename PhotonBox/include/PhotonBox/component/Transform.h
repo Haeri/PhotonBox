@@ -25,28 +25,30 @@ public:
 	Vector3f getScale();
 
 	Matrix4f getTransformationMatrix();
-	Matrix4f getTransformationMatrix(bool, bool, bool);
 	Matrix4f getLocalTransformationMatrix();
-	Matrix4f getLocalTransformationMatrix(bool, bool, bool);
 	Vector3f forward();
 	Vector3f forwardWorld();
 	Vector3f up();
 	Vector3f upWorld();
 	Vector3f right();
 	Vector3f rightWorld();
-	bool hasChanged();
-	std::vector<Transform*> children;
-	Transform* getParent() { return _parent; }
-	void removeChild(Transform* child);
+	bool hasChangedSince(unsigned long int tick);
+	bool hasChangedLastTick();
+	Transform* getParent();
+	std::vector<Transform*> getChildren();
 	void renderHandels();
-	void print();
 private:
-	bool _hasChangedLastFrame = true;
+	unsigned long int _lastChangedTick = -1;
+	bool _isMatrixCached = false;
 	Vector3f _position = Vector3f::ZERO;
 	Quaternion _rotation = Quaternion::ZERO;
 	Vector3f _scale = Vector3f::ONE;
 	Matrix4f _transformationMatrixCached;
-	Matrix4f _transformationMatrixLastFrame;
+	Matrix4f _transformationMatrixLast;
 	Transform* _parent;
+	std::vector<Transform*> _children;
+
+	void removeChild(Transform* child);
+	void setChanged();
 };
 #endif // TRANSFORM_H

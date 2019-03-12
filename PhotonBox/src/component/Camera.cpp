@@ -35,9 +35,9 @@ void Camera::setFOV(float fov)
 void Camera::updateProjection()
 {
 	if(_isPerspective)
-		_projection = Matrix4f::createPerspective(_fov, _aspect, _zNear, _zFar);
+		_projectionMatrix = Matrix4f::createPerspective(_fov, _aspect, _zNear, _zFar);
 	else
-		_projection = Matrix4f::createOrthographic(-_radius * _aspect, _radius * _aspect, -_radius, _radius, _zNear, _zFar);
+		_projectionMatrix = Matrix4f::createOrthographic(-_radius * _aspect, _radius * _aspect, -_radius, _radius, _zNear, _zFar);
 }
 
 void Camera::setOrhographicProjection(float radius, float zNear, float zFar)
@@ -61,44 +61,41 @@ void Camera::setPerspectiveProjection(float fov, float aspect, float zNear, floa
 
 Matrix4f Camera::getProjectionMatrix()
 {
-	Matrix4f jitterProjection;
+	if (!_jitter) 
+	{
+		return _projectionMatrix;
+	}
+	else
+	{
+		Matrix4f jitterProjection;
 
-	Vector2f offset = _hilton16[_count] * 1.0f;
-	Vector4f extents = getProjectionExtents(offset.x(), offset.y());
+		Vector2f offset = Math::hilton_seq_16[Renderer::getFrameIndex() % 16];
+		Vector4f extents = getProjectionExtents(offset.x(), offset.y());
 
-	float cf = _zFar;
-	float cn = _zNear;
-	float xm = extents.z() - extents.x();
-	float xp = extents.z() + extents.x();
-	float ym = extents.w() - extents.y();
-	float yp = extents.w() + extents.y();
+		float cf = _zFar;
+		float cn = _zNear;
+		float xm = extents.z() - extents.x();
+		float xp = extents.z() + extents.x();
+		float ym = extents.w() - extents.y();
+		float yp = extents.w() + extents.y();
 
-	jitterProjection = Matrix4f::createPerspective(xm * cn, xp * cn, ym * cn, yp * cn, cn, cf);
+		jitterProjection = Matrix4f::createPerspective(xm * cn, xp * cn, ym * cn, yp * cn, cn, cf);
 
-	return jitterProjection;
+		return jitterProjection;
+	}
 }
 
 Matrix4f Camera::getViewMatrix()
 {
-	if (transform->hasChanged())
+	if (transform->hasChangedLastTick())
 	{
-	//	Vector2f offset = _hilton16[_count] * 0.001f;
-	//	Vector3f pos = transform->getPositionWorld() + Vector3f(offset.x(), offset.y(), 0);
-		//_viewCache = Matrix4f::lookAt(pos, transform->up(), transform->forward());
-		_viewCache = Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
+		_viewMatrix = Matrix4f::lookAt(transform->getPositionWorld(), transform->up(), transform->forward());
 	}
 
-	return _viewCache;
+	return _viewMatrix;
 }
 
-//TODO: cache this matrix
 Matrix4f Camera::getViewProjection()
-{
-	return getViewProjectionJittered();
-	//return _projection * getViewMatrix();
-}
-
-Matrix4f Camera::getViewProjectionJittered()
 {
 	return getProjectionMatrix() * getViewMatrix();
 }
@@ -208,12 +205,9 @@ bool Camera::frustumTest(ObjectRenderer* object)
 	return true;
 }
 
-void Camera::storeOldVP()
+void Camera::toggleJitter(bool jitter)
 {
-	_viewProjectionLast = getViewProjectionJittered();
-	//_viewProjectionLast = getViewProjection();
-	++_count;
-	_count %= 16;
+	_jitter = jitter;
 }
 
 void Camera::destroy()

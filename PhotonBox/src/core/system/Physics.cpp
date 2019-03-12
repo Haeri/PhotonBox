@@ -99,7 +99,7 @@ void Physics::refeed()
 	for (std::map<Transform*, PxRigidDynamic*>::iterator it = _physXMap.begin(); it != _physXMap.end(); ++it)
 	{
 		Transform* t = it->first;
-		if (t->hasChanged())
+		if (t->hasChangedLastTick())
 		{
 			_physXMap[t]->setGlobalPose(PxTransform(t->getPositionWorld().toPhysX()));
 		}

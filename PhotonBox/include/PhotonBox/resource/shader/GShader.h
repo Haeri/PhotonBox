@@ -16,40 +16,25 @@ public:
 	void update(Transform* transform)
 	{
 		Vector4f eyePos = Vector4f(Camera::getMainCamera()->transform->getPositionWorld(), 1);
-		//Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
-		Matrix4f mvp = Camera::getMainCamera()->getViewProjectionJittered() * transform->getTransformationMatrix();
-		Matrix4f mvpOld = Camera::getMainCamera()->_viewProjectionLast * transform->getTransformationMatrix();
-		
+		Matrix4f mv = Camera::getMainCamera()->getViewProjection();
+		Matrix4f mvp = mv * transform->getTransformationMatrix();
+		Matrix4f oldmvp = _oldModelViewMatrix * transform->getTransformationMatrix();
+
+		/*
 		glUniformMatrix4fv(uniforms["mvp"], 1, GL_FALSE, &(mvp(0, 0)));
-		glUniformMatrix4fv(uniforms["mvpOld"], 1, GL_FALSE, &(mvpOld(0, 0)));
+		glUniformMatrix4fv(uniforms["mvpOld"], 1, GL_FALSE, &(oldmvp(0, 0)));
 		glUniformMatrix4fv(uniforms["model"], 1, GL_FALSE, &(transform->getTransformationMatrix()(0, 0)));
 		glUniformMatrix4fv(uniforms["view"], 1, GL_FALSE, &(Camera::getMainCamera()->getViewMatrix()(0, 0)));
 		glUniform3fv(uniforms["viewPos"], 1, &(eyePos.x()));
-	}
+		*/
 
-	void addUniforms() override
-	{
-		addUniform("model");
-		addUniform("view");
-		addUniform("mvp");
-		addUniform("mvpOld");
+		setUniform("mvp", mvp);
+		setUniform("mvpOld", oldmvp);
+		setUniform("model", transform->getTransformationMatrix());
+		setUniform("view", Camera::getMainCamera()->getViewMatrix());
+		setUniform("viewPos", Camera::getMainCamera()->transform->getPositionWorld());
 
-		addUniform("viewPos");
-		addUniform("minBound");
-		addUniform("maxBound");
-		addUniform("boundPos");
-		addUniform("useCorrection");
-		addUniform("emissionIntensity");
-
-		addTexture("irradianceMap");
-		addTexture("convolutedSpecularMap");
-
-		addTexture("albedoMap");
-		addTexture("roughnessMap");
-		addTexture("metallicMap");
-		addTexture("normalMap");
-		addTexture("emissionMap");
-		//addTexture("aoMap");
+		_oldModelViewMatrix = mv;
 	}
 
 	void addAttributes() override
@@ -64,6 +49,9 @@ public:
 	{
 		return Shader::Type::SURFACE_SHADER;
 	}
+
+private:
+	Matrix4f _oldModelViewMatrix;
 };
 
 #endif // G_SHADER_H
