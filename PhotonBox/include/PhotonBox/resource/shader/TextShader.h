@@ -19,14 +19,6 @@ public:
 		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(ortho(0, 0)));
 	}
 
-	void addUniforms() override
-	{
-		addUniform("projection");
-		addUniform("textColor");
-
-		addTexture("text");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("vertex", Vertex::AttibLocation::POSITION);

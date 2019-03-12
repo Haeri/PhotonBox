@@ -16,17 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/fxaa");
 	}
 
-	void addUniforms() override
-	{
-		addUniform("screenWidth");
-		addUniform("screenHeight");
-		addUniform("R_fxaaSpanMax");
-		addUniform("R_fxaaReduceMin");
-		addUniform("R_fxaaReduceMul");
-
-		addTexture("renderTexture");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

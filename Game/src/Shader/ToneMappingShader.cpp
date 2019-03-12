@@ -16,11 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/tonemapping");
 	}
 
-	void addUniforms() override
-	{
-		addTexture("renderTexture");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

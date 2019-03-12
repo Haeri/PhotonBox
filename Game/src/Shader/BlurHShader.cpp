@@ -16,12 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/blur-h");
 	}
 
-	void addUniforms() override
-	{
-		addUniform("offset");
-		addTexture("renderTexture");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

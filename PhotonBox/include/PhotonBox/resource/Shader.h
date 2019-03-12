@@ -51,7 +51,6 @@ public:
 	void sendToGPU() override;
 
 	virtual std::string getFilePath() = 0;
-	virtual void addUniforms() {}
 	virtual void addAttributes() = 0;
 	virtual void update(Transform* transform) {}
 	virtual void update(Transform* transform, LightEmitter* thing) {}
@@ -59,8 +58,6 @@ public:
 	//virtual void update(void* data) {}
 
 	void addAttribut(std::string attribute, GLint index);
-	void addUniform(std::string uniform);
-	void addTexture(std::string uniform);
 	void enableAttributes();
 	void disableAttributes();
 	void updateTextures();
@@ -124,10 +121,11 @@ private:
 	std::string _vertextCode;
 	std::string _fragmentCode;
 
+	void addUniform(std::string uniform);
+	void addTexture(std::string uniform);
 	bool checkUniform(const std::string& name);
 
 	void blankInitialize() override;
-
 };
 
 

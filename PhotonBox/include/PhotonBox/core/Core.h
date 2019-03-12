@@ -26,7 +26,7 @@ class Core
 public:
 	static const double FIXED_TIME_INTERVAL;
 
-	bool temp = true;
+	bool temp = false;
 	void init(std::map<std::string, Scene*>& sceneMap);
 	void start();
 	void reset();

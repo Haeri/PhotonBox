@@ -20,25 +20,9 @@ public:
 
 	void update(Transform* transform) override
 	{
-		glUniform1f(uniforms["screenWidth"], GLfloat(Display::getWidth()/2.0f));
-		glUniform1f(uniforms["screenHeight"], GLfloat(Display::getHeight()/2.0f));
-		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
-	}
-
-	void addUniforms() override
-	{
-		addUniform("projection");
-		addUniform("screenWidth");
-		addUniform("screenHeight");
-
-		for (size_t i = 0; i < 64; i++)
-		{
-			addUniform("samples[" + std::to_string(i) + "]");
-		}
-
-		addTexture("gPosition");
-		addTexture("gNormal");
-		addTexture("texNoise");
+		setUniform("screenWidth", Display::getWidth() / 2.0f);
+		setUniform("screenHeight", Display::getHeight() / 2.0f);
+		setUniform("projection", Camera::getMainCamera()->getProjectionMatrix());
 	}
 
 	void addAttributes() override

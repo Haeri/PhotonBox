@@ -13,11 +13,6 @@ public:
 		return std::string(Resources::ENGINE_RESOURCES + "/shaders/util/default-post");
 	}
 
-	void addUniforms() override
-	{
-		addTexture("renderTexture");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

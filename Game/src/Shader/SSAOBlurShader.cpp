@@ -16,15 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/ssaoBlur");
 	}
 
-	void addUniforms() override
-	{
-		addUniform("screenWidth");
-		addUniform("screenHeight");
-
-		addTexture("original");
-		addTexture("ssaoInput");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

@@ -16,12 +16,6 @@ public:
 		return std::string("./res/shaders/post-processing/blur");
 	}
 
-	void addUniforms() override
-	{
-		addUniform("aspectRatio");
-		addUniform("offset");
-	}
-
 	void addAttributes() override
 	{
 		addAttribut("position", Vertex::AttibLocation::POSITION);

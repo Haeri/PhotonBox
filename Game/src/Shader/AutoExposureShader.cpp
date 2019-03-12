@@ -19,19 +19,7 @@ public:
 
 	void update(Transform* t) override
 	{
-		glUniform1f(uniforms["delteTime"], Time::deltaTimef);
-	}
-
-	void addUniforms() override
-	{
-		addUniform("maxMip");
-		addUniform("minLum");
-		addUniform("maxLum");
-		addUniform("delteTime");
-		addUniform("adaptationSpeed");
-
-		addTexture("luminanceSampleCurrent");
-		addTexture("luminanceSampleLast");
+		setUniform("delteTime", Time::deltaTimef);
 	}
 
 	void addAttributes() override
