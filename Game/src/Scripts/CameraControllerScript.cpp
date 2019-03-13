@@ -35,7 +35,6 @@ public:
 			(transform->forward() * direction.z() +
 				transform->up() * direction.y() +
 				transform->right() * direction.x())
-
 			* Time::deltaTime * speed * shift);
 
 		if(InputManager::getCursorMode() == InputManager::CursorMode::DISABLED){

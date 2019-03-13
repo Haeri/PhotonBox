@@ -94,32 +94,34 @@ public:
 		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 
-		/*
+		
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
 		sun->getComponent<DirectionalLight>()->intensity = 10.0f;	
-		sun->setEnable(false);
-		*/
+		//sun->setEnable(false);
+		
 
 		
 		for (size_t i = 0; i < 100; i++)
 		{
 
-		Entity* sphere = instanciate("Sphere" + std::to_string(i));
-		sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
-		sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
-		sphere->getComponent<MeshRenderer>()->setMaterial(def);
-		sphere->addComponent<Rigidbody>();
-		sphere->addComponent<SphereCollider>()->setRadius(1);
-//		sphere->addComponent<PointLight>()->color = Vector3f((rand() % 100)/100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
-//		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
+			float scale = rand() * 4;
+			Entity* sphere = instanciate("Sphere" + std::to_string(i));
+			sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
+			sphere->getComponent<Transform>()->setScale(Vector3f(scale, scale, scale));
+			sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
+			sphere->getComponent<MeshRenderer>()->setMaterial(def);
+			sphere->addComponent<Rigidbody>();// ->setMass(scale);
+			sphere->addComponent<SphereCollider>()->setRadius(scale);
+	//		sphere->addComponent<PointLight>()->color = Vector3f((rand() % 100)/100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
+	//		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
 
 
-		sphere->addComponent<SpotLight>()->color = Vector3f((rand() % 100) / 100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
-		sphere->getComponent<SpotLight>()->intensity = rand() % 5 + 10;
-		//sphere->getComponent<SpotLight>()->coneAngle = 0.95f;
+			//sphere->addComponent<SpotLight>()->color = Vector3f((rand() % 100) / 100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
+			//sphere->getComponent<SpotLight>()->intensity = rand() % 5 + 10;
+			//sphere->getComponent<SpotLight>()->coneAngle = 0.95f;
 
 		}
 		
