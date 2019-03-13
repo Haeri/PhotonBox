@@ -66,7 +66,6 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 	_systems.push_back(_uiRenderer);
 	_systems.push_back(_debugGUI);
 
-
 	// Initialize OpenGL
 	_display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
 	
@@ -81,10 +80,6 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
 
-	// Load Scenes
-//	_sceneManager->init(sceneMap);
-//	_sceneManager->loadSceneImediately(firstScene);
-
 	// Start Subsystems
 	start();
 }
@@ -94,19 +89,11 @@ void Core::start()
 	std::cout << "==================================================" << std::endl;
 	std::cout << "            LOADING SCENE " << SceneManager::getCurrentName() << std::endl << std::endl;
 
-
 	for (std::vector<ISystem*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
 	{
 		(*it)->start();
 	}
 
-/*
-	_logic->start();
-	_renderer->start();
-	_lighting->start();
-	_postPocessing->start();
-	_physics->start();
-*/
 	std::cout << std::endl << "                   SCENE READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
 }
@@ -144,6 +131,7 @@ void Core::run()
 		_accumulatedTime += Time::deltaTime;
 		if (_accumulatedTime > FIXED_TIME_INTERVAL)
 		{
+			_physics->refeed();
 			_physics->update(_accumulatedTime);
 			_logic->fixedUpdate();
 			_accumulatedTime = 0;
@@ -164,7 +152,7 @@ void Core::run()
 		_check_gl_error("First Clear", 0);
 
 
-		// Render gBuffers
+		// Fill gBuffers
 		_renderer->prePass();
 		_check_gl_error("Pre Pass", 0);
 
@@ -174,7 +162,7 @@ void Core::run()
 		nbFrames++;
 		_check_gl_error("Main Render", 0);
 
-
+		// Post process
 		_postPocessing->postProcess();
 		_check_gl_error("PostProcessing", 0);
 
@@ -207,7 +195,7 @@ void Core::run()
 
 
 		// Refeed position updates to physics system
-		_physics->refeed();
+		//_physics->refeed();
 
 		// Stop Rendering
 		Display::swapBuffer();
@@ -246,7 +234,6 @@ void Core::run()
 		{
 			_sceneManager->unloadScene(SceneManager::getCurrentScene());
 			reset();
-			//_sceneManager->loadQueuedScene();
 			start();
 
 			// reset timing
@@ -269,11 +256,6 @@ void Core::reset()
 		(*it)->reset();
 	}
 
-	/*
-	_postPocessing->reset();
-	_physics->reset();
-	_renderer->reset();
-	*/
 	_profiler->reset();
 }
 
@@ -284,14 +266,6 @@ void Core::destroy()
 		(*it)->destroy();
 	}
 
-	/*
-	_sceneManager->destroy();
-	_logic->destroy();
-	_renderer->destroy();
-	_physics->destroy();
-	_debugGUI->destroy();
-	_postPocessing->destroy();
-	*/
 	_display->destroy();
 
 	FrameBuffer::destroy();

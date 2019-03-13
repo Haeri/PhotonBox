@@ -96,7 +96,6 @@ project "Game"
 	{
 		"PhotonBox",
 		"glfw3",
-		"opengl32",
 		"zlibstat",
 		"freetype271MT",
 	}
@@ -105,6 +104,11 @@ project "Game"
 		defines "PB_PLATFORM_WIN"
 		cppdialect "C++17"
 		systemversion "latest"
+		links "opengl32"
+
+	filter "system:linux"
+		defines "PB_PLATFORM_LNX"
+		links "GL"		
 
 	filter "configurations:Debug"
 		defines { "PB_DEBUG", "_DEBUG" }

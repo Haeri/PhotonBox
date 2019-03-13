@@ -54,12 +54,12 @@ Automotive
 Generate the visual studio project files, by doubleclicking on `generate_project_win.bat` inside the `Tools` directory.
 
 ### For Linux
-Make the generator script executable by typing `chmod +x Tools/generate_project_linux.sh`.
-Then generate the codelite project files, by executing the script with `./Tools/generate_project_linux.sh`.
+Make the generator script executable by typing `chmod +x generate_project_linux.sh` inside the `Tools` directory.
+Then generate the codelite project files, by executing the script with `./generate_project_linux.sh`.
 
 ### For Mac
-Make the generator script executable by typing `chmod +x Tools/generate_project_mac.sh`.
-Then generate the xcode project files, by executing the script with `./Tools/generate_project_mac.sh`.
+Make the generator script executable by typing `chmod +x generate_project_mac.sh` inside the `Tools` directory.
+Then generate the xcode project files, by executing the script with `./generate_project_mac.sh`.
 
 ## Roadmap
 ### RENDERING
