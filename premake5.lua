@@ -16,6 +16,7 @@ project "PhotonBox"
 	location "PhotonBox"
 	kind "StaticLib"
 	language "C++"
+	cppdialect "C++11"
 	staticruntime "off"
 
 	targetdir ("%{prj.name}/bin/" .. outputdir)
@@ -40,7 +41,6 @@ project "PhotonBox"
 
 	filter "system:windows"
 		defines "PB_PLATFORM_WIN"
-		cppdialect "C++11"
 		systemversion "latest"
 
 	filter "configurations:Debug"
@@ -68,6 +68,7 @@ project "Game"
 	location "Game"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++11"
 	staticruntime "off"
 
 	targetdir ("%{prj.name}/bin/" .. outputdir)
@@ -102,12 +103,11 @@ project "Game"
 
 	filter "system:windows"
 		defines "PB_PLATFORM_WIN"
-		cppdialect "C++17"
 		systemversion "latest"
 		links "opengl32"
 
-	filter "system:linux"
-		defines "PB_PLATFORM_LNX"
+	filter "system:unix"
+		defines "PB_PLATFORM_NIX"
 		links "GL"		
 
 	filter "configurations:Debug"
