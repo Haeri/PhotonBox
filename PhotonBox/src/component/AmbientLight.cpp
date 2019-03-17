@@ -8,7 +8,7 @@
 #define new DEBUG_NEW
 #endif
 
-AmbientLight::AmbientLight()
+void AmbientLight::init()
 {
 	Lighting::addLight(this);
 }

@@ -1,5 +1,5 @@
-#ifndef TEST_SCENE_CPP
-#define TEST_SCENE_CPP
+#ifndef REALISTIC_RENDERING_SCENE_CPP
+#define REALISTIC_RENDERING_SCENE_CPP
 
 #include <component/MeshRenderer.h>
 #include <component/Camera.h>
@@ -39,7 +39,7 @@
 #define new DEBUG_NEW
 #endif
 
-class TestScene : public Scene
+class RealisticRenderingScene : public Scene
 {
 public:
 
@@ -58,55 +58,59 @@ public:
 		
 
 		Renderer::setSkyBox(createResource<CubeMap>(white));
-		//Renderer::setSkyBox(new CubeMap(white));
 		Renderer::getSkyBox()->intensity = 10;
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-
-		SSAOProcessor* p_ssao = new SSAOProcessor(10);
-		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(40);
-		//FXAAProcessor* p_fxaa = new FXAAProcessor(41);
-		TAAProcessor* p_fxaa = new TAAProcessor(41);
-		//DOFProcessor* p_dof = new DOFProcessor(42);
-		BloomProcessor* p_bloom = new BloomProcessor(50);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(60);
+		SSAOProcessor* p_ssao					= new SSAOProcessor(10);
+		SSReflectionProcessor* p_ssreflection	= new SSReflectionProcessor(20);
+		AutoExposureProcessor* p_autoExposure	= new AutoExposureProcessor(30);
+		TAAProcessor* p_fxaa					= new TAAProcessor(40);
+		DOFProcessor* p_dof						= new DOFProcessor(50);
+		BloomProcessor* p_bloom					= new BloomProcessor(60);
+		ToneMappingProcessor* p_tonemapping		= new ToneMappingProcessor(70);
+		p_dof->setEnabled(false);
 
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		Mesh* couchMesh = createResource<Mesh>("./res/Realistic-Rendering/Couch/couch.obj");
-		Mesh* wallMesh = createResource<Mesh>("./res/Realistic-Rendering/Walls/Room.obj");
-		Mesh* floorMesh = createResource<Mesh>("./res/Realistic-Rendering/Floor/Floor.obj");
-		Mesh* doorsMesh = createResource<Mesh>("./res/Realistic-Rendering/Doors/Doors.obj");
-		Mesh* tableMesh = createResource<Mesh>("./res/Realistic-Rendering/Table/Table.obj");
-		Mesh* longCouchMesh = createResource<Mesh>("./res/Realistic-Rendering/Couch/Long_Couch.obj");
-		Mesh* slidingDoorMesh = createResource<Mesh>("./res/Realistic-Rendering/SlidingDoor/SlideDoor.obj");
-		Mesh* floorEdgeMesh = createResource<Mesh>("./res/Realistic-Rendering/FloorEdge/FloorEdge.obj");
-		Mesh* shelveMesh = createResource<Mesh>("./res/Realistic-Rendering/Shelving/Shelving.obj");
-		Mesh* carpetMesh = createResource<Mesh>("./res/Realistic-Rendering/Carpet/Carpet.obj");
-		Mesh* carpetFloorMesh = createResource<Mesh>("./res/Realistic-Rendering/Carpet/CarpetFloor.obj");
-		Mesh* occluderMesh = createResource<Mesh>("./res/Realistic-Rendering/Occluder/occluder.obj");
-		Mesh* windowMesh = createResource<Mesh>("./res/Realistic-Rendering/Window/Window.obj");
-		Mesh* panoramaMesh = createResource<Mesh>("./res/Realistic-Rendering/Panorama/Panorama.obj");
-		Mesh* lampMesh = createResource<Mesh>("./res/Realistic-Rendering/Lamp/Lamp.obj");
-		Mesh* ceilingLightMesh = createResource<Mesh>("./res/Realistic-Rendering/CeilingLight/CeilingLight.obj");
-		Mesh* vaseMesh = createResource<Mesh>("./res/Realistic-Rendering/Vase/Vase.obj");
-		Mesh* bookMesh1 = createResource<Mesh>("./res/Realistic-Rendering/Books/Books_1.obj");
-		Mesh* bookMesh2 = createResource<Mesh>("./res/Realistic-Rendering/Books/Books_2.obj");
-		Mesh* bookMesh3 = createResource<Mesh>("./res/Realistic-Rendering/Books/Books_3.obj");
-		Mesh* bookMesh4 = createResource<Mesh>("./res/Realistic-Rendering/Books/Books_4.obj");
-		Mesh* balconyFloorMesh = createResource<Mesh>("./res/Realistic-Rendering/BalconyFloor/Balcony_Floor.obj");
+		Mesh* sphere			= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* couchMesh			= createResource<Mesh>("./res/Realistic-Rendering/Couch/couch.obj");
+		Mesh* wallMesh			= createResource<Mesh>("./res/Realistic-Rendering/Walls/Room.obj");
+		Mesh* floorMesh			= createResource<Mesh>("./res/Realistic-Rendering/Floor/Floor.obj");
+		Mesh* doorsMesh			= createResource<Mesh>("./res/Realistic-Rendering/Doors/Doors.obj");
+		Mesh* tableMesh			= createResource<Mesh>("./res/Realistic-Rendering/Table/Table.obj");
+		Mesh* longCouchMesh		= createResource<Mesh>("./res/Realistic-Rendering/Couch/Long_Couch.obj");
+		Mesh* slidingDoorMesh	= createResource<Mesh>("./res/Realistic-Rendering/SlidingDoor/SlideDoor.obj");
+		Mesh* floorEdgeMesh		= createResource<Mesh>("./res/Realistic-Rendering/FloorEdge/FloorEdge.obj");
+		Mesh* shelveMesh		= createResource<Mesh>("./res/Realistic-Rendering/Shelving/Shelving.obj");
+		Mesh* carpetMesh		= createResource<Mesh>("./res/Realistic-Rendering/Carpet/Carpet.obj");
+		Mesh* carpetFloorMesh	= createResource<Mesh>("./res/Realistic-Rendering/Carpet/CarpetFloor.obj");
+		Mesh* occluderMesh		= createResource<Mesh>("./res/Realistic-Rendering/Occluder/occluder.obj");
+		Mesh* windowMesh		= createResource<Mesh>("./res/Realistic-Rendering/Window/Window.obj");
+		Mesh* panoramaMesh		= createResource<Mesh>("./res/Realistic-Rendering/Panorama/Panorama.obj");
+		Mesh* lampMesh			= createResource<Mesh>("./res/Realistic-Rendering/Lamp/Lamp.obj");
+		Mesh* ceilingLightMesh	= createResource<Mesh>("./res/Realistic-Rendering/CeilingLight/CeilingLight.obj");
+		Mesh* vaseMesh			= createResource<Mesh>("./res/Realistic-Rendering/Vase/Vase.obj");
+		Mesh* bookMesh1			= createResource<Mesh>("./res/Realistic-Rendering/Books/Books_1.obj");
+		Mesh* bookMesh2			= createResource<Mesh>("./res/Realistic-Rendering/Books/Books_2.obj");
+		Mesh* bookMesh3			= createResource<Mesh>("./res/Realistic-Rendering/Books/Books_3.obj");
+		Mesh* bookMesh4			= createResource<Mesh>("./res/Realistic-Rendering/Books/Books_4.obj");
+		Mesh* balconyFloorMesh	= createResource<Mesh>("./res/Realistic-Rendering/BalconyFloor/Balcony_Floor.obj");
 		Mesh* balconyRailingMesh = createResource<Mesh>("./res/Realistic-Rendering/Railing/Balcony_Railing.obj");
-		Mesh* frameMesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/Frame.obj");
-		Mesh* frameGlassMesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/GlassPane.obj");
-		Mesh* painting1Mesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting1.obj");
-		Mesh* painting2Mesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting2.obj");
-		Mesh* painting3Mesh = createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting3.obj");
+		Mesh* frameMesh			= createResource<Mesh>("./res/Realistic-Rendering/Frame/Frame.obj");
+		Mesh* frameGlassMesh	= createResource<Mesh>("./res/Realistic-Rendering/Frame/GlassPane.obj");
+		Mesh* painting1Mesh		= createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting1.obj");
+		Mesh* painting2Mesh		= createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting2.obj");
+		Mesh* painting3Mesh		= createResource<Mesh>("./res/Realistic-Rendering/Frame/Painting3.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
+		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
+		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
+		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
+		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
+		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+
 		Texture* woodAlbedo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
 		Texture* woodRough = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
 		Texture* woodNormal = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), true);
@@ -189,22 +193,15 @@ public:
 		
 		Texture* wallNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Walls/T_PaintedWall_N.TGA"), true);
 		
-		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
-		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
-		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
-		
 		Texture* panoramaAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Panorama/T_Background_D.TGA"), true);
 		Texture* blinds = createResource<Texture>(std::string("./res/textures/blinds.png"), true);
 
 
 		/* --------------------------- SHADERS --------------------------- */
-		UnlitShader* unlitShader = UnlitShader::getInstance();
-		TransparentShader* transparentShader = TransparentShader::getInstance();
-		SkyBoostShader* skyBoost = SkyBoostShader::getInstance();
 		GShader* defaultShader = GShader::getInstance();
+		TransparentShader* transparentShader = TransparentShader::getInstance();
+		UnlitShader* unlitShader = UnlitShader::getInstance();
+		SkyBoostShader* skyBoost = SkyBoostShader::getInstance();
 
 
 		/* --------------------------- MATERIALS --------------------------- */
@@ -389,7 +386,6 @@ public:
 		blindsMaterial->setTexture("metallicMap", default_ao);
 		blindsMaterial->setTexture("emissionMap", default_emission);
 
-
 		Material* def = createResource<Material>(defaultShader);
 		def->setTexture("albedoMap", default_specular);
 		def->setTexture("normalMap", default_normal);
@@ -406,9 +402,7 @@ public:
 		glassMaterial->setTexture("metallicMap", default_emission);
 		glassMaterial->setTexture("emissionMap", default_emission);
 
-
 		Material* occluderMaterial = createResource<Material>(unlitShader);
-		//occluderMaterial->setProperty<Vector3f>("color", Vector3f(0, 0, 0));
 
 		Material* panoramaMaterial = createResource<Material>(skyBoost);
 		panoramaMaterial->setTexture("albedoMap", panoramaAlbedo);
@@ -470,7 +464,6 @@ public:
 		cam->addComponent<StateControllerScript>();
 		cam->addComponent<CameraControllerScript>();
 		
-		
 		cam->addComponent<PathWalkerScript>()->speed = 0.1f;
 		cam->getComponent<PathWalkerScript>()->positions = positions;
 		cam->getComponent<PathWalkerScript>()->rotations = rotations;	
@@ -524,7 +517,6 @@ public:
 		table->addComponent<MeshRenderer>()->getReflected = false;
 		table->getComponent<MeshRenderer>()->setMesh(tableMesh);
 		table->getComponent<MeshRenderer>()->setMaterial(tableMaterial);
-		//table->setEnable(false);
 
 		Entity* shelve = instanciate("Shelve");
 		shelve->addComponent<MeshRenderer>();
@@ -648,44 +640,15 @@ public:
 		probe->getComponent<MeshRenderer>()->getReflected = false;
 		
 		Entity* window = instanciate("Window");
-		//window->addComponent<MeshRenderer>()->setRenderType(RenderType::cutout);
-		//window->getComponent<MeshRenderer>()->setMesh(windowMesh);
-		//window->getComponent<MeshRenderer>()->setMaterial(blindsMaterial);
 		window->addComponent<MeshRenderer>()->setRenderType(RenderType::RT_TRANSPARENT);
 		window->getComponent<MeshRenderer>()->setMesh(windowMesh);
 		window->getComponent<MeshRenderer>()->setMaterial(glassMaterial);
-		//window->setEnable(false);
-		
-		/*
-		Entity* window = instanciate("Window");
-		window->addComponent<MeshRenderer>();
-		window->getComponent<MeshRenderer>()->setMesh(windowMesh);
-		*/
 
 		Entity* panorama = instanciate("Panorama");
 		panorama->addComponent<MeshRenderer>();
 		panorama->getComponent<MeshRenderer>()->setMesh(panoramaMesh);
 		panorama->getComponent<MeshRenderer>()->setMaterial(panoramaMaterial);
-
-
-		/*
-		for (int x = 0; x < 8; x++) {
-		for (int z = 0; z < 10; z++) {
-		for (int y = 0; y < 4; y++) {
-		Entity* probe = instanciate("Probe" + x + y + z);
-		probe->getComponent<Transform>()->setPosition(Vector3f(x-4, y, z-5));
-		probe->getComponent<Transform>()->setScale(Vector3f(0.1f, 0.1f, 0.1f));
-		probe->addComponent<MeshRenderer>();
-		probe->getComponent<MeshRenderer>()->setMesh(sphere);
-		probe->getComponent<MeshRenderer>()->setMaterial(def);
-		}
-		}
-		}
-		*/
-
 	}
 
-	void OnUnload() {}
-
 };
-#endif // TEST_SCENE_CPP
+#endif // REALISTIC_RENDERING_SCENE_CPP

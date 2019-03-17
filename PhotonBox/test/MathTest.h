@@ -1,7 +1,7 @@
 #ifndef MATH_TEST_H
 #define MATH_TEST_H
 
-#include "../Math/Matrix4f.h"
+#include "math/Matrix4f.h"
 
 class MathTest
 {

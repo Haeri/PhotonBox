@@ -3,7 +3,7 @@ out vec4 FragColor;
 
 in vec2 TexCoords;
 
-uniform float depth;
+//uniform float depth;
 
 uniform sampler2D rendertexture;
 uniform sampler2D gPosition;

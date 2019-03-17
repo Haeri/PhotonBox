@@ -18,7 +18,7 @@ public:
 	DOFProcessor(int index) : PostProcessor(index, 1.0f, true)
 	{
 		_dofShader = new Material(DOFShader::getInstance());
-		_dofShader->setProperty("depth", 7.0f);
+		//_dofShader->setProperty("depth", 7.0f);
 		_dofShader->setTexture("renderTexture", mainBuffer, "color");
 		_dofShader->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
 	}

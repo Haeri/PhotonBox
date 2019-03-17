@@ -23,7 +23,7 @@ public:
 		setUniform("mvpOld", oldmvp);
 		setUniform("model", transform->getTransformationMatrix());
 		setUniform("view", Camera::getMainCamera()->getViewMatrix());
-		setUniform("viewPos", Camera::getMainCamera()->transform->getPositionWorld());
+		setUniform("viewPos", Camera::getMainCamera()->getTransform()->getPositionWorld());
 
 		_oldModelViewMatrix = mv;
 	}

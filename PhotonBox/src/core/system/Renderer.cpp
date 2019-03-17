@@ -225,11 +225,11 @@ void Renderer::start()
 
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
-		 (*it)->init();
+		 //(*it)->init();
 	}
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it)
 	{
-		(*it)->init();
+		//(*it)->init();
 	}
 }
 
@@ -280,7 +280,7 @@ void Renderer::prePass()
 			{
 				// IBL
 				shader->bind();
-				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
+				LightProbe* lp = Lighting::findInLightProberVolume((*it)->getTransform());
 				if (lp != nullptr)
 				{
 					lp->getIrradianceCube()->bind(shader->textures["irradianceMap"].unit);
@@ -407,7 +407,7 @@ void Renderer::renderDeferred()
 			else if (typeid(*light) == typeid(PointLight))
 			{
 				PointLight* dl = dynamic_cast<PointLight*>(light);
-				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->getPositionWorld(), 1)).xyz();
+				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->getPositionWorld(), 1)).xyz();
 				++i;
 				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].position", posViewSpace);
 				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].color", dl->color);
@@ -419,8 +419,8 @@ void Renderer::renderDeferred()
 			else if (typeid(*light) == typeid(SpotLight))
 			{
 				SpotLight* dl = dynamic_cast<SpotLight*>(light);
-				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->getPositionWorld(), 1)).xyz();
-				Vector3f directionView = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->forwardWorld(), 0.0f)).xyz();
+				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->getPositionWorld(), 1)).xyz();
+				Vector3f directionView = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->forwardWorld(), 0.0f)).xyz();
 
 				++i;
 				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].position", posViewSpace);
@@ -492,7 +492,7 @@ void Renderer::renderForward()
 
 				// IBL
 				_ambientLightShader->bind();
-				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
+				LightProbe* lp = Lighting::findInLightProberVolume((*it)->getTransform());
 				if (lp != nullptr)
 				{
 					lp->getIrradianceCube()->bind(_ambientLightShader->textures["irradianceMap"].unit);
@@ -571,7 +571,7 @@ void Renderer::renderTransparents()
 
 		// IBL
 		_transparentBaseShader->bind();
-		LightProbe* lp = Lighting::findInLightProberVolume(it->second->transform);
+		LightProbe* lp = Lighting::findInLightProberVolume(it->second->getTransform());
 		if (lp != nullptr)
 		{
 			lp->getSpecularCube()->bind(_transparentBaseShader->textures["convolutedSpecularMap"].unit);
@@ -661,6 +661,7 @@ void Renderer::renderFog()
 			}
 			else if (typeid(*light) == typeid(PointLight))
 			{
+				/*
 				PointLight* dl = dynamic_cast<PointLight*>(light);
 				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->getPositionWorld(), 1)).xyz();
 				++i;
@@ -670,9 +671,11 @@ void Renderer::renderFog()
 				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
 				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
 				_volumetricFogShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
+				*/
 			}
 			else if (typeid(*light) == typeid(SpotLight))
 			{
+				/*
 				SpotLight* dl = dynamic_cast<SpotLight*>(light);
 				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->getPositionWorld(), 1)).xyz();
 				Vector3f directionView = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->transform->forwardWorld(), 0.0f)).xyz();
@@ -687,6 +690,7 @@ void Renderer::renderFog()
 				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
 				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
 				_volumetricFogShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
+				*/
 			}
 		}
 	}
@@ -738,7 +742,7 @@ void Renderer::captureScene(LightMap* lightmap)
 
 				// IBL
 				_ambientLightShader->bind();
-				LightProbe* lp = Lighting::findInLightProberVolume((*it)->transform);
+				LightProbe* lp = Lighting::findInLightProberVolume((*it)->getTransform());
 				if (lightmap != nullptr)
 				{
 					lightmap->getIrradianceMap()->bind(_ambientLightShader->textures["irradianceMap"].unit);
@@ -932,12 +936,12 @@ void Renderer::updateTransparentQueue()
 	float bias = 0.0001f;
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it)
 	{
-		if ((*it)->getEnable() && (*it)->entity->getStatic() && Camera::getMainCamera()->frustumTest(*it))
+		if ((*it)->getEnable() && (*it)->getEntity()->getStatic() && Camera::getMainCamera()->frustumTest(*it))
 		{
 			//if (!(*it)->captureVisible && captureMode) continue;
-			Vector3f camPos = Camera::getMainCamera()->transform->getPositionWorld();
+			Vector3f camPos = Camera::getMainCamera()->getTransform()->getPositionWorld();
 
-			float dist = (*it)->transform->getPositionWorld().distanceSqrd(camPos);
+			float dist = (*it)->getTransform()->getPositionWorld().distanceSqrd(camPos);
 
 			while (true)
 			{

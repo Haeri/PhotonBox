@@ -39,7 +39,6 @@ public:
 		};
 
 		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
-		//Renderer::setSkyBox(new CubeMap(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
 
@@ -89,45 +88,34 @@ public:
 		cam->addComponent<StateControllerScript>();
 
 
-
 		/* --------------------------- LIGHTS --------------------------- */
 		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 
-		
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
-		sun->getComponent<DirectionalLight>()->intensity = 10.0f;	
-		//sun->setEnable(false);
-		
+		sun->getComponent<DirectionalLight>()->intensity = 40.0f;			
 
 		
 		for (size_t i = 0; i < 100; i++)
 		{
-
-			float scale = rand() * 4;
+			float scale = rand() % 100 * 0.04f + 1;
+			//float scale = 1.5f;
+			std::cout << scale << std::endl;
 			Entity* sphere = instanciate("Sphere" + std::to_string(i));
 			sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
-			sphere->getComponent<Transform>()->setScale(Vector3f(scale, scale, scale));
+			//sphere->getComponent<Transform>()->setScale(Vector3f(scale, scale, scale));
 			sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
 			sphere->getComponent<MeshRenderer>()->setMaterial(def);
-			sphere->addComponent<Rigidbody>();// ->setMass(scale);
 			sphere->addComponent<SphereCollider>()->setRadius(scale);
-	//		sphere->addComponent<PointLight>()->color = Vector3f((rand() % 100)/100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
-	//		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
-
-
-			//sphere->addComponent<SpotLight>()->color = Vector3f((rand() % 100) / 100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
-			//sphere->getComponent<SpotLight>()->intensity = rand() % 5 + 10;
-			//sphere->getComponent<SpotLight>()->coneAngle = 0.95f;
-
+			sphere->addComponent<Rigidbody>()->setMass(scale);
 		}
 		
 
 		
-		/*
+		
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
@@ -140,12 +128,12 @@ public:
 					box->addComponent<MeshRenderer>()->setMesh(boxMesh);
 					box->getComponent<MeshRenderer>()->setMaterial(def);
 					box->addComponent<Rigidbody>();
-					box->addComponent<PointLight>()->color = Vector3f((i/4.0f * 255.0f), (j / 4.0f * 255.0f), (z / 4.0f * 255.0f));
+					//box->addComponent<PointLight>()->color = Vector3f((i/4.0f * 255.0f), (j / 4.0f * 255.0f), (z / 4.0f * 255.0f));
 					box->addComponent<BoxCollider>()->setHalfExtents(Vector3f(1));
 				}
 			}
 		}
-		*/
+		
 		
 		Entity* quad = instanciate("Plane");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));

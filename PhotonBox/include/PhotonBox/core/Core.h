@@ -1,6 +1,8 @@
 #ifndef CORE_H
 #define CORE_H
 
+#define RECORD_MODE
+
 class Display;
 class SceneManager;
 class Renderer;
@@ -26,7 +28,7 @@ class Core
 public:
 	static const double FIXED_TIME_INTERVAL;
 
-	bool temp = true;
+	bool temp = false;
 	void init(std::map<std::string, Scene*>& sceneMap);
 	void start();
 	void reset();
@@ -55,8 +57,8 @@ private:
 	std::vector<ISystem*> _systems;
 
 	double _accumulatedTime, _newTime, _lastTime;
-	int _fps = 0;
 
 	static bool _isRunning;
+	unsigned char* _record_data;
 };
 #endif // CORE_H

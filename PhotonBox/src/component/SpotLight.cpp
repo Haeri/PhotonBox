@@ -8,7 +8,7 @@
 #define new DEBUG_NEW
 #endif
 
-SpotLight::SpotLight()
+void SpotLight::init()
 {
 	Lighting::addLight(this);
 }

@@ -103,7 +103,7 @@ float phaseFunctionRayleigh(vec3 inDir, vec3 outDir) {
 vec4 volumetricShadows()
 {
 	
-	float density = 0.06;
+	float density = 0.4;
 
     float fragDistance;
 

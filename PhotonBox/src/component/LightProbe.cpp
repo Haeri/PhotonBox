@@ -6,14 +6,14 @@
 #include "PhotonBox/component/Camera.h"
 #include "PhotonBox/resource/LightMap.h"
 #include "PhotonBox/resource/CubeMap.h"
+#include "PhotonBox/core/system/SceneManager.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
 
-LightProbe::LightProbe(int steps)
-	:_steps(steps)
+void LightProbe::init()
 {
 	Lighting::addLightProbe(this);
 }
@@ -45,9 +45,11 @@ LightMap* LightProbe::captureRecursive(int step)
 	LightMap* lightMap = new LightMap(current, false);
 
 	Camera* oldMain = Camera::getMainCamera();
-	Camera cam = Camera();
-	cam.setPerspectiveProjection(90.0f, 1.0f, 0.01f, 10.0f);
-	cam.setMain();
+
+	Entity* e_cam = SceneManager::getCurrentScene()->instanciate("tempCam");
+	Camera* c_cam = e_cam->addComponent<Camera>();
+	c_cam->setPerspectiveProjection(90.0f, 1.0f, 0.01f, 10.0f);
+	c_cam->setMain();
 
 	Matrix4f captureProjection = Matrix4f::createPerspective(90.0f, 1.0f, 0.01f, 10.0f);
 
@@ -61,9 +63,7 @@ LightMap* LightProbe::captureRecursive(int step)
 		Vector3f(0, PI, PI),
 	};
 
-	Transform* _transform = new Transform();
-	cam.transform = _transform;
-	cam.transform->setPosition(transform->getPosition());
+	c_cam->getTransform()->setPosition(transform->getPosition());
 
 	GLuint _captureFBO;
 	GLuint _captureRBO;
@@ -86,7 +86,7 @@ LightMap* LightProbe::captureRecursive(int step)
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, current->getLocation(), 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		cam.transform->setRotation(rotations[i]);
+		c_cam->getTransform()->setRotation(rotations[i]);
 		Renderer::captureScene(lastLightMap);
 	}
 
@@ -97,7 +97,6 @@ LightMap* LightProbe::captureRecursive(int step)
 
 	delete current;
 	delete lastLightMap;
-	delete _transform;
 
 	return lightMap;
 }

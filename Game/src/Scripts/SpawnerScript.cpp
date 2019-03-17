@@ -25,18 +25,11 @@ class SpawnerScript : public Behaviour
 public:
 	float speed = 1;
 
-	void Update()
-	{
-		if (InputManager::keyPressed(InputManager::KEY_R)) {
-			createEntity();
-		}
-	}
-
-	void createEntity() 
+	void Start() override
 	{
 		Scene* scene = SceneManager::getCurrentScene();
-		//Mesh* sphere = scene->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		Mesh* sphere = scene->createResource<Mesh>("./res/meshes/fireplace_room.obj");
+
+		Mesh* _mesh = scene->createResource<Mesh>("./res/meshes/fireplace_room.obj");
 
 		Texture* orig = scene->createResource<Texture>(std::string("./res/textures/view.png"), false);
 		Texture* default_normal = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
@@ -44,22 +37,80 @@ public:
 		Texture* default_emission = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
 		Texture* default_ao = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
 
-		GShader* defaultShader = GShader::getInstance();
+		_mat = scene->createResource<Material>(GShader::getInstance());
+		_mat->setTexture("albedoMap", orig);
+		_mat->setTexture("normalMap", default_normal);
+		_mat->setTexture("roughnessMap", default_specular);
+		_mat->setTexture("aoMap", default_ao);
+		_mat->setTexture("metallicMap", default_emission);
+		_mat->setTexture("emissionMap", default_emission);
 
-		Material* def = scene->createResource<Material>(defaultShader);
-		def->setTexture("albedoMap", orig);
-		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_specular);
-		def->setTexture("aoMap", default_ao);
-		def->setTexture("metallicMap", default_emission);
-		def->setTexture("emissionMap", default_emission);
+		_nightSky = {
+			"./res/enviroment/dark/posx.jpg",
+			"./res/enviroment/dark/negx.jpg",
+			"./res/enviroment/dark/posy.jpg",
+			"./res/enviroment/dark/negy.jpg",
+			"./res/enviroment/dark/posz.jpg",
+			"./res/enviroment/dark/negz.jpg",
+		};
+		
+		_forrest = {
+			"./res/enviroment/Forrest/lod0_right.jpg",
+			"./res/enviroment/Forrest/lod0_left.jpg",
+			"./res/enviroment/Forrest/lod0_top.jpg",
+			"./res/enviroment/Forrest/lod0_bottom.jpg",
+			"./res/enviroment/Forrest/lod0_back.jpg",
+			"./res/enviroment/Forrest/lod0_front.jpg",
+		};
 
-		Entity* e = scene->instanciate("NewObject");
+		_night_c = scene->createResource<CubeMap>(_nightSky);
+		_studio_c = scene->createResource<CubeMap>(_forrest);
+	}
+
+	void Update()
+	{
+		if (InputManager::keyPressed(InputManager::KEY_R)) {
+			createEntity();
+		}
+
+		if (InputManager::keyPressed(InputManager::KEY_K)) {
+			toggleSkybox();
+		}
+	}
+
+	void toggleSkybox()
+	{
+		if (_sky_flip)
+		{
+			Renderer::setSkyBox(_studio_c);
+		}
+		else
+		{
+			Renderer::setSkyBox(_night_c);
+		}
+		_sky_flip = !_sky_flip;
+	}
+
+	void createEntity() 
+	{
+		Entity* e = SceneManager::getCurrentScene()->instanciate("NewObject");
 		e->getComponent<Transform>()->setPosition(Vector3f(rand() % 10, rand() % 10, rand() % 10));
 		e->addComponent<MeshRenderer>();
-		e->getComponent<MeshRenderer>()->setMesh(sphere);
-		e->getComponent<MeshRenderer>()->setMaterial(def);
+		e->getComponent<MeshRenderer>()->setMesh(_mesh);
+		e->getComponent<MeshRenderer>()->setMaterial(_mat);
 	}
+
+private:
+	std::vector<std::string> _nightSky;
+	std::vector<std::string> _forrest;
+
+	CubeMap* _night_c;
+	CubeMap* _studio_c;
+
+	Material* _mat;
+	Mesh* _mesh;
+
+	bool _sky_flip;
 };
 
 #endif // SPAWNER_SCRIPT_CPP

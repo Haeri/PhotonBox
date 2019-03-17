@@ -13,10 +13,9 @@ public:
 	float coneAngle = 0.97f;
 	float coneAttenuation = 0.96f;
 
-	SpotLight();
-
 	void OnEnable() override;
 	void OnDisable() override;
+	void init() override;
 	void destroy() override;
 	Shader* getLightShader() override;
 };

@@ -21,9 +21,9 @@ public:
 
 		setUniform("mvp", mvp);
 		setUniform("modelMatrix", transform->getTransformationMatrix());
-		setUniform("viewPos", Camera::getMainCamera()->transform->getPositionWorld());
-		setUniform("light.position", spotLight->transform->getPositionWorld());
-		setUniform("light.direction", spotLight->transform->forwardWorld());
+		setUniform("viewPos", Camera::getMainCamera()->getTransform()->getPositionWorld());
+		setUniform("light.position", spotLight->getTransform()->getPositionWorld());
+		setUniform("light.direction", spotLight->getTransform()->forwardWorld());
 		setUniform("light.intensity", spotLight->intensity);
 		setUniform("light.color", spotLight->color);
 		setUniform("light.coneAngle", spotLight->coneAngle);

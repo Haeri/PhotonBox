@@ -21,6 +21,9 @@
 #include "PhotonBox/util/GLError.h"
 #include "PhotonBox/util/FileWatch.h"
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "STB/stb_image_write.h"
+
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
@@ -77,6 +80,11 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 	_uiRenderer->init();
 	_sceneManager->init(sceneMap);
 
+#ifdef RECORD_MODE
+	const int size = Display::getWidth() * Display::getHeight() * 3;
+	_record_data = new unsigned char[size];
+#endif
+
 	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
 	std::cout << "==================================================" << std::endl << std::endl;
 
@@ -112,7 +120,11 @@ void Core::run()
 	{
 		// Measure time
 		double currentTime = Time::now();
+#ifdef RECORD_MODE
+		_time->setDeltaTime(0.016666f);
+#else
 		_time->setDeltaTime(currentTime - lastTime);
+#endif
 		lastTime = currentTime;
 		lastSecond += Time::deltaTime;
 
@@ -166,7 +178,7 @@ void Core::run()
 		_postPocessing->postProcess();
 		_check_gl_error("PostProcessing", 0);
 
-
+#ifndef RECORD_MODE
 		// Gizmos
 		_renderer->renderGizmos();
 		_postPocessing->drawGizmos();
@@ -190,9 +202,9 @@ void Core::run()
 
 		// System GUI
 		_sceneManager->drawSceneList();
+#endif
 		_debugGUI->render();
 		_check_gl_error("debugGUI", 0);
-
 
 		// Refeed position updates to physics system
 		//_physics->refeed();
@@ -228,6 +240,22 @@ void Core::run()
 		}
 
 		_logic->tick();
+
+#ifdef RECORD_MODE
+		int digits = 5;
+		std::string s_num = std::to_string(Renderer::getFrameIndex());
+		std::string num = std::string(digits-s_num.length(), '0').append(s_num);
+		std::string s = "frames/frame_" + num + ".png";
+		const char* frame = s.c_str();
+		std::cout << "Start " << frame;
+
+		FrameBuffer::resetDefaultBuffer();
+		glReadPixels(0, 0, Display::getWidth(), Display::getHeight(), GL_RGB, GL_UNSIGNED_BYTE, _record_data);
+		stbi_flip_vertically_on_write(1);
+		stbi_write_png(frame, Display::getWidth(), Display::getHeight(), 3, (void*)_record_data, 0);
+
+		std::cout << "- Done\n"; 
+#endif
 
 		// End of Frame
 		if (_sceneManager->sceneQueued())
@@ -285,4 +313,8 @@ void Core::destroy()
 	delete _profiler;
 	delete _config;
 	delete _fileWatch;
+
+#ifdef RECORD_MODE
+	delete _record_data;
+#endif
 }

@@ -14,9 +14,7 @@ class ObjectRenderer : public Component
 public:
 	bool getReflected = true;
 	bool castShadows = true;
-
-	ObjectRenderer() : ObjectRenderer(RenderType::RT_OPAQUE) {}
-	ObjectRenderer(RenderType type);
+	
 	virtual ~ObjectRenderer() {}
 
 	virtual void init();

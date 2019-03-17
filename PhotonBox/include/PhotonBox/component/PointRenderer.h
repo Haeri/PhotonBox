@@ -6,7 +6,6 @@
 class PointRenderer : public ObjectRenderer
 {
 public:
-
 	void render() override
 	{	}
 };

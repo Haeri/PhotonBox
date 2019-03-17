@@ -5,6 +5,7 @@ class Scene;
 
 #include <map>
 
+#include "PhotonBox/resource/Scene.h"
 #include "PhotonBox/core/ISystem.h"
 
 class SceneManager : public ISystem

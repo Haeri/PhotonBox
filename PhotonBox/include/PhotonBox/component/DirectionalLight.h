@@ -14,12 +14,12 @@ public:
 	Matrix4f lightProjection;
 	//FrameBuffer* shadowBuffer;
 
-	DirectionalLight();
 	~DirectionalLight();
 
 	void OnEnable() override;
 	void OnDisable() override;
 
+	void init() override;
 	void destroy() override;
 	Shader* getLightShader() override;
 	//void renderShadowMap(bool captureMode);

@@ -13,8 +13,7 @@ public:
 	int resolution;
 	AABB bounds;
 
-	LightProbe(int steps = 4);
-
+	void init() override;
 	void capture();
 	CubeMap* getEnviromentCube();
 	CubeMap* getIrradianceCube();
@@ -22,7 +21,7 @@ public:
 
 	void destroy() override;
 private:
-	int _steps;
+	int _steps = 4;
 	LightMap* _lightMap;
 
 	LightMap* captureRecursive(int step);

@@ -16,8 +16,6 @@ public:
 		float distance;
 	};
 
-	Camera();
-
 	void updateAspect();
 	void updateProjection();
 	void setFOV(float fov);
@@ -33,6 +31,7 @@ public:
 	Vector4f getProjectionExtents(float xOffset = 0, float yOffset = 0);
 	float getFOV() { return _fov; }
 
+	void init() override;
 	void destroy() override;
 
 	static Vector2f worldToScreen(Vector3f point);

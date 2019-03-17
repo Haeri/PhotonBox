@@ -69,11 +69,14 @@ void Physics::start()
 	_gScene->addActor(*groundPlane);
 
 	// Init all objects
+
+	/*
 	for (std::vector<Rigidbody*>::iterator it = _initializationList.begin(); it != _initializationList.end(); ++it)
 	{
 		addPhysicsObject((*it));
 	}
 	_initializationList.clear();
+	*/
 }
 
 void Physics::update(double elapsedTime)
@@ -160,6 +163,7 @@ void Physics::destroy()
 
 void Physics::addPhysicsObject(Rigidbody* rigidbody) //, Collider* collider)
 {
+	/*
 	Matrix4f mat = rigidbody->transform->getTransformationMatrix();
 	
 	const PxMat44 pmat(mat.getArray());
@@ -182,18 +186,28 @@ void Physics::addPhysicsObject(Rigidbody* rigidbody) //, Collider* collider)
 	//_rigidbodies.push_back(rigidbody);
 
 	_physXMap[rigidbody->entity->transform] = dynamic;
+	*/
 }
 
 void Physics::registerObject(Rigidbody * entity)
 {
-	_initializationList.push_back(entity);
+	_gScene->addActor(*entity->getBody());
+	_physXMap[entity->getTransform()] = (PxRigidDynamic*)entity->getBody();
+
+
+//	_initializationList.push_back(entity);
 }
 
 void Physics::removePhysicsObject(Rigidbody * rigidbody)
 {
-	Transform* t = rigidbody->entity->transform;
+	Transform* t = rigidbody->getEntity()->transform;
 	_physXMap[t]->release();
 	_physXMap.erase(t);
+}
+
+PxPhysics * Physics::getPhysX()
+{
+	return _gPhysics;
 }
 
 /*

@@ -9,16 +9,17 @@ class PxRigidBody;
 class Rigidbody : public Component
 {
 public:
-	Rigidbody();
 	~Rigidbody();
 
-	void setBody(physx::PxRigidBody* actor);
-	void setDensity(float density);
-	float getMass() { return _mass; }
+	void init() override;
+	physx::PxRigidBody* getBody();
+	void setMass(float density);
+	float getMass();
 	void addForce(Vector3f direction);
 private:
-	physx::PxRigidBody* _rigidBody;
-	float _mass = 1;
+	bool _isKinematic = false;
+
+	physx::PxRigidBody* _body;
 };
 
 #endif // RIGIDBODY_H

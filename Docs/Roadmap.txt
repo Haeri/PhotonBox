@@ -31,7 +31,6 @@ GENERAL
 - Separate mesh into mesh-data and mesh-resource. 
 - Separate texture into texture-data and texture-resource. 
 - Clean up light emitter, pack shadow buffer inside, move shader binding code into light
-- Clean Jitter code
 
 OPTIMIZATION
 - Frustum culling
@@ -49,4 +48,4 @@ BUGS
 - Eye-adaptation freaking out with high frame rate
 - Fix FXAA
 - CubeMap memory leak
-- Cubemap does nt generate a serialized texture
+- Cubemap does not generate a serialized texture
