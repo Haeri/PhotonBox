@@ -75,7 +75,7 @@ void FrameBuffer::addTextureAttachment(std::string name, bool hdr, bool mipmaps,
 	BufferAttachment* temp = &_colorAttachments[name];
 
 	glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-	GLint format = hdr ? GL_RGB16F : GL_RGBA;
+	GLint format = hdr ? GL_RGBA16F : GL_RGBA;
 	temp->frameBuffer = this;
 	temp->name = name;
 	temp->hdr = hdr;

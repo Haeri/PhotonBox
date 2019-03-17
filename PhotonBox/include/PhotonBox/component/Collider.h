@@ -11,10 +11,10 @@ namespace physx
 class Collider : public Component
 {
 public:
-	Collider();
 	virtual ~Collider() {}
 
-	void destroy();
+	//void init() override;
+	//void destroy() override;
 
 	virtual physx::PxGeometry* getShape() = 0;
 	std::type_index getBaseType() override { return typeid(Collider); }

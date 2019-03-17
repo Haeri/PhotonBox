@@ -22,8 +22,8 @@ public:
 
 		setUniform("mvp", mvp);
 		setUniform("modelMatrix", transform->getTransformationMatrix());
-		setUniform("viewPos", Camera::getMainCamera()->transform->getPositionWorld());
-		setUniform("light.position", pointLight->transform->getPositionWorld());
+		setUniform("viewPos", Camera::getMainCamera()->getTransform()->getPositionWorld());
+		setUniform("light.position", pointLight->getTransform()->getPositionWorld());
 		setUniform("light.intensity", pointLight->intensity);
 		setUniform("light.color", pointLight->color);
 		setUniform("light.constant", pointLight->constant);

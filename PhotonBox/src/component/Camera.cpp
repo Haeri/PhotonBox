@@ -12,7 +12,7 @@
 
 Camera* Camera::_main;
 
-Camera::Camera()
+void Camera::init()
 {
 	if (_main == nullptr) setMain();
 
@@ -181,7 +181,7 @@ bool Camera::frustumTest(ObjectRenderer* object)
 	updateFrustum();
 
 	//float maxScaleAxis = max(max(object->transform->getScale().x(), object->transform->getScale().y()), object->transform->getScale().z());
-	Vector3f center = (object->transform->getTransformationMatrix() * Vector4f(object->getBoundingSphere().getCenter(), 1.0f)).xyz();
+	Vector3f center = (object->getTransform()->getTransformationMatrix() * Vector4f(object->getBoundingSphere().getCenter(), 1.0f)).xyz();
 	
 	
 	std::cout << "LEFT:  " << _frustum[0].normal << "\n";

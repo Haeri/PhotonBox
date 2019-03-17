@@ -10,9 +10,6 @@ class Mesh;
 class MeshRenderer : public ObjectRenderer
 {
 public:
-	MeshRenderer(RenderType type) :ObjectRenderer(type) {}
-	MeshRenderer() : ObjectRenderer(RenderType::RT_OPAQUE) {}
-
 	void render() override;
 	void render(Shader* shader) override;
 	void render(Shader* shader, LightEmitter* light) override;

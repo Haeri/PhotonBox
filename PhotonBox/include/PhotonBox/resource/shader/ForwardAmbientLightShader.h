@@ -20,7 +20,7 @@ public:
 		AmbientLight* al = dynamic_cast<AmbientLight*>(light);
 
 		setUniform("mvp", mvp);
-		setUniform("viewPos", Camera::getMainCamera()->transform->getPositionWorld());
+		setUniform("viewPos", Camera::getMainCamera()->getTransform()->getPositionWorld());
 		setUniform("modelMatrix", transform->getTransformationMatrix());
 		setUniform("light.intensity", al->intensity);
 		setUniform("light.color", al->color);

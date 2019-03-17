@@ -6,7 +6,7 @@
 #define new DEBUG_NEW
 #endif
 
-SphereCollider::SphereCollider():Collider()
+void SphereCollider::init()
 {
 	_geometry = new physx::PxSphereGeometry(_radius);
 }
@@ -25,4 +25,5 @@ void SphereCollider::setRadius(float r)
 {
 	_radius = r;
 	_geometry->radius = r;
+	bool ret = _geometry->isValid();
 }

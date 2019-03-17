@@ -12,14 +12,14 @@ namespace physx
 class SphereCollider : public Collider
 {
 public:
-	SphereCollider();
 	~SphereCollider();
 
+	void init() override;
 	physx::PxGeometry* getShape() override;
 	void setRadius(float r);
 	float getRadius() {	return _radius; }
 private:
-	float _radius;
+	float _radius = 1;
 	physx::PxSphereGeometry* _geometry;
 };
 

@@ -23,7 +23,7 @@ public:
 		setUniform("modelMatrix", transform->getTransformationMatrix());
 		setUniform("light.intensity", al->intensity);
 		setUniform("light.color", al->color);
-		setUniform("viewPos", Camera::getMainCamera()->transform->getPositionWorld());
+		setUniform("viewPos", Camera::getMainCamera()->getTransform()->getPositionWorld());
 	}
 
 	void addAttributes() override

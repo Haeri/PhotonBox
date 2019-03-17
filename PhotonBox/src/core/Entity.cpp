@@ -42,7 +42,7 @@ void Entity::destroy()
 	std::vector<Transform*> children = transform->getChildren();
 	for (std::vector<Transform*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
-		(*it)->entity->destroy();
+		(*it)->getEntity()->destroy();
 	}
 
 	destroyComponents();
@@ -64,7 +64,7 @@ void Entity::setEnable(bool enable)
 	std::vector<Transform*> children = transform->getChildren();
 	for (std::vector<Transform*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
-		(*it)->entity->setEnable(enable);
+		(*it)->getEntity()->setEnable(enable);
 	}
 
 	_isEnabled = enable;

@@ -5,7 +5,7 @@
 #define new DEBUG_NEW
 #endif
 
-BoxCollider::BoxCollider()
+void BoxCollider::init()
 {
 	_geometry = new physx::PxBoxGeometry();
 }

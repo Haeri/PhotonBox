@@ -7,7 +7,7 @@
 #define new DEBUG_NEW
 #endif
 
-Behaviour::Behaviour()
+void Behaviour::init()
 {
 	Logic::addToUpdateList(this);
 }

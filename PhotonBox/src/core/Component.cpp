@@ -5,16 +5,6 @@
 #define new DEBUG_NEW
 #endif
 
-void Component::setEntity(Entity* _go)
-{
-	entity = _go;
-}
-
-void Component::setTransform(Transform* _t)
-{
-	transform = _t;
-}
-
 void Component::setEnable(bool enable)
 {
 	if (enable)
@@ -33,6 +23,16 @@ std::string Component::getName()
 bool Component::getEnable()
 {
 	return _isEnabled;
+}
+
+Transform * Component::getTransform()
+{
+	return transform;
+}
+
+Entity * Component::getEntity()
+{
+	return entity;
 }
 
 void Component::OnEnable() {}

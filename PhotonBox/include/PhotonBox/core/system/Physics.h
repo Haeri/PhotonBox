@@ -25,6 +25,7 @@ public:
 
 	static void registerObject(Rigidbody* entity);
 	static void removePhysicsObject(Rigidbody* rigidbody);
+	static PxPhysics* getPhysX();
 	//static void printList();
 	//static std::string getList();
 

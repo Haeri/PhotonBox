@@ -6,8 +6,7 @@
 class AmbientLight : public LightEmitter
 {
 public:
-	AmbientLight();
-
+	void init() override;
 	void destroy() override;
 	Shader* getLightShader() override;
 };

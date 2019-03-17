@@ -7,9 +7,9 @@
 class BoxCollider : public Collider
 {
 public:
-	BoxCollider();
 	~BoxCollider();
 	
+	void init() override;
 	physx::PxGeometry* getShape() override;
 	Vector3f getHalfExtents() { return _extents; }
 	void setHalfExtents(Vector3f extents);

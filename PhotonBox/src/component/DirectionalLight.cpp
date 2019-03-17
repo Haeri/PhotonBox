@@ -12,7 +12,7 @@
 #define new DEBUG_NEW
 #endif
 
-DirectionalLight::DirectionalLight()
+void DirectionalLight::init()
 {
 	Lighting::addLight(this);
 

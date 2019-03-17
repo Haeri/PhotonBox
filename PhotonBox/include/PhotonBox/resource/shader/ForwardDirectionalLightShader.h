@@ -34,7 +34,7 @@ public:
 		setUniform("lightSpaceMatrix", lightSpaceMatrix);
 		setUniform("mvp", mvp);
 		setUniform("modelMatrix", transform->getTransformationMatrix());
-		setUniform("viewPos", Camera::getMainCamera()->transform->getPositionWorld());
+		setUniform("viewPos", Camera::getMainCamera()->getTransform()->getPositionWorld());
 		setUniform("light.direction", lvp);
 		setUniform("light.color", dl->color);
 		setUniform("light.intensity", dl->intensity);

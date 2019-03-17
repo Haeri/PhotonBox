@@ -29,8 +29,8 @@ public:
 			return nullptr;
 		}
 		T* c = new T();
-		c->setEntity(this);
-		c->setTransform(transform);
+		c->setup(this, transform);
+
 		_componentMap.insert(std::pair<std::type_index, Component*>(typeid(T), c));
 		return c;
 	}

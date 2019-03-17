@@ -7,13 +7,11 @@
 #define new DEBUG_NEW
 #endif
 
-ObjectRenderer::ObjectRenderer(RenderType type)
+void ObjectRenderer::init()
 {
-	_type = type;
-	Renderer::addToRenderQueue(this, type);
+	Renderer::addToRenderQueue(this, _type);
 }
 
-void ObjectRenderer::init() {}
 void ObjectRenderer::onDestroy() {}
 
 BoundingSphere ObjectRenderer::getBoundingSphere()

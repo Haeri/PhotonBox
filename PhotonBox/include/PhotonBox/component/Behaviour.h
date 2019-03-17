@@ -6,9 +6,9 @@
 class Behaviour : public Component
 {
 public:
-	Behaviour();
 	virtual ~Behaviour() {}
 
+	void init() override;
 	void destroy();
 	virtual void Start();
 	virtual void Update();

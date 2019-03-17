@@ -8,7 +8,7 @@
 #define new DEBUG_NEW
 #endif
 
-PointLight::PointLight()
+void PointLight::init()
 {
 	Lighting::addLight(this);
 }
