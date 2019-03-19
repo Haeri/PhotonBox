@@ -5,7 +5,7 @@
 #include <math.h>
 #include <string>
 
-#include "PxPhysicsAPI.h"
+#include "PhysX/PxPhysicsAPI.h"
 
 class Vector2f
 {

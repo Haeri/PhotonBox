@@ -8,7 +8,7 @@
 #include "Scenes/MaterialTestScene.cpp"
 #include "Scenes/RealisticRenderingScene.cpp"
 #include "Scenes/PhysicsScene.cpp"
-#include "../test/MathTest.h"
+#include "../../test/MathTest.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -31,11 +31,10 @@ int main(void)
 
 	// Create Scenes
 	std::map<std::string, Scene*> sceneMap;
-	//sceneMap["1. Material Test"] = new MaterialTestScene();
+	sceneMap["1. Material Test"] = new MaterialTestScene();
 	sceneMap["2. Realistic Rendering"] = new RealisticRenderingScene();
-	//sceneMap["3. Shelby Scene"] = new ShelbyScene(); 
-	//sceneMap["4. Physics Scene"] = new PhysicsScene();
-	
+	sceneMap["3. Shelby Scene"] = new ShelbyScene(); 
+	sceneMap["4. Physics Scene"] = new PhysicsScene();
 
 	// Create and initialize the Core
 	Core core;

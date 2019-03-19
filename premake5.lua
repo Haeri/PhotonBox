@@ -10,7 +10,22 @@ workspace "PhotonBox"
 		"Dist"
 	}
 
-outputdir = "%{cfg.architecture}/%{cfg.buildcfg}"
+
+	-- VARIABLES
+
+	output_dir		= "%{cfg.architecture}/%{cfg.buildcfg}"
+
+	freetype_dir 	= "PhotonBox/vendor/freetype"
+	glad_dir 		= "PhotonBox/vendor/glad"
+	glfw_dir 		= "PhotonBox/vendor/GLFW"
+	imgui_dir		= "PhotonBox/vendor/imgui"
+	khr_dir			= "PhotonBox/vendor/KHR"
+	physx_dir 		= "PhotonBox/vendor/PhysX"
+	stb_dir 		= "PhotonBox/vendor/STB"
+	zlib_dir		= "PhotonBox/vendor/zlib"
+
+
+-- PROJECT PHOTONBOX
 
 project "PhotonBox"
 	location "PhotonBox"
@@ -19,8 +34,8 @@ project "PhotonBox"
 	cppdialect "C++11"
 	staticruntime "off"
 
-	targetdir ("%{prj.name}/bin/" .. outputdir)
-	objdir ("%{prj.name}/bin/int/" .. outputdir)
+	targetdir ("%{prj.name}/bin/" .. output_dir)
+	objdir ("%{prj.name}/bin/int/" .. output_dir)
 
 	--pchheader "pbpch.h"
 	--pchsource "PhotonBox/src/pbpch.cpp"
@@ -29,14 +44,22 @@ project "PhotonBox"
 	{
 		"%{prj.name}/include/PhotonBox/**.h",
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/include/glad/glad.c",
-		"%{prj.name}/include/imgui/**.cpp",	
+
+		glad_dir 	.. "/include/glad/**.c",
+		imgui_dir 	.. "/include/imgui/**.cpp",	
 	}
 
 	includedirs
 	{
 		"%{prj.name}/include",
-		"%{prj.name}/include/PhysX"
+		freetype_dir	.. "/include",
+		glad_dir		.. "/include",
+		glfw_dir		.. "/include",
+		imgui_dir		.. "/include",
+		khr_dir			.. "/include",
+		physx_dir		.. "/include",
+		stb_dir			.. "/include",
+		zlib_dir		.. "/include",
 	}
 
 	filter "system:windows"
@@ -64,6 +87,9 @@ project "PhotonBox"
 		optimize "On"
 		postbuildcommands ("python \"../Tools/build_incrementer.py\"")
 
+
+-- PROJECT GAME
+
 project "Game"
 	location "Game"
 	kind "ConsoleApp"
@@ -71,8 +97,8 @@ project "Game"
 	cppdialect "C++11"
 	staticruntime "off"
 
-	targetdir ("%{prj.name}/bin/" .. outputdir)
-	objdir ("%{prj.name}/bin/int/" .. outputdir)
+	targetdir ("%{prj.name}/bin/" .. output_dir)
+	objdir ("%{prj.name}/bin/int/" .. output_dir)
 
 	files
 	{
@@ -82,38 +108,67 @@ project "Game"
 
 	includedirs
 	{
-		"PhotonBox/src",
 		"PhotonBox/include",
 		"PhotonBox/include/PhotonBox",
-		"PhotonBox/include/PhysX",
+
+		freetype_dir	.. "/include",
+		glad_dir		.. "/include",
+		glfw_dir		.. "/include",
+		imgui_dir		.. "/include",
+		khr_dir			.. "/include",
+		physx_dir		.. "/include",
+		stb_dir			.. "/include",
+		zlib_dir		.. "/include",
 	}
 
 	libdirs 
 	{
-	 	"PhotonBox/lib" 
+		freetype_dir	.. "/lib",
+		glad_dir		.. "/lib",
+		glfw_dir		.. "/lib",
+		imgui_dir		.. "/lib",
+		khr_dir			.. "/lib",
+		stb_dir			.. "/lib",
+		zlib_dir		.. "/lib",
 	}
 
 	links
 	{
 		"PhotonBox",
 		"glfw3",
-		"zlibstat",
+		"zlib",
 		"freetype271MT",
 	}
+
+
+	-- PLATTFORM FILTER
 
 	filter "system:windows"
 		defines "PB_PLATFORM_WIN"
 		systemversion "latest"
 		links "opengl32"
 
-	filter "system:unix"
+	filter "system:Linux"
 		defines "PB_PLATFORM_NIX"
-		links "GL"		
+		links {
+			"GL",
+			"GLU",
+			"X11",
+			"Xxf86vm",
+			"Xrandr",
+			"pthread",
+			"Xi",
+			"dl",
+		}
+
+
+	-- MODE FILTER
 
 	filter "configurations:Debug"
 		defines { "PB_DEBUG", "_DEBUG" }
 		runtime "Debug"
 		symbols "On"
+		libdirs (physx_dir .. "/lib/debug")
 		links
 		{
 			"PhysX3DEBUG_x64",
@@ -121,12 +176,18 @@ project "Game"
 			"PhysX3ExtensionsDEBUG",
 			"PxFoundationDEBUG_x64",
 		}
-		postbuildcommands ("{COPY} \"../Redist/Debug\" \"bin/" .. outputdir .. "\"")
+
+		postbuildcommands 
+		{
+			"{COPY} ../" .. freetype_dir 	.. "/bin/ bin/" 		.. output_dir,
+			"{COPY} ../" .. physx_dir 		.. "/bin/debug/ bin/"	.. output_dir,
+		}
 
 	filter "configurations:Mem-Debug"
 		defines { "PB_MEM_DEBUG", "_DEBUG" }
 		runtime "Debug"
 		symbols "On"
+		libdirs (physx_dir .. "/lib/debug")
 		links
 		{
 			"PhysX3DEBUG_x64",
@@ -134,12 +195,18 @@ project "Game"
 			"PhysX3ExtensionsDEBUG",
 			"PxFoundationDEBUG_x64",
 		}
-		postbuildcommands ("{COPY} \"../Redist/Debug\" \"bin/" .. outputdir .. "\"")
+
+		postbuildcommands 
+		{
+			"{COPY} ../" .. freetype_dir 	.. "/bin/ bin/" 		.. output_dir,
+			"{COPY} ../" .. physx_dir 		.. "/bin/debug/ bin/"	.. output_dir,
+		}
 
 	filter "configurations:Release"
 		defines { "PB_RELEASE", "NDEBUG" }
 		runtime "Release"
 		optimize "On"
+		libdirs (physx_dir .. "/lib/release")
 		links
 		{
 			"PhysX3_x64",
@@ -147,12 +214,18 @@ project "Game"
 			"PhysX3Extensions",
 			"PxFoundation_x64",
 		}
-		postbuildcommands ("{COPY} \"../Redist/Release\" \"bin/" .. outputdir .. "\"")
+
+		postbuildcommands 
+		{
+			"{COPY} ../" .. freetype_dir 	.. "/bin/ bin/" 		.. output_dir,
+			"{COPY} ../" .. physx_dir 		.. "/bin/release/ bin/"	.. output_dir,
+		}
 
 	filter "configurations:Dist"
 		defines { "PB_RELEASE", "NDEBUG" }
 		runtime "Release"
 		optimize "On"
+		libdirs (physx_dir .. "/lib/release")
 		links
 		{
 			"PhysX3_x64",
@@ -160,4 +233,9 @@ project "Game"
 			"PhysX3Extensions",
 			"PxFoundation_x64",
 		}
-		postbuildcommands ("{COPY} \"../Redist/Release\" \"bin/" .. outputdir .. "\"")
+
+		postbuildcommands 
+		{
+			"{COPY} ../" .. freetype_dir 	.. "/bin/ bin/" 		.. output_dir,
+			"{COPY} ../" .. physx_dir 		.. "/bin/release/ bin/"	.. output_dir,
+		}
