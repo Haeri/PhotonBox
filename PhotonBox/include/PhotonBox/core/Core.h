@@ -1,7 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
-#define RECORD_MODE
+//#define RECORD_MODE
 
 class Display;
 class SceneManager;

@@ -18,14 +18,12 @@ void DebugGUI::init()
 	
 	ImGui::StyleColorsDark();
 
-	ImGuizmo::Enable(true);
 	std::cout << " - Done\n";
 }
 
 void DebugGUI::newFrame()
 {
 	ImGui_ImplGlfwGL3_NewFrame();
-	ImGuizmo::BeginFrame();
 }
 
 void DebugGUI::render()
@@ -36,7 +34,6 @@ void DebugGUI::render()
 		0.f, 0.f, 1.f, 0.f,
 		0.f, 0.f, 0.f, 1.f };
 
-	ImGuizmo::DrawGrid(&(Camera::getMainCamera()->getViewMatrix()(0, 0)), &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)), identityMatrix, 100.f);
 	ImGui::Render();
 	ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 }
