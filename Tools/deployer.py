@@ -16,10 +16,10 @@ while True:
 	else:
 		print("Command not recognized")
 
-out_path 		= "../Build_" + mode + "/"
+out_path 		= "../Build/" + mode + "/"
 engine_res_path = "../PhotonBox/res/"
 game_res_path 	= "../Game/res/"
-redist_path		= "../Redist/" + mode + "/"
+physx_dll_path	= "../PhotonBox/vendor/PhysX/bin/" + mode.lower() + "/"
 binaries_path 	= "../Game/bin/x86_64/" + mode + "/Game.exe"
 
 def copyFiles(src, dest, filters):
@@ -39,12 +39,12 @@ if os.path.exists(out_path) and os.path.isdir(out_path):
 	rmtree(out_path)
 
 # Create output directory
-os.mkdir(out_path);
+os.makedirs(out_path);
 
 # Copy all engine resource files
 copyFiles(engine_res_path, out_path + "PhotonBox/res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
 copyFiles(game_res_path, out_path + "Game/res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
-copyFiles(redist_path, out_path + "Game/", ('.dll'))
+copyFiles(physx_dll_path, out_path + "Game/", ('.dll'))
 copyfile(binaries_path, out_path + "Game/Game.exe")
 
 print("------------------------------- DONE -------------------------------")

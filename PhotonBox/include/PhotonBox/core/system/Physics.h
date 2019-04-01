@@ -11,7 +11,7 @@ class Transform;
 
 #include "PhotonBox/core/ISystem.h"
 
-#include "PhysX/PxPhysicsAPI.h"
+#include "PxPhysicsAPI.h"
 
 using namespace physx;
 
