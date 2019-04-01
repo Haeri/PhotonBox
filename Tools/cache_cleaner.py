@@ -1,7 +1,7 @@
 from shutil import copyfile, rmtree
 import os, sys
 
-engine_res_path = "../PhotonBox/engine-res/"
+engine_res_path = "../PhotonBox/res/"
 game_res_path 	= "../Game/res/"
 
 def delFiles(dest, filters):

@@ -57,9 +57,9 @@ project "PhotonBox"
 		glfw_dir		.. "/include",
 		imgui_dir		.. "/include",
 		khr_dir			.. "/include",
-		physx_dir		.. "/include",
 		stb_dir			.. "/include",
 		zlib_dir		.. "/include",
+		physx_dir		.. "/include/PhysX",
 	}
 
 	filter "system:windows"
@@ -116,9 +116,9 @@ project "Game"
 		glfw_dir		.. "/include",
 		imgui_dir		.. "/include",
 		khr_dir			.. "/include",
-		physx_dir		.. "/include",
 		stb_dir			.. "/include",
 		zlib_dir		.. "/include",
+		physx_dir		.. "/include/PhysX",
 	}
 
 	libdirs 
@@ -137,7 +137,7 @@ project "Game"
 		"PhotonBox",
 		"glfw3",
 		"zlib",
-		"freetype271MT",
+		"freetype",
 	}
 
 
@@ -179,8 +179,7 @@ project "Game"
 
 		postbuildcommands 
 		{
-			"{COPY} ../" .. freetype_dir 	.. "/bin/ bin/" 		.. output_dir,
-			"{COPY} ../" .. physx_dir 		.. "/bin/debug/ bin/"	.. output_dir,
+			"{COPY} ../" .. physx_dir .. "/bin/debug/ bin/" .. output_dir,
 		}
 
 	filter "configurations:Mem-Debug"
@@ -198,8 +197,7 @@ project "Game"
 
 		postbuildcommands 
 		{
-			"{COPY} ../" .. freetype_dir 	.. "/bin/ bin/" 		.. output_dir,
-			"{COPY} ../" .. physx_dir 		.. "/bin/debug/ bin/"	.. output_dir,
+			"{COPY} ../" .. physx_dir .. "/bin/debug/ bin/" .. output_dir,
 		}
 
 	filter "configurations:Release"
@@ -217,8 +215,7 @@ project "Game"
 
 		postbuildcommands 
 		{
-			"{COPY} ../" .. freetype_dir 	.. "/bin/ bin/" 		.. output_dir,
-			"{COPY} ../" .. physx_dir 		.. "/bin/release/ bin/"	.. output_dir,
+			"{COPY} ../" .. physx_dir .. "/bin/release/ bin/" .. output_dir,
 		}
 
 	filter "configurations:Dist"
@@ -236,6 +233,5 @@ project "Game"
 
 		postbuildcommands 
 		{
-			"{COPY} ../" .. freetype_dir 	.. "/bin/ bin/" 		.. output_dir,
-			"{COPY} ../" .. physx_dir 		.. "/bin/release/ bin/"	.. output_dir,
+			"{COPY} ../" .. physx_dir .. "/bin/release/ bin/" .. output_dir,
 		}

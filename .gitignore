@@ -13,8 +13,7 @@ Game/imgui.ini
 # Folders
 Game/bin/
 PhotonBox/bin/
-Build_Debug/
-Build_Release/
+Build/
 
 
 ## ------------------------------------- 
