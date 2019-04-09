@@ -28,7 +28,6 @@ class Core
 public:
 	static const double FIXED_TIME_INTERVAL;
 
-	bool temp = false;
 	void init(std::map<std::string, Scene*>& sceneMap);
 	void start();
 	void reset();
@@ -38,21 +37,21 @@ public:
 	static bool isRunning() { return _isRunning; }
 	static void stop();
 private:
-	Time* _time;
-	Display* _display;
-	InputManager* _inputManager;
-	UIRenderer* _uiRenderer;
-	DebugGUI* _debugGUI;
-	SceneManager* _sceneManager;
-	Renderer* _renderer;
-	Logic* _logic;
-	Physics* _physics;
+	Time*			_time;
+	Display*		_display;
+	InputManager*	_inputManager;
+	UIRenderer*		_uiRenderer;
+	DebugGUI*		_debugGUI;
+	SceneManager*	_sceneManager;
+	Renderer*		_renderer;
+	Logic*			_logic;
+	Physics*		_physics;
 	PostProcessing* _postPocessing;
-	Lighting* _lighting;
+	Lighting*		_lighting;
 
-	Profiler* _profiler;
-	Config* _config;
-	FileWatch* _fileWatch;
+	Profiler*		_profiler;
+	Config*			_config;
+	FileWatch*		_fileWatch;
 
 	std::vector<ISystem*> _systems;
 
