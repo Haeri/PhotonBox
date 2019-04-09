@@ -166,27 +166,34 @@ project "Game"
 
 	filter "configurations:Debug"
 		defines { "PB_DEBUG", "_DEBUG" }
-		runtime "Debug"
-		symbols "On"
-		libdirs (physx_dir .. "/lib/debug")
-		links
-		{
-			"PhysX3DEBUG_x64",
-			"PhysX3CommonDEBUG_x64",
-			"PhysX3ExtensionsDEBUG",
-			"PxFoundationDEBUG_x64",
-		}
-
-		postbuildcommands 
-		{
-			"{COPY} ../" .. physx_dir .. "/bin/debug/ bin/" .. output_dir,
-		}
 
 	filter "configurations:Mem-Debug"
 		defines { "PB_MEM_DEBUG", "_DEBUG" }
+
+
+	filter "configurations:Debug or configurations:Mem-Debug"
 		runtime "Debug"
 		symbols "On"
 		libdirs (physx_dir .. "/lib/debug")
+		postbuildcommands 
+		{
+			"{COPY} ../" .. physx_dir .. "/bin/debug/ bin/" .. output_dir,
+		}
+
+
+	filter "configurations:Release or configurations:Dist"
+		defines { "PB_RELEASE", "NDEBUG" }
+		runtime "Release"
+		optimize "On"
+		libdirs (physx_dir .. "/lib/release")
+		postbuildcommands 
+		{
+			"{COPY} ../" .. physx_dir .. "/bin/release/ bin/" .. output_dir,
+		}
+
+
+
+	filter {"system:windows", "configurations:Debug or configurations:Mem-Debug"}
 		links
 		{
 			"PhysX3DEBUG_x64",
@@ -195,16 +202,7 @@ project "Game"
 			"PxFoundationDEBUG_x64",
 		}
 
-		postbuildcommands 
-		{
-			"{COPY} ../" .. physx_dir .. "/bin/debug/ bin/" .. output_dir,
-		}
-
-	filter "configurations:Release"
-		defines { "PB_RELEASE", "NDEBUG" }
-		runtime "Release"
-		optimize "On"
-		libdirs (physx_dir .. "/lib/release")
+	filter {"system:windows", "configurations:Release or configurations:Dist"}
 		links
 		{
 			"PhysX3_x64",
@@ -213,25 +211,20 @@ project "Game"
 			"PxFoundation_x64",
 		}
 
-		postbuildcommands 
-		{
-			"{COPY} ../" .. physx_dir .. "/bin/release/ bin/" .. output_dir,
-		}
-
-	filter "configurations:Dist"
-		defines { "PB_RELEASE", "NDEBUG" }
-		runtime "Release"
-		optimize "On"
-		libdirs (physx_dir .. "/lib/release")
+	filter {"system:Linux", "configurations:Debug or configurations:Mem-Debug"}
 		links
 		{
-			"PhysX3_x64",
-			"PhysX3Common_x64",
-			"PhysX3Extensions",
-			"PxFoundation_x64",
+			"PhysX3DEBUG_x64:static",
+			"PhysX3CommonDEBUG_x64:static",
+			"PhysX3ExtensionsDEBUG",
+			"PxFoundationDEBUG_x64:static",
 		}
 
-		postbuildcommands 
+	filter {"system:Linux", "configurations:Release or configurations:Dist"}
+		links
 		{
-			"{COPY} ../" .. physx_dir .. "/bin/release/ bin/" .. output_dir,
+			"PhysX3_x64:static",
+			"PhysX3Common_x64:static",
+			"PhysX3Extensions",
+			"PxFoundation_x64:static",
 		}

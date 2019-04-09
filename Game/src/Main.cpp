@@ -17,6 +17,7 @@
 
 int main(void)
 {
+	bool temp = false;
 
 #ifdef PB_MEM_DEBUG
 	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
@@ -43,7 +44,6 @@ int main(void)
 	core.destroy();
 
 #ifdef _DEBUG
-	std::cout << "press ENTER to quit" << std::endl;
 	std::cin.ignore();
 #endif
 
