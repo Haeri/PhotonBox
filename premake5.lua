@@ -217,6 +217,7 @@ project "Game"
 		}
 
 	filter {"system:Linux", "configurations:Debug or configurations:Mem-Debug"}
+		libdirs (physx_dir .. "/bin/debug")
 		postbuildcommands 
 		{
 			"{COPY} ../" .. physx_dir .. "/bin/debug/*.so bin/" .. output_dir,
@@ -231,6 +232,7 @@ project "Game"
 		}
 
 	filter {"system:Linux", "configurations:Release or configurations:Dist"}
+		libdirs (physx_dir .. "/bin/release")
 		postbuildcommands 
 		{
 			"{COPY} ../" .. physx_dir .. "/bin/release/*.so bin/" .. output_dir,
