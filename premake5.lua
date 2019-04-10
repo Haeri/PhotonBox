@@ -154,13 +154,15 @@ project "Game"
 			"GL",
 			"GLU",
 			"X11",
+			"png",
 			"Xxf86vm",
 			"Xrandr",
+			"Xinerama",
+			"Xcursor",
 			"pthread",
 			"Xi",
 			"dl",
 		}
-
 
 	-- MODE FILTER
 
@@ -175,10 +177,7 @@ project "Game"
 		runtime "Debug"
 		symbols "On"
 		libdirs (physx_dir .. "/lib/debug")
-		postbuildcommands 
-		{
-			"{COPY} ../" .. physx_dir .. "/bin/debug/ bin/" .. output_dir,
-		}
+
 
 
 	filter "configurations:Release or configurations:Dist"
@@ -186,14 +185,15 @@ project "Game"
 		runtime "Release"
 		optimize "On"
 		libdirs (physx_dir .. "/lib/release")
-		postbuildcommands 
-		{
-			"{COPY} ../" .. physx_dir .. "/bin/release/ bin/" .. output_dir,
-		}
 
 
 
 	filter {"system:windows", "configurations:Debug or configurations:Mem-Debug"}
+		postbuildcommands 
+		{
+			"{COPY} ../" .. physx_dir .. "/bin/debug/*.dll bin/" .. output_dir,
+		}
+
 		links
 		{
 			"PhysX3DEBUG_x64",
@@ -203,6 +203,11 @@ project "Game"
 		}
 
 	filter {"system:windows", "configurations:Release or configurations:Dist"}
+		postbuildcommands 
+		{
+			"{COPY} ../" .. physx_dir .. "/bin/release/*.dll bin/" .. output_dir,
+		}
+
 		links
 		{
 			"PhysX3_x64",
@@ -212,19 +217,29 @@ project "Game"
 		}
 
 	filter {"system:Linux", "configurations:Debug or configurations:Mem-Debug"}
+		postbuildcommands 
+		{
+			"{COPY} ../" .. physx_dir .. "/bin/debug/*.so bin/" .. output_dir,
+		}
+
 		links
 		{
-			"PhysX3DEBUG_x64:static",
-			"PhysX3CommonDEBUG_x64:static",
+			"PhysX3DEBUG_x64",
+			"PhysX3CommonDEBUG_x64",
 			"PhysX3ExtensionsDEBUG",
-			"PxFoundationDEBUG_x64:static",
+			"PxFoundationDEBUG_x64",
 		}
 
 	filter {"system:Linux", "configurations:Release or configurations:Dist"}
+		postbuildcommands 
+		{
+			"{COPY} ../" .. physx_dir .. "/bin/release/*.so bin/" .. output_dir,
+		}
+
 		links
 		{
-			"PhysX3_x64:static",
-			"PhysX3Common_x64:static",
+			"PhysX3_x64",
+			"PhysX3Common_x64",
 			"PhysX3Extensions",
-			"PxFoundation_x64:static",
+			"PxFoundation_x64",
 		}
