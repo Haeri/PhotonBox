@@ -1,5 +1,6 @@
 cd ..
 rm -rf .build-debug
+rm -rf .build-release
 rm -rf .clang
 rm -rf .codelite
 rm Makefile

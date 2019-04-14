@@ -47,3 +47,4 @@ PhotonBox/PhotonBox.txt
 # Folders
 .codelite/
 .build-debug/
+.build-release/
