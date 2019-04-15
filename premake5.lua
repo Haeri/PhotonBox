@@ -150,6 +150,10 @@ project "Game"
 
 	filter "system:Linux"
 		defines "PB_PLATFORM_NIX"
+		linkoptions 
+		{
+			 "-Wl,-rpath=." 
+		}
 		links {
 			"GL",
 			"GLU",
@@ -179,10 +183,11 @@ project "Game"
 		libdirs (physx_dir .. "/lib/debug")
 		links
 		{
-			"PhysX3DEBUG_x64",
-			"PhysX3CommonDEBUG_x64",
-			"PxFoundationDEBUG_x64",
+			"PxPvdSDKDEBUG_x64",
 			"PhysX3ExtensionsDEBUG",
+			"PxFoundationDEBUG_x64",
+			"PhysX3CommonDEBUG_x64",
+			"PhysX3DEBUG_x64",
 		}
 
 
@@ -194,10 +199,11 @@ project "Game"
 		libdirs (physx_dir .. "/lib/release")
 		links
 		{
-			"PhysX3_x64",
-			"PhysX3Common_x64",
-			"PxFoundation_x64",
+			"PxPvdSDK_x64",
 			"PhysX3Extensions",
+			"PxFoundation_x64",
+			"PhysX3Common_x64",
+			"PhysX3_x64",
 		}
 
 

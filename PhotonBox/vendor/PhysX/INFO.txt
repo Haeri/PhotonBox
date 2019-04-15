@@ -1,0 +1,2 @@
+For linux patch the rpaths so that the dynamic libs know where they need to look for dependencies
+'patchelf --set-rpath '.' *.so'
