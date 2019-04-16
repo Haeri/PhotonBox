@@ -26,6 +26,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 	if (!glfwInit())
 	{
+		std::cerr << "ERROR: Failed to initialize GLFW.\n";
 		exit(EXIT_FAILURE);
 	}
 
@@ -45,6 +46,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 	if (!_window)
 	{
+		std::cerr << "ERROR: Failed to create a window. (OpenGL version 4.4 required)\n";
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
