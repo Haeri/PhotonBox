@@ -191,7 +191,6 @@ project "Game"
 		}
 
 
-
 	filter "configurations:Release or configurations:Dist"
 		defines { "PB_RELEASE", "NDEBUG" }
 		runtime "Release"
@@ -205,7 +204,6 @@ project "Game"
 			"PhysX3Common_x64",
 			"PhysX3_x64",
 		}
-
 
 
 	filter {"system:windows", "configurations:Debug or configurations:Mem-Debug"}

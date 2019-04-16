@@ -15,10 +15,10 @@
 #define new DEBUG_NEW
 #endif
 
+bool temp = false;
+
 int main(void)
 {
-	bool temp = false;
-
 #ifdef PB_MEM_DEBUG
 	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 	flag |= _CRTDBG_LEAK_CHECK_DF;
@@ -27,7 +27,9 @@ int main(void)
 	// Tests
 	MathTest::startTest();
 #else
+#ifdef PB_PLATFORM_WIN
 	FreeConsole();
+#endif
 #endif
 
 	// Create Scenes
