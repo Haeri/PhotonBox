@@ -3,16 +3,23 @@ language: cpp
 matrix: 
   include: 
     - os: linux
-      sudo: required
       dist: trusty
       install: 
         - "sudo apt install make mesa-common-dev libglu1-mesa-dev"
         - ./Tools/generate_project_linux.sh
-      script: make
+      script: 
+        - export CC=gcc-7
+        - export CXX=g++-7
+        - make
       addons:
         apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
-          - libusb-1.0-0-dev
+            - gcc-7
+            - g++-7
     - os: windows
-      install: "./Tools/generate_project_win.bat -s"
-      script: "msbuild PhotonBox.sln /p:Configuration=Debug"
+      install: 
+        - export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
+        - "./Tools/generate_project_win.bat -s"
+      script: "MSBuild PhotonBox.sln /p:Configuration=Debug"
