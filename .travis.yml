@@ -3,12 +3,16 @@ language: cpp
 matrix: 
   include: 
     - os: linux
+      sudo: required
+      dist: trusty
       install: 
         - "sudo apt install make mesa-common-dev libglu1-mesa-dev"
         - ./Tools/generate_project_linux.sh
       script: make
+      addons:
+        apt:
+          packages:
+          - libusb-1.0-0-dev
     - os: windows
-      install: 
-        - "echo %cd%"
-        - "call ./Tools/generate_project_win.bat -s"
+      install: "./Tools/generate_project_win.bat -s"
       script: "msbuild PhotonBox.sln /p:Configuration=Debug"
