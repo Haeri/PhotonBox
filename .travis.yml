@@ -4,9 +4,9 @@ matrix:
   include: 
     - os: linux
       install: 
-        - "sudo apt install make mesa-common-dev mesa-utils xorg-dev libglu1-mesa-dev freeglut3-dev"
+        - "sudo apt install make mesa-common-dev xorg-dev libglu1-mesa-dev freeglut3-dev"
         - ./Tools/generate_project_linux.sh
       script: make
     - os: windows
-      install: ./Tools/generate_project_win.bat
+      install: call ./Tools/generate_project_win.bat -s
       script: "msbuild PhotonBox.sln /p:Configuration=Debug"
