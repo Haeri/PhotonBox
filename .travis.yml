@@ -1,10 +1,7 @@
 language: cpp
 
 matrix:
-    - os: linux
-      install: make mesa-common-dev mesa-utils xorg-dev libglu1-mesa-dev freeglut3-dev
-      script: make
-
-
-before_install:
-    - eval "${MATRIX_EVAL}"
+	include:
+	- os: linux
+		install: make mesa-common-dev mesa-utils xorg-dev libglu1-mesa-dev freeglut3-dev
+		script: make
