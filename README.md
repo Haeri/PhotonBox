@@ -1,4 +1,6 @@
 # PhotonBox
+[![Build Status](https://travis-ci.com/Haeri/PhotonBox.svg?branch=dev)](https://travis-ci.com/Haeri/PhotonBox)
+
 A modern OpenGL Game-Engine with focus on PBR
 
 ## Project Goal
