@@ -1,4 +1,8 @@
 @echo off
+
+set oldpath=%cd% 
+cd "%~dp0"
+
 cd ..
 rmdir /s /q ".vs"
 del /s /q "PhotonBox.sln"
@@ -16,4 +20,6 @@ del /s /q "Game.vcxproj"
 del /s /q "Game.vcxproj.filters"
 del /s /q "Game.vcxproj.user"
 
-pause
+
+cd "%oldpath%"
+IF NOT "%1"=="-s" PAUSE
