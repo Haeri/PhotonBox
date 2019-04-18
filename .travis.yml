@@ -8,16 +8,16 @@ matrix:
         - "sudo apt install make mesa-common-dev libglu1-mesa-dev xorg-dev"
         - ./Tools/generate_project_linux.sh
       script: 
-        - export CC=gcc-6
-        - export CXX=g++-6
+        - export CC=gcc-8
+        - export CXX=g++-8
         - make
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-6
-            - g++-6
+            - gcc-8
+            - g++-8
     - os: windows
       install: 
         - export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
@@ -25,5 +25,5 @@ matrix:
       script: 
         - "MSBuild.exe PhotonBox.sln"
     - os: osx
-      install: 
-        - "./Tools/generate_project_mac.sh"
+      install: "./Tools/generate_project_mac.sh"
+      script: "xcodebuild -list -workspace PhotonBox.xcworkspace"
