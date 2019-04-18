@@ -26,4 +26,6 @@ matrix:
         - "MSBuild.exe PhotonBox.sln"
     - os: osx
       install: "./Tools/generate_project_mac.sh"
-      script: "xcodebuild -list -workspace PhotonBox.xcworkspace"
+      script: 
+        - "xcodebuild -scheme PhotonBox build"
+        - "xcodebuild -scheme Game build"
