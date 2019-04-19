@@ -846,7 +846,7 @@ void Renderer::renderGizmos()
 		glEnable(GL_PROGRAM_POINT_SIZE);
 		//glPointSize(1);
 
-		glDrawArrays(GL_POINTS, 0, stuff.size() / 6);
+		glDrawArrays(GL_POINTS, 0, (GLsizei)(stuff.size() / 6));
 
 		glDisable(GL_PROGRAM_POINT_SIZE);
 		shader->disableAttributes();
@@ -898,14 +898,14 @@ void Renderer::renderGizmos()
 		{
 			ImGui::Text((buffers[i] + "  id: " + std::to_string(_gBuffer->getAttachment(buffers[i])->id) + "  index: " + std::to_string(_gBuffer->getAttachment(buffers[i])->attachmentIndex)).c_str() );
 			bool close = true;
-			if (ImGui::ImageButton((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() * factor, _gBuffer->getHeight() * factor), ImVec2(0, 1), ImVec2(1, 0)))
+			if (ImGui::ImageButton((ImTextureID)(intptr_t)(_gBuffer->getAttachment(buffers[i])->id), ImVec2(_gBuffer->getWidth() * factor, _gBuffer->getHeight() * factor), ImVec2(0, 1), ImVec2(1, 0)))
 			{
 				ImGui::OpenPopup(buffers[i].c_str());
 			}
 			if (ImGui::BeginPopup(buffers[i].c_str()))
 			{				
 				float bigFactor = 0.4f;
-				ImGui::Image((void *)_gBuffer->getAttachment(buffers[i])->id, ImVec2(_gBuffer->getWidth() * bigFactor, _gBuffer->getHeight() * bigFactor), ImVec2(0, 1), ImVec2(1, 0));
+				ImGui::Image((ImTextureID)(intptr_t)(_gBuffer->getAttachment(buffers[i])->id), ImVec2(_gBuffer->getWidth() * bigFactor, _gBuffer->getHeight() * bigFactor), ImVec2(0, 1), ImVec2(1, 0));
 				ImGui::EndPopup();
 			}
 			ImGui::NewLine();

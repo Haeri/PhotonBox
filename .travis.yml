@@ -11,6 +11,7 @@ matrix:
         - export CC=gcc-8
         - export CXX=g++-8
         - make
+        - "./Tools/deployer_linux.sh Debug"
       addons:
         apt:
           sources:
@@ -24,8 +25,9 @@ matrix:
         - "./Tools/generate_project_win.bat -s"
       script: 
         - "MSBuild.exe PhotonBox.sln"
-    - os: osx
-      install: "./Tools/generate_project_mac.sh"
-      script: 
-        - "xcodebuild -scheme PhotonBox build"
-        - "xcodebuild -scheme Game build"
+        - "./Tools/deployer_win.bat Debug -s"
+#    - os: osx
+#      install: "./Tools/generate_project_mac.sh"
+#      script: 
+#        - "xcodebuild -scheme PhotonBox build"
+#        - "xcodebuild -scheme Game build"

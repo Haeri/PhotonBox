@@ -82,7 +82,7 @@ namespace Util
 		{
 			unsigned char* data = va_arg(args, unsigned char*);
 			size_t size = va_arg(args, size_t);
-			buffList.push_back(std::make_pair(data, size));
+			buffList.push_back(std::make_pair(data, (int)size));
 			buffSize += buffList[i].second;
 		}
 		va_end(args);

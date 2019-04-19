@@ -413,47 +413,47 @@ public:
 		std::vector<Vector3f> positions;
 		std::vector<Quaternion> rotations;
 		
-		positions.push_back(Vector3f(1.027929, 0.694633, -2.158259));
-		rotations.push_back(Quaternion(0.000000, 0.000000, 0.000000, 1.000000));
+		positions.push_back(Vector3f(1.027929f, 0.694633f, -2.158259f));
+		rotations.push_back(Quaternion(0.000000f, 0.000000f, 0.000000f, 1.000000f));
 
-		positions.push_back(Vector3f(-1.360401, 0.694633, -2.075065));
-		rotations.push_back(Quaternion(-0.028378, -0.230313, 0.006719, 0.972680));
+		positions.push_back(Vector3f(-1.360401f, 0.694633f, -2.075065f));
+		rotations.push_back(Quaternion(-0.028378f, -0.230313f, 0.006719f, 0.972680f));
 
-		positions.push_back(Vector3f(-2.056820, 0.512246, -0.024637));
-		rotations.push_back(Quaternion(0.009905, -0.705615, -0.006306, 0.703909));
+		positions.push_back(Vector3f(-2.056820f, 0.512246f, -0.024637f));
+		rotations.push_back(Quaternion(0.009905f, -0.705615f, -0.006306f, 0.703909f));
 
-		positions.push_back(Vector3f(-1.386565, 0.527661, -0.021926));
-		rotations.push_back(Quaternion(0.009905, -0.705615, -0.006306, 0.703909));
+		positions.push_back(Vector3f(-1.386565f, 0.527661f, -0.021926f));
+		rotations.push_back(Quaternion(0.009905f, -0.705615f, -0.006306f, 0.703909f));
 
-		positions.push_back(Vector3f(-1.546286, 1.844576, 3.710133));
-		rotations.push_back(Quaternion(-0.003881, 0.921661, -0.005412, 0.374513));
+		positions.push_back(Vector3f(-1.546286f, 1.844576f, 3.710133f));
+		rotations.push_back(Quaternion(-0.003881f, 0.921661f, -0.005412f, 0.374513f));
 
-		positions.push_back(Vector3f(-1.551588, 0.697409, 3.701233));
-		rotations.push_back(Quaternion(0.083715, 0.875332, 0.169155, 0.433270));
+		positions.push_back(Vector3f(-1.551588f, 0.697409f, 3.701233f));
+		rotations.push_back(Quaternion(0.083715f, 0.875332f, 0.169155f, 0.433270f));
 
-		positions.push_back(Vector3f(1.669045, 1.679932, -0.204936));
-		rotations.push_back(Quaternion(-0.001640, 0.990844, -0.011507, -0.018861));
+		positions.push_back(Vector3f(1.669045f, 1.679932f, -0.204936f));
+		rotations.push_back(Quaternion(-0.001640f, 0.990844f, -0.011507f, -0.018861f));
 
-		positions.push_back(Vector3f(1.831609, 1.694534, 0.390910));
-		rotations.push_back(Quaternion(-0.001640, 0.990844, -0.011507, -0.018861));
+		positions.push_back(Vector3f(1.831609f, 1.694534f, 0.390910f));
+		rotations.push_back(Quaternion(-0.001640f, 0.990844f, -0.011507f, -0.018861f));
 
-		positions.push_back(Vector3f(1.302423, 1.878779, 3.948425));
-		rotations.push_back(Quaternion(0.024274, -0.972819, 0.122343, -0.131675));
+		positions.push_back(Vector3f(1.302423f, 1.878779f, 3.948425f));
+		rotations.push_back(Quaternion(0.024274f, -0.972819f, 0.122343f, -0.131675f));
 
-		positions.push_back(Vector3f(0.219692, 1.831888, 3.995026));
-		rotations.push_back(Quaternion(-0.001262, -0.979887, 0.116091, 0.074467));
+		positions.push_back(Vector3f(0.219692f, 1.831888f, 3.995026f));
+		rotations.push_back(Quaternion(-0.001262f, -0.979887f, 0.116091f, 0.074467f));
 
-		positions.push_back(Vector3f(1.450421, 2.951797, -1.219468));
-		rotations.push_back(Quaternion(0.450830, -0.545559, 0.454648, -0.519226));
+		positions.push_back(Vector3f(1.450421f, 2.951797f, -1.219468f));
+		rotations.push_back(Quaternion(0.450830f, -0.545559f, 0.454648f, -0.519226f));
 
-		positions.push_back(Vector3f(1.427990, 2.900677, 1.304277));
-		rotations.push_back(Quaternion(0.450830, -0.545559, 0.454648, -0.519226));
+		positions.push_back(Vector3f(1.427990f, 2.900677f, 1.304277f));
+		rotations.push_back(Quaternion(0.450830f, -0.545559f, 0.454648f, -0.519226f));
 
-		positions.push_back(Vector3f(0.001378, 0.554877, 1.378379));
-		rotations.push_back(Quaternion(0.000040, -0.999493, -0.020330, -0.000862));
+		positions.push_back(Vector3f(0.001378f, 0.554877f, 1.378379f));
+		rotations.push_back(Quaternion(0.000040f, -0.999493f, -0.020330f, -0.000862f));
 
-		positions.push_back(Vector3f(-0.001278, 0.617471, -0.158748));
-		rotations.push_back(Quaternion(0.000040, -0.999493, -0.020330, -0.000862));
+		positions.push_back(Vector3f(-0.001278f, 0.617471f, -0.158748f));
+		rotations.push_back(Quaternion(0.000040f, -0.999493f, -0.020330f, -0.000862f));
 
 
 

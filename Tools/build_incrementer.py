@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from shutil import copyfile, rmtree
 import os, sys
 import re
