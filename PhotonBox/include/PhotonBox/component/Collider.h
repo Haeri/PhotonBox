@@ -17,7 +17,7 @@ public:
 	//void destroy() override;
 
 	virtual physx::PxGeometry* getShape() = 0;
-	std::type_index getBaseType() override { return typeid(Collider); }
+	std::type_index getBaseType() override;
 };
 
 #endif // COLLIDER_H

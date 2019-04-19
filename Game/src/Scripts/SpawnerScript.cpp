@@ -29,7 +29,7 @@ public:
 	{
 		Scene* scene = SceneManager::getCurrentScene();
 
-		Mesh* _mesh = scene->createResource<Mesh>("./res/meshes/fireplace_room.obj");
+		_mesh = scene->createResource<Mesh>("./res/meshes/fireplace_room.obj");
 
 		Texture* orig = scene->createResource<Texture>(std::string("./res/textures/view.png"), false);
 		Texture* default_normal = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);

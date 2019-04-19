@@ -121,7 +121,7 @@ void Core::run()
 		// Measure time
 		double currentTime = Time::now();
 #ifdef RECORD_MODE
-		_time->setDeltaTime(0.016666f);
+		_time->setDeltaTime(1.0 / 24.0);
 #else
 		_time->setDeltaTime(currentTime - lastTime);
 #endif
@@ -231,7 +231,7 @@ void Core::run()
 		
 		if (ResourceManager::allReady()) {
 			if (flop == -1) {
-				std::cout << "Generate Lights!\n";
+				std::cout << "Generate Lighting!\n";
 				_lighting->generate();
 				_renderer->_shadowsAreDirty = true;
 			}

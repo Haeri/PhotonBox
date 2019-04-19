@@ -109,13 +109,13 @@ public:
 			//sphere->getComponent<Transform>()->setScale(Vector3f(scale, scale, scale));
 			sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
 			sphere->getComponent<MeshRenderer>()->setMaterial(def);
-			sphere->addComponent<SphereCollider>()->setRadius(scale);
+			sphere->addComponent<SphereCollider>()->setRadius(1);
 			sphere->addComponent<Rigidbody>()->setMass(scale);
 		}
 		
 
 		
-		
+		/*
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
@@ -133,7 +133,7 @@ public:
 				}
 			}
 		}
-		
+		*/
 		
 		Entity* quad = instanciate("Plane");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));

@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+
+oldpath=$(pwd)
+cd $(dirname "$0")
+
 cd ..
 make clean
 rm -rf .build-debug
@@ -18,3 +23,5 @@ rm Game/Game.mk
 rm Game/Game.project
 rm Game/Game.txt
 rm Game/Makefile
+
+cd $oldpath
