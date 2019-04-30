@@ -104,7 +104,7 @@ void PostProcessing::drawGizmos()
 		}
 
 		ImGui::BeginGroup();
-		ImGui::Text(name.c_str());
+		ImGui::TextUnformatted(name.c_str());
 		bool toggle = (*it)->isEnabled();
 		ImGui::Checkbox(("Enable##" + name).c_str(), &toggle);
 			

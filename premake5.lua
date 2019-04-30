@@ -158,6 +158,7 @@ project "Game"
 		{
 			"GL",
 			"GLU",
+			"glfw3",
 			"X11",
 			"png",
 			"Xxf86vm",
@@ -169,7 +170,6 @@ project "Game"
 			"dl",
 			--
 			"PhotonBox",
-			"glfw3",
 			"zlib",
 			"freetype",
 		}
