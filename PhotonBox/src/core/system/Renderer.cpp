@@ -896,7 +896,7 @@ void Renderer::renderGizmos()
 		ImGui::SliderFloat("Scale", &factor, 0.1f, 1);
 		for (size_t i = 0; i < 8; ++i)
 		{
-			ImGui::Text((buffers[i] + "  id: " + std::to_string(_gBuffer->getAttachment(buffers[i])->id) + "  index: " + std::to_string(_gBuffer->getAttachment(buffers[i])->attachmentIndex)).c_str() );
+			ImGui::TextUnformatted((buffers[i] + "  id: " + std::to_string(_gBuffer->getAttachment(buffers[i])->id) + "  index: " + std::to_string(_gBuffer->getAttachment(buffers[i])->attachmentIndex)).c_str() );
 			bool close = true;
 			if (ImGui::ImageButton((ImTextureID)(intptr_t)(_gBuffer->getAttachment(buffers[i])->id), ImVec2(_gBuffer->getWidth() * factor, _gBuffer->getHeight() * factor), ImVec2(0, 1), ImVec2(1, 0)))
 			{
