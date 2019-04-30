@@ -3,22 +3,23 @@ language: cpp
 matrix: 
   include: 
     - os: linux
-      dist: trusty
+      dist: xenial
+      compiler: gcc
       install: 
-        - "sudo apt install make mesa-common-dev libglu1-mesa-dev xorg-dev"
+        - "sudo apt install mesa-common-dev libglu1-mesa-dev xorg-dev"
         - ./Tools/generate_project_linux.sh
       script: 
-        - export CC=gcc-8
-        - export CXX=g++-8
+        - export CC=gcc-7
+        - export CXX=g++-7
         - make
-        - "./Tools/deployer_linux.sh Debug"
+        - "sudo ./Tools/deployer_linux.sh Debug"
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-8
-            - g++-8
+            - gcc-7
+            - g++-7
     - os: windows
       install: 
         - export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"

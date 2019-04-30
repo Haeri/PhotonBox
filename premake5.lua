@@ -132,21 +132,21 @@ project "Game"
 		zlib_dir		.. "/lib",
 	}
 
-	links
-	{
-		"PhotonBox",
-		"glfw3",
-		"zlib",
-		"freetype",
-	}
-
 
 	-- PLATTFORM FILTER
 
 	filter "system:windows"
 		defines "PB_PLATFORM_WIN"
 		systemversion "latest"
-		links "opengl32"
+		links 
+		{
+			"opengl32"	
+			--
+			"PhotonBox",
+			"glfw3",
+			"zlib",
+			"freetype",
+		}
 
 	filter "system:Linux"
 		defines "PB_PLATFORM_NIX"
@@ -154,7 +154,8 @@ project "Game"
 		{
 			 "-Wl,-rpath=." 
 		}
-		links {
+		links 
+		{
 			"GL",
 			"GLU",
 			"X11",
@@ -166,6 +167,11 @@ project "Game"
 			"pthread",
 			"Xi",
 			"dl",
+			--
+			"PhotonBox",
+			"glfw3",
+			"zlib",
+			"freetype",
 		}
 
 	-- MODE FILTER
