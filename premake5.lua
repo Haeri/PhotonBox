@@ -140,7 +140,7 @@ project "Game"
 		systemversion "latest"
 		links 
 		{
-			"opengl32"	
+			"opengl32",
 			--
 			"PhotonBox",
 			"glfw3",
