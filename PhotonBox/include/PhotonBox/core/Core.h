@@ -20,6 +20,7 @@ class DebugGUI;
 class FileWatch;
 class ISystem;
 
+#include <string>
 #include <map>
 #include <vector>
 

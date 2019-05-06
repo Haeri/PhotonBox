@@ -141,7 +141,6 @@ project "Game"
 		links 
 		{
 			"opengl32",
-			--
 			"PhotonBox",
 			"glfw3",
 			"zlib",
@@ -152,7 +151,7 @@ project "Game"
 		defines "PB_PLATFORM_NIX"
 		linkoptions 
 		{
-			 "-Wl,-rpath=." 
+			 "-Wl,-rpath=.,--start-group" 
 		}
 		links 
 		{
@@ -168,7 +167,6 @@ project "Game"
 			"pthread",
 			"Xi",
 			"dl",
-			--
 			"PhotonBox",
 			"zlib",
 			"freetype",
