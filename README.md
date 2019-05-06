@@ -53,14 +53,15 @@ Automotive
 
 ## Project Setup
 ### For Windows
-Generate the visual studio project files, by doubleclicking the `generate_project_win.bat` script inside the `Tools` directory.
+Generate the visual studio project files, by doubleclicking the script: `generate_project_win.bat` inside the `Tools` directory.
 
 ### For Linux
-Install needed dependencies by executing `sudo apt install make mesa-common-dev mesa-utils libglu1-mesa-dev xorg-dev freeglut3-dev`.
-Then generate the codelite project files, by executing the script with `./generate_project_linux.sh` inside the `Tools` directory.
+Install needed dependencies by executing:
+```sudo apt install make mesa-common-dev mesa-utils libglu1-mesa-dev xorg-dev freeglut3-dev```
+Then generate the make files, by executing the script: `generate_project_linux.sh` inside the `Tools` directory.
 
 ### For Mac (Can't test :S)
-Generate the xcode project files, by executing the script with `./generate_project_mac.sh` inside the `Tools` directory.
+Generate the xcode project files, by executing the script: `generate_project_mac.sh` inside the `Tools` directory.
 
 ## Roadmap
 ### RENDERING
