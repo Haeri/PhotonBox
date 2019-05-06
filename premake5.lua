@@ -159,6 +159,7 @@ project "Game"
 			"GLU",
 			"glfw3",
 			"X11",
+			"m",
 			"png",
 			"Xxf86vm",
 			"Xrandr",

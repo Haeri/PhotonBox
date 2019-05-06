@@ -7,6 +7,8 @@ matrix:
       compiler: gcc
       install: 
         - "sudo apt install mesa-common-dev libglu1-mesa-dev xorg-dev"
+        - "sudo add-apt-repository universe"
+        - "sudo apt install libpng16-dev"
         - ./Tools/generate_project_linux.sh
       script: 
         - export CC=gcc-7
