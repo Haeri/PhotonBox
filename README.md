@@ -57,7 +57,7 @@ Generate the visual studio project files, by doubleclicking the script: `generat
 
 ### For Linux
 Install needed dependencies by executing:
-```sudo apt install make mesa-common-dev mesa-utils libglu1-mesa-dev xorg-dev freeglut3-dev```
+```sudo apt install make mesa-common-dev mesa-utils libgl1-mesa-dev xorg-dev```
 Then generate the make files, by executing the script: `generate_project_linux.sh` inside the `Tools` directory.
 
 ### For Mac (Can't test :S)

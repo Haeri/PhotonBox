@@ -151,22 +151,18 @@ project "Game"
 		defines "PB_PLATFORM_NIX"
 		linkoptions 
 		{
-			 "-Wl,-rpath=.,--start-group" 
+			 "-Wl,-rpath=." 
 		}
 		links 
 		{
 			"GL",
-			"GLU",
 			"glfw3",
 			"X11",
-			"m",
-			"png",
 			"Xxf86vm",
 			"Xrandr",
 			"Xinerama",
 			"Xcursor",
 			"pthread",
-			"Xi",
 			"dl",
 			"PhotonBox",
 			"zlib",
@@ -227,12 +223,12 @@ project "Game"
 		libdirs (physx_dir .. "/bin/debug")
 		postbuildcommands 
 		{
-			"{COPY} ../" .. physx_dir .. "/bin/debug/*.so bin/" .. output_dir,
+			"{COPY} ../" .. physx_dir .. "/bin/debug/*.so ../%{prj.name}",
 		}
 
 	filter {"system:Linux", "configurations:Release or configurations:Dist"}
 		libdirs (physx_dir .. "/bin/release")
 		postbuildcommands 
 		{
-			"{COPY} ../" .. physx_dir .. "/bin/release/*.so bin/" .. output_dir,
+			"{COPY} ../" .. physx_dir .. "/bin/release/*.so ../%{prj.name}",
 		}

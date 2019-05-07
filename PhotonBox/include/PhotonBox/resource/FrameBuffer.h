@@ -6,6 +6,7 @@ class Material;
 #include <unordered_map>
 #include <vector>
 #include <map>
+#include <string>
 
 #include "PhotonBox/core/OpenGL.h"
 
