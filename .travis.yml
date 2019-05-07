@@ -1,0 +1,30 @@
+language: cpp
+
+matrix: 
+  include: 
+    - os: linux
+      dist: xenial
+      compiler: gcc
+      before_install: 
+        - sudo apt install mesa-common-dev libglu1-mesa-dev xorg-dev
+      addons:
+        apt:
+          update: true
+      install: 
+        - ./Tools/generate_project_linux.sh
+      script: 
+        - make
+        - sudo ./Tools/deployer_linux.sh Debug
+    - os: windows
+      install: 
+        - export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
+        - ./Tools/generate_project_win.bat -s
+      script: 
+        - MSBuild.exe PhotonBox.sln
+        - ./Tools/deployer_win.bat Debug -s
+#    - os: osx
+#      compiler: gcc
+#      install:
+#        - ./Tools/premake/mac/premake5 gmake2 --file="premake5.lua"
+#      script: 
+#        - make

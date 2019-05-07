@@ -1,10 +1,10 @@
 #ifndef SSREFLECTION_SHADER_CPP
 #define SSREFLECTION_SHADER_CPP
 
-#include <Components/Camera.h>
-#include <Resources/Shader.h>
+#include <component/Camera.h>
+#include <resource/Shader.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -19,18 +19,7 @@ public:
 
 	void update(Transform* transform) override
 	{
-		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
-	}
-
-	void addUniforms() override
-	{
-		addUniform("projection");
-
-		addTexture("mainBuffer");
-		addTexture("gPosition");
-		addTexture("gNormal");
-		addTexture("gMetallic");
-		addTexture("gRoughness");
+		setUniform("projection", Camera::getMainCamera()->getProjectionMatrix());	
 	}
 
 	void addAttributes() override

@@ -1,10 +1,10 @@
 #ifndef FOLLOW_SCRIPT_CPP
 #define FOLLOW_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Transform.h>
+#include <component/Behaviour.h>
+#include <component/Transform.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

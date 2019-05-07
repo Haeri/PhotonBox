@@ -1,14 +1,14 @@
 #ifndef FXAA_PROCESSOR_CPP
 #define FXAA_PROCESSOR_CPP
 
-#include <Core/FrameBuffer.h>
-#include <Core/PostProcessor.h>
-#include <Resources/Material.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
 #include <core/Display.h>
+#include <resource/shader/MedianShader.h>
 
 #include "../Shader/FXAAShader.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -16,46 +16,53 @@
 class FXAAProcessor : public PostProcessor
 {
 public:
-	Material * _material;
-	FrameBuffer* _frameBuffer;
 
 	FXAAProcessor(int index) : PostProcessor(index)
 	{
-		_frameBuffer = new FrameBuffer(1);
-		_frameBuffer->addTextureAttachment("color", true);
-		_frameBuffer->ready();
+		_tempBuffer = new FrameBuffer(1);
+		_tempBuffer->addTextureAttachment("color", true);
+		_tempBuffer->ready();
 
-		_material = new Material(FXAAShader::getInstance());
-		_material->setProperty<float>("R_fxaaSpanMax", 8.0f);
-		_material->setProperty<float>("R_fxaaReduceMin", 1.0f / 128.0f);
-		_material->setProperty<float>("R_fxaaReduceMul", 150.0f);
-		_material->setProperty<float>("screenWidth", Display::getWidth());
-		_material->setProperty<float>("screenHeight", Display::getHeight());
-		_material->setTexture("renderTexture", _frameBuffer, "color");
+		_fxaaMaterial = new Material(FXAAShader::getInstance());
+		_fxaaMaterial->setProperty<float>("R_fxaaSpanMax", 8.0f);
+		_fxaaMaterial->setProperty<float>("R_fxaaReduceMin", 1.0f / 128.0f);
+		_fxaaMaterial->setProperty<float>("R_fxaaReduceMul", 150.0f);
+		_fxaaMaterial->setProperty<float>("screenWidth", Display::getWidth());
+		_fxaaMaterial->setProperty<float>("screenHeight", Display::getHeight());
+		_fxaaMaterial->setTexture("renderTexture", _tempBuffer, "color");
+
+		_medianMaterial = new Material(MedianShader::getInstance());
+		_medianMaterial->setTexture("renderTexture", mainBuffer, "color");
 	}
 
 	void onResize() override
 	{
-		_material->setProperty<float>("screenWidth", Display::getWidth());
-		_material->setProperty<float>("screenHeight", Display::getHeight());
+		_fxaaMaterial->setProperty<float>("screenWidth", Display::getWidth());
+		_fxaaMaterial->setProperty<float>("screenHeight", Display::getHeight());
 	}
 
-	void enable() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		_frameBuffer->enable();
-	}
+		// Prepare
+		_tempBuffer->enable();
+		mainBuffer->render(_medianMaterial);
 
-	void render() override
-	{
-		_frameBuffer->render(_material);
+		// Render
+		nextBuffer->enable();
+		_tempBuffer->render(_fxaaMaterial);
 	}
 
 	void destroy() override
 	{
-		delete _material;
-		delete _frameBuffer;
+		delete _fxaaMaterial;
+		delete _medianMaterial;
+		delete _tempBuffer;
 	}
 
+private:
+	Material * _fxaaMaterial;
+	Material * _medianMaterial;
+	FrameBuffer* _tempBuffer;
 };
 
 #endif // FXAA_PROCESSOR_CPP

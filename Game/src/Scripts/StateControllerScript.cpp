@@ -1,14 +1,15 @@
 #ifndef STATE_CONTROLLER_SCRIPT_CPP
 #define STATE_CONTROLLER_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Transform.h>
-#include <Core/InputManager.h>
-#include <Core/Systems/Core.h>
-#include <Core/Systems/Renderer.h>
-#include <Core/Systems/SceneManager.h>
+#include <component/Behaviour.h>
+#include <component/Transform.h>
+#include <core/Core.h>
+#include <core/InputManager.h>
+#include <core/system/Renderer.h>
+#include <core/system/SceneManager.h>
+#include <core/Display.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif

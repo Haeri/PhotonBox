@@ -15,7 +15,7 @@ public:
 	// counter and return the poointer. At the end delete all 
 	// resources from the global map according to the local set.
 
-	virtual ~ManagedResource() {};
+	virtual ~ManagedResource() {}
 };
 
 #endif // MANAGED_RESOURCE_H

@@ -1,13 +1,13 @@
 #ifndef CAMERA_CONTROLLER_SCRIPT_CPP
 #define CAMERA_CONTROLLER_SCRIPT_CPP
 
-#include <Components/Behaviour.h>
-#include <Components/Camera.h>
-#include <Components/Transform.h>
-#include <Core/InputManager.h>
-#include <Core/Time.h>
+#include <component/Behaviour.h>
+#include <component/Camera.h>
+#include <component/Transform.h>
+#include <core/InputManager.h>
+#include <core/Time.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -35,7 +35,6 @@ public:
 			(transform->forward() * direction.z() +
 				transform->up() * direction.y() +
 				transform->right() * direction.x())
-
 			* Time::deltaTime * speed * shift);
 
 		if(InputManager::getCursorMode() == InputManager::CursorMode::DISABLED){

@@ -1,13 +1,13 @@
 #ifndef PHYSICS_SCENE_CPP
 #define PHYSICS_SCENE_CPP
 
-#include <Components/MeshRenderer.h>
-#include <Components/Rigidbody.h>
-#include <Resources/OBJLoader.h>
-#include <Resources/Scene.h>
-#include <Resources/Texture.h>
-#include <Components/SphereCollider.h>
-#include <Components/BoxCollider.h>
+#include <component/MeshRenderer.h>
+#include <component/Rigidbody.h>
+#include <component/SphereCollider.h>
+#include <component/BoxCollider.h>
+#include <resource/Scene.h>
+#include <resource/Texture.h>
+#include <resource/shader/GShader.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -15,8 +15,9 @@
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../Scripts/CameraControllerScript.cpp"
+#include "../Scripts/StateControllerScript.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -38,7 +39,6 @@ public:
 		};
 
 		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
-		//Renderer::setSkyBox(new CubeMap(nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
 
@@ -88,38 +88,29 @@ public:
 		cam->addComponent<StateControllerScript>();
 
 
-
 		/* --------------------------- LIGHTS --------------------------- */
 		Entity* ambient = instanciate("Ambient");
 		ambient->addComponent<AmbientLight>();
 
-		/*
 		Entity* sun = instanciate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
-		sun->getComponent<DirectionalLight>()->intensity = 10.0f;	
-		sun->setEnable(false);
-		*/
+		sun->getComponent<DirectionalLight>()->intensity = 40.0f;			
 
 		
 		for (size_t i = 0; i < 100; i++)
 		{
-
-		Entity* sphere = instanciate("Sphere" + std::to_string(i));
-		sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
-		sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
-		sphere->getComponent<MeshRenderer>()->setMaterial(def);
-		sphere->addComponent<Rigidbody>();
-		sphere->addComponent<SphereCollider>()->setRadius(1);
-//		sphere->addComponent<PointLight>()->color = Vector3f((rand() % 100)/100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
-//		sphere->getComponent<PointLight>()->intensity = rand() % 5 + 5;
-
-
-		sphere->addComponent<SpotLight>()->color = Vector3f((rand() % 100) / 100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f);
-		sphere->getComponent<SpotLight>()->intensity = rand() % 5 + 10;
-		//sphere->getComponent<SpotLight>()->coneAngle = 0.95f;
-
+			float scale = rand() % 100 * 0.04f + 1;
+			//float scale = 1.5f;
+			std::cout << scale << std::endl;
+			Entity* sphere = instanciate("Sphere" + std::to_string(i));
+			sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
+			//sphere->getComponent<Transform>()->setScale(Vector3f(scale, scale, scale));
+			sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
+			sphere->getComponent<MeshRenderer>()->setMaterial(def);
+			sphere->addComponent<SphereCollider>()->setRadius(1);
+			sphere->addComponent<Rigidbody>()->setMass(scale);
 		}
 		
 
@@ -137,7 +128,7 @@ public:
 					box->addComponent<MeshRenderer>()->setMesh(boxMesh);
 					box->getComponent<MeshRenderer>()->setMaterial(def);
 					box->addComponent<Rigidbody>();
-					box->addComponent<PointLight>()->color = Vector3f((i/4.0f * 255.0f), (j / 4.0f * 255.0f), (z / 4.0f * 255.0f));
+					//box->addComponent<PointLight>()->color = Vector3f((i/4.0f * 255.0f), (j / 4.0f * 255.0f), (z / 4.0f * 255.0f));
 					box->addComponent<BoxCollider>()->setHalfExtents(Vector3f(1));
 				}
 			}

@@ -3,13 +3,15 @@
 
 #include <random>
 
-#include <Core/PostProcessor.h>
-#include <Math/Math.h>
+#include <core/system/Renderer.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
+#include <math/Math.h>
 
 #include "../Shader/SSAOBlurShader.cpp"
 #include "../Shader/SSAOShader.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -20,10 +22,7 @@ public:
 
 	SSAOProcessor(int index) : PostProcessor(index)
 	{
-		mainBuffer = new FrameBuffer(1);
-		mainBuffer->addTextureAttachment("color", true);
-		mainBuffer->ready();
-		ssaoBlurBuffer = new FrameBuffer(1);
+		ssaoBlurBuffer = new FrameBuffer(0.5f);
 		ssaoBlurBuffer->addTextureAttachment("color", true);
 		ssaoBlurBuffer->ready();
 
@@ -33,25 +32,21 @@ public:
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
 		ssaoBlurMaterial->setTexture("original", mainBuffer, "color");
 		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer, "color");
-		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth());
-		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
+		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth() / 2.0f);
+		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight() / 2.0f);
 
 		generateNoise();
 	}
 
 	void onResize() override
 	{
-		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth());
-		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight());
+		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth()/2.0f);
+		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight()/ 2.0f);
 	}
 
-	void enable() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		mainBuffer->enable();
-	}
-
-	void preProcess() override
-	{
+		// Prapare
 		ssaoBlurBuffer->enable();
 
 		// TODO: Clean up this block
@@ -65,10 +60,9 @@ public:
 			ssaoMaterial->shader->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
 		}
 		mainBuffer->render(ssaoMaterial);
-	}
 
-	void render() override
-	{
+		// Render
+		nextBuffer->enable();
 		ssaoBlurBuffer->render(ssaoBlurMaterial);
 	}
 
@@ -77,14 +71,13 @@ public:
 		delete ssaoMaterial;
 		delete ssaoBlurMaterial;
 
-		delete mainBuffer;
 		delete ssaoBlurBuffer;
 
 		glDeleteTextures(1, &_noiseTexture);
 	}
 private:
 	Material * ssaoMaterial, *ssaoBlurMaterial;
-	FrameBuffer* mainBuffer, *ssaoBlurBuffer;
+	FrameBuffer* ssaoBlurBuffer;
 
 	GLuint _noiseTexture;
 	std::vector<Vector3f> _ssaoKernel;
@@ -93,14 +86,14 @@ private:
 	{
 		// generate sample kernel
 		// ----------------------
-		std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
+		std::uniform_real_distribution<GLfloat> randomFloats(0.0f, 1.0f); // generates random floats between 0.0 and 1.0
 		std::default_random_engine generator;
 		for (unsigned int i = 0; i < 64; ++i)
 		{
-			Vector3f sample(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, randomFloats(generator));
+			Vector3f sample(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator));
 			sample = sample.normalize();
 			sample = sample * randomFloats(generator);
-			float scale = float(i) / 64.0;
+			float scale = float(i) / 64.0f;
 
 			// scale samples s.t. they're more aligned to center of kernel
 			scale = Math::lerp(0.1f, 1.0f, scale * scale);

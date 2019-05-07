@@ -9,6 +9,8 @@ class Quaternion
 public:
 	static const Quaternion ZERO;
 
+	Quaternion()
+		: _x(0), _y(0), _z(0), _w(0) {}
 	Quaternion(float x, float y, float z, float w)
 		: _x(x), _y(y), _z(z), _w(w) {}
 	Quaternion(Vector3f axis, float angle);
@@ -25,7 +27,14 @@ public:
 	float getAngle();
 	Vector3f getAxis();
 
+	static Quaternion lerp(Quaternion start, Quaternion end, float percent);
+
 	Matrix4f createRotation();
+
+	bool equals(const Quaternion& other)
+	{
+		return (_x == other._x && _y == other._y && _z == other._z && _w == other._w);
+	}
 
 	Quaternion operator* (const Quaternion& scalar);
 	inline Quaternion operator* (const float& scalar);

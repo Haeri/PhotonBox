@@ -1,11 +1,11 @@
 #ifndef PATH_WALKER_SCRIPT_CPP
 #define PATH_WALKER_SCRIPT_CPP
 
-#include <components/Behaviour.h>
-#include <components/Transform.h>
+#include <component/Behaviour.h>
+#include <component/Transform.h>
 #include <core/Time.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -15,12 +15,14 @@ class PathWalkerScript : public Behaviour
 public:
 	int index = 0;
 	float speed = 1;
-	std::vector<Transform> path;
+	//std::vector<Transform> path;
+	std::vector<Vector3f> positions;
+	std::vector<Quaternion> rotations;
 
 	void Start()
 	{
-		transform->setPosition(path[0].getPosition());
-		transform->setRotation(path[0].getRotation());
+		transform->setPosition(positions[0]);
+		transform->setRotation(rotations[0]);
 	}
 
 	void Update()
@@ -33,7 +35,7 @@ public:
 		else
 		{
 			progress = 0;
-			if (index + 2 >= path.size())
+			if (index + 2 >= positions.size())
 			{
 				index = 0;
 			}
@@ -43,8 +45,8 @@ public:
 			}
 		}
 
-		transform->setPosition(Vector3f::lerp(path[index].getPosition(), path[index + 1].getPosition(), progress));
-		//transform->setRotation(Vector3f::lerp(path[index].getRotation(), path[index + 1].getRotation(), progress));
+		transform->setPosition(Vector3f::lerp(positions[index], positions[index + 1], progress));
+		transform->setRotation(Quaternion::lerp(rotations[index], rotations[index + 1], progress));
 	}
 private:
 	float progress = 0;

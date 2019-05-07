@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -101,6 +101,16 @@ Matrix4f Quaternion::createRotation()
 	return new Matrix4f().InitRotation(forward, up, right);
 	*/
 	return Matrix4f::IDENTITY;
+}
+
+Quaternion Quaternion::lerp(Quaternion start, Quaternion target, float percent)
+{
+	return Quaternion(
+		start._x + percent * (target._x - start._x),
+		start._y + percent * (target._y - start._y),
+		start._z + percent * (target._z - start._z),
+		start._w + percent * (target._w - start._w)
+	);
 }
 
 Quaternion Quaternion::operator*(const Quaternion & other)

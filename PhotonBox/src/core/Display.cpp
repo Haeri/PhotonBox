@@ -1,12 +1,13 @@
 #include "PhotonBox/core/Display.h"
 
-#include "PhotonBox/components/Camera.h"
-#include "PhotonBox/resources/Texture.h"
-#include "PhotonBox/resources/Resources.h"
-#include "PhotonBox/core/FrameBuffer.h"
-#include "PhotonBox/core/PostProcessor.h"
+#include "PhotonBox/component/Camera.h"
+#include "PhotonBox/resource/Texture.h"
+#include "PhotonBox/resource/FrameBuffer.h"
+#include "PhotonBox/resource/PostProcessor.h"
+#include "PhotonBox/core/Resources.h"
+#include "PhotonBox/core/system/PostProcessing.h"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -25,6 +26,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 	if (!glfwInit())
 	{
+		std::cerr << "ERROR: Failed to initialize GLFW.\n";
 		exit(EXIT_FAILURE);
 	}
 
@@ -44,6 +46,7 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 	if (!_window)
 	{
+		std::cerr << "ERROR: Failed to create a window. (OpenGL version 4.4 required)\n";
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}

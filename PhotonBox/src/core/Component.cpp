@@ -1,19 +1,9 @@
 #include "PhotonBox/core/Component.h"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
-
-void Component::setEntity(Entity* _go)
-{
-	entity = _go;
-}
-
-void Component::setTransform(Transform* _t)
-{
-	transform = _t;
-}
 
 void Component::setEnable(bool enable)
 {
@@ -21,13 +11,28 @@ void Component::setEnable(bool enable)
 		OnEnable();
 	else
 		OnDisable();
-	isEnabled = enable;
+	_isEnabled = enable;
 }
 
 std::string Component::getName()
 {
 	std::string s = typeid(*this).name();
 	return s.substr(6);
+}
+
+bool Component::getEnable()
+{
+	return _isEnabled;
+}
+
+Transform * Component::getTransform()
+{
+	return transform;
+}
+
+Entity * Component::getEntity()
+{
+	return entity;
 }
 
 void Component::OnEnable() {}
