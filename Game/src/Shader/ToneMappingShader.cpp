@@ -1,9 +1,9 @@
 #ifndef TONE_MAPPING_SHADER_CPP
 #define TONE_MAPPING_SHADER_CPP
 
-#include <Resources/Shader.h>
+#include <resource/Shader.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -14,11 +14,6 @@ public:
 	std::string getFilePath() override
 	{
 		return std::string("./res/shaders/post-processing/tonemapping");
-	}
-
-	void addUniforms() override
-	{
-		addTexture("renderTexture");
 	}
 
 	void addAttributes() override

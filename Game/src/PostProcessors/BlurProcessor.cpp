@@ -1,14 +1,16 @@
 #ifndef BLUR_PROCESSOR_CPP
 #define BLUR_PROCESSOR_CPP
 
-#include <Core/PostProcessor.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
+#include <core/Display.h>
 
 #include "../Shader/AddShader.cpp"
 #include "../Shader/BlurHShader.cpp"
 #include "../Shader/BlurVShader.cpp"
 #include "../Shader/CutOffShader.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -16,75 +18,63 @@
 class BlurProcessor : public PostProcessor
 {
 public:
-	Material * m_hBlur1;
-	Material* m_vBlur1;
-	Material* m_hBlur2;
-	Material* m_vBlur2;
 
-	FrameBuffer* fb_blur1;
-	FrameBuffer* fb_blur2;
-	FrameBuffer* fb_blur3;
-	FrameBuffer* fb_blur4;
-
-	BlurProcessor(int index) : PostProcessor(index)
+	BlurProcessor(int index) : PostProcessor(index, 0.5f)
 	{
-		m_hBlur1 = new Material(BlurHShader::getInstance());
-		m_hBlur1->setProperty("offset", 0.005f);
-		m_vBlur1 = new Material(BlurVShader::getInstance());
-		m_vBlur1->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
+		_m_hBlur1 = new Material(BlurHShader::getInstance());
+		_m_hBlur1->setProperty("offset", 0.005f);
+		_m_vBlur1 = new Material(BlurVShader::getInstance());
+		_m_vBlur1->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
 
-		m_hBlur2 = new Material(BlurHShader::getInstance());
-		m_hBlur2->setProperty("offset", 0.005f);
-		m_vBlur2 = new Material(BlurVShader::getInstance());
-		m_vBlur2->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
+		_m_hBlur2 = new Material(BlurHShader::getInstance());
+		_m_hBlur2->setProperty("offset", 0.005f);
+		_m_vBlur2 = new Material(BlurVShader::getInstance());
+		_m_vBlur2->setProperty("offset", 0.005f * (Display::getWidth() / Display::getHeight()));
 
-		fb_blur1 = new FrameBuffer(Display::getWidth() / 2, Display::getHeight() / 2);
-		fb_blur1->addTextureAttachment("color");
-		fb_blur1->ready();
-		fb_blur2 = new FrameBuffer(Display::getWidth() / 2, Display::getHeight() / 2);
-		fb_blur2->addTextureAttachment("color");
-		fb_blur2->ready();
-		fb_blur3 = new FrameBuffer(Display::getWidth() / 8, Display::getHeight() / 8);
-		fb_blur3->addTextureAttachment("color");
-		fb_blur3->ready();
-		fb_blur4 = new FrameBuffer(Display::getWidth() / 8, Display::getHeight() / 8);
-		fb_blur4->addTextureAttachment("color");
-		fb_blur4->ready();
+		_fb_blur2 = new FrameBuffer(1/2.0f);
+		_fb_blur2->addTextureAttachment("color");
+		_fb_blur2->ready();
+		_fb_blur3 = new FrameBuffer(1/8.0f);
+		_fb_blur3->addTextureAttachment("color");
+		_fb_blur3->ready();
+		_fb_blur4 = new FrameBuffer(1/8.0f);
+		_fb_blur4->addTextureAttachment("color");
+		_fb_blur4->ready();
 	}
 
-	void enable() override
+	void render(FrameBuffer* nextBuffer) override
 	{
-		fb_blur1->enable();
-	}
-
-	void preProcess() override
-	{
-		fb_blur2->enable();
-		fb_blur1->render(m_hBlur1);
-		fb_blur3->enable();
-		fb_blur2->render(m_vBlur1);
-		fb_blur4->enable();
-		fb_blur3->render(m_hBlur2);
-	}
-
-	void render() override
-	{
-		fb_blur4->render(m_vBlur2);
+		_fb_blur2->enable();
+		mainBuffer->render(_m_hBlur1);
+		_fb_blur3->enable();
+		_fb_blur2->render(_m_vBlur1);
+		_fb_blur4->enable();
+		_fb_blur3->render(_m_hBlur2);
+		nextBuffer->enable();
+		_fb_blur4->render(_m_vBlur2);
 	}
 
 	void destroy() override
 	{
-		delete m_hBlur1;
-		delete m_vBlur1;
-		delete m_hBlur2;
-		delete m_vBlur2;
+		delete _m_hBlur1;
+		delete _m_vBlur1;
+		delete _m_hBlur2;
+		delete _m_vBlur2;
 
-		delete fb_blur1;
-		delete fb_blur2;
-		delete fb_blur3;
-		delete fb_blur4;
+		delete _fb_blur2;
+		delete _fb_blur3;
+		delete _fb_blur4;
 	}
 
+private:
+	Material* _m_hBlur1;
+	Material* _m_vBlur1;
+	Material* _m_hBlur2;
+	Material* _m_vBlur2;
+
+	FrameBuffer* _fb_blur2;
+	FrameBuffer* _fb_blur3;
+	FrameBuffer* _fb_blur4;
 };
 
 #endif // BLUR_PROCESSOR_CPP

@@ -2,40 +2,50 @@ RENDERING
 - Instanced rendering
 - Deferred decals
 - Switch to GTAO
-- TAA
 - Draw handles
 - GBuffer packing
 - Dynamic Shadow bounding update
+- Anisotropic filtering
 
 GENERAL
-- Zlib binary file compression
-- Switch image format to compressed ddt
 - Resource manager
 	- Protected constructors for managed resources
 	- Load next before unload to pass already loaded resources
-- Frustum culling
-- Recursive lightmap generation with light conservation
-- Uniform buffer
+- Recursive light map generation with light conservation
 - Precompile shader
-- Run Filewatcher parallel in an interval
-- GL-State system: define all needed properties befre draw call. System compares 
+- GL-State system: define all needed properties before draw call. System compares 
 	what state is to what it should be and only changes properties that are needed.
-- SIMD math
 - License - MIT?
-- Wrap everything in PhotonBox namespace
+- Wrap everything in PhotonBox name space
 - Abstraction layer over OpenGL
-- Precompiled header
+- Precompiled headers
 - Switch to dll
-- User Premake or CMake
 - Decouple asset conversion into its own Project (AssetCompiler)
 - Create Shader as JSON resource -> Eliminate Shader classes
-- Move Scene classes to JSON resources
+- (Move Scene classes to JSON resources)
+- General configuration for static defines (Depth pre-pass, Resource path)
+- Update dependency libs
+- Doxygen integration for documentation
+- Logging system
+- Debounce spam resize calls
+- Separate mesh into mesh-data and mesh-resource. 
+- Separate texture into texture-data and texture-resource. 
+- Clean up light emitter, pack shadow buffer inside, move shader binding code into light
+
+OPTIMIZATION
+- Frustum culling
+- Uniform buffer
+- SIMD math
 
 RESOURCES
-- Textures	-> .DDT
-- Mesh		-> .Mesh
+- Textures	-> .PBT
+- Mesh		-> .PBM
 - Shader	-> .JSON
-- Scene		-> .JSON
+- Scene 	-> .JSON
+- Material 	-> .JSON
 
 BUGS
-- No shadows in capture mode
+- Eye-adaptation freaking out with high frame rate
+- Fix FXAA
+- CubeMap memory leak
+- Cubemap does not generate a serialized texture

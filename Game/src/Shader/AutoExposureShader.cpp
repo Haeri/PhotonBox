@@ -1,10 +1,10 @@
 #ifndef AUTO_EXPOSURE_SHADER_CPP
 #define AUTO_EXPOSURE_SHADER_CPP
 
-#include <Resources/Shader.h>
-#include <Core/Time.h>
+#include <resource/Shader.h>
+#include <core/Time.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -19,19 +19,7 @@ public:
 
 	void update(Transform* t) override
 	{
-		glUniform1f(uniforms["delteTime"], Time::deltaTime);
-	}
-
-	void addUniforms() override
-	{
-		addUniform("maxMip");
-		addUniform("minLum");
-		addUniform("maxLum");
-		addUniform("delteTime");
-		addUniform("adaptationSpeed");
-
-		addTexture("luminanceSampleCurrent");
-		addTexture("luminanceSampleLast");
+		setUniform("delteTime", Time::deltaTimef);
 	}
 
 	void addAttributes() override

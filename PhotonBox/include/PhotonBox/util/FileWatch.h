@@ -2,6 +2,7 @@
 #define FILE_WATCH_H
 
 class Shader;
+class ILazyLoadable;
 
 #include <iostream>
 #include <map>
@@ -9,22 +10,25 @@ class Shader;
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#define stat _stat
+//#define stat _stat
 
 
 class FileWatch
 {
 public:
-	struct ShaderFile
+	struct ResourceFile
 	{
-		__time64_t stamp;
-		Shader* shader;
+		int64_t stamp;
+		ILazyLoadable* resource;
 	};
 
 	static void addToWatchList(std::string filePath, Shader* shader);
+	static void addToWatchList(std::string filePath, ILazyLoadable* resource);
 	void checkValidity();
 private:
-	static std::map<std::string, ShaderFile> _watchList;
+	static bool _loading;
+	void asyncCheck();
+	static std::map<std::string, ResourceFile> _watchList;
 };
 
-#endif FILE_WATCH_H
+#endif // FILE_WATCH_H

@@ -2,9 +2,9 @@
 
 #include <iostream>
 
-#include "PhotonBox/resources/Scene.h"
+#include "PhotonBox/resource/Scene.h"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -39,13 +39,10 @@ void Entity::destroyComponents()
 
 void Entity::destroy()
 {
-
-	if (!transform->children.empty())
+	std::vector<Transform*> children = transform->getChildren();
+	for (std::vector<Transform*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
-		for (std::vector<Transform*>::iterator it = transform->children.begin(); it != transform->children.end(); ++it)
-		{
-			(*it)->entity->destroy();
-		}
+		(*it)->getEntity()->destroy();
 	}
 
 	destroyComponents();
@@ -64,9 +61,10 @@ void Entity::setEnable(bool enable)
 		it->second->setEnable(enable);
 	}
 
-	for (std::vector<Transform*>::iterator it = transform->children.begin(); it != transform->children.end(); ++it)
+	std::vector<Transform*> children = transform->getChildren();
+	for (std::vector<Transform*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
-		(*it)->entity->setEnable(enable);
+		(*it)->getEntity()->setEnable(enable);
 	}
 
 	_isEnabled = enable;

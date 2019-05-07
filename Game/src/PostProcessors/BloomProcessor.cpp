@@ -1,14 +1,17 @@
 #ifndef BLOOM_PROCESSOR_CPP
 #define BLOOM_PROCESSOR_CPP
 
-#include <Core/PostProcessor.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
+#include <core/system/Renderer.h>
+#include <core/Display.h>
 
 #include "../Shader/AddShader.cpp"
 #include "../Shader/BlurHShader.cpp"
 #include "../Shader/BlurVShader.cpp"
 #include "../Shader/CutOffShader.cpp"
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -20,9 +23,6 @@ public:
 
 	Material* m_blur_h;
 	Material* m_blur_v;
-
-
-	FrameBuffer* fb_original;
 
 	FrameBuffer* fb_cutOff_2;
 	FrameBuffer* fb_cutOff_4;
@@ -43,9 +43,6 @@ public:
 
 	BloomProcessor(int index) : PostProcessor(index)
 	{
-		fb_original = new FrameBuffer(1);
-		fb_original->addTextureAttachment("color", true);
-		fb_original->ready();
 		fb_cutOff_2 = new FrameBuffer(0.5f);
 		fb_cutOff_2->addTextureAttachment("color");
 		fb_cutOff_2->ready();
@@ -87,22 +84,17 @@ public:
 
 		m_cutOff = new Material(CutOffShader::getInstance());
 		m_cutOff->setProperty<float>("threshold", 10.0f);
-		m_cutOff->setTexture("renderTexture", fb_original, "color");
+		m_cutOff->setTexture("renderTexture", mainBuffer, "color");
 
 		m_blur_h = new Material(BlurHShader::getInstance());
 		m_blur_v = new Material(BlurVShader::getInstance());
 	}
 
-	void enable() override
-	{
-		fb_original->enable();
-	}
-
-	void preProcess() override
+	void render(FrameBuffer* nextBuffer) override
 	{
 		// Blur 16
 		fb_cutOff_16->enable();
-		fb_original->render(m_cutOff);
+		mainBuffer->render(m_cutOff);
 
 		m_blur_h->setProperty("offset", (1.0f / fb_cutOff_16->getWidth()));
 		m_blur_h->setTexture("renderTexture", fb_cutOff_16, "color");
@@ -128,7 +120,7 @@ public:
 
 		// Blur 8
 		fb_cutOff_8->enable();
-		fb_original->render(m_cutOff);
+		mainBuffer->render(m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -159,7 +151,7 @@ public:
 
 		// Blur 4
 		fb_cutOff_4->enable();
-		fb_original->render(m_cutOff);
+		mainBuffer->render(m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -190,7 +182,7 @@ public:
 
 		// Blur 2
 		fb_cutOff_2->enable();
-		fb_original->render(m_cutOff);
+		mainBuffer->render(m_cutOff);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -217,11 +209,10 @@ public:
 			fb_blur_v_2->render("color");
 			widthX += Display::getWidth() / cols;
 		}
-	}
 
-	void render() override
-	{
-		fb_original->render("color");
+		// Render
+		nextBuffer->enable();
+		mainBuffer->render("color");
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -237,8 +228,6 @@ public:
 		delete m_cutOff;
 		delete m_blur_h;
 		delete m_blur_v;
-
-		delete fb_original;
 
 		delete fb_cutOff_2;
 		delete fb_cutOff_4;

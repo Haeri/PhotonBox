@@ -1,10 +1,11 @@
 #ifndef SSAO_SHADER_CPP
 #define SSAO_SHADER_CPP
 
-#include <Components/Camera.h>
-#include <Resources/Shader.h>
+#include <resource/Shader.h>
+#include <core/Display.h>
+#include <component/Camera.h>
 
-#ifdef MEM_DEBUG
+#ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
@@ -19,25 +20,9 @@ public:
 
 	void update(Transform* transform) override
 	{
-		glUniform1f(uniforms["screenWidth"], GLfloat(Display::getWidth()));
-		glUniform1f(uniforms["screenHeight"], GLfloat(Display::getHeight()));
-		glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, &(Camera::getMainCamera()->getProjectionMatrix()(0, 0)));
-	}
-
-	void addUniforms() override
-	{
-		addUniform("projection");
-		addUniform("screenWidth");
-		addUniform("screenHeight");
-
-		for (size_t i = 0; i < 64; i++)
-		{
-			addUniform("samples[" + std::to_string(i) + "]");
-		}
-
-		addTexture("gPosition");
-		addTexture("gNormal");
-		addTexture("texNoise");
+		setUniform("screenWidth", Display::getWidth() / 2.0f);
+		setUniform("screenHeight", Display::getHeight() / 2.0f);
+		setUniform("projection", Camera::getMainCamera()->getProjectionMatrix());
 	}
 
 	void addAttributes() override
