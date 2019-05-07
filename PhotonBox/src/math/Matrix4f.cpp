@@ -1,7 +1,8 @@
 #include "PhotonBox/math/Matrix4f.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
+
+#include "PhotonBox/math/Math.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -76,7 +77,7 @@ Matrix4f Matrix4f::createTranslation(Vector3f vec)
 
 Matrix4f Matrix4f::createPerspective(float fov, float aspect, float near, float far)
 {
-	float tanHalfFovy = static_cast<float>(tan((fov / 360 * 2 * M_PI) / 2));
+	float tanHalfFovy = static_cast<float>(tan((fov / 360 * 2 * PI) / 2));
 
 	Matrix4f ret;
 	ret._matrix[0] = 1.0f / (aspect * tanHalfFovy);	ret._matrix[4] = 0;							ret._matrix[8] = 0;								ret._matrix[12] = 0;
