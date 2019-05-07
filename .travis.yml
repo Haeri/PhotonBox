@@ -6,7 +6,10 @@ matrix:
       dist: xenial
       compiler: gcc
       before_install: 
-        - "sudo apt install mesa-common-dev libglu1-mesa-dev xorg-dev"
+        - sudo apt install mesa-common-dev libglu1-mesa-dev xorg-dev
+      addons:
+        apt:
+          update: true
       install: 
         - ./Tools/generate_project_linux.sh
       script: 
