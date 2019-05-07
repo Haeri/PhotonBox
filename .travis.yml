@@ -5,32 +5,23 @@ matrix:
     - os: linux
       dist: xenial
       compiler: gcc
-      install: 
+      before_install: 
         - "sudo apt install mesa-common-dev libglu1-mesa-dev xorg-dev"
-        - "sudo add-apt-repository universe"
-        - "sudo apt install libpng16-dev"
+      install: 
         - ./Tools/generate_project_linux.sh
       script: 
-        - export CC=gcc-7
-        - export CXX=g++-7
         - make
-        - "sudo ./Tools/deployer_linux.sh Debug"
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-7
-            - g++-7
+        - sudo ./Tools/deployer_linux.sh Debug
     - os: windows
       install: 
         - export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
-        - "./Tools/generate_project_win.bat -s"
+        - ./Tools/generate_project_win.bat -s
       script: 
-        - "MSBuild.exe PhotonBox.sln"
-        - "./Tools/deployer_win.bat Debug -s"
-#    - os: osx
-#      install: "./Tools/generate_project_mac.sh"
-#      script: 
-#        - "xcodebuild -scheme PhotonBox build"
-#        - "xcodebuild -scheme Game build"
+        - MSBuild.exe PhotonBox.sln
+        - ./Tools/deployer_win.bat Debug -s
+    - os: osx
+      compiler: gcc
+      install:
+        - ./Tools/premake/mac/premake5 gmake2 --file="premake5.lua"
+      script: 
+        - make
