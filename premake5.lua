@@ -151,7 +151,8 @@ project "Game"
 		defines "PB_PLATFORM_NIX"
 		linkoptions 
 		{
-			 "-Wl,-rpath=." 
+			 "-Wl,-rpath=.",
+			 "-no-pie" 
 		}
 		links 
 		{
