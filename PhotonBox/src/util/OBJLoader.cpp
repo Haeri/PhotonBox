@@ -256,7 +256,7 @@ void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 			uvs[vertexList[indices[i + 1]].uv],
 			uvs[vertexList[indices[i + 2]].uv],
 			normals[vertexList[indices[i]].normal]);
-
+		
 		mesh->vertices.push_back(Vertex(
 			positions[vertexList[indices[i]].position],
 			normals[vertexList[indices[i]].normal],
