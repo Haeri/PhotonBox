@@ -285,6 +285,7 @@ void Core::reset()
 	}
 
 	_profiler->reset();
+	ResourceManager::reset();
 }
 
 void Core::destroy()

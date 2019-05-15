@@ -17,7 +17,7 @@ float getLum(vec4 color){
 }
 
 void main(){             
-	float lumC = getLum(texture2DLod(luminanceSampleCurrent, texCoordVarying, maxMip));
+	float lumC = getLum(texture2D(luminanceSampleCurrent, texCoordVarying, maxMip));
 	float lumL = getLum(texture2D(luminanceSampleLast, texCoordVarying));
 	float delta = 0;
 	
