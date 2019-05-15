@@ -44,3 +44,8 @@ void ResourceManager::addToInitializationList(ILazyLoadable * resource)
 {
 	_initializationList.push_back(resource);
 }
+
+void ResourceManager::reset()
+{
+	_initializationList.clear();
+}

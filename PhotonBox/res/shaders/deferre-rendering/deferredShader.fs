@@ -109,7 +109,7 @@ vec3 DirectionalLightBRDF(DirectionalLight directionalLight);
 vec3 PointLightBRDF(PointLight pointLight);
 vec3 SpotLightBRDF(SpotLight spotLight);
 
-float rayMarch(vec3 dir);
+int rayMarch(vec3 dir);
 float random(vec2 co);
 
 void main()
@@ -353,7 +353,7 @@ float rand = random(gData.Position.xy+gData.Position.z);
 }  
 
 
-float rayMarch(vec3 dir)
+int rayMarch(vec3 dir)
 {
     if(-gData.Position.z > 5) return 0;
 
