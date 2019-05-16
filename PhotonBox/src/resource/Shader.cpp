@@ -173,7 +173,6 @@ void Shader::loadFromFile()
 		_vertextCode = readShader(getFilePath() + ".vs");
 	}
 	_fragmentCode = readShader(getFilePath() + ".fs");
-	_isLoaded = true;
 }
 
 void Shader::sendToGPU()
@@ -248,8 +247,7 @@ void Shader::sendToGPU()
 		}
 	}
 	
-	_isInitialized = true;
-	std::cout << "Initialized: " << _fileName << "\n";
+	//std::cout << "Initialized: " << _fileName << "\n";
 }
 
 void Shader::bind()
