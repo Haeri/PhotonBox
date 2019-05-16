@@ -1,6 +1,7 @@
 #include "PhotonBox/core/ILazyLoadable.h"
 
 #include <thread>
+#include <iostream>
 
 #include "PhotonBox/core/system/ResourceManager.h"
 
@@ -17,12 +18,34 @@ void ILazyLoadable::loadAsync()
 	blankInitialize();
 
 	ResourceManager::addToInitializationList(this);
-	std::thread{ &ILazyLoadable::loadFromFile, this }.detach();
+	std::thread{ &ILazyLoadable::load, this }.detach();
 }
 
 void ILazyLoadable::forceLoad()
 {
 	blankInitialize();
-	loadFromFile();
+	load();
+	initialize();
+}
+
+void ILazyLoadable::setRogue()
+{
+	_rougue = true;
+}
+
+void ILazyLoadable::initialize()
+{
 	sendToGPU();
+	_isInitialized = true;
+
+}
+
+void ILazyLoadable::load()
+{
+	loadFromFile();
+	_isLoaded = true;
+
+	if (_rougue) {
+		delete this;
+	}
 }
