@@ -73,7 +73,7 @@ void Texture::loadFromFile()
 	struct stat buffer;
 	bool ispbt = false;
 
-	if (stat(cachePath.c_str(), &buffer) == 0) {
+	if (stat(cachePath.c_str(), &buffer) == 0 && buffer.st_size > 0) {
 		_data = TextureSerializer::read(cachePath, &_width, &_height, &numComponents);
 		ispbt = true;
 	}

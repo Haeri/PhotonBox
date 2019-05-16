@@ -74,7 +74,7 @@ public:
 
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* sphere			= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		Mesh* couchMesh			= createResource<Mesh>("./res/Realistic-Rendering/Couch/couch.obj");
+		Mesh* couchMesh			= createResource<Mesh>("./res/Realistic-Rendering/Couch/Couch.obj");
 		Mesh* wallMesh			= createResource<Mesh>("./res/Realistic-Rendering/Walls/Room.obj");
 		Mesh* floorMesh			= createResource<Mesh>("./res/Realistic-Rendering/Floor/Floor.obj");
 		Mesh* doorsMesh			= createResource<Mesh>("./res/Realistic-Rendering/Doors/Doors.obj");
@@ -119,41 +119,41 @@ public:
 		
 		Texture* doorAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_D.tga"), true);
 		Texture* doorRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_R.tga"), true);
-		Texture* doorNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_N.TGA"), true);
-		Texture* doorAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_AOMask.TGA"), true);
+		Texture* doorNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_N.tga"), true);
+		Texture* doorAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_AOMask.tga"), true);
 		Texture* doorMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Doors/T_Door_M.tga"), true);
 		
 		Texture* tableAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_D.tga"), true);
 		Texture* tableRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_R.tga"), true);
-		Texture* tableNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_N.TGA"), true);
-		Texture* tableAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_AOMASK.TGA"), true);
+		Texture* tableNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_N.tga"), true);
+		Texture* tableAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_AOMASK.tga"), true);
 		Texture* tableMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Table/T_Table_M.tga"), true);
 		
 		Texture* slidingDoorRough = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_R.tga"), true);
-		Texture* slidingDoorNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_N.TGA"), true);
-		Texture* slidingDoorAo = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_AOMask.TGA"), true);
-		Texture* slidingDoorMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_M.TGA"), true);
+		Texture* slidingDoorNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_N.tga"), true);
+		Texture* slidingDoorAo = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_AOMask.tga"), true);
+		Texture* slidingDoorMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/SlidingDoor/T_SlidingDoor_M.tga"), true);
 		
-		Texture* shelveAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_D.TGA"), true);
-		Texture* shelveRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_R.TGA"), true);
-		Texture* shelveNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_N.TGA"), true);
-		Texture* shelveAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_AO.TGA"), true);
+		Texture* shelveAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_D.tga"), true);
+		Texture* shelveRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_R.tga"), true);
+		Texture* shelveNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_N.tga"), true);
+		Texture* shelveAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Shelving/T_Shelving_AO.tga"), true);
 		
 		Texture* carpetAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_D.png"), true);
-		Texture* carpetNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_N.TGA"), true);
-		Texture* carpetAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_AO.TGA"), true);
+		Texture* carpetNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_N.tga"), true);
+		Texture* carpetAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Carpet/T_Carpet_AO.tga"), true);
 		 
-		Texture* lampAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_Albedo.TGA"), true);
-		Texture* lampRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_Roughness.TGA"), true);
-		Texture* lampNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_N.TGA"), true);
-		Texture* lampAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_AO.TGA"), true);
-		Texture* lampMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_M.TGA"), true);
+		Texture* lampAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_Albedo.tga"), true);
+		Texture* lampRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_Roughness.tga"), true);
+		Texture* lampNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_N.tga"), true);
+		Texture* lampAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_AO.tga"), true);
+		Texture* lampMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Lamp/T_FloorLamp_M.tga"), true);
 		
-		Texture* ceilingAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Albedo.TGA"), true);
-		Texture* ceilingRough = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Roughness.TGA"), true);
-		Texture* ceilingNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_N.TGA"), true);
-		Texture* ceilingAo = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_AO.TGA"), true);
-		Texture* ceilingMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_M.TGA"), true);
+		Texture* ceilingAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Albedo.tga"), true);
+		Texture* ceilingRough = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_Roughness.tga"), true);
+		Texture* ceilingNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_N.tga"), true);
+		Texture* ceilingAo = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_AO.tga"), true);
+		Texture* ceilingMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/CeilingLight/T_RoundCeilingLight_M.tga"), true);
 		
 		Texture* vaseAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Vase/Vase_Albedo.png"), true);
 		Texture* vaseRough = createResource<Texture>(std::string("./res/Realistic-Rendering/Vase/Vase_Roughness.png"), true);
@@ -185,15 +185,15 @@ public:
 		
 		Texture* windowAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
 		
-		Texture* couchAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_D.TGA"), true);
-		Texture* couchNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_N.TGA"), true);
+		Texture* couchAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_D.tga"), true);
+		Texture* couchNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_N.tga"), true);
 		Texture* couchRoughness = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_R.tga"), true);
-		Texture* couchAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_AO.TGA"), true);
-		Texture* couchMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_M.TGA"), true);
+		Texture* couchAo = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_AO.tga"), true);
+		Texture* couchMetal = createResource<Texture>(std::string("./res/Realistic-Rendering/Couch/T_Couch_M.tga"), true);
 		
-		Texture* wallNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Walls/T_PaintedWall_N.TGA"), true);
+		Texture* wallNormal = createResource<Texture>(std::string("./res/Realistic-Rendering/Walls/T_PaintedWall_N.tga"), true);
 		
-		Texture* panoramaAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Panorama/T_Background_D.TGA"), true);
+		Texture* panoramaAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Panorama/T_Background_D.tga"), true);
 		Texture* blinds = createResource<Texture>(std::string("./res/textures/blinds.png"), true);
 
 

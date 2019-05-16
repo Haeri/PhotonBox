@@ -248,6 +248,7 @@ void Shader::sendToGPU()
 		}
 	}
 	
+	_isInitialized = true;
 	std::cout << "Initialized: " << _fileName << "\n";
 }
 
@@ -386,6 +387,7 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 
 bool Shader::checkUniform(const std::string & name)
 {
+	if (!_isInitialized) return false;
 #ifdef _DEBUG
 	if (uniforms.find(name) != uniforms.end())
 	{
