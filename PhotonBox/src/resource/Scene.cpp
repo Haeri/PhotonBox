@@ -25,7 +25,17 @@ void Scene::unload()
 
 	for (std::vector<ManagedResource*>::iterator it = _resourceList.begin(); it != _resourceList.end(); ++it)
 	{
-		delete (*it);
+		ILazyLoadable* f = dynamic_cast<ILazyLoadable*>(*it);
+		if (f != nullptr) {
+			if (!f->isLoaded()) 
+			{
+				f->setRogue(); 
+			}
+		}
+		else 
+		{
+			delete (*it);
+		}
 	}
 	_resourceList.clear();
 }

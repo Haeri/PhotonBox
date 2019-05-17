@@ -11,6 +11,7 @@ public:
 	static void lazyLoad(bool force = false);
 	static bool allReady();
 	static void addToInitializationList(ILazyLoadable* resource);
+	static void reset();
 private:
 	static std::vector<ILazyLoadable*> _initializationList;
 };

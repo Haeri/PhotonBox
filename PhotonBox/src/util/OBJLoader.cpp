@@ -17,7 +17,7 @@
 #define new DEBUG_NEW
 #endif
 
-#define FORECE_GENERATE false
+//#define FORECE_GENERATE
 
 struct OBJIndex
 {
@@ -156,10 +156,8 @@ void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 	std::string cachePath = filePath.substr(0, found) + MeshSerializer::EXTENSION;
 	struct stat buffer;
 
-#if FORECE_GENERATE
-	loadFromCache(cachePath, mesh);
-#else
-	if (stat(cachePath.c_str(), &buffer) == 0)
+#ifndef FORECE_GENERATE
+	if (stat(cachePath.c_str(), &buffer) == 0 && buffer.st_size > 0)
 	{
 		return loadFromCache(cachePath, mesh);
 	}

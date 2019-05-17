@@ -27,7 +27,7 @@ void ResourceManager::lazyLoad(bool force)
 	for (int i = static_cast<int>(_initializationList.size()-1); i >= 0; --i)
 	{
 		if (_initializationList[i]->isLoaded()) {
-			_initializationList[i]->sendToGPU();
+			_initializationList[i]->initialize();
 
 			_initializationList.erase(_initializationList.begin() + i);
 
@@ -43,4 +43,9 @@ void ResourceManager::lazyLoad(bool force)
 void ResourceManager::addToInitializationList(ILazyLoadable * resource)
 {
 	_initializationList.push_back(resource);
+}
+
+void ResourceManager::reset()
+{
+	_initializationList.clear();
 }

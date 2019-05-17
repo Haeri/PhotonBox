@@ -72,7 +72,7 @@ void main(){
     vec3 cR = R;
     if(useCorrection > 0.5)
         cR = correctedCubeMapDir(R, positionVarying);
-   	vec3 convolutedSpecular = textureCubeLod(convolutedSpecularMap, cR, roughness * MAX_REFLECTION_LOD).rgb;
+   	vec3 convolutedSpecular = textureCube(convolutedSpecularMap, cR, roughness * MAX_REFLECTION_LOD).rgb;
 
     vec3 ambientLight = light.color * light.intensity;
 
