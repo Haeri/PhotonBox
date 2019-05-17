@@ -73,7 +73,7 @@ void Texture::loadFromFile()
 	struct stat buffer;
 	bool ispbt = false;
 
-	if (stat(cachePath.c_str(), &buffer) == 0) {
+	if (stat(cachePath.c_str(), &buffer) == 0 && buffer.st_size > 0) {
 		_data = TextureSerializer::read(cachePath, &_width, &_height, &numComponents);
 		ispbt = true;
 	}
@@ -82,8 +82,6 @@ void Texture::loadFromFile()
 		_data = stbi_load((_fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
 		TextureSerializer::write(_fileName.substr(0, found) + TextureSerializer::EXTENSION, _width, _height, 4, _data);
 	}
-
-	_isLoaded = true;
 }
 
 void Texture::blankInitialize()
@@ -128,10 +126,8 @@ void Texture::sendToGPU()
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
-	_isInitialized = true;
-
 	TextureSerializer::free_buffer(_data);
 
-	std::cout << "Initialized: " << _fileName << "\n";
+	//std::cout << "Initialized: " << _fileName << "\n";
 }
 

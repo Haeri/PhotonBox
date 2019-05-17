@@ -37,8 +37,6 @@ GLuint Mesh::getEBO()
 void Mesh::loadFromFile() 
 { 
 	OBJLoader::loadObj(_fileName, this);
-
-	_isLoaded = true;
 }
 
 void Mesh::blankInitialize()
@@ -88,8 +86,7 @@ void Mesh::sendToGPU()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	_isInitialized = true;
-	std::cout << "Initialized: " << _fileName << "\n";
+	//std::cout << "Initialized: " << _fileName << "\n";
 }
 
 Mesh::~Mesh()

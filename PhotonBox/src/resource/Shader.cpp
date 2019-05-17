@@ -173,7 +173,6 @@ void Shader::loadFromFile()
 		_vertextCode = readShader(getFilePath() + ".vs");
 	}
 	_fragmentCode = readShader(getFilePath() + ".fs");
-	_isLoaded = true;
 }
 
 void Shader::sendToGPU()
@@ -248,7 +247,7 @@ void Shader::sendToGPU()
 		}
 	}
 	
-	std::cout << "Initialized: " << _fileName << "\n";
+	//std::cout << "Initialized: " << _fileName << "\n";
 }
 
 void Shader::bind()
@@ -386,6 +385,7 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 
 bool Shader::checkUniform(const std::string & name)
 {
+	if (!_isInitialized) return false;
 #ifdef _DEBUG
 	if (uniforms.find(name) != uniforms.end())
 	{
