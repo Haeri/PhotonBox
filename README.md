@@ -1,10 +1,10 @@
 # PhotonBox
 <!-- ![Release](https://img.shields.io/github/release/Haeri/PhotonBox/all.svg) -->
-![Version](https://img.shields.io/badge/version-v0.7.2-blue.svg)
+![Version](https://img.shields.io/badge/version-v0.7.3-blue.svg)
 [![Build Status](https://travis-ci.com/Haeri/PhotonBox.svg?branch=dev)](https://travis-ci.com/Haeri/PhotonBox)
 ![License](https://img.shields.io/github/license/Haeri/PhotonBox.svg)
 
-A modern OpenGL Game-Engine with focus on PBR
+A portable modern OpenGL Game-Engine with focus on PBR
 
 ## Project Goal
 The PhotonBox Engine aims to be an open source resource for people interested in graphics and system architecture. The goal is to create a clean and readable codebase, whilst still maintaining good performance and a high graphical fidelity. An Editor is currently not planned as I am still exploring the possibilities for state based GUI solutions.
@@ -66,7 +66,8 @@ sudo apt install make mesa-common-dev mesa-utils libgl1-mesa-dev xorg-dev
 ```
 Then generate the make files, by executing the script: `generate_project_linux.sh` inside the `Tools` directory.
 
-### For Mac (Can't test :S)
+### For Mac
+<i>Currently not tested</i><br>
 Generate the xcode project files, by executing the script: `generate_project_mac.sh` inside the `Tools` directory.
 
 ## Roadmap
