@@ -74,6 +74,7 @@ public:
 		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
 		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
 		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		Texture* transparentAlbedo = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/transparent.png"), true);
 
 		Texture* woodAlbedo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
 		Texture* woodRough = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
@@ -102,7 +103,6 @@ public:
 		Texture* goldNormal = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), true);
 		Texture* goldMetal = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
 		 
-		Texture* transparentAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
 
 		/* --------------------------- SHADERS --------------------------- */
 		TransparentShader* transparentShader = TransparentShader::getInstance();

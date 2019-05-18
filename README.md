@@ -49,6 +49,7 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 ## Media
 Interiour
 ![screenshot_1](https://user-images.githubusercontent.com/7956606/35122763-2d3a2934-fca0-11e7-8f38-552fcc106b7e.png)
+<sub>(Assets not distributed)</sub>
 
 Automotive
 ![screenshot 2](https://user-images.githubusercontent.com/7956606/43651128-d3b01440-9741-11e8-9224-c5bded3dedce.png)
