@@ -76,6 +76,7 @@ public:
 		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
 		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
 		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
+		Texture* transparentAlbedo = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/transparent.png"), true);
 
 		Texture* aluminium_a = createResource<Texture>(std::string("./res/materials/aluminium/albedo.png"), true);
 		Texture* aluminium_r = createResource<Texture>(std::string("./res/materials/aluminium/roughness.png"), true);
@@ -89,7 +90,6 @@ public:
 
 		Texture* tire_text = createResource<Texture>(std::string("./res/meshes/shelby/tire.png"), true);
 		
-		Texture* transparentAlbedo = createResource<Texture>(std::string("./res/Realistic-Rendering/Window/albedo.png"), true);
 		
 		Texture* red = createResource<Texture>(std::string("./res/meshes/shelby/red.png"));
 

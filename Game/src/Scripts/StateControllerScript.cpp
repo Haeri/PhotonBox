@@ -36,9 +36,9 @@ public:
 
 
 		if (InputManager::keyPressed(InputManager::KEY_1))
-			SceneManager::loadScene("Realistic Rendering");
+			SceneManager::loadScene("1. Material Test");
 		if (InputManager::keyPressed(InputManager::KEY_2))
-			SceneManager::loadScene("Material Test");
+			SceneManager::loadScene("2. Shelby Scene");
 
 		if (InputManager::keyPressed(InputManager::KEY_B))
 			toggleDebug();
