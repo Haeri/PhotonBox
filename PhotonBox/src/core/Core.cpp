@@ -295,10 +295,10 @@ void Core::destroy()
 		(*it)->destroy();
 	}
 
-	_display->destroy();
-
 	FrameBuffer::destroy();
 	Shader::clearAll();
+
+	_display->destroy();
 
 	delete _time;
 	delete _display;
