@@ -17,9 +17,8 @@ public:
 	static void unloadScene(const std::string &name);
 	static std::string getCurrentName();
 	static Scene* getCurrentScene();
+	static void setSceneMap(std::map<std::string, Scene*>& sceneMap);
 
-
-	void init(std::map<std::string, Scene*>& sceneMap);
 	void start() override;
 	void destroy() override;
 

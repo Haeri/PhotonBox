@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-from shutil import copyfile
 import os
 
 header_path = "../PhotonBox/include/PhotonBox/"

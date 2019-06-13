@@ -45,40 +45,37 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 
 	// Core Systems
 	_display = new Display();
-	_inputManager = new InputManager();
-	_time = new Time();
-
-	// Subsystems
-	_uiRenderer = new UIRenderer();
-	_sceneManager = new SceneManager();
 	_debugGUI = new DebugGUI();
 	_renderer = new Renderer();
-	_logic = new Logic();
+	_inputManager = new InputManager();
 	_physics = new Physics();
-	_postPocessing = new PostProcessing();
+	_uiRenderer = new UIRenderer();
+	_logic = new Logic();
 	_lighting = new Lighting();
+	_postPocessing = new PostProcessing();
+	_sceneManager = new SceneManager();
+	_sceneManager->setSceneMap(sceneMap);
+
+	// Helper
 	_profiler = new Profiler();
 	_fileWatch = new FileWatch();
+	_time = new Time();
 
+	_systems.push_back(_display);
 	_systems.push_back(_sceneManager);
-	_systems.push_back(_logic);
+	_systems.push_back(_debugGUI);
 	_systems.push_back(_renderer);
-	_systems.push_back(_lighting);
-	_systems.push_back(_postPocessing);
+	_systems.push_back(_inputManager);
 	_systems.push_back(_physics);
 	_systems.push_back(_uiRenderer);
-	_systems.push_back(_debugGUI);
+	_systems.push_back(_logic);
+	_systems.push_back(_lighting);
+	_systems.push_back(_postPocessing);
 
-	// Initialize OpenGL
-	_display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
-	
-	// Init Subsystems
-	_debugGUI->init();
-	_renderer->init(Config::profile.supersampling ? 2.0f : 1.0f);
-	_inputManager->init();
-	_physics->init();
-	_uiRenderer->init();
-	_sceneManager->init(sceneMap);
+	for (std::vector<ISystem*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
+	{
+		(*it)->init(_config->profile);
+	}
 
 #ifdef RECORD_MODE
 	const int size = Display::getWidth() * Display::getHeight() * 3;
@@ -290,15 +287,12 @@ void Core::reset()
 
 void Core::destroy()
 {
-	for (std::vector<ISystem*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
-	{
-		(*it)->destroy();
-	}
-
 	FrameBuffer::destroy();
 	Shader::clearAll();
 
-	_display->destroy();
+	for (std::vector<ISystem*>::reverse_iterator it = _systems.rbegin(); it != _systems.rend(); ++it) {
+		(*it)->destroy();
+	}
 
 	delete _time;
 	delete _display;
