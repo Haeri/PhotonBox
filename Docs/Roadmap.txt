@@ -15,7 +15,6 @@ GENERAL
 - Precompile shader
 - GL-State system: define all needed properties before draw call. System compares 
 	what state is to what it should be and only changes properties that are needed.
-- License - MIT?
 - Wrap everything in PhotonBox name space
 - Abstraction layer over OpenGL
 - Precompiled headers
