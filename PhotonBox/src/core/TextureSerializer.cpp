@@ -24,12 +24,13 @@ void TextureSerializer::write(std::string name, int width, int height, int compo
 		size_t cp_buff_size = 0;
 
 		// Create one buffer from all the components
-		unsigned char* buff = Util::combineBuffer(8,
+		unsigned char* buff = Util::combineBuffer(
+			8,
 			(unsigned char*)&width, sizeof(int),
 			(unsigned char*)&height, sizeof(int),
 			(unsigned char*)&components, sizeof(int),
 			data, dataSize
-			);
+		);
 
 
 		unsigned char* curr = buff;
