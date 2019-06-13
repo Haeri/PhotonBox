@@ -9,7 +9,7 @@
 class DebugGUI : public ISystem
 {
 public:
-	void init() override;
+	void init(Config::Profile profile) override;
 	void start() override {}
 	void destroy() override;
 

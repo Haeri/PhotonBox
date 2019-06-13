@@ -60,7 +60,7 @@ public:
 	static void renderFog();
 	static unsigned long int getFrameIndex();
 	
-	void init(float superSampling = 1);
+	void init(Config::Profile profile);
 	void start() override;
 	void reset() override;
 	void destroy() override;

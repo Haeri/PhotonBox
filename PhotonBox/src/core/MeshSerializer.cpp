@@ -63,16 +63,16 @@ void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 	std::fstream f = std::fstream(pathName, std::ios::in | std::ios::binary);
 	if (f.is_open())
 	{
-		size_t buff_size = -1;
-		size_t cp_buff_size = -1;
+		size_t buff_size = 0;
+		size_t cp_buff_size = 0;
 		short version = -1;
 		unsigned char* cp_buff;
 
-		int vert_cnt = -1;
-		int ind_cnt = -1;
+		unsigned int vert_cnt = 0;
+		unsigned int ind_cnt = 0;
 
-		size_t vert_size = -1;
-		size_t ind_size = -1;
+		size_t vert_size = 0;
+		size_t ind_size = 0;
 
 		f.seekg(0);
 		f.read((char*)&version, sizeof(short));
@@ -90,14 +90,14 @@ void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 		unsigned char* buff = Util::decompress(cp_buff, cp_buff_size, buff_size);
 		unsigned char* curr = buff;
 
-		vert_cnt = *reinterpret_cast<int*>(curr);
+		vert_cnt = *reinterpret_cast<unsigned int*>(curr);
 		curr += sizeof(int);
-		ind_cnt = *reinterpret_cast<int*>(curr);
+		ind_cnt = *reinterpret_cast<unsigned int*>(curr);
 		curr += sizeof(int);
 		mesh->boundingSphere = *reinterpret_cast<BoundingSphere*>(curr);
 		curr += sizeof(BoundingSphere);
 
-		if (vert_cnt < 0 || ind_cnt < 0)
+		if (vert_cnt == 0 || ind_cnt == 0)
 		{
 			// Looks like the Mesh was incorrectly inflated
 			std::cerr << "ERROR: Mesh was inflated incorrectly!\n";

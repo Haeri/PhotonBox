@@ -38,6 +38,10 @@ void Config::readConfig()
 		{
 			continue;
 		}
+		else if (tokens[0].compare("appName") == 0)
+		{
+			profile.appName = tokens[1];
+		}
 		else if (tokens[0].compare("width") == 0)
 		{
 			profile.width = std::stoi(tokens[1]);
@@ -78,7 +82,8 @@ void Config::readConfig()
 void Config::createDefault()
 {
 	std::string def = "#Photon Box Configuration file\n"
-					 "width = 1280\n"
+					"appName = PhotonBox\n"
+					"width = 1280\n"
 					 "height = 720\n"
 					 "fullscreen = 0\n"
 					 "vsync = 1\n"

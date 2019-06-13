@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-from shutil import copyfile
 import os
 
 engine_res_path = "../PhotonBox/res/"

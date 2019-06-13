@@ -8,13 +8,14 @@ class Config
 public:
 	struct Profile
 	{
-		int width;
-		int height;
-		bool fullscreen;
-		bool vsync;
-		bool supersampling;
-		bool showFPS;
-		bool fpsProfiling;
+		std::string appName = "PhotonBox";
+		int width			= 1280;
+		int height			= 720;
+		bool fullscreen		= false;
+		bool vsync			= false;
+		bool supersampling	= false;
+		bool showFPS		= false;
+		bool fpsProfiling	= false;
 	};
 
 	static Profile profile;
