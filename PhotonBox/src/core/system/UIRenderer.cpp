@@ -35,7 +35,7 @@ void UIRenderer::init()
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	// Load first 128 characters of ASCII set
-	for (GLubyte c = 0; c < 128; c++)
+	for (GLubyte c = 0; c < 128; ++c)
 	{
 		// Load character glyph 
 		if (FT_Load_Char(face, c, FT_LOAD_RENDER))

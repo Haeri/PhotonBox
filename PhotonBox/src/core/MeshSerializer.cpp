@@ -20,8 +20,8 @@ void MeshSerializer::write(const std::string &pathName, Mesh* mesh)
 	std::fstream f = std::fstream(pathName, std::ios::out | std::ios::binary);
 	if (f.is_open())
 	{
-		int vert_cnt = static_cast<int>(mesh->vertices.size());
-		int ind_cnt = static_cast<int>(mesh->indices.size());
+		unsigned int vert_cnt = static_cast<unsigned int>(mesh->vertices.size());
+		unsigned int ind_cnt = static_cast<unsigned int>(mesh->indices.size());
 		BoundingSphere bs = mesh->boundingSphere;
 
 		size_t vert_size = sizeof(Vertex) * vert_cnt;
@@ -30,7 +30,8 @@ void MeshSerializer::write(const std::string &pathName, Mesh* mesh)
 		size_t cp_buff_size = 0;
 
 		// Create one buffer from all the components
-		unsigned char* buff = Util::combineBuffer(10,
+		unsigned char* buff = Util::combineBuffer(
+			10,
 			(unsigned char*)&vert_cnt, sizeof(int),
 			(unsigned char*)&ind_cnt, sizeof(int),
 			(unsigned char*)&bs, sizeof(BoundingSphere),

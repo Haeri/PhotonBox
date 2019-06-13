@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-from shutil import copyfile, rmtree
-import os, sys
+from shutil import copyfile
+import os
 import re
 
 version_file = "../PhotonBox/include/PhotonBox/core/PhotonBoxVersion.h"

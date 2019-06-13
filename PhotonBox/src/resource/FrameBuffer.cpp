@@ -157,12 +157,9 @@ void FrameBuffer::enable()
 	_currentFBO = _fbo;
 }
 
-void FrameBuffer::bind(GLuint textureUnit, std::string name)
+void FrameBuffer::bind(unsigned int textureUnit, std::string name)
 {
-	glActiveTexture(GL_TEXTURE0 + textureUnit);
-	glBindTexture(GL_TEXTURE_2D, _colorAttachments[name].id);
-	if (_colorAttachments[name].mipmaps > 0)
-		glGenerateMipmap(GL_TEXTURE_2D);
+	getAttachment(name)->bind(textureUnit);
 }
 
 void FrameBuffer::ready()
