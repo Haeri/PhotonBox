@@ -1,9 +1,12 @@
 #include "PhotonBox/util/Util.h"
 
+#include <iostream>
 #include <stdarg.h>
 #include <string.h>
+#include <string>
 
 #include "zlib/zlib.h"
+#include "STB/stb_image.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -98,5 +101,27 @@ namespace Util
 		}
 		
 		return buff;
+	}
+
+	unsigned char* loadIcon(const std::string& fileName, int& width, int& height)
+	{
+		int numComponents;
+		unsigned char* data = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4);
+
+		if (data == NULL)
+			std::cerr << "Unable to load Icon: " << fileName << std::endl;
+
+		return data;
+	}
+
+	void freeIcon(unsigned char* data)
+	{
+		if (data == NULL)
+		{
+			std::cerr << "Unable to free icon" << std::endl;
+			return;
+		}
+
+		stbi_image_free(data);
 	}
 }
