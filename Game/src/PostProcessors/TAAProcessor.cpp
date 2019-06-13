@@ -62,6 +62,11 @@ public:
 		_flip = !_flip;
 	}
 
+	void onEnableChange(bool enabled) override
+	{
+		Camera::getMainCamera()->toggleJitter(enabled);
+	}
+
 	void destroy() override
 	{
 		delete _taaShader;

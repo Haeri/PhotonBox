@@ -221,16 +221,6 @@ void Renderer::reset()
 void Renderer::start()
 {
 	_skyBox.init();
-	Camera::getMainCamera()->toggleJitter(true);
-
-	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
-	{
-		 //(*it)->init();
-	}
-	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it)
-	{
-		//(*it)->init();
-	}
 }
 
 void Renderer::prePass()
