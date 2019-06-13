@@ -3,6 +3,7 @@
 
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
+#include <resource/FrameBuffer.h>
 
 #include "../Shader/ToneMappingShader.cpp"
 #include "../Shader/MonochromShader.cpp"
@@ -39,13 +40,13 @@ public:
 		luminancBufferB->addTextureAttachment("color", true);
 		luminancBufferB->ready();
 		
-		autoExpMaterial->setTexture("luminanceSampleCurrent", currentLuminancBuffer, "color");
+		autoExpMaterial->setImageBuffer("luminanceSampleCurrent", currentLuminancBuffer->getAttachment("color"));
 		autoExpMaterial->setProperty<int>("maxMip", numLevels);
 		autoExpMaterial->setProperty<float>("adaptationSpeed", adaptationSpeed);
 		autoExpMaterial->setProperty<float>("minLum", minLuminance);
 		autoExpMaterial->setProperty<float>("maxLum", maxLuminance);
 
-		expMaterial->setTexture("renderTexture", mainBuffer, "color");
+		expMaterial->setImageBuffer("renderTexture", mainBuffer->getAttachment("color"));
 	}
 
 	void render(FrameBuffer* nextBuffer) override
@@ -57,12 +58,12 @@ public:
 		if (_flip)
 		{
 			luminancBufferA->enable();
-			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB, "color");
+			autoExpMaterial->setImageBuffer("luminanceSampleLast", luminancBufferB->getAttachment("color"));
 		}
 		else
 		{
 			luminancBufferB->enable();
-			autoExpMaterial->setTexture("luminanceSampleLast", luminancBufferB, "color");
+			autoExpMaterial->setImageBuffer("luminanceSampleLast", luminancBufferB->getAttachment("color"));
 		}
 		currentLuminancBuffer->render(autoExpMaterial);
 	
@@ -70,11 +71,11 @@ public:
 		nextBuffer->enable();
 		if (_flip)
 		{
-			expMaterial->setTexture("exposureSample", luminancBufferA, "color");
+			expMaterial->setImageBuffer("exposureSample", luminancBufferA->getAttachment("color"));
 		}
 		else
 		{
-			expMaterial->setTexture("exposureSample", luminancBufferB, "color");
+			expMaterial->setImageBuffer("exposureSample", luminancBufferB->getAttachment("color"));
 		}
 		mainBuffer->render(expMaterial);
 		_flip = !_flip;

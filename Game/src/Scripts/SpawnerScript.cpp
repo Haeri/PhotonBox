@@ -38,12 +38,12 @@ public:
 		Texture* default_ao = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
 
 		_mat = scene->createResource<Material>(GShader::getInstance());
-		_mat->setTexture("albedoMap", orig);
-		_mat->setTexture("normalMap", default_normal);
-		_mat->setTexture("roughnessMap", default_specular);
-		_mat->setTexture("aoMap", default_ao);
-		_mat->setTexture("metallicMap", default_emission);
-		_mat->setTexture("emissionMap", default_emission);
+		_mat->setImageBuffer("albedoMap", orig);
+		_mat->setImageBuffer("normalMap", default_normal);
+		_mat->setImageBuffer("roughnessMap", default_specular);
+		_mat->setImageBuffer("aoMap", default_ao);
+		_mat->setImageBuffer("metallicMap", default_emission);
+		_mat->setImageBuffer("emissionMap", default_emission);
 
 		_nightSky = {
 			"./res/enviroment/dark/posx.jpg",

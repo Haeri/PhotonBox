@@ -37,32 +37,10 @@ void Texture::bind()
 	bind(0);
 }
 
-void Texture::bind(GLuint textureUnit)
+void Texture::bind(unsigned int textureUnit)
 {
 	glActiveTexture(GL_TEXTURE0 + textureUnit);
 	glBindTexture(GL_TEXTURE_2D, _texture);
-}
-
-unsigned char* Texture::loadIcon(const std::string& fileName, int& width, int& height)
-{
-	int numComponents;
-	unsigned char* data = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4);
-
-	if (data == NULL)
-		std::cerr << "Unable to load Icon: " << fileName << std::endl;
-
-	return data;
-}
-
-void Texture::freeIcon(unsigned char* data) 
-{
-	if (data == NULL) 
-	{
-		std::cerr << "Unable to free icon" << std::endl;
-		return;
-	}
-
-	stbi_image_free(data);
 }
 
 void Texture::loadFromFile()
@@ -98,7 +76,7 @@ void Texture::blankInitialize()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dat);
 }
 
-void Texture::sendToGPU()
+void Texture::submitBuffer()
 {
 	GLint format = _isHDR ? GL_RGB16F : GL_RGBA;
 

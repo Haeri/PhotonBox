@@ -230,7 +230,7 @@ void CubeMap::bind()
 	bind(0);
 }
 
-void CubeMap::bind(GLenum textureUnit)
+void CubeMap::bind(unsigned int textureUnit)
 {
 	glActiveTexture(GL_TEXTURE0 + textureUnit);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap);

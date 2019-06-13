@@ -48,7 +48,7 @@ public:
 	void bind();
 	void destroy();
 	void loadFromFile() override;
-	void sendToGPU() override;
+	void submitBuffer() override;
 
 	virtual std::string getFilePath() = 0;
 	virtual void addAttributes() = 0;

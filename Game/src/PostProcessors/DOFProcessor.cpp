@@ -1,9 +1,10 @@
 #ifndef DOF_PROCESSOR_CPP
 #define DOF_PROCESSOR_CPP
 
+#include <core/system/Renderer.h>
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
-#include <core/system/Renderer.h>
+#include <resource/FrameBuffer.h>
 
 #include "../Shader/DOFShader.cpp"
 
@@ -19,8 +20,8 @@ public:
 	{
 		_dofShader = new Material(DOFShader::getInstance());
 		//_dofShader->setProperty("depth", 7.0f);
-		_dofShader->setTexture("renderTexture", mainBuffer, "color");
-		_dofShader->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
+		_dofShader->setImageBuffer("renderTexture", mainBuffer->getAttachment("color"));
+		_dofShader->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition"));
 	}
 
 	void render(FrameBuffer* nextBuffer) override

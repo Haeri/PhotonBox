@@ -104,61 +104,61 @@ public:
 		/* --------------------------- MATERIALS --------------------------- */
 
 		Material* chrome = createResource<Material>(defaultShader);
-		chrome->setTexture("albedoMap", aluminium_a);
-		chrome->setTexture("normalMap", aluminium_n);
-		chrome->setTexture("roughnessMap", aluminium_r);
-		chrome->setTexture("aoMap", default_ao);
-		chrome->setTexture("metallicMap", aluminium_m);
-		chrome->setTexture("emissionMap", default_emission);
+		chrome->setImageBuffer("albedoMap", aluminium_a);
+		chrome->setImageBuffer("normalMap", aluminium_n);
+		chrome->setImageBuffer("roughnessMap", aluminium_r);
+		chrome->setImageBuffer("aoMap", default_ao);
+		chrome->setImageBuffer("metallicMap", aluminium_m);
+		chrome->setImageBuffer("emissionMap", default_emission);
 
 		Material* paint = createResource<Material>(defaultShader);
-		paint->setTexture("albedoMap", red);
-		paint->setTexture("normalMap", default_normal);
-		paint->setTexture("roughnessMap", default_emission);
-		paint->setTexture("aoMap", default_ao);
-		paint->setTexture("metallicMap", default_emission);
-		paint->setTexture("emissionMap", default_emission);
+		paint->setImageBuffer("albedoMap", red);
+		paint->setImageBuffer("normalMap", default_normal);
+		paint->setImageBuffer("roughnessMap", default_emission);
+		paint->setImageBuffer("aoMap", default_ao);
+		paint->setImageBuffer("metallicMap", default_emission);
+		paint->setImageBuffer("emissionMap", default_emission);
 
 		Material* rubber = createResource<Material>(defaultShader);
-		rubber->setTexture("albedoMap", tire_text);
-		rubber->setTexture("normalMap", default_normal);
-		rubber->setTexture("roughnessMap", default_ao);
-		rubber->setTexture("aoMap", default_ao);
-		rubber->setTexture("metallicMap", default_emission);
-		rubber->setTexture("emissionMap", default_emission);
+		rubber->setImageBuffer("albedoMap", tire_text);
+		rubber->setImageBuffer("normalMap", default_normal);
+		rubber->setImageBuffer("roughnessMap", default_ao);
+		rubber->setImageBuffer("aoMap", default_ao);
+		rubber->setImageBuffer("metallicMap", default_emission);
+		rubber->setImageBuffer("emissionMap", default_emission);
 
 		Material* leather = createResource<Material>(defaultShader);
-		leather->setTexture("albedoMap", leather_a);
-		leather->setTexture("normalMap", leather_n);
-		leather->setTexture("roughnessMap", leather_r);
-		leather->setTexture("aoMap", leather_ao);
-		leather->setTexture("metallicMap", default_emission);
-		leather->setTexture("emissionMap", default_emission);
+		leather->setImageBuffer("albedoMap", leather_a);
+		leather->setImageBuffer("normalMap", leather_n);
+		leather->setImageBuffer("roughnessMap", leather_r);
+		leather->setImageBuffer("aoMap", leather_ao);
+		leather->setImageBuffer("metallicMap", default_emission);
+		leather->setImageBuffer("emissionMap", default_emission);
 
 		Material* front_emissive = createResource<Material>(defaultShader);
-		front_emissive->setTexture("albedoMap", light_grid);
-		front_emissive->setTexture("normalMap", default_normal);
-		front_emissive->setTexture("roughnessMap", light_grid_r);
-		front_emissive->setTexture("aoMap", default_ao);
-		front_emissive->setTexture("metallicMap", default_emission);
-		front_emissive->setTexture("emissionMap", light_grid);
+		front_emissive->setImageBuffer("albedoMap", light_grid);
+		front_emissive->setImageBuffer("normalMap", default_normal);
+		front_emissive->setImageBuffer("roughnessMap", light_grid_r);
+		front_emissive->setImageBuffer("aoMap", default_ao);
+		front_emissive->setImageBuffer("metallicMap", default_emission);
+		front_emissive->setImageBuffer("emissionMap", light_grid);
 		front_emissive->setProperty("emissionIntensity", 15.0f);
 
 		Material* glassMaterial = createResource<Material>(transparentShader);
-		glassMaterial->setTexture("albedoMap", transparentAlbedo);
-		glassMaterial->setTexture("normalMap", default_normal);
-		glassMaterial->setTexture("roughnessMap", default_roughness);
-		glassMaterial->setTexture("aoMap", default_ao);
-		glassMaterial->setTexture("metallicMap", default_emission);
-		glassMaterial->setTexture("emissionMap", default_emission);
+		glassMaterial->setImageBuffer("albedoMap", transparentAlbedo);
+		glassMaterial->setImageBuffer("normalMap", default_normal);
+		glassMaterial->setImageBuffer("roughnessMap", default_roughness);
+		glassMaterial->setImageBuffer("aoMap", default_ao);
+		glassMaterial->setImageBuffer("metallicMap", default_emission);
+		glassMaterial->setImageBuffer("emissionMap", default_emission);
 
 		Material* def = createResource<Material>(defaultShader);
-		def->setTexture("albedoMap", default_roughness);
-		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_roughness);
-		def->setTexture("aoMap", default_ao);
-		def->setTexture("metallicMap", default_emission);
-		def->setTexture("emissionMap", default_emission);
+		def->setImageBuffer("albedoMap", default_roughness);
+		def->setImageBuffer("normalMap", default_normal);
+		def->setImageBuffer("roughnessMap", default_roughness);
+		def->setImageBuffer("aoMap", default_ao);
+		def->setImageBuffer("metallicMap", default_emission);
+		def->setImageBuffer("emissionMap", default_emission);
 
 
 		/* --------------------------- CAMERA --------------------------- */

@@ -175,7 +175,7 @@ void Shader::loadFromFile()
 	_fragmentCode = readShader(getFilePath() + ".fs");
 }
 
-void Shader::sendToGPU()
+void Shader::submitBuffer()
 {
 	if (_program != -1)
 	{

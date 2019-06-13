@@ -110,60 +110,60 @@ public:
 
 		/* --------------------------- MATERIALS --------------------------- */
 		Material* wood = createResource<Material>(defaultShader);
-		wood->setTexture("albedoMap", woodAlbedo);
-		wood->setTexture("normalMap", woodNormal);
-		wood->setTexture("roughnessMap", woodRough);
-		wood->setTexture("aoMap", woodAo);
-		wood->setTexture("metallicMap", woodMetal);
-		wood->setTexture("emissionMap", default_emission);
+		wood->setImageBuffer("albedoMap", woodAlbedo);
+		wood->setImageBuffer("normalMap", woodNormal);
+		wood->setImageBuffer("roughnessMap", woodRough);
+		wood->setImageBuffer("aoMap", woodAo);
+		wood->setImageBuffer("metallicMap", woodMetal);
+		wood->setImageBuffer("emissionMap", default_emission);
 
 		Material* bricks = createResource<Material>(defaultShader);
-		bricks->setTexture("albedoMap", bricksAlbedo);
-		bricks->setTexture("normalMap", bricksNormal);
-		bricks->setTexture("roughnessMap", bricksRough);
-		bricks->setTexture("aoMap", bricksAo);
-		bricks->setTexture("metallicMap", bricksMetal);
-		bricks->setTexture("emissionMap", default_emission);
+		bricks->setImageBuffer("albedoMap", bricksAlbedo);
+		bricks->setImageBuffer("normalMap", bricksNormal);
+		bricks->setImageBuffer("roughnessMap", bricksRough);
+		bricks->setImageBuffer("aoMap", bricksAo);
+		bricks->setImageBuffer("metallicMap", bricksMetal);
+		bricks->setImageBuffer("emissionMap", default_emission);
 
 		Material* gold = createResource<Material>(defaultShader);
-		gold->setTexture("albedoMap", goldAlbedo);
-		gold->setTexture("normalMap", goldNormal);
-		gold->setTexture("roughnessMap", goldRough);
-		gold->setTexture("aoMap", default_ao);
-		gold->setTexture("metallicMap", goldMetal);
-		gold->setTexture("emissionMap", default_emission);
+		gold->setImageBuffer("albedoMap", goldAlbedo);
+		gold->setImageBuffer("normalMap", goldNormal);
+		gold->setImageBuffer("roughnessMap", goldRough);
+		gold->setImageBuffer("aoMap", default_ao);
+		gold->setImageBuffer("metallicMap", goldMetal);
+		gold->setImageBuffer("emissionMap", default_emission);
 
 		Material* chrome = createResource<Material>(defaultShader);
-		chrome->setTexture("albedoMap", default_ao);
-		chrome->setTexture("normalMap", default_normal);
-		chrome->setTexture("roughnessMap", default_emission);
-		chrome->setTexture("aoMap", default_ao);
-		chrome->setTexture("metallicMap", default_ao);
-		chrome->setTexture("emissionMap", default_emission);
+		chrome->setImageBuffer("albedoMap", default_ao);
+		chrome->setImageBuffer("normalMap", default_normal);
+		chrome->setImageBuffer("roughnessMap", default_emission);
+		chrome->setImageBuffer("aoMap", default_ao);
+		chrome->setImageBuffer("metallicMap", default_ao);
+		chrome->setImageBuffer("emissionMap", default_emission);
 
 		Material* rust = createResource<Material>(defaultShader);
-		rust->setTexture("albedoMap", rustAlbedo);
-		rust->setTexture("normalMap", rustNormal);
-		rust->setTexture("roughnessMap", rustRough);
-		rust->setTexture("aoMap", default_ao);
-		rust->setTexture("metallicMap", rustMetal);
-		rust->setTexture("emissionMap", default_emission);
+		rust->setImageBuffer("albedoMap", rustAlbedo);
+		rust->setImageBuffer("normalMap", rustNormal);
+		rust->setImageBuffer("roughnessMap", rustRough);
+		rust->setImageBuffer("aoMap", default_ao);
+		rust->setImageBuffer("metallicMap", rustMetal);
+		rust->setImageBuffer("emissionMap", default_emission);
 
 		Material* glassMaterial = createResource<Material>(transparentShader);
-		glassMaterial->setTexture("albedoMap", transparentAlbedo);
-		glassMaterial->setTexture("normalMap", default_normal);
-		glassMaterial->setTexture("roughnessMap", default_roughness);
-		glassMaterial->setTexture("aoMap", default_ao);
-		glassMaterial->setTexture("metallicMap", default_emission);
-		glassMaterial->setTexture("emissionMap", default_emission);
+		glassMaterial->setImageBuffer("albedoMap", transparentAlbedo);
+		glassMaterial->setImageBuffer("normalMap", default_normal);
+		glassMaterial->setImageBuffer("roughnessMap", default_roughness);
+		glassMaterial->setImageBuffer("aoMap", default_ao);
+		glassMaterial->setImageBuffer("metallicMap", default_emission);
+		glassMaterial->setImageBuffer("emissionMap", default_emission);
 
 		Material* def = createResource<Material>(defaultShader);
-		def->setTexture("albedoMap", default_roughness);
-		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_roughness);
-		def->setTexture("aoMap", default_ao);
-		def->setTexture("metallicMap", default_emission);
-		def->setTexture("emissionMap", default_emission);
+		def->setImageBuffer("albedoMap", default_roughness);
+		def->setImageBuffer("normalMap", default_normal);
+		def->setImageBuffer("roughnessMap", default_roughness);
+		def->setImageBuffer("aoMap", default_ao);
+		def->setImageBuffer("metallicMap", default_emission);
+		def->setImageBuffer("emissionMap", default_emission);
 
 		/* --------------------------- CAMERA --------------------------- */
 		Entity* cam = instanciate("Camera");

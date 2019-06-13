@@ -3,21 +3,19 @@
 
 class CubeMap;
 class Texture;
+class ImageBuffer;
 
 #include <unordered_map>
 
 #include "PhotonBox/core/ManagedResource.h"
-#include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/resource/Shader.h"
 
 class Material : public ManagedResource
 {
 public:
-	Shader * shader;
 
-	//TODO: Assign default PBR shader if no shader provided
 	Material() {}
-	Material(Shader* shader) : shader(shader) {}
+	Material(Shader* shader) : _shader(shader) {}
 	~Material();
 
 	template<typename T>
@@ -33,23 +31,19 @@ public:
 		}
 	}
 
-	// Texture
-	void setTexture(const std::string& uniformName, Texture* texture);
-	void setTexture(const std::string & uniformName, FrameBuffer * buffer, std::string attachmentName);
-	void setCubeMap(const std::string& uniformName, CubeMap* cubeMap);
+	void setImageBuffer(const std::string& uniformName, ImageBuffer* image);
 
 	void updateUniforms();
 	void updateUniforms(Shader* shader);
 	void bindTextures();
 	void bindTextures(Shader* customShader);
+	Shader* getShader();
 
 	template <typename T>
 	T getProperty(const std::string& uniformName)
 	{
 		return ((BaseObject<T>*)(_uniformMap[uniformName]))->_value;
 	}
-	Texture* getTexture(const std::string& uniformName);
-	CubeMap* getCubeMap(const std::string& uniformName);
 private:
 	struct SuperObject
 	{
@@ -66,9 +60,8 @@ private:
 		void update(Shader* shader) { shader->setUniform(_name, _value); }
 	};
 
-	std::unordered_map<std::string, Texture*> _textreMap;
-	std::unordered_map<std::string, FrameBuffer::BufferAttachment*> _frameBufferMap;
-	std::unordered_map<std::string, CubeMap*> _cubeMapMap;
+	Shader* _shader;
+	std::unordered_map<std::string, ImageBuffer*> _imageBufferMap;
 	std::unordered_map<std::string, SuperObject*> _uniformMap;
 };
 

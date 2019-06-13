@@ -18,7 +18,7 @@ protected:
 	bool _isLoaded = false;
 	bool _isInitialized = false;
 
-	virtual void sendToGPU() = 0;
+	virtual void submitBuffer() = 0;
 	virtual void blankInitialize() {}
 	virtual void loadFromFile() = 0;
 private:
