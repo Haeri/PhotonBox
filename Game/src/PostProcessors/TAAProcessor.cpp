@@ -1,9 +1,10 @@
 #ifndef TAA_PROCESSOR_CPP
 #define TAA_PROCESSOR_CPP
 
+#include <core/system/Renderer.h>
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
-#include <core/system/Renderer.h>
+#include <resource/FrameBuffer.h>
 
 #include "../Shader/TAAShader.cpp"
 
@@ -27,9 +28,9 @@ public:
 		_flipBuf2->ready();
 
 		_taaShader = new Material(TAAShader::getInstance());
-		_taaShader->setTexture("lowResTexture", mainBuffer, "color");
-		_taaShader->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
-		_taaShader->setTexture("normalVelocity", Renderer::getGBuffer(), "gMetallic");
+		_taaShader->setImageBuffer("lowResTexture", mainBuffer->getAttachment("color"));
+		_taaShader->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition"));
+		_taaShader->setImageBuffer("normalVelocity", Renderer::getGBuffer()->getAttachment("gMetallic"));
 	}
 
 	void render(FrameBuffer* nextBuffer) override
@@ -38,13 +39,13 @@ public:
 		if (_flip)
 		{
 			_flipBuf2->enable();
-			_taaShader->setTexture("previousLowResTexture", _flipBuf1, "color");
+			_taaShader->setImageBuffer("previousLowResTexture", _flipBuf1->getAttachment("color"));
 			mainBuffer->render(_taaShader);
 		}
 		else
 		{
 			_flipBuf1->enable();
-			_taaShader->setTexture("previousLowResTexture", _flipBuf2, "color");
+			_taaShader->setImageBuffer("previousLowResTexture", _flipBuf2->getAttachment("color"));
 			mainBuffer->render(_taaShader);
 		}
 

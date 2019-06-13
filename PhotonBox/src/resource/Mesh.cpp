@@ -72,7 +72,7 @@ void Mesh::blankInitialize()
 }
 
 
-void Mesh::sendToGPU() 
+void Mesh::submitBuffer() 
 {
 	glBindVertexArray(_vao);
 

@@ -22,7 +22,7 @@ public:
 	GLuint getVAO();
 	GLuint getEBO();
 
-	void sendToGPU() override;
+	void submitBuffer() override;
 private:
 	GLuint _vao, _vbo, _ebo;
 	std::string _fileName;

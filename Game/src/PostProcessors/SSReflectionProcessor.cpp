@@ -4,6 +4,7 @@
 #include <core/system/Renderer.h>
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
+#include <resource/FrameBuffer.h>
 
 #include "../Shader/SSReflectionShader.cpp"
 
@@ -18,11 +19,11 @@ public:
 	SSReflectionProcessor(int index) : PostProcessor(index)
 	{
 		_ssreflection = new Material(SSReflectionShader::getInstance());
-		_ssreflection->setTexture("mainBuffer", mainBuffer, "color");
-		_ssreflection->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
-		_ssreflection->setTexture("gNormal", Renderer::getGBuffer(), "gNormal");
-		_ssreflection->setTexture("gMetallic", Renderer::getGBuffer(), "gMetallic");
-		_ssreflection->setTexture("gRoughness", Renderer::getGBuffer(), "gRoughness");
+		_ssreflection->setImageBuffer("mainBuffer", mainBuffer->getAttachment("color"));
+		_ssreflection->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition"));
+		_ssreflection->setImageBuffer("gNormal", Renderer::getGBuffer()->getAttachment("gNormal"));
+		_ssreflection->setImageBuffer("gMetallic", Renderer::getGBuffer()->getAttachment("gMetallic"));
+		_ssreflection->setImageBuffer("gRoughness", Renderer::getGBuffer()->getAttachment("gRoughness"));
 	}
 
 	void render(FrameBuffer* nextBuffer) override

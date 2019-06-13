@@ -1,10 +1,11 @@
 #ifndef FXAA_PROCESSOR_CPP
 #define FXAA_PROCESSOR_CPP
 
-#include <resource/PostProcessor.h>
-#include <resource/Material.h>
 #include <core/Display.h>
 #include <resource/shader/MedianShader.h>
+#include <resource/PostProcessor.h>
+#include <resource/Material.h>
+#include <resource/FrameBuffer.h>
 
 #include "../Shader/FXAAShader.cpp"
 
@@ -29,10 +30,10 @@ public:
 		_fxaaMaterial->setProperty<float>("R_fxaaReduceMul", 150.0f);
 		_fxaaMaterial->setProperty<float>("screenWidth", Display::getWidth());
 		_fxaaMaterial->setProperty<float>("screenHeight", Display::getHeight());
-		_fxaaMaterial->setTexture("renderTexture", _tempBuffer, "color");
+		_fxaaMaterial->setImageBuffer("renderTexture", _tempBuffer->getAttachment("color"));
 
 		_medianMaterial = new Material(MedianShader::getInstance());
-		_medianMaterial->setTexture("renderTexture", mainBuffer, "color");
+		_medianMaterial->setImageBuffer("renderTexture", mainBuffer->getAttachment("color"));
 	}
 
 	void onResize() override

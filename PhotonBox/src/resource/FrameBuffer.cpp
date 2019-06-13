@@ -146,6 +146,9 @@ void FrameBuffer::addDepthBufferAttachment()
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthAttachment);
 }
 
+FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name) {
+	return &_colorAttachments[name];
+}
 
 void FrameBuffer::enable()
 {
@@ -249,11 +252,6 @@ void FrameBuffer::blitToScreen(std::string name)
 	glBlitFramebuffer(0, 0, _width, _height, 0, 0, Display::getWidth(), Display::getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 
-FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name)
-{
-	return &_colorAttachments[name];
-}
-
 void FrameBuffer::render(std::string name, Material* material)
 {
 	glBindVertexArray(_quadVAO);
@@ -265,7 +263,7 @@ void FrameBuffer::render(std::string name, Material* material)
 	}
 	else
 	{
-		shader = material->shader;
+		shader = material->getShader();
 	}
 
 	shader->bind();

@@ -34,6 +34,7 @@
 #include "PhotonBox/resource/shader/DepthShader.h"
 #include "PhotonBox/resource/shader/CircleShader.h"
 #include "PhotonBox/resource/shader/ForwardDirectionalLightShader.h"
+#include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/util/GLError.h"
 
 #ifdef PB_MEM_DEBUG
@@ -168,19 +169,19 @@ void Renderer::init(float superSampling)
 	_shadowBuffer->ready();
 	
 	_deferredMaterial = new Material(_deferredShader);
-	_deferredMaterial->setTexture("gPosition", _gBuffer, "gPosition");
-	_deferredMaterial->setTexture("gNormal", _gBuffer, "gNormal");
-	_deferredMaterial->setTexture("gRoughness", _gBuffer, "gRoughness");
-	_deferredMaterial->setTexture("gMetallic", _gBuffer, "gMetallic");
-	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
-	_deferredMaterial->setTexture("gIrradiance", _gBuffer, "gIrradiance");
-	_deferredMaterial->setTexture("gRadiance", _gBuffer, "gRadiance");
-	_deferredMaterial->setTexture("gEmission", _gBuffer, "gEmission");
-	_deferredMaterial->setTexture("noise", _noise);
+	_deferredMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
+	_deferredMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal"));
+	_deferredMaterial->setImageBuffer("gRoughness", _gBuffer->getAttachment("gRoughness"));
+	_deferredMaterial->setImageBuffer("gMetallic", _gBuffer->getAttachment("gMetallic"));
+	_deferredMaterial->setImageBuffer("gAlbedo", _gBuffer->getAttachment("gAlbedo"));
+	_deferredMaterial->setImageBuffer("gIrradiance", _gBuffer->getAttachment("gIrradiance"));
+	_deferredMaterial->setImageBuffer("gRadiance", _gBuffer->getAttachment("gRadiance"));
+	_deferredMaterial->setImageBuffer("gEmission", _gBuffer->getAttachment("gEmission"));
+	_deferredMaterial->setImageBuffer("noise", _noise);
 
 	_volumetricFogMaterial = new Material(_volumetricFogShader);
-	_volumetricFogMaterial->setTexture("gPosition", _gBuffer, "gPosition");
-	_volumetricFogMaterial->setTexture("noise", _noise);
+	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
+	_volumetricFogMaterial->setImageBuffer("noise", _noise);
 
 
 	_debugMode = 0;
@@ -263,7 +264,7 @@ void Renderer::prePass()
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
 
-			Shader* shader = (*it)->getMaterial()->shader;
+			Shader* shader = (*it)->getMaterial()->getShader();
 
 			//if(typeid(*shader) == typeid(GShader))
 			if (shader->getType() == Shader::Type::SURFACE_SHADER)
@@ -475,7 +476,7 @@ void Renderer::renderForward()
 	{
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 		{
-			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader == GShader::getInstance())
+			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->getShader() == GShader::getInstance())
 //			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
 			{
 				glEnable(GL_DEPTH_TEST);
@@ -725,7 +726,7 @@ void Renderer::captureScene(LightMap* lightmap)
 			if (!(*it)->getReflected) continue;
 
 
-			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader == GShader::getInstance())
+			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->getShader() == GShader::getInstance())
 				//			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
 			{
 				glEnable(GL_DEPTH_TEST);

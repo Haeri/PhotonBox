@@ -35,7 +35,7 @@ void ILazyLoadable::setRogue()
 
 void ILazyLoadable::initialize()
 {
-	sendToGPU();
+	submitBuffer();
 	_isInitialized = true;
 
 }

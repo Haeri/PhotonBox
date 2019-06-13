@@ -3,10 +3,11 @@
 
 #include <random>
 
+#include <math/Math.h>
 #include <core/system/Renderer.h>
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
-#include <math/Math.h>
+#include <resource/FrameBuffer.h>
 
 #include "../Shader/SSAOBlurShader.cpp"
 #include "../Shader/SSAOShader.cpp"
@@ -27,11 +28,11 @@ public:
 		ssaoBlurBuffer->ready();
 
 		ssaoMaterial = new Material(SSAOShader::getInstance());
-		ssaoMaterial->setTexture("gPosition", Renderer::getGBuffer(), "gPosition");
-		ssaoMaterial->setTexture("gNormal", Renderer::getGBuffer(), "gNormal");
+		ssaoMaterial->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition"));
+		ssaoMaterial->setImageBuffer("gNormal", Renderer::getGBuffer()->getAttachment("gNormal"));
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
-		ssaoBlurMaterial->setTexture("original", mainBuffer, "color");
-		ssaoBlurMaterial->setTexture("ssaoInput", ssaoBlurBuffer, "color");
+		ssaoBlurMaterial->setImageBuffer("original", mainBuffer->getAttachment("color"));
+		ssaoBlurMaterial->setImageBuffer("ssaoInput", ssaoBlurBuffer->getAttachment("color"));
 		ssaoBlurMaterial->setProperty<float>("screenWidth", Display::getWidth() / 2.0f);
 		ssaoBlurMaterial->setProperty<float>("screenHeight", Display::getHeight() / 2.0f);
 
@@ -50,14 +51,14 @@ public:
 		ssaoBlurBuffer->enable();
 
 		// TODO: Clean up this block
-		ssaoMaterial->shader->bind();
+		ssaoMaterial->getShader()->bind();
 
 		glActiveTexture(GL_TEXTURE0 + SSAOShader::getInstance()->textures["texNoise"].unit);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 
 		for (unsigned int i = 0; i < 64; ++i)
 		{
-			ssaoMaterial->shader->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
+			ssaoMaterial->getShader()->setUniform("samples[" + std::to_string(i) + "]", _ssaoKernel[i]);
 		}
 		mainBuffer->render(ssaoMaterial);
 

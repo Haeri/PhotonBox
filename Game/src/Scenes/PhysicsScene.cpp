@@ -71,12 +71,12 @@ public:
 
 		/* --------------------------- MATERIALS --------------------------- */
 		Material* def = createResource<Material>(defaultShader);
-		def->setTexture("albedoMap", default_ao);
-		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_specular);
-		def->setTexture("aoMap", default_ao);
-		def->setTexture("metallicMap", default_emission);
-		def->setTexture("emissionMap", default_emission);
+		def->setImageBuffer("albedoMap", default_ao);
+		def->setImageBuffer("normalMap", default_normal);
+		def->setImageBuffer("roughnessMap", default_specular);
+		def->setImageBuffer("aoMap", default_ao);
+		def->setImageBuffer("metallicMap", default_emission);
+		def->setImageBuffer("emissionMap", default_emission);
 
 
 		/* --------------------------- CAMERA --------------------------- */
