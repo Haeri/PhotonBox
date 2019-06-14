@@ -1,6 +1,7 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#include <iostream>
 #ifdef PB_PLATFORM_WIN
 #include <windows.h>
 #endif
@@ -24,12 +25,12 @@ public:
 		CONFIRM = 32
 #endif
 	};
-	static void logn(std::string message, Type type)
+	static void logn(std::string message, Type type = DEF)
 	{
 		log(message + "\n\r", type);
 	}
 
-	static void log(std::string message, Type type)
+	static void log(std::string message, Type type = DEF)
 	{
 #ifdef PB_PLATFORM_WIN
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

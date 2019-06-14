@@ -10,7 +10,8 @@ class DebugGUI : public ISystem
 {
 public:
 	void init(Config::Profile profile) override;
-	void start() override {}
+	void start() override;
+	void reset() override;
 	void destroy() override;
 
 	void newFrame();

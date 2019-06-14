@@ -22,9 +22,10 @@
 #include "PhotonBox/util/FileWatch.h"
 #include "PhotonBox/util/Logger.h"
 
+#ifdef RECORD_MODE
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "STB/stb_image_write.h"
-
+#endif
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
@@ -137,7 +138,6 @@ void Core::run()
 		}
 		
 		_inputManager->pollEvents();
-		_debugGUI->newFrame();
 
 		// Update Physics
 		_accumulatedTime += Time::deltaTime;
@@ -204,6 +204,7 @@ void Core::run()
 		_sceneManager->drawSceneList();
 #endif
 		_debugGUI->render();
+		_debugGUI->newFrame();
 		_check_gl_error("debugGUI", 0);
 
 		// Refeed position updates to physics system

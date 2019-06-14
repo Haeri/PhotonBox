@@ -16,7 +16,7 @@ public:
 	std::vector< unsigned int> indices;
 	BoundingSphere boundingSphere;
 
-	Mesh(const std::string& fileName, bool forceInit = false);
+	Mesh(const std::string& filePath, bool forceInit = false);
 	~Mesh();
 
 	GLuint getVAO();
@@ -25,7 +25,6 @@ public:
 	void submitBuffer() override;
 private:
 	GLuint _vao, _vbo, _ebo;
-	std::string _fileName;
 
 	void loadFromFile() override;
 	void blankInitialize() override;

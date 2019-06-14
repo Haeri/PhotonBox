@@ -52,17 +52,17 @@ public:
 		};
 
 		Renderer::setSkyBox(createResource<CubeMap>(forrest));
-		Renderer::getSkyBox()->intensity = 3;
+		Renderer::getSkyBox()->intensity = 1;
 
 		/* --------------------------- POST PROCESSING --------------------------- */
 		SSAOProcessor* p_ssao = new SSAOProcessor(10);
 		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
 		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(30);
 		TAAProcessor* p_fxaa = new TAAProcessor(40);
-		DOFProcessor* p_dof = new DOFProcessor(50);
+		//DOFProcessor* p_dof = new DOFProcessor(50);
 		BloomProcessor* p_bloom = new BloomProcessor(60);
 		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(70);
-		p_dof->setEnabled(false);
+		//p_dof->setEnabled(false);
 		
 		/* --------------------------- OBJ --------------------------- */
 		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");

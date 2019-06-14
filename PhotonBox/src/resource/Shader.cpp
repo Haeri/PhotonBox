@@ -145,8 +145,8 @@ void Shader::init()
 	std::cerr << "Index Shader: " << getFilePath() << std::endl;
 
 	std::vector<std::string> path;
-	std::string filePath = getFilePath();
-	Util::split(filePath, "/", path);
+	_filePath = getFilePath();
+	Util::split(_filePath, "/", path);
 
 	_fileName = path.back();	
 

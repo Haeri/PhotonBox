@@ -1,9 +1,10 @@
 #include "PhotonBox/core/system/ResourceManager.h"
 
 #include <chrono>
-#include <iostream>
 
 #include "PhotonBox/core/ILazyLoadable.h"
+#include "PhotonBox/core/system/DebugGUI.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -22,19 +23,29 @@ void ResourceManager::lazyLoad(bool force)
 	if (allReady()) { 
 		return;
 	}
+	
+	ImGui::Begin("Assets Loader");
+	for (int i = 0; i < _initializationList.size(); ++i)
+	{
+		ImGui::TextUnformatted((std::to_string(i+1) + " " + _initializationList[i]->getFilePath()).c_str());
+	}
+	ImGui::End();
 
 	auto start = std::chrono::system_clock::now();
-	for (int i = static_cast<int>(_initializationList.size()-1); i >= 0; --i)
+	while (_initializationList.size() > 0)
 	{
-		if (_initializationList[i]->isLoaded()) {
-			_initializationList[i]->initialize();
+		for (int i = static_cast<int>(_initializationList.size() - 1); i >= 0; --i)
+		{
+			if (_initializationList[i]->isLoaded()) {
+				_initializationList[i]->initialize();
 
-			_initializationList.erase(_initializationList.begin() + i);
+				_initializationList.erase(_initializationList.begin() + i);
 
-			auto check = std::chrono::system_clock::now();
-			if ((check - start).count() > 30000000 && !force) {
-				std::cout << "Delaying initialization to next frame\n";
-				return;
+				auto check = std::chrono::system_clock::now();
+				if ((check - start).count() > 30000000 && !force) {
+					Logger::logn("Delaying initialization to next frame\n");
+					return;
+				}
 			}
 		}
 	}

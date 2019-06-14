@@ -40,6 +40,11 @@ void ILazyLoadable::initialize()
 
 }
 
+std::string ILazyLoadable::getFilePath()
+{
+	return _filePath;
+}
+
 void ILazyLoadable::load()
 {
 	loadFromFile();
