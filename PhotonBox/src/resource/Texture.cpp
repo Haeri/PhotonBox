@@ -14,13 +14,13 @@
 #define new DEBUG_NEW
 #endif
 
-Texture::Texture(std::string fileName, bool generateMipMaps, bool hdr)
+Texture::Texture(std::string filePath, bool generateMipMaps, bool hdr)
 {
-	FileWatch::addToWatchList(fileName, this);
+	FileWatch::addToWatchList(filePath, this);
+	_filePath = filePath;
 
-	std::cout << "Index Texture: " << fileName << std::endl;
+	std::cout << "Index Texture: " << filePath << std::endl;
 	
-	_fileName = fileName;
 	_isMipMap = generateMipMaps;
 	_isHDR = hdr;
 
@@ -46,8 +46,8 @@ void Texture::bind(unsigned int textureUnit)
 void Texture::loadFromFile()
 {
 	int numComponents;
-	std::size_t found = _fileName.find_last_of(".");
-	std::string cachePath = _fileName.substr(0, found) + TextureSerializer::EXTENSION;
+	std::size_t found = _filePath.find_last_of(".");
+	std::string cachePath = _filePath.substr(0, found) + TextureSerializer::EXTENSION;
 	struct stat buffer;
 	bool ispbt = false;
 
@@ -57,8 +57,8 @@ void Texture::loadFromFile()
 	}
 	else
 	{
-		_data = stbi_load((_fileName).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
-		TextureSerializer::write(_fileName.substr(0, found) + TextureSerializer::EXTENSION, _width, _height, 4, _data);
+		_data = stbi_load((_filePath).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
+		TextureSerializer::write(_filePath.substr(0, found) + TextureSerializer::EXTENSION, _width, _height, 4, _data);
 	}
 }
 

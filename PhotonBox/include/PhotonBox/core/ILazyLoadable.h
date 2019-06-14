@@ -1,6 +1,8 @@
 #ifndef I_LAZY_LOADABLE_H
 #define I_LAZY_LOADABLE_H
 
+#include <string>
+
 class ILazyLoadable
 {
 public:
@@ -14,9 +16,11 @@ public:
 	void forceLoad();
 	void setRogue();
 	void initialize();
+	virtual std::string getFilePath();
 protected:
 	bool _isLoaded = false;
 	bool _isInitialized = false;
+	std::string _filePath;
 
 	virtual void submitBuffer() = 0;
 	virtual void blankInitialize() {}

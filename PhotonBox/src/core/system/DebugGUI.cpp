@@ -36,6 +36,16 @@ void DebugGUI::render()
 	ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
+void DebugGUI::start()
+{
+	newFrame();
+}
+
+void DebugGUI::reset()
+{
+	ImGui::EndFrame();
+}
+
 void DebugGUI::destroy()
 {
 	ImGui_ImplGlfwGL3_Shutdown();
