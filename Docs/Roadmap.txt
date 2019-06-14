@@ -31,8 +31,6 @@ GENERAL
 - Separate texture into texture-data and texture-resource. 
 - Clean up light emitter, pack shadow buffer inside, move shader binding code into light
 - Add Post processor component so the post processing is bond to a camera
-- Abstract Image-buffer as superclass for Texture, Framebuffer, CubeMap
-- Turn camera jitter on/off
 
 OPTIMIZATION
 - Frustum culling

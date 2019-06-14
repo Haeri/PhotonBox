@@ -34,7 +34,7 @@ void Config::readConfig()
 		line.erase(remove(line.begin(), line.end(), ' '), line.end());
 		Util::split(line, "=", tokens);
 
-		if (tokens[0].at(0) == '#')
+		if (tokens[0] == "" || tokens[0].at(0) == '#')
 		{
 			continue;
 		}
@@ -86,14 +86,12 @@ void Config::createDefault()
 					"width = 1280\n"
 					 "height = 720\n"
 					 "fullscreen = 0\n"
-					 "vsync = 1\n"
-					 "supersampling = 1\n"
-					 "show_fps = 1\n"
+					 "vsync = 0\n"
+					 "supersampling = 0\n"
+					 "show_fps = 0\n"
 					 "fps_profiling = 0\n";
 
 	std::ofstream file(FILE_PATH);
 	file << def;
 	file.close();
-
-	readConfig();
 }

@@ -14,7 +14,7 @@
 #define new DEBUG_NEW
 #endif
 
-bool temp = false;
+bool temp = true;
 
 int main(void)
 {

@@ -20,6 +20,7 @@
 #include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/util/GLError.h"
 #include "PhotonBox/util/FileWatch.h"
+#include "PhotonBox/util/Logger.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "STB/stb_image_write.h"
@@ -38,6 +39,8 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 	std::cout << PHOTON_BOX_VERSION << "\n";
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
+
+	_logger = new Logger();
 
 	// Load Config
 	_config = new Config();
@@ -308,7 +311,7 @@ void Core::destroy()
 	delete _profiler;
 	delete _config;
 	delete _fileWatch;
-
+	delete _logger;
 #ifdef RECORD_MODE
 	delete _record_data;
 #endif
