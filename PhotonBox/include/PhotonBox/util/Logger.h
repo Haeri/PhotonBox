@@ -37,7 +37,7 @@ public:
 		std::cout << message;
 		SetConsoleTextAttribute(hConsole, DEF);
 #else
-		std::cout << "\x1B[" << std::to_string(type) << "m" << message << "\033[0m\t\t"
+		std::cout << "\x1B[" << std::to_string(type) << "m" << message << "\033[0m";
 #endif
 	}
 };
