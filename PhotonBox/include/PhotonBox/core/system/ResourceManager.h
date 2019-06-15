@@ -14,10 +14,12 @@ public:
 	static void addToInitializationList(ILazyLoadable* resource);
 	static void reset();
 private:
+	struct IndexedLazy
+	{
+		int index;
+		ILazyLoadable* resource;
+	};
 	static std::vector<ILazyLoadable*> _initializationList;
-	static std::vector<ILazyLoadable*> _readyList;
-
-	static void updateReadyList();
 };
 
 #endif // RESOURCE_MANAGER_H

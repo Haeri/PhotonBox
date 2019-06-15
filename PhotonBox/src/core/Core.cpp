@@ -228,7 +228,7 @@ void Core::run()
 
 
 		// Initialize loaded resources
-		ResourceManager::lazyLoad((flop == -1));
+		ResourceManager::lazyLoad((flop == -1) && false);
 		
 		if (ResourceManager::allReady()) {
 			if (flop == -1) {
