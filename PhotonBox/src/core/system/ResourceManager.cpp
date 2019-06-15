@@ -13,19 +13,16 @@
 #endif
 
 std::vector<ILazyLoadable*> ResourceManager::_initializationList;
-std::vector<ILazyLoadable*> ResourceManager::_readyList;
 unsigned int ResourceManager::max_loadtime = 300000;
 
 bool ResourceManager::allReady()
 {
-	return _initializationList.size() == 0;
+	return _initializationList.empty();
 }
 
 void ResourceManager::lazyLoad(bool force)
 {
-	if (allReady()) { 
-		return;
-	}
+	if (allReady()) return;
 	
 	ImGui::Begin("Assets Loader");
 	for (int i = 0; i < _initializationList.size(); ++i)
@@ -35,26 +32,26 @@ void ResourceManager::lazyLoad(bool force)
 	ImGui::End();
 
 	auto start = std::chrono::system_clock::now();
-	while (_initializationList.size() > 0)
-	{
-		Logger::logn("Loop", Logger::WARN);
-		updateReadyList();
+	std::vector<IndexedLazy> _readyList;
+
+	while (!_initializationList.empty())
+	{		
+		_readyList.clear();
+		for (int i = 0; i < _initializationList.size(); ++i)
+		{
+			if (_initializationList[i]->isLoaded())
+			{
+				_readyList.push_back({ i, _initializationList[i] });
+			}
+		}
 
 		for (int i = static_cast<int>(_readyList.size() - 1); i >= 0; --i)
-		{
-			Logger::logn(_readyList[i]->getFilePath(), Logger::CONFIRM);
-			
-			_readyList[i]->initialize();
-			_initializationList.erase(std::remove(_initializationList.begin(), _initializationList.end(), _readyList[i]), _initializationList.end());
-			_readyList.erase(_readyList.begin() + i);
-				
+		{			
+			_readyList[i].resource->initialize();
+			_initializationList.erase(_initializationList.begin() + _readyList[i].index);
 
-			// Escape if time is up
 			auto check = std::chrono::system_clock::now();
-			if ((check - start).count() > max_loadtime && !force) {
-				Logger::logn("Delaying initialization: " + std::to_string((check - start).count()), Logger::WARN);
-				return;
-			}
+			if ((check - start).count() > max_loadtime && !force) return;
 		}
 
 		if (!force) return;
@@ -69,17 +66,5 @@ void ResourceManager::addToInitializationList(ILazyLoadable * resource)
 void ResourceManager::reset()
 {
 	_initializationList.clear();
-}
-
-void ResourceManager::updateReadyList()
-{
-	for (int i = 0; i < _initializationList.size(); ++i)
-	{
-		if (_initializationList[i]->isLoaded() &&
-			std::find(_readyList.begin(), _readyList.end(), _initializationList[i]) == _readyList.end())
-		{
-			_readyList.push_back(_initializationList[i]);
-		}
-	}
 }
 
