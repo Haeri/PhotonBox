@@ -6,11 +6,11 @@ class Scene;
 #include <string>
 
 #include "PhotonBox/core/ManagedResource.h"
-#include "PhotonBox/core/ILazyLoadable.h"
+#include "PhotonBox/core/LazyLoadable.h"
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/resource/ImageBuffer.h"
 
-class Texture : public ManagedResource, public ILazyLoadable, public ImageBuffer
+class Texture : public ManagedResource, public LazyLoadable, public ImageBuffer
 {
 public:
 	Texture(std::string filePath, bool generateMipMaps = false, bool hdr = false);

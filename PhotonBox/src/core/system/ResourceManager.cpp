@@ -3,7 +3,7 @@
 #include <chrono>
 #include <algorithm>
 
-#include "PhotonBox/core/ILazyLoadable.h"
+#include "PhotonBox/core/LazyLoadable.h"
 #include "PhotonBox/core/system/DebugGUI.h"
 #include "PhotonBox/util/Logger.h"
 
@@ -12,17 +12,17 @@
 #define new DEBUG_NEW
 #endif
 
-std::vector<ILazyLoadable*> ResourceManager::_initializationList;
+std::vector<LazyLoadable*> ResourceManager::_initializationList;
 unsigned int ResourceManager::max_loadtime = 300000;
 
-bool ResourceManager::allReady()
+bool ResourceManager::isCompleted()
 {
 	return _initializationList.empty();
 }
 
-void ResourceManager::lazyLoad(bool force)
+void ResourceManager::load(bool lazy)
 {
-	if (allReady()) return;
+	if (isCompleted()) return;
 	
 	ImGui::Begin("Assets Loader");
 	for (int i = 0; i < _initializationList.size(); ++i)
@@ -51,14 +51,14 @@ void ResourceManager::lazyLoad(bool force)
 			_initializationList.erase(_initializationList.begin() + _readyList[i].index);
 
 			auto check = std::chrono::system_clock::now();
-			if ((check - start).count() > max_loadtime && !force) return;
+			if ((check - start).count() > max_loadtime && lazy) return;
 		}
 
-		if (!force) return;
+		if (lazy) return;
 	}
 }
 
-void ResourceManager::addToInitializationList(ILazyLoadable * resource)
+void ResourceManager::addToInitializationList(LazyLoadable * resource)
 {
 	_initializationList.push_back(resource);
 }

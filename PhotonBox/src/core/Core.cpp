@@ -64,6 +64,7 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 	_profiler = new Profiler();
 	_fileWatch = new FileWatch();
 	_time = new Time();
+	_resourceLoader = new ResourceManager();
 
 	_systems.push_back(_display);
 	_systems.push_back(_sceneManager);
@@ -228,9 +229,10 @@ void Core::run()
 
 
 		// Initialize loaded resources
-		ResourceManager::lazyLoad((flop == -1) && false);
-		
-		if (ResourceManager::allReady()) {
+		//_resourceLoader->load((flop != -1));
+		_resourceLoader->load();
+
+		if (ResourceManager::isCompleted()) {
 			if (flop == -1) {
 				std::cout << "Generate Lighting!\n";
 				_lighting->generate();
@@ -286,7 +288,7 @@ void Core::reset()
 	}
 
 	_profiler->reset();
-	ResourceManager::reset();
+	_resourceLoader->reset();
 }
 
 void Core::destroy()

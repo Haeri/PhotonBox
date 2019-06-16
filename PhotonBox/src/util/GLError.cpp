@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/core/system/ResourceManager.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -11,6 +12,8 @@
 
 void _check_gl_error(const char *file, int line)
 {
+	if (!ResourceManager::isCompleted()) return;
+
 	GLenum err = glGetError();
 
 	while (err != GL_NO_ERROR)
