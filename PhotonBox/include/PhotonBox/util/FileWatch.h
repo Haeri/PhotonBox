@@ -2,7 +2,7 @@
 #define FILE_WATCH_H
 
 class Shader;
-class ILazyLoadable;
+class LazyLoadable;
 
 #include <iostream>
 #include <map>
@@ -19,11 +19,11 @@ public:
 	struct ResourceFile
 	{
 		int64_t stamp;
-		ILazyLoadable* resource;
+		LazyLoadable* resource;
 	};
 
 	static void addToWatchList(std::string filePath, Shader* shader);
-	static void addToWatchList(std::string filePath, ILazyLoadable* resource);
+	static void addToWatchList(std::string filePath, LazyLoadable* resource);
 	void checkValidity();
 private:
 	static bool _loading;

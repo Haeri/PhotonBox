@@ -15,7 +15,7 @@ class PathWalkerScript : public Behaviour
 public:
 	int index = 0;
 	float speed = 1;
-	//std::vector<Transform> path;
+	
 	std::vector<Vector3f> positions;
 	std::vector<Quaternion> rotations;
 

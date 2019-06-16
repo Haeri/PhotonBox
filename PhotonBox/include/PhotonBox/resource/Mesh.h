@@ -3,13 +3,13 @@
 
 #include <vector>
 
-#include "PhotonBox/core/ILazyLoadable.h"
+#include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/core/ManagedResource.h"
+#include "PhotonBox/core/LazyLoadable.h"
 #include "PhotonBox/data-type/Vertex.h"
 #include "PhotonBox/data-type/BoundingSphere.h"
-#include "PhotonBox/core/OpenGL.h"
 
-class Mesh : public ManagedResource, public ILazyLoadable
+class Mesh : public ManagedResource, public LazyLoadable
 {
 public:
 	std::vector< Vertex > vertices;

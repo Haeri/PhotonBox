@@ -20,6 +20,7 @@ class DebugGUI;
 class FileWatch;
 class ISystem;
 class Logger;
+class ResourceManager;
 
 #include <string>
 #include <map>
@@ -55,6 +56,7 @@ private:
 	Config*			_config;
 	FileWatch*		_fileWatch;
 	Logger*			_logger;
+	ResourceManager* _resourceLoader;
 
 	std::vector<ISystem*> _systems;
 

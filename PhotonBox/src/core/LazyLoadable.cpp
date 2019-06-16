@@ -1,4 +1,4 @@
-#include "PhotonBox/core/ILazyLoadable.h"
+#include "PhotonBox/core/LazyLoadable.h"
 
 #include <thread>
 #include <iostream>
@@ -10,7 +10,7 @@
 #define new DEBUG_NEW
 #endif
 
-void ILazyLoadable::loadAsync()
+void LazyLoadable::loadAsync()
 {
 	_isLoaded = false;
 	_isInitialized = false;
@@ -18,34 +18,44 @@ void ILazyLoadable::loadAsync()
 	blankInitialize();
 
 	ResourceManager::addToInitializationList(this);
-	std::thread{ &ILazyLoadable::load, this }.detach();
+	std::thread{ &LazyLoadable::load, this }.detach();
 }
 
-void ILazyLoadable::forceLoad()
+void LazyLoadable::forceLoad()
 {
 	blankInitialize();
 	load();
 	initialize();
 }
 
-void ILazyLoadable::setRogue()
+void LazyLoadable::setRogue()
 {
 	_rougue = true;
 }
 
-void ILazyLoadable::initialize()
+void LazyLoadable::initialize()
 {
 	submitBuffer();
 	_isInitialized = true;
 
 }
 
-std::string ILazyLoadable::getFilePath()
+bool LazyLoadable:: isLoaded()
+{
+	return _isLoaded; 
+}
+
+bool LazyLoadable::isInitialized()
+{
+	return _isInitialized; 
+}
+
+std::string LazyLoadable::getFilePath()
 {
 	return _filePath;
 }
 
-void ILazyLoadable::load()
+void LazyLoadable::load()
 {
 	loadFromFile();
 	_isLoaded = true;
