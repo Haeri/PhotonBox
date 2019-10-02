@@ -37,7 +37,7 @@ void SceneManager::loadScene(const std::string & name)
 	_inQueue = true;
 }
 
-void SceneManager::loadSceneImediately(const std::string& name)
+void SceneManager::loadSceneImmediately(const std::string& name)
 {
 	if (_sceneMap[name] == nullptr) return;
 
@@ -51,7 +51,7 @@ void SceneManager::loadSceneImediately(const std::string& name)
 
 void SceneManager::loadQueuedScene()
 {
-	loadSceneImediately(_newScene);
+	loadSceneImmediately(_newScene);
 	_newScene = "";
 }
 

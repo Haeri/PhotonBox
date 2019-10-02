@@ -22,7 +22,7 @@ public:
 	void start() override;
 	void destroy() override;
 
-	void loadSceneImediately(const std::string &name);
+	void loadSceneImmediately(const std::string &name);
 	void loadQueuedScene();
 	bool sceneQueued() { return _inQueue; }
 	void drawSceneList();
