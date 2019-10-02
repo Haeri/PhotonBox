@@ -46,7 +46,7 @@ LightMap* LightProbe::captureRecursive(int step)
 
 	Camera* oldMain = Camera::getMainCamera();
 
-	Entity* e_cam = SceneManager::getCurrentScene()->instanciate("tempCam");
+	Entity* e_cam = SceneManager::getCurrentScene()->instantiate("tempCam");
 	Camera* c_cam = e_cam->addComponent<Camera>();
 	c_cam->setPerspectiveProjection(90.0f, 1.0f, 0.01f, 10.0f);
 	c_cam->setMain();

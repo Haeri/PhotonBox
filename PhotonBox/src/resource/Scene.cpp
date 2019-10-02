@@ -42,7 +42,7 @@ void Scene::unload()
 
 void Scene::OnUnload() {}
 
-Entity* Scene::instanciate(std::string name)
+Entity* Scene::instantiate(std::string name)
 {
 	Entity *entity = new Entity(*this, name);
 	addToList(entity);
