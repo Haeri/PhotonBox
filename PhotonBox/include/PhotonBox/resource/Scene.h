@@ -17,7 +17,7 @@ public:
 	virtual void OnUnload();
 	void unload();
 
-	Entity* instanciate(std::string name);
+	Entity* instantiate(std::string name);
 	template <class T, typename ...Args>
 	T* createResource(Args ...args) 
 	{
