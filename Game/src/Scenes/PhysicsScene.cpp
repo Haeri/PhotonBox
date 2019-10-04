@@ -80,7 +80,7 @@ public:
 
 
 		/* --------------------------- CAMERA --------------------------- */
-		Entity* cam = instanciate("Camera");
+		Entity* cam = instantiate("Camera");
 		cam->addComponent<Camera>();
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 6, -30));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
@@ -89,10 +89,10 @@ public:
 
 
 		/* --------------------------- LIGHTS --------------------------- */
-		Entity* ambient = instanciate("Ambient");
+		Entity* ambient = instantiate("Ambient");
 		ambient->addComponent<AmbientLight>();
 
-		Entity* sun = instanciate("Sun");
+		Entity* sun = instantiate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
@@ -104,7 +104,7 @@ public:
 			float scale = rand() % 100 * 0.04f + 1;
 			//float scale = 1.5f;
 			std::cout << scale << std::endl;
-			Entity* sphere = instanciate("Sphere" + std::to_string(i));
+			Entity* sphere = instantiate("Sphere" + std::to_string(i));
 			sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
 			//sphere->getComponent<Transform>()->setScale(Vector3f(scale, scale, scale));
 			sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
@@ -122,7 +122,7 @@ public:
 			{
 				for (size_t z = 0; z < 4; z++)
 				{
-					Entity* box = instanciate("Box" + std::to_string(i) + std::to_string(j) + std::to_string(z));
+					Entity* box = instantiate("Box" + std::to_string(i) + std::to_string(j) + std::to_string(z));
 					//box->getComponent<Transform>()->setPosition(Vector3f(0, 9, 0));
 					box->getComponent<Transform>()->setPosition(Vector3f(i * 3 + (rand() % 2), 6 + z * 3 + (rand() % 2), j * 3 + (rand() % 2)));
 					box->addComponent<MeshRenderer>()->setMesh(boxMesh);
@@ -135,7 +135,7 @@ public:
 		}
 		*/
 		
-		Entity* quad = instanciate("Plane");
+		Entity* quad = instantiate("Plane");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
 		quad->getComponent<Transform>()->setScale(Vector3f(200, 200, 200));
 		quad->addComponent<MeshRenderer>();

@@ -162,7 +162,7 @@ public:
 
 
 		/* --------------------------- CAMERA --------------------------- */
-		Entity* cam = instanciate("Camera");
+		Entity* cam = instantiate("Camera");
 		cam->addComponent<Camera>();
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 1, -6));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
@@ -171,26 +171,26 @@ public:
 
 
 		/* --------------------------- Entities --------------------------- */
-		Entity* ambient = instanciate("Ambient");
+		Entity* ambient = instantiate("Ambient");
 		ambient->addComponent<AmbientLight>();
 		ambient->getComponent<AmbientLight>()->color = Vector3f(0.17f, 0.17f, 0.17f);
 		ambient->getComponent<AmbientLight>()->intensity = 0.4f;
 
 
-		Entity* sun = instanciate("Sun");
+		Entity* sun = instantiate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
 		sun->getComponent<DirectionalLight>()->intensity = 6.0f;
 
-		Entity* floor = instanciate("floor");
+		Entity* floor = instantiate("floor");
 		floor->getComponent<Transform>()->setScale(Vector3f(10.0f, 10.0f, 10.0f));
 		floor->addComponent<MeshRenderer>()->setMesh(plane);
 		floor->getComponent<MeshRenderer>()->setMaterial(def);
 
-		Entity * shelby = instanciate("Shelby");
+		Entity * shelby = instantiate("Shelby");
 
-		Entity* shelby_chassis_part = instanciate("shelby_chassis_part");
+		Entity* shelby_chassis_part = instantiate("shelby_chassis_part");
 		shelby_chassis_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_chassis_part->addComponent<MeshRenderer>()->setMesh(shelby_chassis);
 		shelby_chassis_part->getComponent<MeshRenderer>()->setMaterial(paint);
@@ -198,35 +198,35 @@ public:
 		shelby_chassis_part->getComponent<Transform>()->setParent(shelby);
 
 
-		Entity* shelby_chrome_part = instanciate("shelby_chrome_part");
+		Entity* shelby_chrome_part = instantiate("shelby_chrome_part");
 		shelby_chrome_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_chrome_part->addComponent<MeshRenderer>()->setMesh(shelby_chrome);
 		shelby_chrome_part->getComponent<MeshRenderer>()->setMaterial(chrome);
 		shelby_chrome_part->getComponent<MeshRenderer>()->getReflected = false;
 		shelby_chrome_part->getComponent<Transform>()->setParent(shelby);
 
-		Entity* shelby_tires_part = instanciate("shelby_tires_part");
+		Entity* shelby_tires_part = instantiate("shelby_tires_part");
 		shelby_tires_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_tires_part->addComponent<MeshRenderer>()->setMesh(shelby_tires);
 		shelby_tires_part->getComponent<MeshRenderer>()->setMaterial(rubber);
 		shelby_tires_part->getComponent<MeshRenderer>()->getReflected = false;
 		shelby_tires_part->getComponent<Transform>()->setParent(shelby);
 
-		Entity* shelby_front_lights_part = instanciate("shelby_front_lights");
+		Entity* shelby_front_lights_part = instantiate("shelby_front_lights");
 		shelby_front_lights_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_front_lights_part->addComponent<MeshRenderer>()->setMesh(shelby_front_lights);
 		shelby_front_lights_part->getComponent<MeshRenderer>()->setMaterial(front_emissive);
 		shelby_front_lights_part->getComponent<MeshRenderer>()->getReflected = false;
 		shelby_front_lights_part->getComponent<Transform>()->setParent(shelby);
 
-		Entity* shelby_seats_part = instanciate("shelby_seats_part");
+		Entity* shelby_seats_part = instantiate("shelby_seats_part");
 		shelby_seats_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_seats_part->addComponent<MeshRenderer>()->setMesh(shelby_seats);
 		shelby_seats_part->getComponent<MeshRenderer>()->setMaterial(leather);
 		shelby_seats_part->getComponent<MeshRenderer>()->getReflected = false;
 		shelby_seats_part->getComponent<Transform>()->setParent(shelby);
 
-		Entity* shelby_glass_part = instanciate("shelby_glass_part");
+		Entity* shelby_glass_part = instantiate("shelby_glass_part");
 		shelby_glass_part->getComponent<Transform>()->setPosition(Vector3f(0, 0, 0));
 		shelby_glass_part->getComponent<Transform>()->setParent(shelby);
 		shelby_glass_part->addComponent<MeshRenderer>()->setRenderType(RenderType::RT_TRANSPARENT);
@@ -235,7 +235,7 @@ public:
 		shelby_glass_part->getComponent<MeshRenderer>()->getReflected = false;
 
 
-		Entity* spot = instanciate("Spot");
+		Entity* spot = instantiate("Spot");
 		spot->getComponent<Transform>()->setPosition(Vector3f(-1.0f, 1.0f, 1.0f));
 		spot->getComponent<Transform>()->setRotation(Vector3f(0.0f, PI / 2.0f, 0.0f));
 		spot->addComponent<SpotLight>();
@@ -248,7 +248,7 @@ public:
 		spot->getComponent<SpotLight>()->intensity = 100.0f;
 		spot->getComponent<Transform>()->setParent(shelby);
 
-		Entity* spot2 = instanciate("Spot2");
+		Entity* spot2 = instantiate("Spot2");
 		spot2->getComponent<Transform>()->setPosition(Vector3f(-1.0f, 1.0f, -1.0f));
 		spot2->getComponent<Transform>()->setRotation(Vector3f(0.0f, PI / 2.0f, 0.0f));
 		spot2->addComponent<SpotLight>();
