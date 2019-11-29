@@ -14,8 +14,8 @@ class Material : public ManagedResource
 {
 public:
 
-	Material() {}
-	Material(Shader* shader) : _shader(shader) {}
+	//Material() {}
+	Material(std::string name, Shader* shader) : _shader(shader) {}
 	~Material();
 
 	template<typename T>

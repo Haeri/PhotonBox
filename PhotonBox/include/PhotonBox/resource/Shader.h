@@ -47,7 +47,6 @@ public:
 	void init();
 	void bind();
 	void destroy();
-	void loadFromFile() override;
 	void submitBuffer() override;
 
 	virtual std::string getFilePath() = 0;
@@ -125,6 +124,7 @@ private:
 	void addTexture(std::string uniform);
 	bool checkUniform(const std::string& name);
 
+	void loadFromFile() override;
 	void blankInitialize() override;
 };
 

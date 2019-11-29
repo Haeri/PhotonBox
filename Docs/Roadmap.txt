@@ -31,6 +31,9 @@ GENERAL
 - Separate texture into texture-data and texture-resource. 
 - Clean up light emitter, pack shadow buffer inside, move shader binding code into light
 - Add Post processor component so the post processing is bond to a camera
+- Remove std::endl
+- Make include guards more unique
+-
 
 OPTIMIZATION
 - Frustum culling

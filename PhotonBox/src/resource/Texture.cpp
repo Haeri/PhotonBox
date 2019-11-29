@@ -14,15 +14,21 @@
 #define new DEBUG_NEW
 #endif
 
-Texture::Texture(std::string filePath, bool generateMipMaps, bool hdr)
+Texture::Texture(Config config)
+	: _config(config)
 {
-	FileWatch::addToWatchList(filePath, this);
+	_isLoaded = true;
+	_isInitialized = false;
+	blankInitialize();
+}
+
+Texture::Texture(Filepath filePath, Config config)
+	: _config(config)
+{
+	FileWatch::addToWatchList(filePath.getAbsolutePath(), this);
 	_filePath = filePath;
 
-	std::cout << "Index Texture: " << filePath << std::endl;
-	
-	_isMipMap = generateMipMaps;
-	_isHDR = hdr;
+	std::cout << "Index Texture: " << filePath.getAbsolutePath() << std::endl;
 
 	loadAsync();
 }
@@ -43,22 +49,42 @@ void Texture::bind(unsigned int textureUnit)
 	glBindTexture(GL_TEXTURE_2D, _texture);
 }
 
+int Texture::getWidth()
+{
+	return _config.width;
+}
+
+int Texture::getHeight()
+{
+	return _config.height;
+}
+
+bool Texture::isHDR()
+{
+	return _config.hdr;
+}
+
+void Texture::setData(unsigned char* data)
+{
+	_data = data;
+}
+
 void Texture::loadFromFile()
 {
 	int numComponents;
-	std::size_t found = _filePath.find_last_of(".");
-	std::string cachePath = _filePath.substr(0, found) + TextureSerializer::EXTENSION;
+
+	std::string cachePath = _filePath.getPath() + _filePath.getName() + TextureSerializer::EXTENSION;
 	struct stat buffer;
 	bool ispbt = false;
 
 	if (stat(cachePath.c_str(), &buffer) == 0 && buffer.st_size > 0) {
-		_data = TextureSerializer::read(cachePath, &_width, &_height, &numComponents);
+		_data = TextureSerializer::read(cachePath, &_config.width, &_config.height, &numComponents);
 		ispbt = true;
 	}
 	else
 	{
-		_data = stbi_load((_filePath).c_str(), &_width, &_height, &numComponents, STBI_rgb_alpha);
-		TextureSerializer::write(_filePath.substr(0, found) + TextureSerializer::EXTENSION, _width, _height, 4, _data);
+		_data = stbi_load((_filePath.getAbsolutePath()).c_str(), &_config.width, &_config.height, &numComponents, STBI_rgb_alpha);
+		TextureSerializer::write(cachePath, _config.width, _config.height, 4, _data);
 	}
 }
 
@@ -78,13 +104,11 @@ void Texture::blankInitialize()
 
 void Texture::submitBuffer()
 {
-	GLint format = _isHDR ? GL_RGB16F : GL_RGBA;
+	GLint format = _config.hdr ? GL_RGB16F : GL_RGBA;
 
-	//glDeleteTextures(1, &_texture);
-	//glGenTextures(1, &_texture);
 	glBindTexture(GL_TEXTURE_2D, _texture);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _data);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, _config.width, _config.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _data);
 	// TODO: Texture compression
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM, _width, _height, 0, GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM, GL_UNSIGNED_BYTE, data);
 	//glCompressedTexImage2D(GL_COMPRESSED_RGBA_S3TC_DXT5_ANGLE)
@@ -92,7 +116,7 @@ void Texture::submitBuffer()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	if (_isMipMap)
+	if (_config.mips)
 	{
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

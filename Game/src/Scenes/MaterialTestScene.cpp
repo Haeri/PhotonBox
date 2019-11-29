@@ -55,53 +55,54 @@ public:
 		Renderer::getSkyBox()->intensity = 1;
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		SSAOProcessor* p_ssao = new SSAOProcessor(10);
-		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(30);
-		TAAProcessor* p_fxaa = new TAAProcessor(40);
-		//DOFProcessor* p_dof = new DOFProcessor(50);
-		BloomProcessor* p_bloom = new BloomProcessor(60);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(70);
-		//p_dof->setEnabled(false);
+		SSAOProcessor* p_ssao					= new SSAOProcessor(10);
+		SSReflectionProcessor* p_ssreflection	= new SSReflectionProcessor(20);
+		AutoExposureProcessor* p_autoExposure	= new AutoExposureProcessor(30);
+		TAAProcessor* p_fxaa					= new TAAProcessor(40);
+		BloomProcessor* p_bloom					= new BloomProcessor(60);
+		ToneMappingProcessor* p_tonemapping		= new ToneMappingProcessor(70);
 		
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		Mesh* sphere = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* plane		= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
+		Mesh* sphere	= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
 
 		/* --------------------------- TEXTURES --------------------------- */
-		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
-		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
-		Texture* transparentAlbedo = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/transparent.png"), true);
+		Texture::Config m_conf;
+		m_conf.mips = true;
 
-		Texture* woodAlbedo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), true);
-		Texture* woodRough = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), true);
-		Texture* woodNormal = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), true);
-		Texture* woodAo = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), true);
-		Texture* woodMetal = createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_metalness.png"), true);
-		
-		Texture* bricksAlbedo = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-albedo.png"), true);
-		Texture* bricksRough = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-roughness.png"), true);
-		Texture* bricksNormal = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-normal.png"), true);
-		Texture* bricksAo = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-ao.png"), true);
-		Texture* bricksMetal = createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-metalness.png"), true);
-		
-		Texture* rustAlbedo = createResource<Texture>(std::string("./res/materials/rust/rustediron2_basecolor.png"), true);
-		Texture* rustRough = createResource<Texture>(std::string("./res/materials/rust/rustediron2_roughness.png"), true);
-		Texture* rustNormal = createResource<Texture>(std::string("./res/materials/rust/rustediron2_normal.png"), true);
-		Texture* rustMetal = createResource<Texture>(std::string("./res/materials/rust/rustediron2_metallic.png"), true);
+		Texture* default_normal		= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"));
+		Texture* default_specular	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"));
+		Texture* default_emission	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"));
+		Texture* default_ao			= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"));
+		Texture* default_roughness	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
+		Texture* transparentAlbedo	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/transparent.png"), m_conf);
 
-		Texture* concrete_a = createResource<Texture>(std::string("./res/materials/concrete/concrete_a.jpg"), true);
-		Texture* concrete_r = createResource<Texture>(std::string("./res/materials/concrete/concrete_r.jpg"), true);
-		Texture* concrete_n = createResource<Texture>(std::string("./res/materials/concrete/concrete_n.jpg"), true);
-		Texture* concrete_ao = createResource<Texture>(std::string("./res/materials/concrete/concrete_ao.jpg"), true);
+		Texture* woodAlbedo			= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), m_conf);
+		Texture* woodRough			= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), m_conf);
+		Texture* woodNormal			= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), m_conf);
+		Texture* woodAo				= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), m_conf);
+		Texture* woodMetal			= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_metalness.png"), m_conf);
 		
-		Texture* goldAlbedo = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), true);
-		Texture* goldRough = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png"), true);
-		Texture* goldNormal = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), true);
-		Texture* goldMetal = createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), true);
+		Texture* bricksAlbedo		= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-albedo.png"), m_conf);
+		Texture* bricksRough		= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-roughness.png"), m_conf);
+		Texture* bricksNormal		= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-normal.png"), m_conf);
+		Texture* bricksAo			= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-ao.png"), m_conf);
+		Texture* bricksMetal		= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-metalness.png"), m_conf);
+		
+		Texture* rustAlbedo			= createResource<Texture>(std::string("./res/materials/rust/rustediron2_basecolor.png"), m_conf);
+		Texture* rustRough			= createResource<Texture>(std::string("./res/materials/rust/rustediron2_roughness.png"), m_conf);
+		Texture* rustNormal			= createResource<Texture>(std::string("./res/materials/rust/rustediron2_normal.png"), m_conf);
+		Texture* rustMetal			= createResource<Texture>(std::string("./res/materials/rust/rustediron2_metallic.png"), m_conf);
+
+		Texture* concrete_a			= createResource<Texture>(std::string("./res/materials/concrete/concrete_a.jpg"), m_conf);
+		Texture* concrete_r			= createResource<Texture>(std::string("./res/materials/concrete/concrete_r.jpg"), m_conf);
+		Texture* concrete_n			= createResource<Texture>(std::string("./res/materials/concrete/concrete_n.jpg"), m_conf);
+		Texture* concrete_ao		= createResource<Texture>(std::string("./res/materials/concrete/concrete_ao.jpg"), m_conf);
+		
+		Texture* goldAlbedo			= createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), m_conf);
+		Texture* goldRough			= createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png"), m_conf);
+		Texture* goldNormal			= createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), m_conf);
+		Texture* goldMetal			= createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), m_conf);
 		 
 
 		/* --------------------------- SHADERS --------------------------- */
