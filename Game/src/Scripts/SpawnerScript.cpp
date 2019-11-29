@@ -37,7 +37,7 @@ public:
 		Texture* default_emission = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
 		Texture* default_ao = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
 
-		_mat = scene->createResource<Material>(GShader::getInstance());
+		_mat = scene->createResource<Material>("defaultMaterial", GShader::getInstance());
 		_mat->setImageBuffer("albedoMap", orig);
 		_mat->setImageBuffer("normalMap", default_normal);
 		_mat->setImageBuffer("roughnessMap", default_specular);

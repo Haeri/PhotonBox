@@ -252,6 +252,8 @@ void Shader::submitBuffer()
 
 void Shader::bind()
 {
+	if (!_isInitialized) return;
+
 	glUseProgram(_program);
 }
 
@@ -279,6 +281,8 @@ void Shader::addTexture(std::string uniform)
 
 void Shader::enableAttributes()
 {
+	if (!_isInitialized) return;
+
 	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
 	{
 		glEnableVertexAttribArray(it->second);
@@ -287,6 +291,8 @@ void Shader::enableAttributes()
 
 void Shader::disableAttributes()
 {
+	if (!_isInitialized) return;
+
 	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
 	{
 		glDisableVertexAttribArray(it->second);
@@ -295,6 +301,8 @@ void Shader::disableAttributes()
 
 void Shader::updateTextures()
 {
+	if (!_isInitialized) return;
+
 	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it)
 	{
 		glUniform1i(it->second.uniformLocation, it->second.unit);

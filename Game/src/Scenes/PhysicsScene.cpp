@@ -43,30 +43,29 @@ public:
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		SSAOProcessor * p_ssao = new SSAOProcessor(0);
-		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
-		BloomProcessor* p_bloom = new BloomProcessor(3);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
+		SSAOProcessor * p_ssao					= new SSAOProcessor(0);
+		SSReflectionProcessor* p_ssreflection	= new SSReflectionProcessor(1);
+		AutoExposureProcessor* p_autoExposure	= new AutoExposureProcessor(2);
+		BloomProcessor* p_bloom					= new BloomProcessor(3);
+		ToneMappingProcessor* p_tonemapping		= new ToneMappingProcessor(4);
 
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* planeMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		Mesh* sphereMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		Mesh* boxMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
+		Mesh* planeMesh		= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
+		Mesh* sphereMesh	= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* boxMesh		= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
-		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
-		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
+		Texture* default_normal		= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"));
+		Texture* default_specular	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"));
+		Texture* default_emission	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"));
+		Texture* default_ao			= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"));
+		Texture* default_roughness	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
+		Texture* gradient			= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"));
 
 		/* --------------------------- SHADERS --------------------------- */
 		GShader* defaultShader = GShader::getInstance();
-
 
 
 		/* --------------------------- MATERIALS --------------------------- */

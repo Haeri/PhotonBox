@@ -10,8 +10,6 @@ class LazyLoadable;
 
 #include <sys/types.h>
 #include <sys/stat.h>
-//#define stat _stat
-
 
 class FileWatch
 {

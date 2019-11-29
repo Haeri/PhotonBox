@@ -30,7 +30,7 @@ void LazyLoadable::forceLoad()
 
 void LazyLoadable::setRogue()
 {
-	_rougue = true;
+	_rogue = true;
 }
 
 void LazyLoadable::initialize()
@@ -52,7 +52,7 @@ bool LazyLoadable::isInitialized()
 
 std::string LazyLoadable::getFilePath()
 {
-	return _filePath;
+	return _filePath.getAbsolutePath();
 }
 
 void LazyLoadable::load()
@@ -60,7 +60,7 @@ void LazyLoadable::load()
 	loadFromFile();
 	_isLoaded = true;
 
-	if (_rougue) {
+	if (_rogue) {
 		delete this;
 	}
 }

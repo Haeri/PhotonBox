@@ -8,14 +8,15 @@
 #define new DEBUG_NEW
 #endif
 
-Mesh::Mesh(const std::string& filePath, bool forceInit)
+Mesh::Mesh(Filepath filePath, Config config)
+	: _config(config)
 {
-	FileWatch::addToWatchList(filePath, this);
+	FileWatch::addToWatchList(filePath.getAbsolutePath(), this);
 	_filePath = filePath;
 
-	if (!forceInit)
+	if (!config.forceInit)
 	{
-		std::cout << "Index Mesh: " << filePath << std::endl;
+		std::cout << "Index Mesh: " << filePath.getAbsolutePath() << std::endl;
 		loadAsync();
 	}
 	else
@@ -36,7 +37,7 @@ GLuint Mesh::getEBO()
 
 void Mesh::loadFromFile() 
 { 
-	OBJLoader::loadObj(_filePath, this);
+	OBJLoader::loadObj(_filePath.getAbsolutePath(), this);
 }
 
 void Mesh::blankInitialize()

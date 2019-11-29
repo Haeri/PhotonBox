@@ -51,55 +51,57 @@ public:
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		SSAOProcessor* p_ssao = new SSAOProcessor(10);
-		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(20);
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(30);
-		TAAProcessor* p_fxaa = new TAAProcessor(40);
-		//DOFProcessor* p_dof = new DOFProcessor(50);
-		BloomProcessor* p_bloom = new BloomProcessor(60);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(70);
-		//p_dof->setEnabled(false);
+		SSAOProcessor* p_ssao					= new SSAOProcessor(10);
+		SSReflectionProcessor* p_ssreflection	= new SSReflectionProcessor(20);
+		AutoExposureProcessor* p_autoExposure	= new AutoExposureProcessor(30);
+		TAAProcessor* p_fxaa					= new TAAProcessor(40);
+		BloomProcessor* p_bloom					= new BloomProcessor(60);
+		ToneMappingProcessor* p_tonemapping		= new ToneMappingProcessor(70);
 
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* plane = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane_big.obj");
-		Mesh* shelby_chassis = createResource<Mesh>("./res/meshes/shelby/shelby_chassis.obj");
-		Mesh* shelby_chrome = createResource<Mesh>("./res/meshes/shelby/shelby_chrome.obj");
-		Mesh* shelby_tires = createResource<Mesh>("./res/meshes/shelby/shelby_tires.obj");
-		Mesh* shelby_glass = createResource<Mesh>("./res/meshes/shelby/shelby_glass.obj");
-		Mesh* shelby_front_lights = createResource<Mesh>("./res/meshes/shelby/shelby_front_lights.obj");
-		Mesh* shelby_seats = createResource<Mesh>("./res/meshes/shelby/shelby_seats.obj");
+		Mesh* plane					= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane_big.obj");
+		Mesh* shelby_chassis		= createResource<Mesh>("./res/meshes/shelby/shelby_chassis.obj");
+		Mesh* shelby_chrome			= createResource<Mesh>("./res/meshes/shelby/shelby_chrome.obj");
+		Mesh* shelby_tires			= createResource<Mesh>("./res/meshes/shelby/shelby_tires.obj");
+		Mesh* shelby_glass			= createResource<Mesh>("./res/meshes/shelby/shelby_glass.obj");
+		Mesh* shelby_front_lights	= createResource<Mesh>("./res/meshes/shelby/shelby_front_lights.obj");
+		Mesh* shelby_seats			= createResource<Mesh>("./res/meshes/shelby/shelby_seats.obj");
+
 
 		/* --------------------------- TEXTURES --------------------------- */
-		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
-		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
-		Texture* transparentAlbedo = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/transparent.png"), true);
+		Texture::Config m_conf;
+		m_conf.mips = true;
 
-		Texture* aluminium_a = createResource<Texture>(std::string("./res/materials/aluminium/albedo.png"), true);
-		Texture* aluminium_r = createResource<Texture>(std::string("./res/materials/aluminium/roughness.png"), true);
-		Texture* aluminium_n = createResource<Texture>(std::string("./res/materials/aluminium/normal.png"), true);
-		Texture* aluminium_m = createResource<Texture>(std::string("./res/materials/aluminium/metallic.png"), true);
+		Texture* default_normal		= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"));
+		Texture* default_specular	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"));
+		Texture* default_emission	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"));
+		Texture* default_ao			= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"));
+		Texture* default_roughness	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
+		Texture* transparentAlbedo	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/transparent.png"), m_conf);
 
-		Texture* leather_a = createResource<Texture>(std::string("./res/materials/leather/leather_a.png"), true);
-		Texture* leather_r = createResource<Texture>(std::string("./res/materials/leather/leather_r.png"), true);
-		Texture* leather_n = createResource<Texture>(std::string("./res/materials/leather/leather_n.png"), true);
-		Texture* leather_ao = createResource<Texture>(std::string("./res/materials/leather/leather_ao.png"), true);
+		Texture* aluminium_a		= createResource<Texture>(std::string("./res/materials/aluminium/albedo.png"), m_conf);
+		Texture* aluminium_r		= createResource<Texture>(std::string("./res/materials/aluminium/roughness.png"), m_conf);
+		Texture* aluminium_n		= createResource<Texture>(std::string("./res/materials/aluminium/normal.png"), m_conf);
+		Texture* aluminium_m		= createResource<Texture>(std::string("./res/materials/aluminium/metallic.png"), m_conf);
 
-		Texture* tire_text = createResource<Texture>(std::string("./res/meshes/shelby/tire.png"), true);
-		
-		
-		Texture* red = createResource<Texture>(std::string("./res/meshes/shelby/red.png"));
+		Texture* leather_a			= createResource<Texture>(std::string("./res/materials/leather/leather_a.png"), m_conf);
+		Texture* leather_r			= createResource<Texture>(std::string("./res/materials/leather/leather_r.png"), m_conf);
+		Texture* leather_n			= createResource<Texture>(std::string("./res/materials/leather/leather_n.png"), m_conf);
+		Texture* leather_ao			= createResource<Texture>(std::string("./res/materials/leather/leather_ao.png"), m_conf);
 
-		Texture* light_grid = createResource<Texture>(std::string("./res/meshes/shelby/lights.png"), true);
-		Texture* light_grid_r = createResource<Texture>(std::string("./res/meshes/shelby/lights_r.jpg"), true);
+		Texture* tire_text			= createResource<Texture>(std::string("./res/meshes/shelby/tire.png"), m_conf);
+	
+		Texture* red				= createResource<Texture>(std::string("./res/meshes/shelby/red.png"));
+
+		Texture* light_grid			= createResource<Texture>(std::string("./res/meshes/shelby/lights.png"), m_conf);
+		Texture* light_grid_r		= createResource<Texture>(std::string("./res/meshes/shelby/lights_r.jpg"), m_conf);
 
 
 		/* --------------------------- SHADERS --------------------------- */
-		GShader* defaultShader = GShader::getInstance();
-		TransparentShader* transparentShader = TransparentShader::getInstance();
+		GShader* defaultShader					= GShader::getInstance();
+		TransparentShader* transparentShader	= TransparentShader::getInstance();
+		
 
 		/* --------------------------- MATERIALS --------------------------- */
 

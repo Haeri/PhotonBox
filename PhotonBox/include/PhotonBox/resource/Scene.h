@@ -4,11 +4,13 @@
 class ManagedResource;
 
 #include <vector>
+#include <map>
 
 #include "PhotonBox/core/Entity.h"
 #include "PhotonBox/resource/CubeMap.h"
 #include "PhotonBox/resource/Mesh.h"
 #include "PhotonBox/resource/Texture.h"
+#include "PhotonBox/resource/Filepath.h"
 
 class Scene
 {
@@ -18,13 +20,41 @@ public:
 	void unload();
 
 	Entity* instantiate(std::string name);
-	template <class T, typename ...Args>
-	T* createResource(Args ...args) 
+
+	template <class T, typename C>
+	T* createResource(std::string name, C config) 
 	{
-		T *res = new T(args...);
-		_resourceList.push_back(res);
+		T *res = new T(name, config);
+		_resourceMap[name] = res;
+
 		return res;
 	}
+	template <class T>
+	T* createResource(std::string name)
+	{
+		T* res = new T(name);
+		_resourceMap[name] = res;
+
+		return res;
+	}
+
+	template <class T, typename C>
+	T* createResource(Filepath path, C config)
+	{
+		T* res = new T(path, config);
+		_resourceMap[path.getAbsolutePath()] = res;
+
+		return res;
+	}
+	template <class T>
+	T* createResource(Filepath path)
+	{
+		T* res = new T(path);
+		_resourceMap[path.getAbsolutePath()] = res;
+
+		return res;
+	}
+
 	void destroy(Entity* go);
 	void printEntitys();
 	std::string getEntitys();
@@ -33,7 +63,8 @@ public:
 	std::vector<Entity*>& getEntities() { return _entityList; }
 private:
 	std::vector<Entity*> _entityList;
-	std::vector<ManagedResource*> _resourceList;
+	//std::vector<ManagedResource*> _resourceList;
+	std::map<std::string, ManagedResource*> _resourceMap;
 
 	void addToList(Entity* go);
 };
