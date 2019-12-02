@@ -23,9 +23,9 @@ void Scene::unload()
 	}
 	_entityList.clear();
 
-	for (std::vector<ManagedResource*>::iterator it = _resourceList.begin(); it != _resourceList.end(); ++it)
+	for (std::map<std::string, ManagedResource*>::iterator it = _resourceMap.begin(); it != _resourceMap.end(); ++it)
 	{
-		LazyLoadable* f = dynamic_cast<LazyLoadable*>(*it);
+		LazyLoadable* f = dynamic_cast<LazyLoadable*>(it->second);
 		if (f != nullptr) {
 			if (!f->isLoaded()) 
 			{
@@ -34,10 +34,10 @@ void Scene::unload()
 		}
 		else 
 		{
-			delete (*it);
+			delete (it->second);
 		}
 	}
-	_resourceList.clear();
+	_resourceMap.clear();
 }
 
 void Scene::OnUnload() {}
