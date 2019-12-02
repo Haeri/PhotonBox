@@ -61,7 +61,7 @@ public:
 	void disableAttributes();
 	void updateTextures();
 
-	std::string& getName() { return _fileName; }
+	//std::string& getName() { return _fileName; }
 
 	void setUniform(const std::string& uniformName, int value)
 	{
@@ -106,7 +106,7 @@ public:
 protected:
 
 	const static unsigned int NUM_SHADERS = 2;
-	std::string _fileName;
+	//std::string _fileName;
 	GLuint _program = -1;
 	GLuint _shaders[NUM_SHADERS];
 	GLenum _textureUnit = 0;

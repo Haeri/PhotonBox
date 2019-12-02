@@ -24,7 +24,7 @@ public:
 	template <class T, typename C>
 	T* createResource(std::string name, C config) 
 	{
-		T *res = new T(name, config);
+		T *res = new T(config);
 		_resourceMap[name] = res;
 
 		return res;
@@ -32,7 +32,7 @@ public:
 	template <class T>
 	T* createResource(std::string name)
 	{
-		T* res = new T(name);
+		T* res = new T();
 		_resourceMap[name] = res;
 
 		return res;

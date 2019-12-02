@@ -8,6 +8,14 @@
 #define new DEBUG_NEW
 #endif
 
+Mesh::Mesh(Config config)
+	: _config(config)
+{
+	_isLoaded = true;
+	_isInitialized = false;
+	blankInitialize();
+}
+
 Mesh::Mesh(Filepath filePath, Config config)
 	: _config(config)
 {

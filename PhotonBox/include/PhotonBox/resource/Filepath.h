@@ -6,6 +6,7 @@
 class Filepath
 {
 public:
+	Filepath() {}
 	Filepath(const std::string& filePath);
 	
 	std::string getAbsolutePath();

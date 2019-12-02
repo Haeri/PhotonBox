@@ -144,11 +144,11 @@ void Shader::init()
 
 	std::cerr << "Index Shader: " << getFilePath() << std::endl;
 
-	std::vector<std::string> path;
-	_filePath = getFilePath();
-	Util::split(_filePath, "/", path);
+	//std::vector<std::string> path;
+	//_filePath = getFilePath();
+	//Util::split(_filePath, "/", path);
 
-	_fileName = path.back();	
+	//_fileName = path.back();	
 
 	loadAsync();
 }
@@ -197,10 +197,10 @@ void Shader::submitBuffer()
 	addAttributes();
 
 	glLinkProgram(_program);
-	checkShaderError(_program, GL_LINK_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Faild linking program!");
+	checkShaderError(_program, GL_LINK_STATUS, true, "\nSHADER-ERROR in '" + _filePath.getName() + "': Faild linking program!");
 
 	glValidateProgram(_program);
-	checkShaderError(_program, GL_VALIDATE_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Shader Program invalid!");
+	checkShaderError(_program, GL_VALIDATE_STATUS, true, "\nSHADER-ERROR in '" + _filePath.getName() + "': Shader Program invalid!");
 
 	GLint numUniforms;
 	glGetProgramiv(_program, GL_ACTIVE_UNIFORMS, &numUniforms);
@@ -401,7 +401,7 @@ bool Shader::checkUniform(const std::string & name)
 	}
 	else
 	{
-		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
+		std::cout << "Uniform " << name << " does not exist in shader " << _filePath.getName() << std::endl;
 		return false;
 	}
 #else
