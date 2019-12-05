@@ -29,13 +29,13 @@ public:
 	{
 		Scene* scene = SceneManager::getCurrentScene();
 
-		_mesh = scene->createResource<Mesh>("./res/meshes/fireplace_room.obj");
+		_mesh = scene->createResource<Mesh>(Filepath("./res/meshes/fireplace_room.obj"));
 
-		Texture* orig = scene->createResource<Texture>(std::string("./res/textures/view.png"), false);
-		Texture* default_normal = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		Texture* default_specular = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		Texture* default_emission = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		Texture* default_ao = scene->createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
+		Texture* orig =				scene->createResource<Texture>(Filepath("./res/textures/view.png"));
+		Texture* default_normal =	scene->createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_normal.png"));
+		Texture* default_specular = scene->createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_specular.png"));
+		Texture* default_emission = scene->createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_emission.png"));
+		Texture* default_ao =		scene->createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_ao.png"));
 
 		_mat = scene->createResource<Material>("defaultMaterial", GShader::getInstance());
 		_mat->setImageBuffer("albedoMap", orig);
@@ -63,8 +63,8 @@ public:
 			"./res/enviroment/Forrest/lod0_front.jpg",
 		};
 
-		_night_c = scene->createResource<CubeMap>(_nightSky);
-		_studio_c = scene->createResource<CubeMap>(_forrest);
+		_night_c = scene->createResource<CubeMap>("night_cubemap", _nightSky);
+		_studio_c = scene->createResource<CubeMap>("studio_cubemap", _forrest);
 	}
 
 	void Update()

@@ -38,7 +38,7 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_roughness.png",
 		};
 
-		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
+		Renderer::setSkyBox(createResource<CubeMap>("night_cubemap", nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
 
@@ -51,25 +51,25 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* planeMesh		= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		Mesh* sphereMesh	= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		Mesh* boxMesh		= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
+		Mesh* planeMesh		= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/plane.obj"));
+		Mesh* sphereMesh	= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj"));
+		Mesh* boxMesh		= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/cube.obj"));
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		Texture* default_normal		= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"));
-		Texture* default_specular	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"));
-		Texture* default_emission	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"));
-		Texture* default_ao			= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"));
-		Texture* default_roughness	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
-		Texture* gradient			= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"));
+		Texture* default_normal		= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_normal.png"));
+		Texture* default_specular	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_specular.png"));
+		Texture* default_emission	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_emission.png"));
+		Texture* default_ao			= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_ao.png"));
+		Texture* default_roughness	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
+		Texture* gradient			= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/gradient.png"));
 
 		/* --------------------------- SHADERS --------------------------- */
 		GShader* defaultShader = GShader::getInstance();
 
 
 		/* --------------------------- MATERIALS --------------------------- */
-		Material* def = createResource<Material>(defaultShader);
+		Material* def = createResource<Material>("def_material", defaultShader);
 		def->setImageBuffer("albedoMap", default_ao);
 		def->setImageBuffer("normalMap", default_normal);
 		def->setImageBuffer("roughnessMap", default_specular);

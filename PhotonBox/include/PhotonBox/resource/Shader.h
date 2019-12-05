@@ -43,6 +43,7 @@ public:
 	std::map<std::string, GLint> uniforms;
 	std::map<std::string, GLint> attributes;
 	std::map<std::string, TexUniforUnit> textures;
+	void(*updateFunction)(void*);
 
 	void init();
 	void bind();

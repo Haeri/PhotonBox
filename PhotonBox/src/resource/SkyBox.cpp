@@ -25,7 +25,7 @@ SkyBox::~SkyBox()
 void SkyBox::init()
 {
 	_skyBoxShader = SkyBoxShader::getInstance();
-	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj", true);
+	_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj"), Mesh::Config{ true });
 }
 
 void SkyBox::setCubeMap(CubeMap* cubeMap)

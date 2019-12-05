@@ -21,10 +21,10 @@ public:
 
 	Entity* instantiate(std::string name);
 
-	template <class T, typename C>
-	T* createResource(std::string name, C config) 
+	template <class T, typename D>
+	T* createResource(std::string name, D data) 
 	{
-		T *res = new T(config);
+		T *res = new T(data);
 		_resourceMap[name] = res;
 
 		return res;
