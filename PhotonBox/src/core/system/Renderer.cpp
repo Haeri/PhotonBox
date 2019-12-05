@@ -170,7 +170,7 @@ void Renderer::init(Config::Profile profile)
 	_shadowBuffer->addDepthTextureAttachment("depth");
 	_shadowBuffer->ready();
 	
-	_deferredMaterial = new Material("_deferredMaterial", _deferredShader);
+	_deferredMaterial = new Material(_deferredShader);
 	_deferredMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
 	_deferredMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal"));
 	_deferredMaterial->setImageBuffer("gRoughness", _gBuffer->getAttachment("gRoughness"));
@@ -181,7 +181,7 @@ void Renderer::init(Config::Profile profile)
 	_deferredMaterial->setImageBuffer("gEmission", _gBuffer->getAttachment("gEmission"));
 	_deferredMaterial->setImageBuffer("noise", _noise);
 
-	_volumetricFogMaterial = new Material("_volumetricFogMaterial", _volumetricFogShader);
+	_volumetricFogMaterial = new Material(_volumetricFogShader);
 	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
 	_volumetricFogMaterial->setImageBuffer("noise", _noise);
 

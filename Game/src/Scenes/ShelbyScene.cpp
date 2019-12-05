@@ -46,7 +46,7 @@ public:
 			"./res/enviroment/studio/face-f.jpg",
 		};
 
-		Renderer::setSkyBox(createResource<CubeMap>(studio));
+		Renderer::setSkyBox(createResource<CubeMap>("studio_cubemap", studio));
 		Renderer::getSkyBox()->intensity = 1;
 		
 
@@ -60,42 +60,42 @@ public:
 
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* plane					= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane_big.obj");
-		Mesh* shelby_chassis		= createResource<Mesh>("./res/meshes/shelby/shelby_chassis.obj");
-		Mesh* shelby_chrome			= createResource<Mesh>("./res/meshes/shelby/shelby_chrome.obj");
-		Mesh* shelby_tires			= createResource<Mesh>("./res/meshes/shelby/shelby_tires.obj");
-		Mesh* shelby_glass			= createResource<Mesh>("./res/meshes/shelby/shelby_glass.obj");
-		Mesh* shelby_front_lights	= createResource<Mesh>("./res/meshes/shelby/shelby_front_lights.obj");
-		Mesh* shelby_seats			= createResource<Mesh>("./res/meshes/shelby/shelby_seats.obj");
+		Mesh* plane					= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/plane_big.obj"));
+		Mesh* shelby_chassis		= createResource<Mesh>(Filepath("./res/meshes/shelby/shelby_chassis.obj"));
+		Mesh* shelby_chrome			= createResource<Mesh>(Filepath("./res/meshes/shelby/shelby_chrome.obj"));
+		Mesh* shelby_tires			= createResource<Mesh>(Filepath("./res/meshes/shelby/shelby_tires.obj"));
+		Mesh* shelby_glass			= createResource<Mesh>(Filepath("./res/meshes/shelby/shelby_glass.obj"));
+		Mesh* shelby_front_lights	= createResource<Mesh>(Filepath("./res/meshes/shelby/shelby_front_lights.obj"));
+		Mesh* shelby_seats			= createResource<Mesh>(Filepath("./res/meshes/shelby/shelby_seats.obj"));
 
 
 		/* --------------------------- TEXTURES --------------------------- */
 		Texture::Config m_conf;
 		m_conf.mips = true;
 
-		Texture* default_normal		= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"));
-		Texture* default_specular	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"));
-		Texture* default_emission	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"));
-		Texture* default_ao			= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"));
-		Texture* default_roughness	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
-		Texture* transparentAlbedo	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/transparent.png"), m_conf);
+		Texture* default_normal		= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_normal.png"));
+		Texture* default_specular	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_specular.png"));
+		Texture* default_emission	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_emission.png"));
+		Texture* default_ao			= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_ao.png"));
+		Texture* default_roughness	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
+		Texture* transparentAlbedo	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/transparent.png"), m_conf);
 
-		Texture* aluminium_a		= createResource<Texture>(std::string("./res/materials/aluminium/albedo.png"), m_conf);
-		Texture* aluminium_r		= createResource<Texture>(std::string("./res/materials/aluminium/roughness.png"), m_conf);
-		Texture* aluminium_n		= createResource<Texture>(std::string("./res/materials/aluminium/normal.png"), m_conf);
-		Texture* aluminium_m		= createResource<Texture>(std::string("./res/materials/aluminium/metallic.png"), m_conf);
+		Texture* aluminium_a		= createResource<Texture>(Filepath("./res/materials/aluminium/albedo.png"), m_conf);
+		Texture* aluminium_r		= createResource<Texture>(Filepath("./res/materials/aluminium/roughness.png"), m_conf);
+		Texture* aluminium_n		= createResource<Texture>(Filepath("./res/materials/aluminium/normal.png"), m_conf);
+		Texture* aluminium_m		= createResource<Texture>(Filepath("./res/materials/aluminium/metallic.png"), m_conf);
 
-		Texture* leather_a			= createResource<Texture>(std::string("./res/materials/leather/leather_a.png"), m_conf);
-		Texture* leather_r			= createResource<Texture>(std::string("./res/materials/leather/leather_r.png"), m_conf);
-		Texture* leather_n			= createResource<Texture>(std::string("./res/materials/leather/leather_n.png"), m_conf);
-		Texture* leather_ao			= createResource<Texture>(std::string("./res/materials/leather/leather_ao.png"), m_conf);
+		Texture* leather_a			= createResource<Texture>(Filepath("./res/materials/leather/leather_a.png"), m_conf);
+		Texture* leather_r			= createResource<Texture>(Filepath("./res/materials/leather/leather_r.png"), m_conf);
+		Texture* leather_n			= createResource<Texture>(Filepath("./res/materials/leather/leather_n.png"), m_conf);
+		Texture* leather_ao			= createResource<Texture>(Filepath("./res/materials/leather/leather_ao.png"), m_conf);
 
-		Texture* tire_text			= createResource<Texture>(std::string("./res/meshes/shelby/tire.png"), m_conf);
+		Texture* tire_text			= createResource<Texture>(Filepath("./res/meshes/shelby/tire.png"), m_conf);
 	
-		Texture* red				= createResource<Texture>(std::string("./res/meshes/shelby/red.png"));
+		Texture* red				= createResource<Texture>(Filepath("./res/meshes/shelby/red.png"));
 
-		Texture* light_grid			= createResource<Texture>(std::string("./res/meshes/shelby/lights.png"), m_conf);
-		Texture* light_grid_r		= createResource<Texture>(std::string("./res/meshes/shelby/lights_r.jpg"), m_conf);
+		Texture* light_grid			= createResource<Texture>(Filepath("./res/meshes/shelby/lights.png"), m_conf);
+		Texture* light_grid_r		= createResource<Texture>(Filepath("./res/meshes/shelby/lights_r.jpg"), m_conf);
 
 
 		/* --------------------------- SHADERS --------------------------- */
@@ -105,7 +105,7 @@ public:
 
 		/* --------------------------- MATERIALS --------------------------- */
 
-		Material* chrome = createResource<Material>(defaultShader);
+		Material* chrome = createResource<Material>("chrome_material", defaultShader);
 		chrome->setImageBuffer("albedoMap", aluminium_a);
 		chrome->setImageBuffer("normalMap", aluminium_n);
 		chrome->setImageBuffer("roughnessMap", aluminium_r);
@@ -113,7 +113,7 @@ public:
 		chrome->setImageBuffer("metallicMap", aluminium_m);
 		chrome->setImageBuffer("emissionMap", default_emission);
 
-		Material* paint = createResource<Material>(defaultShader);
+		Material* paint = createResource<Material>("paint_material", defaultShader);
 		paint->setImageBuffer("albedoMap", red);
 		paint->setImageBuffer("normalMap", default_normal);
 		paint->setImageBuffer("roughnessMap", default_emission);
@@ -121,7 +121,7 @@ public:
 		paint->setImageBuffer("metallicMap", default_emission);
 		paint->setImageBuffer("emissionMap", default_emission);
 
-		Material* rubber = createResource<Material>(defaultShader);
+		Material* rubber = createResource<Material>("rubber_material", defaultShader);
 		rubber->setImageBuffer("albedoMap", tire_text);
 		rubber->setImageBuffer("normalMap", default_normal);
 		rubber->setImageBuffer("roughnessMap", default_ao);
@@ -129,7 +129,7 @@ public:
 		rubber->setImageBuffer("metallicMap", default_emission);
 		rubber->setImageBuffer("emissionMap", default_emission);
 
-		Material* leather = createResource<Material>(defaultShader);
+		Material* leather = createResource<Material>("lether_material", defaultShader);
 		leather->setImageBuffer("albedoMap", leather_a);
 		leather->setImageBuffer("normalMap", leather_n);
 		leather->setImageBuffer("roughnessMap", leather_r);
@@ -137,7 +137,7 @@ public:
 		leather->setImageBuffer("metallicMap", default_emission);
 		leather->setImageBuffer("emissionMap", default_emission);
 
-		Material* front_emissive = createResource<Material>(defaultShader);
+		Material* front_emissive = createResource<Material>("front_material", defaultShader);
 		front_emissive->setImageBuffer("albedoMap", light_grid);
 		front_emissive->setImageBuffer("normalMap", default_normal);
 		front_emissive->setImageBuffer("roughnessMap", light_grid_r);
@@ -146,7 +146,7 @@ public:
 		front_emissive->setImageBuffer("emissionMap", light_grid);
 		front_emissive->setProperty("emissionIntensity", 15.0f);
 
-		Material* glassMaterial = createResource<Material>(transparentShader);
+		Material* glassMaterial = createResource<Material>("glass_material", transparentShader);
 		glassMaterial->setImageBuffer("albedoMap", transparentAlbedo);
 		glassMaterial->setImageBuffer("normalMap", default_normal);
 		glassMaterial->setImageBuffer("roughnessMap", default_roughness);
@@ -154,7 +154,7 @@ public:
 		glassMaterial->setImageBuffer("metallicMap", default_emission);
 		glassMaterial->setImageBuffer("emissionMap", default_emission);
 
-		Material* def = createResource<Material>(defaultShader);
+		Material* def = createResource<Material>("def_material", defaultShader);
 		def->setImageBuffer("albedoMap", default_roughness);
 		def->setImageBuffer("normalMap", default_normal);
 		def->setImageBuffer("roughnessMap", default_roughness);

@@ -73,7 +73,7 @@ void CubeMap::generateIrradiance(GLuint map)
 	};
 
 	if (_mesh == nullptr)
-		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj", true);
+		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj"), Mesh::Config{ true });
 
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);
@@ -135,7 +135,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 	};
 
 	if(_mesh == nullptr)
-		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj", true);
+		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj"), Mesh::Config{true});
 
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);

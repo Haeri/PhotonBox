@@ -51,7 +51,7 @@ public:
 			"./res/enviroment/Forrest/lod0_front.jpg",
 		};
 
-		Renderer::setSkyBox(createResource<CubeMap>(forrest));
+		Renderer::setSkyBox(createResource<CubeMap>("forrest_cubemap", forrest));
 		Renderer::getSkyBox()->intensity = 1;
 
 		/* --------------------------- POST PROCESSING --------------------------- */
@@ -63,46 +63,46 @@ public:
 		ToneMappingProcessor* p_tonemapping		= new ToneMappingProcessor(70);
 		
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* plane		= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		Mesh* sphere	= createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
+		Mesh* plane		= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/plane.obj"));
+		Mesh* sphere	= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj"));
 
 		/* --------------------------- TEXTURES --------------------------- */
 		Texture::Config m_conf;
 		m_conf.mips = true;
 
-		Texture* default_normal		= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"));
-		Texture* default_specular	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"));
-		Texture* default_emission	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"));
-		Texture* default_ao			= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"));
-		Texture* default_roughness	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
-		Texture* transparentAlbedo	= createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/transparent.png"), m_conf);
+		Texture* default_normal		= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_normal.png"));
+		Texture* default_specular	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_specular.png"));
+		Texture* default_emission	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_emission.png"));
+		Texture* default_ao			= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_ao.png"));
+		Texture* default_roughness	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
+		Texture* transparentAlbedo	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/transparent.png"), m_conf);
 
-		Texture* woodAlbedo			= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_basecolor.png"), m_conf);
-		Texture* woodRough			= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_roughness.png"), m_conf);
-		Texture* woodNormal			= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_normal.png"), m_conf);
-		Texture* woodAo				= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_AO.png"), m_conf);
-		Texture* woodMetal			= createResource<Texture>(std::string("./res/materials/mahogfloor/mahogfloor_metalness.png"), m_conf);
+		Texture* woodAlbedo			= createResource<Texture>(Filepath("./res/materials/mahogfloor/mahogfloor_basecolor.png"), m_conf);
+		Texture* woodRough			= createResource<Texture>(Filepath("./res/materials/mahogfloor/mahogfloor_roughness.png"), m_conf);
+		Texture* woodNormal			= createResource<Texture>(Filepath("./res/materials/mahogfloor/mahogfloor_normal.png"), m_conf);
+		Texture* woodAo				= createResource<Texture>(Filepath("./res/materials/mahogfloor/mahogfloor_AO.png"), m_conf);
+		Texture* woodMetal			= createResource<Texture>(Filepath("./res/materials/mahogfloor/mahogfloor_metalness.png"), m_conf);
 		
-		Texture* bricksAlbedo		= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-albedo.png"), m_conf);
-		Texture* bricksRough		= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-roughness.png"), m_conf);
-		Texture* bricksNormal		= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-normal.png"), m_conf);
-		Texture* bricksAo			= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-ao.png"), m_conf);
-		Texture* bricksMetal		= createResource<Texture>(std::string("./res/materials/harshbricks/harshbricks-metalness.png"), m_conf);
+		Texture* bricksAlbedo		= createResource<Texture>(Filepath("./res/materials/harshbricks/harshbricks-albedo.png"), m_conf);
+		Texture* bricksRough		= createResource<Texture>(Filepath("./res/materials/harshbricks/harshbricks-roughness.png"), m_conf);
+		Texture* bricksNormal		= createResource<Texture>(Filepath("./res/materials/harshbricks/harshbricks-normal.png"), m_conf);
+		Texture* bricksAo			= createResource<Texture>(Filepath("./res/materials/harshbricks/harshbricks-ao.png"), m_conf);
+		Texture* bricksMetal		= createResource<Texture>(Filepath("./res/materials/harshbricks/harshbricks-metalness.png"), m_conf);
 		
-		Texture* rustAlbedo			= createResource<Texture>(std::string("./res/materials/rust/rustediron2_basecolor.png"), m_conf);
-		Texture* rustRough			= createResource<Texture>(std::string("./res/materials/rust/rustediron2_roughness.png"), m_conf);
-		Texture* rustNormal			= createResource<Texture>(std::string("./res/materials/rust/rustediron2_normal.png"), m_conf);
-		Texture* rustMetal			= createResource<Texture>(std::string("./res/materials/rust/rustediron2_metallic.png"), m_conf);
+		Texture* rustAlbedo			= createResource<Texture>(Filepath("./res/materials/rust/rustediron2_basecolor.png"), m_conf);
+		Texture* rustRough			= createResource<Texture>(Filepath("./res/materials/rust/rustediron2_roughness.png"), m_conf);
+		Texture* rustNormal			= createResource<Texture>(Filepath("./res/materials/rust/rustediron2_normal.png"), m_conf);
+		Texture* rustMetal			= createResource<Texture>(Filepath("./res/materials/rust/rustediron2_metallic.png"), m_conf);
 
-		Texture* concrete_a			= createResource<Texture>(std::string("./res/materials/concrete/concrete_a.jpg"), m_conf);
-		Texture* concrete_r			= createResource<Texture>(std::string("./res/materials/concrete/concrete_r.jpg"), m_conf);
-		Texture* concrete_n			= createResource<Texture>(std::string("./res/materials/concrete/concrete_n.jpg"), m_conf);
-		Texture* concrete_ao		= createResource<Texture>(std::string("./res/materials/concrete/concrete_ao.jpg"), m_conf);
+		Texture* concrete_a			= createResource<Texture>(Filepath("./res/materials/concrete/concrete_a.jpg"), m_conf);
+		Texture* concrete_r			= createResource<Texture>(Filepath("./res/materials/concrete/concrete_r.jpg"), m_conf);
+		Texture* concrete_n			= createResource<Texture>(Filepath("./res/materials/concrete/concrete_n.jpg"), m_conf);
+		Texture* concrete_ao		= createResource<Texture>(Filepath("./res/materials/concrete/concrete_ao.jpg"), m_conf);
 		
-		Texture* goldAlbedo			= createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), m_conf);
-		Texture* goldRough			= createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png"), m_conf);
-		Texture* goldNormal			= createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), m_conf);
-		Texture* goldMetal			= createResource<Texture>(std::string("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), m_conf);
+		Texture* goldAlbedo			= createResource<Texture>(Filepath("./res/materials/greasy-metal/greasy-metal-pan1-albedo.png"), m_conf);
+		Texture* goldRough			= createResource<Texture>(Filepath("./res/materials/greasy-metal/greasy-metal-pan1-roughness.png"), m_conf);
+		Texture* goldNormal			= createResource<Texture>(Filepath("./res/materials/greasy-metal/greasy-metal-pan1-normal.png"), m_conf);
+		Texture* goldMetal			= createResource<Texture>(Filepath("./res/materials/greasy-metal/greasy-metal-pan1-metal.png"), m_conf);
 		 
 
 		/* --------------------------- SHADERS --------------------------- */
@@ -110,7 +110,7 @@ public:
 		GShader* defaultShader = GShader::getInstance();
 
 		/* --------------------------- MATERIALS --------------------------- */
-		Material* wood = createResource<Material>(defaultShader);
+		Material* wood = createResource<Material>("wood_material", defaultShader);
 		wood->setImageBuffer("albedoMap", woodAlbedo);
 		wood->setImageBuffer("normalMap", woodNormal);
 		wood->setImageBuffer("roughnessMap", woodRough);
@@ -118,7 +118,7 @@ public:
 		wood->setImageBuffer("metallicMap", woodMetal);
 		wood->setImageBuffer("emissionMap", default_emission);
 
-		Material* bricks = createResource<Material>(defaultShader);
+		Material* bricks = createResource<Material>("bricks_material", defaultShader);
 		bricks->setImageBuffer("albedoMap", bricksAlbedo);
 		bricks->setImageBuffer("normalMap", bricksNormal);
 		bricks->setImageBuffer("roughnessMap", bricksRough);
@@ -126,7 +126,7 @@ public:
 		bricks->setImageBuffer("metallicMap", bricksMetal);
 		bricks->setImageBuffer("emissionMap", default_emission);
 
-		Material* gold = createResource<Material>(defaultShader);
+		Material* gold = createResource<Material>("gold_material", defaultShader);
 		gold->setImageBuffer("albedoMap", goldAlbedo);
 		gold->setImageBuffer("normalMap", goldNormal);
 		gold->setImageBuffer("roughnessMap", goldRough);
@@ -134,7 +134,7 @@ public:
 		gold->setImageBuffer("metallicMap", goldMetal);
 		gold->setImageBuffer("emissionMap", default_emission);
 
-		Material* chrome = createResource<Material>(defaultShader);
+		Material* chrome = createResource<Material>("chrome_material", defaultShader);
 		chrome->setImageBuffer("albedoMap", default_ao);
 		chrome->setImageBuffer("normalMap", default_normal);
 		chrome->setImageBuffer("roughnessMap", default_emission);
@@ -142,7 +142,7 @@ public:
 		chrome->setImageBuffer("metallicMap", default_ao);
 		chrome->setImageBuffer("emissionMap", default_emission);
 
-		Material* rust = createResource<Material>(defaultShader);
+		Material* rust = createResource<Material>("rust_material", defaultShader);
 		rust->setImageBuffer("albedoMap", rustAlbedo);
 		rust->setImageBuffer("normalMap", rustNormal);
 		rust->setImageBuffer("roughnessMap", rustRough);
@@ -150,7 +150,7 @@ public:
 		rust->setImageBuffer("metallicMap", rustMetal);
 		rust->setImageBuffer("emissionMap", default_emission);
 
-		Material* glassMaterial = createResource<Material>(transparentShader);
+		Material* glassMaterial = createResource<Material>("glass_material", transparentShader);
 		glassMaterial->setImageBuffer("albedoMap", transparentAlbedo);
 		glassMaterial->setImageBuffer("normalMap", default_normal);
 		glassMaterial->setImageBuffer("roughnessMap", default_roughness);
@@ -158,7 +158,7 @@ public:
 		glassMaterial->setImageBuffer("metallicMap", default_emission);
 		glassMaterial->setImageBuffer("emissionMap", default_emission);
 
-		Material* def = createResource<Material>(defaultShader);
+		Material* def = createResource<Material>("def_material", defaultShader);
 		def->setImageBuffer("albedoMap", default_roughness);
 		def->setImageBuffer("normalMap", default_normal);
 		def->setImageBuffer("roughnessMap", default_roughness);
