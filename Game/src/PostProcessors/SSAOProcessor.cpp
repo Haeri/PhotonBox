@@ -30,6 +30,7 @@ public:
 		ssaoMaterial = new Material(SSAOShader::getInstance());
 		ssaoMaterial->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition"));
 		ssaoMaterial->setImageBuffer("gNormal", Renderer::getGBuffer()->getAttachment("gNormal"));
+		
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
 		ssaoBlurMaterial->setImageBuffer("original", mainBuffer->getAttachment("color"));
 		ssaoBlurMaterial->setImageBuffer("ssaoInput", ssaoBlurBuffer->getAttachment("color"));

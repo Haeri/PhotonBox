@@ -132,21 +132,15 @@ void main()
     
     vec3 finalColor = BasePass();
 
-    for(int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i){
-        if(numDirectionalLights == i) 
-            break;
+    for(int i = 0; i < numDirectionalLights; ++i){
         finalColor += DirectionalLightBRDF(directionalLights[i]);
     }
     
-    for(int i = 0; i < MAX_POINT_LIGHTS; ++i){
-        if(numPointLights == i) 
-            break;
+    for(int i = 0; i < numPointLights; ++i){
         finalColor += PointLightBRDF(pointLights[i]);
     }
 
-    for(int i = 0; i < MAX_SPOT_LIGHTS; ++i){
-        if(numSpotLights == i) 
-            break;
+    for(int i = 0; i < numSpotLights; ++i){
         finalColor += SpotLightBRDF(spotLights[i]);
     }
 

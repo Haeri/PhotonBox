@@ -68,25 +68,6 @@ void Scene::destroy(Entity* go)
 	go->destroy();
 }
 
-void Scene::printEntitys()
-{
-	for (std::vector<Entity*>::iterator it = _entityList.begin(); it != _entityList.end(); ++it)
-	{
-		std::cout << (*it)->name << std::endl;
-	}
-}
-
-std::string Scene::getEntitys()
-{
-	std::string ret = "";
-	for (std::vector<Entity*>::iterator it = _entityList.begin(); it != _entityList.end(); ++it)
-	{
-		ret += " + " + (*it)->name + "\n";
-	}
-
-	return ret;
-}
-
 void Scene::addToList(Entity* go)
 {
 	_entityList.push_back(go);
@@ -96,4 +77,9 @@ void Scene::removeFromList(Entity* go)
 {
 	_entityList.erase(std::remove(_entityList.begin(), _entityList.end(), go), _entityList.end());
 	delete go;
+}
+
+std::vector<Entity*>& Scene::getEntities()
+{
+	return _entityList;
 }

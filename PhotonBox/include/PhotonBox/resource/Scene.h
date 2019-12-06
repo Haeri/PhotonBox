@@ -5,6 +5,7 @@ class ManagedResource;
 
 #include <vector>
 #include <map>
+#include <type_traits>
 
 #include "PhotonBox/core/Entity.h"
 #include "PhotonBox/resource/CubeMap.h"
@@ -24,6 +25,8 @@ public:
 	template <class T, typename D>
 	T* createResource(std::string name, D data) 
 	{
+		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
+
 		T *res = new T(data);
 		_resourceMap[name] = res;
 
@@ -32,6 +35,8 @@ public:
 	template <class T>
 	T* createResource(std::string name)
 	{
+		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
+
 		T* res = new T();
 		_resourceMap[name] = res;
 
@@ -41,6 +46,8 @@ public:
 	template <class T, typename C>
 	T* createResource(Filepath path, C config)
 	{
+		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
+
 		T* res = new T(path, config);
 		_resourceMap[path.getAbsolutePath()] = res;
 
@@ -49,6 +56,8 @@ public:
 	template <class T>
 	T* createResource(Filepath path)
 	{
+		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
+
 		T* res = new T(path);
 		_resourceMap[path.getAbsolutePath()] = res;
 
@@ -56,14 +65,11 @@ public:
 	}
 
 	void destroy(Entity* go);
-	void printEntitys();
-	std::string getEntitys();
 	void removeFromList(Entity* go);
 	Entity* getObjectByName(std::string name);
-	std::vector<Entity*>& getEntities() { return _entityList; }
+	std::vector<Entity*>& getEntities();
 private:
 	std::vector<Entity*> _entityList;
-	//std::vector<ManagedResource*> _resourceList;
 	std::map<std::string, ManagedResource*> _resourceMap;
 
 	void addToList(Entity* go);

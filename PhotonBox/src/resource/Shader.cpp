@@ -11,6 +11,7 @@
 #include "PhotonBox/resource/Texture.h"
 #include "PhotonBox/util/Util.h"
 #include "PhotonBox/util/FileWatch.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -142,7 +143,7 @@ void Shader::init()
 {
 	FileWatch::addToWatchList(getFilePath(), this);
 
-	std::cerr << "Index Shader: " << getFilePath() << std::endl;
+	Logger::logn("Index Shader: " + getFilePath());
 
 	//std::vector<std::string> path;
 	//_filePath = getFilePath();
@@ -333,7 +334,7 @@ std::string Shader::readShader(const std::string& fileName)
 	}
 	else
 	{
-		std::cerr << "Unable to open file " << fileName << std::endl;
+		Logger::logn("Unable to open file " + fileName, Logger::ERR);
 	}
 
 	return text;
@@ -345,7 +346,7 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 
 	if (shader == 0)
 	{
-		std::cerr << "ERROR: Failed creating shader type " << shaderType << std::endl;
+		Logger::logn("Failed creating shader type " + shaderType, Logger::ERR);
 		return 0;
 	}
 
@@ -381,7 +382,7 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 		else
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
-		std::cerr << errorMessage << ":\n\t" << error;
+		Logger::logn(errorMessage + ":\n\t" + error, Logger::ERR);
 
 		return 1;
 	}
@@ -401,7 +402,7 @@ bool Shader::checkUniform(const std::string & name)
 	}
 	else
 	{
-		std::cout << "Uniform " << name << " does not exist in shader " << _filePath.getName() << std::endl;
+		Logger::logn("Uniform " + name + " does not exist in shader " + _filePath.getName(), Logger::WARN);
 		return false;
 	}
 #else
