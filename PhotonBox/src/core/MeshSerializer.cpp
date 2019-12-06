@@ -6,6 +6,7 @@
 #include "PhotonBox/resource/Mesh.h"
 #include "PhotonBox/data-type/Vertex.h"
 #include "PhotonBox/util/Util.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -53,7 +54,7 @@ void MeshSerializer::write(const std::string &pathName, Mesh* mesh)
 	}
 	else
 	{
-		std::cout << "ERROR: Could not create " << pathName << std::endl;
+		Logger::logn("Could not create " + pathName, Logger::ERR);
 	}
 }
 
@@ -77,7 +78,7 @@ void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 		f.seekg(0);
 		f.read((char*)&version, sizeof(short));
 		if (version != SERIALIZER_VERSION)
-			std::cerr << "ERROR: Old or unsupported Texture version!\n";
+			Logger::logn("Old or unsupported Texture version!", Logger::ERR);
 
 		f.read((char*)&buff_size, sizeof(size_t));
 		f.read((char*)&cp_buff_size, sizeof(size_t));
@@ -100,7 +101,7 @@ void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 		if (vert_cnt == 0 || ind_cnt == 0)
 		{
 			// Looks like the Mesh was incorrectly inflated
-			std::cerr << "ERROR: Mesh was inflated incorrectly!\n";
+			Logger::logn("Mesh was inflated incorrectly!", Logger::ERR);
 		}
 
 		vert_size = sizeof(Vertex) * vert_cnt;
@@ -118,7 +119,7 @@ void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
 	}
 	else
 	{
-		std::cout << "ERROR: Could not read " << pathName << std::endl;
+		Logger::logn("Could not read " + pathName, Logger::ERR);
 	}
 }
 
