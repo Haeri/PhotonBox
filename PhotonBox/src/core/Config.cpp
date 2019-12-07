@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "PhotonBox/util/Util.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -22,7 +23,7 @@ void Config::readConfig()
 
 	if (file.fail())
 	{
-		std::cerr << FILE_PATH << " could not be found." << std::endl;
+		Logger::logn("Creating new config file.", Logger::INFO);
 		createDefault();
 
 		return;
