@@ -92,8 +92,8 @@ namespace Math
 		roll = (float)atan2(sinr, cosr);
 
 		// pitch (y-axis rotation)
-		float m = (std::max)(-2.0f * (q.getX() * q.getZ() - q.getW() * q.getY()), -1.0f);
-		float t = (std::min)(m, 1.0f);
+		float m = max(-2.0f * (q.getX() * q.getZ() - q.getW() * q.getY()), -1.0f);
+		float t = min(m, 1.0f);
 		pitch = (float)asin(t);
 
 		/*

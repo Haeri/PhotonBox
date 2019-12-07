@@ -35,14 +35,14 @@ public:
 #ifdef PB_PLATFORM_WIN
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleTextAttribute(hConsole, type);
-		if (type == DEF) 
+		if (type == ERR) 
 			std::cerr << "ERROR: " << message;
 		else 
 			std::cout << message;
 		
 		SetConsoleTextAttribute(hConsole, DEF);
 #else
-		if (type == DEF)
+		if (type == ERR)
 			std::cerr << "\x1B[" << std::to_string(type) << "m" << "ERROR: " << message << "\033[0m";
 		else
 			std::cout << "\x1B[" << std::to_string(type) << "m" << message << "\033[0m";

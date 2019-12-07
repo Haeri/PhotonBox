@@ -1,9 +1,11 @@
 #include "PhotonBox/util/GLError.h"
 
 #include <iostream>
+#include <string>
 
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/core/system/ResourceManager.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -29,7 +31,8 @@ void _check_gl_error(const char *file, int line)
 		case GL_INVALID_FRAMEBUFFER_OPERATION:  error = "INVALID_FRAMEBUFFER_OPERATION";  break;
 		}
 
-		std::cerr << "GL_" << error.c_str() << " - " << file << ":" << line << std::endl;
+
+		Logger::logn("GL_" + error + " - " + file + ":" + std::to_string(line), Logger::ERR);
 		err = glGetError();
 	}
 }

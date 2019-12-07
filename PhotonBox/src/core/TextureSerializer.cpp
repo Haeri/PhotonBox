@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "PhotonBox/util/Util.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -48,7 +49,7 @@ void TextureSerializer::write(std::string name, int width, int height, int compo
 			components != re_components)
 		{
 			// Something went wrong while combining components to one buffer
-			std::cerr << "ERROR: BUffer combination failed!\n";
+			Logger::logn("Buffer combination failed!", Logger::ERR);
 		}
 
 
@@ -67,7 +68,7 @@ void TextureSerializer::write(std::string name, int width, int height, int compo
 	}
 	else
 	{
-		std::cout << "ERROR: Could not create " << name << std::endl;
+		Logger::logn("Could not create " + name, Logger::ERR);
 	}
 }
 
@@ -85,7 +86,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 		f.seekg(0);
 		f.read((char*)&version, sizeof(short));
 		if (version != SERIALIZER_VERSION)
-			std::cerr << "ERROR: Old or unsupported Texture version!\n";
+			Logger::logn("Old or unsupported Texture version!", Logger::ERR);
 
 		f.read((char*)&buff_size, sizeof(size_t));
 		f.read((char*)&cp_buff_size, sizeof(size_t));
@@ -108,7 +109,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 		if (*width < 0 || *height < 0 || *components < 0)
 		{
 			// Looks like thexture was incorrectly inflated
-			std::cerr << "ERROR: Texture was inflated incorrectly!\n";
+			Logger::logn("Texture was inflated incorrectly!", Logger::ERR);
 		}
 
 
@@ -123,7 +124,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 	}
 	else
 	{
-		std::cout << "ERROR: Could not read " << name << std::endl;
+		Logger::logn("Could not read " + name, Logger::ERR);
 		return nullptr;
 	}
 }

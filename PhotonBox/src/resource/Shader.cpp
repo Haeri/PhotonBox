@@ -141,15 +141,11 @@ void Shader::blankInitialize()
 
 void Shader::init()
 {
-	FileWatch::addToWatchList(getFilePath(), this);
+	_filePath = Filepath(getFilePath());
+	
+	FileWatch::addToWatchList(_filePath.getAbsolutePath(), this);
 
-	Logger::logn("Index Shader: " + getFilePath());
-
-	//std::vector<std::string> path;
-	//_filePath = getFilePath();
-	//Util::split(_filePath, "/", path);
-
-	//_fileName = path.back();	
+	Logger::logn("Index Shader: " + _filePath.getAbsolutePath());
 
 	loadAsync();
 }
