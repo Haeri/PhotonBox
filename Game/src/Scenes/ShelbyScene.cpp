@@ -70,8 +70,9 @@ public:
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		Texture::Config m_conf;
-		m_conf.mips = true;
+		Texture::Config m_conf = {
+			m_conf.mips = true
+		};
 
 		Texture* default_normal		= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_normal.png"));
 		Texture* default_specular	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_specular.png"));

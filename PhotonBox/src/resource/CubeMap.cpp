@@ -72,9 +72,10 @@ void CubeMap::generateIrradiance(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	if (_mesh == nullptr)
-		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj"), Mesh::Config{ true });
-
+	if (_mesh == nullptr) {
+		Mesh::Config c{ c.forceInit = true };
+		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj"), c);
+	}
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);
 
@@ -134,9 +135,11 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 		Matrix4f::lookAt(position, Vector3f(0.0f, -1.0f,  0.0f), Vector3f(0.0f,  0.0f, -1.0f))
 	};
 
-	if(_mesh == nullptr)
-		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj"), Mesh::Config{true});
-
+	if (_mesh == nullptr)
+	{
+		Mesh::Config c{ c.forceInit = true };
+		_mesh = SceneManager::getCurrentScene()->createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/skyBox.obj"), c);
+	}
 	glGenFramebuffers(1, &_captureFBO);
 	glGenRenderbuffers(1, &_captureRBO);
 
