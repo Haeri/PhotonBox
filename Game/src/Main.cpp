@@ -7,7 +7,6 @@
 #include "Scenes/ShelbyScene.cpp"
 #include "Scenes/MaterialTestScene.cpp"
 #include "Scenes/PhysicsScene.cpp"
-#include "Scenes/RealisticRenderingScene.cpp"
 #include "../../test/MathTest.h"
 
 #ifdef PB_MEM_DEBUG
