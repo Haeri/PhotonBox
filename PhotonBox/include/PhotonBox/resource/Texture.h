@@ -17,11 +17,13 @@ public:
 		bool mips = false;
 		bool hdr = false;
 		int width = 0;
-		int height = 0;
+		int height = 0;	
 	};
 
-	Texture(Config config = Config());
-	Texture(Filepath filePath, Config config = Config());
+	Texture();
+	Texture(Config config );
+	Texture(Filepath filePath);
+	Texture(Filepath filePath, Config config);
 	~Texture();
 
 	void bind();

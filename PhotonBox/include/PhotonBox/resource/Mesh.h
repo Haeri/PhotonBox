@@ -20,8 +20,10 @@ public:
 		bool forceInit = false;
 	};
 
-	Mesh(Config config = Config());
-	Mesh(Filepath filePath, Config config = Config());
+	Mesh();
+	Mesh(Config config);
+	Mesh(Filepath filePath);
+	Mesh(Filepath filePath, Config config);
 	~Mesh();
 
 	GLuint getVAO();

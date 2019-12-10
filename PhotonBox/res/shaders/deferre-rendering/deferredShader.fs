@@ -310,8 +310,8 @@ vec3 FresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness){
 }
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){
-    //float bias = max(0.01 * (1.0 - dot(normal, lightDir)), 0.001); 
-    float bias = 0.0004;
+    float constantBias = 0.00001;
+    float bias = (1 - dot(gData.Normal, lightDir)) * constantBias;
 
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
@@ -321,16 +321,13 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){
     float closestDepth = texture2D(shadowMap, projCoords.xy).r; 
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
-    // check whether current frag pos is in shadow
-  //  float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;  
-//    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
 
-float rand = random(gData.Position.xy+gData.Position.z);
+	float rand = random(gData.Position.xy+gData.Position.z);
 
     float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
-    int x_rad = 1;
-    int y_rad = 1;
+    int x_rad = 2;
+    int y_rad = 2;
     for(int x = -x_rad; x <= x_rad; ++x)
     {
         for(int y = -y_rad; y <= y_rad; ++y)

@@ -43,7 +43,7 @@ vec3 Bokeh(sampler2D tex, vec2 uv, float radius)
 		vec3 col = lastcol;
 
         float sampleDepth = -texture(gPosition, uv + texelSize * (r-1.0) * vangle).z;
-        if(c_depth < sampleDepth){
+        if(c_depth <= sampleDepth){
 			col = texture(tex, uv + texelSize * (r-1.0) * vangle).xyz; /// ... Sample the image
         }
 
