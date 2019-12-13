@@ -55,16 +55,16 @@ public:
 		Renderer::getSkyBox()->intensity = 1;
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		SSAOProcessor* p_ssao					= new SSAOProcessor(10);
-		SSReflectionProcessor* p_ssreflection	= new SSReflectionProcessor(20);
-		AutoExposureProcessor* p_autoExposure	= new AutoExposureProcessor(30);
-		TAAProcessor* p_fxaa					= new TAAProcessor(40);
-		DOFProcessor* p_dof						= new DOFProcessor(50);
-		BloomProcessor* p_bloom					= new BloomProcessor(60);
-		ToneMappingProcessor* p_tonemapping		= new ToneMappingProcessor(70);
+		new SSAOProcessor(10);
+		new SSReflectionProcessor(20);
+		new AutoExposureProcessor(30);
+		new TAAProcessor(40);
+		new DOFProcessor(50);
+		new BloomProcessor(60);
+		new ToneMappingProcessor(70);
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* plane		= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/plane.obj"));
+		//Mesh* plane		= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/plane.obj"));
 		Mesh* sphere	= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj"));
 
 		/* --------------------------- TEXTURES --------------------------- */
