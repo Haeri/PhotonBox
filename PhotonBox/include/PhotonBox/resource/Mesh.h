@@ -17,13 +17,15 @@ public:
 	BoundingSphere boundingSphere;
 
 	struct Config {
-		bool forceInit = false;
+		bool forceInit;
+
+		Config(bool forceInit = false):
+			forceInit(forceInit)
+		{}
 	};
 
-	Mesh();
-	Mesh(Config config);
-	Mesh(Filepath filePath);
-	Mesh(Filepath filePath, Config config);
+	Mesh(Config config = {});
+	Mesh(Filepath filePath, Config config = {});
 	~Mesh();
 
 	GLuint getVAO();

@@ -14,29 +14,12 @@
 #define new DEBUG_NEW
 #endif
 
-Texture::Texture()
-{
-	_isLoaded = true;
-	_isInitialized = false;
-	blankInitialize();
-}
-
 Texture::Texture(Config config)
 	: _config(config)
 {
 	_isLoaded = true;
 	_isInitialized = false;
 	blankInitialize();
-}
-
-Texture::Texture(Filepath filePath)
-{
-	FileWatch::addToWatchList(filePath.getAbsolutePath(), this);
-	_filePath = filePath;
-
-	std::cout << "Index Texture: " << filePath.getAbsolutePath() << std::endl;
-
-	loadAsync();
 }
 
 Texture::Texture(Filepath filePath, Config config)

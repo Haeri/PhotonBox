@@ -8,35 +8,12 @@
 #define new DEBUG_NEW
 #endif
 
-Mesh::Mesh()
-{
-	_isLoaded = true;
-	_isInitialized = false;
-	blankInitialize();
-}
-
 Mesh::Mesh(Config config)
 	: _config(config)
 {
 	_isLoaded = true;
 	_isInitialized = false;
 	blankInitialize();
-}
-
-Mesh::Mesh(Filepath filePath)
-{
-	FileWatch::addToWatchList(filePath.getAbsolutePath(), this);
-	_filePath = filePath;
-
-	if (!_config.forceInit)
-	{
-		std::cout << "Index Mesh: " << filePath.getAbsolutePath() << std::endl;
-		loadAsync();
-	}
-	else
-	{
-		forceLoad();
-	}
 }
 
 Mesh::Mesh(Filepath filePath, Config config)

@@ -14,16 +14,21 @@ class Texture : public ManagedResource, public LazyLoadable, public ImageBuffer
 {
 public:
 	struct Config {
-		bool mips = false;
-		bool hdr = false;
-		int width = 0;
-		int height = 0;	
+		bool mips;
+		bool hdr;
+		int width;
+		int height;
+
+		Config(bool mips = false, bool hdr = false, int width = 0, int height = 0):
+			mips(mips),
+			hdr(hdr),
+			width(width),
+			height(height)
+		{}
 	};
 
-	Texture();
-	Texture(Config config );
-	Texture(Filepath filePath);
-	Texture(Filepath filePath, Config config);
+	Texture(Config config = {});
+	Texture(Filepath filePath, Config config = {});
 	~Texture();
 
 	void bind();
