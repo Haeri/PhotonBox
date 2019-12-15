@@ -7,6 +7,7 @@
 #include "PhotonBox/resource/PostProcessor.h"
 #include "PhotonBox/core/Resources.h"
 #include "PhotonBox/core/system/PostProcessing.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -27,7 +28,7 @@ void Display::init(Config::Profile profile)
 
 	if (!glfwInit())
 	{
-		std::cerr << "ERROR: Failed to initialize GLFW.\n";
+		Logger::logn("Failed to initialize GLFW!", Logger::ERR);
 		exit(EXIT_FAILURE);
 	}
 
@@ -47,7 +48,7 @@ void Display::init(Config::Profile profile)
 
 	if (!_window)
 	{
-		std::cerr << "ERROR: Failed to create a window. (OpenGL version 4.4 required)\n";
+		Logger::logn("Failed to create a window. (OpenGL version 4.4 required)", Logger::ERR);
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}

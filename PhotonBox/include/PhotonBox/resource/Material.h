@@ -14,7 +14,7 @@ class Material : public ManagedResource
 {
 public:
 
-	Material() {}
+	//Material() {}
 	Material(Shader* shader) : _shader(shader) {}
 	~Material();
 
