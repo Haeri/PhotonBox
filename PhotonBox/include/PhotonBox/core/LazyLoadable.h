@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "PhotonBox/resource/Filepath.h"
+
 class LazyLoadable
 {
 public:
@@ -20,13 +22,13 @@ public:
 protected:
 	bool _isLoaded = false;
 	bool _isInitialized = false;
-	std::string _filePath;
+	Filepath _filePath;
 
 	virtual void loadFromFile() = 0;
 	virtual void submitBuffer() = 0;
 	virtual void blankInitialize() {}
 private:
-	bool _rougue = false;
+	bool _rogue = false;
 
 	void load();
 };

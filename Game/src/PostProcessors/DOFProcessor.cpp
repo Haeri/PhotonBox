@@ -16,7 +16,7 @@
 class DOFProcessor : public PostProcessor
 {
 public:
-	DOFProcessor(int index) : PostProcessor(index, 1.0f, true)
+	DOFProcessor(int index) : PostProcessor(index)
 	{
 		_dofShader = new Material(DOFShader::getInstance());
 		//_dofShader->setProperty("depth", 7.0f);

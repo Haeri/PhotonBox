@@ -13,25 +13,40 @@ class Scene;
 class Texture : public ManagedResource, public LazyLoadable, public ImageBuffer
 {
 public:
-	Texture(std::string filePath, bool generateMipMaps = false, bool hdr = false);
+	struct Config {
+		bool mips;
+		bool hdr;
+		int width;
+		int height;
+
+		Config(bool mips = false, bool hdr = false, int width = 0, int height = 0):
+			mips(mips),
+			hdr(hdr),
+			width(width),
+			height(height)
+		{}
+	};
+
+	Texture(Config config = {});
+	Texture(Filepath filePath, Config config = {});
 	~Texture();
 
 	void bind();
 	void bind(unsigned int textureUnit) override;
 	void enable() override {}
-	int getWidth() { return _width; }
-	int getHeight() { return _height; }
-	bool isHDR() { return _isHDR; }
+	int getWidth();
+	int getHeight();
+	bool isHDR();
 	GLuint getTextureLocation() { return _texture; }
 
 	void submitBuffer() override;
 private:
-	friend class Scene;
-	bool _isHDR, _isMipMap;
+	Config _config;
+
 	GLuint _texture;
-	int _width, _height;
 	unsigned char* _data = NULL;
 
+	void setData(unsigned char* data);
 	void loadFromFile() override;
 	void blankInitialize();
 };

@@ -140,7 +140,11 @@ void Renderer::init(Config::Profile profile)
 	_directionalShadowShader = DirectionalShadowShader::getInstance();
 	_volumetricFogShader = VolumetricFogShader::getInstance();
 	
-	_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/blue_noise.png", false);
+	Texture::Config c = { 
+		c.mips = false, 
+		c.hdr = false 
+	};
+	_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/blue_noise.png", c);
 
 	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
