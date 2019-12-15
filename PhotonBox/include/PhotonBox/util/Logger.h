@@ -2,6 +2,7 @@
 #define LOGGER_H
 
 #include <iostream>
+#include <sstream> 
 #ifdef PB_PLATFORM_WIN
 #include <windows.h>
 #endif
@@ -25,11 +26,22 @@ public:
 		CONFIRM = 32
 #endif
 	};
+
+	static void logn(std::ostringstream &stream, Type type = DEF)
+	{
+		log(stream.str() + "\n\r", type);
+	}
+
 	static void logn(std::string message, Type type = DEF)
 	{
 		log(message + "\n\r", type);
 	}
 
+	static void log(std::ostringstream &stream, Type type = DEF)
+	{
+		log(stream.str(), type);
+	}
+	
 	static void log(std::string message, Type type = DEF)
 	{
 #ifdef PB_PLATFORM_WIN

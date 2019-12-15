@@ -28,8 +28,8 @@ public:
 		_fxaaMaterial->setProperty<float>("R_fxaaSpanMax", 8.0f);
 		_fxaaMaterial->setProperty<float>("R_fxaaReduceMin", 1.0f / 128.0f);
 		_fxaaMaterial->setProperty<float>("R_fxaaReduceMul", 150.0f);
-		_fxaaMaterial->setProperty<float>("screenWidth", Display::getWidth());
-		_fxaaMaterial->setProperty<float>("screenHeight", Display::getHeight());
+		_fxaaMaterial->setProperty<float>("screenWidth", (float)Display::getWidth());
+		_fxaaMaterial->setProperty<float>("screenHeight", (float)Display::getHeight());
 		_fxaaMaterial->setImageBuffer("renderTexture", _tempBuffer->getAttachment("color"));
 
 		_medianMaterial = new Material(MedianShader::getInstance());
@@ -38,8 +38,8 @@ public:
 
 	void onResize() override
 	{
-		_fxaaMaterial->setProperty<float>("screenWidth", Display::getWidth());
-		_fxaaMaterial->setProperty<float>("screenHeight", Display::getHeight());
+		_fxaaMaterial->setProperty<float>("screenWidth", (float)Display::getWidth());
+		_fxaaMaterial->setProperty<float>("screenHeight", (float)Display::getHeight());
 	}
 
 	void render(FrameBuffer* nextBuffer) override

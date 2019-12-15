@@ -50,6 +50,12 @@ namespace Math
 		return (((a) > (b)) ? (a) : (b));
 	}
 
+	template<typename T>
+	static T clamp(T value, T min, T max)
+	{
+		return Math::min(Math::max(value, min), max);
+	}
+
 	static Vector3f toEulerAngle(const physx::PxQuat& q)
 	{
 		float roll, pitch, yaw;
