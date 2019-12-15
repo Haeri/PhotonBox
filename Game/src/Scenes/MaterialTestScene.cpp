@@ -21,7 +21,6 @@
 #include "../PostProcessors/ToneMappingProcessor.cpp"
 #include "../PostProcessors/BloomProcessor.cpp"
 #include "../PostProcessors/BlurProcessor.cpp"
-#include "../PostProcessors/DOFProcessor.cpp"
 #include "../PostProcessors/TAAProcessor.cpp"
 #include "../Shader/BlurShader.cpp"
 #include "../Scripts/StateControllerScript.cpp"
@@ -59,7 +58,6 @@ public:
 		new SSReflectionProcessor(20);
 		new AutoExposureProcessor(30);
 		new TAAProcessor(40);
-		new DOFProcessor(50);
 		new BloomProcessor(60);
 		new ToneMappingProcessor(70);
 

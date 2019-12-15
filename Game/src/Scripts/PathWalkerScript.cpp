@@ -30,7 +30,7 @@ public:
 
 		if (progress < 1)
 		{
-			progress += Time::deltaTime * speed;
+			progress += Time::deltaTimef * speed;
 		}
 		else
 		{

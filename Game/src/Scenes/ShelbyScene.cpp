@@ -240,7 +240,7 @@ public:
 
 		Entity* spot = instantiate("Spot");
 		spot->getComponent<Transform>()->setPosition(Vector3f(-1.0f, 1.0f, 1.0f));
-		spot->getComponent<Transform>()->setRotation(Vector3f(0.0f, PI / 2.0f, 0.0f));
+		spot->getComponent<Transform>()->setRotation(Vector3f(0.0f, (float)PI / 2.0f, 0.0f));
 		spot->addComponent<SpotLight>();
 		spot->getComponent<SpotLight>()->coneAngle = 0.97f;
 		spot->getComponent<SpotLight>()->coneAttenuation = 0.96f;
@@ -253,7 +253,7 @@ public:
 
 		Entity* spot2 = instantiate("Spot2");
 		spot2->getComponent<Transform>()->setPosition(Vector3f(-1.0f, 1.0f, -1.0f));
-		spot2->getComponent<Transform>()->setRotation(Vector3f(0.0f, PI / 2.0f, 0.0f));
+		spot2->getComponent<Transform>()->setRotation(Vector3f(0.0f, (float)PI / 2.0f, 0.0f));
 		spot2->addComponent<SpotLight>();
 		spot2->getComponent<SpotLight>()->coneAngle = 0.97f;
 		spot2->getComponent<SpotLight>()->coneAttenuation = 0.96f;

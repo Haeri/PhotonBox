@@ -104,7 +104,7 @@ public:
 			//float scale = 1.5f;
 			std::cout << scale << std::endl;
 			Entity* sphere = instantiate("Sphere" + std::to_string(i));
-			sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
+			sphere->getComponent<Transform>()->setPosition(Vector3f((float)(rand() % 20 - 10), (float)(rand() % 20 + 10), (float)(rand() % 20-10)));
 			//sphere->getComponent<Transform>()->setScale(Vector3f(scale, scale, scale));
 			sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
 			sphere->getComponent<MeshRenderer>()->setMaterial(def);

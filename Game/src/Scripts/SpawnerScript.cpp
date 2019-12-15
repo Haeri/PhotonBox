@@ -94,7 +94,7 @@ public:
 	void createEntity() 
 	{
 		Entity* e = SceneManager::getCurrentScene()->instantiate("NewObject");
-		e->getComponent<Transform>()->setPosition(Vector3f(rand() % 10, rand() % 10, rand() % 10));
+		e->getComponent<Transform>()->setPosition(Vector3f((float)(rand() % 10), (float)(rand() % 10), (float)(rand() % 10)));
 		e->addComponent<MeshRenderer>();
 		e->getComponent<MeshRenderer>()->setMesh(_mesh);
 		e->getComponent<MeshRenderer>()->setMaterial(_mat);
