@@ -47,7 +47,7 @@ private:
 	unsigned char* _data = NULL;
 
 	void setData(unsigned char* data);
-	void loadFromFile() override;
+	bool loadFromFile() override;
 	void blankInitialize();
 };
 

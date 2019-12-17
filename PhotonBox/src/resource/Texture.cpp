@@ -18,7 +18,7 @@ Texture::Texture(Config config)
 	: _config(config)
 {
 	_isLoaded = true;
-	_isInitialized = false;
+
 	blankInitialize();
 }
 
@@ -69,23 +69,24 @@ void Texture::setData(unsigned char* data)
 	_data = data;
 }
 
-void Texture::loadFromFile()
+bool Texture::loadFromFile()
 {
 	int numComponents;
 
 	std::string cachePath = _filePath.getPath() + _filePath.getName() + TextureSerializer::EXTENSION;
 	struct stat buffer;
-	bool ispbt = false;
 
-	if (stat(cachePath.c_str(), &buffer) == 0 && buffer.st_size > 0) {
+	if (stat(cachePath.c_str(), &buffer) == 0 && buffer.st_size > 0) 
+	{
 		_data = TextureSerializer::read(cachePath, &_config.width, &_config.height, &numComponents);
-		ispbt = true;
 	}
 	else
 	{
 		_data = stbi_load((_filePath.getAbsolutePath()).c_str(), &_config.width, &_config.height, &numComponents, STBI_rgb_alpha);
 		TextureSerializer::write(cachePath, _config.width, _config.height, 4, _data);
 	}
+
+	return _data != nullptr;
 }
 
 void Texture::blankInitialize()

@@ -125,7 +125,7 @@ private:
 	void addTexture(std::string uniform);
 	bool checkUniform(const std::string& name);
 
-	void loadFromFile() override;
+	bool loadFromFile() override;
 	void blankInitialize() override;
 };
 
