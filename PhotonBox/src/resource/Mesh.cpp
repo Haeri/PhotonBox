@@ -12,7 +12,7 @@ Mesh::Mesh(Config config)
 	: _config(config)
 {
 	_isLoaded = true;
-	_isInitialized = false;
+
 	blankInitialize();
 }
 
@@ -43,9 +43,10 @@ GLuint Mesh::getEBO()
 	return _ebo;
 }
 
-void Mesh::loadFromFile() 
+bool Mesh::loadFromFile() 
 { 
 	OBJLoader::loadObj(_filePath.getAbsolutePath(), this);
+	return vertices.size() > 0;
 }
 
 void Mesh::blankInitialize()

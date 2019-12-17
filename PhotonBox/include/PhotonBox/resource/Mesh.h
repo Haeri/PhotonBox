@@ -36,7 +36,7 @@ private:
 	Config _config;
 	GLuint _vao, _vbo, _ebo;
 
-	void loadFromFile() override;
+	bool loadFromFile() override;
 	void blankInitialize() override;
 };
 

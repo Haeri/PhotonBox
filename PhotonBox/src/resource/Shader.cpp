@@ -159,7 +159,7 @@ void Shader::destroy()
 	glDeleteProgram(_program);
 }
 
-void Shader::loadFromFile()
+bool Shader::loadFromFile()
 {
 	if (this->getType() == Type::SCREEN_SHADER)
 	{
@@ -170,6 +170,8 @@ void Shader::loadFromFile()
 		_vertextCode = readShader(getFilePath() + ".vs");
 	}
 	_fragmentCode = readShader(getFilePath() + ".fs");
+
+	return !_fragmentCode.empty() && !_vertextCode.empty();
 }
 
 void Shader::submitBuffer()

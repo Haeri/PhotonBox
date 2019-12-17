@@ -75,58 +75,82 @@ void TextureSerializer::write(std::string name, int width, int height, int compo
 unsigned char* TextureSerializer::read(std::string name, int* width, int* height, int* components)
 {
 	std::fstream f = std::fstream(name, std::ios::in | std::ios::binary);
-	if (f.is_open())
-	{
-		size_t dataSize = -1;
-		size_t buff_size = -1;
-		size_t cp_buff_size = -1;
-		short version = -1;
-		unsigned char* cp_buff;
-
-		f.seekg(0);
-		f.read((char*)&version, sizeof(short));
-		if (version != SERIALIZER_VERSION)
-			Logger::logn("Old or unsupported Texture version!", Logger::ERR);
-
-		f.read((char*)&buff_size, sizeof(size_t));
-		f.read((char*)&cp_buff_size, sizeof(size_t));
-
-		cp_buff = (unsigned char*)malloc(cp_buff_size);
-		
-		f.read((char*)cp_buff, cp_buff_size);
-		f.close();
-
-		unsigned char* buff = Util::decompress(cp_buff, cp_buff_size, buff_size);
-		unsigned char* curr = buff;
-
-		*width = *reinterpret_cast<int*>(curr);
-		curr += sizeof(int);
-		*height = *reinterpret_cast<int*>(curr);
-		curr += sizeof(int);
-		*components = *reinterpret_cast<int*>(curr);
-		curr += sizeof(int);
-
-		if (*width < 0 || *height < 0 || *components < 0)
-		{
-			// Looks like thexture was incorrectly inflated
-			Logger::logn("Texture was inflated incorrectly!", Logger::ERR);
-		}
-
-
-		dataSize = (*width * *height * *components) * sizeof(unsigned char);
-		unsigned char* data = (unsigned char*)malloc(dataSize);
-		memcpy(data, curr, dataSize);
-
-		free_buffer(cp_buff);
-		free_buffer(buff);
-
-		return data;
-	}
-	else
+	if (!f.is_open())
 	{
 		Logger::logn("Could not read " + name, Logger::ERR);
 		return nullptr;
 	}
+
+	size_t dataSize = -1;
+	size_t buff_size = -1;
+	size_t cp_buff_size = -1;
+	short version = -1;
+	unsigned char* cp_buff;
+
+	f.seekg(0);
+	f.read((char*)&version, sizeof(short));
+	if (!f) 
+	{
+		Logger::logn("Could not read version in file " + name, Logger::ERR);
+		return nullptr;
+	}
+
+	if (version != SERIALIZER_VERSION) 
+	{
+		Logger::logn("Old or unsupported Texture version!", Logger::ERR);
+		return nullptr;
+	}
+
+	f.read((char*)&buff_size, sizeof(size_t));
+	if (!f) 
+	{
+		Logger::logn("Could not read buffer_size in file " + name, Logger::ERR);
+		return nullptr;
+	}
+
+	f.read((char*)&cp_buff_size, sizeof(size_t));
+	if (!f) 
+	{
+		Logger::logn("Could not read compressed_buffer_size in file " + name, Logger::ERR);
+		return nullptr;
+	}
+
+	cp_buff = (unsigned char*)malloc(cp_buff_size);
+		
+	f.read((char*)cp_buff, cp_buff_size);
+	if (!f) 
+	{
+		Logger::logn("Could not read compressed_buffer in file " + name, Logger::ERR);
+		return nullptr;
+	}
+	f.close();
+
+	unsigned char* buff = Util::decompress(cp_buff, cp_buff_size, buff_size);
+	unsigned char* curr = buff;
+
+	*width = *reinterpret_cast<int*>(curr);
+	curr += sizeof(int);
+	*height = *reinterpret_cast<int*>(curr);
+	curr += sizeof(int);
+	*components = *reinterpret_cast<int*>(curr);
+	curr += sizeof(int);
+
+	if (*width < 0 || *height < 0 || *components < 0)
+	{
+		// Looks like thexture was incorrectly inflated
+		Logger::logn("Texture was inflated incorrectly!", Logger::ERR);
+		return nullptr;
+	}
+
+
+	dataSize = (*width * *height * *components) * sizeof(unsigned char);
+	unsigned char* data = (unsigned char*)malloc(dataSize);
+	memcpy(data, curr, dataSize);
+
+	free_buffer(cp_buff);
+	free_buffer(buff);
+
+	return data;
 }
 
 void TextureSerializer::free_buffer(unsigned char* data)

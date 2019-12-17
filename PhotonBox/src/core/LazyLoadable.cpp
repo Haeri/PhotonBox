@@ -12,9 +12,6 @@
 
 void LazyLoadable::loadAsync()
 {
-	_isLoaded = false;
-	_isInitialized = false;
-	
 	blankInitialize();
 
 	ResourceManager::addToInitializationList(this);
@@ -35,9 +32,11 @@ void LazyLoadable::setRogue()
 
 void LazyLoadable::initialize()
 {
-	submitBuffer();
-	_isInitialized = true;
-
+	if(!_failedToLoad)
+	{
+		submitBuffer();
+		_isInitialized = true;
+	}
 }
 
 bool LazyLoadable:: isLoaded()
@@ -57,7 +56,7 @@ std::string LazyLoadable::getFilePath()
 
 void LazyLoadable::load()
 {
-	loadFromFile();
+	_failedToLoad = !loadFromFile();
 	_isLoaded = true;
 
 	if (_rogue) {

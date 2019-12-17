@@ -24,11 +24,12 @@ protected:
 	bool _isInitialized = false;
 	Filepath _filePath;
 
-	virtual void loadFromFile() = 0;
+	virtual bool loadFromFile() = 0;
 	virtual void submitBuffer() = 0;
 	virtual void blankInitialize() {}
 private:
 	bool _rogue = false;
+	bool _failedToLoad = false;
 
 	void load();
 };
