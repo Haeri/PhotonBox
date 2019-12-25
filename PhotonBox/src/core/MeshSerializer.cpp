@@ -79,8 +79,7 @@ void MeshSerializer::read(const std::string & name, Mesh* mesh)
 	size_t ind_size = 0;
 
 	f.seekg(0);
-	f.read((char*)&version, sizeof(short));
-	if (!f)
+	if (!f.read((char*)&version, sizeof(short)))
 	{
 		Logger::logn("Could not read version in file " + name, Logger::ERR);
 		return;
@@ -92,15 +91,13 @@ void MeshSerializer::read(const std::string & name, Mesh* mesh)
 		return;
 	}
 
-	f.read((char*)&buff_size, sizeof(size_t));
-	if (!f)
+	if (!f.read((char*)&buff_size, sizeof(size_t)))
 	{
 		Logger::logn("Could not read buffer_size in file " + name, Logger::ERR);
 		return;
 	}
 
-	f.read((char*)&cp_buff_size, sizeof(size_t));
-	if (!f)
+	if (!f.read((char*)&cp_buff_size, sizeof(size_t)))
 	{
 		Logger::logn("Could not read compressed_buffer_size in file " + name, Logger::ERR);
 		return;
@@ -108,8 +105,7 @@ void MeshSerializer::read(const std::string & name, Mesh* mesh)
 
 	cp_buff = (unsigned char*)malloc(cp_buff_size);
 
-	f.read((char*)cp_buff, cp_buff_size);
-	if (!f)
+	if (!f.read((char*)cp_buff, cp_buff_size))
 	{
 		Logger::logn("Could not read compressed_buffer in file " + name, Logger::ERR);
 		return;

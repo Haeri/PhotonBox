@@ -159,8 +159,8 @@ void Core::run()
 		// Update input
 		_inputManager->update();
 
-
 		// Start Rendering
+		_check_gl_error("Pre Frame", 0);
 		FrameBuffer::clearDefaultBuffer();
 		_check_gl_error("First Clear", 0);
 

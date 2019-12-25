@@ -88,8 +88,8 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 	unsigned char* cp_buff;
 
 	f.seekg(0);
-	f.read((char*)&version, sizeof(short));
-	if (!f) 
+	
+	if (!f.read((char*)&version, sizeof(short)))
 	{
 		Logger::logn("Could not read version in file " + name, Logger::ERR);
 		return nullptr;
@@ -101,15 +101,13 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 		return nullptr;
 	}
 
-	f.read((char*)&buff_size, sizeof(size_t));
-	if (!f) 
+	if(!f.read((char*)&buff_size, sizeof(size_t)))
 	{
 		Logger::logn("Could not read buffer_size in file " + name, Logger::ERR);
 		return nullptr;
 	}
 
-	f.read((char*)&cp_buff_size, sizeof(size_t));
-	if (!f) 
+	if (!f.read((char*)&cp_buff_size, sizeof(size_t)))
 	{
 		Logger::logn("Could not read compressed_buffer_size in file " + name, Logger::ERR);
 		return nullptr;
@@ -117,8 +115,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 
 	cp_buff = (unsigned char*)malloc(cp_buff_size);
 		
-	f.read((char*)cp_buff, cp_buff_size);
-	if (!f) 
+	if (!f.read((char*)cp_buff, cp_buff_size))
 	{
 		Logger::logn("Could not read compressed_buffer in file " + name, Logger::ERR);
 		return nullptr;
