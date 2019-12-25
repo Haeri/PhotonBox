@@ -84,7 +84,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 	size_t dataSize = -1;
 	size_t buff_size = -1;
 	size_t cp_buff_size = -1;
-	char version[3] = "-1";
+	short version = -1;
 	unsigned char* cp_buff;
 
 	f.seekg(0);
@@ -95,7 +95,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 		return nullptr;
 	}
 
-	if (version != "1") 
+	if (version != SERIALIZER_VERSION) 
 	{
 		Logger::logn("Old or unsupported Texture version!", Logger::ERR);
 		return nullptr;
