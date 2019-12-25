@@ -289,6 +289,7 @@ void Core::reset()
 
 	_profiler->reset();
 	_resourceLoader->reset();
+	_fileWatch->reset();
 }
 
 void Core::destroy()
@@ -300,6 +301,9 @@ void Core::destroy()
 		(*it)->destroy();
 	}
 
+	_fileWatch->destroy();
+
+	delete _resourceLoader;
 	delete _time;
 	delete _display;
 	delete _inputManager;

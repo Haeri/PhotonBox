@@ -7,6 +7,7 @@ class LazyLoadable;
 #include <iostream>
 #include <map>
 #include <string>
+#include <thread>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -23,10 +24,14 @@ public:
 	static void addToWatchList(std::string filePath, Shader* shader);
 	static void addToWatchList(std::string filePath, LazyLoadable* resource);
 	void checkValidity();
+	void reset();
+	void destroy();
 private:
 	static bool _loading;
-	void asyncCheck();
+	static std::thread _thread;
 	static std::map<std::string, ResourceFile> _watchList;
+
+	void asyncCheck();
 };
 
 #endif // FILE_WATCH_H

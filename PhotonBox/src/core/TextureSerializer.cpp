@@ -142,6 +142,13 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 
 	dataSize = (*width * *height * *components) * sizeof(unsigned char);
 	unsigned char* data = (unsigned char*)malloc(dataSize);
+	if(data == 0)
+	{
+		// Looks like thexture was incorrectly inflated
+		Logger::logn("Unable to allocate data", Logger::ERR);
+		return nullptr;
+	}
+	
 	memcpy(data, curr, dataSize);
 
 	free_buffer(cp_buff);

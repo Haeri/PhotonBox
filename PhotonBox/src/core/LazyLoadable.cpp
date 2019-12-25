@@ -41,7 +41,7 @@ void LazyLoadable::initialize()
 
 bool LazyLoadable:: isLoaded()
 {
-	return _isLoaded; 
+	return _isLoaded && !_failedToLoad; 
 }
 
 bool LazyLoadable::isInitialized()

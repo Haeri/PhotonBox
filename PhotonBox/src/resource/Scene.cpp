@@ -31,10 +31,10 @@ void Scene::unload()
 			{
 				f->setRogue(); 
 			}
-		}
-		else 
-		{
-			delete (it->second);
+			else
+			{
+				delete (it->second);
+			}
 		}
 	}
 	_resourceMap.clear();
