@@ -27,20 +27,38 @@ public:
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		T *res = new T(data);
-		_resourceMap[name] = res;
+		T* resource;
 
-		return res;
+		if (_resourceMap.find(name) == _resourceMap.end())
+		{	
+			resource = new T(data);
+			_resourceMap[name] = resource;
+		}
+		else
+		{
+			resource = (T*)_resourceMap[name];
+		}
+
+		return resource;
 	}
 	template <class T>
 	T* createResource(std::string name)
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		T* res = new T();
-		_resourceMap[name] = res;
+		T* resource;
 
-		return res;
+		if (_resourceMap.find(name) == _resourceMap.end())
+		{
+			resource = new T();
+			_resourceMap[name] = resource;
+		}
+		else
+		{
+			resource = (T*)_resourceMap[name];
+		}
+
+		return resource;
 	}
 
 	template <class T, typename C>
@@ -48,20 +66,38 @@ public:
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		T* res = new T(path, config);
-		_resourceMap[path.getAbsolutePath()] = res;
+		T* resource;
 
-		return res;
+		if (_resourceMap.find(path.getAbsolutePath()) == _resourceMap.end())
+		{
+			resource = new T(path, config);
+			_resourceMap[path.getAbsolutePath()] = resource;
+		}
+		else
+		{
+			resource = (T*)_resourceMap[path.getAbsolutePath()];
+		}
+
+		return resource;
 	}
 	template <class T>
 	T* createResource(Filepath path)
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		T* res = new T(path);
-		_resourceMap[path.getAbsolutePath()] = res;
+		T* resource;
 
-		return res;
+		if (_resourceMap.find(path.getAbsolutePath()) == _resourceMap.end())
+		{
+			resource = new T(path);
+			_resourceMap[path.getAbsolutePath()] = resource;
+		}
+		else
+		{
+			resource = (T*)_resourceMap[path.getAbsolutePath()];
+		}
+
+		return resource;
 	}
 
 	void destroy(Entity* go);

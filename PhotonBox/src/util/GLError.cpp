@@ -14,6 +14,9 @@
 
 void _check_gl_error(const char *file, int line)
 {
+#ifdef PB_DEBUG
+	//TODO: This check should be disabled when resource loading is implemented
+	// Correctly so there is no need for this
 	if (!ResourceManager::isCompleted()) return;
 
 	GLenum err = glGetError();
@@ -35,4 +38,5 @@ void _check_gl_error(const char *file, int line)
 		Logger::logn("GL_" + error + " - " + file + ":" + std::to_string(line), Logger::ERR);
 		err = glGetError();
 	}
+#endif // PB_DEBUG
 }
