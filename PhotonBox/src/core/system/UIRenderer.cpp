@@ -16,9 +16,9 @@ TextShader* UIRenderer::shader;
 GLuint UIRenderer::_VAO, UIRenderer::_VBO;
 std::map<GLchar, Character> UIRenderer::_characters;
 
-void UIRenderer::init()
+void UIRenderer::init(Config::Profile profile)
 {
-	std::cout << "Initializing UIRenderer";
+	std::cout << "Initializing UIRenderer\n";
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
@@ -35,7 +35,7 @@ void UIRenderer::init()
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	// Load first 128 characters of ASCII set
-	for (GLubyte c = 0; c < 128; c++)
+	for (GLubyte c = 0; c < 128; ++c)
 	{
 		// Load character glyph 
 		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
@@ -89,10 +89,7 @@ void UIRenderer::init()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-
 	shader = TextShader::getInstance();
-
-	std::cout << " - Done\n";
 }
 
 void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, Vector3f color)
@@ -110,7 +107,7 @@ void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scal
 
 	// Iterate through all characters
 	std::string::const_iterator c;
-	for (c = text.begin(); c != text.end(); c++)
+	for (c = text.begin(); c != text.end(); ++c)
 	{
 		Character ch = _characters[*c];
 

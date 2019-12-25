@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
-from shutil import copyfile, rmtree
-import os, sys
+import os
 
 engine_res_path = "../PhotonBox/res/"
 game_res_path 	= "../Game/res/"

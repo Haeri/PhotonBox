@@ -11,6 +11,7 @@
 #include "PhotonBox/resource/Texture.h"
 #include "PhotonBox/util/Util.h"
 #include "PhotonBox/util/FileWatch.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -140,15 +141,11 @@ void Shader::blankInitialize()
 
 void Shader::init()
 {
-	FileWatch::addToWatchList(getFilePath(), this);
+	_filePath = Filepath(getFilePath());
+	
+	FileWatch::addToWatchList(_filePath.getAbsolutePath(), this);
 
-	std::cerr << "Index Shader: " << getFilePath() << std::endl;
-
-	std::vector<std::string> path;
-	std::string filePath = getFilePath();
-	Util::split(filePath, "/", path);
-
-	_fileName = path.back();	
+	Logger::logn("Index Shader: " + _filePath.getAbsolutePath());
 
 	loadAsync();
 }
@@ -162,7 +159,7 @@ void Shader::destroy()
 	glDeleteProgram(_program);
 }
 
-void Shader::loadFromFile()
+bool Shader::loadFromFile()
 {
 	if (this->getType() == Type::SCREEN_SHADER)
 	{
@@ -173,9 +170,11 @@ void Shader::loadFromFile()
 		_vertextCode = readShader(getFilePath() + ".vs");
 	}
 	_fragmentCode = readShader(getFilePath() + ".fs");
+
+	return !_fragmentCode.empty() && !_vertextCode.empty();
 }
 
-void Shader::sendToGPU()
+void Shader::submitBuffer()
 {
 	if (_program != -1)
 	{
@@ -197,10 +196,10 @@ void Shader::sendToGPU()
 	addAttributes();
 
 	glLinkProgram(_program);
-	checkShaderError(_program, GL_LINK_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Faild linking program!");
+	checkShaderError(_program, GL_LINK_STATUS, true, "\nSHADER-ERROR in '" + _filePath.getName() + "': Faild linking program!");
 
 	glValidateProgram(_program);
-	checkShaderError(_program, GL_VALIDATE_STATUS, true, "\nSHADER-ERROR in '" + _fileName + "': Shader Program invalid!");
+	checkShaderError(_program, GL_VALIDATE_STATUS, true, "\nSHADER-ERROR in '" + _filePath.getName() + "': Shader Program invalid!");
 
 	GLint numUniforms;
 	glGetProgramiv(_program, GL_ACTIVE_UNIFORMS, &numUniforms);
@@ -252,6 +251,8 @@ void Shader::sendToGPU()
 
 void Shader::bind()
 {
+	if (!_isInitialized) return;
+
 	glUseProgram(_program);
 }
 
@@ -279,6 +280,8 @@ void Shader::addTexture(std::string uniform)
 
 void Shader::enableAttributes()
 {
+	if (!_isInitialized) return;
+
 	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
 	{
 		glEnableVertexAttribArray(it->second);
@@ -287,6 +290,8 @@ void Shader::enableAttributes()
 
 void Shader::disableAttributes()
 {
+	if (!_isInitialized) return;
+
 	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
 	{
 		glDisableVertexAttribArray(it->second);
@@ -295,6 +300,8 @@ void Shader::disableAttributes()
 
 void Shader::updateTextures()
 {
+	if (!_isInitialized) return;
+
 	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it)
 	{
 		glUniform1i(it->second.uniformLocation, it->second.unit);
@@ -325,7 +332,7 @@ std::string Shader::readShader(const std::string& fileName)
 	}
 	else
 	{
-		std::cerr << "Unable to open file " << fileName << std::endl;
+		Logger::logn("Unable to open file " + fileName, Logger::ERR);
 	}
 
 	return text;
@@ -337,7 +344,7 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 
 	if (shader == 0)
 	{
-		std::cerr << "ERROR: Failed creating shader type " << shaderType << std::endl;
+		Logger::logn("Failed creating shader type " + shaderType, Logger::ERR);
 		return 0;
 	}
 
@@ -373,7 +380,7 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 		else
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
-		std::cerr << errorMessage << ":\n\t" << error;
+		Logger::logn(errorMessage + ":\n\t" + error, Logger::ERR);
 
 		return 1;
 	}
@@ -393,7 +400,7 @@ bool Shader::checkUniform(const std::string & name)
 	}
 	else
 	{
-		std::cout << "Uniform " << name << " does not exist in shader " << _fileName << std::endl;
+		Logger::logn("Uniform " + name + " does not exist in shader " + _filePath.getName(), Logger::WARN);
 		return false;
 	}
 #else

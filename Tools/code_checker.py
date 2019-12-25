@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
-from shutil import copyfile, rmtree
-import os, sys
+import os
 
 header_path = "../PhotonBox/include/PhotonBox/"
 cpp_path 	= "../PhotonBox/src/"

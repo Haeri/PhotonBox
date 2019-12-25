@@ -15,7 +15,7 @@ std::string SceneManager::_newScene;
 std::map<std::string, Scene*> SceneManager::_sceneMap;
 std::string SceneManager::_currentSceneName;
 
-void SceneManager::init(std::map<std::string, Scene*>& sceneMap)
+void SceneManager::setSceneMap(std::map<std::string, Scene*>& sceneMap)
 {
 	_sceneMap = sceneMap;
 	loadScene(_sceneMap.begin()->first);
@@ -37,7 +37,7 @@ void SceneManager::loadScene(const std::string & name)
 	_inQueue = true;
 }
 
-void SceneManager::loadSceneImediately(const std::string& name)
+void SceneManager::loadSceneImmediately(const std::string& name)
 {
 	if (_sceneMap[name] == nullptr) return;
 
@@ -45,13 +45,13 @@ void SceneManager::loadSceneImediately(const std::string& name)
 	_currentScene = _sceneMap[name];
 	_currentSceneName = name;
 	_currentScene->Load();
-	Display::setTitle("PhotonBox Engine - " + name);
+	Display::setTitle(Config::profile.appName + " - " + name);
 	_inQueue = false;
 }
 
 void SceneManager::loadQueuedScene()
 {
-	loadSceneImediately(_newScene);
+	loadSceneImmediately(_newScene);
 	_newScene = "";
 }
 

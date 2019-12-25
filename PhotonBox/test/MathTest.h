@@ -1,19 +1,20 @@
 #ifndef MATH_TEST_H
 #define MATH_TEST_H
 
-#include "math/Matrix4f.h"
+#include "PhotonBox/math/Matrix4f.h"
+#include "PhotonBox/util/Logger.h"
 
 class MathTest
 {
 public:
 	static void startTest()
 	{
-		std::cout << "==================================================" << std::endl;
-		std::cout << "                   STARTING TESTS" << std::endl << std::endl;
+		Logger::logn("==================================================");
+		Logger::logn("                   STARTING TESTS\n");
 
 		// ---------------------- PERSPECTIVE TEST  ---------------------- //
-		std::cout << "Perspective Test\t\t - ";
-		Matrix4f perspective = Matrix4f::createPerspective(45.0f, 1.33333337, 0.1f, 50.0);
+		Logger::log("Perspective Test\t\t - ");
+		Matrix4f perspective = Matrix4f::createPerspective(45.0f, 1.33333337f, 0.1f, 50.0f);
 		Matrix4f perspectvieResult;
 		perspectvieResult(0, 0) = 1.81066012f;	perspectvieResult(1, 0) = 0;			perspectvieResult(2, 0) = 0;			perspectvieResult(3, 0) = 0;
 		perspectvieResult(0, 1) = 0;			perspectvieResult(1, 1) = 2.41421342f;	perspectvieResult(2, 1) = 0;			perspectvieResult(3, 1) = 0;
@@ -22,20 +23,20 @@ public:
 
 		if (perspective == perspectvieResult)
 		{
-			std::cout << "PASS" << std::endl;
+			Logger::logn("PASS", Logger::CONFIRM);
 		}
 		else
 		{
-			std::cout << "FAILD!" << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
-			std::cout << "Expected: " << std::endl << perspectvieResult << std::endl << std::endl << "Result: " << std::endl << perspective << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
+			Logger::logn("FAILD!", Logger::ERR);
+			Logger::logn("----------------------------------------");
+			std::cout << "Expected: \n" << perspectvieResult << "\n\nResult: \n" << perspective << "\n";
+			Logger::logn("----------------------------------------");
 		}
 
 
 
 		// ---------------------- LOOKAT TEST  ---------------------- //
-		std::cout << "Look At Test\t\t\t - ";
+		Logger::log("Look At Test\t\t\t - ");
 		Matrix4f lookAt = Matrix4f::lookAt(Vector3f(3, 3, -3), Vector3f(0, 1, 0), Vector3f(-3, -3, 3).normalize());
 		Matrix4f lookAtResult;
 		lookAtResult(0, 0) = -0.707106769f;		lookAtResult(1, 0) = 0.0f;				lookAtResult(2, 0) = -0.707106769f;		lookAtResult(3, 0) = 0.0f;
@@ -45,19 +46,19 @@ public:
 
 		if (lookAt == lookAtResult)
 		{
-			std::cout << "PASS" << std::endl;
+			Logger::logn("PASS", Logger::CONFIRM);
 		}
 		else
 		{
-			std::cout << "FAILD!" << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
-			std::cout << "Expected: " << std::endl << lookAtResult << std::endl << std::endl << "Result: " << std::endl << lookAt << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
+			Logger::logn("FAILD!", Logger::ERR);
+			Logger::logn("----------------------------------------");
+			std::cout << "Expected: " << std::endl << lookAtResult << std::endl << std::endl << "Result: " << std::endl << lookAt << "\n";
+			Logger::logn("----------------------------------------");
 		}
 
 
 		// ---------------------- TRANSPOSE TEST  ---------------------- //
-		std::cout << "Transpose Test\t\t\t - ";
+		Logger::log("Transpose Test\t\t\t - ");
 		Matrix4f originalTranspose;
 		originalTranspose(0, 0) = 1;		originalTranspose(1, 0) = 5;		originalTranspose(2, 0) = 9;		originalTranspose(3, 0) = 13;
 		originalTranspose(0, 1) = 2;		originalTranspose(1, 1) = 6;		originalTranspose(2, 1) = 10;		originalTranspose(3, 1) = 14;
@@ -72,21 +73,21 @@ public:
 
 		if (originalTranspose == transposeResult)
 		{
-			std::cout << "PASS" << std::endl;
+			Logger::logn("PASS", Logger::CONFIRM);
 		}
 		else
 		{
-			std::cout << "FAILD!" << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
-			std::cout << "Expected: " << std::endl << transposeResult << std::endl << std::endl << "Result: " << std::endl << originalTranspose << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
+			Logger::logn("FAILD!", Logger::ERR);
+			Logger::logn("----------------------------------------");
+			std::cout << "Expected: " << std::endl << transposeResult << std::endl << std::endl << "Result: " << std::endl << originalTranspose << "\n";
+			Logger::logn("----------------------------------------");
 		}
 
 
 
 
 		// ---------------------- MATRIX MULTIPLICATION TEST  ---------------------- //
-		std::cout << "Matrix Multiplication Test\t - ";
+		Logger::log("Matrix Multiplication Test\t - ");
 		Matrix4f originalMMulti1;
 		originalMMulti1(0, 0) = 1;		originalMMulti1(1, 0) = 5;		originalMMulti1(2, 0) = 9;		originalMMulti1(3, 0) = 13;
 		originalMMulti1(0, 1) = 2;		originalMMulti1(1, 1) = 6;		originalMMulti1(2, 1) = 10;		originalMMulti1(3, 1) = 14;
@@ -106,21 +107,21 @@ public:
 
 		if (multiRes == mmultiSolution)
 		{
-			std::cout << "PASS" << std::endl;
+			Logger::logn("PASS", Logger::CONFIRM);
 		}
 		else
 		{
-			std::cout << "FAILD!" << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
-			std::cout << "Expected: " << std::endl << mmultiSolution << std::endl << std::endl << "Result: " << std::endl << multiRes << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
+			Logger::logn("FAILD!", Logger::ERR);
+			Logger::logn("----------------------------------------");
+			std::cout << "Expected: " << std::endl << mmultiSolution << std::endl << std::endl << "Result: " << std::endl << multiRes << "\n";
+			Logger::logn("----------------------------------------");
 		}
 
 
 
 		// ---------------------- VECTOR MULTIPLICATION TEST  ---------------------- //
 
-		std::cout << "Vector Multiplication Test\t - ";
+		Logger::log("Vector Multiplication Test\t - ");
 		Matrix4f originalVMulti;
 		originalVMulti(0, 0) = 1;		originalVMulti(1, 0) = 5;		originalVMulti(2, 0) = 9;		originalVMulti(3, 0) = 13;
 		originalVMulti(0, 1) = 2;		originalVMulti(1, 1) = 6;		originalVMulti(2, 1) = 10;		originalVMulti(3, 1) = 14;
@@ -132,18 +133,18 @@ public:
 
 		if (vecRes == vmultiSolution)
 		{
-			std::cout << "PASS" << std::endl;
+			Logger::logn("PASS", Logger::CONFIRM);
 		}
 		else
 		{
-			std::cout << "FAILD!" << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
-			std::cout << "Expected: " << std::endl << vmultiSolution << std::endl << std::endl << "Result: " << std::endl << multiRes << std::endl;
-			std::cout << "----------------------------------------" << std::endl;
+			Logger::logn("FAILD!", Logger::ERR);
+			Logger::logn("----------------------------------------");
+			std::cout << "Expected: " << std::endl << vmultiSolution << std::endl << std::endl << "Result: " << std::endl << multiRes << "\n";
+			Logger::logn("----------------------------------------");
 		}
 
-		std::cout << std::endl << "                   TESTS ENDED" << std::endl;
-		std::cout << "==================================================" << std::endl << std::endl;
+		Logger::logn("\n                   TESTS ENDED");
+		Logger::logn("==================================================");
 	}
 private:
 };

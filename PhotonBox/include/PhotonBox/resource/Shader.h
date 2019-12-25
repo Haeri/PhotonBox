@@ -11,12 +11,12 @@ class LightEmitter;
 #include <vector>
 
 #include "PhotonBox/core/ManagedResource.h"
-#include "PhotonBox/core/ILazyLoadable.h"
+#include "PhotonBox/core/LazyLoadable.h"
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/math/Matrix4f.h"
 #include "PhotonBox/data-type/Vertex.h"
 
-class Shader : public ManagedResource, public ILazyLoadable
+class Shader : public ManagedResource, public LazyLoadable
 {
 public:
 
@@ -43,12 +43,12 @@ public:
 	std::map<std::string, GLint> uniforms;
 	std::map<std::string, GLint> attributes;
 	std::map<std::string, TexUniforUnit> textures;
+	void(*updateFunction)(void*);
 
 	void init();
 	void bind();
 	void destroy();
-	void loadFromFile() override;
-	void sendToGPU() override;
+	void submitBuffer() override;
 
 	virtual std::string getFilePath() = 0;
 	virtual void addAttributes() = 0;
@@ -62,7 +62,7 @@ public:
 	void disableAttributes();
 	void updateTextures();
 
-	std::string& getName() { return _fileName; }
+	//std::string& getName() { return _fileName; }
 
 	void setUniform(const std::string& uniformName, int value)
 	{
@@ -107,7 +107,7 @@ public:
 protected:
 
 	const static unsigned int NUM_SHADERS = 2;
-	std::string _fileName;
+	//std::string _fileName;
 	GLuint _program = -1;
 	GLuint _shaders[NUM_SHADERS];
 	GLenum _textureUnit = 0;
@@ -125,6 +125,7 @@ private:
 	void addTexture(std::string uniform);
 	bool checkUniform(const std::string& name);
 
+	bool loadFromFile() override;
 	void blankInitialize() override;
 };
 

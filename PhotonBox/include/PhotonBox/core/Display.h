@@ -3,9 +3,10 @@
 
 #include <string>
 
+#include "PhotonBox/core/ISystem.h"
 #include "PhotonBox/core/OpenGL.h"
 
-class Display
+class Display : public ISystem
 {
 public:
 	static bool isRunning() { return _isRunning; }
@@ -21,8 +22,9 @@ public:
 	static unsigned int getWidth();
 	static unsigned int getHeight();
 
-	void init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen, bool vsync);
-	void destroy();
+	void init(Config::Profile profile) override;
+	void start() override {}
+	void destroy() override;
 private:
 	static bool _isRunning;
 	static int _width, _height;

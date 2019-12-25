@@ -31,7 +31,7 @@ void MeshRenderer::render(Shader* shader)
 
 void MeshRenderer::render(Shader* shader, LightEmitter* light)
 {
-	if (shader == nullptr) shader = _material->shader;
+	if (shader == nullptr) shader = _material->getShader();
 
 	glBindVertexArray(_mesh->getVAO());
 	shader->bind();

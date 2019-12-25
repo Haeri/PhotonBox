@@ -1,11 +1,13 @@
 #include "PhotonBox/core/Display.h"
 
 #include "PhotonBox/component/Camera.h"
-#include "PhotonBox/resource/Texture.h"
+//#include "PhotonBox/resource/Texture.h"
+#include "PhotonBox/util/Util.h"
 #include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/resource/PostProcessor.h"
 #include "PhotonBox/core/Resources.h"
 #include "PhotonBox/core/system/PostProcessing.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -19,14 +21,14 @@ bool Display::_isVSync;
 
 void window_size_callback(GLFWwindow*, int, int);
 
-void Display::init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen, bool vsync)
+void Display::init(Config::Profile profile)
 {
-	_width = width;
-	_height = height;
+	_width = profile.width;
+	_height = profile.height;
 
 	if (!glfwInit())
 	{
-		std::cerr << "ERROR: Failed to initialize GLFW.\n";
+		Logger::logn("Failed to initialize GLFW!", Logger::ERR);
 		exit(EXIT_FAILURE);
 	}
 
@@ -42,11 +44,11 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 	//glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 	const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	_window = glfwCreateWindow(width, height, title.c_str(), fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
+	_window = glfwCreateWindow(profile.width, profile.height, profile.appName.c_str(), profile.fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
 
 	if (!_window)
 	{
-		std::cerr << "ERROR: Failed to create a window. (OpenGL version 4.4 required)\n";
+		Logger::logn("Failed to create a window. (OpenGL version 4.4 required)", Logger::ERR);
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
@@ -55,11 +57,11 @@ void Display::init(const std::string& title, unsigned int width, unsigned int he
 
 	// Set Icon
 	GLFWimage icon[1];
-	icon[0].pixels = Texture::loadIcon(Resources::ENGINE_RESOURCES + "/logo.png", icon[0].width, icon[0].height);
+	icon[0].pixels = Util::loadIcon(Resources::ENGINE_RESOURCES + "/logo.png", icon[0].width, icon[0].height);
 	glfwSetWindowIcon(_window, 1, icon);
-	Texture::freeIcon(icon[0].pixels);
+	Util::freeIcon(icon[0].pixels);
 
-	setVSync(vsync);
+	setVSync(profile.vsync);
 	_isRunning = true;
 
 	std::cout << "OpenGL Version " << glGetString(GL_VERSION) << std::endl << std::endl;

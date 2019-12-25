@@ -9,6 +9,7 @@ class Material;
 #include <string>
 
 #include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/resource/ImageBuffer.h"
 
 class FrameBuffer
 {
@@ -16,7 +17,7 @@ public:
 
 	static const std::string DEFAULT_ATTACHMENT;
 
-	struct BufferAttachment
+	struct BufferAttachment : public ImageBuffer
 	{
 		std::string name;
 		bool hdr;
@@ -32,6 +33,15 @@ public:
 			id = 0;
 			attachmentIndex = 0;
 			mipmaps = 0;
+		}
+
+		void enable() override {}
+		void bind(unsigned int textureUnit) override 
+		{
+			glActiveTexture(GL_TEXTURE0 + textureUnit);
+			glBindTexture(GL_TEXTURE_2D, id);
+			if (mipmaps > 0)
+				glGenerateMipmap(GL_TEXTURE_2D);
 		}
 	};
 
@@ -69,6 +79,7 @@ public:
 	void addTextureAttachment(std::string name, bool hdr = false, bool mipmaps = false, InterpolationType interpolationType = LINEAR, EdgeType edgeType = CLAMP_TO_EDGE);
 	void addDepthTextureAttachment(std::string name);
 	void addDepthBufferAttachment();
+	BufferAttachment* getAttachment(std::string name);
 
 	/// <summary>
 	/// Enables this FrameBuffer to be drawn to.
@@ -80,7 +91,7 @@ public:
 	/// </summary>
 	/// <param name="textureUnit">The texture unit.</param>
 	/// <param name="name">The name of the attachment to be bound.</param>
-	void bind(GLuint textureUnit, std::string name);
+	void bind(unsigned int textureUnit, std::string name);
 
 	/// <summary>
 	/// Readies this instance. Call after all Attachments are added.
@@ -97,7 +108,6 @@ public:
 
 	void blit(FrameBuffer* target, std::string sourceAttachment, std::string targetAttachment);
 	void blitToScreen(std::string name);
-	BufferAttachment* getAttachment(std::string name);
 	GLuint getTextureID(std::string name) { return _colorAttachments[name].id; }
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }

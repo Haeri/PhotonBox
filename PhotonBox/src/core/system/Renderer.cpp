@@ -34,6 +34,7 @@
 #include "PhotonBox/resource/shader/DepthShader.h"
 #include "PhotonBox/resource/shader/CircleShader.h"
 #include "PhotonBox/resource/shader/ForwardDirectionalLightShader.h"
+#include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/util/GLError.h"
 
 #ifdef PB_MEM_DEBUG
@@ -120,9 +121,10 @@ void Renderer::setSkyBox(CubeMap* cubeMap)
 	_skyBox.setDrawMode(SkyBox::DRAW_CUBE_MAP);
 }
 
-void Renderer::init(float superSampling)
+void Renderer::init(Config::Profile profile)
 {
-	std::cout << "Initializing Renderer";
+	float superSampling = profile.supersampling ? 2.0f : 1.0f;
+	std::cout << "Initializing Renderer\n";
 	// OpenGL config
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
@@ -138,7 +140,11 @@ void Renderer::init(float superSampling)
 	_directionalShadowShader = DirectionalShadowShader::getInstance();
 	_volumetricFogShader = VolumetricFogShader::getInstance();
 	
-	_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/blue_noise.png", false);
+	Texture::Config c = { 
+		c.mips = false, 
+		c.hdr = false 
+	};
+	_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/blue_noise.png", c);
 
 	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
@@ -168,19 +174,19 @@ void Renderer::init(float superSampling)
 	_shadowBuffer->ready();
 	
 	_deferredMaterial = new Material(_deferredShader);
-	_deferredMaterial->setTexture("gPosition", _gBuffer, "gPosition");
-	_deferredMaterial->setTexture("gNormal", _gBuffer, "gNormal");
-	_deferredMaterial->setTexture("gRoughness", _gBuffer, "gRoughness");
-	_deferredMaterial->setTexture("gMetallic", _gBuffer, "gMetallic");
-	_deferredMaterial->setTexture("gAlbedo", _gBuffer, "gAlbedo");
-	_deferredMaterial->setTexture("gIrradiance", _gBuffer, "gIrradiance");
-	_deferredMaterial->setTexture("gRadiance", _gBuffer, "gRadiance");
-	_deferredMaterial->setTexture("gEmission", _gBuffer, "gEmission");
-	_deferredMaterial->setTexture("noise", _noise);
+	_deferredMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
+	_deferredMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal"));
+	_deferredMaterial->setImageBuffer("gRoughness", _gBuffer->getAttachment("gRoughness"));
+	_deferredMaterial->setImageBuffer("gMetallic", _gBuffer->getAttachment("gMetallic"));
+	_deferredMaterial->setImageBuffer("gAlbedo", _gBuffer->getAttachment("gAlbedo"));
+	_deferredMaterial->setImageBuffer("gIrradiance", _gBuffer->getAttachment("gIrradiance"));
+	_deferredMaterial->setImageBuffer("gRadiance", _gBuffer->getAttachment("gRadiance"));
+	_deferredMaterial->setImageBuffer("gEmission", _gBuffer->getAttachment("gEmission"));
+	_deferredMaterial->setImageBuffer("noise", _noise);
 
 	_volumetricFogMaterial = new Material(_volumetricFogShader);
-	_volumetricFogMaterial->setTexture("gPosition", _gBuffer, "gPosition");
-	_volumetricFogMaterial->setTexture("noise", _noise);
+	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
+	_volumetricFogMaterial->setImageBuffer("noise", _noise);
 
 
 	_debugMode = 0;
@@ -204,7 +210,6 @@ void Renderer::init(float superSampling)
 			}
 	//	}
 	}
-	std::cout << " - Done\n";
 }
 
 void Renderer::reset()
@@ -221,16 +226,6 @@ void Renderer::reset()
 void Renderer::start()
 {
 	_skyBox.init();
-	Camera::getMainCamera()->toggleJitter(true);
-
-	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
-	{
-		 //(*it)->init();
-	}
-	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it)
-	{
-		//(*it)->init();
-	}
 }
 
 void Renderer::prePass()
@@ -273,7 +268,7 @@ void Renderer::prePass()
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
 
-			Shader* shader = (*it)->getMaterial()->shader;
+			Shader* shader = (*it)->getMaterial()->getShader();
 
 			//if(typeid(*shader) == typeid(GShader))
 			if (shader->getType() == Shader::Type::SURFACE_SHADER)
@@ -485,7 +480,7 @@ void Renderer::renderForward()
 	{
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
 		{
-			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader == GShader::getInstance())
+			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->getShader() == GShader::getInstance())
 //			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
 			{
 				glEnable(GL_DEPTH_TEST);
@@ -735,7 +730,7 @@ void Renderer::captureScene(LightMap* lightmap)
 			if (!(*it)->getReflected) continue;
 
 
-			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader == GShader::getInstance())
+			if ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->getShader() == GShader::getInstance())
 				//			if (typeid((**it)) != typeid(MeshRenderer) || ((*it)->getMaterial() != nullptr && (*it)->getMaterial()->shader != nullptr))
 			{
 				glEnable(GL_DEPTH_TEST);

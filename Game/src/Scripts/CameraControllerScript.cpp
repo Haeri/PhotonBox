@@ -35,7 +35,7 @@ public:
 			(transform->forward() * direction.z() +
 				transform->up() * direction.y() +
 				transform->right() * direction.x())
-			* Time::deltaTime * speed * shift);
+			* Time::deltaTimef * speed * shift);
 
 		if(InputManager::getCursorMode() == InputManager::CursorMode::DISABLED){
 			Vector2f mouse = InputManager::getMouseDelta();

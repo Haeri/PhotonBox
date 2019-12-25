@@ -29,7 +29,7 @@ public:
 	//static void printList();
 	//static std::string getList();
 
-	void init() override;
+	void init(Config::Profile profile) override;
 	void start() override;
 	void reset() override;
 	void destroy() override;
