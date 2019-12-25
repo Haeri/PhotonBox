@@ -3,6 +3,11 @@
 #include <algorithm>
 #include <string>
 
+#ifdef PB_MEM_DEBUG
+#include "PhotonBox/util/MEMDebug.h"
+#define new DEBUG_NEW
+#endif
+
 Filepath::Filepath(const std::string& filePath)
 {
 	_absolutePath = filePath;
