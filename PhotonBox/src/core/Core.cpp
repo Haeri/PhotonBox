@@ -20,10 +20,12 @@
 #include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/util/GLError.h"
 #include "PhotonBox/util/FileWatch.h"
+#include "PhotonBox/util/Logger.h"
 
+#ifdef RECORD_MODE
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "STB/stb_image_write.h"
-
+#endif
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
@@ -39,46 +41,46 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 	std::cout << "==================================================" << std::endl;
 	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
 
+	_logger = new Logger();
+
 	// Load Config
 	_config = new Config();
 	_config->readConfig();
 
 	// Core Systems
 	_display = new Display();
-	_inputManager = new InputManager();
-	_time = new Time();
-
-	// Subsystems
-	_uiRenderer = new UIRenderer();
-	_sceneManager = new SceneManager();
 	_debugGUI = new DebugGUI();
 	_renderer = new Renderer();
-	_logic = new Logic();
+	_inputManager = new InputManager();
 	_physics = new Physics();
-	_postPocessing = new PostProcessing();
+	_uiRenderer = new UIRenderer();
+	_logic = new Logic();
 	_lighting = new Lighting();
+	_postPocessing = new PostProcessing();
+	_sceneManager = new SceneManager();
+	_sceneManager->setSceneMap(sceneMap);
+
+	// Helper
 	_profiler = new Profiler();
 	_fileWatch = new FileWatch();
+	_time = new Time();
+	_resourceLoader = new ResourceManager();
 
+	_systems.push_back(_display);
 	_systems.push_back(_sceneManager);
-	_systems.push_back(_logic);
+	_systems.push_back(_debugGUI);
 	_systems.push_back(_renderer);
-	_systems.push_back(_lighting);
-	_systems.push_back(_postPocessing);
+	_systems.push_back(_inputManager);
 	_systems.push_back(_physics);
 	_systems.push_back(_uiRenderer);
-	_systems.push_back(_debugGUI);
+	_systems.push_back(_logic);
+	_systems.push_back(_lighting);
+	_systems.push_back(_postPocessing);
 
-	// Initialize OpenGL
-	_display->init("PhotonBox Engine", Config::profile.width, Config::profile.height, Config::profile.fullscreen, Config::profile.vsync);
-	
-	// Init Subsystems
-	_debugGUI->init();
-	_renderer->init(Config::profile.supersampling ? 2.0f : 1.0f);
-	_inputManager->init();
-	_physics->init();
-	_uiRenderer->init();
-	_sceneManager->init(sceneMap);
+	for (std::vector<ISystem*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
+	{
+		(*it)->init(_config->profile);
+	}
 
 #ifdef RECORD_MODE
 	const int size = Display::getWidth() * Display::getHeight() * 3;
@@ -137,7 +139,6 @@ void Core::run()
 		}
 		
 		_inputManager->pollEvents();
-		_debugGUI->newFrame();
 
 		// Update Physics
 		_accumulatedTime += Time::deltaTime;
@@ -158,8 +159,8 @@ void Core::run()
 		// Update input
 		_inputManager->update();
 
-
 		// Start Rendering
+		_check_gl_error("Pre Frame", 0);
 		FrameBuffer::clearDefaultBuffer();
 		_check_gl_error("First Clear", 0);
 
@@ -204,6 +205,7 @@ void Core::run()
 		_sceneManager->drawSceneList();
 #endif
 		_debugGUI->render();
+		_debugGUI->newFrame();
 		_check_gl_error("debugGUI", 0);
 
 		// Refeed position updates to physics system
@@ -227,9 +229,10 @@ void Core::run()
 
 
 		// Initialize loaded resources
-		ResourceManager::lazyLoad((flop == -1));
-		
-		if (ResourceManager::allReady()) {
+		//_resourceLoader->load((flop != -1));
+		_resourceLoader->load();
+
+		if (ResourceManager::isCompleted()) {
 			if (flop == -1) {
 				std::cout << "Generate Lighting!\n";
 				_lighting->generate();
@@ -285,21 +288,22 @@ void Core::reset()
 	}
 
 	_profiler->reset();
-	ResourceManager::reset();
+	_resourceLoader->reset();
+	_fileWatch->reset();
 }
 
 void Core::destroy()
 {
-	for (std::vector<ISystem*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
-	{
-		(*it)->destroy();
-	}
-
 	FrameBuffer::destroy();
 	Shader::clearAll();
 
-	_display->destroy();
+	for (std::vector<ISystem*>::reverse_iterator it = _systems.rbegin(); it != _systems.rend(); ++it) {
+		(*it)->destroy();
+	}
 
+	_fileWatch->destroy();
+
+	delete _resourceLoader;
 	delete _time;
 	delete _display;
 	delete _inputManager;
@@ -314,7 +318,7 @@ void Core::destroy()
 	delete _profiler;
 	delete _config;
 	delete _fileWatch;
-
+	delete _logger;
 #ifdef RECORD_MODE
 	delete _record_data;
 #endif

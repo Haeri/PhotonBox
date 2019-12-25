@@ -38,49 +38,48 @@ public:
 			Resources::ENGINE_RESOURCES + "/default_roughness.png",
 		};
 
-		Renderer::setSkyBox(createResource<CubeMap>(nightSky));
+		Renderer::setSkyBox(createResource<CubeMap>("night_cubemap", nightSky));
 		Renderer::getSkyBox()->intensity = 1;
 
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		SSAOProcessor * p_ssao = new SSAOProcessor(0);
-		SSReflectionProcessor* p_ssreflection = new SSReflectionProcessor(1);
-		AutoExposureProcessor* p_autoExposure = new AutoExposureProcessor(2);
-		BloomProcessor* p_bloom = new BloomProcessor(3);
-		ToneMappingProcessor* p_tonemapping = new ToneMappingProcessor(4);
+		new SSAOProcessor(0);
+		new SSReflectionProcessor(10);
+		new AutoExposureProcessor(20);
+		new BloomProcessor(30);
+		new ToneMappingProcessor(40);
 
 
 		/* --------------------------- OBJ --------------------------- */
-		Mesh* planeMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/plane.obj");
-		Mesh* sphereMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj");
-		Mesh* boxMesh = createResource<Mesh>(Resources::ENGINE_RESOURCES + "/primitives/cube.obj");
+		Mesh* planeMesh		= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/plane.obj"));
+		Mesh* sphereMesh	= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/sphere.obj"));
+		Mesh* boxMesh		= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/cube.obj"));
 
 
 		/* --------------------------- TEXTURES --------------------------- */
-		Texture* default_normal = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_normal.png"), false);
-		Texture* default_specular = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_specular.png"), false);
-		Texture* default_emission = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_emission.png"), false);
-		Texture* default_ao = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_ao.png"), false);
-		Texture* default_roughness = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/default_roughness.png"), false);
-		Texture* gradient = createResource<Texture>(std::string(Resources::ENGINE_RESOURCES + "/gradient.png"), false);
+		Texture* default_normal		= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_normal.png"));
+		Texture* default_specular	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_specular.png"));
+		Texture* default_emission	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_emission.png"));
+		Texture* default_ao			= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_ao.png"));
+		Texture* default_roughness	= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/default_roughness.png"));
+		Texture* gradient			= createResource<Texture>(Filepath(Resources::ENGINE_RESOURCES + "/gradient.png"));
 
 		/* --------------------------- SHADERS --------------------------- */
 		GShader* defaultShader = GShader::getInstance();
 
 
-
 		/* --------------------------- MATERIALS --------------------------- */
-		Material* def = createResource<Material>(defaultShader);
-		def->setTexture("albedoMap", default_ao);
-		def->setTexture("normalMap", default_normal);
-		def->setTexture("roughnessMap", default_specular);
-		def->setTexture("aoMap", default_ao);
-		def->setTexture("metallicMap", default_emission);
-		def->setTexture("emissionMap", default_emission);
+		Material* def = createResource<Material>("def_material", defaultShader);
+		def->setImageBuffer("albedoMap", default_ao);
+		def->setImageBuffer("normalMap", default_normal);
+		def->setImageBuffer("roughnessMap", default_specular);
+		def->setImageBuffer("aoMap", default_ao);
+		def->setImageBuffer("metallicMap", default_emission);
+		def->setImageBuffer("emissionMap", default_emission);
 
 
 		/* --------------------------- CAMERA --------------------------- */
-		Entity* cam = instanciate("Camera");
+		Entity* cam = instantiate("Camera");
 		cam->addComponent<Camera>();
 		cam->getComponent<Transform>()->setPosition(Vector3f(0, 6, -30));
 		cam->getComponent<Transform>()->setRotation(Vector3f(0, 0, 0));
@@ -89,10 +88,10 @@ public:
 
 
 		/* --------------------------- LIGHTS --------------------------- */
-		Entity* ambient = instanciate("Ambient");
+		Entity* ambient = instantiate("Ambient");
 		ambient->addComponent<AmbientLight>();
 
-		Entity* sun = instanciate("Sun");
+		Entity* sun = instantiate("Sun");
 		sun->addComponent<DirectionalLight>();
 		sun->getComponent<DirectionalLight>()->color = Vector3f(0.93f, 0.92f, 0.94f);
 		sun->getComponent<DirectionalLight>()->direction = Vector3f(1, -1, 1);
@@ -104,8 +103,8 @@ public:
 			float scale = rand() % 100 * 0.04f + 1;
 			//float scale = 1.5f;
 			std::cout << scale << std::endl;
-			Entity* sphere = instanciate("Sphere" + std::to_string(i));
-			sphere->getComponent<Transform>()->setPosition(Vector3f(rand() % 20 - 10, rand() % 20 + 10, rand() % 20-10));
+			Entity* sphere = instantiate("Sphere" + std::to_string(i));
+			sphere->getComponent<Transform>()->setPosition(Vector3f((float)(rand() % 20 - 10), (float)(rand() % 20 + 10), (float)(rand() % 20-10)));
 			//sphere->getComponent<Transform>()->setScale(Vector3f(scale, scale, scale));
 			sphere->addComponent<MeshRenderer>()->setMesh(sphereMesh);
 			sphere->getComponent<MeshRenderer>()->setMaterial(def);
@@ -122,7 +121,7 @@ public:
 			{
 				for (size_t z = 0; z < 4; z++)
 				{
-					Entity* box = instanciate("Box" + std::to_string(i) + std::to_string(j) + std::to_string(z));
+					Entity* box = instantiate("Box" + std::to_string(i) + std::to_string(j) + std::to_string(z));
 					//box->getComponent<Transform>()->setPosition(Vector3f(0, 9, 0));
 					box->getComponent<Transform>()->setPosition(Vector3f(i * 3 + (rand() % 2), 6 + z * 3 + (rand() % 2), j * 3 + (rand() % 2)));
 					box->addComponent<MeshRenderer>()->setMesh(boxMesh);
@@ -135,7 +134,7 @@ public:
 		}
 		*/
 		
-		Entity* quad = instanciate("Plane");
+		Entity* quad = instantiate("Plane");
 		quad->getComponent<Transform>()->setPosition(Vector3f(0, 0, -3));
 		quad->getComponent<Transform>()->setScale(Vector3f(200, 200, 200));
 		quad->addComponent<MeshRenderer>();

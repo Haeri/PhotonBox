@@ -43,4 +43,6 @@ void PostProcessor::setEnabled(bool enabled)
 	{
 		PostProcessing::removeProcessor(this);
 	}
+
+	onEnableChange(enabled);
 }

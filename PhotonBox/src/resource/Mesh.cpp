@@ -8,14 +8,23 @@
 #define new DEBUG_NEW
 #endif
 
-Mesh::Mesh(const std::string& fileName, bool forceInit) 
+Mesh::Mesh(Config config)
+	: _config(config)
 {
-	FileWatch::addToWatchList(fileName, this);
-	_fileName = fileName;
+	_isLoaded = true;
 
-	if (!forceInit)
+	blankInitialize();
+}
+
+Mesh::Mesh(Filepath filePath, Config config)
+	: _config(config)
+{
+	FileWatch::addToWatchList(filePath.getAbsolutePath(), this);
+	_filePath = filePath;
+
+	if (!config.forceInit)
 	{
-		std::cout << "Index Mesh: " << fileName << std::endl;
+		std::cout << "Index Mesh: " << filePath.getAbsolutePath() << std::endl;
 		loadAsync();
 	}
 	else
@@ -34,9 +43,10 @@ GLuint Mesh::getEBO()
 	return _ebo;
 }
 
-void Mesh::loadFromFile() 
+bool Mesh::loadFromFile() 
 { 
-	OBJLoader::loadObj(_fileName, this);
+	OBJLoader::loadObj(_filePath.getAbsolutePath(), this);
+	return vertices.size() > 0;
 }
 
 void Mesh::blankInitialize()
@@ -72,7 +82,7 @@ void Mesh::blankInitialize()
 }
 
 
-void Mesh::sendToGPU() 
+void Mesh::submitBuffer() 
 {
 	glBindVertexArray(_vao);
 

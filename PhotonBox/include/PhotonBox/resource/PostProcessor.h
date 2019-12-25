@@ -15,6 +15,7 @@ public:
 	bool isEnabled();
 	void setEnabled(bool enable);
 
+	virtual void onEnableChange(bool enable) {}
 	virtual void onResize() {}
 	virtual void render(FrameBuffer* nextBuffer) = 0;
 	virtual	void destroy() = 0;

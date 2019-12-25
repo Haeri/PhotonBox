@@ -8,8 +8,9 @@ class Mesh;
 
 #include "PhotonBox/core/ManagedResource.h"
 #include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/resource/ImageBuffer.h"
 
-class CubeMap : public ManagedResource
+class CubeMap : public ManagedResource, public ImageBuffer
 {
 public:
 	enum Face
@@ -30,7 +31,8 @@ public:
 	void generateSpecularConvolution(GLuint map);
 	GLuint getLocation() { return _cubeMap; }
 	void bind();
-	void bind(GLenum textureUnit);
+	void enable() override {}
+	void bind(unsigned int textureUnit);
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }
 	bool hasMipMaps() { return _isMip; }

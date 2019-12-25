@@ -1,19 +1,27 @@
 #ifndef RESOURCE_MANAGER_H
 #define RESOURCE_MANAGER_H
 
-class ILazyLoadable;
+class LazyLoadable;
 
 #include <vector>
 
 class ResourceManager
 {
 public:
-	static void lazyLoad(bool force = false);
-	static bool allReady();
-	static void addToInitializationList(ILazyLoadable* resource);
-	static void reset();
+	static unsigned int max_loadtime;
+
+	void load(bool lazy = true);
+	void reset();
+
+	static bool isCompleted();
+	static void addToInitializationList(LazyLoadable* resource);
 private:
-	static std::vector<ILazyLoadable*> _initializationList;
+	struct IndexedLazy
+	{
+		int index;
+		LazyLoadable* resource;
+	};
+	static std::vector<LazyLoadable*> _initializationList;
 };
 
 #endif // RESOURCE_MANAGER_H

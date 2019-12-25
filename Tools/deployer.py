@@ -68,4 +68,7 @@ copyFiles(game_res_path, out_path + "Game/res/", ('.pbt', '.pbm', '.ttf', '.vs',
 copyFiles(physx_dll_path, out_path + "Game/", (dynamic_Lib_ext))
 copyfile(binaries_path, out_path + "Game/Game" + executable_ext)
 
+# Temporary
+copyFiles(game_res_path + "enviroment/", out_path + "Game/res/enviroment/", ('.jpg', '.jpeg', '.png'))
+
 print("------------------------------- DONE -------------------------------")

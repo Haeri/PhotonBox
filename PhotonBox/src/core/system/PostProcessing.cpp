@@ -54,13 +54,9 @@ void PostProcessing::postProcess()
 	FrameBuffer* tmp;
 	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != (--_processorMap.end()); ++it)
 	{
-		//it->second->preProcess();
 		tmp = (++it)->second->mainBuffer;
 		(--it)->second->render(tmp);
 	}
-
-	//(--_processorMap.end())->second->preProcess();
-	//FrameBuffer::resetDefaultBuffer();
 	(--_processorMap.end())->second->render(Renderer::getMainFrameBuffer());
 
 	FrameBuffer::resetDefaultBuffer();

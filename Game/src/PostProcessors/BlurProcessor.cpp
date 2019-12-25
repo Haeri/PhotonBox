@@ -4,6 +4,7 @@
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
 #include <core/Display.h>
+#include <resource/FrameBuffer.h>
 
 #include "../Shader/AddShader.cpp"
 #include "../Shader/BlurHShader.cpp"

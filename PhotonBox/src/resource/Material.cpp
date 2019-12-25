@@ -4,6 +4,7 @@
 #include "PhotonBox/resource/CubeMap.h"
 #include "PhotonBox/resource/Shader.h"
 #include "PhotonBox/resource/Texture.h"
+#include "PhotonBox/resource/ImageBuffer.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -19,24 +20,14 @@ Material::~Material()
 	_uniformMap.clear();
 }
 
-void Material::setTexture(const std::string & uniformName, Texture* texture)
+void Material::setImageBuffer(const std::string& uniformName, ImageBuffer* image)
 {
-	_textreMap[uniformName] = texture;
-}
-
-void Material::setTexture(const std::string & uniformName, FrameBuffer * buffer, std::string attachmentName)
-{
-	_frameBufferMap[uniformName] = buffer->getAttachment(attachmentName);
-}
-
-void Material::setCubeMap(const std::string & uniformName, CubeMap* cubeMap)
-{
-	_cubeMapMap[uniformName] = cubeMap;
+	_imageBufferMap[uniformName] = image;
 }
 
 void Material::updateUniforms()
 {
-	updateUniforms(shader);
+	updateUniforms(_shader);
 }
 
 void Material::updateUniforms(Shader* shader)
@@ -49,39 +40,19 @@ void Material::updateUniforms(Shader* shader)
 
 void Material::bindTextures()
 {
-	bindTextures(shader);
+	bindTextures(_shader);
 }
 
 void Material::bindTextures(Shader* shader)
 {
-	// Textures
-	for (std::unordered_map<std::string, Texture*>::const_iterator it = _textreMap.begin(); it != _textreMap.end(); ++it)
-	{
-		if (shader->textures.find(it->first) != shader->textures.end())
-			it->second->bind(shader->textures[it->first].unit);
-	}
-
-	// Framebuffers
-	for (std::unordered_map<std::string, FrameBuffer::BufferAttachment*>::const_iterator it = _frameBufferMap.begin(); it != _frameBufferMap.end(); ++it)
-	{
-		if (shader->textures.find(it->first) != shader->textures.end())
-			it->second->frameBuffer->bind(shader->textures[it->first].unit, it->second->name);
-	}
-
-	// CubeMaps
-	for (std::unordered_map<std::string, CubeMap*>::const_iterator it = _cubeMapMap.begin(); it != _cubeMapMap.end(); ++it)
+	for (std::unordered_map<std::string, ImageBuffer*>::const_iterator it = _imageBufferMap.begin(); it != _imageBufferMap.end(); ++it)
 	{
 		if (shader->textures.find(it->first) != shader->textures.end())
 			it->second->bind(shader->textures[it->first].unit);
 	}
 }
 
-Texture* Material::getTexture(const std::string & uniformName)
+Shader* Material::getShader() 
 {
-	return _textreMap[uniformName];
-}
-
-CubeMap* Material::getCubeMap(const std::string & uniformName)
-{
-	return _cubeMapMap[uniformName];
+	return _shader;
 }

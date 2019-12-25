@@ -3,10 +3,11 @@
 
 #include <vector>
 
+#include "PhotonBox/core/ISystem.h"
 #include "PhotonBox/math/Vector2f.h"
 #include "PhotonBox/core/OpenGL.h"
 
-class InputManager
+class InputManager : public ISystem
 {
 public:
 	enum CursorMode
@@ -138,7 +139,10 @@ public:
 	static const int KEY_RIGHT_SUPER = 347;
 	static const int KEY_MENU = 348;
 
-	void init();
+	void init(Config::Profile profile) override;
+	void start() override {}
+	void destroy() override {}
+
 	void update();
 	void pollEvents();
 

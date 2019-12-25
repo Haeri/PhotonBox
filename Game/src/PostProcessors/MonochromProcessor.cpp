@@ -3,6 +3,7 @@
 
 #include <resource/PostProcessor.h>
 #include <resource/Material.h>
+#include <resource/FrameBuffer.h>
 
 #include "../Shader/MonochromShader.cpp"
 
@@ -19,7 +20,7 @@ public:
 	MonochromProcessor(int index) : PostProcessor(index)
 	{
 		_material = new Material(MonochromShader::getInstance());
-		_material->setTexture("renderTexture", mainBuffer, "color");
+		_material->setImageBuffer("renderTexture", mainBuffer->getAttachment("color"));
 	}
 
 	void render(FrameBuffer* nextBuffer) override

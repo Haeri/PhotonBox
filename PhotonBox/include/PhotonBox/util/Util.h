@@ -15,6 +15,9 @@ namespace Util
 	* every odd argument is the size of the data
 	***/
 	unsigned char* combineBuffer(int argc, ...);
+
+	unsigned char* loadIcon(const std::string& fileName, int& width, int& height);
+	void freeIcon(unsigned char* data);
 }
 
 #endif // UTIL_H

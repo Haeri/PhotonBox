@@ -23,26 +23,26 @@ void Scene::unload()
 	}
 	_entityList.clear();
 
-	for (std::vector<ManagedResource*>::iterator it = _resourceList.begin(); it != _resourceList.end(); ++it)
+	for (std::map<std::string, ManagedResource*>::iterator it = _resourceMap.begin(); it != _resourceMap.end(); ++it)
 	{
-		ILazyLoadable* f = dynamic_cast<ILazyLoadable*>(*it);
+		LazyLoadable* f = dynamic_cast<LazyLoadable*>(it->second);
 		if (f != nullptr) {
 			if (!f->isLoaded()) 
 			{
 				f->setRogue(); 
 			}
-		}
-		else 
-		{
-			delete (*it);
+			else
+			{
+				delete (it->second);
+			}
 		}
 	}
-	_resourceList.clear();
+	_resourceMap.clear();
 }
 
 void Scene::OnUnload() {}
 
-Entity* Scene::instanciate(std::string name)
+Entity* Scene::instantiate(std::string name)
 {
 	Entity *entity = new Entity(*this, name);
 	addToList(entity);
@@ -68,25 +68,6 @@ void Scene::destroy(Entity* go)
 	go->destroy();
 }
 
-void Scene::printEntitys()
-{
-	for (std::vector<Entity*>::iterator it = _entityList.begin(); it != _entityList.end(); ++it)
-	{
-		std::cout << (*it)->name << std::endl;
-	}
-}
-
-std::string Scene::getEntitys()
-{
-	std::string ret = "";
-	for (std::vector<Entity*>::iterator it = _entityList.begin(); it != _entityList.end(); ++it)
-	{
-		ret += " + " + (*it)->name + "\n";
-	}
-
-	return ret;
-}
-
 void Scene::addToList(Entity* go)
 {
 	_entityList.push_back(go);
@@ -96,4 +77,9 @@ void Scene::removeFromList(Entity* go)
 {
 	_entityList.erase(std::remove(_entityList.begin(), _entityList.end(), go), _entityList.end());
 	delete go;
+}
+
+std::vector<Entity*>& Scene::getEntities()
+{
+	return _entityList;
 }

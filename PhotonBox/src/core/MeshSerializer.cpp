@@ -6,6 +6,7 @@
 #include "PhotonBox/resource/Mesh.h"
 #include "PhotonBox/data-type/Vertex.h"
 #include "PhotonBox/util/Util.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -20,8 +21,8 @@ void MeshSerializer::write(const std::string &pathName, Mesh* mesh)
 	std::fstream f = std::fstream(pathName, std::ios::out | std::ios::binary);
 	if (f.is_open())
 	{
-		int vert_cnt = static_cast<int>(mesh->vertices.size());
-		int ind_cnt = static_cast<int>(mesh->indices.size());
+		unsigned int vert_cnt = static_cast<unsigned int>(mesh->vertices.size());
+		unsigned int ind_cnt = static_cast<unsigned int>(mesh->indices.size());
 		BoundingSphere bs = mesh->boundingSphere;
 
 		size_t vert_size = sizeof(Vertex) * vert_cnt;
@@ -30,7 +31,8 @@ void MeshSerializer::write(const std::string &pathName, Mesh* mesh)
 		size_t cp_buff_size = 0;
 
 		// Create one buffer from all the components
-		unsigned char* buff = Util::combineBuffer(10,
+		unsigned char* buff = Util::combineBuffer(
+			10,
 			(unsigned char*)&vert_cnt, sizeof(int),
 			(unsigned char*)&ind_cnt, sizeof(int),
 			(unsigned char*)&bs, sizeof(BoundingSphere),
@@ -52,73 +54,95 @@ void MeshSerializer::write(const std::string &pathName, Mesh* mesh)
 	}
 	else
 	{
-		std::cout << "ERROR: Could not create " << pathName << std::endl;
+		Logger::logn("Could not create " + pathName, Logger::ERR);
 	}
 }
 
-void MeshSerializer::read(const std::string & pathName, Mesh* mesh)
+void MeshSerializer::read(const std::string & name, Mesh* mesh)
 {
-
-	std::fstream f = std::fstream(pathName, std::ios::in | std::ios::binary);
-	if (f.is_open())
+	std::fstream f = std::fstream(name, std::ios::in | std::ios::binary);
+	if (!f.is_open())
 	{
-		size_t buff_size = -1;
-		size_t cp_buff_size = -1;
-		short version = -1;
-		unsigned char* cp_buff;
+		Logger::logn("Could not read " + name, Logger::ERR);
+		return;
+	}
+	
+	size_t buff_size = 0;
+	size_t cp_buff_size = 0;
+	short version = -1;
+	unsigned char* cp_buff;
 
-		int vert_cnt = -1;
-		int ind_cnt = -1;
+	unsigned int vert_cnt = 0;
+	unsigned int ind_cnt = 0;
 
-		size_t vert_size = -1;
-		size_t ind_size = -1;
+	size_t vert_size = 0;
+	size_t ind_size = 0;
 
-		f.seekg(0);
-		f.read((char*)&version, sizeof(short));
-		if (version != SERIALIZER_VERSION)
-			std::cerr << "ERROR: Old or unsupported Texture version!\n";
+	f.seekg(0);
+	if (!f.read((char*)&version, sizeof(short)))
+	{
+		Logger::logn("Could not read version in file " + name, Logger::ERR);
+		return;
+	}
 
-		f.read((char*)&buff_size, sizeof(size_t));
-		f.read((char*)&cp_buff_size, sizeof(size_t));
+	if (version != SERIALIZER_VERSION)
+	{
+		Logger::logn("Old or unsupported Texture version!", Logger::ERR);
+		return;
+	}
 
-		cp_buff = (unsigned char*)malloc(cp_buff_size);
+	if (!f.read((char*)&buff_size, sizeof(size_t)))
+	{
+		Logger::logn("Could not read buffer_size in file " + name, Logger::ERR);
+		return;
+	}
 
-		f.read((char*)cp_buff, cp_buff_size);
-		f.close();
+	if (!f.read((char*)&cp_buff_size, sizeof(size_t)))
+	{
+		Logger::logn("Could not read compressed_buffer_size in file " + name, Logger::ERR);
+		return;
+	}
 
-		unsigned char* buff = Util::decompress(cp_buff, cp_buff_size, buff_size);
-		unsigned char* curr = buff;
+	cp_buff = (unsigned char*)malloc(cp_buff_size);
 
-		vert_cnt = *reinterpret_cast<int*>(curr);
-		curr += sizeof(int);
-		ind_cnt = *reinterpret_cast<int*>(curr);
-		curr += sizeof(int);
-		mesh->boundingSphere = *reinterpret_cast<BoundingSphere*>(curr);
-		curr += sizeof(BoundingSphere);
+	if (!f.read((char*)cp_buff, cp_buff_size))
+	{
+		Logger::logn("Could not read compressed_buffer in file " + name, Logger::ERR);
+		return;
+	}
 
-		if (vert_cnt < 0 || ind_cnt < 0)
-		{
-			// Looks like the Mesh was incorrectly inflated
-			std::cerr << "ERROR: Mesh was inflated incorrectly!\n";
-		}
+	f.close();
 
-		vert_size = sizeof(Vertex) * vert_cnt;
-		ind_size = sizeof(unsigned int) * ind_cnt;
+	unsigned char* buff = Util::decompress(cp_buff, cp_buff_size, buff_size);
+	unsigned char* curr = buff;
+
+	vert_cnt = *reinterpret_cast<unsigned int*>(curr);
+	curr += sizeof(int);
+	ind_cnt = *reinterpret_cast<unsigned int*>(curr);
+	curr += sizeof(int);
+	mesh->boundingSphere = *reinterpret_cast<BoundingSphere*>(curr);
+	curr += sizeof(BoundingSphere);
+
+	if (vert_cnt == 0 || ind_cnt == 0)
+	{
+		// Looks like the Mesh was incorrectly inflated
+		Logger::logn("Mesh was inflated incorrectly!", Logger::ERR);
+		return;
+	}
+
+	vert_size = sizeof(Vertex) * vert_cnt;
+	ind_size = sizeof(unsigned int) * ind_cnt;
 		
-		mesh->vertices.resize(vert_cnt);
-		mesh->indices.resize(ind_cnt);
+	mesh->vertices.resize(vert_cnt);
+	mesh->indices.resize(ind_cnt);
 
-		memcpy(&(mesh->vertices[0]), curr, vert_size);
-		curr += vert_size;
-		memcpy(&(mesh->indices[0]), curr, ind_size);
+	memcpy(&(mesh->vertices[0]), curr, vert_size);
+	curr += vert_size;
+	memcpy(&(mesh->indices[0]), curr, ind_size);
 
-		free_buffer(cp_buff);
-		free_buffer(buff);
-	}
-	else
-	{
-		std::cout << "ERROR: Could not read " << pathName << std::endl;
-	}
+	free_buffer(cp_buff);
+	free_buffer(buff);
+	
 }
 
 void MeshSerializer::free_buffer(unsigned char* data)

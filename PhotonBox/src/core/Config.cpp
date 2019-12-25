@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "PhotonBox/util/Util.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -22,7 +23,7 @@ void Config::readConfig()
 
 	if (file.fail())
 	{
-		std::cerr << FILE_PATH << " could not be found." << std::endl;
+		Logger::logn("Creating new config file.", Logger::INFO);
 		createDefault();
 
 		return;
@@ -34,9 +35,13 @@ void Config::readConfig()
 		line.erase(remove(line.begin(), line.end(), ' '), line.end());
 		Util::split(line, "=", tokens);
 
-		if (tokens[0].at(0) == '#')
+		if (tokens[0] == "" || tokens[0].at(0) == '#')
 		{
 			continue;
+		}
+		else if (tokens[0].compare("appName") == 0)
+		{
+			profile.appName = tokens[1];
 		}
 		else if (tokens[0].compare("width") == 0)
 		{
@@ -78,17 +83,16 @@ void Config::readConfig()
 void Config::createDefault()
 {
 	std::string def = "#Photon Box Configuration file\n"
-					 "width = 1280\n"
+					"appName = PhotonBox\n"
+					"width = 1280\n"
 					 "height = 720\n"
 					 "fullscreen = 0\n"
-					 "vsync = 1\n"
-					 "supersampling = 1\n"
-					 "show_fps = 1\n"
+					 "vsync = 0\n"
+					 "supersampling = 0\n"
+					 "show_fps = 0\n"
 					 "fps_profiling = 0\n";
 
 	std::ofstream file(FILE_PATH);
 	file << def;
 	file.close();
-
-	readConfig();
 }

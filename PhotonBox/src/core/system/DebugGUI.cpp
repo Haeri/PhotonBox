@@ -8,17 +8,15 @@
 #define new DEBUG_NEW
 #endif
 
-void DebugGUI::init()
+void DebugGUI::init(Config::Profile profile)
 {
-	std::cout << "Initializing DebugGUI";
+	std::cout << "Initializing DebugGUI\n";
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui_ImplGlfwGL3_Init(Display::getWindow(), true);
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	
 	ImGui::StyleColorsDark();
-
-	std::cout << " - Done\n";
 }
 
 void DebugGUI::newFrame()
@@ -36,6 +34,16 @@ void DebugGUI::render()
 
 	ImGui::Render();
 	ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void DebugGUI::start()
+{
+	newFrame();
+}
+
+void DebugGUI::reset()
+{
+	ImGui::EndFrame();
 }
 
 void DebugGUI::destroy()

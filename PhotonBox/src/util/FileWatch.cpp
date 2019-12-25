@@ -1,9 +1,7 @@
 #include "PhotonBox/util/FileWatch.h"
 
-#include <thread>
-
 #include "PhotonBox/resource/Shader.h"
-#include "PhotonBox/core/ILazyLoadable.h"
+#include "PhotonBox/core/LazyLoadable.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -11,6 +9,7 @@
 #endif
 
 bool FileWatch::_loading = false;
+std::thread FileWatch::_thread;
 std::map<std::string, FileWatch::ResourceFile> FileWatch::_watchList;
 
 void FileWatch::addToWatchList(std::string filePath, Shader* shader)
@@ -37,7 +36,7 @@ void FileWatch::addToWatchList(std::string filePath, Shader* shader)
 	}
 }
 
-void FileWatch::addToWatchList(std::string filePath, ILazyLoadable* resource)
+void FileWatch::addToWatchList(std::string filePath, LazyLoadable* resource)
 {
 	struct stat result;
 	std::string s = filePath;
@@ -53,8 +52,24 @@ void FileWatch::addToWatchList(std::string filePath, ILazyLoadable* resource)
 
 void FileWatch::checkValidity()
 {
-	if(!_loading)
-		std::thread{ &FileWatch::asyncCheck, this }.detach();
+	if (!_loading) {
+		if (_thread.joinable())
+		{
+			_thread.join();
+		}
+		_thread = std::thread{ &FileWatch::asyncCheck, this };
+	}
+}
+
+void FileWatch::reset()
+{
+	_thread.join();
+	_watchList.clear();
+}
+
+void FileWatch::destroy()
+{
+	reset();
 }
 
 void FileWatch::asyncCheck()
