@@ -8,6 +8,15 @@
 class LazyLoadable
 {
 public:
+	enum State 
+	{
+		UNSET,
+		LOADING,
+		LOADED,
+		FAILED,
+		INITIALIZED
+	};
+
 	virtual ~LazyLoadable() {}
 
 	void loadAsync();
@@ -20,16 +29,14 @@ public:
 
 	virtual std::string getFilePath();
 protected:
-	bool _isLoaded = false;
-	bool _isInitialized = false;
 	Filepath _filePath;
 
 	virtual bool loadFromFile() = 0;
 	virtual void submitBuffer() = 0;
 	virtual void blankInitialize() {}
 private:
+	State _state = State::UNSET;
 	bool _rogue = false;
-	bool _failedToLoad = false;
 
 	void load();
 };

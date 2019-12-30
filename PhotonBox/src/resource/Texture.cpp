@@ -17,8 +17,6 @@
 Texture::Texture(Config config)
 	: _config(config)
 {
-	_isLoaded = true;
-
 	blankInitialize();
 }
 

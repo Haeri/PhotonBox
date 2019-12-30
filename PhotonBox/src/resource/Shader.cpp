@@ -245,13 +245,11 @@ void Shader::submitBuffer()
 			}
 		}
 	}
-	
-	//std::cout << "Initialized: " << _fileName << "\n";
 }
 
 void Shader::bind()
 {
-	if (!_isInitialized) return;
+	if (!isInitialized()) return;
 
 	glUseProgram(_program);
 }
@@ -280,7 +278,7 @@ void Shader::addTexture(std::string uniform)
 
 void Shader::enableAttributes()
 {
-	if (!_isInitialized) return;
+	if (!isInitialized()) return;
 
 	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
 	{
@@ -290,7 +288,7 @@ void Shader::enableAttributes()
 
 void Shader::disableAttributes()
 {
-	if (!_isInitialized) return;
+	if (!isInitialized()) return;
 
 	for (std::map<std::string, GLint>::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
 	{
@@ -300,7 +298,7 @@ void Shader::disableAttributes()
 
 void Shader::updateTextures()
 {
-	if (!_isInitialized) return;
+	if (!isInitialized()) return;
 
 	for (std::map<std::string, TexUniforUnit>::const_iterator it = textures.begin(); it != textures.end(); ++it)
 	{
@@ -392,7 +390,7 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 
 bool Shader::checkUniform(const std::string & name)
 {
-	if (!_isInitialized) return false;
+	if (!isInitialized()) return false;
 #ifdef _DEBUG
 	if (uniforms.find(name) != uniforms.end())
 	{

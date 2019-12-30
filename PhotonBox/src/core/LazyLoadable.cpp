@@ -15,6 +15,7 @@ void LazyLoadable::loadAsync()
 	blankInitialize();
 
 	ResourceManager::addToInitializationList(this);
+	_state = State::LOADING;
 	std::thread{ &LazyLoadable::load, this }.detach();
 }
 
@@ -32,21 +33,21 @@ void LazyLoadable::setRogue()
 
 void LazyLoadable::initialize()
 {
-	if(!_failedToLoad)
+	if(_state != State::FAILED)
 	{
 		submitBuffer();
-		_isInitialized = true;
+		_state = State::INITIALIZED;
 	}
 }
 
 bool LazyLoadable:: isLoaded()
 {
-	return _isLoaded && !_failedToLoad; 
+	return _state == State::LOADED || _state == State::INITIALIZED;
 }
 
 bool LazyLoadable::isInitialized()
 {
-	return _isInitialized; 
+	return _state == State::INITIALIZED; 
 }
 
 std::string LazyLoadable::getFilePath()
@@ -56,8 +57,7 @@ std::string LazyLoadable::getFilePath()
 
 void LazyLoadable::load()
 {
-	_failedToLoad = !loadFromFile();
-	_isLoaded = true;
+	_state = loadFromFile() ? State::LOADED : State::FAILED;
 
 	if (_rogue) {
 		delete this;
