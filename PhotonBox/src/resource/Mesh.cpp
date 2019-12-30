@@ -11,8 +11,6 @@
 Mesh::Mesh(Config config)
 	: _config(config)
 {
-	_isLoaded = true;
-
 	blankInitialize();
 }
 
