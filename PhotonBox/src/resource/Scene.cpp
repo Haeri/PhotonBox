@@ -23,21 +23,11 @@ void Scene::unload()
 	}
 	_entityList.clear();
 
-	for (std::map<std::string, ManagedResource*>::iterator it = _resourceMap.begin(); it != _resourceMap.end(); ++it)
+	for (std::vector<std::string>::iterator it = _resources.begin(); it != _resources.end(); ++it)
 	{
-		LazyLoadable* f = dynamic_cast<LazyLoadable*>(it->second);
-		if (f != nullptr) {
-			if (!f->isLoaded()) 
-			{
-				f->setRogue(); 
-			}
-			else
-			{
-				delete (it->second);
-			}
-		}
+		ResourceManager::deleteResource(*it);
 	}
-	_resourceMap.clear();
+	_resources.clear();
 }
 
 void Scene::OnUnload() {}

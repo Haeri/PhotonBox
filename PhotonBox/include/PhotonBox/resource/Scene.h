@@ -12,6 +12,7 @@ class ManagedResource;
 #include "PhotonBox/resource/Mesh.h"
 #include "PhotonBox/resource/Texture.h"
 #include "PhotonBox/resource/Filepath.h"
+#include "PhotonBox/core/system/ResourceManager.h"
 
 class Scene
 {
@@ -27,38 +28,19 @@ public:
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		T* resource;
+		_resources.push_back(name);
 
-		if (_resourceMap.find(name) == _resourceMap.end())
-		{	
-			resource = new T(data);
-			_resourceMap[name] = resource;
-		}
-		else
-		{
-			resource = (T*)_resourceMap[name];
-		}
-
-		return resource;
+		return ResourceManager::createResource<T, D>(name, data);
 	}
+
 	template <class T>
 	T* createResource(std::string name)
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		T* resource;
+		_resources.push_back(name);
 
-		if (_resourceMap.find(name) == _resourceMap.end())
-		{
-			resource = new T();
-			_resourceMap[name] = resource;
-		}
-		else
-		{
-			resource = (T*)_resourceMap[name];
-		}
-
-		return resource;
+		return ResourceManager::createResource<T>(name);
 	}
 
 	template <class T, typename C>
@@ -66,38 +48,18 @@ public:
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		T* resource;
+		_resources.push_back(path.getAbsolutePath());
 
-		if (_resourceMap.find(path.getAbsolutePath()) == _resourceMap.end())
-		{
-			resource = new T(path, config);
-			_resourceMap[path.getAbsolutePath()] = resource;
-		}
-		else
-		{
-			resource = (T*)_resourceMap[path.getAbsolutePath()];
-		}
-
-		return resource;
+		return ResourceManager::createResource<T, C>(path, config);
 	}
 	template <class T>
 	T* createResource(Filepath path)
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		T* resource;
+		_resources.push_back(path.getAbsolutePath());
 
-		if (_resourceMap.find(path.getAbsolutePath()) == _resourceMap.end())
-		{
-			resource = new T(path);
-			_resourceMap[path.getAbsolutePath()] = resource;
-		}
-		else
-		{
-			resource = (T*)_resourceMap[path.getAbsolutePath()];
-		}
-
-		return resource;
+		return ResourceManager::createResource<T>(path);
 	}
 
 	void destroy(Entity* go);
@@ -106,7 +68,7 @@ public:
 	std::vector<Entity*>& getEntities();
 private:
 	std::vector<Entity*> _entityList;
-	std::map<std::string, ManagedResource*> _resourceMap;
+	std::vector<std::string> _resources;
 
 	void addToList(Entity* go);
 };

@@ -40,9 +40,14 @@ void LazyLoadable::initialize()
 	}
 }
 
-bool LazyLoadable:: isLoaded()
+LazyLoadable::State LazyLoadable::getState()
 {
-	return _state == State::LOADED || _state == State::INITIALIZED;
+	return _state;
+}
+
+bool LazyLoadable::isLoaded()
+{
+	return _state == State::LOADED;
 }
 
 bool LazyLoadable::isInitialized()

@@ -24,6 +24,7 @@ public:
 	void setRogue();
 	void forceLoad();
 
+	State getState();
 	bool isLoaded();
 	bool isInitialized();
 
