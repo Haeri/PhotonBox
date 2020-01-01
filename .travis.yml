@@ -17,7 +17,7 @@ matrix:
         - sudo ./Tools/deployer_linux.sh Debug
     - os: windows
       install: 
-        - export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
+        - export PATH="$PATH:/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/15.0/Bin"
         - ./Tools/generate_project_win.bat -s
       script: 
         - MSBuild.exe PhotonBox.sln
