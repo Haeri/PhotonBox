@@ -64,7 +64,7 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 	_profiler = new Profiler();
 	_fileWatch = new FileWatch();
 	_time = new Time();
-	_resourceLoader = new ResourceManager();
+	_resourceManager = new ResourceManager();
 
 	_systems.push_back(_display);
 	_systems.push_back(_sceneManager);
@@ -230,7 +230,7 @@ void Core::run()
 
 		// Initialize loaded resources
 		//_resourceLoader->load((flop != -1));
-		_resourceLoader->load();
+		_resourceManager->load();
 
 		if (ResourceManager::isCompleted()) {
 			if (flop == -1) {
@@ -263,7 +263,7 @@ void Core::run()
 		// End of Frame
 		if (_sceneManager->sceneQueued())
 		{
-			_sceneManager->unloadScene(SceneManager::getCurrentScene());
+			//_sceneManager->unloadScene(SceneManager::getCurrentScene());
 			reset();
 			start();
 
@@ -288,7 +288,7 @@ void Core::reset()
 	}
 
 	_profiler->reset();
-	_resourceLoader->reset();
+	_resourceManager->reset();
 	_fileWatch->reset();
 }
 
@@ -302,8 +302,9 @@ void Core::destroy()
 	}
 
 	_fileWatch->destroy();
+	_resourceManager->destroy();
 
-	delete _resourceLoader;
+	delete _resourceManager;
 	delete _time;
 	delete _display;
 	delete _inputManager;

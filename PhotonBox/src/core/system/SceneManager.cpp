@@ -41,10 +41,13 @@ void SceneManager::loadSceneImmediately(const std::string& name)
 {
 	if (_sceneMap[name] == nullptr) return;
 
-	unloadScene(_currentScene);
+	Scene* oldScene = _currentScene;
 	_currentScene = _sceneMap[name];
 	_currentSceneName = name;
+
 	_currentScene->Load();
+	if(oldScene != nullptr) oldScene->unload();
+	
 	Display::setTitle(Config::profile.appName + " - " + name);
 	_inQueue = false;
 }
@@ -57,7 +60,7 @@ void SceneManager::loadQueuedScene()
 
 void SceneManager::unloadScene(Scene * scene)
 {
-	if (_currentScene == nullptr) return;
+	if (scene == nullptr) return;
 
 	scene->unload();
 	_currentScene = nullptr;
