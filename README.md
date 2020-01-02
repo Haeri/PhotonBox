@@ -92,7 +92,6 @@ Generate the xcode project files, by executing the script: `generate_project_mac
 
 ### GENERAL
 
-- Resource management and pooling
 - Precompile shader
 - Abstraction layer over OpenGL
 - Precompiled headers
