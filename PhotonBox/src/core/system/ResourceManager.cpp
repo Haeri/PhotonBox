@@ -84,6 +84,7 @@ void ResourceManager::addToInitializationList(LazyLoadable * resource)
 void ResourceManager::reset()
 {
 	_initializationList.clear();
+	_readyList.clear();
 }
 
 void ResourceManager::destroy()
