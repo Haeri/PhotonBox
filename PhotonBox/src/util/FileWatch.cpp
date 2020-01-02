@@ -53,17 +53,14 @@ void FileWatch::addToWatchList(std::string filePath, LazyLoadable* resource)
 void FileWatch::checkValidity()
 {
 	if (!_loading) {
-		if (_thread.joinable())
-		{
-			_thread.join();
-		}
+		if (_thread.joinable()) _thread.join();
 		_thread = std::thread{ &FileWatch::asyncCheck, this };
 	}
 }
 
 void FileWatch::reset()
 {
-	_thread.join();
+	if (_thread.joinable()) _thread.join();
 	_watchList.clear();
 }
 
