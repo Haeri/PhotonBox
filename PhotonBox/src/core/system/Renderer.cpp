@@ -452,7 +452,7 @@ void Renderer::renderDeferred()
 
 	// Render volumetric fog
 	// TODO: Temporarily disabling this, cause Linux version is freaking out
-	//renderFog();
+	renderFog();
 	
 
 	// Directly draw to main buffer if no post processing is active

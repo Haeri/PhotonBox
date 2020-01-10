@@ -137,7 +137,7 @@ void Core::run()
 			nbFrames = 0;
 			lastSecond = 0;
 		}
-		
+
 		_inputManager->pollEvents();
 
 		// Update Physics
@@ -235,7 +235,7 @@ void Core::run()
 		if (ResourceManager::isCompleted()) {
 			if (flop == -1) {
 				std::cout << "Generate Lighting!\n";
-				_lighting->generate();
+				Lighting::generate();
 				_renderer->_shadowsAreDirty = true;
 			}
 

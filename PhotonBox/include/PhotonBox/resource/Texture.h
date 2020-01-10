@@ -19,7 +19,12 @@ public:
 		int width;
 		int height;
 
-		Config(bool mips = false, bool hdr = false, int width = 0, int height = 0):
+		Config(
+			bool mips = false, 
+			bool hdr = false, 
+			int width = 0, 
+			int height = 0
+		):
 			mips(mips),
 			hdr(hdr),
 			width(width),
