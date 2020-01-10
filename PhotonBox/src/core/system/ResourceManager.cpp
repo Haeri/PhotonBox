@@ -49,7 +49,7 @@ void ResourceManager::load(bool lazy)
 		if(_readyList.empty())
 		{
 			_readyList.clear();
-			for (int i = _initializationList.size() - 1; i >= 0; --i)
+			for (int i = (int)_initializationList.size() - 1; i >= 0; --i)
 			{
 				if (_initializationList[i]->getState() == LazyLoadable::State::LOADED ||
 					_initializationList[i]->getState() == LazyLoadable::State::FAILED)
@@ -63,7 +63,7 @@ void ResourceManager::load(bool lazy)
 			}
 		}
 
-		for (int i = _readyList.size() - 1; i >= 0; --i)
+		for (int i = (int)_readyList.size() - 1; i >= 0; --i)
 		{	
 			_readyList[i]->initialize();
 			_readyList.erase(_readyList.begin() + i);
