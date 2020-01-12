@@ -9,6 +9,7 @@ class Scene;
 
 #include "PhotonBox/component/Transform.h"
 #include "PhotonBox/core/Component.h"
+#include "PhotonBox/util/Logger.h"
 
 class Entity
 {
@@ -25,7 +26,7 @@ public:
 	{
 		if (_componentMap.find(typeid(T)) != _componentMap.end())
 		{
-			std::cerr << name << " Entity already contains Component " << std::endl;
+			Logger::errln(name, "Entity already contains Component");
 			return nullptr;
 		}
 		T* c = new T();
@@ -48,7 +49,7 @@ public:
 				}
 			}
 			
-			std::cerr << typeid(T).name() << "-Component was not found!" << std::endl;
+			Logger::errln("Component", typeid(T).name(), "could not be found!");
 			return nullptr;
 		}
 		return (T*)_componentMap[typeid(T)];
@@ -77,7 +78,6 @@ public:
 	bool getEnable() { return _isEnabled; }
 	void setStatic(bool _static);
 	bool getStatic() { return _isStatic; }
-	void printComponents();
 private:
 	static int _idCnt;
 	bool _isEnabled;

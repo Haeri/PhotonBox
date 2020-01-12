@@ -18,8 +18,6 @@ public:
 	void start() override;
 	void destroy() override;
 
-	void generate();
-
 	template<class T>
 	static void addLight(T* light)
 	{
@@ -58,6 +56,8 @@ public:
 		}
 		return (std::vector<T*>*)&_lights[typeid(T)];
 	}
+	
+	static void generate();
 
 	static std::unordered_map<std::type_index, std::vector<LightEmitter*>>& getAllLights() { return _lights; }
 	static void addLightProbe(LightProbe* lightProbe);

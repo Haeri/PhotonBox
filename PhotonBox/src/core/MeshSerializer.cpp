@@ -54,7 +54,7 @@ void MeshSerializer::write(const std::string &pathName, Mesh* mesh)
 	}
 	else
 	{
-		Logger::logn("Could not create " + pathName, Logger::ERR);
+		Logger::errln("Could not create", pathName);
 	}
 }
 
@@ -63,7 +63,7 @@ void MeshSerializer::read(const std::string & name, Mesh* mesh)
 	std::fstream f = std::fstream(name, std::ios::in | std::ios::binary);
 	if (!f.is_open())
 	{
-		Logger::logn("Could not read " + name, Logger::ERR);
+		Logger::errln("Could not read", name);
 		return;
 	}
 	
@@ -81,25 +81,25 @@ void MeshSerializer::read(const std::string & name, Mesh* mesh)
 	f.seekg(0);
 	if (!f.read((char*)&version, sizeof(short)))
 	{
-		Logger::logn("Could not read version in file " + name, Logger::ERR);
+		Logger::errln("Could not read version in file", name);
 		return;
 	}
 
 	if (version != SERIALIZER_VERSION)
 	{
-		Logger::logn("Old or unsupported Texture version!", Logger::ERR);
+		Logger::errln("Old or unsupported Texture version!");
 		return;
 	}
 
 	if (!f.read((char*)&buff_size, sizeof(size_t)))
 	{
-		Logger::logn("Could not read buffer_size in file " + name, Logger::ERR);
+		Logger::errln("Could not read buffer_size in file", name);
 		return;
 	}
 
 	if (!f.read((char*)&cp_buff_size, sizeof(size_t)))
 	{
-		Logger::logn("Could not read compressed_buffer_size in file " + name, Logger::ERR);
+		Logger::errln("Could not read compressed_buffer_size in file", name);
 		return;
 	}
 
@@ -107,7 +107,7 @@ void MeshSerializer::read(const std::string & name, Mesh* mesh)
 
 	if (!f.read((char*)cp_buff, cp_buff_size))
 	{
-		Logger::logn("Could not read compressed_buffer in file " + name, Logger::ERR);
+		Logger::errln("Could not read compressed_buffer in file", name);
 		return;
 	}
 
@@ -126,7 +126,7 @@ void MeshSerializer::read(const std::string & name, Mesh* mesh)
 	if (vert_cnt == 0 || ind_cnt == 0)
 	{
 		// Looks like the Mesh was incorrectly inflated
-		Logger::logn("Mesh was inflated incorrectly!", Logger::ERR);
+		Logger::errln("Mesh was inflated incorrectly!");
 		return;
 	}
 

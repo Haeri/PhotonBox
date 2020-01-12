@@ -6,6 +6,7 @@
 #include <string>
 
 #include "PxPhysicsAPI.h"
+#include "PhotonBox/util/Logger.h"
 
 class Vector2f
 {

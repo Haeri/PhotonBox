@@ -1,51 +1,29 @@
 RENDERING
-- Instanced rendering
 - Deferred decals
 - Switch to GTAO
-- Draw handles
 - GBuffer packing
-- Dynamic Shadow bounding update
 - Anisotropic filtering
 
 GENERAL
-- Resource manager
-	- Protected constructors for managed resources
-	- Load next before unload to pass already loaded resources
 - Recursive light map generation with light conservation
 - Precompile shader
 - GL-State system: define all needed properties before draw call. System compares 
 	what state is to what it should be and only changes properties that are needed.
 - Wrap everything in PhotonBox name space
-- Abstraction layer over OpenGL
 - Precompiled headers
 - Switch to dll
 - Decouple asset conversion into its own Project (AssetCompiler)
-- Create Shader as JSON resource -> Eliminate Shader classes
 - (Move Scene classes to JSON resources)
 - General configuration for static defines (Depth pre-pass, Resource path)
 - Update dependency libs
 - Doxygen integration for documentation
-- Logging system
-- Debounce spam resize calls
-- Separate mesh into mesh-data and mesh-resource. 
-- Separate texture into texture-data and texture-resource. 
+- Debounce spam resize calls 
 - Clean up light emitter, pack shadow buffer inside, move shader binding code into light
-- Add Post processor component so the post processing is bond to a camera
-- Remove std::endl
+- Add Post processor component so the post processing is bound to a camera
 - Make include guards more unique
--
 
 OPTIMIZATION
-- Frustum culling
 - Uniform buffer
-- SIMD math
-
-RESOURCES
-- Textures	-> .PBT
-- Mesh		-> .PBM
-- Shader	-> .JSON
-- Scene 	-> .JSON
-- Material 	-> .JSON
 
 BUGS
 - Eye-adaptation freaking out with high frame rate

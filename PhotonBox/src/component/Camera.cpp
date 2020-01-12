@@ -14,7 +14,7 @@ Camera* Camera::_main;
 
 void Camera::init()
 {
-	if (_main == nullptr) setMain();
+	setMain();
 
 	float aspect = (float)Display::getWidth() / (float)Display::getHeight();
 	setPerspectiveProjection(70, aspect, 0.01f, 10000.0f);
