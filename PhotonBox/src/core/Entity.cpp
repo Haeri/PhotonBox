@@ -74,16 +74,3 @@ void Entity::setStatic(bool _static)
 {
 	_isStatic = _static;
 }
-
-void Entity::printComponents()
-{
-	std::cout << name << " contains " << _componentMap.size() << ":\n<";
-	for (std::unordered_map<std::type_index, Component*>::const_iterator it = _componentMap.begin(); it != _componentMap.end(); ++it)
-	{
-		if (it == _componentMap.begin())
-			std::cout << it->second->getName();
-		else
-			std::cout << ", " << it->second->getName();
-	}
-	std::cout << ">" << std::endl;
-}

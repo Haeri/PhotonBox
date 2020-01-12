@@ -26,8 +26,6 @@ Texture::Texture(Filepath filePath, Config config)
 	FileWatch::addToWatchList(filePath.getAbsolutePath(), this);
 	_filePath = filePath;
 
-	std::cout << "Index Texture: " << filePath.getAbsolutePath() << std::endl;
-
 	loadAsync();
 }
 
@@ -128,7 +126,4 @@ void Texture::submitBuffer()
 	}
 
 	TextureSerializer::free_buffer(_data);
-
-	//std::cout << "Initialized: " << _fileName << "\n";
 }
-

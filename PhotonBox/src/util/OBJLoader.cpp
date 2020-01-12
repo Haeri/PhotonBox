@@ -11,6 +11,7 @@
 #include "PhotonBox/resource/Mesh.h"
 #include "PhotonBox/core/MeshSerializer.h"
 #include "PhotonBox/util/Util.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -140,17 +141,7 @@ void loadFromCache(const std::string& filename, Mesh* mesh)
 
 void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 {
-	std::cout << "Loading mesh: " << filePath << std::endl;
 	std::ifstream file(filePath);
-
-	//TODO: Fix case where no .obj files are provided
-	/*
-	if (!file.is_open())
-	{
-		std::cerr << "\t ERROR: Could not open this file!" << std::endl;
-		mesh = nullptr;
-		return;
-	}*/
 
 	std::size_t found = filePath.find_last_of(".");
 	std::string cachePath = filePath.substr(0, found) + MeshSerializer::EXTENSION;
@@ -163,7 +154,7 @@ void OBJLoader::loadObj(const std::string & filePath, Mesh* mesh)
 	}
 #endif
 
-	std::cout << "\tCaching model..." << std::endl;
+	Logger::infoln("Caching model", filePath);
 
 	std::string line;
 	std::vector<std::string> tokens;

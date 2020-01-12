@@ -37,11 +37,11 @@ bool Core::_isRunning;
 
 void Core::init(std::map<std::string, Scene*>& sceneMap)
 {
-	std::cout << PHOTON_BOX_VERSION << "\n";
-	std::cout << "==================================================" << std::endl;
-	std::cout << "               INITIALIZING SYSTEMS" << std::endl << std::endl;
-
 	_logger = new Logger();
+
+	Logger::logln(PHOTON_BOX_VERSION);
+	Logger::hr();
+	Logger::logln("               INITIALIZING SYSTEMS\n");
 
 	// Load Config
 	_config = new Config();
@@ -87,8 +87,9 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 	_record_data = new unsigned char[size];
 #endif
 
-	std::cout << std::endl << "                   SYSTEMS READY" << std::endl;
-	std::cout << "==================================================" << std::endl << std::endl;
+	Logger::logln("\n                   SYSTEMS READY");
+	Logger::hr();
+	Logger::br();
 
 	// Start Subsystems
 	start();
@@ -96,16 +97,16 @@ void Core::init(std::map<std::string, Scene*>& sceneMap)
 
 void Core::start()
 {
-	std::cout << "==================================================" << std::endl;
-	std::cout << "            LOADING SCENE " << SceneManager::getCurrentName() << std::endl << std::endl;
+	Logger::hr();
+	Logger::logln("            LOADING SCENE ", SceneManager::getQueuedName(), "\n");
 
 	for (std::vector<ISystem*>::iterator it = _systems.begin(); it != _systems.end(); ++it)
 	{
 		(*it)->start();
 	}
 
-	std::cout << std::endl << "                   SCENE READY" << std::endl;
-	std::cout << "==================================================" << std::endl << std::endl;
+	Logger::logln("\n                   SCENE READY");
+	Logger::hr();
 }
 
 void Core::run()
@@ -234,7 +235,7 @@ void Core::run()
 
 		if (ResourceManager::isCompleted()) {
 			if (flop == -1) {
-				std::cout << "Generate Lighting!\n";
+				Logger::infoln("Generate Lighting!");
 				Lighting::generate();
 				_renderer->_shadowsAreDirty = true;
 			}
@@ -250,14 +251,14 @@ void Core::run()
 		std::string num = std::string(digits-s_num.length(), '0').append(s_num);
 		std::string s = "frames/frame_" + num + ".png";
 		const char* frame = s.c_str();
-		std::cout << "Start " << frame;
+		Logger::info("Start",frame);
 
 		FrameBuffer::resetDefaultBuffer();
 		glReadPixels(0, 0, Display::getWidth(), Display::getHeight(), GL_RGB, GL_UNSIGNED_BYTE, _record_data);
 		stbi_flip_vertically_on_write(1);
 		stbi_write_png(frame, Display::getWidth(), Display::getHeight(), 3, (void*)_record_data, 0);
 
-		std::cout << "- Done\n"; 
+		Logger::infoln("- Done");
 #endif
 
 		// End of Frame

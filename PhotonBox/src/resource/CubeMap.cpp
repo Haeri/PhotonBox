@@ -14,6 +14,7 @@
 #include "PhotonBox/resource/shader/SpecularConvolutionShader.h"
 #include "PhotonBox/resource/shader/IrradianceShader.h"
 #include "PhotonBox/util/OBJLoader.h"
+#include "PhotonBox/util/Logger.h"
 
 #include "STB/stb_image.h"
 
@@ -120,7 +121,7 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 {
 	if (!_isMip)
 	{
-		std::cerr << "ERROR: Cubemap must have mipmaps to generate Specular convolution" << std::endl;
+		Logger::errln("Cubemap must have mipmaps to generate Specular convolution");
 	}
 
 	Vector3f position = Vector3f::ZERO;
@@ -212,7 +213,7 @@ void CubeMap::loadCubeMap(const std::vector<std::string>& faces)
 		}
 		else
 		{
-			std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+			Logger::errln("Cubemap texture failed to load at path:", faces[i]);
 			stbi_image_free(data);
 		}
 	}

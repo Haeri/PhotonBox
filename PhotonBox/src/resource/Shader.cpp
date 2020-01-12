@@ -145,8 +145,6 @@ void Shader::init()
 	
 	FileWatch::addToWatchList(_filePath.getAbsolutePath(), this);
 
-	Logger::logn("Index Shader: " + _filePath.getAbsolutePath());
-
 	loadAsync();
 }
 
@@ -263,7 +261,7 @@ void Shader::addAttribut(std::string attribute, GLint index)
 void Shader::addUniform(std::string uniform)
 {
 	GLint pos = glGetUniformLocation(_program, uniform.c_str());
-	if (pos == -1) std::cout << "\t\tcould not find uniform '" << uniform << std::endl;
+	if (pos == -1) Logger::warnln("\t\tcould not find uniform '" + uniform + "'");
 	uniforms[uniform] = pos;
 }
 
@@ -271,7 +269,7 @@ void Shader::addTexture(std::string uniform)
 {
 	TexUniforUnit texUnit;
 	texUnit.uniformLocation = glGetUniformLocation(_program, uniform.c_str());
-	if (texUnit.uniformLocation == -1) std::cout << "\t\tcould not find uniform '" << uniform << std::endl;
+	if (texUnit.uniformLocation == -1) Logger::warnln("\t\tcould not find uniform '" + uniform + "'");
 	texUnit.unit = _textureUnit++;
 	textures[uniform] = texUnit;
 }
@@ -330,7 +328,7 @@ std::string Shader::readShader(const std::string& fileName)
 	}
 	else
 	{
-		Logger::logn("Unable to open file " + fileName, Logger::ERR);
+		Logger::errln("Unable to open file", fileName);
 	}
 
 	return text;
@@ -342,7 +340,7 @@ GLuint Shader::createShader(const std::string& shaderSource, unsigned int shader
 
 	if (shader == 0)
 	{
-		Logger::logn("Failed creating shader type " + shaderType, Logger::ERR);
+		Logger::errln("Failed creating shader type", shaderType);
 		return 0;
 	}
 
@@ -378,7 +376,7 @@ int Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 		else
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
-		Logger::logn(errorMessage + ":\n\t" + error, Logger::ERR);
+		Logger::errln(errorMessage + ":\n\t" + error);
 
 		return 1;
 	}
@@ -398,7 +396,7 @@ bool Shader::checkUniform(const std::string & name)
 	}
 	else
 	{
-		Logger::logn("Uniform " + name + " does not exist in shader " + _filePath.getName(), Logger::WARN);
+		Logger::warnln("Uniform", name, "does not exist in shader", _filePath.getName());
 		return false;
 	}
 #else

@@ -35,7 +35,7 @@ void _check_gl_error(const char *file, int line)
 		}
 
 
-		Logger::logn("GL_" + error + " - " + file + ":" + std::to_string(line), Logger::ERR);
+		Logger::errln("GL_" + error + " - " + file + ":" + std::to_string(line));
 		err = glGetError();
 	}
 #endif // PB_DEBUG

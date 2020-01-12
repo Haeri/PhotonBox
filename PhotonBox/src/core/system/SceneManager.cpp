@@ -76,6 +76,11 @@ std::string SceneManager::getCurrentName()
 	return _currentSceneName;
 }
 
+std::string SceneManager::getQueuedName()
+{
+	return _newScene;
+}
+
 Scene* SceneManager::getCurrentScene()
 {
 	return _currentScene;

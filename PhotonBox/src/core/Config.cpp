@@ -23,7 +23,7 @@ void Config::readConfig()
 
 	if (file.fail())
 	{
-		Logger::logn("Creating new config file.", Logger::INFO);
+		Logger::infoln("Creating new config file.");
 		createDefault();
 
 		return;
@@ -73,7 +73,7 @@ void Config::readConfig()
 		}
 		else
 		{
-			std::cout << "Unknown token: " << tokens[0] << std::endl;
+			Logger::warnln("Unknown token:", tokens[0]);
 		}
 	}
 

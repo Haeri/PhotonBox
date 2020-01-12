@@ -5,6 +5,7 @@
 
 #include "PhotonBox/core/Time.h"
 #include "PhotonBox/core/Display.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -29,7 +30,8 @@ void InputManager::pollEvents()
 
 void InputManager::init(Config::Profile profile)
 {
-	std::cout << "Initializing InputManager\n";
+	Logger::infoln("Initializing InputManager");
+
 	_xPos = 0;
 	_yPos = 0;
 	_xPosLast = 0;
