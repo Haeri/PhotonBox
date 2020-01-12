@@ -80,27 +80,6 @@ public:
 		return _max_size;
 	}
 
-	void print()
-	{
-		std::cout << "[";
-		for (int i = 0; i < _max_size - 1; ++i) {
-			std::cout << get(i) << ",\t";
-		}
-		std::cout << get(_max_size - 1) << "]\n";
-	}
-
-	void printDebug()
-	{
-		std::cout << "[";
-		for (int i = 0; i < _max_size * 2 - 1; ++i) {
-			std::cout << _array[i] << ",\t";
-		}
-		std::cout << _array[_max_size * 2 - 1];
-		std::cout << "] ";
-		std::cout << " offset: " << _offset;
-		std::cout << " current: " << _current << std::endl;
-	}
-
 private:
 	int _current = 0;
 	int _max_size = 0;

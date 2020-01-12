@@ -2,6 +2,7 @@
 
 #include "PhotonBox/resource/Shader.h"
 #include "PhotonBox/core/LazyLoadable.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -53,17 +54,14 @@ void FileWatch::addToWatchList(std::string filePath, LazyLoadable* resource)
 void FileWatch::checkValidity()
 {
 	if (!_loading) {
-		if (_thread.joinable())
-		{
-			_thread.join();
-		}
+		if (_thread.joinable()) _thread.join();
 		_thread = std::thread{ &FileWatch::asyncCheck, this };
 	}
 }
 
 void FileWatch::reset()
 {
-	_thread.join();
+	if (_thread.joinable()) _thread.join();
 	_watchList.clear();
 }
 
@@ -80,7 +78,7 @@ void FileWatch::asyncCheck()
 		struct stat result;
 		if (stat(it->first.c_str(), &result) == 0 && it->second.stamp != result.st_mtime)
 		{
-			std::cout << "Updating " << it->first << std::endl;
+			Logger::infoln("Updating ", it->first);
 			it->second.stamp = result.st_mtime;
 			it->second.resource->loadAsync();
 		}

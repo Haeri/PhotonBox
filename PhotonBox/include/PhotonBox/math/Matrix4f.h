@@ -95,7 +95,7 @@ public:
 			}
 			os << "]";
 			if (i < 3)
-				os << std::endl;
+				os << "\n";
 		}
 		return os;
 	}

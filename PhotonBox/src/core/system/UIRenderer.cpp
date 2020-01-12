@@ -6,6 +6,7 @@
 #include "PhotonBox/core/Resources.h"
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/core/system/Renderer.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -18,14 +19,15 @@ std::map<GLchar, Character> UIRenderer::_characters;
 
 void UIRenderer::init(Config::Profile profile)
 {
-	std::cout << "Initializing UIRenderer\n";
+	Logger::infoln("Initializing UIRenderer");
+
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
-		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+		Logger::errln("Could not init FreeType Library");
 
 	FT_Face face;
 	if (FT_New_Face(ft, (Resources::ENGINE_RESOURCES + "/fonts/OpenSans.ttf").c_str(), 0, &face))
-		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
+		Logger::errln("Failed to load font");
 
 
 	FT_Set_Pixel_Sizes(face, 0, 48);
@@ -40,7 +42,7 @@ void UIRenderer::init(Config::Profile profile)
 		// Load character glyph 
 		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
 		{
-			std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+			Logger::errln("Failed to load Glyph");
 			continue;
 		}
 		// Generate texture
@@ -123,8 +125,6 @@ void UIRenderer::renderText(std::string text, GLfloat x, GLfloat y, GLfloat scal
 
 		GLfloat w = ch.Size.x() * scale;
 		GLfloat h = ch.Size.y() * scale;
-
-		//std::cout << xpos  << ", " << ypos << " " << w << ", " << h << std::endl;
 
 		// Update VBO for each character
 		GLfloat vertices[6][4] = {

@@ -2,6 +2,7 @@
 
 #include "PhotonBox/core/Display.h"
 #include "PhotonBox/component/Camera.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -10,7 +11,8 @@
 
 void DebugGUI::init(Config::Profile profile)
 {
-	std::cout << "Initializing DebugGUI\n";
+	Logger::infoln("Initializing DebugGUI");
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui_ImplGlfwGL3_Init(Display::getWindow(), true);

@@ -64,7 +64,7 @@ public:
 		};
 
 		_night_c = scene->createResource<CubeMap>("night_cubemap", _nightSky);
-		_studio_c = scene->createResource<CubeMap>("studio_cubemap", _forrest);
+		_studio_c = scene->createResource<CubeMap>("forrest_cubemap", _forrest);
 	}
 
 	void Update()

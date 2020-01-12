@@ -9,6 +9,7 @@
 #include "PhotonBox/component/Rigidbody.h"
 #include "PhotonBox/component/Transform.h"
 #include "PhotonBox/component/SphereCollider.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -32,10 +33,11 @@ PxPvdTransport*	Physics::_gTransport;
 
 void Physics::init(Config::Profile profile)
 {
-	std::cout << "Initializing Physics\n";
+	Logger::infoln("Initializing Physics");
+
 	_gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, _gAllocator, _gErrorCallback);
 	if (!_gFoundation)
-		std::cerr << "PxCreateFoundation failed!";
+		Logger::errln("PxCreateFoundation failed!");
 
 #ifdef PDV_DEBUG
 	_gPvd = PxCreatePvd(*_gFoundation);
@@ -170,7 +172,7 @@ void Physics::addPhysicsObject(Rigidbody* rigidbody) //, Collider* collider)
 	if (c == nullptr)
 	{
 #ifdef _DEBUG
-		std::cerr << rigidbody->entity->name << "-Entity with a rigidbody requires a Collider component!\n";
+		Logger::errln(rigidbody->entity->name ,"-Entity with a rigidbody requires a Collider component!");
 #endif
 		return;
 	}
@@ -210,14 +212,6 @@ PxPhysics * Physics::getPhysX()
 }
 
 /*
-void Physics::printList()
-{
-	for (std::vector<Collider*>::iterator it = _colliders.begin(); it != _colliders.end(); ++it)
-	{
-		std::cout << (*it)->getName() << std::endl;
-	}
-}
-
 std::string Physics::getList()
 {
 	std::string ret = "";

@@ -23,12 +23,14 @@ void window_size_callback(GLFWwindow*, int, int);
 
 void Display::init(Config::Profile profile)
 {
+	Logger::infoln("Initializing Display");
+
 	_width = profile.width;
 	_height = profile.height;
 
 	if (!glfwInit())
 	{
-		Logger::logn("Failed to initialize GLFW!", Logger::ERR);
+		Logger::errln("Failed to initialize GLFW!");
 		exit(EXIT_FAILURE);
 	}
 
@@ -48,7 +50,7 @@ void Display::init(Config::Profile profile)
 
 	if (!_window)
 	{
-		Logger::logn("Failed to create a window. (OpenGL version 4.4 required)", Logger::ERR);
+		Logger::errln("Failed to create a window. (OpenGL version 4.4 required)");
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
@@ -64,7 +66,7 @@ void Display::init(Config::Profile profile)
 	setVSync(profile.vsync);
 	_isRunning = true;
 
-	std::cout << "OpenGL Version " << glGetString(GL_VERSION) << std::endl << std::endl;
+	Logger::infoln("OpenGL Version", glGetString(GL_VERSION));
 
 	glfwSetWindowSizeCallback(_window, window_size_callback);
 }

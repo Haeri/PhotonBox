@@ -8,6 +8,8 @@
 #include <core/system/Renderer.h>
 #include <core/system/SceneManager.h>
 #include <core/Display.h>
+#include <core/system/Lighting.h>
+#include <resource/FrameBuffer.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -58,8 +60,15 @@ public:
 				", " + std::to_string(transform->getRotation().getW());
 
 
-			std::cout << sp << std::endl;
-			std::cout << sr << std::endl << std::endl;
+			Logger::logln(sp);
+			Logger::logln(sr);
+			Logger::br();
+		}
+
+		if (InputManager::keyPressed(InputManager::KEY_C))
+		{
+			FrameBuffer::clearDefaultBuffer();
+			Lighting::generate();
 		}
 	}
 

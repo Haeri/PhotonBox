@@ -56,7 +56,7 @@ private:
 	Config*			_config;
 	FileWatch*		_fileWatch;
 	Logger*			_logger;
-	ResourceManager* _resourceLoader;
+	ResourceManager* _resourceManager;
 
 	std::vector<ISystem*> _systems;
 

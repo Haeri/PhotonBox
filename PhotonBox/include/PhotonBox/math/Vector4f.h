@@ -119,7 +119,7 @@ public:
 		else if (index == 3) return _w;
 		else
 		{
-			std::cerr << "index " << std::to_string(index) << " out of range\n";
+			Logger::errln("index", std::to_string(index), "out of range");
 			return _w;
 		}
 	}
@@ -132,7 +132,7 @@ public:
 		else if (index == 3) return _w;
 		else
 		{
-			std::cerr << "index " << std::to_string(index) << " out of range\n";
+			Logger::errln("index", std::to_string(index), "out of range");
 			return _w;
 		}
 	}

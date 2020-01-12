@@ -49,7 +49,7 @@ void TextureSerializer::write(std::string name, int width, int height, int compo
 			components != re_components)
 		{
 			// Something went wrong while combining components to one buffer
-			Logger::logn("Buffer combination failed!", Logger::ERR);
+			Logger::errln("Buffer combination failed!");
 		}
 
 
@@ -68,7 +68,7 @@ void TextureSerializer::write(std::string name, int width, int height, int compo
 	}
 	else
 	{
-		Logger::logn("Could not create " + name, Logger::ERR);
+		Logger::errln("Could not create", name);
 	}
 }
 
@@ -77,7 +77,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 	std::fstream f = std::fstream(name, std::ios::in | std::ios::binary);
 	if (!f.is_open())
 	{
-		Logger::logn("Could not read " + name, Logger::ERR);
+		Logger::errln("Could not read", name);
 		return nullptr;
 	}
 
@@ -91,25 +91,25 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 	
 	if (!f.read((char*)&version, sizeof(short)))
 	{
-		Logger::logn("Could not read version in file " + name, Logger::ERR);
+		Logger::errln("Could not read version in file", name);
 		return nullptr;
 	}
 
 	if (version != SERIALIZER_VERSION) 
 	{
-		Logger::logn("Old or unsupported Texture version!", Logger::ERR);
+		Logger::errln("Old or unsupported Texture version!");
 		return nullptr;
 	}
 
 	if(!f.read((char*)&buff_size, sizeof(size_t)))
 	{
-		Logger::logn("Could not read buffer_size in file " + name, Logger::ERR);
+		Logger::errln("Could not read buffer_size in file", name);
 		return nullptr;
 	}
 
 	if (!f.read((char*)&cp_buff_size, sizeof(size_t)))
 	{
-		Logger::logn("Could not read compressed_buffer_size in file " + name, Logger::ERR);
+		Logger::errln("Could not read compressed_buffer_size in file", name);
 		return nullptr;
 	}
 
@@ -117,7 +117,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 		
 	if (!f.read((char*)cp_buff, cp_buff_size))
 	{
-		Logger::logn("Could not read compressed_buffer in file " + name, Logger::ERR);
+		Logger::errln("Could not read compressed_buffer in file", name);
 		return nullptr;
 	}
 	f.close();
@@ -135,7 +135,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 	if (*width < 0 || *height < 0 || *components < 0)
 	{
 		// Looks like thexture was incorrectly inflated
-		Logger::logn("Texture was inflated incorrectly!", Logger::ERR);
+		Logger::errln("Texture was inflated incorrectly!");
 		return nullptr;
 	}
 
@@ -145,7 +145,7 @@ unsigned char* TextureSerializer::read(std::string name, int* width, int* height
 	if(data == 0)
 	{
 		// Looks like thexture was incorrectly inflated
-		Logger::logn("Unable to allocate data", Logger::ERR);
+		Logger::errln("Unable to allocate data");
 		return nullptr;
 	}
 	
