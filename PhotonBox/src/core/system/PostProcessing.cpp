@@ -4,6 +4,7 @@
 #include "PhotonBox/core/system/Renderer.h"
 #include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/core/system/DebugGUI.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -16,7 +17,7 @@ std::set<PostProcessor*> PostProcessing::_processorResourceSet;
 void PostProcessing::addProcessor(PostProcessor * processor)
 {
 	if (_processorMap[processor->getIndex()] != nullptr)
-		std::cerr << "Post Processor Index already occupied. Overriding\n";
+		Logger::errln("Post Processor Index already occupied. Overriding");
 
 	_processorMap[processor->getIndex()] = processor;
 

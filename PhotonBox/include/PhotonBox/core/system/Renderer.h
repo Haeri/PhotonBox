@@ -41,7 +41,6 @@ public:
 	static void removeFromRenderQueue(ObjectRenderer *renderer);
 	static void setSkyBox(CubeMap* cubeMap);
 	static SkyBox* getSkyBox() { return &_skyBox; }
-	static void printList();
 	static void setClearColor(Vector3f color);
 	static Vector3f getClearColor() { return _clearColor; }
 	static void addDrawCall();
@@ -60,7 +59,7 @@ public:
 	static void renderFog();
 	static unsigned long int getFrameIndex();
 	
-	void init(Config::Profile profile);
+	void init(Config::Profile profile) override;
 	void start() override;
 	void reset() override;
 	void destroy() override;

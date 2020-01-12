@@ -16,6 +16,7 @@ public:
 	static void unloadScene(Scene* scene);
 	static void unloadScene(const std::string &name);
 	static std::string getCurrentName();
+	static std::string getQueuedName();
 	static Scene* getCurrentScene();
 	static void setSceneMap(std::map<std::string, Scene*>& sceneMap);
 

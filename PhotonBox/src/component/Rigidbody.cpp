@@ -20,7 +20,7 @@ void Rigidbody::init()
 	if (c == nullptr)
 	{
 #ifdef _DEBUG
-		std::cerr << entity->name << "-Entity with a rigidbody requires a Collider component!\n";
+		Logger::errln("Entity", entity->name, "with a rigidbody requires a Collider component!");
 #endif
 		return;
 	}

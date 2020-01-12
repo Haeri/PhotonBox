@@ -175,7 +175,7 @@ void FrameBuffer::ready()
 		
 	auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
+		Logger::warnln("Framebuffer not complete:", fboStatus);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

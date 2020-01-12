@@ -3,8 +3,13 @@
 
 #include <iostream>
 #include <sstream> 
+
 #ifdef PB_PLATFORM_WIN
 #include <windows.h>
+#undef max
+#undef min
+#undef near
+#undef far
 #endif
 
 class Logger
@@ -27,43 +32,153 @@ public:
 #endif
 	};
 
-	static void logn(std::ostringstream &stream, Type type = DEF)
+	struct LogLevel
 	{
-		log(stream.str() + "\n\r", type);
+		std::string name;
+	};
+
+	struct LevelCore : public LogLevel { std::string name = "Core"; };
+	struct LevelApplication : public LogLevel { std::string name = "Application"; };
+
+	template <typename ... args >
+	static void log(args ... to_print)
+	{
+		_printStart(DEF, to_print...);
+	}
+	template <typename ... args >
+	static void logln(args ... to_print)
+	{
+		_printStart(DEF, to_print...);
+		std::cout << "\n";
 	}
 
-	static void logn(std::string message, Type type = DEF)
+	template <typename ... args >
+	static void info(args ... to_print)
 	{
-		log(message + "\n\r", type);
+		_printStart(INFO, to_print...);
+	}
+	template <typename ... args >
+	static void infoln(args ... to_print)
+	{
+		_printStart(INFO, to_print...);
+		std::cout << "\n";
 	}
 
-	static void log(std::ostringstream &stream, Type type = DEF)
+	template <typename ... args >
+	static void confirm(args ... to_print)
 	{
-		log(stream.str(), type);
+		_printStart(CONFIRM, to_print...);
 	}
-	
-	static void log(std::string message, Type type = DEF)
+	template <typename ... args >
+	static void confirmln(args ... to_print)
 	{
+		_printStart(CONFIRM, to_print...);
+		std::cout << "\n";
+	}
+
+	template <typename ... args >
+	static void warn(args ... to_print)
+	{
+		_printStart(WARN, to_print...);
+	}
+	template <typename ... args >
+	static void warnln(args ... to_print)
+	{
+		_printStart(WARN, to_print...);
+		std::cout << "\n";
+	}
+
+	template <typename ... args >
+	static void err(args ... to_print)
+	{
+		_printStart(ERR, to_print...);
+	}
+	template <typename ... args >
+	static void errln(args ... to_print)
+	{
+		_printStart(ERR, to_print...);
+		std::cerr << "\n";
+	}
+
+	static void hr()
+	{
+		std::cout << "---------------------------------------------------\n";
+	}
+
+	static void br()
+	{
+		std::cout << "\n";
+	}
+
+
+
+private:
+	// Start
+	template <typename ... args >
+	static void _printStart(Type type, args ... to_print)
+	{
+		std::string time_str;
+
+#ifdef PB_LOG_TO_FILE
+		std::time_t time = std::time(nullptr);
+		time_str = std::ctime(&time);
+		time_str.pop_back();
+
+		time_str = "[" + time_str + "] ";
+#endif
+
 #ifdef PB_PLATFORM_WIN
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleTextAttribute(hConsole, type);
-		if (type == ERR) 
-			std::cerr << "ERROR: " << message;
-		else 
-			std::cout << message;
-		
+		if (type == ERR)
+			std::cerr << time_str << "ERROR: ";
+		else
+			std::cout << time_str;
+
+#else
+		if (type == ERR)
+			std::cerr << "\x1B[" << std::to_string(type) << "m" << time_str << "ERROR: ";
+		else
+			std::cout << "\x1B[" << std::to_string(type) << "m" << time_str;
+#endif
+
+		_print(type, to_print...);
+	}
+
+
+	// Mid
+	template <typename T, typename ... args >
+	static void _print(Type type, T current, args... next)
+	{
+		if (type == ERR)
+			std::cerr << current << " ";
+		else
+			std::cout << current << " ";
+
+		_print(type, next...);
+	}
+
+
+	// End
+	template <typename T >
+	static void _print(Type type, T last)
+	{
+#ifdef PB_PLATFORM_WIN
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		if (type == ERR)
+			std::cerr << last;
+		else
+			std::cout << last;
+
 		SetConsoleTextAttribute(hConsole, DEF);
 #else
 		if (type == ERR)
-			std::cerr << "\x1B[" << std::to_string(type) << "m" << "ERROR: " << message << "\033[0m";
+			std::cerr << last << "\033[0m";
 		else
-			std::cout << "\x1B[" << std::to_string(type) << "m" << message << "\033[0m";
-		
+			std::cout << last << "\033[0m";
 #endif
 	}
 };
 
 #endif // LOGGER_H
-
-
-//HANDLE Logger::hConsole;

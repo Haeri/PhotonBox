@@ -22,7 +22,6 @@ Mesh::Mesh(Filepath filePath, Config config)
 
 	if (!config.forceInit)
 	{
-		std::cout << "Index Mesh: " << filePath.getAbsolutePath() << std::endl;
 		loadAsync();
 	}
 	else
@@ -93,8 +92,6 @@ void Mesh::submitBuffer()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	//std::cout << "Initialized: " << _fileName << "\n";
 }
 
 Mesh::~Mesh()

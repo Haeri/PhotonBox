@@ -36,6 +36,7 @@
 #include "PhotonBox/resource/shader/ForwardDirectionalLightShader.h"
 #include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/util/GLError.h"
+#include "PhotonBox/util/Logger.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -123,8 +124,9 @@ void Renderer::setSkyBox(CubeMap* cubeMap)
 
 void Renderer::init(Config::Profile profile)
 {
+	Logger::infoln("Initializing Renderer");
+
 	float superSampling = profile.supersampling ? 2.0f : 1.0f;
-	std::cout << "Initializing Renderer\n";
 	// OpenGL config
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
@@ -978,14 +980,6 @@ void Renderer::destroy()
 	delete _noise;
 
 	_renderListOpaque.clear();
-}
-
-void Renderer::printList()
-{
-	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
-	{
-		std::cout << (*it)->getName() << std::endl;
-	}
 }
 
 void Renderer::setClearColor(Vector3f color)
