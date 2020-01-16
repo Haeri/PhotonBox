@@ -259,7 +259,6 @@ void Renderer::prePass()
 		glDepthFunc(GL_EQUAL);
 	}
 
-
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 	{
 		if ((*it)->getEnable() && Camera::getMainCamera()->frustumTest(*it))
@@ -308,6 +307,7 @@ void Renderer::prePass()
 			}
 		}
 	}
+
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
