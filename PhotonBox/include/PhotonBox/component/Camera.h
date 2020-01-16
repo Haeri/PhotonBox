@@ -14,6 +14,15 @@ public:
 	{
 		Vector3f normal;
 		float distance;
+
+		void normalize()
+		{
+			float mag = sqrt(normal.x() * normal.x() + normal.y() * normal.y() + normal.z() * normal.z());
+			normal.x() = normal.x() / mag;
+			normal.y() = normal.y() / mag;
+			normal.z() = normal.z() / mag;
+			distance = distance / mag;
+		}
 	};
 
 	void updateAspect();
@@ -39,6 +48,7 @@ public:
 private:
 	static Camera* _main;
 
+	unsigned long int _lastFrustumUpdate;
 	float _fov, _zNear, _zFar, _aspect, _radius;
 	bool _isPerspective;
 	bool _jitter = false;

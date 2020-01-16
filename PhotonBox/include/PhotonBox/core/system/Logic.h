@@ -15,14 +15,14 @@ public:
 	static void removeFromList(Behaviour *behaviour);
 	static unsigned long int getTickIndex();
 
+	static void tick();
+	static void fixedUpdate();
+	static void update();
+	static void lateUpdate();
+
 	void start() override;
 	void reset() override;
 	void destroy() override;
-
-	void tick();
-	void fixedUpdate();
-	void update();
-	void lateUpdate();
 private:
 	static std::vector<Behaviour*> _behaviourList;
 	static unsigned long int _tickIndex;
