@@ -1,9 +1,11 @@
-name: C++ Deployer
+name: C++ Releaser
 
 on: 
   push:
     branches:
     - master
+    tags:        
+      - v* 
 
 jobs:
   build-win:
@@ -86,11 +88,7 @@ jobs:
           zip -r ../Windows.zip .
           cd ../Linux
           zip -r ../Linux.zip .
-          cd ../..
-      
-      - run: sudo apt-get install tree
-      - run: tree .
-        
+          cd ../..        
   
       - name: Create Release
         id: create_release
@@ -100,7 +98,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: true
+          draft: false
           prerelease: true
 
       - name: Upload Windows Release Asset
