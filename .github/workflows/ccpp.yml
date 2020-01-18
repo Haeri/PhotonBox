@@ -6,57 +6,51 @@ on:
     - master
 
 jobs:
-  build:
-
-   runs-on: ${{ matrix.os }}
-   strategy:
-    matrix:
-      os: [windows-latest, ubuntu-latest]
-    
+  build-win:
+   runs-on: windows-latest    
    steps:
     - uses: actions/checkout@v1
     
-    # ----------------- INSTALL -----------------
-    - name: Install Windows
-      if: matrix.os == 'windows-latest'
+    - name: Install
       uses: warrenbuckley/Setup-MSBuild@v1
-    
-    - name: Install Linux
-      if: matrix.os == 'ubuntu-latest'
-      run: sudo apt install mesa-common-dev libglu1-mesa-dev xorg-dev
-      
-    # ----------------- GENERATE -----------------
-    - name: Generate Windows
-      if: matrix.os == 'windows-latest'
-      run: ./Tools/generate_project_win.bat -s
-      
-    - name: Generate Linux
-      if: matrix.os == 'ubuntu-latest'
-      run: ./Tools/generate_project_linux.sh
 
-    # ----------------- BUILD -----------------
-    - name: Build Windows
-      if: matrix.os == 'windows-latest'
+    - name: Generate
+      run: ./Tools/generate_project_win.bat -s
+
+    - name: Build
       run: MSBuild.exe PhotonBox.sln
       
-    - name: Build Linux
-      if: matrix.os == 'ubuntu-latest'
-      run: make
-      
-    # ----------------- PACKAGE -----------------
-    - name: Package Windows
-      if: matrix.os == 'windows-latest'
+    - name: Package
       run: ./Tools/deployer_win.bat Debug -s
       
-    - name: Package Linux
-      if: matrix.os == 'ubuntu-latest'
-      run: sudo ./Tools/deployer_linux.sh Debug
-
-    # ----------------- UPLOAD -----------------
     - name: Upload
       uses: actions/upload-artifact@v1
       with:
         name: ${{ runner.os }}
         path: Build/Debug
     
- 
+  build-linux:
+   runs-on: ubuntu-latest
+   steps:
+    - uses: actions/checkout@v1
+    
+    - name: Install
+      run: |
+       sudo apt-get update
+       sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
+      
+    - name: Generate
+      run: ./Tools/generate_project_linux.sh
+      
+    - name: Build
+      run: make
+      
+    - name: Package
+      run: sudo ./Tools/deployer_linux.sh Debug
+
+    - name: Upload
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ runner.os }}
+        path: Build/Debug
+
