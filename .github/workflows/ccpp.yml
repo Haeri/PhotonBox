@@ -1,0 +1,27 @@
+name: C++ Builder
+
+on: 
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+   runs-on: ${{ matrix.os }}
+   strategy:
+    matrix:
+      os: [windows-latest]
+    
+   steps:
+    - uses: actions/checkout@v1
+    - name: Setup MSBuild.exe
+      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Generate 
+      run: ./Tools/generate_project_win.bat -s
+    - name: Build 
+      run: MSBuild.exe PhotonBox.sln
+    - name: Package
+      run: ./Tools/deployer_win.bat Debug -s
+    
+ 
