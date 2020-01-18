@@ -1,0 +1,119 @@
+name: C++ Releaser
+
+on: 
+  push:
+    tags:        
+      - v* 
+
+jobs:
+  build-win:
+   runs-on: windows-latest    
+   steps:
+    - name: Download Repository
+      uses: actions/checkout@v1
+    - name: Setup Environment
+      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Generate Solution
+      run: ./Tools/generate_project_win.bat -s
+    - name: Build
+      run: MSBuild.exe PhotonBox.sln
+    - name: Package
+      run: ./Tools/deployer_win.bat Debug -s
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ runner.os }}
+        path: Build/Debug
+    
+  build-linux:
+   runs-on: ubuntu-latest
+   steps:
+    - name: Download Repository
+      uses: actions/checkout@v1
+    - name: Setup Environment
+      run: |
+       sudo apt-get update
+       sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
+    - name: Generate Solution
+      run: ./Tools/generate_project_linux.sh
+    - name: Build
+      run: make
+    - name: Package
+      run: sudo ./Tools/deployer_linux.sh Debug
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ runner.os }}
+        path: Build/Debug
+
+#  build-mac:
+#   runs-on: macos-latest
+#   steps:
+#    - name: Download Repository
+#      uses: actions/checkout@v1
+#    - name: Setup Environment
+#      run: 
+#    - name: Generate Solution
+#      run: ./Tools/generate_project_mac.sh
+#    - name: Build
+#      run: make
+#    - name: Package
+#      run: sudo ./Tools/deployer_linux.sh Debug
+#    - name: Upload Artifact
+#      uses: actions/upload-artifact@v1
+#      with:
+#        name: ${{ runner.os }}
+#        path: Build/Debug
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [build-win, build-linux]
+    steps:
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: Windows
+          path: release/Windows
+      - name: Download Linux Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: Linux
+          path: release/Linux
+
+      - name: Zip Archives
+        run: |
+          cd release/Windows
+          zip -r ../Windows.zip .
+          cd ../Linux
+          zip -r ../Linux.zip .
+          cd ../..        
+  
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: true
+
+      - name: Upload Windows Release Asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./release/Windows.zip
+          asset_name: PhotonBox-${{ github.ref }}-Windows.zip
+          asset_content_type: application/zip
+      - name: Upload Linux Release Asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./release/Linux.zip
+          asset_name: PhotonBox-${{ github.ref }}-Linux.zip
+          asset_content_type: application/zip
