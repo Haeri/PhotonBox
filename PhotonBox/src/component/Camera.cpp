@@ -2,6 +2,7 @@
 
 #include "PhotonBox/core/Entity.h"
 #include "PhotonBox/core/Display.h"
+#include "PhotonBox/core/system/Logic.h"
 #include "PhotonBox/component/ObjectRenderer.h"
 #include "PhotonBox/math/Math.h"
 
@@ -125,49 +126,52 @@ Vector2f Camera::worldToScreen(Vector3f point)
 
 void Camera::updateFrustum()
 {
-	//if (transform->hasChanged())
-	//{
-	Matrix4f m = getViewProjection();
-	//Left
-	_frustum[0].normal.x()	= m(0, 3) + m(0, 0);
-	_frustum[0].normal.y()	= m(1, 3) + m(1, 0);
-	_frustum[0].normal.z()	= m(2, 3) + m(2, 0);
-	_frustum[0].distance	= m(3, 3) + m(3, 0);
+	if (transform->hasChangedSince(_lastFrustumUpdate))
+	{
+		_lastFrustumUpdate = Logic::getTickIndex();
+
+		Matrix4f m = getViewProjection();
+
+		//Left
+		_frustum[0].normal.x()	= m(0, 3) + m(0, 0);
+		_frustum[0].normal.y()	= m(1, 3) + m(1, 0);
+		_frustum[0].normal.z()	= m(2, 3) + m(2, 0);
+		_frustum[0].distance	= m(3, 3) + m(3, 0);
 		
-	//Right
-	_frustum[1].normal.x()	= m(0, 3) - m(0, 0);
-	_frustum[1].normal.y()	= m(1, 3) - m(1, 0);
-	_frustum[1].normal.z()	= m(2, 3) - m(2, 0);
-	_frustum[1].distance	= m(3, 3) - m(3, 0);
+		//Right
+		_frustum[1].normal.x()	= m(0, 3) - m(0, 0);
+		_frustum[1].normal.y()	= m(1, 3) - m(1, 0);
+		_frustum[1].normal.z()	= m(2, 3) - m(2, 0);
+		_frustum[1].distance	= m(3, 3) - m(3, 0);
 
-	// Top
-	_frustum[2].normal.x()	= m(0, 3) - m(0, 1);
-	_frustum[2].normal.y()	= m(1, 3) - m(1, 1);
-	_frustum[2].normal.z()	= m(2, 3) - m(2, 1);
-	_frustum[2].distance	= m(3, 3) - m(3, 1);
+		// Top
+		_frustum[2].normal.x()	= m(0, 3) - m(0, 1);
+		_frustum[2].normal.y()	= m(1, 3) - m(1, 1);
+		_frustum[2].normal.z()	= m(2, 3) - m(2, 1);
+		_frustum[2].distance	= m(3, 3) - m(3, 1);
 
-	//Bottom
-	_frustum[3].normal.x()	= m(0, 3) + m(0, 1);
-	_frustum[3].normal.y()	= m(1, 3) + m(1, 1);
-	_frustum[3].normal.z()	= m(2, 3) + m(2, 1);
-	_frustum[3].distance	= m(3, 3) + m(3, 1);
+		//Bottom
+		_frustum[3].normal.x()	= m(0, 3) + m(0, 1);
+		_frustum[3].normal.y()	= m(1, 3) + m(1, 1);
+		_frustum[3].normal.z()	= m(2, 3) + m(2, 1);
+		_frustum[3].distance	= m(3, 3) + m(3, 1);
 
-	//Near
-	_frustum[4].normal.x()	= m(0, 2);
-	_frustum[4].normal.y()	= m(1, 2);
-	_frustum[4].normal.z()	= m(2, 2);
-	_frustum[4].distance	= m(3, 2);
+		//Near
+		_frustum[4].normal.x()  = m(0, 3) + m(0, 2);
+		_frustum[4].normal.y()	= m(1, 3) + m(1, 2);
+		_frustum[4].normal.z()	= m(2, 3) + m(2, 2);
+		_frustum[4].distance	= m(3, 3) + m(3, 2);
 
-	//Far
-	_frustum[5].normal.x()	= m(0, 3) - m(0, 2);
-	_frustum[5].normal.y()	= m(1, 3) - m(1, 2);
-	_frustum[5].normal.z()	= m(2, 3) - m(2, 2);
-	_frustum[5].distance	= m(3, 3) - m(3, 2);
+		//Far
+		_frustum[5].normal.x()	= m(0, 3) - m(0, 2);
+		_frustum[5].normal.y()	= m(1, 3) - m(1, 2);
+		_frustum[5].normal.z()	= m(2, 3) - m(2, 2);
+		_frustum[5].distance	= m(3, 3) - m(3, 2);
 
-	// Normalize all plane normals
-	for (int i = 0; i < 6; i++)
-		_frustum[i].normal.normalize();
-	//}
+		// Normalize all plane normals
+		for (int i = 0; i < 6; i++)
+			_frustum[i].normalize();
+	}
 }
 
 void Camera::setMain()
@@ -177,27 +181,14 @@ void Camera::setMain()
 
 bool Camera::frustumTest(ObjectRenderer* object)
 {
-	return true;
 	updateFrustum();
 
-	//float maxScaleAxis = max(max(object->transform->getScale().x(), object->transform->getScale().y()), object->transform->getScale().z());
+	float maxScaleAxis = Math::max(Math::max(object->getTransform()->getScale().x(), object->getTransform()->getScale().y()), object->getTransform()->getScale().z());
 	Vector3f center = (object->getTransform()->getTransformationMatrix() * Vector4f(object->getBoundingSphere().getCenter(), 1.0f)).xyz();
-	
-	
-	std::cout << "LEFT:  " << _frustum[0].normal << "\n";
-	std::cout << "RIGHT: " << _frustum[1].normal << "\n";
-	std::cout << "TOP:   " << _frustum[2].normal << "\n";
-	std::cout << "BOTTOM:" << _frustum[3].normal << "\n";
-	std::cout << "NEAR:  " << _frustum[4].normal << "\n";
-	std::cout << "FAR:   " << _frustum[5].normal << "\n";
-	std::cout << std::endl;
-
 
 	for (size_t i = 0; i < 5; ++i)
 	{
-		//if(_frustum[i].normal.dot(center) + _frustum[i].distance /*+ maxScaleAxis * object->getBoundingSphere().getRadius()*/ < 0)
-		
-		if(/*_frustum[i].normal.x() * center.x() + _frustum[i].normal.y() * center.y() + _frustum[i].normal.z() * center.z() + */_frustum[i].distance < 0)
+		if(_frustum[i].normal.dot(center) + _frustum[i].distance + maxScaleAxis * object->getBoundingSphere().getRadius() < 0)
 		{
 			return false;
 		}
