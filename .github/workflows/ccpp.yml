@@ -11,17 +11,52 @@ jobs:
    runs-on: ${{ matrix.os }}
    strategy:
     matrix:
-      os: [windows-latest]
+      os: [windows-latest, ubuntu-latest]
     
    steps:
     - uses: actions/checkout@v1
-    - name: Setup MSBuild.exe
+    
+    # ----------------- INSTALL -----------------
+    - name: Install Windows
+      if: matrix.os == 'windows-latest'
       uses: warrenbuckley/Setup-MSBuild@v1
-    - name: Generate 
+    
+    - name: Install Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt install mesa-common-dev libglu1-mesa-dev xorg-dev
+      
+    # ----------------- GENERATE -----------------
+    - name: Generate Windows
+      if: matrix.os == 'windows-latest'
       run: ./Tools/generate_project_win.bat -s
-    - name: Build 
+      
+    - name: Generate Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: ./Tools/generate_project_linux.sh
+
+    # ----------------- BUILD -----------------
+    - name: Build Windows
+      if: matrix.os == 'windows-latest'
       run: MSBuild.exe PhotonBox.sln
-    - name: Package
+      
+    - name: Build Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: make
+      
+    # ----------------- PACKAGE -----------------
+    - name: Package Windows
+      if: matrix.os == 'windows-latest'
       run: ./Tools/deployer_win.bat Debug -s
+      
+    - name: Package Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo ./Tools/deployer_linux.sh Debug
+
+    # ----------------- UPLOAD -----------------
+    - name: Upload
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ runner.os }}
+        path: Build/Debug
     
  
