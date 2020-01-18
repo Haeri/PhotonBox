@@ -1,7 +1,7 @@
 # PhotonBox
 
 <!-- ![Release](https://img.shields.io/github/release/Haeri/PhotonBox/all.svg) -->
-![Version](https://img.shields.io/badge/version-v0.7.5-blue.svg)
+![Version](https://img.shields.io/badge/version-v0.7.6-blue.svg)
 [![Build Status](https://travis-ci.com/Haeri/PhotonBox.svg?branch=dev)](https://travis-ci.com/Haeri/PhotonBox)
 [![License](https://img.shields.io/github/license/Haeri/PhotonBox.svg)](https://github.com/Haeri/PhotonBox/blob/master/LICENSE)
 
