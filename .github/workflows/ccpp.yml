@@ -9,7 +9,8 @@ jobs:
   build-win:
    runs-on: windows-latest    
    steps:
-    - uses: actions/checkout@v1
+    - name: Download
+      uses: actions/checkout@v1
     - name: Install
       uses: warrenbuckley/Setup-MSBuild@v1
     - name: Generate
@@ -27,7 +28,8 @@ jobs:
   build-linux:
    runs-on: ubuntu-latest
    steps:
-    - uses: actions/checkout@v1
+    - name: Download
+      uses: actions/checkout@v1
     - name: Install
       run: |
        sudo apt-get update
@@ -47,7 +49,8 @@ jobs:
 #  build-mac:
 #   runs-on: macos-latest
 #   steps:
-#    - uses: actions/checkout@v1
+#    - name: Download
+#      uses: actions/checkout@v1
 #    - name: Install
 #      run: 
 #    - name: Generate
@@ -75,32 +78,6 @@ jobs:
         with:
           name: Linux
           
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset Windows
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./Windows.zip
-          asset_name: PhotonBox-Windows.zip
-          asset_content_type: application/zip
-      - name: Upload Release Asset Linux
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./Linux.zip
-          asset_name: PhotonBox-Linux.zip
-          asset_content_type: application/zip
+      - run: |
+          pwd
+          tree .
