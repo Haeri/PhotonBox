@@ -19,6 +19,9 @@ if(len(sys.argv) > 1):
 	elif os_mode == "linux":
 		dynamic_Lib_ext = ".so"
 		executable_ext = ""
+	elif os_mode == "mac":
+		dynamic_Lib_ext = ".so"
+		executable_ext = ""
 
 if(len(sys.argv) > 2):
 	mode = sys.argv[2]
