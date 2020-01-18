@@ -1,0 +1,66 @@
+name: C++ Builder
+
+on: 
+  push:
+    branches:
+    - dev
+
+jobs:
+  build-win:
+   runs-on: windows-latest    
+   steps:
+    - name: Download Repository
+      uses: actions/checkout@v1
+    - name: Setup Environment
+      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Generate Solution
+      run: ./Tools/generate_project_win.bat -s
+    - name: Build
+      run: MSBuild.exe PhotonBox.sln
+    - name: Package
+      run: ./Tools/deployer_win.bat Debug -s
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ runner.os }}
+        path: Build/Debug
+    
+  build-linux:
+   runs-on: ubuntu-latest
+   steps:
+    - name: Download Repository
+      uses: actions/checkout@v1
+    - name: Setup Environment
+      run: |
+       sudo apt-get update
+       sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
+    - name: Generate Solution
+      run: ./Tools/generate_project_linux.sh
+    - name: Build
+      run: make
+    - name: Package
+      run: sudo ./Tools/deployer_linux.sh Debug
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ runner.os }}
+        path: Build/Debug
+
+#  build-mac:
+#   runs-on: macos-latest
+#   steps:
+#    - name: Download Repository
+#      uses: actions/checkout@v1
+#    - name: Setup Environment
+#      run: 
+#    - name: Generate Solution
+#      run: ./Tools/generate_project_mac.sh
+#    - name: Build
+#      run: make
+#    - name: Package
+#      run: sudo ./Tools/deployer_linux.sh Debug
+#    - name: Upload Artifact
+#      uses: actions/upload-artifact@v1
+#      with:
+#        name: ${{ runner.os }}
+#        path: Build/Debug
