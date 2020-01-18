@@ -33,7 +33,7 @@ public:
 	static const int MAX_DEBUG = 4;
 	static const int SHADOW_MAP_RESOLUTION = 4096;
 
-	bool depthPrePass = true;
+	bool depthPrePass = false;
 
 	static int getDebugMode() { return _debugMode; }
 	static void setDebug(int debugMode);
