@@ -69,6 +69,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-win, build-linux]
     steps:
+      - name: Get Version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
       - name: Download Windows Artifact
         uses: actions/download-artifact@v1
         with:
@@ -94,8 +97,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          release_name: PhotonBox Release ${{ steps.get_version.outputs.VERSION }}
           draft: false
           prerelease: true
 
@@ -106,7 +109,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./release/Windows.zip
-          asset_name: PhotonBox-${{ github.ref }}-Windows.zip
+          asset_name: PhotonBox-${{ steps.get_version.outputs.VERSION }}-Windows.zip
           asset_content_type: application/zip
       - name: Upload Linux Release Asset
         uses: actions/upload-release-asset@v1.0.1
@@ -115,5 +118,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./release/Linux.zip
-          asset_name: PhotonBox-${{ github.ref }}-Linux.zip
+          asset_name: PhotonBox-${{ steps.get_version.outputs.VERSION }}-Linux.zip
           asset_content_type: application/zip
