@@ -101,6 +101,5 @@ Generate the xcode project files, by executing the script: `generate_project_mac
 
 ### OPTIMIZATION
 
-- Frustum culling
 - Uniform buffer
 - SIMD math
