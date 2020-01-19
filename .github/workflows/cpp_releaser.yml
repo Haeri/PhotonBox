@@ -100,7 +100,7 @@ jobs:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
           release_name: PhotonBox Release ${{ steps.get_version.outputs.VERSION }}
           draft: false
-          prerelease: endsWith(${{ steps.get_version.outputs.VERSION }}, ".0") != true
+          prerelease: endsWith(steps.get_version.outputs.VERSION, '.0') != true
 
       - name: Upload Windows Release Asset
         uses: actions/upload-release-asset@v1.0.1
