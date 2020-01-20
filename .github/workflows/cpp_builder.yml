@@ -7,7 +7,11 @@ on:
 
 jobs:
   build-win:
-   runs-on: windows-latest    
+   name: Windows Build
+   runs-on: windows-latest
+   strategy:
+     matrix: 
+       conf: [Debug, Release]
    steps:
     - name: Download Repository
       uses: actions/checkout@v1
@@ -18,15 +22,19 @@ jobs:
     - name: Build
       run: MSBuild.exe PhotonBox.sln
     - name: Package
-      run: ./Tools/deployer_win.bat Debug -s
+      run: ./Tools/deployer_win.bat ${{matrix.conf}} -s
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
       with:
-        name: ${{ runner.os }}
-        path: Build/Debug
+        name: PhotonBox-${{ runner.os }}-${{matrix.conf}}
+        path: Build/${{matrix.conf}}
     
   build-linux:
+   name: Linux Build
    runs-on: ubuntu-latest
+   strategy:
+     matrix: 
+       conf: [Debug, Release]
    steps:
     - name: Download Repository
       uses: actions/checkout@v1
@@ -39,15 +47,19 @@ jobs:
     - name: Build
       run: make
     - name: Package
-      run: sudo ./Tools/deployer_linux.sh Debug
+      run: sudo ./Tools/deployer_linux.sh ${{matrix.conf}}
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
       with:
-        name: ${{ runner.os }}
-        path: Build/Debug
+        name: PhotonBox-${{ runner.os }}-${{matrix.conf}}
+        path: Build/${{matrix.conf}}
 
 #  build-mac:
+#   name: Mac Build
 #   runs-on: macos-latest
+#    strategy:
+#      matrix: 
+#       conf: [Debug, Release]
 #   steps:
 #    - name: Download Repository
 #      uses: actions/checkout@v1
@@ -58,9 +70,9 @@ jobs:
 #    - name: Build
 #      run: make
 #    - name: Package
-#      run: sudo ./Tools/deployer_linux.sh Debug
+#      run: sudo ./Tools/deployer_linux.sh ${{matrix.conf}}
 #    - name: Upload Artifact
 #      uses: actions/upload-artifact@v1
 #      with:
-#        name: ${{ runner.os }}
-#        path: Build/Debug
+#        name: PhotonBox-${{ runner.os }}-${{matrix.conf}}
+#        path: Build/${{matrix.conf}}
