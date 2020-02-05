@@ -3,7 +3,7 @@
 oldpath=$(pwd)
 cd $(dirname "$0")
 
-if [ -z "$1"]
+if [ -z "$1" ]
 then
 	python3 deployer.py mac
 else

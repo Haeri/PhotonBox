@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 from shutil import copyfile, rmtree
 import os, sys
@@ -54,7 +55,7 @@ def copyFiles(src, dest, filters):
 		if os.path.isdir(src + item):
 			copyFiles(src + item + "/", dest + item + "/", filters)
 		elif item.lower().endswith(filters):
-			print("  ┌  " + src + item + "\n  └> " + dest + item)
+			print("  ┌─[" + src + item + "]\n  └>[" + dest + item + "]")
 			copyfile(src + item, dest + item)
 
 print("------------------------------- START -------------------------------")
