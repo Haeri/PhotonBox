@@ -55,7 +55,7 @@ def copyFiles(src, dest, filters):
 		if os.path.isdir(src + item):
 			copyFiles(src + item + "/", dest + item + "/", filters)
 		elif item.lower().endswith(filters):
-			print("  " + u'\u250c\u2500' + "[" + src + item + "]\n  " + u'\u2514' + ">[" + dest + item + "]")
+			print("  <-[" + src + item + "]\n  ->[" + dest + item + "]\n")
 			copyfile(src + item, dest + item)
 
 print("------------------------------- START -------------------------------")
