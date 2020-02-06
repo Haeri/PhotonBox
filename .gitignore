@@ -13,6 +13,7 @@ Game/imgui.ini
 # Folders
 Game/bin/
 PhotonBox/bin/
+Asset_Converter/bin/
 Build/
 
 Game/res/Realistic-Rendering

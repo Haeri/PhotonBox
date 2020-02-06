@@ -21,8 +21,10 @@ jobs:
       run: ./Tools/generate_project_win.bat -s
     - name: Build
       run: MSBuild.exe PhotonBox.sln
+    - name: Test
+      run: ./Tools/code_checker_win.bat -s
     - name: Package
-      run: ./Tools/deployer_win.bat ${{matrix.conf}} -s
+      run: ./Tools/package_win.bat ${{matrix.conf}} -s
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
       with:
@@ -46,8 +48,10 @@ jobs:
       run: ./Tools/generate_project_linux.sh
     - name: Build
       run: make
+    - name: Test
+      run: ./Tools/code_checker_linux.bat -s
     - name: Package
-      run: sudo ./Tools/deployer_linux.sh ${{matrix.conf}}
+      run: sudo ./Tools/package_linux.sh ${{matrix.conf}}
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
       with:
@@ -69,8 +73,10 @@ jobs:
 #      run: ./Tools/generate_project_mac.sh
 #    - name: Build
 #      run: make
+#    - name: Test
+#      run: ./Tools/code_checker_mac.bat -s
 #    - name: Package
-#      run: sudo ./Tools/deployer_linux.sh ${{matrix.conf}}
+#      run: sudo ./Tools/package_linux.sh ${{matrix.conf}}
 #    - name: Upload Artifact
 #      uses: actions/upload-artifact@v1
 #      with:

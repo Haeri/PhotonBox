@@ -5,9 +5,9 @@ cd $(dirname "$0")
 
 if [ -z "$1" ]
 then
-	python3 deployer.py linux
+	python3 package.py linux
 else
-	python3 deployer.py linux "$1"
+	python3 package.py linux "$1"
 fi
 
 cd $oldpath
