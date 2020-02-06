@@ -50,12 +50,12 @@ binaries_path 	= "../Game/bin/x86_64/" + mode + "/Game" + executable_ext
 def copyFiles(src, dest, filters):
 	print(src)
 	if not os.path.exists(dest):
-		os.makedirs(dest);
+		os.makedirs(dest)
 	for item in os.listdir(src):
 		if os.path.isdir(src + item):
 			copyFiles(src + item + "/", dest + item + "/", filters)
 		elif item.lower().endswith(filters):
-			print("  ┌─[" + src + item + "]\n  └>[" + dest + item + "]")
+			print("  " + u'\u250c\u2500' + "[" + src + item + "]\n  " + u'\u2514' + ">[" + dest + item + "]")
 			copyfile(src + item, dest + item)
 
 print("------------------------------- START -------------------------------")
@@ -65,14 +65,18 @@ if os.path.exists(out_path) and os.path.isdir(out_path):
 	rmtree(out_path)
 
 # Create output directory
-os.makedirs(out_path);
+os.makedirs(out_path)
 
 # Copy all engine resource files
-copyFiles(engine_res_path, out_path + "PhotonBox/res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
-copyFiles(game_res_path, out_path + "Game/res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
+# copyFiles(engine_res_path, out_path + "PhotonBox/res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
+# copyFiles(game_res_path, out_path + "Game/res/", ('.pbt', '.pbm', '.ttf', '.vs', '.fs'))
+
+copyFiles(engine_res_path, out_path + "PhotonBox/res/", ('.png', '.jpg', '.jpeg', '.obj', '.ttf', '.vs', '.fs'))
+copyFiles(game_res_path, out_path + "Game/res/", ('.png', '.jpg', '.jpeg', '.obj', '.ttf', '.vs', '.fs'))
+
 copyFiles(physx_dll_path, out_path + "Game/", (dynamic_Lib_ext))
 copyfile(binaries_path, out_path + "Game/Game" + executable_ext)
-copyfile(engine_res_path + "logo.png", out_path + "PhotonBox/res/logo.png")
+#copyfile(engine_res_path + "logo.png", out_path + "PhotonBox/res/logo.png")
 
 # Temporary
 copyFiles(game_res_path + "enviroment/", out_path + "Game/res/enviroment/", ('.jpg', '.jpeg', '.png'))
