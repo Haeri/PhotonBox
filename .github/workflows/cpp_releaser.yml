@@ -43,7 +43,7 @@ jobs:
     - name: Build
       run: make config=release
     - name: Test
-      run: ./Tools/code_checker_linux.bat -s      
+      run: ./Tools/code_checker_linux.sh -s      
     - name: Package
       run: sudo ./Tools/package_linux.sh Release
     - name: Upload Artifact
@@ -65,7 +65,7 @@ jobs:
 #    - name: Build
 #      run: make
 #    - name: Test
-#      run: ./Tools/code_checker_mac.bat -s
+#      run: ./Tools/code_checker_mac.sh -s
 #    - name: Package
 #      run: sudo ./Tools/package_linux.sh Release
 #    - name: Upload Artifact
