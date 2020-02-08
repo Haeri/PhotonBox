@@ -22,4 +22,4 @@ del /s /q "Game.vcxproj.user"
 
 
 cd "%oldpath%"
-IF NOT "%1"=="-s" PAUSE
+if not "%1" == "-s" pause

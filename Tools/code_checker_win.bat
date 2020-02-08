@@ -3,7 +3,7 @@
 set oldpath=%cd% 
 cd "%~dp0"
 
-python code_checker.py
+python code_checker.py || exit /b %errorlevel%
 
 cd "%oldpath%"
-if NOT "%1"=="-s" PAUSE
+if not "%1" == "-s" pause
