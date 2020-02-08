@@ -11,4 +11,10 @@ elif [ $1 == "Debug" ] ; then
 	make -C ..
 fi
 
+err=$?
+
+if [ $err -ne 0 ] ; then
+	exit $err
+fi
+
 cd $oldpath

@@ -10,4 +10,10 @@ else
 	python3 package.py mac "$1"
 fi
 
+err=$?
+
+if [ $err -ne 0 ] ; then
+	exit $err
+fi
+
 cd $oldpath
