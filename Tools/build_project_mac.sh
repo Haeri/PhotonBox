@@ -4,11 +4,11 @@ oldpath=$(pwd)
 cd $(dirname "$0")
 
 if [ -z "$1" ] ; then
-	make .. config=release
+	make -C .. config=release
 elif [ $1 == "Release" ] ; then
-	make .. config=release
+	make -C .. config=release
 elif [ $1 == "Debug" ] ; then
-	make ..
+	make -C ..
 fi
 
 cd $oldpath
