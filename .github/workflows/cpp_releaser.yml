@@ -17,7 +17,7 @@ jobs:
     - name: Generate Solution
       run: ./Tools/generate_project_win.bat -s
     - name: Build
-      run: MSBuild.exe PhotonBox.sln /p:Configuration=Release
+      run: ./Tools/build_project_win.bat -s
     - name: Test
       run: ./Tools/code_checker_win.bat -s      
     - name: Package
@@ -41,9 +41,9 @@ jobs:
     - name: Generate Solution
       run: ./Tools/generate_project_linux.sh
     - name: Build
-      run: make config=release
+      run: ./Tools/build_project_linux.sh
     - name: Test
-      run: ./Tools/code_checker_linux.sh -s      
+      run: ./Tools/code_checker_linux.sh      
     - name: Package
       run: sudo ./Tools/package_linux.sh Release
     - name: Upload Artifact
@@ -63,9 +63,9 @@ jobs:
 #    - name: Generate Solution
 #      run: ./Tools/generate_project_mac.sh
 #    - name: Build
-#      run: make
+#      run: ./Tools/build_project_mac.sh
 #    - name: Test
-#      run: ./Tools/code_checker_mac.sh -s
+#      run: ./Tools/code_checker_mac.sh
 #    - name: Package
 #      run: sudo ./Tools/package_linux.sh Release
 #    - name: Upload Artifact
