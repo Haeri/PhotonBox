@@ -20,7 +20,7 @@ jobs:
     - name: Generate Solution
       run: ./Tools/generate_project_win.bat -s
     - name: Build
-      run: ./Tools/build_win.bat ${{matrix.conf}} -s
+      run: ./Tools/build_project_win.bat ${{matrix.conf}} -s
     - name: Test
       run: ./Tools/code_checker_win.bat -s
     - name: Package
@@ -47,7 +47,7 @@ jobs:
     - name: Generate Solution
       run: ./Tools/generate_project_linux.sh
     - name: Build
-      run: ./Tools/build_linux.sh ${{matrix.conf}}
+      run: ./Tools/build_project_linux.sh ${{matrix.conf}}
     - name: Test
       run: ./Tools/code_checker_linux.sh -s
     - name: Package
@@ -72,7 +72,7 @@ jobs:
 #    - name: Generate Solution
 #      run: ./Tools/generate_project_mac.sh
 #    - name: Build
-#      run: ./Tools/build_mac.sh ${{matrix.conf}}
+#      run: ./Tools/build_project_mac.sh ${{matrix.conf}}
 #    - name: Test
 #      run: ./Tools/code_checker_mac.sh -s
 #    - name: Package
