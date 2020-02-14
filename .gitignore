@@ -7,17 +7,19 @@
 *.pbt
 
 # Files
-Game/config.cfg
-Game/imgui.ini
+Runtime/config.cfg
+Runtime/imgui.ini
 
 # Folders
 Game/bin/
 PhotonBox/bin/
 Asset_Converter/bin/
+Runtime/bin/
 Build/
 
 Game/res/Realistic-Rendering
 Game/src/Scenes/RealisticRenderingScene.cpp
+Runtime/res/Realistic-Rendering
 
 ## ------------------------------------- 
 ## Visual studio
@@ -52,3 +54,5 @@ PhotonBox/PhotonBox.txt
 .build-debug/
 .build-release/
 
+
+Runtime/res
