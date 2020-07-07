@@ -27,7 +27,9 @@ enum RenderType
 	RT_OPAQUE, RT_CUTOUT, RT_TRANSPARENT
 };
 
-class Renderer : public ISystem
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Renderer : public ISystem
 {
 public:
 	static const int MAX_DEBUG = 4;

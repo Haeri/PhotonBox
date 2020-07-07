@@ -8,7 +8,9 @@ class Scene;
 #include "PhotonBox/resource/Scene.h"
 #include "PhotonBox/core/ISystem.h"
 
-class SceneManager : public ISystem
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT SceneManager : public ISystem
 {
 public:
 	static void addScene(const std::string name, Scene* scene);

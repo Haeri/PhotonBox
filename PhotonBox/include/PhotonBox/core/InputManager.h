@@ -7,7 +7,9 @@
 #include "PhotonBox/math/Vector2f.h"
 #include "PhotonBox/core/OpenGL.h"
 
-class InputManager : public ISystem
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT InputManager : public ISystem
 {
 public:
 	enum CursorMode
@@ -160,6 +162,9 @@ private:
 	static std::vector<int> _keyPress;
 	static std::vector<int> _keyDown;
 	static std::vector<int> _keyRelease;
-	static float _xPos, _yPos, _xPosLast, _yPosLast;
+	static float _xPos;
+	static float _yPos;
+	static float _xPosLast;
+	static float _yPosLast;
 };
 #endif // INPUT_MANAGER_H

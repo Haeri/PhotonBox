@@ -9,7 +9,9 @@
 #include "PhotonBox/data-type/Vertex.h"
 #include "PhotonBox/data-type/BoundingSphere.h"
 
-class Mesh : public ManagedResource, public LazyLoadable
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Mesh : public ManagedResource, public LazyLoadable
 {
 public:
 	std::vector< Vertex > vertices;

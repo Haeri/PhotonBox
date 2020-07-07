@@ -1,13 +1,13 @@
 #ifndef PHYSICS_SCENE_CPP
 #define PHYSICS_SCENE_CPP
 
-#include <component/MeshRenderer.h>
-#include <component/Rigidbody.h>
-#include <component/SphereCollider.h>
-#include <component/BoxCollider.h>
-#include <resource/Scene.h>
-#include <resource/Texture.h>
-#include <resource/shader/GShader.h>
+#include <PhotonBox/component/MeshRenderer.h>
+#include <PhotonBox/component/Rigidbody.h>
+#include <PhotonBox/component/SphereCollider.h>
+#include <PhotonBox/component/BoxCollider.h>
+#include <PhotonBox/resource/Scene.h>
+#include <PhotonBox/resource/Texture.h>
+#include <PhotonBox/resource/shader/GShader.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"

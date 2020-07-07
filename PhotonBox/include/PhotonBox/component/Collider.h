@@ -8,7 +8,9 @@ namespace physx
 
 #include "PhotonBox/core/Component.h"
 
-class Collider : public Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Collider : public Component
 {
 public:
 	virtual ~Collider() {}

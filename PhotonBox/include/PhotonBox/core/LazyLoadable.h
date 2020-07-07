@@ -5,7 +5,9 @@
 
 #include "PhotonBox/resource/Filepath.h"
 
-class LazyLoadable
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT LazyLoadable
 {
 public:
 	enum State 

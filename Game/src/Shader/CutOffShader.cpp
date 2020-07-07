@@ -1,7 +1,7 @@
 #ifndef CUT_OFF_SHADER_CPP
 #define CUT_OFF_SHADER_CPP
 
-#include <resource/Shader.h>
+#include <PhotonBox/resource/Shader.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

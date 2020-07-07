@@ -3,7 +3,9 @@
 
 #include "PhotonBox/component/ObjectRenderer.h"
 
-class PointRenderer : public ObjectRenderer
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT PointRenderer : public ObjectRenderer
 {
 public:
 	void render() override

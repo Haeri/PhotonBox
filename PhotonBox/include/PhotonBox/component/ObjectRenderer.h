@@ -9,7 +9,9 @@ class Shader;
 #include "PhotonBox/core/system/Renderer.h"
 #include "PhotonBox/data-type/BoundingSphere.h"
 
-class ObjectRenderer : public Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT ObjectRenderer : public Component
 {
 public:
 	bool getReflected = true;

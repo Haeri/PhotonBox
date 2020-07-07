@@ -3,6 +3,8 @@
 
 #include "PhotonBox/math/Vector4f.h"
 
+#include "PhotonBox/PhotonBoxConfig.h"
+
 /// <summary>
 /// Column Major Matrix
 ///
@@ -15,7 +17,8 @@
 /// y is for vertical access
 /// 0,0 is top left
 /// </summary>
-class Matrix4f
+
+class PB_PORT Matrix4f
 {
 public:
 	const static Matrix4f IDENTITY;

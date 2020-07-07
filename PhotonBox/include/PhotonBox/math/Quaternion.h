@@ -4,7 +4,9 @@
 #include "PhotonBox/math/Vector4f.h"
 #include "PhotonBox/math/Matrix4f.h"
 
-class Quaternion
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Quaternion
 {
 public:
 	static const Quaternion ZERO;

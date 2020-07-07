@@ -3,7 +3,9 @@
 
 #include <string>
 
-class Filepath
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Filepath
 {
 public:
 	Filepath() {}

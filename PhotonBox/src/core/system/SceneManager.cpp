@@ -45,7 +45,19 @@ void SceneManager::loadSceneImmediately(const std::string& name)
 	_currentScene = _sceneMap[name];
 	_currentSceneName = name;
 
+
+	Logger::info("Before stepping into the DLL\t");
+	if (glfwGetCurrentContext() == nullptr) {
+		Logger::errln("No Context!");
+	}
+	else
+	{
+		Logger::confirmln("Context exists!");
+	}
+
 	_currentScene->Load();
+
+
 	if(oldScene != nullptr) oldScene->unload();
 	
 	Display::setTitle(Config::profile.appName + " - " + name);

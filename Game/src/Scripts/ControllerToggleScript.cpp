@@ -1,9 +1,9 @@
 #ifndef CONTROLLER_TOGGLE_SCRIPT_CPP
 #define CONTROLLER_TOGGLE_SCRIPT_CPP
 
-#include <component/Behaviour.h>
-#include <core/Entity.h>
-#include <core/InputManager.h>
+#include <PhotonBox/component/Behaviour.h>
+#include <PhotonBox/core/Entity.h>
+#include <PhotonBox/core/InputManager.h>
 
 #include "CameraControllerScript.cpp"
 #include "PathWalkerScript.cpp"

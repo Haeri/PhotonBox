@@ -1,19 +1,19 @@
 #ifndef MATERIAL_TEST_SCENE_CPP
 #define MATERIAL_TEST_SCENE_CPP
 
-#include <component/AmbientLight.h>
-#include <component/Camera.h>
-#include <component/MeshRenderer.h>
-#include <component/MeshRenderer.h>
-#include <component/PointLight.h>
-#include <component/PointRenderer.h>
-#include <component/LightProbe.h>
-#include <resource/Scene.h>
-#include <resource/shader/BasicShader.h>
-#include <resource/shader/IrradianceShader.h>
-#include <resource/shader/LitShader.h>
-#include <resource/shader/TransparentShader.h>
-#include <resource/shader/GShader.h>
+#include <PhotonBox/component/AmbientLight.h>
+#include <PhotonBox/component/Camera.h>
+#include <PhotonBox/component/MeshRenderer.h>
+#include <PhotonBox/component/MeshRenderer.h>
+#include <PhotonBox/component/PointLight.h>
+#include <PhotonBox/component/PointRenderer.h>
+#include <PhotonBox/component/LightProbe.h>
+#include <PhotonBox/resource/Scene.h>
+#include <PhotonBox/resource/shader/BasicShader.h>
+#include <PhotonBox/resource/shader/IrradianceShader.h>
+#include <PhotonBox/resource/shader/LitShader.h>
+#include <PhotonBox/resource/shader/TransparentShader.h>
+#include <PhotonBox/resource/shader/GShader.h>
 
 #include "../PostProcessors/SSReflectionProcessor.cpp"
 #include "../PostProcessors/SSAOProcessor.cpp"
@@ -54,12 +54,12 @@ public:
 		Renderer::getSkyBox()->intensity = 1;
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		new SSAOProcessor(10);
-		new SSReflectionProcessor(20);
-		new AutoExposureProcessor(30);
-		new TAAProcessor(40);
-		new BloomProcessor(60);
-		new ToneMappingProcessor(70);
+		//new SSAOProcessor(10);
+		//new SSReflectionProcessor(20);
+		//new AutoExposureProcessor(30);
+		//new TAAProcessor(40);
+		//new BloomProcessor(60);
+		//new ToneMappingProcessor(70);
 
 		/* --------------------------- OBJ --------------------------- */
 		//Mesh* plane		= createResource<Mesh>(Filepath(Resources::ENGINE_RESOURCES + "/primitives/plane.obj"));

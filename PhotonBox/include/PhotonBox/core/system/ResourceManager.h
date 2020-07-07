@@ -9,7 +9,9 @@ class ManagedResource;
 
 #include "PhotonBox/resource/Filepath.h"
 
-class ResourceManager
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT ResourceManager
 {
 public:
 	static unsigned int max_loadtime;

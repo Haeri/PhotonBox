@@ -1,9 +1,11 @@
 #ifndef POST_PROCESSOR_H
 #define POST_PROCESSOR_H
 
+#include "PhotonBox/PhotonBoxConfig.h"
+
 class FrameBuffer;
 
-class PostProcessor
+class PB_PORT PostProcessor
 {
 public:
 	FrameBuffer* mainBuffer;

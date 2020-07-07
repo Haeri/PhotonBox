@@ -1,9 +1,9 @@
 #ifndef MONOCHROM_PROCESSOR_CPP
 #define MONOCHROM_PROCESSOR_CPP
 
-#include <resource/PostProcessor.h>
-#include <resource/Material.h>
-#include <resource/FrameBuffer.h>
+#include <PhotonBox/resource/PostProcessor.h>
+#include <PhotonBox/resource/Material.h>
+#include <PhotonBox/resource/FrameBuffer.h>
 
 #include "../Shader/MonochromShader.cpp"
 

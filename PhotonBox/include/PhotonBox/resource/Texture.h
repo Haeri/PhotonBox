@@ -10,7 +10,9 @@ class Scene;
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/resource/ImageBuffer.h"
 
-class Texture : public ManagedResource, public LazyLoadable, public ImageBuffer
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Texture : public ManagedResource, public LazyLoadable, public ImageBuffer
 {
 public:
 	struct Config {

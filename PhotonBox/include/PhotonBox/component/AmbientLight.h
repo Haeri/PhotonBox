@@ -3,7 +3,9 @@
 
 #include "PhotonBox/component/LightEmitter.h"
 
-class AmbientLight : public LightEmitter
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT AmbientLight : public LightEmitter
 {
 public:
 	void init() override;

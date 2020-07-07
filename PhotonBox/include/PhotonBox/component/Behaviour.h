@@ -3,7 +3,9 @@
 
 #include "PhotonBox/core/Component.h"
 
-class Behaviour : public Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Behaviour : public Component
 {
 public:
 	virtual ~Behaviour() {}

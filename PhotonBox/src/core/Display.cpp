@@ -55,7 +55,12 @@ void Display::init(Config::Profile profile)
 		exit(EXIT_FAILURE);
 	}
 	glfwMakeContextCurrent(_window);
-	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		Logger::errln("Failed to initialize OpenGL context");
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
 
 	// Set Icon
 	GLFWimage icon[1];

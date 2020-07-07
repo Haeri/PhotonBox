@@ -14,7 +14,9 @@ class ManagedResource;
 #include "PhotonBox/resource/Filepath.h"
 #include "PhotonBox/core/system/ResourceManager.h"
 
-class Scene
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Scene
 {
 public:
 	virtual void Load() = 0;

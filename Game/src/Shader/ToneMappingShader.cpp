@@ -1,7 +1,7 @@
 #ifndef TONE_MAPPING_SHADER_CPP
 #define TONE_MAPPING_SHADER_CPP
 
-#include <resource/Shader.h>
+#include <PhotonBox/resource/Shader.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

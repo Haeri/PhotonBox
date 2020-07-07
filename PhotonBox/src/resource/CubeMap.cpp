@@ -197,7 +197,11 @@ void CubeMap::generateSpecularConvolution(GLuint map)
 
 void CubeMap::loadCubeMap(const std::vector<std::string>& faces)
 {
-	glGenTextures(1, &_cubeMap);
+	if (glfwGetCurrentContext() == nullptr) {
+		Logger::errln("No Context!");
+	}
+
+ 	glGenTextures(1, &_cubeMap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap);
 
 	int nrChannels;

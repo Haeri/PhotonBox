@@ -1,12 +1,15 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+//class GLFWwindow;
+
 #include <string>
 
-#include "PhotonBox/core/ISystem.h"
 #include "PhotonBox/core/OpenGL.h"
+#include "PhotonBox/core/ISystem.h"
+#include "PhotonBox/PhotonBoxConfig.h"
 
-class Display : public ISystem
+class PB_PORT Display : public ISystem
 {
 public:
 	static bool isRunning() { return _isRunning; }
@@ -27,7 +30,8 @@ public:
 	void destroy() override;
 private:
 	static bool _isRunning;
-	static int _width, _height;
+	static int _width;
+	static int _height;
 	static GLFWwindow* _window;
 	static bool _isVSync;
 };

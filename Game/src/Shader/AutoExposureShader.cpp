@@ -1,8 +1,8 @@
 #ifndef AUTO_EXPOSURE_SHADER_CPP
 #define AUTO_EXPOSURE_SHADER_CPP
 
-#include <resource/Shader.h>
-#include <core/Time.h>
+#include <PhotonBox/resource/Shader.h>
+#include <PhotonBox/core/Time.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

@@ -29,16 +29,15 @@ workspace "PhotonBox"
 
 project "PhotonBox"
 	location "PhotonBox"
-	kind "StaticLib"
+	kind "SharedLib"
 	language "C++"
 	cppdialect "C++11"
 	staticruntime "off"
+	defines "PB_EXPORT"
 
 	targetdir ("%{prj.name}/bin/" .. output_dir)
 	objdir ("%{prj.name}/bin/int/" .. output_dir)
 
-	--pchheader "pbpch.h"
-	--pchsource "PhotonBox/src/pbpch.cpp"
 
 	files
 	{
@@ -62,9 +61,46 @@ project "PhotonBox"
 		physx_dir		.. "/include/PhysX",
 	}
 
+	libdirs 
+	{
+		freetype_dir	.. "/lib",
+		glfw_dir		.. "/lib",
+		zlib_dir		.. "/lib",
+	}
+
 	filter "system:windows"
 		defines "PB_PLATFORM_WIN"
 		systemversion "latest"
+		links 
+		{
+			"opengl32",
+			"glfw3",
+			"zlib",
+			"freetype",
+		}
+
+	filter "system:Linux"
+		defines "PB_PLATFORM_NIX"
+		linkoptions 
+		{
+			 "-Wl,-rpath=.",
+			 "-no-pie" 
+		}
+		links 
+		{
+			"GL",
+			"glfw3",
+			"X11",
+			"Xxf86vm",
+			"Xrandr",
+			"Xinerama",
+			"Xcursor",
+			"pthread",
+			"dl",
+			"zlib",
+			"freetype",
+		}
+
 
 	filter "configurations:Debug"
 		defines { "PB_DEBUG", "_DEBUG" }
@@ -88,6 +124,35 @@ project "PhotonBox"
 		postbuildcommands ("python \"../Tools/build_incrementer.py\"")
 
 
+	filter "configurations:Debug or configurations:Mem-Debug"
+		runtime "Debug"
+		symbols "On"
+		libdirs (physx_dir .. "/lib/debug")
+		links
+		{
+			"PxPvdSDKDEBUG_x64",
+			"PhysX3ExtensionsDEBUG",
+			"PxFoundationDEBUG_x64",
+			"PhysX3CommonDEBUG_x64",
+			"PhysX3DEBUG_x64",
+		}
+
+
+	filter "configurations:Release or configurations:Dist"
+		defines { "PB_RELEASE", "NDEBUG" }
+		runtime "Release"
+		optimize "On"
+		libdirs (physx_dir .. "/lib/release")
+		links
+		{
+			"PxPvdSDK_x64",
+			"PhysX3Extensions",
+			"PxFoundation_x64",
+			"PhysX3Common_x64",
+			"PhysX3_x64",
+		}
+
+
 
 project "Runtime"
 	location "Runtime"
@@ -95,13 +160,14 @@ project "Runtime"
 	language "C++"
 	cppdialect "C++11"
 	staticruntime "off"
-	dependson "Game"
+	dependson 
+	{
+		"PhotonBox",
+		"Game",
+	}
 
 	targetdir ("%{prj.name}/bin/" .. output_dir)
 	objdir ("%{prj.name}/bin/int/" .. output_dir)
-
-	--pchheader "pbpch.h"
-	--pchsource "PhotonBox/src/pbpch.cpp"
 
 	files
 	{
@@ -111,7 +177,6 @@ project "Runtime"
 	includedirs
 	{
 		"PhotonBox/include",
-		"PhotonBox/include/PhotonBox",
 
 		freetype_dir	.. "/include",
 		glad_dir		.. "/include",
@@ -126,11 +191,7 @@ project "Runtime"
 	libdirs 
 	{
 		freetype_dir	.. "/lib",
-		glad_dir		.. "/lib",
 		glfw_dir		.. "/lib",
-		imgui_dir		.. "/lib",
-		khr_dir			.. "/lib",
-		stb_dir			.. "/lib",
 		zlib_dir		.. "/lib",
 	}
 
@@ -212,11 +273,16 @@ project "Runtime"
 	filter {"system:windows", "configurations:Debug or configurations:Mem-Debug"}
 		postbuildcommands 
 		{
+			"{COPY} ../PhotonBox/" .. output_dir .. "/PhotonBox.dll ../Runtime/bin/" .. output_dir,
+			"{COPY} ../PhotonBox/" .. output_dir .. "/PhotonBox.pdb ../Runtime/bin/" .. output_dir,
+
 			"{COPY} ../" .. physx_dir .. "/bin/debug/*.dll ../Runtime/bin/" .. output_dir,
 		}
 	filter {"system:windows", "configurations:Release or configurations:Dist"}
 		postbuildcommands 
 		{
+			"{COPY} ../PhotonBox/" .. output_dir .. "/PhotonBox.dll ../Runtime/bin/" .. output_dir,
+
 			"{COPY} ../" .. physx_dir .. "/bin/release/*.dll ../Runtime/bin/" .. output_dir,
 		}
 
@@ -250,13 +316,14 @@ project "Game"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+
+		glad_dir 	.. "/include/glad/**.c",
 	}
 
 	includedirs
 	{
 		"PhotonBox/include",
-		"PhotonBox/include/PhotonBox",
 
 		freetype_dir	.. "/include",
 		glad_dir		.. "/include",
@@ -271,11 +338,7 @@ project "Game"
 	libdirs 
 	{
 		freetype_dir	.. "/lib",
-		glad_dir		.. "/lib",
 		glfw_dir		.. "/lib",
-		imgui_dir		.. "/lib",
-		khr_dir			.. "/lib",
-		stb_dir			.. "/lib",
 		zlib_dir		.. "/lib",
 	}
 
@@ -288,7 +351,7 @@ project "Game"
 		links 
 		{
 			"opengl32",
-			"PhotonBox",
+  			"PhotonBox",
 			"glfw3",
 			"zlib",
 			"freetype",
@@ -329,30 +392,30 @@ project "Game"
 	filter "configurations:Debug or configurations:Mem-Debug"
 		runtime "Debug"
 		symbols "On"
-		libdirs (physx_dir .. "/lib/debug")
-		links
-		{
-			"PxPvdSDKDEBUG_x64",
-			"PhysX3ExtensionsDEBUG",
-			"PxFoundationDEBUG_x64",
-			"PhysX3CommonDEBUG_x64",
-			"PhysX3DEBUG_x64",
-		}
+--		libdirs (physx_dir .. "/lib/debug")
+--		links
+--		{
+--			"PxPvdSDKDEBUG_x64",
+--			"PhysX3ExtensionsDEBUG",
+--			"PxFoundationDEBUG_x64",
+--			"PhysX3CommonDEBUG_x64",
+--			"PhysX3DEBUG_x64",
+--		}
 
 
 	filter "configurations:Release or configurations:Dist"
 		defines { "PB_RELEASE", "NDEBUG" }
 		runtime "Release"
 		optimize "On"
-		libdirs (physx_dir .. "/lib/release")
-		links
-		{
-			"PxPvdSDK_x64",
-			"PhysX3Extensions",
-			"PxFoundation_x64",
-			"PhysX3Common_x64",
-			"PhysX3_x64",
-		}
+--		libdirs (physx_dir .. "/lib/release")
+--		links
+--		{
+--			"PxPvdSDK_x64",
+--			"PhysX3Extensions",
+--			"PxFoundation_x64",
+--			"PhysX3Common_x64",
+--			"PhysX3_x64",
+--		}
 
 
 	filter {"system:windows", "configurations:Debug or configurations:Mem-Debug"}

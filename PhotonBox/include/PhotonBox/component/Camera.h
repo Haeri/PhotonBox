@@ -7,7 +7,9 @@ class ObjectRenderer;
 #include "PhotonBox/math/Matrix4f.h"
 #include "PhotonBox/component/Transform.h"
 
-class Camera : public Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Camera : public Component
 {
 public:
 	struct Plane

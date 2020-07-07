@@ -10,7 +10,9 @@ class Mesh;
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/resource/ImageBuffer.h"
 
-class CubeMap : public ManagedResource, public ImageBuffer
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT CubeMap : public ManagedResource, public ImageBuffer
 {
 public:
 	enum Face

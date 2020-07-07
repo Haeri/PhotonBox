@@ -11,7 +11,9 @@ class Scene;
 #include "PhotonBox/core/Component.h"
 #include "PhotonBox/util/Logger.h"
 
-class Entity
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Entity
 {
 public:
 	Scene * parentScene;

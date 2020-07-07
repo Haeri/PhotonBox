@@ -1,7 +1,7 @@
 #ifndef SSAO_BLUR_SHADER_CPP
 #define SSAO_BLUR_SHADER_CPP
 
-#include <resource/Shader.h>
+#include <PhotonBox/resource/Shader.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
