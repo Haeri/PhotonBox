@@ -7,7 +7,9 @@ class LightMap;
 #include "PhotonBox/core/Component.h"
 #include "PhotonBox/data-type/AABB.h"
 
-class LightProbe : public Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT LightProbe : public Component
 {
 public:
 	int resolution;

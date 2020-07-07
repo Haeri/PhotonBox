@@ -2,21 +2,18 @@
 #include <map>
 #include <windows.h>
 
-#include <core/Core.h>
-#include <resource/Scene.h>
-#include <util/Logger.h>
+#include <PhotonBox/core/Core.h>
+#include <PhotonBox/resource/Scene.h>
+#include <PhotonBox/util/Logger.h>
 
-#include "../../test/MathTest.h"
+#include "../test/MathTest.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
 
-
-
 typedef void (*GAMEMODULE)(std::map<std::string, Scene*>& sceneMap);
-
 
 int main(void)
 {
@@ -26,7 +23,7 @@ int main(void)
 	_CrtSetDbgFlag(flag);
 #elif _DEBUG
 	// Tests
-	MathTest::startTest();
+	//MathTest::startTest();
 #else
 #ifdef PB_PLATFORM_WIN
 	FreeConsole();

@@ -1,9 +1,9 @@
 #ifndef SSAO_SHADER_CPP
 #define SSAO_SHADER_CPP
 
-#include <resource/Shader.h>
-#include <core/Display.h>
-#include <component/Camera.h>
+#include <PhotonBox/resource/Shader.h>
+#include <PhotonBox/core/Display.h>
+#include <PhotonBox/component/Camera.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

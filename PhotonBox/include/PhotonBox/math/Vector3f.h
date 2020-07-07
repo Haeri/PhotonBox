@@ -6,7 +6,9 @@
 
 #include "PhotonBox/math/Vector2f.h"
 
-class Vector3f
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Vector3f
 {
 public:
 	static const Vector3f ZERO;

@@ -8,7 +8,9 @@
 #include "PxPhysicsAPI.h"
 #include "PhotonBox/util/Logger.h"
 
-class Vector2f
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Vector2f
 {
 public:
 

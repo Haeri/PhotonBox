@@ -6,7 +6,9 @@
 
 #include "PhotonBox/math/Vector3f.h"
 
-class Vector4f
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Vector4f
 {
 public:
 

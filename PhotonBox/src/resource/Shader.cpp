@@ -403,3 +403,4 @@ bool Shader::checkUniform(const std::string & name)
 	return uniforms.find(name) != uniforms.end();
 #endif
 }
+

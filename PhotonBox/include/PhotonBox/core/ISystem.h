@@ -2,7 +2,7 @@
 #define SYSTEM_H
 
 #include "PhotonBox/core/Config.h"
-
+ 
 class ISystem
 {
 public:

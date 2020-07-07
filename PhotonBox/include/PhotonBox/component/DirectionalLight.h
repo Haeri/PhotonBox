@@ -7,7 +7,9 @@ class FrameBuffer;
 #include "PhotonBox/component/LightEmitter.h"
 #include "PhotonBox/math/Matrix4f.h"
 
-class DirectionalLight : public LightEmitter
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT DirectionalLight : public LightEmitter
 {
 public:
 	Vector3f direction;

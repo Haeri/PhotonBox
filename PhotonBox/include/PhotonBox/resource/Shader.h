@@ -16,7 +16,9 @@ class LightEmitter;
 #include "PhotonBox/math/Matrix4f.h"
 #include "PhotonBox/data-type/Vertex.h"
 
-class Shader : public ManagedResource, public LazyLoadable
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Shader : public ManagedResource, public LazyLoadable
 {
 public:
 

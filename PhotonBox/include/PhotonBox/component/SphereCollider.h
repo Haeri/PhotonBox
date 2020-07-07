@@ -9,7 +9,9 @@ namespace physx
 
 #include "PhotonBox/component/Collider.h"
 
-class SphereCollider : public Collider
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT SphereCollider : public Collider
 {
 public:
 	~SphereCollider();

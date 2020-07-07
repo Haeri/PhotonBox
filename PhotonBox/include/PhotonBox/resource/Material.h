@@ -10,7 +10,9 @@ class ImageBuffer;
 #include "PhotonBox/core/ManagedResource.h"
 #include "PhotonBox/resource/Shader.h"
 
-class Material : public ManagedResource
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Material : public ManagedResource
 {
 public:
 

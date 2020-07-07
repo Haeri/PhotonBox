@@ -3,14 +3,14 @@
 
 #include <chrono>
 
-#include <component/MeshRenderer.h>
-#include <component/PointRenderer.h>
-#include <resource/Scene.h>
-#include <resource/Texture.h>
-#include <resource/shader/GShader.h>
-#include <resource/shader/TransparentShader.h>
-#include <core/Resources.h>
-#include <math/Math.h>
+#include <PhotonBox/component/MeshRenderer.h>
+#include <PhotonBox/component/PointRenderer.h>
+#include <PhotonBox/resource/Scene.h>
+#include <PhotonBox/resource/Texture.h>
+#include <PhotonBox/resource/shader/GShader.h>
+#include <PhotonBox/resource/shader/TransparentShader.h>
+#include <PhotonBox/core/Resources.h>
+#include <PhotonBox/math/Math.h>
 
 #include "../PostProcessors/SSAOProcessor.cpp"
 #include "../PostProcessors/SSReflectionProcessor.cpp"
@@ -51,12 +51,12 @@ public:
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		new SSAOProcessor(10);
-		new SSReflectionProcessor(20);
-		new AutoExposureProcessor(30);
-		new TAAProcessor(40);
-		new BloomProcessor(60);
-		new ToneMappingProcessor(70);
+		//new SSAOProcessor(10);
+		//new SSReflectionProcessor(20);
+		//new AutoExposureProcessor(30);
+		//new TAAProcessor(40);
+		//new BloomProcessor(60);
+		//new ToneMappingProcessor(70);
 
 
 		/* --------------------------- OBJ --------------------------- */

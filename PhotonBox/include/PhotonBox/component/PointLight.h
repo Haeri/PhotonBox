@@ -3,7 +3,9 @@
 
 #include "PhotonBox/component/LightEmitter.h"
 
-class PointLight : public LightEmitter
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT PointLight : public LightEmitter
 {
 public:
 	float constant = 2;

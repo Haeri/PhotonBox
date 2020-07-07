@@ -1,7 +1,7 @@
 #ifndef TAA_SHADER_CPP
 #define TAA_SHADER_CPP
 
-#include <resource/Shader.h>
+#include <PhotonBox/resource/Shader.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

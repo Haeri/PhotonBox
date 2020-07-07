@@ -12,7 +12,9 @@ class LightProbe;
 
 #include "PhotonBox/core/ISystem.h"
 
-class Lighting : public ISystem
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Lighting : public ISystem
 {
 public:
 	void start() override;

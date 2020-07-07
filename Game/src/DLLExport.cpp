@@ -1,7 +1,7 @@
 #include <map>
 
-#include <core/Core.h>
-#include <resource/Scene.h>
+#include <PhotonBox/core/Core.h>
+#include <PhotonBox/resource/Scene.h>
 
 #include "Scenes/ShelbyScene.cpp"
 #include "Scenes/MaterialTestScene.cpp"

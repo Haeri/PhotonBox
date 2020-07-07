@@ -3,7 +3,9 @@
 
 #include "PhotonBox/component/LightEmitter.h"
 
-class SpotLight : public LightEmitter
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT SpotLight : public LightEmitter
 {
 public:
 	float constant = 2.0f;

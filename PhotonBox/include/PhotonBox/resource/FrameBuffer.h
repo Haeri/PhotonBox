@@ -11,7 +11,9 @@ class Material;
 #include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/resource/ImageBuffer.h"
 
-class FrameBuffer
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT FrameBuffer
 {
 public:
 

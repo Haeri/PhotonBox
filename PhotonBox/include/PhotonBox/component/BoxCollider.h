@@ -4,7 +4,9 @@
 #include "PhotonBox/component/Collider.h"
 #include "PhotonBox/math/Vector3f.h"
 
-class BoxCollider : public Collider
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT BoxCollider : public Collider
 {
 public:
 	~BoxCollider();

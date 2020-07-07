@@ -8,7 +8,9 @@
 #include "PhotonBox/math/Vector3f.h"
 #include "PhotonBox/math/Quaternion.h"
 
-class Transform : public Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Transform : public Component
 {
 public:
 	void setPosition(Vector3f position);

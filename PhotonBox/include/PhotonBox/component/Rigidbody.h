@@ -6,7 +6,9 @@ class PxRigidBody;
 #include "PhotonBox/core/Component.h"
 #include "PhotonBox/math/Vector3f.h"
 
-class Rigidbody : public Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Rigidbody : public Component
 {
 public:
 	~Rigidbody();

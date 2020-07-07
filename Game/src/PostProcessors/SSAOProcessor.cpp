@@ -3,11 +3,11 @@
 
 #include <random>
 
-#include <math/Math.h>
-#include <core/system/Renderer.h>
-#include <resource/PostProcessor.h>
-#include <resource/Material.h>
-#include <resource/FrameBuffer.h>
+#include <PhotonBox/math/Math.h>
+#include <PhotonBox/core/system/Renderer.h>
+#include <PhotonBox/resource/PostProcessor.h>
+#include <PhotonBox/resource/Material.h>
+#include <PhotonBox/resource/FrameBuffer.h>
 
 #include "../Shader/SSAOBlurShader.cpp"
 #include "../Shader/SSAOShader.cpp"
@@ -103,7 +103,6 @@ private:
 			_ssaoKernel.push_back(sample);
 		}
 		
-
 		// generate noise texture
 		// ----------------------
 		std::vector<Vector3f> ssaoNoise;
@@ -112,7 +111,7 @@ private:
 			Vector3f noise(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, 0.0f); // rotate around z-axis (in tangent space)
 			ssaoNoise.push_back(noise);
 		}
-
+		
 		glGenTextures(1, &_noiseTexture);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);

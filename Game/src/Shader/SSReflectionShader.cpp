@@ -1,8 +1,8 @@
 #ifndef SSREFLECTION_SHADER_CPP
 #define SSREFLECTION_SHADER_CPP
 
-#include <component/Camera.h>
-#include <resource/Shader.h>
+#include <PhotonBox/component/Camera.h>
+#include <PhotonBox/resource/Shader.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

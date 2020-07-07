@@ -1,8 +1,8 @@
 #ifndef FOLLOW_SCRIPT_CPP
 #define FOLLOW_SCRIPT_CPP
 
-#include <component/Behaviour.h>
-#include <component/Transform.h>
+#include <PhotonBox/component/Behaviour.h>
+#include <PhotonBox/component/Transform.h>
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

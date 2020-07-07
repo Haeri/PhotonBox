@@ -5,7 +5,9 @@ class Transform;
 
 #include "PhotonBox/math/Vector3f.h"
 
-class AABB
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT AABB
 {
 public:
 	AABB() {}

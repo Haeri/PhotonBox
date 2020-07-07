@@ -26,7 +26,9 @@ class ResourceManager;
 #include <map>
 #include <vector>
 
-class Core
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Core
 {
 public:
 	static const double FIXED_TIME_INTERVAL;
@@ -39,6 +41,7 @@ public:
 
 	static bool isRunning() { return _isRunning; }
 	static void stop();
+
 private:
 	Time*			_time;
 	Display*		_display;

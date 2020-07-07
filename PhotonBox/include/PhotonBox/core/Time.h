@@ -1,7 +1,9 @@
 #ifndef TIME_H
 #define TIME_H
 
-class Time
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Time
 {
 public:
 	static double deltaTime;

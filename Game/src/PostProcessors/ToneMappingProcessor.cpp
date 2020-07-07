@@ -1,9 +1,9 @@
 #ifndef TONE_MAPPING_PROCESSOR_CPP
 #define TONE_MAPPING_PROCESSOR_CPP
 
-#include <resource/PostProcessor.h>
-#include <resource/Material.h>
-#include <resource/FrameBuffer.h>
+#include <PhotonBox/resource/PostProcessor.h>
+#include <PhotonBox/resource/Material.h>
+#include <PhotonBox/resource/FrameBuffer.h>
 
 #include "../Shader/ToneMappingShader.cpp"
 

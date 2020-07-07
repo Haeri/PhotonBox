@@ -1,10 +1,10 @@
 #ifndef DOF_PROCESSOR_CPP
 #define DOF_PROCESSOR_CPP
 
-#include <core/system/Renderer.h>
-#include <resource/PostProcessor.h>
-#include <resource/Material.h>
-#include <resource/FrameBuffer.h>
+#include <PhotonBox/core/system/Renderer.h>
+#include <PhotonBox/resource/PostProcessor.h>
+#include <PhotonBox/resource/Material.h>
+#include <PhotonBox/resource/FrameBuffer.h>
 
 #include "../Shader/DOFShader.cpp"
 

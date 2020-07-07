@@ -7,7 +7,9 @@ class Transform;
 #include <string>
 #include <typeindex>
 
-class Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT Component
 {
 public:
 	void setEnable(bool enable);

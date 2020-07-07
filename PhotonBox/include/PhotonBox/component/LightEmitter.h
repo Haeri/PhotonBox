@@ -6,7 +6,9 @@ class Shader;
 #include "PhotonBox/core/Component.h"
 #include "PhotonBox/math/Vector3f.h"
 
-class LightEmitter : public Component
+#include "PhotonBox/PhotonBoxConfig.h"
+
+class PB_PORT LightEmitter : public Component
 {
 public:
 	Vector3f color = Vector3f::ONE;
