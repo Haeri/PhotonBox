@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream> 
 
-#ifdef PB_PLATFORM_WIN
+#ifdef _WINDOWS
 #include <windows.h>
 #undef max
 #undef min
@@ -17,7 +17,7 @@ class Logger
 public:
 	enum Type
 	{
-#ifdef PB_PLATFORM_WIN
+#ifdef _WINDOWS
 		DEF = 15,
 		INFO = 9,
 		WARN = 6,
@@ -127,7 +127,7 @@ private:
 		time_str = "[" + time_str + "] ";
 #endif
 
-#ifdef PB_PLATFORM_WIN
+#ifdef _WINDOWS
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleTextAttribute(hConsole, type);
 		if (type == ERR)
@@ -163,7 +163,7 @@ private:
 	template <typename T >
 	static void _print(Type type, T last)
 	{
-#ifdef PB_PLATFORM_WIN
+#ifdef _WINDOWS
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		if (type == ERR)

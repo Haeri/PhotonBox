@@ -1,7 +1,7 @@
 #ifndef OPENGL_H
 #define OPENGL_H
 
-#ifdef PB_PLATFORM_WIN
+#ifdef _WINDOWS
 #define NOMINMAX 
 #endif
 
