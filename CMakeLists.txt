@@ -36,6 +36,16 @@ if (PB_BUILD_EXAMPLES)
 endif()
 
 
+set (source "${CMAKE_SOURCE_DIR}/res")
+set (destination "${CMAKE_CURRENT_BINARY_DIR}/res")
+add_custom_command(
+ TARGET ${PROJECT_NAME} POST_BUILD
+ COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination} 
+ DEPENDS ${destination}
+ COMMENT "symbolic link resources folder from ${source} => ${destination}"
+)
+
+
 # ---------------- EXTERN ---------------------#
 
 set(EXTERN_DIR extern/)
