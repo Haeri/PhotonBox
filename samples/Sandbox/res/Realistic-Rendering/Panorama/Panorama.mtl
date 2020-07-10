@@ -1,0 +1,13 @@
+# Blender MTL File: 'untitled.blend'
+# Material Count: 1
+
+newmtl M_Background_Mat
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.172688 0.172688 0.172688
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_d C:\\Program Files\\Rocket Art Source Files\\Background\\T_Background_D.psd

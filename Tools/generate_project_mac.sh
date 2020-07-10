@@ -3,13 +3,11 @@
 oldpath=$(pwd)
 cd $(dirname "$0")
 
-chmod +x ./premake/mac/premake5
-./premake/mac/premake5 xcode4 --file="../premake5.lua"
+cd ..
+rm -rf build
+mkdir build
+cd build
 
-err=$?
-
-if [ $err -ne 0 ] ; then
-	exit $err
-fi
+cmake .. -DVCPKG_TARGET_TRIPLET=x64-osx -DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
 
 cd $oldpath
