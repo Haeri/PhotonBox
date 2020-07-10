@@ -1,4 +1,4 @@
-name: C++ Builder
+name: vcpkg Builder
 
 on: 
   push:
@@ -19,7 +19,7 @@ jobs:
     - name: Generate Solution
       run: ./Tools/generate_project_win.bat -s
     - name: Build
-      run: MSBuild.exe ./build/Elemental_Draw.sln
+      run: MSBuild.exe ./build/PhotonBox.sln
     - name: Test
       run: ./Tools/code_checker_win.bat -s
     
@@ -31,6 +31,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Setup Environment
       run: |
+       sudo chmod +x ./tools/*.sh
        sudo apt-get update
        sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
     - name: Prerequesits Check
@@ -53,8 +54,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Setup Environment
       run: |
-       sudo apt-get update
-       sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
+       sudo chmod +x ./tools/*.sh
     - name: Prerequesits Check
       run: sudo ./tools/prerequesits_nix.sh
     - name: Generate Solution
@@ -65,4 +65,3 @@ jobs:
         sudo make
     - name: Test
       run: ./Tools/code_checker_mac.sh -s
-    
