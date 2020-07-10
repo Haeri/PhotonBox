@@ -7,13 +7,13 @@ if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
     set(PB_STANDALONE TRUE)
 endif()
 
-option(BUILD_SHARED_LIBS "Build as shared/dynamic library" OFF)
+option(BUILD_SHARED_LIBS "Build as shared/dynamic library" OFF) # ON
 option(PB_BUILD_EXAMPLES "Build the example programs" ${PB_STANDALONE})
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 file(GLOB_RECURSE SOURCE_FILES
@@ -33,17 +33,23 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 if (PB_BUILD_EXAMPLES)
     add_subdirectory(samples/Sandbox)
+
+    # Make res folder available inside the cmake build
+    #set (source "${CMAKE_SOURCE_DIR}/res")
+    #set (destination "${CMAKE_CURRENT_BINARY_DIR}/res")
+    #execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination})
 endif()
 
 
-set (source "${CMAKE_SOURCE_DIR}/res")
-set (destination "${CMAKE_BINARY_DIR}/res")
-add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination} 
-    DEPENDS ${destination}
-    COMMENT "symbolic link resources folder from ${source} => ${destination}"
-)
+#add_custom_command(
+#    TARGET ${PROJECT_NAME} POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination} 
+#    DEPENDS ${destination}
+#    COMMENT "symbolic link resources folder from ${source} => ${destination}"
+#)
+
+
+
 
 
 # ---------------- EXTERN ---------------------#

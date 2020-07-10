@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <filesystem>
 
 #include <PhotonBox/core/Core.h>
 #include <PhotonBox/resource/Scene.h>
@@ -13,8 +14,6 @@
 #define new DEBUG_NEW
 #endif
 
-bool temp = true;
-
 int main(void)
 {
 #ifdef PB_MEM_DEBUG
@@ -23,10 +22,13 @@ int main(void)
 	_CrtSetDbgFlag(flag);
 #elif _DEBUG
 #else
-#ifdef PB_PLATFORM_WIN
+#ifdef _WINDOWS
 	FreeConsole();
 #endif
 #endif
+
+	std::filesystem::path cwd = std::filesystem::current_path();
+	std::cout << cwd << std::endl;
 
 	// Create Scenes
 	std::map<std::string, Scene*> sceneMap;
