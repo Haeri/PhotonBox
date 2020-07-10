@@ -19,7 +19,7 @@ jobs:
     - name: Generate Solution
       run: ./Tools/generate_project_win.bat -s
     - name: Build
-      run: MSBuild.exe ./build/Elemental_Draw.sln
+      run: MSBuild.exe ./build/PhotonBox.sln
     - name: Test
       run: ./Tools/code_checker_win.bat -s
     
