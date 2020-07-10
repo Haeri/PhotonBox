@@ -1,6 +1,0 @@
-CODING STYLE
-
-- 1 trailing line in every file
-- First included main header then forward declaration then system includes then aditional headers
-- 1 linebreak between public, private and protected
-- all implementation in cpp (even if onelinder)

@@ -11,11 +11,7 @@ Runtime/config.cfg
 Runtime/imgui.ini
 
 # Folders
-Game/bin/
-PhotonBox/bin/
-Asset_Converter/bin/
-Runtime/bin/
-Build/
+/build/
 
 Game/res/Realistic-Rendering
 Game/src/Scenes/RealisticRenderingScene.cpp

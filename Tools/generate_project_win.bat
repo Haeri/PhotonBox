@@ -3,7 +3,13 @@
 set oldpath=%cd% 
 cd "%~dp0"
 
-call "premake/win/premake5.exe" --file="../premake5.lua" vs2019 || exit /b %errorlevel%
+cd ..
+rmdir /S /Q "build"
+mkdir "build"
+cd build
+
+cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE="%VCPKG_INSTALLATION_ROOT%\scripts\buildsystems\vcpkg.cmake"
 
 cd "%oldpath%"
 if not "%1" == "-s" pause
+exit /b %errorlevel%
