@@ -7,7 +7,7 @@ if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
     set(PB_STANDALONE TRUE)
 endif()
 
-option(BUILD_SHARED_LIBS "Build as shared/dynamic library" OFF) # ON
+option(BUILD_SHARED_LIBS "Build as shared/dynamic library" OFF)
 option(PB_BUILD_EXAMPLES "Build the example programs" ${PB_STANDALONE})
 
 set(CMAKE_CXX_STANDARD 17)
@@ -33,22 +33,21 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 if (PB_BUILD_EXAMPLES)
     add_subdirectory(samples/Sandbox)
-
-    # Make res folder available inside the cmake build
-    #set (source "${CMAKE_SOURCE_DIR}/res")
-    #set (destination "${CMAKE_CURRENT_BINARY_DIR}/res")
-    #execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination})
 endif()
 
 
-#add_custom_command(
-#    TARGET ${PROJECT_NAME} POST_BUILD
-#    COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination} 
-#    DEPENDS ${destination}
-#    COMMENT "symbolic link resources folder from ${source} => ${destination}"
-#)
 
+# Hack until vcpkg fixes physx setup
+target_link_directories(${PROJECT_NAME} PUBLIC $ENV{VCPKG_INSTALLATION_ROOT}/installed/x64-windows/debug/lib)
 
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+    PhysXPvdSDK_static_64
+    PhysXExtensions_static_64
+    PhysXFoundation_64
+    PhysXCommon_64
+    PhysX_64)
 
 
 

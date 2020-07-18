@@ -32,20 +32,7 @@ add_custom_command(
     COMMENT "symbolic link engine resources folder from ${src} => ${dest}"
 )
 
-
-# Hack until vcpkg fixes physx setup
-if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
-	target_link_directories(${PROJECT_NAME} PUBLIC $ENV{VCPKG_INSTALLATION_ROOT}/installed/x64-windows/debug/lib)
-else()
-	target_link_directories(${PROJECT_NAME} PUBLIC $ENV{VCPKG_INSTALLATION_ROOT}/installed/x64-windows/lib)
-endif()
-
 target_link_libraries(
 	${PROJECT_NAME}
 	PRIVATE
-	PhysXPvdSDK_static_64
-	PhysXExtensions_static_64
-	PhysXFoundation_64
-	PhysXCommon_64
-	PhysX_64
 	PhotonBox)

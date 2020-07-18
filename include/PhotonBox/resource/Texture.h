@@ -7,8 +7,8 @@ class Scene;
 
 #include "PhotonBox/core/ManagedResource.h"
 #include "PhotonBox/core/LazyLoadable.h"
-#include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/resource/ImageBuffer.h"
+#include "PhotonBox/core/OpenGL.h"
 
 #include "PhotonBox/PhotonBoxConfig.h"
 

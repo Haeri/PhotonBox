@@ -51,12 +51,12 @@ public:
 		
 
 		/* --------------------------- POST PROCESSING --------------------------- */
-		//new SSAOProcessor(10);
-		//new SSReflectionProcessor(20);
-		//new AutoExposureProcessor(30);
-		//new TAAProcessor(40);
-		//new BloomProcessor(60);
-		//new ToneMappingProcessor(70);
+		new SSAOProcessor(10);
+		new SSReflectionProcessor(20);
+		new AutoExposureProcessor(30);
+		new TAAProcessor(40);
+		new BloomProcessor(60);
+		new ToneMappingProcessor(70);
 
 
 		/* --------------------------- OBJ --------------------------- */

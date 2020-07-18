@@ -8,8 +8,8 @@ class Material;
 #include <map>
 #include <string>
 
-#include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/resource/ImageBuffer.h"
+#include "PhotonBox/core/OpenGL.h"
 
 #include "PhotonBox/PhotonBoxConfig.h"
 
