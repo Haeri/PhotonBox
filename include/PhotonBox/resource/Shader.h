@@ -12,9 +12,9 @@ class LightEmitter;
 
 #include "PhotonBox/core/ManagedResource.h"
 #include "PhotonBox/core/LazyLoadable.h"
-#include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/math/Matrix4f.h"
 #include "PhotonBox/data-type/Vertex.h"
+#include "PhotonBox/core/OpenGL.h"
 
 #include "PhotonBox/PhotonBoxConfig.h"
 

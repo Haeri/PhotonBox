@@ -3,9 +3,9 @@
 #include <iostream>
 #include <string>
 
-#include "PhotonBox/core/OpenGL.h"
-#include "PhotonBox/core/system/ResourceManager.h"
 #include "PhotonBox/util/Logger.h"
+#include "PhotonBox/core/system/ResourceManager.h"
+#include "PhotonBox/core/OpenGL.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"

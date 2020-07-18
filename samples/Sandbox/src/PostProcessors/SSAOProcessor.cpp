@@ -112,25 +112,6 @@ private:
 			Vector3f noise(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, 0.0f); // rotate around z-axis (in tangent space)
 			ssaoNoise.push_back(noise);
 		}
-
-		std::cout << glGenTextures << std::endl;
-
-		if (glfwGetCurrentContext() == nullptr) {
-			Logger::errln("No Context!");
-
-			GLFWwindow* w = Display::getWindow();
-			glfwMakeContextCurrent(w);
-		}
-
-		/*
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-			Logger::errln("Failed to initialize OpenGL context");
-			glfwTerminate();
-			exit(EXIT_FAILURE);
-		}
-		*/
-
-		std::cout << "TEST" << std::endl;
 		
 		glGenTextures(1, &_noiseTexture);
 		glBindTexture(GL_TEXTURE_2D, _noiseTexture);

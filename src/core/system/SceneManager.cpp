@@ -47,21 +47,7 @@ void SceneManager::loadSceneImmediately(const std::string& name)
 	_currentScene = _sceneMap[name];
 	_currentSceneName = name;
 
-
-	Logger::info("Before stepping into the DLL\t");
-	if (glfwGetCurrentContext() == nullptr) {
-		Logger::errln("No Context!");
-	}
-	else
-	{
-		Logger::confirmln("Context exists!");
-	}
-
-	std::thread::id this_id = std::this_thread::get_id();
-	std::cout << "Thread inside lib: " << this_id << "\n";
-
 	_currentScene->Load();
-
 
 	if(oldScene != nullptr) oldScene->unload();
 	

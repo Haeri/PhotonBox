@@ -5,8 +5,9 @@
 
 #include <string>
 
-#include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/core/ISystem.h"
+#include "PhotonBox/core/OpenGL.h"
+
 #include "PhotonBox/PhotonBoxConfig.h"
 
 class PB_PORT Display : public ISystem

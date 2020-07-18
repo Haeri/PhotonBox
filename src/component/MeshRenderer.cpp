@@ -1,7 +1,6 @@
 #include "PhotonBox/component/MeshRenderer.h"
 
 #include "PhotonBox/core/Entity.h"
-#include "PhotonBox/core/OpenGL.h"
 #include "PhotonBox/core/system/Lighting.h"
 #include "PhotonBox/core/system/Renderer.h"
 #include "PhotonBox/resource/SkyBox.h"
@@ -13,6 +12,7 @@
 #include "PhotonBox/component/Transform.h"
 #include "PhotonBox/resource/Material.h"
 #include "PhotonBox/resource/Mesh.h"
+#include "PhotonBox/core/OpenGL.h"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
