@@ -14,14 +14,12 @@ jobs:
       uses: actions/checkout@v2
     - name: Setup Environment
       uses: microsoft/setup-msbuild@v1.0.0
-    - name: Prerequesits Check
-      run: ./tools/prerequesits_win.bat -s
-    - name: Generate Solution
-      run: ./Tools/generate_project_win.bat -s
+    - name: Install
+      run: ./tools/install_win.bat -s
     - name: Build
       run: MSBuild.exe ./build/PhotonBox.sln
     - name: Test
-      run: ./Tools/code_checker_win.bat -s
+      run: ./tools/code_checker_win.bat -s
     
   # build-linux:
   #  name: Linux Build
@@ -37,13 +35,13 @@ jobs:
   #   - name: Prerequesits Check
   #     run: sudo ./tools/prerequesits_nix.sh
   #   - name: Generate Solution
-  #     run: ./Tools/generate_project_linux.sh
+  #     run: ./tools/generate_project_linux.sh
   #   - name: Build
   #     run: |
   #       cd ./build
   #       sudo make
   #   - name: Test
-  #     run: ./Tools/code_checker_linux.sh -s
+  #     run: ./tools/code_checker_linux.sh -s
     
 
   # build-mac:
@@ -58,10 +56,10 @@ jobs:
   #   - name: Prerequesits Check
   #     run: sudo ./tools/prerequesits_nix.sh
   #   - name: Generate Solution
-  #     run: ./Tools/generate_project_mac.sh
+  #     run: ./tools/generate_project_mac.sh
   #   - name: Build
   #     run: |
   #       cd ./build
   #       sudo make
   #   - name: Test
-  #     run: ./Tools/code_checker_mac.sh -s
+  #     run: ./tools/code_checker_mac.sh -s

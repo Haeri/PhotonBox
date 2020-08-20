@@ -15,13 +15,13 @@ jobs:
     - name: Setup Environment
       uses: warrenbuckley/Setup-MSBuild@v1
     - name: Generate Solution
-      run: ./Tools/generate_project_win.bat -s
+      run: ./tools/generate_project_win.bat -s
     - name: Build
-      run: ./Tools/build_project_win.bat -s
+      run: ./tools/build_project_win.bat -s
     - name: Test
-      run: ./Tools/code_checker_win.bat -s      
+      run: ./tools/code_checker_win.bat -s      
     - name: Package
-      run: ./Tools/package_win.bat Release -s
+      run: ./tools/package_win.bat Release -s
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
       with:
@@ -39,13 +39,13 @@ jobs:
        sudo apt-get update
        sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
     - name: Generate Solution
-      run: ./Tools/generate_project_linux.sh
+      run: ./tools/generate_project_linux.sh
     - name: Build
-      run: ./Tools/build_project_linux.sh
+      run: ./tools/build_project_linux.sh
     - name: Test
-      run: ./Tools/code_checker_linux.sh      
+      run: ./tools/code_checker_linux.sh      
     - name: Package
-      run: sudo ./Tools/package_linux.sh Release
+      run: sudo ./tools/package_linux.sh Release
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
       with:
@@ -61,13 +61,13 @@ jobs:
 #    - name: Setup Environment
 #      run: 
 #    - name: Generate Solution
-#      run: ./Tools/generate_project_mac.sh
+#      run: ./tools/generate_project_mac.sh
 #    - name: Build
-#      run: ./Tools/build_project_mac.sh
+#      run: ./tools/build_project_mac.sh
 #    - name: Test
-#      run: ./Tools/code_checker_mac.sh
+#      run: ./tools/code_checker_mac.sh
 #    - name: Package
-#      run: sudo ./Tools/package_linux.sh Release
+#      run: sudo ./tools/package_linux.sh Release
 #    - name: Upload Artifact
 #      uses: actions/upload-artifact@v1
 #      with:
