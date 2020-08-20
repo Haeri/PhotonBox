@@ -38,7 +38,7 @@ endif()
 
 
 # Hack until vcpkg fixes physx setup
-target_link_directories(${PROJECT_NAME} PUBLIC $ENV{VCPKG_INSTALLATION_ROOT}/installed/x64-windows/debug/lib)
+target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/extern/vcpkg/installed/x64-windows/debug/lib)
 
 target_link_libraries(
     ${PROJECT_NAME}
