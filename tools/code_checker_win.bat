@@ -1,7 +1,7 @@
 @echo off
 
 :: Store caller path
-set old_path = %cd%
+set old_path=%cd%
 set err=0 
 cd "%~dp0"
 ::-----------------------
