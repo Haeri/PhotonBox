@@ -47,7 +47,7 @@ def emj(emoji):
 	else:
 		return	""
 
-def colored(text, color):
+def clr(text, color):
 	if useColor:
 		return colors[color] + text + colors["white"]
 	else:
@@ -96,5 +96,5 @@ do_step("Install zlib", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install zlib
 do_step("Install stb", 		"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install stb:x64-" 		+ platforms[platform.system()], '()', False)
 do_step("Generate project", "🗂️", 0, fx+project_generator[platform.system()]+fx + " -s", '()', False)
 
-print(colored(emj("✔️ ") + "Everything is ready!\n(The project was generated in the './build' directory)", "green"))	
+print(clr(emj("✔️ ") + "Everything is ready!\n(The project was generated in the './build' directory)", "green"))	
 exit(0)

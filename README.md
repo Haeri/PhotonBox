@@ -57,7 +57,7 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 
 ### Requirements
 - [CMake 3.3^](https://cmake.org/download/) 
-- [Python 3](https://www.python.org/downloads/)
+- [Python 3^](https://www.python.org/downloads/)
 
 ### <img height="14" src="https://image.flaticon.com/icons/svg/888/888882.svg"> Windows
 
@@ -67,6 +67,8 @@ git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
 ./tools/install_win.bat
 ```
+<sub>Make sure to open the Visual Studio project as administrator, as it needs to perform copy operatiosn to make resources files available to the binaries.</sub>
+
 
 ### <img height="16" src="https://image.flaticon.com/icons/svg/226/226772.svg"> Linux
 
@@ -100,8 +102,6 @@ Interiour
 Automotive
 ![screenshot 2](https://user-images.githubusercontent.com/7956606/43651128-d3b01440-9741-11e8-9224-c5bded3dedce.png)
 
-
----
 
 ## Roadmap
 
