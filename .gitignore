@@ -6,49 +6,6 @@
 *.pbm
 *.pbt
 
-# Files
-Runtime/config.cfg
-Runtime/imgui.ini
-
 # Folders
 /build/
-
-Game/res/Realistic-Rendering
-Game/src/Scenes/RealisticRenderingScene.cpp
-Runtime/res/Realistic-Rendering
-
-## ------------------------------------- 
-## Visual studio
-## -------------------------------------
-
-# Types
-*.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
-
-# Folders
-.vs/
-
-
-## ------------------------------------- 
-## Codelite
-## -------------------------------------
-
-# Types
-*.mk
-*.project
-*.workspace
-
-# Files
-Makefile
-Game/Game.txt
-PhotonBox/PhotonBox.txt
-
-# Folders
-.codelite/
-.build-debug/
-.build-release/
-
-
-Runtime/res
+/samples/Sandbox/res/Realistic-Rendering

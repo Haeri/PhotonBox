@@ -43,6 +43,7 @@ void Display::init(Config::Profile profile)
 	glfwWindowHint(GLFW_BLUE_BITS, 8);
 	glfwWindowHint(GLFW_ALPHA_BITS, 8);
 	glfwWindowHint(GLFW_DEPTH_BITS, 32);
+	//glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
 	//glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 	const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
