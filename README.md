@@ -1,4 +1,7 @@
-# PhotonBox
+
+<img src="./res/title.png" width="500" >
+
+# 
 
 <!-- ![Release](https://img.shields.io/github/release/Haeri/PhotonBox/all.svg) -->
 [![Version](https://img.shields.io/github/v/release/Haeri/PhotonBox?color=blue&include_prereleases)](https://github.com/Haeri/PhotonBox/releases/latest)
@@ -50,6 +53,44 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 - PhysX 3.4 partial integration
 - ImGui integration
 
+## Project Setup
+
+### Requirements
+- [CMake 3.3^](https://cmake.org/download/) 
+- [Python 3](https://www.python.org/downloads/)
+
+### <img height="14" src="https://image.flaticon.com/icons/svg/888/888882.svg"> Windows
+
+Generate the visual studio project file:
+```cmd
+git clone https://github.com/Haeri/PhotonBox.git --recursive
+cd PhotonBox
+./tools/install_win.bat
+```
+
+### <img height="16" src="https://image.flaticon.com/icons/svg/226/226772.svg"> Linux
+
+Generate the make files:
+```sh
+git clone https://github.com/Haeri/PhotonBox.git --recursive
+cd PhotonBox
+sudo chmod +x ./tools/*.sh
+sudo apt update
+sudo apt install -y mesa-common-dev mesa-utils libgl1-mesa-dev
+sudo apt install -y cmake curl unzip tar 
+sudo ./tools/install_nix.sh
+```
+
+
+### <img height="16" src="https://image.flaticon.com/icons/svg/2/2235.svg"> Mac
+
+Generate the xcode project file:
+```bash
+git clone https://github.com/Haeri/PhotonBox.git --recursive
+cd PhotonBox
+./tools/install_nix.sh
+```
+
 ## Media
 
 Interiour
@@ -59,27 +100,8 @@ Interiour
 Automotive
 ![screenshot 2](https://user-images.githubusercontent.com/7956606/43651128-d3b01440-9741-11e8-9224-c5bded3dedce.png)
 
-## Project Setup
 
-### For Windows
-
-Generate the visual studio project files, by doubleclicking the script: `generate_project_win.bat` inside the `Tools` directory.
-
-### For Linux
-
-Install needed dependencies by executing:
-
-```sh
-sudo apt update
-sudo apt install make mesa-common-dev mesa-utils libgl1-mesa-dev xorg-dev
-```
-
-Then generate the make files, by executing the script: `generate_project_linux.sh` inside the `Tools` directory.
-
-### For Mac
-
-<i>Currently not tested</i><br>
-Generate the xcode project files, by executing the script: `generate_project_mac.sh` inside the `Tools` directory.
+---
 
 ## Roadmap
 
