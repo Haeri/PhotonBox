@@ -126,7 +126,7 @@ void Renderer::init(Config::Profile profile)
 {
 	Logger::infoln("Initializing Renderer");
 
-	float superSampling = profile.supersampling ? 2.0f : 1.0f;
+	float superSampling = profile.supersampling;
 	// OpenGL config
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);

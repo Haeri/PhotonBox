@@ -88,12 +88,12 @@ do_step("Vcpkg setup", 	"🧰", 0, fx+vcpkg_bootstraps[platform.system()]+fx, '(
 	do_step("Download submodules", 	"📦", 3, "git submodule update --init", '()', False),
 	do_step("Vcpkg setup", 			"🧰", 3, fx+vcpkg_bootstraps[platform.system()]+fx, '()', False)
 ))
-do_step("Install glfw3", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install glfw3:x64-" 	+ platforms[platform.system()], '()', False)
-do_step("Install freetype", "📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install freetype:x64-" + platforms[platform.system()], '()', False)
-do_step("Install imgui", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install imgui:x64-" 	+ platforms[platform.system()], '()', False)
-do_step("Install PhysX", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install physx:x64-" 	+ platforms[platform.system()], '()', False)
-do_step("Install zlib", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install zlib:x64-" 	+ platforms[platform.system()], '()', False)
-do_step("Install stb", 		"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install stb:x64-" 		+ platforms[platform.system()], '()', False)
+#do_step("Install glfw3", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install glfw3:x64-" 	+ platforms[platform.system()], '()', False)
+#do_step("Install freetype", "📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install freetype:x64-" + platforms[platform.system()], '()', False)
+#do_step("Install imgui", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install imgui:x64-" 	+ platforms[platform.system()], '()', False)
+#do_step("Install PhysX", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install physx:x64-" 	+ platforms[platform.system()], '()', False)
+#do_step("Install zlib", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install zlib:x64-" 	+ platforms[platform.system()], '()', False)
+#do_step("Install stb", 		"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install stb:x64-" 		+ platforms[platform.system()], '()', False)
 do_step("Generate project", "🗂️", 0, fx+project_generator[platform.system()]+fx + " -s", '()', False)
 
 print(clr(emj("✔️ ") + "Everything is ready!\n(The project was generated in the './build' directory)", "green"))	
