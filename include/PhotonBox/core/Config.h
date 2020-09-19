@@ -13,7 +13,7 @@ public:
 		int height			= 720;
 		bool fullscreen		= false;
 		bool vsync			= false;
-		bool supersampling	= false;
+		float supersampling	= 1.0f;
 		bool showFPS		= false;
 		bool fpsProfiling	= false;
 	};

@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 
 set(PROJECT_NAME PhotonBox)
+
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/extern/vcpkg/scripts/buildsystems/vcpkg.cmake
+  CACHE STRING "Vcpkg toolchain file")
+
 project(${PROJECT_NAME} VERSION 0.7.6 LANGUAGES CXX)
 
 if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -38,7 +42,7 @@ endif()
 
 
 # Hack until vcpkg fixes physx setup
-target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/extern/vcpkg/installed/x64-windows/debug/lib)
+target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/$<$<CONFIG:Debug>:debug>/lib)
 
 target_link_libraries(
     ${PROJECT_NAME}

@@ -61,7 +61,7 @@ void Config::readConfig()
 		}
 		else if (tokens[0].compare("supersampling") == 0)
 		{
-			profile.supersampling = (bool)std::stoi(tokens[1]);
+			profile.supersampling = (float)std::stof(tokens[1]);
 		}
 		else if (tokens[0].compare("show_fps") == 0)
 		{
