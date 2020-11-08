@@ -1,6 +1,5 @@
 #include <iostream>
 #include <map>
-#include <filesystem>
 
 #include <PhotonBox/core/Core.h>
 #include <PhotonBox/resource/Scene.h>
@@ -27,8 +26,8 @@ int main(void)
 #endif
 #endif
 
-	std::filesystem::path cwd = std::filesystem::current_path();
-	std::cout << cwd << std::endl;
+	//std::filesystem::path cwd = std::filesystem::current_path();
+	//std::cout << cwd << std::endl;
 
 	// Create Scenes
 	std::map<std::string, Scene*> sceneMap;
