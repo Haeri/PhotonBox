@@ -45,22 +45,41 @@ endif()
 
 if(APPLE)
     target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-osx/$<$<CONFIG:Debug>:debug>/lib)
+    
+    target_link_libraries(
+        ${PROJECT_NAME}
+        PRIVATE
+        PhysXPvdSDK_static_64
+        PhysXExtensions_static_64
+        PhysXFoundation_static_64
+        PhysXCommon_static_64
+        PhysX_static_64
+    )
 elseif(WIN32) 
     target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/$<$<CONFIG:Debug>:debug>/lib)
+
+    target_link_libraries(
+        ${PROJECT_NAME}
+        PRIVATE
+        PhysXPvdSDK_static_64
+        PhysXExtensions_static_64
+        PhysXFoundation_64
+        PhysXCommon_64
+        PhysX_64
+    )
 else()
     target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-linux/$<$<CONFIG:Debug>:debug>/lib)
+
+    target_link_libraries(
+        ${PROJECT_NAME}
+        PRIVATE
+        PhysXPvdSDK_static_64
+        PhysXExtensions_static_64
+        PhysXFoundation_static_64
+        PhysXCommon_static_64
+        PhysX_static_64
+    )
 endif()
-
-
-target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE
-    PhysXPvdSDK_static_64
-    PhysXExtensions_static_64
-    PhysXFoundation_64
-    PhysXCommon_64
-    PhysX_64
-)
 
     
 

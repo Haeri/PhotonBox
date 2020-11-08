@@ -90,7 +90,7 @@ public:
 
 	inline bool operator!= (const Vector4f& other) const
 	{
-		return (_x != other._x && _y != other._y && _z != other._z && _w != other._w);
+		return (_x != other._x || _y != other._y || _z != other._z || _w != other._w);
 	}
 
 	inline Vector4f operator/ (const float& scalar) const

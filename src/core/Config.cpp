@@ -82,17 +82,18 @@ void Config::readConfig()
 
 void Config::createDefault()
 {
-	std::string def = "#Photon Box Configuration file\n"
-					"appName = PhotonBox\n"
-					"width = 1280\n"
-					 "height = 720\n"
-					 "fullscreen = 0\n"
-					 "vsync = 0\n"
-					 "supersampling = 0\n"
-					 "show_fps = 0\n"
-					 "fps_profiling = 0\n";
+	Profile def;
+	std::string s = "# Photon Box Configuration file\n"
+					"appName = "+ def.appName +"\n"
+					"width = " + std::to_string(def.width) + "\n"
+					 "height = " + std::to_string(def.height) + "\n"
+					 "fullscreen = " + std::to_string(def.fullscreen) + "\n"
+					 "vsync = " + std::to_string(def.vsync) + "\n"
+					 "supersampling = " + std::to_string(def.supersampling) + "\n"
+					 "show_fps = " + std::to_string(def.showFPS) + "\n"
+					 "fps_profiling = " + std::to_string(def.fpsProfiling) + "\n";
 
 	std::ofstream file(FILE_PATH);
-	file << def;
+	file << s;
 	file.close();
 }

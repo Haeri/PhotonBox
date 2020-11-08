@@ -5,7 +5,7 @@
 #include <math.h>
 #include <string>
 
-#include "PxPhysicsAPI.h"
+#include "PhotonBox/core/system/Physics.h"
 #include "PhotonBox/util/Logger.h"
 
 #include "PhotonBox/PhotonBoxConfig.h"
@@ -75,7 +75,7 @@ public:
 
 	inline bool operator!= (const Vector2f& other) const
 	{
-		return (_x != other._x && _y != other._y);
+		return (_x != other._x || _y != other._y);
 	}
 
 	inline Vector2f operator/ (const float& scalar) const
