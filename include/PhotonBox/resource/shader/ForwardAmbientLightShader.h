@@ -14,7 +14,7 @@ public:
 		return std::string(Resources::ENGINE_RESOURCES + "/shaders/forward-rendering/base");
 	}
 
-	void update(Transform* transform, LightEmitter* light)
+	void update(Transform* transform, LightEmitter* light) override
 	{
 		Matrix4f mvp = Camera::getMainCamera()->getViewProjection() * transform->getTransformationMatrix();
 		AmbientLight* al = dynamic_cast<AmbientLight*>(light);

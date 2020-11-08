@@ -1,6 +1,15 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
 
+// "Exactly one of NDEBUG and _DEBUG needs to be defined!" for non Windows platforms
+#ifndef _WINDOWS
+	#ifdef DEBUG
+		#define _DEBUG
+	#else
+		#define NDEBUG
+	#endif
+#endif
+
 class Collider;
 class Rigidbody;
 class Entity;

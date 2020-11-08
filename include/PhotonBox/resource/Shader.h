@@ -52,7 +52,7 @@ public:
 	void destroy();
 	void submitBuffer() override;
 
-	virtual std::string getFilePath() = 0;
+	//virtual std::string getFilePath() = 0;
 	virtual void addAttributes() = 0;
 	virtual void update(Transform* transform) {}
 	virtual void update(Transform* transform, LightEmitter* thing) {}
