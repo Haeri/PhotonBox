@@ -407,7 +407,7 @@ public:
 
 		Material* panoramaMaterial = createResource<Material>("panoramaMaterial", skyBoost);
 		panoramaMaterial->setImageBuffer("albedoMap", panoramaAlbedo);
-		panoramaMaterial->setProperty("boost", 60.0f);
+		//panoramaMaterial->setProperty("boost", 60.0f);
 
 		/* --------------------------- CAMERA --------------------------- */
 
