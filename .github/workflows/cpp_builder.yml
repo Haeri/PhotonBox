@@ -23,7 +23,7 @@ jobs:
     - name: Test
       run: ./tools/code_checker_win.bat -s
     
-   build-linux:
+  build-linux:
     name: Linux Build
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +46,7 @@ jobs:
        run: ./tools/code_checker_linux.sh -s
     
 
-   build-mac:
+  build-mac:
     name: Mac Build
     runs-on: macos-latest
     steps:
