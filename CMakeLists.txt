@@ -42,7 +42,15 @@ endif()
 
 
 # Hack until vcpkg fixes physx setup
-target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/$<$<CONFIG:Debug>:debug>/lib)
+
+if(APPLE)
+    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-osx/$<$<CONFIG:Debug>:debug>/lib)
+elseif(WIN32) 
+    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/$<$<CONFIG:Debug>:debug>/lib)
+else()
+    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-linux/$<$<CONFIG:Debug>:debug>/lib)
+endif()
+
 
 target_link_libraries(
     ${PROJECT_NAME}
@@ -51,9 +59,10 @@ target_link_libraries(
     PhysXExtensions_static_64
     PhysXFoundation_64
     PhysXCommon_64
-    PhysX_64)
+    PhysX_64
+)
 
-
+    
 
 # ---------------- EXTERN ---------------------#
 
@@ -81,6 +90,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE imgui::imgui)
 # zlib
 find_package(ZLIB REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE ZLIB::ZLIB)
+
+# physx
+#find_package(physx CONFIG REQUIRED)
+#target_link_libraries(${PROJECT_NAME} PUBLIC physx)
+
 
 
 set_target_properties(glad PROPERTIES FOLDER ${EXTERN_DIR})

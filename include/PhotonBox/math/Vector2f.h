@@ -5,7 +5,7 @@
 #include <math.h>
 #include <string>
 
-#include "physx/PxPhysicsAPI.h"
+#include "PxPhysicsAPI.h"
 #include "PhotonBox/util/Logger.h"
 
 #include "PhotonBox/PhotonBoxConfig.h"
