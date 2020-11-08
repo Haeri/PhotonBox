@@ -112,7 +112,7 @@ public:
 
 	inline bool operator!= (const Vector3f& other) const
 	{
-		return (_x != other._x && _y != other._y && _z != other._z);
+		return (_x != other._x || _y != other._y || _z != other._z);
 	}
 
 	inline Vector3f operator/ (const float& scalar) const
