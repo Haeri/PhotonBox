@@ -1,6 +1,7 @@
 #ifndef DEBUG_GUI_H
 #define DEBUG_GUI_H
 
+#define IMGUI_IMPL_OPENGL_LOADER_GLAD
 #include "imgui.h"
 
 #include "PhotonBox/core/Config.h"
