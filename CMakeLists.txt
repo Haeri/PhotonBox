@@ -73,11 +73,13 @@ else()
     target_link_libraries(
         ${PROJECT_NAME}
         PRIVATE
+        -Wl,--start-group
         PhysXPvdSDK_static_64
         PhysXExtensions_static_64
         PhysXFoundation_static_64
         PhysXCommon_static_64
         PhysX_static_64
+        -Wl,--end-group
     )
 endif()
 
