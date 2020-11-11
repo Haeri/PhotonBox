@@ -34,6 +34,7 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
+add_subdirectory(workbench)
 
 if (PB_BUILD_EXAMPLES)
     add_subdirectory(samples/Sandbox)
