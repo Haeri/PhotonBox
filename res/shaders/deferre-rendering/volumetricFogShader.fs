@@ -66,7 +66,8 @@ uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 // Absorption specific parameters
 float absorptionTau = 0.02;
 vec3 absorptionColor = vec3(0.5, 0.5, 0.5);
-float raySamples = 1.0;
+float raySamples = 0.0;
+float density = 10;
 
 // Scattering specific parameters
 float scatteringTau = 0.007;
@@ -102,10 +103,7 @@ float phaseFunctionRayleigh(vec3 inDir, vec3 outDir) {
 
 vec4 volumetricShadows()
 {
-	
-	float density = 0.4;
-
-    float fragDistance;
+    float fragDistance = 1000;
 
     if(fragPos.z == 0)
        fragDistance = 1000;
@@ -119,12 +117,12 @@ vec4 volumetricShadows()
 
     float rand = random(fragPos.xy+fragPos.z);
     vec3 ray = (view_space_ray * delta * rand);
-	vec3 ret;
+	vec3 ret = vec3(0);
 
 	vec4 world_space_ray_4 = viewMatrixInv * view_space_ray_4;
 	vec3 world_space_ray = normalize(world_space_ray_4.xyz / world_space_ray_4.w);
 	
-	 vec3 fragToCamNorm = normalize(world_space_ray);
+	vec3 fragToCamNorm = normalize(world_space_ray);
 
 	for(int i = 0; i < raySamples; ++i){
         ray += (view_space_ray * delta);
@@ -137,7 +135,7 @@ vec4 volumetricShadows()
 		float visibility = closestDepth > currentDepth ? 1 : 0;
         //vec3 lightToX = x - light.position;
         //float lightDist = length(lightToX);
-        float lightDist = density;
+        float lightDist = 1.0 / density;
         float omega = 4 * M_PI * lightDist * lightDist;
         vec3 Lin = absorptionTransmittance(lightDist) * visibility * directionalLights[0].color * directionalLights[0].intensity / omega;
         vec3 Li = Lin * scatteringTau * scatteringColor * phaseFunctionRayleigh(normalize(directionalLights[0].direction), fragToCamNorm);
