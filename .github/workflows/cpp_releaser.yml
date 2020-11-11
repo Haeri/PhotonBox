@@ -1,114 +1,106 @@
 name: CPP Releaser
 
-on: 
+on:
   push:
-    tags:        
-      - v* 
+    tags:
+      - v*
 
 jobs:
   build-win:
-   name: Windows Build
-   runs-on: windows-latest
-   steps:
-    - name: Download Repository
-      uses: actions/checkout@v2
-      with:
-        submodules: 'true'
-    - name: Setup Environment
-      uses: microsoft/setup-msbuild@v1.0.0
-    - name: Generate Solution
-      run: ./tools/setup_win.bat -s
-    - name: Build
-      run: MSBuild.exe ./build/PhotonBox.sln /p:Configuration=Release
-    - name: Test
-      run: ./tools/code_checker_win.bat -s
-    - name: Package
-      run: ./tools/package_win.bat Release -s
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}
-        path: Build/Release
-    
+    name: Windows Build
+    runs-on: windows-latest
+    steps:
+      - name: Download Repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - name: Setup Environment
+        uses: microsoft/setup-msbuild@v1.0.0
+      - name: Generate Solution
+        run: ./tools/setup_win.bat -s
+      - name: Build
+        run: 'MSBuild.exe ./build/PhotonBox.sln /p:Configuration=Release'
+      - name: Test
+        run: ./tools/code_checker_win.bat -s
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}'
+          path: ./build/Release/PhotonBox.lib
+  
   build-linux:
-   name: Linux Build
+    name: Linux Build
     runs-on: ubuntu-latest
     steps:
-    - name: Download Repository
-      uses: actions/checkout@v2
-      with:
-        submodules: 'true'
-    - name: Setup Environment
-      run: |
-        sudo chmod +x ./tools/*.sh
-        sudo apt-get update
-        sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
-    - name: Generate Solution
-      run: ./tools/setup_nix.sh
-    - name: Build
-      run: |
-         cd ./build
-         sudo make config=Release
-    - name: Test
-      run: ./tools/code_checker_linux.sh -s
-    - name: Package
-      run: sudo ./tools/package_linux.sh Release
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}
-        path: Build/Release
-
+      - name: Download Repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - name: Setup Environment
+        run: |
+          sudo chmod +x ./tools/*.sh
+          sudo apt-get update
+          sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
+      - name: Generate Solution
+        run: ./tools/setup_nix.sh
+      - name: Build
+        run: |
+          cd ./build
+          sudo make config=Release
+      - name: Test
+        run: ./tools/code_checker_linux.sh -s
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}'
+          path: ./build/libPhotonBox.lib
+  
   build-mac:
-   name: Mac Build
+    name: Mac Build
     runs-on: macos-latest
     steps:
-    - name: Download Repository
-      uses: actions/checkout@v2
-      with:
-        submodules: 'true'
-    - name: Setup Environment
-      run: |
-        sudo chmod +x ./tools/*.sh
-    - name: Generate Solution
-      run: ./tools/setup_nix.sh
-    - name: Build
-      run: |
-         cd ./build
-         sudo make config=Release
-    - name: Test
-      run: ./tools/code_checker_mac.sh -s
-    - name: Package
-      run: sudo ./tools/package_linux.sh Release
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{ runner.os }}
-        path: Build/Release
-
-
-
-
+      - name: Download Repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - name: Setup Environment
+        run: |
+          sudo chmod +x ./tools/*.sh
+      - name: Generate Solution
+        run: ./tools/setup_nix.sh
+      - name: Build
+        run: |
+          cd ./build
+          sudo make config=Release
+      - name: Test
+        run: ./tools/code_checker_mac.sh -s
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}'
+          path: ./build/Release/libPhotonBox.lib
 
   release:
     name: Make Release
     runs-on: ubuntu-latest
-    needs: [build-win, build-linux, build-mac]
+    needs:
+      - build-win
+      - build-linux
+      - build-mac
     steps:
       - name: Get Version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        run: 'echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}'
       - name: Download Windows Artifact
         uses: actions/download-artifact@v1
         with:
-          name: PhotonBox-${GITHUB_REF/refs\/tags\//}-Windows
+          name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-Windows'
           path: release/Windows
       - name: Download Linux Artifact
         uses: actions/download-artifact@v1
         with:
-          name: PhotonBox-${GITHUB_REF/refs\/tags\//}-Linux
+          name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-Linux'
           path: release/Linux
-
       - name: Zip Archives
         run: |
           cd release/Windows
@@ -116,33 +108,31 @@ jobs:
           cd ../Linux
           zip -r ../Linux.zip .
           cd ../..        
-  
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
         with:
-          tag_name: ${{ steps.get_version.outputs.VERSION }}
-          release_name: PhotonBox Release ${{ steps.get_version.outputs.VERSION }}
+          tag_name: '${{ steps.get_version.outputs.VERSION }}'
+          release_name: 'PhotonBox Release ${{ steps.get_version.outputs.VERSION }}'
           draft: false
-          prerelease: endsWith(steps.get_version.outputs.VERSION, '.0') != true
-
+          prerelease: 'endsWith(steps.get_version.outputs.VERSION, ''.0'') != true'
       - name: Upload Windows Release Asset
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: '${{ steps.create_release.outputs.upload_url }}'
           asset_path: ./release/Windows.zip
-          asset_name: PhotonBox-${{ steps.get_version.outputs.VERSION }}-Windows.zip
+          asset_name: 'PhotonBox-${{ steps.get_version.outputs.VERSION }}-Windows.zip'
           asset_content_type: application/zip
       - name: Upload Linux Release Asset
         uses: actions/upload-release-asset@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: '${{ steps.create_release.outputs.upload_url }}'
           asset_path: ./release/Linux.zip
-          asset_name: PhotonBox-${{ steps.get_version.outputs.VERSION }}-Linux.zip
+          asset_name: 'PhotonBox-${{ steps.get_version.outputs.VERSION }}-Linux.zip'
           asset_content_type: application/zip

@@ -1,67 +1,81 @@
 name: CPP Builder
 
-on: 
+on:
   push:
     branches:
-    - dev
+      - dev
 
 jobs:
   build-win:
-   name: Windows Build
-   runs-on: windows-latest
-   steps:
-    - name: Download Repository
-      uses: actions/checkout@v2
-      with:
-        submodules: 'true'
-    - name: Setup Environment
-      uses: microsoft/setup-msbuild@v1.0.0
-    - name: Generate Solution
-      run: ./tools/setup_win.bat -s
-    - name: Build
-      run: MSBuild.exe ./build/PhotonBox.sln /p:Configuration=Release
-    - name: Test
-      run: ./tools/code_checker_win.bat -s
-    
+    name: Windows Build
+    runs-on: windows-latest
+    steps:
+      - name: Download Repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - name: Setup Environment
+        uses: microsoft/setup-msbuild@v1.0.0
+      - name: Generate Solution
+        run: ./tools/setup_win.bat -s
+      - name: Build
+        run: 'MSBuild.exe ./build/PhotonBox.sln /p:Configuration=Release'
+      - name: Test
+        run: ./tools/code_checker_win.bat -s
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}'
+          path: ./build/Release/PhotonBox.lib
+  
   build-linux:
     name: Linux Build
     runs-on: ubuntu-latest
     steps:
-     - name: Download Repository
-       uses: actions/checkout@v2
-       with:
-        submodules: 'true'
-     - name: Setup Environment
-       run: |
-        sudo chmod +x ./tools/*.sh
-        sudo apt-get update
-        sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
-     - name: Generate Solution
-       run: ./tools/setup_nix.sh
-     - name: Build
-       run: |
-         cd ./build
-         sudo make config=Release
-     - name: Test
-       run: ./tools/code_checker_linux.sh -s
-    
-
+      - name: Download Repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - name: Setup Environment
+        run: |
+          sudo chmod +x ./tools/*.sh
+          sudo apt-get update
+          sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
+      - name: Generate Solution
+        run: ./tools/setup_nix.sh
+      - name: Build
+        run: |
+          cd ./build
+          sudo make config=Release
+      - name: Test
+        run: ./tools/code_checker_linux.sh -s
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}'
+          path: ./build/libPhotonBox.lib
+  
   build-mac:
     name: Mac Build
     runs-on: macos-latest
     steps:
-     - name: Download Repository
-       uses: actions/checkout@v2
-       with:
-        submodules: 'true'
-     - name: Setup Environment
-       run: |
-        sudo chmod +x ./tools/*.sh
-     - name: Generate Solution
-       run: ./tools/setup_nix.sh
-     - name: Build
-       run: |
-         cd ./build
-         sudo make config=Release
-     - name: Test
-       run: ./tools/code_checker_mac.sh -s
+      - name: Download Repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - name: Setup Environment
+        run: |
+          sudo chmod +x ./tools/*.sh
+      - name: Generate Solution
+        run: ./tools/setup_nix.sh
+      - name: Build
+        run: |
+          cd ./build
+          sudo make config=Release
+      - name: Test
+        run: ./tools/code_checker_mac.sh -s
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}'
+          path: ./build/Release/libPhotonBox.lib
