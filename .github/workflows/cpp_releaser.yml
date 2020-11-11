@@ -1,4 +1,4 @@
-name: C++ Releaser
+name: CPP Releaser
 
 on: 
   push:
@@ -8,18 +8,20 @@ on:
 jobs:
   build-win:
    name: Windows Build
-   runs-on: windows-latest    
+   runs-on: windows-latest
    steps:
     - name: Download Repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - name: Setup Environment
-      uses: warrenbuckley/Setup-MSBuild@v1
+      uses: microsoft/setup-msbuild@v1.0.0
     - name: Generate Solution
-      run: ./tools/generate_project_win.bat -s
+      run: ./tools/setup_win.bat -s
     - name: Build
-      run: ./tools/build_project_win.bat -s
+      run: MSBuild.exe ./build/PhotonBox.sln /p:Configuration=Release
     - name: Test
-      run: ./tools/code_checker_win.bat -s      
+      run: ./tools/code_checker_win.bat -s
     - name: Package
       run: ./tools/package_win.bat Release -s
     - name: Upload Artifact
@@ -30,20 +32,25 @@ jobs:
     
   build-linux:
    name: Linux Build
-   runs-on: ubuntu-latest
-   steps:
+    runs-on: ubuntu-latest
+    steps:
     - name: Download Repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - name: Setup Environment
       run: |
-       sudo apt-get update
-       sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
+        sudo chmod +x ./tools/*.sh
+        sudo apt-get update
+        sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
     - name: Generate Solution
-      run: ./tools/generate_project_linux.sh
+      run: ./tools/setup_nix.sh
     - name: Build
-      run: ./tools/build_project_linux.sh
+      run: |
+         cd ./build
+         sudo make config=Release
     - name: Test
-      run: ./tools/code_checker_linux.sh      
+      run: ./tools/code_checker_linux.sh -s
     - name: Package
       run: sudo ./tools/package_linux.sh Release
     - name: Upload Artifact
@@ -52,32 +59,41 @@ jobs:
         name: PhotonBox-${GITHUB_REF/refs\/tags\//}-${{ runner.os }}
         path: Build/Release
 
-#  build-mac:
-#   name: Mac Build
-#   runs-on: macos-latest
-#   steps:
-#    - name: Download Repository
-#      uses: actions/checkout@v1
-#    - name: Setup Environment
-#      run: 
-#    - name: Generate Solution
-#      run: ./tools/generate_project_mac.sh
-#    - name: Build
-#      run: ./tools/build_project_mac.sh
-#    - name: Test
-#      run: ./tools/code_checker_mac.sh
-#    - name: Package
-#      run: sudo ./tools/package_linux.sh Release
-#    - name: Upload Artifact
-#      uses: actions/upload-artifact@v1
-#      with:
-#        name: ${{ runner.os }}
-#        path: Build/Release
+  build-mac:
+   name: Mac Build
+    runs-on: macos-latest
+    steps:
+    - name: Download Repository
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+    - name: Setup Environment
+      run: |
+        sudo chmod +x ./tools/*.sh
+    - name: Generate Solution
+      run: ./tools/setup_nix.sh
+    - name: Build
+      run: |
+         cd ./build
+         sudo make config=Release
+    - name: Test
+      run: ./tools/code_checker_mac.sh -s
+    - name: Package
+      run: sudo ./tools/package_linux.sh Release
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ runner.os }}
+        path: Build/Release
+
+
+
+
 
   release:
     name: Make Release
     runs-on: ubuntu-latest
-    needs: [build-win, build-linux]
+    needs: [build-win, build-linux, build-mac]
     steps:
       - name: Get Version
         id: get_version
