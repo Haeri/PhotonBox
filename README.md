@@ -1,7 +1,5 @@
 
-<img src="./res/title.png" width="500" >
-
-# 
+<img src="./res/title.png" width="500">
 
 ![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Haeri/PhotonBox/master/vcpkg.json&label=version&query=$['version-string']&color=blue)
 [![Actions Status](https://github.com/Haeri/PhotonBox/workflows/C++%20Builder/badge.svg)](https://github.com/Haeri/PhotonBox/actions)
@@ -49,7 +47,7 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 - Resource caching
 - Async resource loading
 - Shader hot reload
-- PhysX 3.4 partial integration
+- PhysX partial integration
 - ImGui integration
 
 ## Project Setup

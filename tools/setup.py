@@ -7,7 +7,7 @@ import os
 
 
 fx = "\""
-vcpkg_dir = "../external/vcpkg/"
+vcpkg_dir = "../extern/vcpkg/"
 vcpkg_bootstraps = {
 	"Windows": vcpkg_dir + "bootstrap-vcpkg.bat",
 	"Darwin": vcpkg_dir + "bootstrap-vcpkg.sh",
