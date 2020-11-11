@@ -7,6 +7,7 @@
 #include "Scenes/ShelbyScene.cpp"
 #include "Scenes/MaterialTestScene.cpp"
 #include "Scenes/PhysicsScene.cpp"
+#include "Scenes/RealisticRenderingScene.cpp"
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -34,6 +35,7 @@ int main(void)
 	sceneMap["1. Material Test"] = new MaterialTestScene();
 	sceneMap["2. Shelby Scene"] = new ShelbyScene();
 	sceneMap["3. Physics Scene"] = new PhysicsScene();
+	sceneMap["4. Realistic Rendering"] = new RealisticRenderingScene();
 
 	// Create and initialize the Core
 	Core core;

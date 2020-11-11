@@ -7,7 +7,7 @@ import os
 
 
 fx = "\""
-vcpkg_dir = "../extern/vcpkg/"
+vcpkg_dir = "../external/vcpkg/"
 vcpkg_bootstraps = {
 	"Windows": vcpkg_dir + "bootstrap-vcpkg.bat",
 	"Darwin": vcpkg_dir + "bootstrap-vcpkg.sh",
@@ -24,8 +24,9 @@ colors = {
 	"white": "\x1B[0m",
 	"red": "\x1B[31m",
 	"green": "\x1B[32m",
+	"yellow": "\x1B[33m",
 	"blue": "\x1B[34m",
-	"gray": "\x1B[90m"
+	"gray": "\x1B[90m",
 }
 
 platforms = {
@@ -88,13 +89,7 @@ do_step("Vcpkg setup", 	"🧰", 0, fx+vcpkg_bootstraps[platform.system()]+fx, '(
 	do_step("Download submodules", 	"📦", 3, "git submodule update --init", '()', False),
 	do_step("Vcpkg setup", 			"🧰", 3, fx+vcpkg_bootstraps[platform.system()]+fx, '()', False)
 ))
-#do_step("Install glfw3", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install glfw3:x64-" 	+ platforms[platform.system()], '()', False)
-#do_step("Install freetype", "📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install freetype:x64-" + platforms[platform.system()], '()', False)
-#do_step("Install imgui", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install imgui:x64-" 	+ platforms[platform.system()], '()', False)
-#do_step("Install PhysX", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install physx:x64-" 	+ platforms[platform.system()], '()', False)
-#do_step("Install zlib", 	"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install zlib:x64-" 	+ platforms[platform.system()], '()', False)
-#do_step("Install stb", 		"📚", 0, fx+vcpkg_dir + "vcpkg" + fx + " install stb:x64-" 		+ platforms[platform.system()], '()', False)
 do_step("Generate project", "🗂️", 0, fx+project_generator[platform.system()]+fx + " -s", '()', False)
 
-print(clr(emj("✔️ ") + "Everything is ready!\n(The project was generated in the './build' directory)", "green"))	
+print(clr(emj("✔️ ") + "Everything is ready!\n(The project was generated in the 'build' directory)", "green"))	
 exit(0)

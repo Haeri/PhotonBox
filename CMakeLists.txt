@@ -5,7 +5,7 @@ set(PROJECT_NAME PhotonBox)
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/extern/vcpkg/scripts/buildsystems/vcpkg.cmake
   CACHE STRING "Vcpkg toolchain file")
 
-project(${PROJECT_NAME} VERSION 0.7.6 LANGUAGES CXX)
+project(${PROJECT_NAME} VERSION 0.8.0 LANGUAGES CXX)
 
 if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
     set(PB_STANDALONE TRUE)

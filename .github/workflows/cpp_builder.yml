@@ -1,9 +1,9 @@
-name: vcpkg Builder
+name: CPP Builder
 
 on: 
   push:
     branches:
-    - vcpkg
+    - dev
 
 jobs:
   build-win:
@@ -17,7 +17,7 @@ jobs:
     - name: Setup Environment
       uses: microsoft/setup-msbuild@v1.0.0
     - name: Generate Solution
-      run: ./tools/install_win.bat -s
+      run: ./tools/setup_win.bat -s
     - name: Build
       run: MSBuild.exe ./build/PhotonBox.sln /p:Configuration=Release
     - name: Test
@@ -37,7 +37,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
      - name: Generate Solution
-       run: ./tools/install_nix.sh
+       run: ./tools/setup_nix.sh
      - name: Build
        run: |
          cd ./build
@@ -58,7 +58,7 @@ jobs:
        run: |
         sudo chmod +x ./tools/*.sh
      - name: Generate Solution
-       run: ./tools/install_nix.sh
+       run: ./tools/setup_nix.sh
      - name: Build
        run: |
          cd ./build

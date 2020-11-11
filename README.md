@@ -3,8 +3,7 @@
 
 # 
 
-<!-- ![Release](https://img.shields.io/github/release/Haeri/PhotonBox/all.svg) -->
-[![Version](https://img.shields.io/github/v/release/Haeri/PhotonBox?color=blue&include_prereleases)](https://github.com/Haeri/PhotonBox/releases/latest)
+![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Haeri/PhotonBox/master/vcpkg.json&label=version&query=$['version-string']&color=blue)
 [![Actions Status](https://github.com/Haeri/PhotonBox/workflows/C++%20Builder/badge.svg)](https://github.com/Haeri/PhotonBox/actions)
 [![License](https://img.shields.io/github/license/Haeri/PhotonBox.svg)](https://github.com/Haeri/PhotonBox/blob/master/LICENSE)
 
@@ -65,7 +64,7 @@ Generate the visual studio project file:
 ```cmd
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
-./tools/install_win.bat
+./tools/setup_win.bat
 ```
 <sub>Make sure to open the Visual Studio project as administrator, as it needs to perform copy operatiosn to make resources files available to the binaries.</sub>
 
@@ -76,11 +75,10 @@ Generate the make files:
 ```sh
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
-sudo chmod +x ./tools/*.sh
 sudo apt update
 sudo apt install -y mesa-common-dev mesa-utils libgl1-mesa-dev
 sudo apt install -y cmake curl unzip tar 
-sudo ./tools/install_nix.sh
+./tools/setup_nix.sh
 ```
 
 
@@ -90,7 +88,7 @@ Generate the xcode project file:
 ```bash
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
-./tools/install_nix.sh
+./tools/setup_nix.sh
 ```
 
 ## Media
