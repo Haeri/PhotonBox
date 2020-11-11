@@ -2,7 +2,8 @@
 #define OPENGL_H
 
 #ifdef _WINDOWS
-#define NOMINMAX 
+	#define NOMINMAX
+	#include <windows.h> // Removes the appentry warning caused my glfw3.h
 #endif
 
 #include <glad/gl.h>
