@@ -1,7 +1,9 @@
-# PhotonBox
 
-<!-- ![Release](https://img.shields.io/github/release/Haeri/PhotonBox/all.svg) -->
-[![Version](https://img.shields.io/github/v/release/Haeri/PhotonBox?color=blue&include_prereleases)](https://github.com/Haeri/PhotonBox/releases/latest)
+<img src="./res/title.png" width="500" >
+
+# 
+
+![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Haeri/PhotonBox/master/vcpkg.json&label=version&query=$['version-string']&color=blue)
 [![Actions Status](https://github.com/Haeri/PhotonBox/workflows/C++%20Builder/badge.svg)](https://github.com/Haeri/PhotonBox/actions)
 [![License](https://img.shields.io/github/license/Haeri/PhotonBox.svg)](https://github.com/Haeri/PhotonBox/blob/master/LICENSE)
 
@@ -50,6 +52,45 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 - PhysX 3.4 partial integration
 - ImGui integration
 
+## Project Setup
+
+### Requirements
+- [CMake 3.3^](https://cmake.org/download/) 
+- [Python 3^](https://www.python.org/downloads/)
+
+### <img height="14" src="https://image.flaticon.com/icons/svg/888/888882.svg"> Windows
+
+Generate the visual studio project file:
+```cmd
+git clone https://github.com/Haeri/PhotonBox.git --recursive
+cd PhotonBox
+./tools/setup_win.bat
+```
+<sub>Make sure to open the Visual Studio project as administrator, as it needs to perform copy operatiosn to make resources files available to the binaries.</sub>
+
+
+### <img height="16" src="https://image.flaticon.com/icons/svg/226/226772.svg"> Linux
+
+Generate the make files:
+```sh
+git clone https://github.com/Haeri/PhotonBox.git --recursive
+cd PhotonBox
+sudo apt update
+sudo apt install -y mesa-common-dev mesa-utils libgl1-mesa-dev
+sudo apt install -y cmake curl unzip tar 
+./tools/setup_nix.sh
+```
+
+
+### <img height="16" src="https://image.flaticon.com/icons/svg/2/2235.svg"> Mac
+
+Generate the xcode project file:
+```bash
+git clone https://github.com/Haeri/PhotonBox.git --recursive
+cd PhotonBox
+./tools/setup_nix.sh
+```
+
 ## Media
 
 Interiour
@@ -59,27 +100,6 @@ Interiour
 Automotive
 ![screenshot 2](https://user-images.githubusercontent.com/7956606/43651128-d3b01440-9741-11e8-9224-c5bded3dedce.png)
 
-## Project Setup
-
-### For Windows
-
-Generate the visual studio project files, by doubleclicking the script: `generate_project_win.bat` inside the `Tools` directory.
-
-### For Linux
-
-Install needed dependencies by executing:
-
-```sh
-sudo apt update
-sudo apt install make mesa-common-dev mesa-utils libgl1-mesa-dev xorg-dev
-```
-
-Then generate the make files, by executing the script: `generate_project_linux.sh` inside the `Tools` directory.
-
-### For Mac
-
-<i>Currently not tested</i><br>
-Generate the xcode project files, by executing the script: `generate_project_mac.sh` inside the `Tools` directory.
 
 ## Roadmap
 
