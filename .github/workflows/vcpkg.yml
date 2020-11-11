@@ -1,0 +1,67 @@
+name: vcpkg Builder
+
+on: 
+  push:
+    branches:
+    - vcpkg
+
+jobs:
+  build-win:
+   name: Windows Build
+   runs-on: windows-latest
+   steps:
+    - name: Download Repository
+      uses: actions/checkout@v2
+    - name: Setup Environment
+      uses: microsoft/setup-msbuild@v1.0.0
+    - name: Prerequesits Check
+      run: ./tools/prerequesits_win.bat -s
+    - name: Generate Solution
+      run: ./Tools/generate_project_win.bat -s
+    - name: Build
+      run: MSBuild.exe ./build/PhotonBox.sln
+    - name: Test
+      run: ./Tools/code_checker_win.bat -s
+    
+  build-linux:
+   name: Linux Build
+   runs-on: ubuntu-latest
+   steps:
+    - name: Download Repository
+      uses: actions/checkout@v2
+    - name: Setup Environment
+      run: |
+       sudo chmod +x ./tools/*.sh
+       sudo apt-get update
+       sudo apt-get install mesa-common-dev libglu1-mesa-dev xorg-dev
+    - name: Prerequesits Check
+      run: sudo ./tools/prerequesits_nix.sh
+    - name: Generate Solution
+      run: ./Tools/generate_project_linux.sh
+    - name: Build
+      run: |
+        cd ./build
+        sudo make
+    - name: Test
+      run: ./Tools/code_checker_linux.sh -s
+    
+
+  build-mac:
+   name: Mac Build
+   runs-on: macos-latest
+   steps:
+    - name: Download Repository
+      uses: actions/checkout@v2
+    - name: Setup Environment
+      run: |
+       sudo chmod +x ./tools/*.sh
+    - name: Prerequesits Check
+      run: sudo ./tools/prerequesits_nix.sh
+    - name: Generate Solution
+      run: ./Tools/generate_project_mac.sh
+    - name: Build
+      run: |
+        cd ./build
+        sudo make
+    - name: Test
+      run: ./Tools/code_checker_mac.sh -s
