@@ -15,7 +15,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Setup Environment
-        uses: microsoft/setup-msbuild@v1.0.0
+        uses: microsoft/setup-msbuild@v1.0.2
       - name: Generate Solution
         run: ./tools/setup_win.bat -s
       - name: Build
