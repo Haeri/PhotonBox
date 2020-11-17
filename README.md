@@ -55,6 +55,7 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 ### Requirements
 - [CMake 3.3^](https://cmake.org/download/) 
 - [Python 3^](https://www.python.org/downloads/)
+- OpenGL 4.1 Core
 
 ### <img height="14" src="https://image.flaticon.com/icons/svg/888/888882.svg"> Windows
 
@@ -82,7 +83,7 @@ sudo apt install -y cmake curl unzip tar
 
 ### <img height="16" src="https://image.flaticon.com/icons/svg/2/2235.svg"> Mac
 
-Generate the xcode project file:
+Generate the make project files:
 ```bash
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
