@@ -2,7 +2,8 @@
 Based on the pbr shader from https://github.com/JoeyDeVries/LearnOpenGL
 */
 
-#version 130
+#version 330 core
+out vec4 FragColor;
 
 struct DirectionalLight{
     vec3 direction;
@@ -19,10 +20,10 @@ uniform sampler2D shadowMap;
 
 uniform vec3 viewPos;
 
-varying vec2 texCoordVarying;
-varying vec3 positionVarying;
-varying mat3 tbnVarying;
-varying vec4 fragPosLightSpace;
+in vec2 texCoordVarying;
+in vec3 positionVarying;
+in mat3 tbnVarying;
+in vec4 fragPosLightSpace;
 
 const float PI = 3.14159265359;
 const float F0_DEFAULT = 0.04;
@@ -74,7 +75,7 @@ void main(){
     vec3 color = ((kD * albedo * alpha) / PI + specular) * radiance * (1.0 - shadow) * NdotL;
 
    
-    gl_FragColor = vec4(color, 1.0);
+    FragColor = vec4(color, 1.0);
 }
   
 
