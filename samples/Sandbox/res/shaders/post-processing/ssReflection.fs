@@ -40,14 +40,14 @@ void main()
 	if(textureLod(gPosition, TexCoords, 0).xyz == vec3(0)) 
 		discard;
 
-   	vec2 MetallicEmmissive = texture2D(gMetallic, TexCoords).rg;
+   	vec2 MetallicEmmissive = texture(gMetallic, TexCoords).rg;
     Metallic = MetallicEmmissive.r;
     float roughness = texture(gRoughness, TexCoords).r;
     
     if(1 - roughness < 0.1)
         discard;
  
-    vec3 viewNormal = vec3(texture2D(gNormal, TexCoords));
+    vec3 viewNormal = vec3(texture(gNormal, TexCoords));
     vec3 viewPos = textureLod(gPosition, TexCoords, 2).xyz;
     vec3 albedo = texture(mainBuffer, TexCoords).rgb;
 

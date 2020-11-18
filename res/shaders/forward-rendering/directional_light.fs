@@ -36,11 +36,11 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir);
 
 
 void main(){
-    vec3 albedo     = pow(texture2D(albedoMap, texCoordVarying).rgb, vec3(2.2));
-    float alpha    = texture2D(albedoMap, texCoordVarying).w;
-    vec3 normal     = tbnVarying * (255.0/128.0 * texture2D(normalMap, texCoordVarying).rgb - 1);
-    float metallic  = texture2D(metallicMap, texCoordVarying).r;
-    float roughness = texture2D(roughnessMap, texCoordVarying).r;
+    vec3 albedo     = pow(texture(albedoMap, texCoordVarying).rgb, vec3(2.2));
+    float alpha    = texture(albedoMap, texCoordVarying).w;
+    vec3 normal     = tbnVarying * (255.0/128.0 * texture(normalMap, texCoordVarying).rgb - 1);
+    float metallic  = texture(metallicMap, texCoordVarying).r;
+    float roughness = texture(roughnessMap, texCoordVarying).r;
 
     vec3 F0 = vec3(F0_DEFAULT); 
     F0 = mix(F0, albedo, metallic);
@@ -125,7 +125,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){
     // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
     // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-    float closestDepth = texture2D(shadowMap, projCoords.xy).r; 
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
@@ -140,7 +140,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir){
     {
         for(int y = -1; y <= 1; ++y)
         {
-            float pcfDepth = texture2D(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
             shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }

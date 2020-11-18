@@ -129,7 +129,7 @@ vec4 volumetricShadows()
     	vec4 fragPosLightSpace = directionalLights[0].lightSpaceMatrix * viewMatrixInv * vec4(ray, 1);
  		vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
         projCoords = projCoords * 0.5 + 0.5;
-        float closestDepth = texture2D(shadowMap, projCoords.xy).r; 
+        float closestDepth = texture(shadowMap, projCoords.xy).r; 
     	float currentDepth = projCoords.z;
 
 		float visibility = closestDepth > currentDepth ? 1 : 0;
