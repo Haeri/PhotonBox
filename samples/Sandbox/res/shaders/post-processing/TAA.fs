@@ -1,4 +1,4 @@
-#version 420
+#version 330 core
 
 /*
 MIT License
@@ -239,7 +239,7 @@ vec4 TemporalResolve(sampler2D inputTexture, sampler2D previousInputTexture)
 
 	vec4 neighborhoodMoment  = vec4(0.0f);
 	vec4 neighborhoodMoment2 = vec4(0.0f);
-	for(uint i = 0; i < 9; i++)
+	for(int i = 0; i < 9; i++)
 	{
 		neighborhoodMoment  += nbrSamples[i];
 		neighborhoodMoment2 += nbrSamples[i] * nbrSamples[i];
@@ -249,7 +249,7 @@ vec4 TemporalResolve(sampler2D inputTexture, sampler2D previousInputTexture)
 	vec4 neighborhoodMu2 = neighborhoodMoment2 / 9.0f;
 	vec4 neighborhoodMin = nbrSamples[0];
 	vec4 neighborhoodMax = nbrSamples[0];
-	for(uint i = 1; i < 9; i++)
+	for(int i = 1; i < 9; i++)
 	{
 		neighborhoodMin = min(neighborhoodMin, nbrSamples[i]);
 		neighborhoodMax = max(neighborhoodMax, nbrSamples[i]);

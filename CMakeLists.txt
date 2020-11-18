@@ -36,8 +36,28 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 add_subdirectory(workbench)
 
+if(APPLE)
+    set(CONVERTER_POSTFIX "mac.sh")
+    set(SHARED_LIB_NAME "lib${PROJECT_NAME}.dylib")
+elseif(WIN32) 
+    set(CONVERTER_POSTFIX "win.bat")
+    set(SHARED_LIB_NAME "${PROJECT_NAME}.dll")
+else()
+    set(CONVERTER_POSTFIX "linux.sh")
+    set(SHARED_LIB_NAME "lib${PROJECT_NAME}.so")
+endif()
+
 if (PB_BUILD_EXAMPLES)
     add_subdirectory(samples/Sandbox)
+
+    if (BUILD_SHARED_LIBS)
+        add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            DEPENDS Sandbox
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} samples/Sandbox/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
+            COMMENT "Copy library"
+    )
+  endif()
 endif()
 
 

@@ -55,7 +55,7 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 ### Requirements
 - [CMake 3.3^](https://cmake.org/download/) 
 - [Python 3^](https://www.python.org/downloads/)
-- OpenGL 4.1 Core
+- OpenGL 3.3
 
 ### <img height="14" src="https://image.flaticon.com/icons/svg/888/888882.svg"> Windows
 
