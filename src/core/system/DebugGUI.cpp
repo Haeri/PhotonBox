@@ -1,7 +1,7 @@
 #include "PhotonBox/core/system/DebugGUI.h"
 
-#include "../../imgui/imgui_impl_glfw.h"
-#include "../../imgui/imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
 #include "PhotonBox/core/Display.h"
 #include "PhotonBox/component/Camera.h"
@@ -19,11 +19,17 @@ void DebugGUI::init(Config::Profile profile)
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
-	ImGui_ImplGlfw_InitForOpenGL(Display::getWindow(), true);
-	ImGui_ImplOpenGL3_Init("#version 130");
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	
 	ImGui::StyleColorsDark();
+
+	ImGui_ImplGlfw_InitForOpenGL(Display::getWindow(), true);
+
+#ifdef __APPLE__
+	ImGui_ImplOpenGL3_Init("#version 150");
+#else
+	ImGui_ImplOpenGL3_Init("#version 130");
+#endif
+
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
 }
 
 void DebugGUI::newFrame()
