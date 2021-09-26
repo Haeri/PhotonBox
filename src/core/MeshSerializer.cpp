@@ -87,7 +87,7 @@ void MeshSerializer::read(const std::string & name, Mesh* mesh)
 
 	if (version != SERIALIZER_VERSION)
 	{
-		Logger::errln("Old or unsupported Texture version!");
+		Logger::errln("Old or unsupported Mesh version!");
 		return;
 	}
 
