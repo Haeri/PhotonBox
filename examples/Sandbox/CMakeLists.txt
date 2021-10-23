@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.15)
 
 set(PROJECT_NAME Sandbox)
 project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)
@@ -29,10 +29,10 @@ add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E create_symlink ${src} ${dest} 
     DEPENDS ${dest}
-    COMMENT "symbolic link engine resources folder from ${src} => ${dest}"
+    COMMENT "symbolic link project resources folder from ${src} => ${dest}"
 )
 
 target_link_libraries(
 	${PROJECT_NAME}
 	PRIVATE
-	PhotonBox)
+	PhotonBox -static)

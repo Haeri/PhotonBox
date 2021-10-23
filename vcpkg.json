@@ -1,6 +1,6 @@
 {
   "name": "photonbox",
-  "version-string": "0.8.0",
+  "version-string": "0.8.1",
   "homepage": "https://github.com/Haeri/PhotonBox",
   "description": "A portable modern OpenGL Game-Engine with focus on PBR",
   "dependencies": [
