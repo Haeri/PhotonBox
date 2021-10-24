@@ -32,7 +32,4 @@ add_custom_command(
     COMMENT "symbolic link project resources folder from ${src} => ${dest}"
 )
 
-target_link_libraries(
-	${PROJECT_NAME}
-	PRIVATE
-	PhotonBox -static)
+target_link_libraries(${PROJECT_NAME} PRIVATE PhotonBox)

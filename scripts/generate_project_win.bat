@@ -26,12 +26,8 @@ if not exist "build/" (
 mkdir "build"
 cd build
 
-::set build_type=
-::set triplet_value=x64-windows
-::if "%1" == "-static" (
-	set build_type=-DBUILD_SHARED_LIBS=OFF
-	set triplet_value=x64-windows-static
-::)
+set build_type=-DBUILD_SHARED_LIBS=OFF
+set triplet_value=x64-windows-static
 
 cmake .. ^
 	-DVCPKG_TARGET_TRIPLET="%triplet_value%" ^

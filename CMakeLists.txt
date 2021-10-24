@@ -24,8 +24,10 @@ file(GLOB_RECURSE SOURCE_FILES
         src/*.cpp)
 
 # Microsoft Runtime Library shenanigens
-if(NOT DYNAMIC_RUNTIME_LIBRARY) 
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+if(WIN32)
+    if(NOT DYNAMIC_RUNTIME_LIBRARY) 
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
 endif()
 
 if (BUILD_SHARED_LIBS)
@@ -54,8 +56,6 @@ add_subdirectory(workbench)
 
 if (PB_BUILD_EXAMPLES)
     add_subdirectory(examples/Sandbox)
-
-    set_target_properties(Sandbox PROPERTIES FOLDER examples)
 
     if (BUILD_SHARED_LIBS)
         add_custom_command(
@@ -93,6 +93,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ZLIB::ZLIB)
 #find_package(PhysX REQUIRED)
 #target_link_libraries(${PROJECT_NAME} PRIVATE PhysX::PhysX)
 
+
+
 # PhysX does not have a find_package therefore we have to find it manually
 include(SelectLibraryConfigurations)
 
@@ -116,4 +118,10 @@ find_library(PhysX_LIBRARY_RELEASE NAMES PhysX_64 PhysX_static_64 PATH_SUFFIXES 
 find_library(PhysX_LIBRARY_DEBUG NAMES PhysX_64 PhysX_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug" NO_DEFAULT_PATH REQUIRED)
 select_library_configurations(PhysX)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PhysXPvdSDK_LIBRARY} ${PhysXExtensions_LIBRARY} ${PhysXFoundation_LIBRARY} ${PhysXCommon_LIBRARY} ${PhysX_LIBRARY})
+if(WIN32 OR APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${PhysXPvdSDK_LIBRARY} ${PhysXExtensions_LIBRARY} ${PhysXFoundation_LIBRARY} ${PhysXCommon_LIBRARY} ${PhysX_LIBRARY})
+else()
+    target_link_libraries(${PROJECT_NAME} PRIVATE -Wl,--start-group ${PhysXPvdSDK_LIBRARY} ${PhysXExtensions_LIBRARY} ${PhysXFoundation_LIBRARY} ${PhysXCommon_LIBRARY} ${PhysX_LIBRARY} -Wl,--end-group)
+endif()
+
+
