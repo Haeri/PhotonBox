@@ -190,6 +190,8 @@ void Renderer::init(Config::Profile profile)
 	_deferredMaterial->setImageBuffer("noise", _noise);
 
 	_ssvoMaterial = new Material(_ssvoShader);
+	_ssvoMaterial->setImageBuffer("color", _mainFrameBuffer->getAttachment("color"));
+	_ssvoMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
 
 	_volumetricFogMaterial = new Material(_volumetricFogShader);
 	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
@@ -454,11 +456,13 @@ void Renderer::renderDeferred()
 	// Render miscelenious
 	renderCustoms();
 
+	//
+	ssShadowPass();
+
 	// Render transparent objects
 	renderTransparents();
 
 	// Render volumetric fog
-	// TODO: Temporarily disabling this, cause Linux version is freaking out
 	renderFog();
 	
 
@@ -623,6 +627,10 @@ void Renderer::renderTransparents()
 
 	}
 	clearTransparentQueue();
+}
+
+void Renderer::ssShadowPass() {
+
 }
 
 void Renderer::renderFog() 

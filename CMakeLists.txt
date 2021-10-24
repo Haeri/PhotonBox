@@ -69,46 +69,7 @@ endif()
 
 
 
-# Hack until vcpkg fixes physx setup
 
-target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/$<$<CONFIG:Debug>:debug>/lib)
-
-if(APPLE)    
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE
-        PhysXPvdSDK_static_64
-        PhysXExtensions_static_64
-        PhysXFoundation_static_64
-        PhysXCommon_static_64
-        PhysX_static_64
-    )
-elseif(WIN32) 
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE
-        PhysXPvdSDK_static_64
-        PhysXExtensions_static_64
-        PhysXFoundation_static_64
-        PhysXCommon_static_64
-        PhysX_static_64
-        -static
-    )
-else()
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE
-        -Wl,--start-group
-        PhysXPvdSDK_static_64
-        PhysXExtensions_static_64
-        PhysXFoundation_static_64
-        PhysXCommon_static_64
-        PhysX_static_64
-        -Wl,--end-group
-    )
-endif()
-
-    
 
 # ---------------- DEPENDENCIES ---------------------#
 
@@ -129,5 +90,30 @@ find_package(ZLIB REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE ZLIB::ZLIB)
 
 # physx
-#find_package(physx CONFIG REQUIRED)
-#target_link_libraries(${PROJECT_NAME} PUBLIC physx)
+#find_package(PhysX REQUIRED)
+#target_link_libraries(${PROJECT_NAME} PRIVATE PhysX::PhysX)
+
+# PhysX does not have a find_package therefore we have to find it manually
+include(SelectLibraryConfigurations)
+
+find_library(PhysXPvdSDK_LIBRARY_RELEASE NAMES PhysXPvdSDK_64 PhysXPvdSDK_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}" NO_DEFAULT_PATH REQUIRED)
+find_library(PhysXPvdSDK_LIBRARY_DEBUG NAMES PhysXPvdSDK_64 PhysXPvdSDK_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug" NO_DEFAULT_PATH REQUIRED)
+select_library_configurations(PhysXPvdSDK)
+
+find_library(PhysXExtensions_LIBRARY_RELEASE NAMES PhysXExtensions_64 PhysXExtensions_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}" NO_DEFAULT_PATH REQUIRED)
+find_library(PhysXExtensions_LIBRARY_DEBUG NAMES PhysXExtensions_64 PhysXExtensions_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug" NO_DEFAULT_PATH REQUIRED)
+select_library_configurations(PhysXExtensions)
+
+find_library(PhysXFoundation_LIBRARY_RELEASE NAMES PhysXFoundation_64 PhysXFoundation_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}" NO_DEFAULT_PATH REQUIRED)
+find_library(PhysXFoundation_LIBRARY_DEBUG NAMES PhysXFoundation_64 PhysXFoundation_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug" NO_DEFAULT_PATH REQUIRED)
+select_library_configurations(PhysXFoundation)
+
+find_library(PhysXCommon_LIBRARY_RELEASE NAMES PhysXCommon_64 PhysXCommon_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}" NO_DEFAULT_PATH REQUIRED)
+find_library(PhysXCommon_LIBRARY_DEBUG NAMES PhysXCommon_64 PhysXCommon_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug" NO_DEFAULT_PATH REQUIRED)
+select_library_configurations(PhysXCommon)
+
+find_library(PhysX_LIBRARY_RELEASE NAMES PhysX_64 PhysX_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}" NO_DEFAULT_PATH REQUIRED)
+find_library(PhysX_LIBRARY_DEBUG NAMES PhysX_64 PhysX_static_64 PATH_SUFFIXES lib PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug" NO_DEFAULT_PATH REQUIRED)
+select_library_configurations(PhysX)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PhysXPvdSDK_LIBRARY} ${PhysXExtensions_LIBRARY} ${PhysXFoundation_LIBRARY} ${PhysXCommon_LIBRARY} ${PhysX_LIBRARY})
