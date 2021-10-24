@@ -11,7 +11,7 @@ cd "%~dp0"
 cd ..
 
 xcopy ".\res" ".\pb_res" /I/E
-xcopy ".\build\Release\PhotonBox.lib" ".\lib\PhotonBox-static.lib*"
+xcopy ".\build\Release\PhotonBox.lib" ".\lib\PhotonBox.lib*"
 
 set /a "err=%err%+%errorlevel%"
 
