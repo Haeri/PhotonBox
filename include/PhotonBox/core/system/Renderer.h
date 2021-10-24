@@ -7,6 +7,7 @@ class TransparentShader;
 class GShader;
 class DeferredShader;
 class DirectionalShadowShader;
+class SSVOShader;
 class VolumetricFogShader;
 class Material;
 class AABB;
@@ -94,8 +95,10 @@ private:
 	static TransparentShader* _transparentBaseShader;
 	static DeferredShader* _deferredShader;
 	static DirectionalShadowShader* _directionalShadowShader;
+	static SSVOShader* _ssvoShader;
 	static VolumetricFogShader* _volumetricFogShader;
 	static Material* _deferredMaterial;
+	static Material* _ssvoMaterial;
 	static Material* _volumetricFogMaterial;
 
 	static void clearTransparentQueue();
