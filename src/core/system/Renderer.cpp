@@ -34,6 +34,7 @@
 #include "PhotonBox/resource/shader/DepthShader.h"
 #include "PhotonBox/resource/shader/CircleShader.h"
 #include "PhotonBox/resource/shader/ForwardDirectionalLightShader.h"
+#include "PhotonBox/resource/shader/SSVOShader.h"
 #include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/util/GLError.h"
 #include "PhotonBox/util/Logger.h"
@@ -61,9 +62,11 @@ ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
 DeferredShader* Renderer::_deferredShader;
 DirectionalShadowShader* Renderer::_directionalShadowShader;
+SSVOShader* Renderer::_ssvoShader;
 VolumetricFogShader* Renderer::_volumetricFogShader;
 
 Material* Renderer::_deferredMaterial;
+Material* Renderer::_ssvoMaterial;
 Material* Renderer::_volumetricFogMaterial;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
@@ -185,6 +188,8 @@ void Renderer::init(Config::Profile profile)
 	_deferredMaterial->setImageBuffer("gRadiance", _gBuffer->getAttachment("gRadiance"));
 	_deferredMaterial->setImageBuffer("gEmission", _gBuffer->getAttachment("gEmission"));
 	_deferredMaterial->setImageBuffer("noise", _noise);
+
+	_ssvoMaterial = new Material(_ssvoShader);
 
 	_volumetricFogMaterial = new Material(_volumetricFogShader);
 	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));

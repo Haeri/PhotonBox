@@ -71,7 +71,7 @@ jobs:
       - name: Build
         run: |
           cd ./build
-          sudo make config=Release
+          xcodebuild -project PhotonBox.xcodeproj -configuration Release
       - name: Test
         run: ./scripts/code_checker_mac.sh -s
       - name: Upload Artifact
