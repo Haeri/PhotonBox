@@ -59,6 +59,7 @@ public:
 	static void renderCustoms();
 	static void renderShadows();
 	static void captureScene(LightMap* lightmap = nullptr);
+	static void ssShadowPass();
 	static void renderFog();
 	static unsigned long int getFrameIndex();
 	
