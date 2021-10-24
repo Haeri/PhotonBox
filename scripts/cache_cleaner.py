@@ -3,7 +3,7 @@
 import os
 
 engine_res_path = "../res/"
-game_res_path 	= "../samples/Sandbox/res/"
+game_res_path 	= "../examples/Sandbox/res/"
 
 def delFiles(dest, filters):
 	for item in os.listdir(dest):

@@ -36,8 +36,7 @@ std::map<FrameBuffer::EdgeType, GLint> FrameBuffer::_edgeTypes = {
 	{ CLAMP_TO_EDGE ,			GL_CLAMP_TO_EDGE },
 	{ CLAMP_TO_BORDER ,			GL_CLAMP_TO_BORDER },
 	{ MIRRORED_REPEAT ,			GL_MIRRORED_REPEAT },
-	{ REPEAT ,					GL_REPEAT },
-	{ MIRROR_CLAMP_TO_EDGE ,	GL_MIRROR_CLAMP_TO_EDGE }
+	{ REPEAT ,					GL_REPEAT }
 };
 
 FrameBuffer::FrameBuffer(float screenFactor)

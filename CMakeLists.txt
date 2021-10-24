@@ -41,7 +41,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION 0.8.1
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_include_directories(${PROJECT_NAME} PUBLIC 
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
 
 add_subdirectory(workbench)
 
@@ -108,11 +111,6 @@ endif()
     
 
 # ---------------- DEPENDENCIES ---------------------#
-
-set(EXTERN_DIR external/)
-
-
-# VCPKG INCLUDES
 
 # glfw3
 find_package(glfw3 CONFIG REQUIRED)
