@@ -54,39 +54,38 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 
 ### Requirements
 - [CMake 3.16^](https://cmake.org/download/) 
-- [Python 3^](https://www.python.org/downloads/)
 - OpenGL 4.1
 
 ### <img height="14" src="https://cdn-icons-png.flaticon.com/512/220/220215.png"> Windows
 
-Generate a visual studio project file:
+Generate visual studio project files:
 ```cmd
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
-./scripts/setup_win.bat
+./scripts/generate_project_win.bat
 ```
 <sub>Make sure to open the Visual Studio project as administrator, as it needs to perform copy operatiosn to make resources files available to the binaries.</sub>
 
 
 ### <img height="18" src="https://cdn-icons-png.flaticon.com/512/226/226772.png"> Linux
 
-Generate a make file:
+Generate make files:
 ```sh
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
 sudo apt update
 sudo apt install -y mesa-common-dev mesa-utils libgl1-mesa-dev cmake curl unzip tar 
-./scripts/setup_nix.sh
+./scripts/generate_project_linux.sh
 ```
 
 
 ### <img height="18" src="https://cdn-icons-png.flaticon.com/512/179/179309.png"> macOS
 
-Generate the make project files:
+Generate xcode project files:
 ```bas
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
-./scripts/setup_nix.sh
+./scripts/generate_project_mac.sh
 ```
 
 ## Media

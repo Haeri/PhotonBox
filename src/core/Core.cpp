@@ -267,6 +267,7 @@ void Core::run()
 			//_sceneManager->unloadScene(SceneManager::getCurrentScene());
 			reset();
 			start();
+			_fileWatch->reset();
 
 			// reset timing
 			_accumulatedTime = 0;
@@ -289,8 +290,7 @@ void Core::reset()
 	}
 
 	_profiler->reset();
-	_resourceManager->reset();
-	_fileWatch->reset();
+	_resourceManager->reset();	
 }
 
 void Core::destroy()

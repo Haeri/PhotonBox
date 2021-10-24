@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.16)
 
 set(PROJECT_NAME Sandbox)
 project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)

@@ -20,11 +20,11 @@ fi
 mkdir "build"
 cd build
 
-build_type=""
+#build_type=""
 
-if [ "$1" = "-static" ]; then
+#if [ "$1" = "-static" ]; then
 	build_type="-DBUILD_SHARED_LIBS=OFF"
-fi
+#fi
 
 cmake .. -DVCPKG_TARGET_TRIPLET=x64-linux -DCMAKE_TOOLCHAIN_FILE=$root_path"/external/vcpkg/scripts/buildsystems/vcpkg.cmake" $build_type
 err=$?

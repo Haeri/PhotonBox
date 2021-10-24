@@ -20,6 +20,7 @@ class Transform;
 
 #include "PhotonBox/core/ISystem.h"
 
+#define PX_PHYSX_STATIC_LIB
 #include "PxPhysicsAPI.h"
 
 using namespace physx;
