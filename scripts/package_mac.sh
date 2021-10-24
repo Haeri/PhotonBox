@@ -5,7 +5,6 @@ cd $(dirname "$0")
 
 cd ..
 
-mkdir -p pb_res
 cp -R ./res ./pb_res
 mkdir lib
 cp ./build/Release/libPhotonBox*.a ./lib/
