@@ -238,6 +238,14 @@ void FrameBuffer::blit(FrameBuffer* target, std::string sourceAttachment, std::s
 	glBlitFramebuffer(0, 0, _width, _height, 0, 0, target->getWidth(), target->getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 
+void FrameBuffer::blitDepth(FrameBuffer* target)
+{
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, target->getFBO());
+
+	glBlitFramebuffer(0, 0, _width, _height, 0, 0, target->getWidth(), target->getHeight(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+}
+
 void FrameBuffer::blitToScreen(std::string name)
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
