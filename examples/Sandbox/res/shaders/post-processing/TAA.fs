@@ -178,7 +178,7 @@ vec2 FetchClosestInverseVelocity(vec2 texCoords, vec2 texelSize)
 		}
 	}
 
-	return -texture(normalVelocity, closestTexCoords).zw;
+	return -texture(normalVelocity, closestTexCoords).xy;
 }
 
 vec4 Reproject(sampler2D previousInputTexture, vec2 previousTexCoords)

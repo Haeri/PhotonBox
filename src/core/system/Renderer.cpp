@@ -84,16 +84,15 @@ std::vector<float> stuff;
 
 
 float factor = 0.1f;
-std::string buffers[8] =
+std::string buffers[7] =
 {
-	"gPosition",
-	"gNormal",
-	"gMetallic",
-	"gRoughness",
-	"gAlbedo",
-	"gEmission",
-	"gIrradiance",
-	"gRadiance",
+	"gPosition3",
+	"gNormal3",
+	"gAlbedo4",
+	"gEmission3Occlusion1",
+	"gIrradiance3gMetallic1",
+	"gRadiance3Roughness1",
+	"gVelocity2"
 };
 
 
@@ -161,16 +160,13 @@ void Renderer::init(Config::Profile profile)
 	_mainFrameBuffer->ready();
 
 	_gBuffer = new FrameBuffer(superSampling);
-	_gBuffer->addTextureAttachment("gPosition", true, true);
-	_gBuffer->addTextureAttachment("gNormal", true, true);
-	_gBuffer->addTextureAttachment("gMetallic");
-	_gBuffer->addTextureAttachment("gRoughness");
-	_gBuffer->addTextureAttachment("gAlbedo");
-	_gBuffer->addTextureAttachment("gEmission", true);
-	//_gBuffer->addTextureAttachment("gAO");
-	_gBuffer->addTextureAttachment("gIrradiance", true);
-	_gBuffer->addTextureAttachment("gRadiance", true);
-	//_gBuffer->addDepthTextureAttachment("gDepth");
+	_gBuffer->addTextureAttachment("gPosition3", true, true);
+	_gBuffer->addTextureAttachment("gNormal3", true, true);
+	_gBuffer->addTextureAttachment("gAlbedo4");
+	_gBuffer->addTextureAttachment("gEmission3Occlusion1", true);
+	_gBuffer->addTextureAttachment("gIrradiance3gMetallic1", true);
+	_gBuffer->addTextureAttachment("gRadiance3Roughness1", true);
+	_gBuffer->addTextureAttachment("gVelocity2");	
 	_gBuffer->addDepthBufferAttachment();
 	_gBuffer->ready();
 
@@ -188,24 +184,23 @@ void Renderer::init(Config::Profile profile)
 	
 
 	_deferredMaterial = new Material(_deferredShader);
-	_deferredMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
-	_deferredMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal"));
-	_deferredMaterial->setImageBuffer("gRoughness", _gBuffer->getAttachment("gRoughness"));
-	_deferredMaterial->setImageBuffer("gMetallic", _gBuffer->getAttachment("gMetallic"));
-	_deferredMaterial->setImageBuffer("gAlbedo", _gBuffer->getAttachment("gAlbedo"));
-	_deferredMaterial->setImageBuffer("gIrradiance", _gBuffer->getAttachment("gIrradiance"));
-	_deferredMaterial->setImageBuffer("gRadiance", _gBuffer->getAttachment("gRadiance"));
-	_deferredMaterial->setImageBuffer("gEmission", _gBuffer->getAttachment("gEmission"));
+	_deferredMaterial->setImageBuffer("gPosition3", _gBuffer->getAttachment("gPosition3"));
+	_deferredMaterial->setImageBuffer("gNormal3", _gBuffer->getAttachment("gNormal3"));
+	_deferredMaterial->setImageBuffer("gAlbedo4", _gBuffer->getAttachment("gAlbedo4"));
+	_deferredMaterial->setImageBuffer("gEmission3Occlusion1", _gBuffer->getAttachment("gEmission3Occlusion1"));
+	_deferredMaterial->setImageBuffer("gIrradiance3gMetallic1", _gBuffer->getAttachment("gIrradiance3gMetallic1"));
+	_deferredMaterial->setImageBuffer("gRadiance3Roughness1", _gBuffer->getAttachment("gRadiance3Roughness1"));
+	_deferredMaterial->setImageBuffer("gVelocity2", _gBuffer->getAttachment("gVelocity2"));
 	_deferredMaterial->setImageBuffer("noise", _noise);
 
 	_ssvoMaterial = new Material(_ssvoShader);
-	_ssvoMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
-	_ssvoMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal"));
+	_ssvoMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition3"));
+	_ssvoMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal3"));
 	_ssvoMaterial->setImageBuffer("texNoise", _vec_noise);
 
 
 	_volumetricFogMaterial = new Material(_volumetricFogShader);
-	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
+	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition3"));
 	_volumetricFogMaterial->setImageBuffer("noise", _noise);
 
 
@@ -719,7 +714,7 @@ void Renderer::renderCustoms()
 
 void Renderer::render()
 {
-	//ssShadowPass();
+	ssShadowPass();
 
 	renderDeferred();
 
