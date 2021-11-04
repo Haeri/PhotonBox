@@ -54,6 +54,7 @@ std::vector<ObjectRenderer*> Renderer::_renderListCustom;
 std::map<float, MeshRenderer*> Renderer::_renderQueueTransparent;
 int Renderer::_drawCalls;
 Texture* Renderer::_noise;
+Texture* Renderer::_vec_noise;
 
 ForwardAmbientLightShader* Renderer::_ambientLightShader;
 ForwardDirectionalLightShader* Renderer::_directionalLightShader;
@@ -72,6 +73,7 @@ Material* Renderer::_volumetricFogMaterial;
 FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_gBuffer;
 FrameBuffer* Renderer::_gizmoBuffer;
+FrameBuffer* Renderer::_directionalShadowBuffer;
 FrameBuffer* Renderer::_shadowBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3f, 0.3f, 0.3f);
 
@@ -144,12 +146,14 @@ void Renderer::init(Config::Profile profile)
 	_deferredShader = DeferredShader::getInstance();
 	_directionalShadowShader = DirectionalShadowShader::getInstance();
 	_volumetricFogShader = VolumetricFogShader::getInstance();
+	_ssvoShader = SSVOShader::getInstance();
 	
 	Texture::Config c = { 
 		c.mips = false, 
 		c.hdr = false 
 	};
 	_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/blue_noise.png", c);
+	_vec_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/vector_noise.png", c);
 
 	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
@@ -174,10 +178,15 @@ void Renderer::init(Config::Profile profile)
 	_gizmoBuffer->addTextureAttachment("color", false, false);
 	_gizmoBuffer->ready();
 
-	_shadowBuffer = new FrameBuffer(SHADOW_MAP_RESOLUTION, SHADOW_MAP_RESOLUTION);
-	_shadowBuffer->addDepthTextureAttachment("depth");
+	_directionalShadowBuffer = new FrameBuffer(SHADOW_MAP_RESOLUTION, SHADOW_MAP_RESOLUTION);
+	_directionalShadowBuffer->addDepthTextureAttachment("depth");
+	_directionalShadowBuffer->ready();
+
+	_shadowBuffer = new FrameBuffer(1.0f);
+	_shadowBuffer->addTextureAttachment("gIrradiance", false, true);
 	_shadowBuffer->ready();
 	
+
 	_deferredMaterial = new Material(_deferredShader);
 	_deferredMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
 	_deferredMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal"));
@@ -190,8 +199,10 @@ void Renderer::init(Config::Profile profile)
 	_deferredMaterial->setImageBuffer("noise", _noise);
 
 	_ssvoMaterial = new Material(_ssvoShader);
-	_ssvoMaterial->setImageBuffer("color", _mainFrameBuffer->getAttachment("color"));
 	_ssvoMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
+	_ssvoMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal"));
+	_ssvoMaterial->setImageBuffer("texNoise", _vec_noise);
+
 
 	_volumetricFogMaterial = new Material(_volumetricFogShader);
 	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
@@ -327,8 +338,8 @@ void Renderer::clearDrawCalls()
 
 void Renderer::renderShadows()
 {
-	_shadowBuffer->enable();
-	_shadowBuffer->clear();
+	_directionalShadowBuffer->enable();
+	_directionalShadowBuffer->clear();
 	
 	glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
@@ -406,7 +417,7 @@ void Renderer::renderDeferred()
 				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
 				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
 
-				_shadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
+				_directionalShadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
 			}
 			else if (typeid(*light) == typeid(PointLight))
 			{
@@ -442,38 +453,6 @@ void Renderer::renderDeferred()
 
 	// Render opaque objects
 	_gBuffer->render(_deferredMaterial);
-
-	// Blit Depth
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, _gBuffer->getFBO());
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _mainFrameBuffer->getFBO());
-
-	glBlitFramebuffer(0, 0, _gBuffer->getWidth(), _gBuffer->getHeight(), 0, 0, _mainFrameBuffer->getWidth(), _mainFrameBuffer->getHeight(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-
-
-	// Render Skybox
-	_skyBox.render();
-
-	// Render miscelenious
-	renderCustoms();
-
-	//
-	ssShadowPass();
-
-	// Render transparent objects
-	renderTransparents();
-
-	// Render volumetric fog
-	renderFog();
-	
-
-	// Directly draw to main buffer if no post processing is active
-	if (!PostProcessing::isActive())
-	{
-		FrameBuffer::resetDefaultBuffer();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		glDisable(GL_DEPTH_TEST);
-		_mainFrameBuffer->render("color");
-	}
 }
 
 void Renderer::renderForward()
@@ -630,7 +609,11 @@ void Renderer::renderTransparents()
 }
 
 void Renderer::ssShadowPass() {
+	
+	_ssvoShader->bind();
 
+	_shadowBuffer->enable();
+	_gBuffer->render(_ssvoMaterial);
 }
 
 void Renderer::renderFog() 
@@ -668,7 +651,7 @@ void Renderer::renderFog()
 				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
 				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
 
-				_shadowBuffer->bind(_volumetricFogShader->textures["shadowMap"].unit, "depth");
+				_directionalShadowBuffer->bind(_volumetricFogShader->textures["shadowMap"].unit, "depth");
 			}
 			else if (typeid(*light) == typeid(PointLight))
 			{
@@ -732,6 +715,36 @@ void Renderer::renderCustoms()
 	}
 
 	_renderListCustom.clear();
+}
+
+void Renderer::render()
+{
+	//ssShadowPass();
+
+	renderDeferred();
+
+	// Render Skybox
+	_skyBox.render();
+
+	// Render miscelenious
+	renderCustoms();
+
+
+	// Render transparent objects
+	renderTransparents();
+
+	// Render volumetric fog
+	renderFog();
+
+
+	// Directly draw to main buffer if no post processing is active
+	if (!PostProcessing::isActive())
+	{
+		FrameBuffer::resetDefaultBuffer();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
+		_mainFrameBuffer->render("color");
+	}
 }
 
 void Renderer::captureScene(LightMap* lightmap)
@@ -986,7 +999,8 @@ void Renderer::destroy()
 {
 	delete _mainFrameBuffer;
 	delete _gBuffer;
-	delete	_gizmoBuffer;
+	delete _gizmoBuffer;
+	delete _directionalShadowBuffer;
 	delete _shadowBuffer;
 	delete _deferredMaterial;
 	delete _volumetricFogMaterial;

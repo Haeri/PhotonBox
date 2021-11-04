@@ -11,7 +11,7 @@ uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D texNoise;
 
-uniform vec3 samples[64];
+vec3 samples[64];
 
 uniform float screenWidth;
 uniform float screenHeight;
@@ -23,6 +23,10 @@ float bias = 0.025;
 vec2 noiseScale = vec2(screenWidth/4.0, screenHeight/4.0); 
 
 uniform mat4 projection;
+
+float rand(vec2 co){
+    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+}
 
 void main()
 {

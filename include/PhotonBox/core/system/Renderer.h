@@ -53,14 +53,10 @@ public:
 	static FrameBuffer* getDebugBuffer() { return _gizmoBuffer; }
 	static FrameBuffer* getShadowBuffer() { return _shadowBuffer; }
 
-	static void renderDeferred();
-	static void renderForward();
-	static void renderTransparents();
-	static void renderCustoms();
+	static void render();
 	static void renderShadows();
+	
 	static void captureScene(LightMap* lightmap = nullptr);
-	static void ssShadowPass();
-	static void renderFog();
 	static unsigned long int getFrameIndex();
 	
 	void init(Config::Profile profile) override;
@@ -86,6 +82,7 @@ private:
 	static std::vector<ObjectRenderer*> _renderListCustom;
 	static Vector3f _clearColor;
 	static Texture* _noise;
+	static Texture* _vec_noise;
 
 	static std::map<float, MeshRenderer*> _renderQueueTransparent;
 
@@ -101,6 +98,13 @@ private:
 	static Material* _deferredMaterial;
 	static Material* _ssvoMaterial;
 	static Material* _volumetricFogMaterial;
+
+	static void renderDeferred();
+	static void renderForward();
+	static void renderTransparents();
+	static void renderCustoms();
+	static void ssShadowPass();
+	static void renderFog();
 
 	static void clearTransparentQueue();
 	static void updateTransparentQueue();

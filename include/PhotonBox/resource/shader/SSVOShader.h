@@ -15,7 +15,7 @@ class SSVOShader : public InstancedShader<SSVOShader>
 public:
 	std::string getFilePath() override
 	{
-		return std::string(Resources::ENGINE_RESOURCES + "/shaders/deferred-rendering/ssvo");
+		return std::string(Resources::ENGINE_RESOURCES + "/shaders/deferre-rendering/ssvo");
 	}
 
 	void update(Transform* transform) override

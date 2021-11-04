@@ -145,6 +145,8 @@ void main()
     }
 
     FragColor = vec4(finalColor, texture(gAlbedo, TexCoords).a);
+    vec4 depth = projection * vec4(gData.Position, 1.0);
+    gl_FragDepth = depth.z / depth.w;
 }
 
 

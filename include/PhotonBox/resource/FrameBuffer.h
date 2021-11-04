@@ -109,6 +109,7 @@ public:
 	void resize();
 
 	void blit(FrameBuffer* target, std::string sourceAttachment, std::string targetAttachment);
+	void blitDepth(FrameBuffer* target);
 	void blitToScreen(std::string name);
 	GLuint getTextureID(std::string name) { return _colorAttachments[name].id; }
 	int getWidth() { return _width; }
