@@ -15,6 +15,16 @@ class ImageBuffer;
 class PB_PORT Material : public ManagedResource
 {
 public:
+	struct SwizzleChannels {
+		GLint r;
+		GLint g;
+		GLint b;
+		GLint a;
+	};
+	struct SwizzledImageBuffer {
+		ImageBuffer* imageBuffer;
+		SwizzleChannels swizzleMask;
+	};
 
 	//Material() {}
 	Material(Shader* shader) : _shader(shader) {}
@@ -33,7 +43,7 @@ public:
 		}
 	}
 
-	void setImageBuffer(const std::string& uniformName, ImageBuffer* image);
+	void setImageBuffer(const std::string& uniformName, ImageBuffer* image, SwizzleChannels swizzleMask = { GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA });
 
 	void updateUniforms();
 	void updateUniforms(Shader* shader);
@@ -63,7 +73,7 @@ private:
 	};
 
 	Shader* _shader;
-	std::unordered_map<std::string, ImageBuffer*> _imageBufferMap;
+	std::unordered_map<std::string, SwizzledImageBuffer> _imageBufferMap;
 	std::unordered_map<std::string, SuperObject*> _uniformMap;
 };
 

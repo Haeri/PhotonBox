@@ -29,8 +29,8 @@ public:
 
 		_taaShader = new Material(TAAShader::getInstance());
 		_taaShader->setImageBuffer("lowResTexture", mainBuffer->getAttachment("color"));
-		_taaShader->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition"));
-		_taaShader->setImageBuffer("normalVelocity", Renderer::getGBuffer()->getAttachment("gMetallic"));
+		_taaShader->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition3"));
+		_taaShader->setImageBuffer("normalVelocity", Renderer::getGBuffer()->getAttachment("gVelocity"));
 	}
 
 	void render(FrameBuffer* nextBuffer) override

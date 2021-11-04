@@ -27,7 +27,7 @@ public:
 		GLuint id;
 		GLuint attachmentIndex = -1;
 		FrameBuffer* frameBuffer;
-
+		
 		BufferAttachment() {}
 		BufferAttachment(FrameBuffer* frameBuffer, std::string name, bool hdr)
 			:frameBuffer(frameBuffer), name(name), hdr(hdr)

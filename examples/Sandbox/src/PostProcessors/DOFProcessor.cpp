@@ -21,7 +21,7 @@ public:
 		_dofShader = new Material(DOFShader::getInstance());
 		//_dofShader->setProperty("depth", 7.0f);
 		_dofShader->setImageBuffer("renderTexture", mainBuffer->getAttachment("color"));
-		_dofShader->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition"));
+		_dofShader->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition3"));
 	}
 
 	void render(FrameBuffer* nextBuffer) override

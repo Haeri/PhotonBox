@@ -6,11 +6,12 @@ in vec2 TexCoords;
 struct GData{
     vec3 Position;
     vec3 Normal;
-    vec3 Albedo;
+    vec4 Albedo;
     vec3 Emission;
     vec3 Irradiance;
     vec3 Radiance;
-
+    vec2 Velocity;
+    
     float Roughness;
     float Metallic;
     float Occlusion;
@@ -65,14 +66,13 @@ const float AMBIENT_ATTENUATION = 0.1;
 
 
 // UNIFORMS
-uniform sampler2D gPosition;
-uniform sampler2D gNormal;
-uniform sampler2D gRoughness;
-uniform sampler2D gMetallic;
-uniform sampler2D gAlbedo;
-uniform sampler2D gIrradiance;
-uniform sampler2D gRadiance;
-uniform sampler2D gEmission;
+uniform sampler2D gPosition3;
+uniform sampler2D gNormal3;
+uniform sampler2D gAlbedo4;
+uniform sampler2D gEmission3Occlusion1;
+uniform sampler2D gIrradiance3gMetallic1;
+uniform sampler2D gRadiance3Roughness1;
+uniform sampler2D gVelocity2;
 
 uniform sampler2D shadowMap;
 uniform sampler2D noise;
@@ -115,18 +115,19 @@ float random(vec2 co);
 void main()
 {
     // retrieve data from gbuffer
-    gData.Position = textureLod(gPosition, TexCoords, 0).rgb;
+    gData.Position = textureLod(gPosition3, TexCoords, 0).rgb;
 	if(gData.Position == vec3(0, 0, 0)) discard;
-    gData.Normal = textureLod(gNormal, TexCoords, 0).rgb;
-    gData.Albedo = texture(gAlbedo, TexCoords).rgb;
-    gData.Roughness = texture(gRoughness, TexCoords).r;
-    gData.Metallic = texture(gMetallic, TexCoords).r;
-    gData.Irradiance = texture(gIrradiance, TexCoords).rgb;
-    gData.Radiance = texture(gRadiance, TexCoords).rgb;
-    gData.Emission = texture(gEmission, TexCoords).rgb;
+    gData.Normal = textureLod(gNormal3, TexCoords, 0).rgb;
+    gData.Velocity =  texture(gVelocity2, TexCoords).xy;
+    gData.Albedo = texture(gAlbedo4, TexCoords).rgba;
+    gData.Roughness = texture(gRadiance3Roughness1, TexCoords).a;
+    gData.Radiance = texture(gRadiance3Roughness1, TexCoords).rgb;
+    gData.Metallic = texture(gIrradiance3gMetallic1, TexCoords).a;
+    gData.Irradiance = texture(gIrradiance3gMetallic1, TexCoords).rgb;
+    gData.Emission = texture(gEmission3Occlusion1, TexCoords).rgb;
+    gData.Occlusion = texture(gEmission3Occlusion1, TexCoords).a;
 
-
-    F0 = mix(vec3(F0_DEFAULT), gData.Albedo, gData.Metallic);
+    F0 = mix(vec3(F0_DEFAULT), gData.Albedo.rgb, gData.Metallic);
     N = normalize(gData.Normal);
     V = normalize(-gData.Position);
     
@@ -144,7 +145,7 @@ void main()
         finalColor += SpotLightBRDF(spotLights[i]);
     }
 
-    FragColor = vec4(finalColor, texture(gAlbedo, TexCoords).a);
+    FragColor = vec4(finalColor, gData.Albedo.a);
     vec4 depth = projection * vec4(gData.Position, 1.0);
     gl_FragDepth = depth.z / depth.w;
 }
@@ -158,7 +159,7 @@ vec3 BasePass(){
     vec3 kD = 1.0 - kS;
     kD *= 1.0 - gData.Metallic;
 
-    vec3 diffuse  = gData.Irradiance * gData.Albedo;
+    vec3 diffuse  = gData.Irradiance * gData.Albedo.rgb;
     vec3 specular = gData.Radiance * (F); // * brdf.x + brdf.y);
     vec3 ambient  = (kD * diffuse + specular);
 
@@ -197,7 +198,7 @@ vec3 DirectionalLightBRDF(DirectionalLight directionalLight){
         
     // add to outgoing radiance Lo
     float NdotL = max(dot(N, L), 0.0);                
-    vec3 color = ((kD * gData.Albedo) / PI + specular) * radiance * (1.0 - shadow) * NdotL;
+    vec3 color = ((kD * gData.Albedo.rgb) / PI + specular) * radiance * (1.0 - shadow) * NdotL;
 
     return color;
 }
@@ -226,7 +227,7 @@ vec3 PointLightBRDF(PointLight pointLight){
         
     // add to outgoing radiance Lo
     float NdotL = max(dot(N, L), 0.0);                
-    vec3 color = (kD * gData.Albedo / PI + specular) * radiance * NdotL;
+    vec3 color = (kD * gData.Albedo.rgb / PI + specular) * radiance * NdotL;
 
     return color;
 }
@@ -262,7 +263,7 @@ vec3 SpotLightBRDF(SpotLight spotLight){
 	    
 	// add to outgoing radiance Lo
 	float NdotL = max(dot(N, L), 0.0);                
-	vec3 color = (kD * gData.Albedo / PI + specular) * radiance * NdotL;
+	vec3 color = (kD * gData.Albedo.rgb / PI + specular) * radiance * NdotL;
 
 	return color;
 	//return vec3(0, 0, 0);
@@ -353,8 +354,8 @@ int rayMarch(vec3 dir)
     float rand = random(gData.Position.xy+gData.Position.z);
     dir *= stepScalar;
     float max = 5;
-    vec3 pos = textureLod(gPosition, TexCoords, 0).xyz;
-    vec3 currpoint = pos + (dir * rand * 1);
+    
+    vec3 currpoint = gData.Position + (dir * rand * 1);
     vec4 projectedCoord;
     float currDepth;
 
@@ -365,7 +366,7 @@ int rayMarch(vec3 dir)
         projectedCoord.xyz /= projectedCoord.w;
         projectedCoord.xyz = projectedCoord.xyz * 0.5 + 0.5;
  
-        currDepth = textureLod(gPosition, projectedCoord.xy, 0).z;
+        currDepth = textureLod(gPosition3, projectedCoord.xy, 0).z;
 
         if(currDepth > currpoint.z && abs(currDepth - currpoint.z) <= 0.05  && currDepth != 0)
             return 1;

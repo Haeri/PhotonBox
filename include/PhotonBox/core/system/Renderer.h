@@ -51,7 +51,7 @@ public:
 	static FrameBuffer* getMainFrameBuffer() { return _mainFrameBuffer; }
 	static FrameBuffer* getGBuffer() { return _gBuffer; }
 	static FrameBuffer* getDebugBuffer() { return _gizmoBuffer; }
-	static FrameBuffer* getShadowBuffer() { return _shadowBuffer; }
+	static FrameBuffer* getShadowBuffer() { return _directionalShadowBuffer; }
 
 	static void render();
 	static void renderShadows();
@@ -75,6 +75,7 @@ private:
 	static FrameBuffer* _mainFrameBuffer;
 	static FrameBuffer* _gBuffer;
 	static FrameBuffer*	_gizmoBuffer;
+	static FrameBuffer* _directionalShadowBuffer;
 	static FrameBuffer* _shadowBuffer;
 	static int _debugMode;
 	static std::vector<ObjectRenderer*> _renderListOpaque;

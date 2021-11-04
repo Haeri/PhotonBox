@@ -29,8 +29,8 @@ public:
 		ssaoBlurBuffer->ready();
 
 		ssaoMaterial = new Material(SSAOShader::getInstance());
-		ssaoMaterial->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition"));
-		ssaoMaterial->setImageBuffer("gNormal", Renderer::getGBuffer()->getAttachment("gNormal"));
+		ssaoMaterial->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition3"));
+		ssaoMaterial->setImageBuffer("gNormal", Renderer::getGBuffer()->getAttachment("gNormal3"));
 		
 		ssaoBlurMaterial = new Material(SSAOBlurShader::getInstance());
 		ssaoBlurMaterial->setImageBuffer("original", mainBuffer->getAttachment("color"));
