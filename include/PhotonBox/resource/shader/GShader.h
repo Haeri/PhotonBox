@@ -15,9 +15,9 @@ public:
 
 	void update(Transform* transform)
 	{
-		Matrix4f mv = Camera::getMainCamera()->getViewProjection();
-		Matrix4f mvp = mv * transform->getTransformationMatrix();
-		Matrix4f oldmvp = _oldModelViewMatrix * transform->getTransformationMatrix();
+		Matrix4f vp = Camera::getMainCamera()->getViewProjection();
+		Matrix4f mvp = vp * transform->getTransformationMatrix();
+		Matrix4f oldmvp = _oldViewProjectionMatrix * transform->getTransformationMatrix();
 
 		setUniform("mvp", mvp);
 		setUniform("mvpOld", oldmvp);
@@ -25,7 +25,9 @@ public:
 		setUniform("view", Camera::getMainCamera()->getViewMatrix());
 		setUniform("viewPos", Camera::getMainCamera()->getTransform()->getPositionWorld());
 
-		_oldModelViewMatrix = mv;
+		//if (Renderer::getFrameIndex() % 90 == 0) {
+			_oldViewProjectionMatrix = vp;
+		//}
 	}
 
 	void addAttributes() override
@@ -42,7 +44,7 @@ public:
 	}
 
 private:
-	Matrix4f _oldModelViewMatrix;
+	Matrix4f _oldViewProjectionMatrix;
 };
 
 #endif // G_SHADER_H

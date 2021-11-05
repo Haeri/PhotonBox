@@ -64,6 +64,8 @@ public:
 	void reset() override;
 	void destroy() override;
 
+	
+	void newFrame();
 	void prePass();
 	void clearDrawCalls();
 	void renderGizmos();

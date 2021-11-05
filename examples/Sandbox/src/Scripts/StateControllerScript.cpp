@@ -65,7 +65,7 @@ public:
 			Logger::br();
 		}
 
-		if (InputManager::keyPressed(InputManager::KEY_C))
+		if (InputManager::keyPressed(InputManager::KEY_G))
 		{
 			FrameBuffer::clearDefaultBuffer();
 			Lighting::generate();

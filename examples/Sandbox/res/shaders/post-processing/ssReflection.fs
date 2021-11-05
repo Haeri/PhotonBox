@@ -24,8 +24,6 @@ const int numBinarySearchSteps = 5;
 const float reflectionSpecularFalloffExponent = 3.0;
 const float strength = 0.3;
 
-float Metallic;
-
 #define Scale vec3(.8, .8, .8)
 #define K 19.19
 
@@ -37,24 +35,29 @@ vec3 hash(vec3 a);
 
 void main()
 {
-	if(textureLod(gPosition, TexCoords, 0).xyz == vec3(0)) 
-		discard;
+    vec3 albedo = texture(mainBuffer, TexCoords).rgb;
 
-   	vec2 MetallicEmmissive = texture(gMetallic, TexCoords).rg;
-    Metallic = MetallicEmmissive.r;
-    float roughness = texture(gRoughness, TexCoords).r;
+	if(textureLod(gPosition, TexCoords, 0).xyz == vec3(0)) {
+		outColor = vec4(albedo, 1.0);
+        return;
+    }
+
+    float metallic = texture(gMetallic, TexCoords).a;
+    float roughness = texture(gRoughness, TexCoords).a;
     
-    if(1 - roughness < 0.1)
-        discard;
+    if(1 - roughness < 0.1){
+        outColor = vec4(albedo, 1.0);
+        return;
+    }
  
     vec3 viewNormal = vec3(texture(gNormal, TexCoords));
     vec3 viewPos = textureLod(gPosition, TexCoords, 2).xyz;
-    vec3 albedo = texture(mainBuffer, TexCoords).rgb;
+    //vec3 albedo = texture(mainBuffer, TexCoords).rgb;
 
     
 
     vec3 F0 = vec3(0.04); 
-    F0      = mix(F0, albedo, Metallic);
+    F0      = mix(F0, albedo, metallic);
     vec3 Fresnel = fresnelSchlickRoughness(max(dot(normalize(viewNormal), normalize(viewPos)), 0.0), F0, roughness);
 
     // Reflection vector
@@ -79,9 +82,10 @@ void main()
                 -reflected.z;
  
     // Get color
-    vec4 SSR = vec4(textureLod(mainBuffer, coords.xy, 0).rgb,  clamp(ReflectionMultiplier * Fresnel * strength, 0.0, 0.9));  
+    vec4 SSR = vec4(textureLod(mainBuffer, coords.xy, 0).rgb, clamp(ReflectionMultiplier * Fresnel * strength, 0.0, 0.9));  
 
-    outColor = vec4(SSR);
+    vec3 blending =  SSR.rgb * SSR.a + albedo * (1.0 - SSR.a);
+    outColor = vec4(blending, 1.0);
 }
 
 vec3 BinarySearch(inout vec3 dir, inout vec3 hitCoord, inout float dDepth)

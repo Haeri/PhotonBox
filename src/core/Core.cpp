@@ -128,6 +128,11 @@ void Core::run()
 #else
 		_time->setDeltaTime(currentTime - lastTime);
 #endif
+
+		if (Time::deltaTime < 1.0 / 999.0) {
+			continue;
+		}
+
 		lastTime = currentTime;
 		lastSecond += Time::deltaTime;
 
@@ -167,6 +172,7 @@ void Core::run()
 
 
 		// Fill gBuffers
+		_renderer->newFrame();
 		_renderer->prePass();
 		_check_gl_error("Pre Pass", 0);
 

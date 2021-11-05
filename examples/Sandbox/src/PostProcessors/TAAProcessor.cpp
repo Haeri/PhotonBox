@@ -27,10 +27,11 @@ public:
 		_flipBuf2->addTextureAttachment("color", true);
 		_flipBuf2->ready();
 
-		_taaShader = new Material(TAAShader::getInstance());
-		_taaShader->setImageBuffer("lowResTexture", mainBuffer->getAttachment("color"));
-		_taaShader->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition3"));
-		_taaShader->setImageBuffer("normalVelocity", Renderer::getGBuffer()->getAttachment("gVelocity"));
+		_taaMaterial = new Material(TAAShader::getInstance());
+		_taaMaterial->setImageBuffer("lowResTexture", mainBuffer->getAttachment("color"));
+		_taaMaterial->setImageBuffer("previousLowResTexture", _flipBuf1->getAttachment("color"));
+		_taaMaterial->setImageBuffer("gPosition", Renderer::getGBuffer()->getAttachment("gPosition3"));
+		_taaMaterial->setImageBuffer("normalVelocity", Renderer::getGBuffer()->getAttachment("gVelocity2"));
 	}
 
 	void render(FrameBuffer* nextBuffer) override
@@ -39,14 +40,14 @@ public:
 		if (_flip)
 		{
 			_flipBuf2->enable();
-			_taaShader->setImageBuffer("previousLowResTexture", _flipBuf1->getAttachment("color"));
-			mainBuffer->render(_taaShader);
+			_taaMaterial->setImageBuffer("previousLowResTexture", _flipBuf1->getAttachment("color"));
+			mainBuffer->render(_taaMaterial);
 		}
 		else
 		{
 			_flipBuf1->enable();
-			_taaShader->setImageBuffer("previousLowResTexture", _flipBuf2->getAttachment("color"));
-			mainBuffer->render(_taaShader);
+			_taaMaterial->setImageBuffer("previousLowResTexture", _flipBuf2->getAttachment("color"));
+			mainBuffer->render(_taaMaterial);
 		}
 
 		// Render
@@ -70,14 +71,14 @@ public:
 
 	void destroy() override
 	{
-		delete _taaShader;
+		delete _taaMaterial;
 		delete _flipBuf1;
 		delete _flipBuf2;
 	}
 
 private:
 	bool _flip = true;
-	Material * _taaShader;
+	Material * _taaMaterial;
 	FrameBuffer* _flipBuf1, *_flipBuf2;
 };
 

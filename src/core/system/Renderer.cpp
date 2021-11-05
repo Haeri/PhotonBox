@@ -236,6 +236,10 @@ void Renderer::reset()
 	_mainFrameBuffer->clear();
 	_gBuffer->clear();
 	_gizmoBuffer->clear();
+
+	_renderListOpaque.clear();
+	_renderListCustom.clear();
+	_renderQueueTransparent.clear();
 }
 
 void Renderer::start()
@@ -243,10 +247,17 @@ void Renderer::start()
 	_skyBox.init();
 }
 
-void Renderer::prePass()
+void Renderer::newFrame()
 {
 	++_frameIndex;
 
+//	_renderListOpaque.clear();
+	_renderListCustom.clear();
+//	_renderQueueTransparent.clear();
+}
+
+void Renderer::prePass()
+{
 	_gBuffer->enable();
 	_gBuffer->clear();
 
@@ -600,7 +611,6 @@ void Renderer::renderTransparents()
 		glEnable(GL_CULL_FACE);
 
 	}
-	clearTransparentQueue();
 }
 
 void Renderer::ssShadowPass() {
@@ -707,16 +717,15 @@ void Renderer::renderCustoms()
 		{
 			(*it)->render();
 		}
-	}
-
-	_renderListCustom.clear();
+	}	
 }
 
 void Renderer::render()
 {
-	ssShadowPass();
+	//ssShadowPass();
 
 	renderDeferred();
+	//renderForward();
 
 	// Render Skybox
 	_skyBox.render();
@@ -814,6 +823,13 @@ void Renderer::captureScene(LightMap* lightmap)
 			}
 		}
 	}
+
+	renderCustoms();
+
+	// Render transparents
+	//renderTransparents();
+
+
 }
 
 void Renderer::renderGizmos()
@@ -952,6 +968,7 @@ void Renderer::renderGizmos()
 
 void Renderer::updateTransparentQueue()
 {
+	_renderQueueTransparent.clear();
 	float bias = 0.0001f;
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it)
 	{
@@ -975,11 +992,6 @@ void Renderer::updateTransparentQueue()
 	}
 }
 
-void Renderer::clearTransparentQueue()
-{
-	_renderQueueTransparent.clear();
-}
-
 void Renderer::setDebug(int debugMode)
 {
 	_debugMode = debugMode;
@@ -999,9 +1011,7 @@ void Renderer::destroy()
 	delete _shadowBuffer;
 	delete _deferredMaterial;
 	delete _volumetricFogMaterial;
-	delete _noise;
-
-	_renderListOpaque.clear();
+	delete _noise;	
 }
 
 void Renderer::setClearColor(Vector3f color)

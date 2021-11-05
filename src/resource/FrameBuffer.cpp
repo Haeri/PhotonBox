@@ -146,7 +146,14 @@ void FrameBuffer::addDepthBufferAttachment()
 }
 
 FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name) {
-	return &_colorAttachments[name];
+#ifdef _DEBUG
+	if (_colorAttachments.find(name) == _colorAttachments.end())
+	{
+		Logger::errln("Attachment", name, "does not exist in the FrameBuffer");
+		return nullptr;
+	}
+#endif
+	return &_colorAttachments[name];	
 }
 
 void FrameBuffer::enable()
