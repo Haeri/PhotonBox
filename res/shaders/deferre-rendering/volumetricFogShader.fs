@@ -67,7 +67,7 @@ uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 float absorptionTau = 0.02;
 vec3 absorptionColor = vec3(0.5, 0.5, 0.5);
 float raySamples = 12.0;
-float density = 18;
+float density = 9;
 
 // Scattering specific parameters
 float scatteringTau = 0.007;

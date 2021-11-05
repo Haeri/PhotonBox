@@ -119,7 +119,7 @@ void Physics::reset()
 	_gScene = _gPhysics->createScene(*_sceneDesc);
 	_gScene->setFlag(PxSceneFlag::eENABLE_ACTIVE_ACTORS, true);
 
-	_physXMap.clear();
+	//_physXMap.clear();
 }
 
 /*
