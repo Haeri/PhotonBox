@@ -73,7 +73,6 @@ Material* Renderer::_volumetricFogMaterial;
 FrameBuffer* Renderer::_mainFrameBuffer;
 FrameBuffer* Renderer::_gBuffer;
 FrameBuffer* Renderer::_gizmoBuffer;
-FrameBuffer* Renderer::_directionalShadowBuffer;
 FrameBuffer* Renderer::_shadowBuffer;
 Vector3f Renderer::_clearColor = Vector3f(0.3f, 0.3f, 0.3f);
 
@@ -173,10 +172,6 @@ void Renderer::init(Config::Profile profile)
 	_gizmoBuffer = new FrameBuffer(1);
 	_gizmoBuffer->addTextureAttachment("color", false, false);
 	_gizmoBuffer->ready();
-
-	_directionalShadowBuffer = new FrameBuffer(SHADOW_MAP_RESOLUTION, SHADOW_MAP_RESOLUTION);
-	_directionalShadowBuffer->addDepthTextureAttachment("depth");
-	_directionalShadowBuffer->ready();
 
 	_shadowBuffer = new FrameBuffer(1.0f);
 	_shadowBuffer->addTextureAttachment("gIrradiance", false, true);
@@ -342,25 +337,25 @@ void Renderer::clearDrawCalls()
 	_drawCalls = 0;
 }
 
-void Renderer::renderShadows()
+void Renderer::populateShadowBuffer()
 {
-	_directionalShadowBuffer->enable();
-	_directionalShadowBuffer->clear();
-	
 	glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 
 	std::vector<DirectionalLight*>* directionalLights = Lighting::getLights<DirectionalLight>();
 	if (directionalLights != nullptr) {
-		for (size_t i = 0; i < directionalLights->size(); ++i)
+		for(std::vector<DirectionalLight*>::iterator dl = directionalLights->begin(); dl != directionalLights->end(); ++dl)
 		{
-			if (!directionalLights->at(i)->getEnable()) continue;
+			if (!(*dl)->getEnable()) continue;
+
+			(*dl)->getShadowBuffer()->enable();
+			(*dl)->getShadowBuffer()->clear();
 
 			for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 			{
 				if ((*it)->getEnable() && (*it)->castShadows && Camera::getMainCamera()->frustumTest(*it))
 				{
-					(*it)->render(_directionalShadowShader, directionalLights->at(i));
+					(*it)->render(_directionalShadowShader, (*dl));
 				}
 			}
 
@@ -382,7 +377,7 @@ void Renderer::renderDeferred()
 	// TODO: Replace with a system that detects change in scene
 	if(_shadowsAreDirty) {
 		// Render Shadows
-		renderShadows();
+		populateShadowBuffer();
 		_shadowsAreDirty = false;
 	}
 
@@ -391,71 +386,11 @@ void Renderer::renderDeferred()
 	_mainFrameBuffer->clear();
 
 	// Send light data to shader
-	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+	
 	
 
 	_deferredShader->bind();
-	_deferredShader->setUniform("numDirectionalLights", (int)(lights[typeid(DirectionalLight)].size()));
-	_deferredShader->setUniform("numPointLights", (int)lights[typeid(PointLight)].size());
-	_deferredShader->setUniform("numSpotLights", (int)lights[typeid(SpotLight)].size());
-
-	for (auto const &lightvec : lights)
-	{
-		int i = -1;
-		for (auto const &light : lightvec.second)
-		{
-			if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
-
-			if (typeid(*light) == typeid(DirectionalLight))
-			{
-				DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
-				Vector3f lightViewDirection = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->direction, 0.0f)).xyz();
-
-				Matrix4f lightView = Matrix4f::lookAt(
-					(dl->direction * -3),
-					Vector3f(0.0f, 1.0f, 0.0f),
-					dl->direction);
-				Matrix4f lightSpaceMatrix = dl->lightProjection * lightView;
-
-				++i;
-				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].lightSpaceMatrix", lightSpaceMatrix);
-				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].direction", lightViewDirection);
-				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
-				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
-
-				_directionalShadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
-			}
-			else if (typeid(*light) == typeid(PointLight))
-			{
-				PointLight* dl = dynamic_cast<PointLight*>(light);
-				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->getPositionWorld(), 1)).xyz();
-				++i;
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].position", posViewSpace);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].color", dl->color);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].intensity", dl->intensity);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
-			}
-			else if (typeid(*light) == typeid(SpotLight))
-			{
-				SpotLight* dl = dynamic_cast<SpotLight*>(light);
-				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->getPositionWorld(), 1)).xyz();
-				Vector3f directionView = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->forwardWorld(), 0.0f)).xyz();
-
-				++i;
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].position", posViewSpace);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].direction", directionView);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].coneAngle", dl->coneAngle);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].coneFallOff", dl->coneAttenuation);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].color", dl->color);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].intensity", dl->intensity);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
-			}
-		}
-	}
+	
 
 	// Render opaque objects
 	_gBuffer->render(_deferredMaterial);
@@ -464,7 +399,7 @@ void Renderer::renderDeferred()
 void Renderer::renderForward()
 {
 	// Bind & clear Shadow FBO
-	renderShadows();
+	populateShadowBuffer();
 
 	// Bind & clear Main FBO
 	_mainFrameBuffer->enable();
@@ -521,8 +456,10 @@ void Renderer::renderForward()
 						
 						if (typeid(*light) == typeid(DirectionalLight))
 						{
+							DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
+
 							ForwardDirectionalLightShader::getInstance()->bind();
-							Renderer::getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
+							dl->getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
 						}
 						(*it)->render(light->getLightShader(), light);
 					}
@@ -656,7 +593,7 @@ void Renderer::renderFog()
 				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
 				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
 
-				_directionalShadowBuffer->bind(_volumetricFogShader->textures["shadowMap"].unit, "depth");
+				dl->getShadowBuffer()->bind(_volumetricFogShader->textures["shadowMap"].unit, "depth");
 			}
 			else if (typeid(*light) == typeid(PointLight))
 			{
@@ -803,8 +740,10 @@ void Renderer::captureScene(LightMap* lightmap)
 						
 						if (typeid(*light) == typeid(DirectionalLight))
 						{
+							DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
+
 							ForwardDirectionalLightShader::getInstance()->bind();
-							Renderer::getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
+							dl->getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
 						}
 
 						(*it)->render(light->getLightShader(), light);
@@ -824,12 +763,9 @@ void Renderer::captureScene(LightMap* lightmap)
 		}
 	}
 
-	renderCustoms();
-
+	
 	// Render transparents
 	//renderTransparents();
-
-
 }
 
 void Renderer::renderGizmos()
@@ -1007,7 +943,6 @@ void Renderer::destroy()
 	delete _mainFrameBuffer;
 	delete _gBuffer;
 	delete _gizmoBuffer;
-	delete _directionalShadowBuffer;
 	delete _shadowBuffer;
 	delete _deferredMaterial;
 	delete _volumetricFogMaterial;
