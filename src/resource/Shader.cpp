@@ -99,37 +99,6 @@ type_set[] = {
   GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY, "usampler2DMSArray",
   GL_UNSIGNED_INT_SAMPLER_BUFFER,               "usamplerBuffer",
   GL_UNSIGNED_INT_SAMPLER_2D_RECT,              "usampler2DRect",
-  GL_IMAGE_1D,                                  "image1D",
-  GL_IMAGE_2D,                                  "image2D",
-  GL_IMAGE_3D,                                  "image3D",
-  GL_IMAGE_2D_RECT,                             "image2DRect",
-  GL_IMAGE_CUBE,                                "imageCube",
-  GL_IMAGE_BUFFER,                              "imageBuffer",
-  GL_IMAGE_1D_ARRAY,                            "image1DArray",
-  GL_IMAGE_2D_ARRAY,                            "image2DArray",
-  GL_IMAGE_2D_MULTISAMPLE,                      "image2DMS",
-  GL_IMAGE_2D_MULTISAMPLE_ARRAY,                "image2DMSArray",
-  GL_INT_IMAGE_1D,                              "iimage1D",
-  GL_INT_IMAGE_2D,                              "iimage2D",
-  GL_INT_IMAGE_3D,                              "iimage3D",
-  GL_INT_IMAGE_2D_RECT,                         "iimage2DRect",
-  GL_INT_IMAGE_CUBE,                            "iimageCube",
-  GL_INT_IMAGE_BUFFER,                          "iimageBuffer",
-  GL_INT_IMAGE_1D_ARRAY,                        "iimage1DArray",
-  GL_INT_IMAGE_2D_ARRAY,                        "iimage2DArray",
-  GL_INT_IMAGE_2D_MULTISAMPLE,                  "iimage2DMS",
-  GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY,            "iimage2DMSArray",
-  GL_UNSIGNED_INT_IMAGE_1D,                     "uimage1D",
-  GL_UNSIGNED_INT_IMAGE_2D,                     "uimage2D",
-  GL_UNSIGNED_INT_IMAGE_3D,                     "uimage3D",
-  GL_UNSIGNED_INT_IMAGE_2D_RECT,                "uimage2DRect",
-  GL_UNSIGNED_INT_IMAGE_CUBE,                   "uimageCube",
-  GL_UNSIGNED_INT_IMAGE_BUFFER,                 "uimageBuffer",
-  GL_UNSIGNED_INT_IMAGE_1D_ARRAY,               "uimage1DArray",
-  GL_UNSIGNED_INT_IMAGE_2D_ARRAY,               "uimage2DArray",
-  GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE,         "uimage2DMS",
-  GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY,   "uimage2DMSArray",
-  GL_UNSIGNED_INT_ATOMIC_COUNTER,               "atomic_uint"
 };
 
 std::vector<Shader*> Shader::_shaderList;
@@ -221,7 +190,7 @@ void Shader::submitBuffer()
 
 				uniforms[s_name] = location;
 
-				if (type >= GL_SAMPLER_1D && type <= GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY)
+				if (type >= GL_SAMPLER_1D && type <= GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY)
 				{
 					addTexture(s_name);
 				}
@@ -233,7 +202,7 @@ void Shader::submitBuffer()
 		}
 		else
 		{
-			if (type >= GL_SAMPLER_1D && type <= GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY)
+			if (type >= GL_SAMPLER_1D && type <= GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY)
 			{
 				addTexture(name);
 			}

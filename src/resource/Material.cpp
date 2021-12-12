@@ -20,9 +20,9 @@ Material::~Material()
 	_uniformMap.clear();
 }
 
-void Material::setImageBuffer(const std::string& uniformName, ImageBuffer* image)
+void Material::setImageBuffer(const std::string& uniformName, ImageBuffer* image, SwizzleChannels swizzleMask)
 {
-	_imageBufferMap[uniformName] = image;
+	_imageBufferMap[uniformName] = { image, swizzleMask };
 }
 
 void Material::updateUniforms()
@@ -45,10 +45,12 @@ void Material::bindTextures()
 
 void Material::bindTextures(Shader* shader)
 {
-	for (std::unordered_map<std::string, ImageBuffer*>::const_iterator it = _imageBufferMap.begin(); it != _imageBufferMap.end(); ++it)
+	for (std::unordered_map<std::string, SwizzledImageBuffer>::const_iterator it = _imageBufferMap.begin(); it != _imageBufferMap.end(); ++it)
 	{
-		if (shader->textures.find(it->first) != shader->textures.end())
-			it->second->bind(shader->textures[it->first].unit);
+		if (shader->textures.find(it->first) != shader->textures.end()) {
+			it->second.imageBuffer->bind(shader->textures[it->first].unit);
+			glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, &(it->second.swizzleMask.r));
+		}
 	}
 }
 

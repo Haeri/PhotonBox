@@ -76,7 +76,7 @@ LightMap* LightProbe::captureRecursive(int step)
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, resolution, resolution);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _captureRBO);
 
-	Renderer::renderShadows();
+	Renderer::populateShadowBuffer();
 
 	for (unsigned int i = 0; i < 6; ++i)
 	{

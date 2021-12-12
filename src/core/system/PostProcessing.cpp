@@ -36,7 +36,10 @@ bool PostProcessing::isActive()
 
 void PostProcessing::start() 
 {
-
+	for (std::map<int, PostProcessor*>::const_iterator it = _processorMap.begin(); it != _processorMap.end(); ++it)
+	{
+		it->second->onEnableChange(true);
+	}
 }
 
 bool PostProcessing::shouldPostProcess()

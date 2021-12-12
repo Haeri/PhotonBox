@@ -2,7 +2,7 @@
 Based on the prefilter shader from https://github.com/JoeyDeVries/LearnOpenGL
 */
 
-#version 330
+#version 330 core
 
 out vec4 FragColor;
 

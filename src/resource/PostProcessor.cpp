@@ -14,7 +14,7 @@ PostProcessor::PostProcessor(int index, float scale, bool mipmap) : _index(index
 	mainBuffer->addTextureAttachment("color", true, mipmap);
 	mainBuffer->ready();
 
-	setEnabled(true);
+	PostProcessing::addProcessor(this);
 }
 
 PostProcessor::~PostProcessor()

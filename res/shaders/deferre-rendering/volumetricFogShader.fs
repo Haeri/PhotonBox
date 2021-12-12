@@ -55,7 +55,7 @@ uniform mat4 viewMatrixInv;
 uniform mat4 projectionMatrixInv;
 uniform int numDirectionalLights;
 uniform int numPointLights;
-uniform int numSpotLights;;
+uniform int numSpotLights;
 
 uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
@@ -66,8 +66,8 @@ uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 // Absorption specific parameters
 float absorptionTau = 0.02;
 vec3 absorptionColor = vec3(0.5, 0.5, 0.5);
-float raySamples = 0.0;
-float density = 10;
+float raySamples = 12.0;
+float density = 9;
 
 // Scattering specific parameters
 float scatteringTau = 0.007;
@@ -129,7 +129,7 @@ vec4 volumetricShadows()
     	vec4 fragPosLightSpace = directionalLights[0].lightSpaceMatrix * viewMatrixInv * vec4(ray, 1);
  		vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
         projCoords = projCoords * 0.5 + 0.5;
-        float closestDepth = texture2D(shadowMap, projCoords.xy).r; 
+        float closestDepth = texture(shadowMap, projCoords.xy).r; 
     	float currentDepth = projCoords.z;
 
 		float visibility = closestDepth > currentDepth ? 1 : 0;

@@ -70,7 +70,7 @@ Matrix4f Camera::getProjectionMatrix()
 	{
 		Matrix4f jitterProjection;
 
-		Vector2f offset = Math::hilton_seq_16[Renderer::getFrameIndex() % 16];
+		Vector2f offset = Math::halton_seq_16[Renderer::getFrameIndex() % 16];
 		Vector4f extents = getProjectionExtents(offset.x(), offset.y());
 
 		float cf = _zFar;

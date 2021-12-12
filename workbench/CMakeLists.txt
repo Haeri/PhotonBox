@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.16)
 
 set(PROJECT_NAME Workbench)
 project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)
@@ -12,8 +12,4 @@ file(GLOB_RECURSE SOURCE_FILES
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-
-target_link_libraries(
-	${PROJECT_NAME}
-	PRIVATE
-	PhotonBox)
+target_link_libraries(${PROJECT_NAME} PRIVATE PhotonBox)

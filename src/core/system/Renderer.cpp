@@ -34,6 +34,7 @@
 #include "PhotonBox/resource/shader/DepthShader.h"
 #include "PhotonBox/resource/shader/CircleShader.h"
 #include "PhotonBox/resource/shader/ForwardDirectionalLightShader.h"
+#include "PhotonBox/resource/shader/SSVOShader.h"
 #include "PhotonBox/resource/FrameBuffer.h"
 #include "PhotonBox/util/GLError.h"
 #include "PhotonBox/util/Logger.h"
@@ -53,6 +54,7 @@ std::vector<ObjectRenderer*> Renderer::_renderListCustom;
 std::map<float, MeshRenderer*> Renderer::_renderQueueTransparent;
 int Renderer::_drawCalls;
 Texture* Renderer::_noise;
+Texture* Renderer::_vec_noise;
 
 ForwardAmbientLightShader* Renderer::_ambientLightShader;
 ForwardDirectionalLightShader* Renderer::_directionalLightShader;
@@ -61,9 +63,11 @@ ForwardSpotLightShader* Renderer::_spotLightShader;
 TransparentShader* Renderer::_transparentBaseShader;
 DeferredShader* Renderer::_deferredShader;
 DirectionalShadowShader* Renderer::_directionalShadowShader;
+SSVOShader* Renderer::_ssvoShader;
 VolumetricFogShader* Renderer::_volumetricFogShader;
 
 Material* Renderer::_deferredMaterial;
+Material* Renderer::_ssvoMaterial;
 Material* Renderer::_volumetricFogMaterial;
 
 FrameBuffer* Renderer::_mainFrameBuffer;
@@ -79,16 +83,15 @@ std::vector<float> stuff;
 
 
 float factor = 0.1f;
-std::string buffers[8] =
+std::string buffers[7] =
 {
-	"gPosition",
-	"gNormal",
-	"gMetallic",
-	"gRoughness",
-	"gAlbedo",
-	"gEmission",
-	"gIrradiance",
-	"gRadiance",
+	"gPosition3",
+	"gNormal3",
+	"gAlbedo4",
+	"gEmission3Occlusion1",
+	"gIrradiance3gMetallic1",
+	"gRadiance3Roughness1",
+	"gVelocity2"
 };
 
 
@@ -141,12 +144,14 @@ void Renderer::init(Config::Profile profile)
 	_deferredShader = DeferredShader::getInstance();
 	_directionalShadowShader = DirectionalShadowShader::getInstance();
 	_volumetricFogShader = VolumetricFogShader::getInstance();
+	_ssvoShader = SSVOShader::getInstance();
 	
 	Texture::Config c = { 
 		c.mips = false, 
 		c.hdr = false 
 	};
 	_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/blue_noise.png", c);
+	_vec_noise = new Texture(Resources::ENGINE_RESOURCES + "/noise/vector_noise.png", c);
 
 	_mainFrameBuffer = new FrameBuffer(superSampling);
 	_mainFrameBuffer->addTextureAttachment("color", true, false);
@@ -154,16 +159,13 @@ void Renderer::init(Config::Profile profile)
 	_mainFrameBuffer->ready();
 
 	_gBuffer = new FrameBuffer(superSampling);
-	_gBuffer->addTextureAttachment("gPosition", true, true);
-	_gBuffer->addTextureAttachment("gNormal", true, true);
-	_gBuffer->addTextureAttachment("gMetallic");
-	_gBuffer->addTextureAttachment("gRoughness");
-	_gBuffer->addTextureAttachment("gAlbedo");
-	_gBuffer->addTextureAttachment("gEmission", true);
-	//_gBuffer->addTextureAttachment("gAO");
-	_gBuffer->addTextureAttachment("gIrradiance", true);
-	_gBuffer->addTextureAttachment("gRadiance", true);
-	//_gBuffer->addDepthTextureAttachment("gDepth");
+	_gBuffer->addTextureAttachment("gPosition3", true, true);
+	_gBuffer->addTextureAttachment("gNormal3", true, true);
+	_gBuffer->addTextureAttachment("gAlbedo4");
+	_gBuffer->addTextureAttachment("gEmission3Occlusion1", true);
+	_gBuffer->addTextureAttachment("gIrradiance3gMetallic1", true);
+	_gBuffer->addTextureAttachment("gRadiance3Roughness1", true);
+	_gBuffer->addTextureAttachment("gVelocity2");	
 	_gBuffer->addDepthBufferAttachment();
 	_gBuffer->ready();
 
@@ -171,23 +173,29 @@ void Renderer::init(Config::Profile profile)
 	_gizmoBuffer->addTextureAttachment("color", false, false);
 	_gizmoBuffer->ready();
 
-	_shadowBuffer = new FrameBuffer(SHADOW_MAP_RESOLUTION, SHADOW_MAP_RESOLUTION);
-	_shadowBuffer->addDepthTextureAttachment("depth");
+	_shadowBuffer = new FrameBuffer(1.0f);
+	_shadowBuffer->addTextureAttachment("gIrradiance", false, true);
 	_shadowBuffer->ready();
 	
+
 	_deferredMaterial = new Material(_deferredShader);
-	_deferredMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
-	_deferredMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal"));
-	_deferredMaterial->setImageBuffer("gRoughness", _gBuffer->getAttachment("gRoughness"));
-	_deferredMaterial->setImageBuffer("gMetallic", _gBuffer->getAttachment("gMetallic"));
-	_deferredMaterial->setImageBuffer("gAlbedo", _gBuffer->getAttachment("gAlbedo"));
-	_deferredMaterial->setImageBuffer("gIrradiance", _gBuffer->getAttachment("gIrradiance"));
-	_deferredMaterial->setImageBuffer("gRadiance", _gBuffer->getAttachment("gRadiance"));
-	_deferredMaterial->setImageBuffer("gEmission", _gBuffer->getAttachment("gEmission"));
+	_deferredMaterial->setImageBuffer("gPosition3", _gBuffer->getAttachment("gPosition3"));
+	_deferredMaterial->setImageBuffer("gNormal3", _gBuffer->getAttachment("gNormal3"));
+	_deferredMaterial->setImageBuffer("gAlbedo4", _gBuffer->getAttachment("gAlbedo4"));
+	_deferredMaterial->setImageBuffer("gEmission3Occlusion1", _gBuffer->getAttachment("gEmission3Occlusion1"));
+	_deferredMaterial->setImageBuffer("gIrradiance3gMetallic1", _gBuffer->getAttachment("gIrradiance3gMetallic1"));
+	_deferredMaterial->setImageBuffer("gRadiance3Roughness1", _gBuffer->getAttachment("gRadiance3Roughness1"));
+	_deferredMaterial->setImageBuffer("gVelocity2", _gBuffer->getAttachment("gVelocity2"));
 	_deferredMaterial->setImageBuffer("noise", _noise);
 
+	_ssvoMaterial = new Material(_ssvoShader);
+	_ssvoMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition3"));
+	_ssvoMaterial->setImageBuffer("gNormal", _gBuffer->getAttachment("gNormal3"));
+	_ssvoMaterial->setImageBuffer("texNoise", _vec_noise);
+
+
 	_volumetricFogMaterial = new Material(_volumetricFogShader);
-	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition"));
+	_volumetricFogMaterial->setImageBuffer("gPosition", _gBuffer->getAttachment("gPosition3"));
 	_volumetricFogMaterial->setImageBuffer("noise", _noise);
 
 
@@ -223,6 +231,10 @@ void Renderer::reset()
 	_mainFrameBuffer->clear();
 	_gBuffer->clear();
 	_gizmoBuffer->clear();
+
+	_renderListOpaque.clear();
+	_renderListCustom.clear();
+	_renderQueueTransparent.clear();
 }
 
 void Renderer::start()
@@ -230,10 +242,17 @@ void Renderer::start()
 	_skyBox.init();
 }
 
-void Renderer::prePass()
+void Renderer::newFrame()
 {
 	++_frameIndex;
 
+//	_renderListOpaque.clear();
+	_renderListCustom.clear();
+//	_renderQueueTransparent.clear();
+}
+
+void Renderer::prePass()
+{
 	_gBuffer->enable();
 	_gBuffer->clear();
 
@@ -318,25 +337,25 @@ void Renderer::clearDrawCalls()
 	_drawCalls = 0;
 }
 
-void Renderer::renderShadows()
+void Renderer::populateShadowBuffer()
 {
-	_shadowBuffer->enable();
-	_shadowBuffer->clear();
-	
 	glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 
 	std::vector<DirectionalLight*>* directionalLights = Lighting::getLights<DirectionalLight>();
 	if (directionalLights != nullptr) {
-		for (size_t i = 0; i < directionalLights->size(); ++i)
+		for(std::vector<DirectionalLight*>::iterator dl = directionalLights->begin(); dl != directionalLights->end(); ++dl)
 		{
-			if (!directionalLights->at(i)->getEnable()) continue;
+			if (!(*dl)->getEnable()) continue;
+
+			(*dl)->getShadowBuffer()->enable();
+			(*dl)->getShadowBuffer()->clear();
 
 			for (std::vector<ObjectRenderer*>::iterator it = _renderListOpaque.begin(); it != _renderListOpaque.end(); ++it)
 			{
 				if ((*it)->getEnable() && (*it)->castShadows && Camera::getMainCamera()->frustumTest(*it))
 				{
-					(*it)->render(_directionalShadowShader, directionalLights->at(i));
+					(*it)->render(_directionalShadowShader, (*dl));
 				}
 			}
 
@@ -358,7 +377,7 @@ void Renderer::renderDeferred()
 	// TODO: Replace with a system that detects change in scene
 	if(_shadowsAreDirty) {
 		// Render Shadows
-		renderShadows();
+		populateShadowBuffer();
 		_shadowsAreDirty = false;
 	}
 
@@ -367,110 +386,20 @@ void Renderer::renderDeferred()
 	_mainFrameBuffer->clear();
 
 	// Send light data to shader
-	std::unordered_map<std::type_index, std::vector<LightEmitter*>> lights = Lighting::getAllLights();
+	
 	
 
 	_deferredShader->bind();
-	_deferredShader->setUniform("numDirectionalLights", (int)(lights[typeid(DirectionalLight)].size()));
-	_deferredShader->setUniform("numPointLights", (int)lights[typeid(PointLight)].size());
-	_deferredShader->setUniform("numSpotLights", (int)lights[typeid(SpotLight)].size());
-
-	for (auto const &lightvec : lights)
-	{
-		int i = -1;
-		for (auto const &light : lightvec.second)
-		{
-			if (!light->getEnable() || (typeid(*(light->getLightShader())) == typeid(*(ForwardAmbientLightShader::getInstance())))) continue;
-
-			if (typeid(*light) == typeid(DirectionalLight))
-			{
-				DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
-				Vector3f lightViewDirection = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->direction, 0.0f)).xyz();
-
-				Matrix4f lightView = Matrix4f::lookAt(
-					(dl->direction * -3),
-					Vector3f(0.0f, 1.0f, 0.0f),
-					dl->direction);
-				Matrix4f lightSpaceMatrix = dl->lightProjection * lightView;
-
-				++i;
-				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].lightSpaceMatrix", lightSpaceMatrix);
-				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].direction", lightViewDirection);
-				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
-				_deferredShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
-
-				_shadowBuffer->bind(_deferredShader->textures["shadowMap"].unit, "depth");
-			}
-			else if (typeid(*light) == typeid(PointLight))
-			{
-				PointLight* dl = dynamic_cast<PointLight*>(light);
-				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->getPositionWorld(), 1)).xyz();
-				++i;
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].position", posViewSpace);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].color", dl->color);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].intensity", dl->intensity);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
-				_deferredShader->setUniform("pointLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
-			}
-			else if (typeid(*light) == typeid(SpotLight))
-			{
-				SpotLight* dl = dynamic_cast<SpotLight*>(light);
-				Vector3f posViewSpace = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->getPositionWorld(), 1)).xyz();
-				Vector3f directionView = (Camera::getMainCamera()->getViewMatrix() * Vector4f(dl->getTransform()->forwardWorld(), 0.0f)).xyz();
-
-				++i;
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].position", posViewSpace);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].direction", directionView);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].coneAngle", dl->coneAngle);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].coneFallOff", dl->coneAttenuation);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].color", dl->color);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].intensity", dl->intensity);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.constant", dl->constant);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.linear", dl->linear);
-				_deferredShader->setUniform("spotLights[" + std::to_string(i) + "].attenuation.quadratic", dl->quadratic);
-			}
-		}
-	}
+	
 
 	// Render opaque objects
 	_gBuffer->render(_deferredMaterial);
-
-	// Blit Depth
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, _gBuffer->getFBO());
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _mainFrameBuffer->getFBO());
-
-	glBlitFramebuffer(0, 0, _gBuffer->getWidth(), _gBuffer->getHeight(), 0, 0, _mainFrameBuffer->getWidth(), _mainFrameBuffer->getHeight(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-
-
-	// Render Skybox
-	_skyBox.render();
-
-	// Render miscelenious
-	renderCustoms();
-
-	// Render transparent objects
-	renderTransparents();
-
-	// Render volumetric fog
-	// TODO: Temporarily disabling this, cause Linux version is freaking out
-	renderFog();
-	
-
-	// Directly draw to main buffer if no post processing is active
-	if (!PostProcessing::isActive())
-	{
-		FrameBuffer::resetDefaultBuffer();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		glDisable(GL_DEPTH_TEST);
-		_mainFrameBuffer->render("color");
-	}
 }
 
 void Renderer::renderForward()
 {
 	// Bind & clear Shadow FBO
-	renderShadows();
+	populateShadowBuffer();
 
 	// Bind & clear Main FBO
 	_mainFrameBuffer->enable();
@@ -527,8 +456,10 @@ void Renderer::renderForward()
 						
 						if (typeid(*light) == typeid(DirectionalLight))
 						{
+							DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
+
 							ForwardDirectionalLightShader::getInstance()->bind();
-							Renderer::getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
+							dl->getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
 						}
 						(*it)->render(light->getLightShader(), light);
 					}
@@ -617,7 +548,14 @@ void Renderer::renderTransparents()
 		glEnable(GL_CULL_FACE);
 
 	}
-	clearTransparentQueue();
+}
+
+void Renderer::ssShadowPass() {
+	
+	_ssvoShader->bind();
+
+	_shadowBuffer->enable();
+	_gBuffer->render(_ssvoMaterial);
 }
 
 void Renderer::renderFog() 
@@ -655,7 +593,7 @@ void Renderer::renderFog()
 				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].color", dl->color);
 				_volumetricFogShader->setUniform("directionalLights[" + std::to_string(i) + "].intensity", dl->intensity);
 
-				_shadowBuffer->bind(_volumetricFogShader->textures["shadowMap"].unit, "depth");
+				dl->getShadowBuffer()->bind(_volumetricFogShader->textures["shadowMap"].unit, "depth");
 			}
 			else if (typeid(*light) == typeid(PointLight))
 			{
@@ -716,9 +654,38 @@ void Renderer::renderCustoms()
 		{
 			(*it)->render();
 		}
-	}
+	}	
+}
 
-	_renderListCustom.clear();
+void Renderer::render()
+{
+	//ssShadowPass();
+
+	renderDeferred();
+	//renderForward();
+
+	// Render Skybox
+	_skyBox.render();
+
+	// Render miscelenious
+	renderCustoms();
+
+
+	// Render transparent objects
+	renderTransparents();
+
+	// Render volumetric fog
+	renderFog();
+
+
+	// Directly draw to main buffer if no post processing is active
+	if (!PostProcessing::isActive())
+	{
+		FrameBuffer::resetDefaultBuffer();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
+		_mainFrameBuffer->render("color");
+	}
 }
 
 void Renderer::captureScene(LightMap* lightmap)
@@ -773,8 +740,10 @@ void Renderer::captureScene(LightMap* lightmap)
 						
 						if (typeid(*light) == typeid(DirectionalLight))
 						{
+							DirectionalLight* dl = dynamic_cast<DirectionalLight*>(light);
+
 							ForwardDirectionalLightShader::getInstance()->bind();
-							Renderer::getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
+							dl->getShadowBuffer()->bind(ForwardDirectionalLightShader::getInstance()->textures["shadowMap"].unit, "depth");
 						}
 
 						(*it)->render(light->getLightShader(), light);
@@ -793,6 +762,10 @@ void Renderer::captureScene(LightMap* lightmap)
 			}
 		}
 	}
+
+	
+	// Render transparents
+	//renderTransparents();
 }
 
 void Renderer::renderGizmos()
@@ -931,6 +904,7 @@ void Renderer::renderGizmos()
 
 void Renderer::updateTransparentQueue()
 {
+	_renderQueueTransparent.clear();
 	float bias = 0.0001f;
 	for (std::vector<ObjectRenderer*>::iterator it = _renderListTransparent.begin(); it != _renderListTransparent.end(); ++it)
 	{
@@ -954,11 +928,6 @@ void Renderer::updateTransparentQueue()
 	}
 }
 
-void Renderer::clearTransparentQueue()
-{
-	_renderQueueTransparent.clear();
-}
-
 void Renderer::setDebug(int debugMode)
 {
 	_debugMode = debugMode;
@@ -973,13 +942,11 @@ void Renderer::destroy()
 {
 	delete _mainFrameBuffer;
 	delete _gBuffer;
-	delete	_gizmoBuffer;
+	delete _gizmoBuffer;
 	delete _shadowBuffer;
 	delete _deferredMaterial;
 	delete _volumetricFogMaterial;
-	delete _noise;
-
-	_renderListOpaque.clear();
+	delete _noise;	
 }
 
 void Renderer::setClearColor(Vector3f color)
