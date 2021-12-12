@@ -62,12 +62,22 @@ void FileWatch::checkValidity()
 void FileWatch::reset()
 {
 	if (_thread.joinable()) _thread.join();
-	_watchList.clear();
+	
+	// TODO: FileWatch should probavbly be merged with ManagedResource and LazyLoadable
+	/*
+	for (std::map<std::string, ResourceFile>::iterator it = _watchList.begin(); it != _watchList.end(); ++it) 
+	{
+		if (it->second.resource == nullptr) 
+		{
+			_watchList.erase(it);
+		}
+	}*/
 }
 
 void FileWatch::destroy()
 {
-	reset();
+	if (_thread.joinable()) _thread.join();
+	_watchList.clear();
 }
 
 void FileWatch::asyncCheck()

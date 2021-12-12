@@ -14,7 +14,6 @@ class PB_PORT DirectionalLight : public LightEmitter
 public:
 	Vector3f direction;
 	Matrix4f lightProjection;
-	//FrameBuffer* shadowBuffer;
 
 	~DirectionalLight();
 
@@ -24,10 +23,9 @@ public:
 	void init() override;
 	void destroy() override;
 	Shader* getLightShader() override;
-	//void renderShadowMap(bool captureMode);
+	FrameBuffer* getShadowBuffer();
 private:
-	//DepthShader* _depthShader;
-	//int _shadowMapResolution;
+	FrameBuffer* _shadowBuffer;
 };
 
 #endif // DIRECTIONAL_LIGHT_H

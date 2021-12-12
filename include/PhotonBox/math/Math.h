@@ -14,7 +14,7 @@ RIGHT HANDED SYSTEM!
 ***/
 namespace Math
 {
-	static const Vector2f hilton_seq_16[16] = {
+	static const Vector2f halton_seq_16[16] = {
 		Vector2f(0.00398f, 0.99203f),
 		Vector2f(0.49402f, 0.66002f),
 		Vector2f(0.24501f, 0.32802f),

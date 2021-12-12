@@ -7,6 +7,7 @@ class TransparentShader;
 class GShader;
 class DeferredShader;
 class DirectionalShadowShader;
+class SSVOShader;
 class VolumetricFogShader;
 class Material;
 class AABB;
@@ -50,15 +51,11 @@ public:
 	static FrameBuffer* getMainFrameBuffer() { return _mainFrameBuffer; }
 	static FrameBuffer* getGBuffer() { return _gBuffer; }
 	static FrameBuffer* getDebugBuffer() { return _gizmoBuffer; }
-	static FrameBuffer* getShadowBuffer() { return _shadowBuffer; }
 
-	static void renderDeferred();
-	static void renderForward();
-	static void renderTransparents();
-	static void renderCustoms();
-	static void renderShadows();
+	static void render();
+	static void populateShadowBuffer();
+	
 	static void captureScene(LightMap* lightmap = nullptr);
-	static void renderFog();
 	static unsigned long int getFrameIndex();
 	
 	void init(Config::Profile profile) override;
@@ -66,6 +63,8 @@ public:
 	void reset() override;
 	void destroy() override;
 
+	
+	void newFrame();
 	void prePass();
 	void clearDrawCalls();
 	void renderGizmos();
@@ -84,6 +83,7 @@ private:
 	static std::vector<ObjectRenderer*> _renderListCustom;
 	static Vector3f _clearColor;
 	static Texture* _noise;
+	static Texture* _vec_noise;
 
 	static std::map<float, MeshRenderer*> _renderQueueTransparent;
 
@@ -94,11 +94,19 @@ private:
 	static TransparentShader* _transparentBaseShader;
 	static DeferredShader* _deferredShader;
 	static DirectionalShadowShader* _directionalShadowShader;
+	static SSVOShader* _ssvoShader;
 	static VolumetricFogShader* _volumetricFogShader;
 	static Material* _deferredMaterial;
+	static Material* _ssvoMaterial;
 	static Material* _volumetricFogMaterial;
 
-	static void clearTransparentQueue();
+	static void renderDeferred();
+	static void renderForward();
+	static void renderTransparents();
+	static void renderCustoms();
+	static void ssShadowPass();
+	static void renderFog();
+
 	static void updateTransparentQueue();
 };
 

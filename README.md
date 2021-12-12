@@ -1,5 +1,5 @@
 
-<img src="./res/title.png" width="500">
+<img src="./doc/img/title.png" width="500">
 
 ![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Haeri/PhotonBox/master/vcpkg.json&label=version&query=$['version-string']&color=blue)
 [![Actions Status](https://github.com/Haeri/PhotonBox/workflows/C++%20Builder/badge.svg)](https://github.com/Haeri/PhotonBox/actions)
@@ -9,7 +9,7 @@ A portable modern OpenGL Game-Engine with focus on PBR
 
 ## Project Goal
 
-The PhotonBox Engine aims to be an open source resource for people interested in graphics and system architecture. The goal is to create a clean and readable codebase, whilst still maintaining good performance and a high graphical fidelity. An Editor is currently not planned as I am still exploring the possibilities for state based GUI solutions.
+The PhotonBox Engine aims to be an open source resource for people interested in computer graphics. The goal is to create a clean and readable codebase, whilst still maintaining good performance and a high graphical fidelity. An Editor is currently not planned as I am still exploring the possibilities for state based GUI solutions.
 
 ## Rendering
 
@@ -53,40 +53,39 @@ The PhotonBox Engine aims to be an open source resource for people interested in
 ## Project Setup
 
 ### Requirements
-- [CMake 3.3^](https://cmake.org/download/) 
-- [Python 3^](https://www.python.org/downloads/)
+- [CMake 3.16^](https://cmake.org/download/) 
+- OpenGL 4.1
 
-### <img height="14" src="https://image.flaticon.com/icons/svg/888/888882.svg"> Windows
+### <img height="14" src="https://cdn-icons-png.flaticon.com/512/220/220215.png"> Windows
 
-Generate the visual studio project file:
+Generate visual studio project files:
 ```cmd
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
-./tools/setup_win.bat
+./scripts/generate_project_win.bat
 ```
 <sub>Make sure to open the Visual Studio project as administrator, as it needs to perform copy operatiosn to make resources files available to the binaries.</sub>
 
 
-### <img height="16" src="https://image.flaticon.com/icons/svg/226/226772.svg"> Linux
+### <img height="18" src="https://cdn-icons-png.flaticon.com/512/226/226772.png"> Linux
 
-Generate the make files:
+Generate make files:
 ```sh
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
 sudo apt update
-sudo apt install -y mesa-common-dev mesa-utils libgl1-mesa-dev
-sudo apt install -y cmake curl unzip tar 
-./tools/setup_nix.sh
+sudo apt install -y mesa-common-dev mesa-utils libgl1-mesa-dev cmake curl unzip tar 
+./scripts/generate_project_linux.sh
 ```
 
 
-### <img height="16" src="https://image.flaticon.com/icons/svg/2/2235.svg"> Mac
+### <img height="18" src="https://cdn-icons-png.flaticon.com/512/179/179309.png"> macOS
 
-Generate the xcode project file:
-```bash
+Generate xcode project files:
+```bas
 git clone https://github.com/Haeri/PhotonBox.git --recursive
 cd PhotonBox
-./tools/setup_nix.sh
+./scripts/generate_project_mac.sh
 ```
 
 ## Media

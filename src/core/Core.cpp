@@ -128,6 +128,11 @@ void Core::run()
 #else
 		_time->setDeltaTime(currentTime - lastTime);
 #endif
+
+		if (Time::deltaTime < 1.0 / 999.0) {
+			continue;
+		}
+
 		lastTime = currentTime;
 		lastSecond += Time::deltaTime;
 
@@ -167,12 +172,13 @@ void Core::run()
 
 
 		// Fill gBuffers
+		_renderer->newFrame();
 		_renderer->prePass();
 		_check_gl_error("Pre Pass", 0);
 
 
 		// Render Scene
-		Renderer::renderDeferred();
+		Renderer::render();
 		nbFrames++;
 		_check_gl_error("Main Render", 0);
 
@@ -267,6 +273,7 @@ void Core::run()
 			//_sceneManager->unloadScene(SceneManager::getCurrentScene());
 			reset();
 			start();
+			_fileWatch->reset();
 
 			// reset timing
 			_accumulatedTime = 0;
@@ -289,8 +296,7 @@ void Core::reset()
 	}
 
 	_profiler->reset();
-	_resourceManager->reset();
-	_fileWatch->reset();
+	_resourceManager->reset();	
 }
 
 void Core::destroy()

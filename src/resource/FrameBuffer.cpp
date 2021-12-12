@@ -36,8 +36,7 @@ std::map<FrameBuffer::EdgeType, GLint> FrameBuffer::_edgeTypes = {
 	{ CLAMP_TO_EDGE ,			GL_CLAMP_TO_EDGE },
 	{ CLAMP_TO_BORDER ,			GL_CLAMP_TO_BORDER },
 	{ MIRRORED_REPEAT ,			GL_MIRRORED_REPEAT },
-	{ REPEAT ,					GL_REPEAT },
-	{ MIRROR_CLAMP_TO_EDGE ,	GL_MIRROR_CLAMP_TO_EDGE }
+	{ REPEAT ,					GL_REPEAT }
 };
 
 FrameBuffer::FrameBuffer(float screenFactor)
@@ -147,7 +146,14 @@ void FrameBuffer::addDepthBufferAttachment()
 }
 
 FrameBuffer::BufferAttachment* FrameBuffer::getAttachment(std::string name) {
-	return &_colorAttachments[name];
+#ifdef _DEBUG
+	if (_colorAttachments.find(name) == _colorAttachments.end())
+	{
+		Logger::errln("Attachment", name, "does not exist in the FrameBuffer");
+		return nullptr;
+	}
+#endif
+	return &_colorAttachments[name];	
 }
 
 void FrameBuffer::enable()
@@ -237,6 +243,14 @@ void FrameBuffer::blit(FrameBuffer* target, std::string sourceAttachment, std::s
 	glDrawBuffer(target->getAttachment(targetAttachment)->attachmentIndex);
 
 	glBlitFramebuffer(0, 0, _width, _height, 0, 0, target->getWidth(), target->getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
+}
+
+void FrameBuffer::blitDepth(FrameBuffer* target)
+{
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _fbo);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, target->getFBO());
+
+	glBlitFramebuffer(0, 0, _width, _height, 0, 0, target->getWidth(), target->getHeight(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 }
 
 void FrameBuffer::blitToScreen(std::string name)

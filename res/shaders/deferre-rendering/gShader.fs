@@ -1,13 +1,11 @@
 #version 330 core
-layout (location = 0) out vec4 gPosition;
-layout (location = 1) out vec4 gNormal;
-layout (location = 2) out vec4 gMetallic;
-layout (location = 3) out vec4 gRoughness;
-layout (location = 4) out vec4 gAlbedo;
-layout (location = 5) out vec4 gEmission;
-//layout (location = 6) out vec4 gAO;
-layout (location = 6) out vec4 gIrradiance;
-layout (location = 7) out vec4 gRadiance;
+layout (location = 0) out vec4 gPosition3;
+layout (location = 1) out vec4 gNormal3;
+layout (location = 2) out vec4 gAlbedo4;
+layout (location = 3) out vec4 gEmission3Occlusion1;
+layout (location = 4) out vec4 gIrradiance3gMetallic1;
+layout (location = 5) out vec4 gRadiance3Roughness1;
+layout (location = 6) out vec4 gVelocity2;
 
 in vec2 TexCoords;
 in vec3 FragPos;
@@ -41,25 +39,34 @@ float correctedCubeMapWeight(vec3 v, vec3 pos);
 
 void main()
 {    
-	if(texture(albedoMap, TexCoords).a < 0.1) discard;
+	if(texture(albedoMap, TexCoords).a < 0.01) discard;
 	
-    gPosition = vec4(FragPos, 1);
+    // Position
+    gPosition3 = vec4(FragPos, 1);
+    
+    // Nomal
     vec4 normal = vec4(TBN * (255.0/128.0 * texture(normalMap, TexCoords).rgb - 1), 0);
-    gNormal = view * normal;
-	gMetallic = texture(metallicMap, TexCoords).rgba;
-	gRoughness = texture(roughnessMap, TexCoords).rgba;
-	vec4 alb = texture(albedoMap, TexCoords).rgba;
-	gAlbedo = vec4(pow(alb.xyz, vec3(2.2)), alb.a);
-	gEmission = vec4(texture(emissionMap, TexCoords).rgb * emissionIntensity, 1);
-	//gAO = texture(aoMap, TexCoords).rgba;
+    gNormal3 = view * normal;
+	
+    // Albedo
+    vec4 alb = texture(albedoMap, TexCoords).rgba;
+	gAlbedo4 = vec4(pow(alb.xyz, vec3(2.2)), alb.a);
+    
+    // Metallic
+	gIrradiance3gMetallic1.a = texture(metallicMap, TexCoords).r;
 
+    // Roughness
+    float roughness = texture(roughnessMap, TexCoords).r;
+	gRadiance3Roughness1.a = roughness;
+
+    // Emission
+	gEmission3Occlusion1.rgb = texture(emissionMap, TexCoords).rgb * emissionIntensity;
 
     // Velocity
     vec2 a = (PosProj.xy / PosProj.w) * 0.5 + 0.5;
     vec2 b = (PosProjOld.xy / PosProjOld.w) * 0.5 + 0.5;
-    gMetallic.ba = a - b;
+    gVelocity2.xy = a - b;
 
-	float roughness = texture(roughnessMap, TexCoords).r;
 
 	vec3 N = normalize(normal.xyz);
 	vec3 V = normalize(viewPos - Pos);
@@ -78,9 +85,11 @@ void main()
    	vec3 convolutedSpecular = textureLod(convolutedSpecularMap, cR, roughness * MAX_REFLECTION_LOD).rgb;
 
 
+    // Irradiance
+   	gIrradiance3gMetallic1.rgb = irradiance;
 
-   	gIrradiance = vec4(irradiance, 1);
-  	gRadiance = vec4(convolutedSpecular, 1);
+    // Radiance
+  	gRadiance3Roughness1.rgb = convolutedSpecular;
 }
 
 

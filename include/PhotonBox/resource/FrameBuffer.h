@@ -8,6 +8,7 @@ class Material;
 #include <map>
 #include <string>
 
+#include "PhotonBox/util/Logger.h"
 #include "PhotonBox/resource/ImageBuffer.h"
 #include "PhotonBox/core/OpenGL.h"
 
@@ -27,7 +28,7 @@ public:
 		GLuint id;
 		GLuint attachmentIndex = -1;
 		FrameBuffer* frameBuffer;
-
+		
 		BufferAttachment() {}
 		BufferAttachment(FrameBuffer* frameBuffer, std::string name, bool hdr)
 			:frameBuffer(frameBuffer), name(name), hdr(hdr)
@@ -40,6 +41,11 @@ public:
 		void enable() override {}
 		void bind(unsigned int textureUnit) override 
 		{
+#ifdef _DEBUG
+			if (id > 3000) {
+				Logger::errln("The id", std::to_string(id), "of the texture attachment", name, "is very high and therefore might be invalid.");
+			}
+#endif
 			glActiveTexture(GL_TEXTURE0 + textureUnit);
 			glBindTexture(GL_TEXTURE_2D, id);
 			if (mipmaps > 0)
@@ -109,6 +115,7 @@ public:
 	void resize();
 
 	void blit(FrameBuffer* target, std::string sourceAttachment, std::string targetAttachment);
+	void blitDepth(FrameBuffer* target);
 	void blitToScreen(std::string name);
 	GLuint getTextureID(std::string name) { return _colorAttachments[name].id; }
 	int getWidth() { return _width; }
