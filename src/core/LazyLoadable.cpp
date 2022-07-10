@@ -57,7 +57,7 @@ bool LazyLoadable::isInitialized()
 
 std::string LazyLoadable::getFilePath()
 {
-	return _filePath.getAbsolutePath();
+	return _filePath.getFilePath();
 }
 
 void LazyLoadable::load()

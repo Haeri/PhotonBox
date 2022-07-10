@@ -12,6 +12,7 @@
 #include "PhotonBox/util/MEMDebug.h"
 #define new DEBUG_NEW
 #endif
+#include <PhotonBox/resource/Filepath.h>
 
 int main(int argc, char* argv[])
 {
@@ -25,10 +26,10 @@ int main(int argc, char* argv[])
 		int width;
 		int height;
 
-		std::string filePath = argv[i];
+		Filepath filePath = Filepath(argv[i]);
 
-		_data = stbi_load((filePath).c_str(), &width, &height, &numComponents, STBI_rgb_alpha);
-		TextureSerializer::write(filePath + TextureSerializer::EXTENSION, width, height, 4, _data);
+		_data = stbi_load((filePath.getFilePath()).c_str(), &width, &height, &numComponents, STBI_rgb_alpha);
+		TextureSerializer::write(filePath.getPath() + filePath.getName() + TextureSerializer::EXTENSION, width, height, 4, _data);
 	}
 
 #ifdef _DEBUG

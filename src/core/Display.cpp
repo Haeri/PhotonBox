@@ -8,6 +8,8 @@
 #include "PhotonBox/core/Resources.h"
 #include "PhotonBox/core/system/PostProcessing.h"
 #include "PhotonBox/util/Logger.h"
+#include "PhotonBox/core/TextureSerializer.h"
+
 
 #ifdef PB_MEM_DEBUG
 #include "PhotonBox/util/MEMDebug.h"
@@ -71,9 +73,13 @@ void Display::init(Config::Profile profile)
 
 	// Set Icon
 	GLFWimage icon[1];
-	icon[0].pixels = Util::loadIcon(Resources::ENGINE_RESOURCES + "/logo.png", icon[0].width, icon[0].height);
+	int components = 0;
+	//icon[0].pixels = Util::loadIcon(Resources::ENGINE_RESOURCES + "/logo.png", icon[0].width, icon[0].height);
+	icon[0].pixels = TextureSerializer::read(Resources::ENGINE_RESOURCES + "/logo" + TextureSerializer::EXTENSION, &icon[0].width, &icon[0].height, &components);
+
 	glfwSetWindowIcon(_window, 1, icon);
-	Util::freeIcon(icon[0].pixels);
+	//Util::freeIcon(icon[0].pixels);
+	TextureSerializer::free_buffer(icon[0].pixels);
 
 	setVSync(profile.vsync);
 	_isRunning = true;

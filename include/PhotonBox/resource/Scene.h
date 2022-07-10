@@ -50,7 +50,7 @@ public:
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		_resources.push_back(path.getAbsolutePath());
+		_resources.push_back(path.getFilePath());
 
 		return ResourceManager::createResource<T, C>(path, config);
 	}
@@ -59,7 +59,7 @@ public:
 	{
 		static_assert(std::is_base_of<ManagedResource, T>::value, "T must inherit from ManagedResource");
 
-		_resources.push_back(path.getAbsolutePath());
+		_resources.push_back(path.getFilePath());
 
 		return ResourceManager::createResource<T>(path);
 	}

@@ -70,14 +70,14 @@ public:
 
 		T* resource;
 
-		if (_resourceMap.find(path.getAbsolutePath()) == _resourceMap.end())
+		if (_resourceMap.find(path.getFilePath()) == _resourceMap.end())
 		{
 			resource = new T(path, config);
-			_resourceMap[path.getAbsolutePath()] = { 1, resource };
+			_resourceMap[path.getFilePath()] = { 1, resource };
 		}
 		else
 		{
-			CountedResource* cr = &_resourceMap[path.getAbsolutePath()];
+			CountedResource* cr = &_resourceMap[path.getFilePath()];
 			++cr->count;
 			resource = (T*)cr->managedResource;
 		}
@@ -91,14 +91,14 @@ public:
 
 		T* resource;
 
-		if (_resourceMap.find(path.getAbsolutePath()) == _resourceMap.end())
+		if (_resourceMap.find(path.getFilePath()) == _resourceMap.end())
 		{
 			resource = new T(path);
-			_resourceMap[path.getAbsolutePath()] = { 1, resource };
+			_resourceMap[path.getFilePath()] = { 1, resource };
 		}
 		else
 		{
-			CountedResource* cr = &_resourceMap[path.getAbsolutePath()];
+			CountedResource* cr = &_resourceMap[path.getFilePath()];
 			++cr->count;
 			resource = (T*)cr->managedResource;
 		}

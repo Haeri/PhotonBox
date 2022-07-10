@@ -11,12 +11,12 @@ public:
 	Filepath() {}
 	Filepath(const std::string& filePath);
 	
-	std::string getAbsolutePath();
+	std::string getFilePath();
 	std::string getExtension();
 	std::string getName();
 	std::string getPath();
 private:
-	std::string _absolutePath;
+	std::string _filePath;
 	std::string _path;
 	std::string _name;
 	std::string _extension;

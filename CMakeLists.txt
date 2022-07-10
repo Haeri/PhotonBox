@@ -21,7 +21,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 file(GLOB_RECURSE SOURCE_FILES
         include/${PROJECT_NAME}/*.h
         src/*.h
-        src/*.cpp)
+        src/*.cpp
+        src/*.c)
 
 # Microsoft Runtime Library shenanigens
 if(WIN32)
