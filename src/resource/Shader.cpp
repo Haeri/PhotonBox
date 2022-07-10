@@ -112,7 +112,7 @@ void Shader::init()
 {
 	_filePath = Filepath(getFilePath());
 	
-	FileWatch::addToWatchList(_filePath.getAbsolutePath(), this);
+	FileWatch::addToWatchList(_filePath.getFilePath(), this);
 
 	loadAsync();
 }

@@ -23,7 +23,7 @@ Texture::Texture(Config config)
 Texture::Texture(Filepath filePath, Config config)
 	: _config(config)
 {
-	FileWatch::addToWatchList(filePath.getAbsolutePath(), this);
+	FileWatch::addToWatchList(filePath.getFilePath(), this);
 	_filePath = filePath;
 
 	loadAsync();
@@ -78,7 +78,7 @@ bool Texture::loadFromFile()
 	}
 	else
 	{
-		_data = stbi_load((_filePath.getAbsolutePath()).c_str(), &_config.width, &_config.height, &numComponents, STBI_rgb_alpha);
+		_data = stbi_load((_filePath.getFilePath()).c_str(), &_config.width, &_config.height, &numComponents, STBI_rgb_alpha);
 		TextureSerializer::write(cachePath, _config.width, _config.height, 4, _data);
 	}
 

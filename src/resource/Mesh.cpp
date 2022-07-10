@@ -17,7 +17,7 @@ Mesh::Mesh(Config config)
 Mesh::Mesh(Filepath filePath, Config config)
 	: _config(config)
 {
-	FileWatch::addToWatchList(filePath.getAbsolutePath(), this);
+	FileWatch::addToWatchList(filePath.getFilePath(), this);
 	_filePath = filePath;
 
 	if (!config.forceInit)
@@ -42,7 +42,7 @@ GLuint Mesh::getEBO()
 
 bool Mesh::loadFromFile() 
 { 
-	OBJLoader::loadObj(_filePath.getAbsolutePath(), this);
+	OBJLoader::loadObj(_filePath.getFilePath(), this);
 	return vertices.size() > 0;
 }
 

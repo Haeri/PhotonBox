@@ -113,7 +113,7 @@ void ResourceManager::destroy()
 
 void ResourceManager::deleteResource(Filepath path)
 {
-	deleteResource(path.getAbsolutePath());
+	deleteResource(path.getFilePath());
 }
 
 void ResourceManager::deleteResource(std::string name)
