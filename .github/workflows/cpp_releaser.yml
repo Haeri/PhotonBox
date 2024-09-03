@@ -108,12 +108,12 @@ jobs:
         id: get_version
         run: 'echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}'
       - name: Download Windows Artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-Windows'
           path: release/Windows
       - name: Download Linux Artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: 'PhotonBox-${GITHUB_REF/refs\/tags\//}-Linux'
           path: release/Linux
